@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace 'com.example.roomer'
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.example.roomer"
         minSdk 21
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -40,10 +40,12 @@ android {
 }
 
 dependencies {
+    def retrofit_version = '2.9.0'
+    def gson_version = '2.10'
+    def gson_converter_version = '2.9.0'
     def room_version = "2.4.3"
     def coil_version = "2.2.2"
     def composeBom = platform('androidx.compose:compose-bom:2022.10.00')
-    def retrofit_version = "2.4.3"
     def paging_version = "3.1.1"
 
     //Room
@@ -71,6 +73,11 @@ dependencies {
     implementation "androidx.paging:paging-runtime:$paging_version"
     implementation "androidx.paging:paging-compose:1.0.0-alpha17"
 
+    //Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$gson_converter_version"
+    //GSON
+    implementation "com.google.code.gson:gson:$gson_version"
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
