@@ -7,7 +7,6 @@ import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.TextField
 import androidx.compose.material3.Divider
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -26,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.roomer.R
+import com.example.roomer.models.MessageToList
 import com.example.roomer.utils.NavbarItem
 import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
@@ -61,9 +61,9 @@ fun ProfileContentLine(text: String, iconId: Int, onNavigateToFriends: () -> Uni
 }
 
 @Composable
-fun Navbar(navController: NavHostController) {
+fun Navbar(navController: NavHostController, selectedNavbarItemName:String) {
     var selectedItem by remember {
-        mutableStateOf(NavbarItem.Home.name)
+        mutableStateOf(selectedNavbarItemName)
     }
     BottomNavigation(
         backgroundColor = colorResource(id = R.color.secondary_color),
@@ -147,52 +147,84 @@ fun Navbar(navController: NavHostController) {
 
 @Composable
 fun MessageItem(
-    userAvatarPath: String,
-    messageDate: String,
-    messageCutText: String,
-    username: String,
-    isRead: Boolean,
-    unreadMessages: Int,
-    navigateToMessage: () -> Unit,
+    message:MessageToList,
 ) {
-    Row(modifier = Modifier.clickable { navigateToMessage.invoke() }) {
+    Row(
+        modifier = Modifier
+            .clickable { message.navigateToMessage.invoke() }
+            .fillMaxWidth()
+            .height(64.dp)
+    ) {
         Image(
             painter = painterResource(id = R.drawable.ordinary_client),
             contentDescription = "message_client_avatar",
             modifier = Modifier
-                .width(64.dp)
-                .height(64.dp)
-                .padding(start = 8.dp, end = 16.dp),
+                .width(56.dp)
+                .height(56.dp)
+                .padding(start = 8.dp, end = 16.dp, bottom = 8.dp, top = 8.dp),
+            alignment = Alignment.Center
         )
-        Column() {
-            Row() {
+        Column(modifier = Modifier.fillMaxWidth()) {
+            Row(modifier = Modifier.fillMaxWidth()) {
                 Text(
-                    text = username,
+                    text = message.username,
                     fontSize = integerResource(id = R.integer.primary_text_size).sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.Black,
                 )
-                Image(
-                    painter = painterResource(id = if (isRead) R.drawable.checked_messages_icon else R.drawable.unchecked_messages_icon),
-                    contentDescription = if (isRead) "Messages checked" else "Messages unchecked",
-                    alignment = Alignment.TopEnd
-                )
-                Text(text = messageDate)
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End){
+                    Image(
+                        painter = painterResource(id = if (message.isRead) R.drawable.checked_messages_icon else R.drawable.unchecked_messages_icon),
+                        contentDescription = if (message.isRead) "Messages checked" else "Messages unchecked",
+                        alignment = Alignment.Center,
+                        modifier = Modifier
+                            .width(18.dp)
+                            .height(18.dp),
+                    )
+                    Text(text = message.messageDate, style = TextStyle(
+                        color = colorResource(id = R.color.text_secondary),
+                        fontSize = 12.sp,
+                        textAlign = TextAlign.End
+                    ))
+                }
             }
-            Row {
-                Text(text = messageCutText, modifier = Modifier.padding(top = 8.dp, end = 12.dp))
-                Text(
-                    text =
-                    when (unreadMessages) {
-                        0 -> ""
-                        in 1..999 -> unreadMessages.toString()
-                        else -> ">1000"
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp),
+            ) {
+                Text(text = message.messageCutText, style = TextStyle(
+                    color = colorResource(id = R.color.text_secondary),
+                    fontSize = 14.sp,
+                ))
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                    if (message.unreadMessages > 0) {
+                        Text(
+                            text =
+                            when (message.unreadMessages) {
+                                in 1..999 -> message.unreadMessages.toString()
+                                else -> "999+"
+                            },
+                            modifier = Modifier
+                                .width(48.dp)
+                                .height(20.dp)
+                                .background(
+                                    color = colorResource(
+                                        id = R.color.primary
+                                    ),
+                                    shape = RoundedCornerShape(20.dp)
+                                ),
+                            style = TextStyle(color = Color.Black, fontSize = 14.sp,textAlign = TextAlign.Center,)
+                        )
                     }
-                )
-
+                }
             }
         }
     }
+    Divider(
+        color = Color.Black,
+        modifier = Modifier.padding(top = 2.dp),
+    )
 }
 
 @Composable
@@ -376,25 +408,52 @@ fun SelectSex(paddingValues: PaddingValues = PaddingValues(top = 16.dp)) {
 
 @Composable
 fun Message(isUserMessage: Boolean, text: String, data: String) {
-    if (isUserMessage) {
-        Column(
-            modifier = Modifier
-                .padding(start = 40.dp)
-                .width(214.dp)
-                .height(IntrinsicSize.Max)
-                .background(
-                    colorResource(id = R.color.secondary_color),
-                    RoundedCornerShape(topEnd = 16.dp, topStart = 16.dp, bottomEnd = 16.dp)
-                )
-        ) {
-            Text(text = text)
-            Text(text = data)
+    if (!isUserMessage) {
+        Column(horizontalAlignment = Alignment.Start, modifier = Modifier.fillMaxWidth()) {
+            Column(
+                modifier = Modifier
+                    .padding(top = 16.dp)
+                    .width(214.dp)
+                    .border(
+                        1.dp,
+                        Color.Black,
+                        RoundedCornerShape(topEnd = 16.dp, topStart = 16.dp, bottomEnd = 16.dp)
+                    )
+                    .height(IntrinsicSize.Max)
+                    .background(
+                        colorResource(id = R.color.secondary_color),
+                        RoundedCornerShape(topEnd = 16.dp, topStart = 16.dp, bottomEnd = 16.dp)
+                    )
+            ) {
+                Text(text = text)
+                Text(text = data)
+            }
         }
     } else {
-        Column() {
-
-            Text(text = text)
-            Text(text = data)
+        Column(horizontalAlignment = Alignment.End, modifier = Modifier.fillMaxWidth()) {
+            Column(
+                modifier = Modifier
+                    .padding(start = 40.dp, top = 16.dp)
+                    .border(
+                        1.dp,
+                        Color.Black,
+                        RoundedCornerShape(bottomStart = 16.dp, topStart = 16.dp, bottomEnd = 16.dp)
+                    )
+                    .width(214.dp)
+                    .height(IntrinsicSize.Max)
+                    .background(
+                        colorResource(id = R.color.primary),
+                        RoundedCornerShape(bottomStart = 16.dp, topStart = 16.dp, bottomEnd = 16.dp)
+                    ),
+                horizontalAlignment = Alignment.End
+            ) {
+                Text(text = text)
+                Image(
+                    painter = painterResource(id = R.drawable.checked_messages_icon),
+                    contentDescription = "Checked message"
+                )
+                Text(text = data)
+            }
         }
     }
 }
