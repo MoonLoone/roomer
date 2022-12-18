@@ -1,14 +1,13 @@
 package com.example.roomer.ui_components
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.TextField
 import androidx.compose.material3.Divider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -154,8 +153,9 @@ fun MessageItem(
     username: String,
     isRead: Boolean,
     unreadMessages: Int,
+    navigateToMessage: () -> Unit,
 ) {
-    Row() {
+    Row(modifier = Modifier.clickable { navigateToMessage.invoke() }) {
         Image(
             painter = painterResource(id = R.drawable.ordinary_client),
             contentDescription = "message_client_avatar",
@@ -242,7 +242,7 @@ fun DateField(
                 .fillMaxWidth()
                 .height(56.dp)
                 .background(colorResource(id = R.color.secondary_color))
-                )
+        )
     }
 }
 
@@ -253,7 +253,10 @@ fun ScreenTextField(
     var text by remember {
         mutableStateOf(TextFieldValue(""))
     }
-    Column(modifier = Modifier.padding(paddingValues),verticalArrangement = Arrangement.spacedBy(8.dp)) {
+    Column(
+        modifier = Modifier.padding(paddingValues),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
         Text(
             text = label,
             fontSize = integerResource(id = R.integer.primary_text_size).sp,
@@ -279,5 +282,119 @@ fun ScreenTextField(
                 .height(56.dp)
                 .background(colorResource(id = R.color.secondary_color))
         )
+    }
+}
+
+@Composable
+fun SelectSex(paddingValues: PaddingValues = PaddingValues(top = 16.dp)) {
+    Column(
+        modifier = Modifier.padding(paddingValues),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        var isMaleSelected by remember {
+            mutableStateOf(true)
+        }
+        Text(
+            text = "Sex",
+            fontSize = integerResource(id = R.integer.primary_text_size).sp,
+            color = Color.Black
+        )
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Row(
+                modifier = Modifier
+                    .height(40.dp)
+                    .width(98.dp)
+                    .border(
+                        1.dp,
+                        if (isMaleSelected) colorResource(id = R.color.primary_dark) else Color.Black,
+                        RoundedCornerShape(100.dp),
+                    )
+                    .background(
+                        if (isMaleSelected) colorResource(id = R.color.primary_dark) else Color.White,
+                        RoundedCornerShape(100.dp)
+                    )
+                    .clickable {
+                        isMaleSelected = true
+                    },
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Image(
+                    painter = painterResource(id = if (isMaleSelected) R.drawable.sex_male_in_icon else R.drawable.sex_male_un_icon),
+                    contentDescription = "Male icon",
+                    modifier = Modifier
+                        .width(18.dp)
+                        .height(18.dp),
+                )
+                Text(
+                    text = "Male",
+                    modifier = Modifier.padding(start = 4.dp),
+                    fontSize = 14.sp,
+                    color = if (isMaleSelected) colorResource(
+                        id = R.color.secondary_color
+                    ) else colorResource(id = R.color.primary_dark)
+                )
+            }
+            Row(
+                modifier = Modifier
+                    .height(40.dp)
+                    .width(98.dp)
+                    .border(
+                        1.dp,
+                        if (!isMaleSelected) colorResource(id = R.color.primary_dark) else Color.Black,
+                        RoundedCornerShape(100.dp)
+                    )
+                    .background(
+                        if (!isMaleSelected) colorResource(id = R.color.primary_dark) else Color.White,
+                        RoundedCornerShape(100.dp)
+                    )
+                    .clickable {
+                        isMaleSelected = false
+                    },
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Image(
+                    painter = painterResource(id = if (!isMaleSelected) R.drawable.sex_female_in_icon else R.drawable.sex_female_un_icon),
+                    contentDescription = "Female icon",
+                    modifier = Modifier
+                        .width(18.dp)
+                        .height(18.dp),
+                )
+                Text(
+                    text = "Female",
+                    modifier = Modifier.padding(start = 4.dp),
+                    fontSize = 14.sp,
+                    color = if (!isMaleSelected) colorResource(
+                        id = R.color.secondary_color
+                    ) else colorResource(id = R.color.primary_dark)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun Message(isUserMessage: Boolean, text: String, data: String) {
+    if (isUserMessage) {
+        Column(
+            modifier = Modifier
+                .padding(start = 40.dp)
+                .width(214.dp)
+                .height(IntrinsicSize.Max)
+                .background(
+                    colorResource(id = R.color.secondary_color),
+                    RoundedCornerShape(topEnd = 16.dp, topStart = 16.dp, bottomEnd = 16.dp)
+                )
+        ) {
+            Text(text = text)
+            Text(text = data)
+        }
+    } else {
+        Column() {
+
+            Text(text = text)
+            Text(text = data)
+        }
     }
 }
