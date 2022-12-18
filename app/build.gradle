@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -9,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.roomer"
-        minSdk 21
+        minSdk 26
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -24,6 +25,7 @@ android {
         }
     }
     compileOptions {
+
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -44,6 +46,7 @@ android {
 }
 
 dependencies {
+    implementation 'com.google.firebase:firebase-messaging-ktx:23.0.2'
     def retrofit_version = '2.9.0'
     def gson_version = '2.10'
     def gson_converter_version = '2.9.0'
@@ -85,6 +88,10 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$gson_converter_version"
     //GSON
     implementation "com.google.code.gson:gson:$gson_version"
+
+    //Material compose dialogs
+    implementation "io.github.vanpra.compose-material-dialogs:datetime:0.9.0"
+    implementation "io.github.vanpra.compose-material-dialogs:core:0.9.0"
 
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'

@@ -1,6 +1,7 @@
 package com.example.roomer.utils
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavHostController
 import com.example.roomer.R
 import com.example.roomer.ui_components.*
 
@@ -8,7 +9,9 @@ enum class NavbarItem(
     val iconUnSelected: Int,
     val iconSelected: Int,
     val description: String,
-    val composeViewFunction: @Composable () -> Unit
+    val composeViewFunction: @Composable () -> Unit,
+    var navHostController: NavHostController? = null,
+    val destination:String = "",
 ) {
     Home(
         R.drawable.homeun,
@@ -32,12 +35,13 @@ enum class NavbarItem(
         R.drawable.chatun,
         R.drawable.chatin,
         "Chat",
-        {},
+        { ChatScreen()},
     ),
     Profile(
         R.drawable.profun,
         R.drawable.profin,
         "Profile",
         { ProfileScreen() },
+        destination = "Profile screen",
     )
 }

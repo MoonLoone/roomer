@@ -9,8 +9,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.navigation.compose.rememberNavController
-import com.example.roomer.ui_components.NavHostContainer
 import com.example.roomer.ui_components.Navbar
+import com.example.roomer.utils.NavbarHostContainer
 
 class NavbarFragment : Fragment() {
 
@@ -23,7 +23,7 @@ class NavbarFragment : Fragment() {
             setContent {
                 val navController = rememberNavController()
                 Scaffold(bottomBar = { Navbar(navController) }) {
-                    NavHostContainer(navController = navController, paddingValues = it)
+                    NavbarHostContainer(navController = navController, paddingValues = it)
                 }
             }
         }
