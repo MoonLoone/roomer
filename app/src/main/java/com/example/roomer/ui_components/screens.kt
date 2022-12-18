@@ -212,6 +212,7 @@ fun AccountScreen() {
         ScreenTextField(label = "First Name", textHint = "Vasya")
         ScreenTextField(label = "Last Name", textHint = "Pupkin")
         DateField(label = "Date of birth")
+        SelectSex()
 
     }
 }
