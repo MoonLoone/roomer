@@ -90,7 +90,8 @@ fun ProfileScreen() {
 }
 
 @Composable
-fun ChatScreen() {
+fun ChatsScreen() {
+    val navController = NavbarItem.Chats.navHostController ?: rememberNavController()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -157,7 +158,8 @@ fun ChatScreen() {
                 messageCutText = "Hello my name is Piter",
                 username = "Grigoriev Oleg",
                 isRead = false,
-                unreadMessages = 0
+                unreadMessages = 0,
+                navigateToMessage={navController.navigate(Screens.Chat.name)}
             )
             MessageItem(
                 userAvatarPath = "path",
@@ -165,7 +167,8 @@ fun ChatScreen() {
                 messageCutText = "Hello my name is Piter",
                 username = "Grigoriev Oleg",
                 isRead = true,
-                unreadMessages = 10000
+                unreadMessages = 10000,
+                navigateToMessage={navController.navigate(Screens.Chat.name)},
             )
             MessageItem(
                 userAvatarPath = "path",
@@ -173,7 +176,8 @@ fun ChatScreen() {
                 messageCutText = "Hello my name is Piter",
                 username = "Grigoriev Oleg",
                 isRead = false,
-                unreadMessages = 15
+                unreadMessages = 15,
+                navigateToMessage={navController.navigate(Screens.Chat.name)}
             )
         }
     }
@@ -186,17 +190,24 @@ fun HomeScreen() {
 
 @Composable
 fun AccountScreen() {
+    val navController = NavbarItem.Profile.navHostController ?: rememberNavController()
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(top = 24.dp, bottom = 16.dp, start = 40.dp, end = 40.dp)
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
             Image(
                 painter = painterResource(id = R.drawable.back_btn),
                 modifier = Modifier
                     .height(40.dp)
-                    .width(40.dp),
+                    .width(40.dp)
+                    .clickable {
+                        navController.navigate(NavbarItem.Profile.name)
+                    },
                 contentDescription = "Back button"
             )
             Text(
@@ -214,5 +225,36 @@ fun AccountScreen() {
         DateField(label = "Date of birth")
         SelectSex()
 
+    }
+}
+
+@Composable
+fun MessageScreen() {
+    val navController = NavbarItem.Chats.navHostController ?: rememberNavController()
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(top = 24.dp, bottom = 16.dp, start = 40.dp, end = 40.dp)
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.back_btn),
+                modifier = Modifier
+                    .height(40.dp)
+                    .width(40.dp)
+                    .clickable {
+                        navController.navigate(NavbarItem.Chats.name)
+                    },
+                contentDescription = "Back button"
+            )
+            Image(painter = painterResource(id = R.drawable.ordinary_client), contentDescription = "Client avatar")
+            Text(text = "Username here")
+        }
+        Message(isUserMessage = true, text = "Hello my name Andrey.", data = "18.12")
+        Message(isUserMessage = true, text = "Do you want to hang out?", data = "18.12")
+        Message(isUserMessage = false, text = "Hello. I don't", data = "18.12")
     }
 }

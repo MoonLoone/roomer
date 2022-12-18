@@ -21,6 +21,7 @@ fun NavbarHostContainer(navController: NavHostController, paddingValues: Padding
             composable(route = it.name) { navbarItem.composeViewFunction.invoke() }
         }
         profileGraph(navController)
+        chatGraph(navController)
     }
 }
 
@@ -34,5 +35,14 @@ fun NavGraphBuilder.profileGraph(navController: NavHostController) {
         composable(Screens.Logout.name) { Screens.Logout.composeViewFunction.invoke() }
         composable(Screens.Rating.name) { Screens.Rating.composeViewFunction.invoke() }
         composable(Screens.Settings.name) { Screens.Settings.composeViewFunction.invoke() }
+    }
+}
+
+fun NavGraphBuilder.chatGraph(navController: NavHostController) {
+    navigation(
+        startDestination = NavbarItem.Chats.destination, route = NavbarItem.Chats.name
+    ) {
+        composable(NavbarItem.Chats.destination){ NavbarItem.Chats.composeViewFunction.invoke() }
+        composable(Screens.Chat.name) { Screens.Chat.composeViewFunction.invoke() }
     }
 }

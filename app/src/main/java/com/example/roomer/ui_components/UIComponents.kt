@@ -153,8 +153,9 @@ fun MessageItem(
     username: String,
     isRead: Boolean,
     unreadMessages: Int,
+    navigateToMessage: () -> Unit,
 ) {
-    Row() {
+    Row(modifier = Modifier.clickable { navigateToMessage.invoke() }) {
         Image(
             painter = painterResource(id = R.drawable.ordinary_client),
             contentDescription = "message_client_avatar",
@@ -369,6 +370,31 @@ fun SelectSex(paddingValues: PaddingValues = PaddingValues(top = 16.dp)) {
                     ) else colorResource(id = R.color.primary_dark)
                 )
             }
+        }
+    }
+}
+
+@Composable
+fun Message(isUserMessage: Boolean, text: String, data: String) {
+    if (isUserMessage) {
+        Column(
+            modifier = Modifier
+                .padding(start = 40.dp)
+                .width(214.dp)
+                .height(IntrinsicSize.Max)
+                .background(
+                    colorResource(id = R.color.secondary_color),
+                    RoundedCornerShape(topEnd = 16.dp, topStart = 16.dp, bottomEnd = 16.dp)
+                )
+        ) {
+            Text(text = text)
+            Text(text = data)
+        }
+    } else {
+        Column() {
+
+            Text(text = text)
+            Text(text = data)
         }
     }
 }

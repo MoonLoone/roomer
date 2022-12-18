@@ -35,7 +35,8 @@ enum class NavbarItem(
         R.drawable.chatun,
         R.drawable.chatin,
         "Chat",
-        { ChatScreen()},
+        { ChatsScreen()},
+        destination = "Chats screen",
     ),
     Profile(
         R.drawable.profun,
