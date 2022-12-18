@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -185,5 +186,32 @@ fun HomeScreen() {
 
 @Composable
 fun AccountScreen() {
-    Text(text = "Hello from account")
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(top = 24.dp, bottom = 16.dp, start = 40.dp, end = 40.dp)
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Image(
+                painter = painterResource(id = R.drawable.back_btn),
+                modifier = Modifier
+                    .height(40.dp)
+                    .width(40.dp),
+                contentDescription = "Back button"
+            )
+            Text(
+                text = "Account",
+                fontSize = integerResource(
+                    id = R.integer.label_text_size
+                ).sp,
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.fillMaxWidth(),
+            )
+        }
+        ScreenTextField(label = "First Name", textHint = "Vasya")
+        ScreenTextField(label = "Last Name", textHint = "Pupkin")
+        DateField(label = "Date of birth")
+
+    }
 }
