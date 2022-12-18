@@ -11,31 +11,34 @@ enum class NavbarItem(
     val description: String,
     val composeViewFunction: @Composable () -> Unit,
     var navHostController: NavHostController? = null,
-    val destination:String = "",
+    val destination: String = "",
 ) {
     Home(
         R.drawable.homeun,
         R.drawable.homein,
         "Home",
-        { HomeScreen() }
+        { HomeScreen() },
+        destination = "Home screen"
     ),
     Favourite(
         R.drawable.favun,
         R.drawable.favin,
         "Favourite",
-        {},
+        { FavouriteScreen() },
+        destination = "Favourite screen"
     ),
     Post(
         R.drawable.postun,
         R.drawable.postin,
         "Post",
-        {},
+        { PostScreen() },
+        destination = "Post screen",
     ),
     Chats(
         R.drawable.chatun,
         R.drawable.chatin,
         "Chat",
-        { ChatsScreen()},
+        { ChatsScreen() },
         destination = "Chats screen",
     ),
     Profile(
