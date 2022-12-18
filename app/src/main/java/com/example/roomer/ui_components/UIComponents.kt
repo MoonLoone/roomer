@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.TextField
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -18,8 +19,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -194,10 +197,11 @@ fun MessageItem(
 
 @Composable
 fun DateField(
+    label: String = "Date field", paddingValues: PaddingValues = PaddingValues(top = 16.dp)
 ) {
     val dialogState = rememberMaterialDialogState()
     var textState by remember {
-        mutableStateOf(TextFieldValue("Your birth date"))
+        mutableStateOf(TextFieldValue("11.12.2002"))
     }
     MaterialDialog(
         dialogState = dialogState,
@@ -213,9 +217,67 @@ fun DateField(
             textState = TextFieldValue(formattedDate)
         }
     }
-    Text(text = textState.text, modifier = Modifier.clickable {
-        dialogState.show()
-    })
+    Column(
+        modifier = Modifier.padding(paddingValues),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        Text(
+            text = label,
+            fontSize = integerResource(id = R.integer.primary_text_size).sp,
+            color = Color.Black
+        )
+        Text(
+            fontSize = integerResource(id = R.integer.primary_text_size).sp,
+            color = colorResource(id = R.color.text_secondary),
+            style = TextStyle(
+                color = Color.Black,
+                fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                textAlign = TextAlign.Start,
+            ),
+            text = textState.text,
+            modifier = Modifier
+                .clickable {
+                    dialogState.show()
+                }
+                .fillMaxWidth()
+                .height(56.dp)
+                .background(colorResource(id = R.color.secondary_color))
+                )
+    }
 }
 
-
+@Composable
+fun ScreenTextField(
+    textHint: String, label: String = "", paddingValues: PaddingValues = PaddingValues(top = 16.dp),
+) {
+    var text by remember {
+        mutableStateOf(TextFieldValue(""))
+    }
+    Column(modifier = Modifier.padding(paddingValues),verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Text(
+            text = label,
+            fontSize = integerResource(id = R.integer.primary_text_size).sp,
+            color = Color.Black
+        )
+        TextField(
+            value = text,
+            textStyle = TextStyle(
+                color = Color.Black,
+                fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                textAlign = TextAlign.Start,
+            ),
+            placeholder = {
+                Text(
+                    text = textHint,
+                    fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                    color = colorResource(id = R.color.text_secondary)
+                )
+            },
+            onValueChange = { text = it },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(56.dp)
+                .background(colorResource(id = R.color.secondary_color))
+        )
+    }
+}
