@@ -14,7 +14,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
@@ -30,6 +29,7 @@ import com.example.roomer.models.ChatMessage
 import com.example.roomer.models.MessageToList
 import com.example.roomer.utils.NavbarItem
 import com.example.roomer.utils.Screens
+import com.example.roomer.utils.convertLongToTime
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -163,7 +163,8 @@ fun ChatsScreen() {
                             )
                             .width(
                                 24.dp
-                            ),
+                            )
+                            .clickable { searchText = TextFieldValue("") },
                     )
                 },
                 modifier = Modifier
@@ -228,12 +229,13 @@ fun HomeScreen() {
 @Composable
 fun AccountScreen() {
     val navController = NavbarItem.Profile.navHostController ?: rememberNavController()
+    val listOfEmployments = listOf<String>("Employed", "Unemployed", "Seasonable")
     Scaffold(bottomBar = { Navbar(navController, NavbarItem.Profile.name) }) {
         val padding = it
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 24.dp, bottom = 16.dp, start = 40.dp, end = 40.dp)
+                .padding(top = 24.dp, bottom = 88.dp, start = 40.dp, end = 40.dp)
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth(),
@@ -259,11 +261,93 @@ fun AccountScreen() {
                     modifier = Modifier.fillMaxWidth(),
                 )
             }
-            ScreenTextField(label = "First Name", textHint = "Vasya")
-            ScreenTextField(label = "Last Name", textHint = "Pupkin")
-            DateField(label = "Date of birth")
-            SelectSex()
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+            ) {
+                ScreenTextField(label = "First Name", textHint = "Vasya")
+                ScreenTextField(label = "Last Name", textHint = "Pupkin")
+                DateField(label = "Date of birth")
+                SelectSex()
+                DropdownTextField(listOfItems = listOfEmployments, label = "Employment")
+                ScreenTextField(
+                    textHint = "Some text about you",
+                    label = "About me",
+                    textFieldHeight = 112
+                )
+                SelectAddressField(
+                    label = "Select address at the map",
+                    placeholder = "Here will be your address"
+                )
+                Row(
+                    modifier = Modifier.padding(top = 16.dp).fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .height(40.dp)
+                            .width(146.dp)
+                            .border(
+                                width = 1.dp,
+                                color = Color.Black,
+                                shape = RoundedCornerShape(100.dp)
+                            )
+                            .clickable {
 
+                            },
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.habits_icon),
+                            contentDescription = "Habits icon",
+                            modifier = Modifier
+                                .padding(start = 16.dp)
+                                .width(18.dp)
+                                .height(18.dp),
+                        )
+                        Text(
+                            text = "Open habits",
+                            style = TextStyle(
+                                color = colorResource(id = R.color.primary_dark),
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.Bold,
+                            ),
+                        )
+                    }
+                    Row(
+                        modifier = Modifier
+                            .height(40.dp)
+                            .width(146.dp)
+                            .border(
+                                width = 1.dp,
+                                color = Color.Black,
+                                shape = RoundedCornerShape(100.dp)
+                            )
+                            .clickable {
+
+                            },
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.interests_icon),
+                            contentDescription = "Habits icon",
+                            modifier = Modifier
+                                .padding(start = 16.dp)
+                                .width(18.dp)
+                                .height(18.dp),
+                        )
+                        Text(
+                            text = "Open interests",
+                            style = TextStyle(
+                                color = colorResource(id = R.color.primary_dark),
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.Bold,
+                            ),
+                        )
+                    }
+                }
+            }
         }
     }
 }
@@ -302,14 +386,20 @@ fun MessageScreen() {
                 text = "Username here",
                 modifier = Modifier.padding(start = 8.dp),
                 style = TextStyle(
-                    color = Color.Black, fontSize = integerResource(
+                    color = Color.Black,
+                    fontSize = integerResource(
                         id = R.integer.primary_text_size
                     ).sp,
                     fontWeight = FontWeight.Bold,
                 )
             )
         }
-        Divider(color = colorResource(id = R.color.black), modifier = Modifier.padding(top=8.dp).fillMaxWidth())
+        Divider(
+            color = colorResource(id = R.color.black),
+            modifier = Modifier
+                .padding(top = 8.dp)
+                .fillMaxWidth()
+        )
         var messages by remember {
             mutableStateOf(listOf<ChatMessage>())
         }
@@ -323,7 +413,7 @@ fun MessageScreen() {
                                 postSnapshot.child("messageText").value as String,
                                 postSnapshot.child("messageSenderUser").value as String,
                                 postSnapshot.child("messageReceiverUser").value as String,
-                                postSnapshot.child("messageTime").value as Long,
+                                convertLongToTime(postSnapshot.child("messageTime").value as Long),
                             )
                         )
                     }

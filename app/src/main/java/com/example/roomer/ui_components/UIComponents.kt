@@ -1,11 +1,13 @@
 package com.example.roomer.ui_components
 
-import androidx.compose.foundation.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.TextField
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -19,7 +21,6 @@ import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -27,10 +28,6 @@ import androidx.navigation.NavHostController
 import com.example.roomer.R
 import com.example.roomer.models.MessageToList
 import com.example.roomer.utils.NavbarItem
-import com.vanpra.composematerialdialogs.MaterialDialog
-import com.vanpra.composematerialdialogs.datetime.date.datepicker
-import com.vanpra.composematerialdialogs.rememberMaterialDialogState
-import java.time.format.DateTimeFormatter
 
 @Composable
 fun ProfileContentLine(text: String, iconId: Int, onNavigateToFriends: () -> Unit = {}) {
@@ -61,7 +58,7 @@ fun ProfileContentLine(text: String, iconId: Int, onNavigateToFriends: () -> Uni
 }
 
 @Composable
-fun Navbar(navController: NavHostController, selectedNavbarItemName:String) {
+fun Navbar(navController: NavHostController, selectedNavbarItemName: String) {
     var selectedItem by remember {
         mutableStateOf(selectedNavbarItemName)
     }
@@ -147,7 +144,7 @@ fun Navbar(navController: NavHostController, selectedNavbarItemName:String) {
 
 @Composable
 fun MessageItem(
-    message:MessageToList,
+    message: MessageToList,
 ) {
     Row(
         modifier = Modifier
@@ -172,7 +169,7 @@ fun MessageItem(
                     fontWeight = FontWeight.Bold,
                     color = Color.Black,
                 )
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End){
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                     Image(
                         painter = painterResource(id = if (message.isRead) R.drawable.checked_messages_icon else R.drawable.unchecked_messages_icon),
                         contentDescription = if (message.isRead) "Messages checked" else "Messages unchecked",
@@ -181,11 +178,13 @@ fun MessageItem(
                             .width(18.dp)
                             .height(18.dp),
                     )
-                    Text(text = message.messageDate, style = TextStyle(
-                        color = colorResource(id = R.color.text_secondary),
-                        fontSize = 12.sp,
-                        textAlign = TextAlign.End
-                    ))
+                    Text(
+                        text = message.messageDate, style = TextStyle(
+                            color = colorResource(id = R.color.text_secondary),
+                            fontSize = 12.sp,
+                            textAlign = TextAlign.End
+                        )
+                    )
                 }
             }
             Row(
@@ -193,10 +192,12 @@ fun MessageItem(
                     .fillMaxWidth()
                     .padding(top = 8.dp),
             ) {
-                Text(text = message.messageCutText, style = TextStyle(
-                    color = colorResource(id = R.color.text_secondary),
-                    fontSize = 14.sp,
-                ))
+                Text(
+                    text = message.messageCutText, style = TextStyle(
+                        color = colorResource(id = R.color.text_secondary),
+                        fontSize = 14.sp,
+                    )
+                )
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                     if (message.unreadMessages > 0) {
                         Text(
@@ -214,7 +215,11 @@ fun MessageItem(
                                     ),
                                     shape = RoundedCornerShape(20.dp)
                                 ),
-                            style = TextStyle(color = Color.Black, fontSize = 14.sp,textAlign = TextAlign.Center,)
+                            style = TextStyle(
+                                color = Color.Black,
+                                fontSize = 14.sp,
+                                textAlign = TextAlign.Center,
+                            )
                         )
                     }
                 }
@@ -228,189 +233,10 @@ fun MessageItem(
 }
 
 @Composable
-fun DateField(
-    label: String = "Date field", paddingValues: PaddingValues = PaddingValues(top = 16.dp)
-) {
-    val dialogState = rememberMaterialDialogState()
-    var textState by remember {
-        mutableStateOf(TextFieldValue("11.12.2002"))
-    }
-    MaterialDialog(
-        dialogState = dialogState,
-        buttons = {
-            positiveButton("Ok")
-            negativeButton("Cancel")
-        }
-    ) {
-        datepicker { date ->
-            val formattedDate = date.format(
-                DateTimeFormatter.ofPattern("dd.MM.yyyy")
-            )
-            textState = TextFieldValue(formattedDate)
-        }
-    }
-    Column(
-        modifier = Modifier.padding(paddingValues),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        Text(
-            text = label,
-            fontSize = integerResource(id = R.integer.primary_text_size).sp,
-            color = Color.Black
-        )
-        Text(
-            fontSize = integerResource(id = R.integer.primary_text_size).sp,
-            color = colorResource(id = R.color.text_secondary),
-            style = TextStyle(
-                color = Color.Black,
-                fontSize = integerResource(id = R.integer.primary_text_size).sp,
-                textAlign = TextAlign.Start,
-            ),
-            text = textState.text,
-            modifier = Modifier
-                .clickable {
-                    dialogState.show()
-                }
-                .fillMaxWidth()
-                .height(56.dp)
-                .background(colorResource(id = R.color.secondary_color))
-        )
-    }
-}
-
-@Composable
-fun ScreenTextField(
-    textHint: String, label: String = "", paddingValues: PaddingValues = PaddingValues(top = 16.dp),
-) {
-    var text by remember {
-        mutableStateOf(TextFieldValue(""))
-    }
-    Column(
-        modifier = Modifier.padding(paddingValues),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        Text(
-            text = label,
-            fontSize = integerResource(id = R.integer.primary_text_size).sp,
-            color = Color.Black
-        )
-        TextField(
-            value = text,
-            textStyle = TextStyle(
-                color = Color.Black,
-                fontSize = integerResource(id = R.integer.primary_text_size).sp,
-                textAlign = TextAlign.Start,
-            ),
-            placeholder = {
-                Text(
-                    text = textHint,
-                    fontSize = integerResource(id = R.integer.primary_text_size).sp,
-                    color = colorResource(id = R.color.text_secondary)
-                )
-            },
-            onValueChange = { text = it },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp)
-                .background(colorResource(id = R.color.secondary_color))
-        )
-    }
-}
-
-@Composable
-fun SelectSex(paddingValues: PaddingValues = PaddingValues(top = 16.dp)) {
-    Column(
-        modifier = Modifier.padding(paddingValues),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        var isMaleSelected by remember {
-            mutableStateOf(true)
-        }
-        Text(
-            text = "Sex",
-            fontSize = integerResource(id = R.integer.primary_text_size).sp,
-            color = Color.Black
-        )
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            Row(
-                modifier = Modifier
-                    .height(40.dp)
-                    .width(98.dp)
-                    .border(
-                        1.dp,
-                        if (isMaleSelected) colorResource(id = R.color.primary_dark) else Color.Black,
-                        RoundedCornerShape(100.dp),
-                    )
-                    .background(
-                        if (isMaleSelected) colorResource(id = R.color.primary_dark) else Color.White,
-                        RoundedCornerShape(100.dp)
-                    )
-                    .clickable {
-                        isMaleSelected = true
-                    },
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Image(
-                    painter = painterResource(id = if (isMaleSelected) R.drawable.sex_male_in_icon else R.drawable.sex_male_un_icon),
-                    contentDescription = "Male icon",
-                    modifier = Modifier
-                        .width(18.dp)
-                        .height(18.dp),
-                )
-                Text(
-                    text = "Male",
-                    modifier = Modifier.padding(start = 4.dp),
-                    fontSize = 14.sp,
-                    color = if (isMaleSelected) colorResource(
-                        id = R.color.secondary_color
-                    ) else colorResource(id = R.color.primary_dark)
-                )
-            }
-            Row(
-                modifier = Modifier
-                    .height(40.dp)
-                    .width(98.dp)
-                    .border(
-                        1.dp,
-                        if (!isMaleSelected) colorResource(id = R.color.primary_dark) else Color.Black,
-                        RoundedCornerShape(100.dp)
-                    )
-                    .background(
-                        if (!isMaleSelected) colorResource(id = R.color.primary_dark) else Color.White,
-                        RoundedCornerShape(100.dp)
-                    )
-                    .clickable {
-                        isMaleSelected = false
-                    },
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Image(
-                    painter = painterResource(id = if (!isMaleSelected) R.drawable.sex_female_in_icon else R.drawable.sex_female_un_icon),
-                    contentDescription = "Female icon",
-                    modifier = Modifier
-                        .width(18.dp)
-                        .height(18.dp),
-                )
-                Text(
-                    text = "Female",
-                    modifier = Modifier.padding(start = 4.dp),
-                    fontSize = 14.sp,
-                    color = if (!isMaleSelected) colorResource(
-                        id = R.color.secondary_color
-                    ) else colorResource(id = R.color.primary_dark)
-                )
-            }
-        }
-    }
-}
-
-@Composable
 fun Message(isUserMessage: Boolean, text: String, data: String) {
     if (!isUserMessage) {
         Column(horizontalAlignment = Alignment.Start, modifier = Modifier.fillMaxWidth()) {
-            Column(
+            Row(
                 modifier = Modifier
                     .padding(top = 16.dp)
                     .width(214.dp)
@@ -425,8 +251,8 @@ fun Message(isUserMessage: Boolean, text: String, data: String) {
                         RoundedCornerShape(topEnd = 16.dp, topStart = 16.dp, bottomEnd = 16.dp)
                     )
             ) {
-                Text(text = text)
-                Text(text = data)
+                Text(text = text, textAlign = TextAlign.Start, modifier = Modifier.padding(16.dp))
+                Text(text = data, textAlign = TextAlign.End, modifier = Modifier.padding(16.dp))
             }
         }
     } else {
