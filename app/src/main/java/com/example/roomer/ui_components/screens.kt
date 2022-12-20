@@ -1,8 +1,11 @@
 package com.example.roomer.ui_components
 
 import androidx.compose.foundation.*
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
@@ -27,6 +30,8 @@ import androidx.navigation.compose.rememberNavController
 import com.example.roomer.R
 import com.example.roomer.models.ChatMessage
 import com.example.roomer.models.MessageToList
+import com.example.roomer.models.RecommendedRoom
+import com.example.roomer.models.RecommendedRoommate
 import com.example.roomer.utils.NavbarItem
 import com.example.roomer.utils.Screens
 import com.example.roomer.utils.convertLongToTime
@@ -44,7 +49,7 @@ fun ProfileScreen() {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 24.dp, bottom = 16.dp, start = 40.dp, end = 40.dp)
+                .padding(top = 24.dp, bottom = 88.dp, start = 40.dp, end = 40.dp)
         ) {
             Text(
                 text = "Profile",
@@ -220,9 +225,142 @@ fun ChatsScreen() {
 @Composable
 fun HomeScreen() {
     val navController = NavbarItem.Home.navHostController ?: rememberNavController()
+    val recommendedRooms = mutableListOf<RecommendedRoom>()
+    val recommendedRoomates = mutableListOf<RecommendedRoommate>()
+    for (i in 0..5) {
+        recommendedRooms.add(
+            RecommendedRoom(
+                i,
+                "Room $i",
+                "Location $i",
+                "",
+                false
+            )
+        )
+        recommendedRoomates.add(
+            RecommendedRoommate(
+                i,
+                "Vasya $i",
+                0.2,
+                "",
+            )
+        )
+    }
     Scaffold(bottomBar = { Navbar(navController, NavbarItem.Home.name) }) {
         val padding = it
-        Text("Hello from home")
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 18.dp, bottom = 88.dp, start = 40.dp, end = 40.dp)
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                Column(modifier = Modifier.fillMaxHeight()) {
+                    Text(
+                        text = "Welcome back!",
+                        style = TextStyle(
+                            color = colorResource(id = R.color.text_secondary),
+                            fontSize = 18.sp,
+                        )
+                    )
+                    Text(
+                        text = "Client name here",
+                        style = TextStyle(
+                            color = colorResource(id = R.color.text_secondary),
+                            fontSize = 24.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    )
+                }
+                Image(
+                    painter = painterResource(id = R.drawable.ordinary_client),
+                    contentDescription = "Client avatar",
+                    modifier = Modifier
+                        .height(56.dp)
+                        .width(56.dp),
+                    alignment = Alignment.Center,
+                )
+            }
+            SearchField()
+            Column(
+                modifier = Modifier
+                    .scrollable(
+                        rememberScrollState(),
+                        orientation = Orientation.Vertical,
+                    )
+                    .fillMaxSize()
+                    .padding(top = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+            ) {
+                Column(modifier = Modifier.fillMaxWidth()) {
+                    Text(
+                        "Recently watched",
+                        style = TextStyle(
+                            color = Color.Black,
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold,
+                        ),
+                    )
+                    LazyRow(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(148.dp),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    ) {
+                        items(recommendedRoomates.size - 2) { index ->
+                            UserCard(recommendedRoommate = recommendedRoomates[index])
+                        }
+                        items(recommendedRooms.size - 2) { index ->
+                            ApartmentCard(recommendedRoom = recommendedRooms[index])
+                        }
+                    }
+                }
+                Column(modifier = Modifier.fillMaxWidth()) {
+                    Text(
+                        "Recommended rooms",
+                        style = TextStyle(
+                            color = Color.Black,
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold,
+                        ),
+                    )
+                    LazyRow(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(148.dp),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    ) {
+                        items(recommendedRooms.size) { index ->
+                            ApartmentCard(recommendedRoom = recommendedRooms[index])
+                        }
+                    }
+                }
+                Column(modifier = Modifier.fillMaxWidth()) {
+                    Text(
+                        "Recomended rommates",
+                        style = TextStyle(
+                            color = Color.Black,
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold,
+                        ),
+                    )
+                    LazyRow(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(148.dp),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    ) {
+                        items(recommendedRoomates.size) { index ->
+                            UserCard(recommendedRoommate = recommendedRoomates[index])
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -281,7 +419,9 @@ fun AccountScreen() {
                     placeholder = "Here will be your address"
                 )
                 Row(
-                    modifier = Modifier.padding(top = 16.dp).fillMaxWidth(),
+                    modifier = Modifier
+                        .padding(top = 16.dp)
+                        .fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Row(
@@ -413,7 +553,7 @@ fun MessageScreen() {
                                 postSnapshot.child("messageText").value as String,
                                 postSnapshot.child("messageSenderUser").value as String,
                                 postSnapshot.child("messageReceiverUser").value as String,
-                                convertLongToTime(postSnapshot.child("messageTime").value as Long),
+                                postSnapshot.child("messageTime").value as Long,
                             )
                         )
                     }
@@ -432,7 +572,7 @@ fun MessageScreen() {
                 Message(
                     isUserMessage = false,
                     text = messages[index].messageText,
-                    data = messages[index].messageTime.toString()
+                    data = convertLongToTime(messages[index].messageTime)
                 )
             }
         }
@@ -461,10 +601,7 @@ fun MessageScreen() {
                                 .width(32.dp)
                                 .height(32.dp)
                         )
-                        Image(
-                            painter = painterResource(id = R.drawable.send_icon),
-                            contentDescription = "Enter message",
-                            alignment = Alignment.Center,
+                        Box(
                             modifier = Modifier
                                 .padding(end = 16.dp)
                                 .width(48.dp)
@@ -488,7 +625,18 @@ fun MessageScreen() {
                                         )
                                     editMessageText = TextFieldValue("")
                                 },
-                        )
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.send_icon),
+                                contentDescription = "Enter message",
+                                alignment = Alignment.Center,
+                                modifier = Modifier
+                                    .width(24.dp)
+                                    .height(24.dp)
+
+                            )
+                        }
                     }
                 },
                 colors = TextFieldDefaults.textFieldColors(backgroundColor = colorResource(id = R.color.primary))
