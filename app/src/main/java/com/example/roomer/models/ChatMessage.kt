@@ -7,5 +7,5 @@ data class ChatMessage(
     var messageText: String,
     var messageSenderUser: String,
     var messageReceiverUser: String,
-    var messageTime: String = convertLongToTime(Date().time),
+    var messageTime: Long = Date().time,
 )

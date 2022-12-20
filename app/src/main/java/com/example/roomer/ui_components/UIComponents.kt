@@ -8,25 +8,32 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.TextField
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material3.Divider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.roomer.R
 import com.example.roomer.models.MessageToList
+import com.example.roomer.models.RecommendedRoom
+import com.example.roomer.models.RecommendedRoommate
 import com.example.roomer.utils.NavbarItem
 
 @Composable
@@ -282,4 +289,189 @@ fun Message(isUserMessage: Boolean, text: String, data: String) {
             }
         }
     }
+}
+
+@Composable
+fun UserCard(recommendedRoommate: RecommendedRoommate) {
+    Column(
+        modifier = Modifier
+            .height(148.dp)
+            .width(100.dp)
+            .background(
+                color = colorResource(id = R.color.primary),
+                shape = RoundedCornerShape(8.dp)
+            )
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.ordinary_client),
+            contentDescription = recommendedRoommate.name,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(92.dp),
+            contentScale = ContentScale.Fit,
+        )
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 6.dp, start = 10.dp, end = 10.dp, bottom = 7.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            Text(
+                text = recommendedRoommate.name,
+                style = TextStyle(
+                    color = Color.Black,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            )
+            Row() {
+                Icon(
+                    painter = painterResource(id = R.drawable.rating_icon),
+                    contentDescription = "Rating icon",
+                    modifier = Modifier
+                        .width(integerResource(id = R.integer.ordinary_icon_size).dp)
+                        .height(integerResource(id = R.integer.ordinary_icon_size).dp)
+                )
+                Text(
+                    text = recommendedRoommate.rating.toString(),
+                    style = TextStyle(
+                        color = Color.Black,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun ApartmentCard(recommendedRoom: RecommendedRoom) {
+    Column(
+        modifier = Modifier
+            .width(240.dp)
+            .height(148.dp)
+            .background(
+                color = colorResource(id = R.color.primary_dark),
+                shape = RoundedCornerShape(16.dp)
+            )
+    ) {
+        var isLiked by remember {
+            mutableStateOf(recommendedRoom.isLiked)
+        }
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(92.dp),
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.ordinary_client),
+                contentDescription = "Room image",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(),
+                contentScale = ContentScale.Fit,
+            )
+            Image(
+                painter = if (isLiked) painterResource(id = R.drawable.room_like_in_icon) else painterResource(
+                    id = R.drawable.room_like_icon
+                ), contentDescription = "Like icon",
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(top = 10.dp, end = 10.dp)
+                    .width(32.dp)
+                    .height(32.dp)
+                    .clickable {
+                        isLiked = !isLiked
+                    }
+            )
+        }
+        Text(
+            text = recommendedRoom.name,
+            modifier = Modifier.padding(start = 10.dp, top = 4.dp),
+            style = TextStyle(
+                color = colorResource(
+                    id = R.color.secondary_color
+                ),
+                fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                fontWeight = FontWeight.Bold,
+            )
+        )
+        Row(
+            modifier = Modifier.padding(start = 10.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.location_icon),
+                contentDescription = "Location icon",
+                modifier = Modifier
+                    .width(14.dp)
+                    .height(14.dp),
+                colorFilter = ColorFilter.tint(color = colorResource(id = R.color.secondary_color))
+            )
+            Text(
+                text = recommendedRoom.location, style = TextStyle(
+                    color = colorResource(id = R.color.secondary_color),
+                    fontSize = 12.sp,
+                )
+            )
+        }
+    }
+}
+
+@Composable
+fun SearchField() {
+    var searcherText by remember {
+        mutableStateOf(TextFieldValue(""))
+    }
+    TextField(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 16.dp)
+            .height(56.dp)
+            .border(
+                width = 2.dp,
+                shape = RoundedCornerShape(4.dp),
+                color = colorResource(id = R.color.primary_dark),
+            ),
+        textStyle = TextStyle(
+            color = Color.Black,
+            fontSize = integerResource(id = R.integer.primary_text_size).sp,
+        ),
+        value = searcherText,
+        onValueChange = {
+            if (it.text.length > 100) {
+                searcherText = it
+            }
+        },
+        label = {
+            Text(
+                text = "Search for roommate or housing",
+                modifier = Modifier.padding(bottom = 24.dp),
+                style = TextStyle(
+                    color = colorResource(id = R.color.primary_dark),
+                    fontSize = 12.sp,
+                ),
+            )
+        },
+        leadingIcon = {
+            Icon(
+                painter = painterResource(id = R.drawable.loupe_icon),
+                contentDescription = "Search loupe",
+                modifier = Modifier
+                    .height(24.dp)
+                    .width(24.dp),
+            )
+        },
+        trailingIcon = {
+            Icon(
+                painter = painterResource(id = R.drawable.search_filter_icon),
+                contentDescription = "Searcher filters",
+                modifier = Modifier
+                    .height(24.dp)
+                    .width(24.dp),
+            )
+        },
+        colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.White)
+    )
 }
