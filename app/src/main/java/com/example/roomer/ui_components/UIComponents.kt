@@ -1,15 +1,10 @@
 package com.example.roomer.ui_components
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.BottomNavigation
-import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.TextField
-import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.*
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -474,4 +469,83 @@ fun SearchField() {
         },
         colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.White)
     )
+}
+@Composable
+fun GreenButtonPrimary(
+    text: String,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
+    Button(
+        onClick = onClick,
+        modifier = modifier,
+        shape = CircleShape,
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = colorResource(id = R.color.primary_dark),
+            contentColor = colorResource(id = R.color.secondary_color)
+        )
+
+    ) {
+        androidx.compose.material.Text(
+            text = text,
+        )
+    }
+}
+
+@Composable
+fun GreenButtonOutline(
+    text: String,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
+    Button(
+        onClick = onClick,
+        modifier = modifier,
+        shape = CircleShape,
+        colors = ButtonDefaults.outlinedButtonColors(
+            backgroundColor = Color.White,
+            contentColor = colorResource(id = R.color.primary_dark)
+        ),
+        border = BorderStroke(1.dp, color = colorResource(id = R.color.text_secondary))
+    ) {
+        androidx.compose.material.Text(
+            text = text,
+        )
+    }
+}
+
+@Composable
+fun ButtonsRow(label: String, values: List<String>) {
+    var selectedItem by remember {
+        mutableStateOf(values[0])
+    }
+    Column(
+        modifier = Modifier
+            .fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        androidx.compose.material.Text(
+            text = label,
+            fontSize = integerResource(id = R.integer.primary_text_size).sp,
+            color = Color.Black,
+            textAlign = TextAlign.End,
+            fontWeight = FontWeight.Medium
+        )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            for (value in values) {
+                if (value == selectedItem) {
+                    GreenButtonPrimary(text = value) {  }
+                } else {
+                    GreenButtonOutline(text = value) {
+                        selectedItem = value
+                    }
+                }
+            }
+        }
+    }
 }
