@@ -1,20 +1,22 @@
 package com.example.roomer.ui_components
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonColors
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material3.Divider
-import androidx.compose.material3.Text
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.integerResource
@@ -22,6 +24,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -279,6 +282,86 @@ fun Message(isUserMessage: Boolean, text: String, data: String) {
                     contentDescription = "Checked message"
                 )
                 Text(text = data)
+            }
+        }
+    }
+}
+
+@Composable
+fun GreenButtonPrimary(
+    text: String,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
+    Button(
+        onClick = onClick,
+        modifier = modifier,
+        shape = CircleShape,
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = colorResource(id = R.color.primary_dark),
+            contentColor = colorResource(id = R.color.secondary_color)
+        )
+
+    ) {
+        Text(
+            text = text,
+        )
+    }
+}
+
+@Composable
+fun GreenButtonOutline(
+    text: String,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
+    Button(
+        onClick = onClick,
+        modifier = modifier,
+        shape = CircleShape,
+        colors = ButtonDefaults.outlinedButtonColors(
+            backgroundColor = Color.White,
+            contentColor = colorResource(id = R.color.primary_dark)
+        ),
+        border = BorderStroke(1.dp, color = colorResource(id = R.color.text_secondary))
+    ) {
+        Text(
+            text = text,
+        )
+    }
+}
+
+@Composable
+fun ButtonsRow(label: String, values: List<String>) {
+    var selectedItem by remember {
+        mutableStateOf(values[0])
+    }
+    Column(
+        modifier = Modifier
+            .fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        Text(
+            text = label,
+            fontSize = integerResource(id = R.integer.primary_text_size).sp,
+            color = Color.Black,
+            textAlign = TextAlign.End,
+            fontWeight = FontWeight.Medium
+        )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            for (value in values) {
+                if (value == selectedItem) {
+                    GreenButtonPrimary(text = value) {  }
+                } else {
+                    GreenButtonOutline(text = value) {
+                        selectedItem = value
+                    }
+                }
             }
         }
     }
