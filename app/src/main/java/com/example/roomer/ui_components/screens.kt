@@ -315,7 +315,7 @@ fun HomeScreen() {
                             UserCard(recommendedRoommate = recommendedRoomates[index])
                         }
                         items(recommendedRooms.size - 2) { index ->
-                            ApartmentCard(recommendedRoom = recommendedRooms[index])
+                            RoomCard(recommendedRoom = recommendedRooms[index], true)
                         }
                     }
                 }
@@ -335,7 +335,7 @@ fun HomeScreen() {
                         horizontalArrangement = Arrangement.spacedBy(16.dp),
                     ) {
                         items(recommendedRooms.size) { index ->
-                            ApartmentCard(recommendedRoom = recommendedRooms[index])
+                            RoomCard(recommendedRoom = recommendedRooms[index], true)
                         }
                     }
                 }
@@ -650,7 +650,29 @@ fun FavouriteScreen() {
     val navController = NavbarItem.Favourite.navHostController ?: rememberNavController()
     Scaffold(bottomBar = { Navbar(navController, NavbarItem.Favourite.name) }) {
         val padding = it
-        Text("Hello from favourite")
+        val listOfFavourites = listOf<RecommendedRoom>(
+            RecommendedRoom(1, "Fav1", "Loc", "", true),
+            RecommendedRoom(2, "Fav2", "Loc2", "", true),
+            RecommendedRoom(3, "Fav3", "Loc3", "", true),
+            RecommendedRoom(4, "Fav4", "Loc4", "", true)
+        )
+        Text(
+            text = "Favourite",
+            style = TextStyle(
+                fontSize = integerResource(id = R.integer.label_text_size).sp,
+                fontWeight = FontWeight.Bold,
+            ),
+            modifier = Modifier.padding(top = 8.dp, bottom = 24.dp)
+        )
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.spacedBy(24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            items(listOfFavourites.size) { index ->
+                RoomCard(recommendedRoom = listOfFavourites[index], isMiniVersion = false)
+            }
+        }
     }
 }
 
@@ -659,6 +681,7 @@ fun PostScreen() {
     val navController = NavbarItem.Post.navHostController ?: rememberNavController()
     Scaffold(bottomBar = { Navbar(navController, NavbarItem.Post.name) }) {
         val padding = it
+
         Text("Hello from post")
     }
 }

@@ -308,7 +308,7 @@ fun UserCard(recommendedRoommate: RecommendedRoommate) {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(92.dp),
-            contentScale = ContentScale.Fit,
+            contentScale = ContentScale.FillBounds,
         )
         Column(
             modifier = Modifier
@@ -346,11 +346,16 @@ fun UserCard(recommendedRoommate: RecommendedRoommate) {
 }
 
 @Composable
-fun ApartmentCard(recommendedRoom: RecommendedRoom) {
+fun RoomCard(recommendedRoom: RecommendedRoom, isMiniVersion: Boolean) {
+    val cardWidth = if (isMiniVersion) 240.dp else 332.dp
+    val cardHeight = if (isMiniVersion) 148.dp else 222.dp
+    val imageHeight = if (isMiniVersion) 92.dp else 140.dp
+    val nameTextSize = if (isMiniVersion) 16.sp else 20.sp
+    val locationTextSize = if (isMiniVersion) 12.sp else 14.sp
     Column(
         modifier = Modifier
-            .width(240.dp)
-            .height(148.dp)
+            .width(cardWidth)
+            .height(cardHeight)
             .background(
                 color = colorResource(id = R.color.primary_dark),
                 shape = RoundedCornerShape(16.dp)
@@ -362,7 +367,7 @@ fun ApartmentCard(recommendedRoom: RecommendedRoom) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(92.dp),
+                .height(imageHeight),
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ordinary_client),
@@ -370,7 +375,7 @@ fun ApartmentCard(recommendedRoom: RecommendedRoom) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight(),
-                contentScale = ContentScale.Fit,
+                contentScale = ContentScale.FillBounds,
             )
             Image(
                 painter = if (isLiked) painterResource(id = R.drawable.room_like_in_icon) else painterResource(
@@ -388,12 +393,12 @@ fun ApartmentCard(recommendedRoom: RecommendedRoom) {
         }
         Text(
             text = recommendedRoom.name,
-            modifier = Modifier.padding(start = 10.dp, top = 4.dp),
+            modifier = Modifier.padding(start = 10.dp, top = if (isMiniVersion) 4.dp else 10.dp),
             style = TextStyle(
                 color = colorResource(
                     id = R.color.secondary_color
                 ),
-                fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                fontSize = nameTextSize,
                 fontWeight = FontWeight.Bold,
             )
         )
@@ -412,7 +417,7 @@ fun ApartmentCard(recommendedRoom: RecommendedRoom) {
             Text(
                 text = recommendedRoom.location, style = TextStyle(
                     color = colorResource(id = R.color.secondary_color),
-                    fontSize = 12.sp,
+                    fontSize = locationTextSize,
                 )
             )
         }
