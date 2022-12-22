@@ -6,13 +6,19 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material.icons.outlined.Email
+import androidx.compose.material.icons.outlined.Password
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
@@ -23,8 +29,13 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
@@ -353,6 +364,98 @@ fun SelectAddressField(
             ),
             enabled = false,
             colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.LightGray)
+        )
+    }
+}
+
+@Composable
+fun PasswordTextField(
+    modifier: Modifier = Modifier,
+    label: String = "Password"
+) {
+
+    var password by rememberSaveable { mutableStateOf("") }
+    var passwordVisibility by remember { mutableStateOf(false) }
+
+    val icon = if (passwordVisibility)
+        Icons.Filled.Visibility
+    else
+        Icons.Filled.VisibilityOff
+
+    Column(
+        modifier = modifier
+            .fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        Text(
+            text = label,
+            fontSize = integerResource(id = R.integer.primary_text_size).sp,
+            color = Color.Black,
+            textAlign = TextAlign.Start,
+            fontWeight = FontWeight.Medium
+        )
+        TextField(
+            value = password,
+            onValueChange = {
+                password = it
+            },
+            placeholder = { Text(text = "Password") },
+            leadingIcon = { Icon(Icons.Outlined.Password, "password icon") },
+            trailingIcon = {
+                IconButton(onClick = {
+                    passwordVisibility = !passwordVisibility
+                }) {
+                    Icon(
+                        imageVector = icon,
+                        "Some stuff"
+                    )
+                }
+            },
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Password
+            ),
+            visualTransformation = if (passwordVisibility) VisualTransformation.None
+            else PasswordVisualTransformation(),
+            modifier = modifier
+                .fillMaxWidth()
+                .background(colorResource(id = R.color.secondary_color)),
+            colors = TextFieldDefaults.textFieldColors(backgroundColor = colorResource(id = R.color.secondary_color))
+        )
+    }
+}
+
+@Composable
+fun EmailField(modifier: Modifier = Modifier) {
+
+    var email by rememberSaveable { mutableStateOf("") }
+
+
+    Column(
+        modifier = modifier
+            .fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        Text(
+            text = "Email",
+            fontSize = integerResource(id = R.integer.primary_text_size).sp,
+            color = Color.Black,
+            textAlign = TextAlign.Start,
+            fontWeight = FontWeight.Medium
+        )
+        TextField(
+            value = email,
+            onValueChange = {
+                email = it
+            },
+            placeholder = { Text(text = "Email") },
+            leadingIcon = { Icon(Icons.Outlined.Email, "some icon") },
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Email
+            ),
+            modifier = modifier
+                .fillMaxWidth()
+                .background(colorResource(id = R.color.secondary_color)),
+            colors = TextFieldDefaults.textFieldColors(backgroundColor = colorResource(id = R.color.secondary_color))
         )
     }
 }
