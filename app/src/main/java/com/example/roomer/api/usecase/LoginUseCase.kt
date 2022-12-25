@@ -8,9 +8,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import org.json.JSONObject
 import java.io.IOException
-import javax.inject.Inject
 
-class LoginUseCase @Inject constructor(
+
+class LoginUseCase (
     private val repository: RoomerRepository
 ) {
 
@@ -40,7 +40,6 @@ class LoginUseCase @Inject constructor(
 
                 emit(Resource.Internet("Sunucuya ulaşılamadı. İnternet bağlantınızı kontrol ediniz!"))
                 Log.e("LOG :::", e.localizedMessage!!)
-
         }
     }
 }

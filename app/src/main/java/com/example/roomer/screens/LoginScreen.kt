@@ -33,8 +33,8 @@ import com.ramcosta.composedestinations.annotation.Destination
 @Composable
 fun LoginScreen(
     id: Int,
-    loginScreenViewModel: LoginScreenViewModel= viewModel()
 ) {
+    val loginScreenViewModel: LoginScreenViewModel by viewModel()
     val focusManager = LocalFocusManager.current
     var emailValue by rememberSaveable {
         mutableStateOf("")
