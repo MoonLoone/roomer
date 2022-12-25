@@ -1,4 +1,4 @@
-package com.example.roomer.ui_components
+package com.example.roomer.screens
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.Orientation
@@ -9,7 +9,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -28,18 +27,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
 import com.example.roomer.R
-import com.example.roomer.models.ChatMessage
 import com.example.roomer.models.MessageToList
 import com.example.roomer.models.RecommendedRoom
 import com.example.roomer.models.RecommendedRoommate
+import com.example.roomer.ui_components.*
 import com.example.roomer.utils.NavbarItem
 import com.example.roomer.utils.Screens
-import com.example.roomer.utils.convertLongToTime
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 
 @Composable
 fun ProfileScreen() {
@@ -285,7 +278,7 @@ fun HomeScreen() {
                     alignment = Alignment.Center,
                 )
             }
-            SearchField()
+            SearchField(onNavigateToFriends = { navController.navigate(Screens.SearchRoom.name) })
             Column(
                 modifier = Modifier
                     .scrollable(
@@ -365,287 +358,6 @@ fun HomeScreen() {
 }
 
 @Composable
-fun AccountScreen() {
-    val navController = NavbarItem.Profile.navHostController ?: rememberNavController()
-    val listOfEmployments = listOf<String>("Employed", "Unemployed", "Seasonable")
-    Scaffold(bottomBar = { Navbar(navController, NavbarItem.Profile.name) }) {
-        val padding = it
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(top = 24.dp, bottom = 88.dp, start = 40.dp, end = 40.dp)
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.back_btn),
-                    modifier = Modifier
-                        .height(40.dp)
-                        .width(40.dp)
-                        .clickable {
-                            navController.navigate(NavbarItem.Profile.name)
-                        },
-                    contentDescription = "Back button"
-                )
-                Text(
-                    text = "Account",
-                    fontSize = integerResource(
-                        id = R.integer.label_text_size
-                    ).sp,
-                    textAlign = TextAlign.Center,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.fillMaxWidth(),
-                )
-            }
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-            ) {
-                ScreenTextField(label = "First Name", textHint = "Vasya")
-                ScreenTextField(label = "Last Name", textHint = "Pupkin")
-                DateField(label = "Date of birth")
-                SelectSex()
-                DropdownTextField(listOfItems = listOfEmployments, label = "Employment")
-                ScreenTextField(
-                    textHint = "Some text about you",
-                    label = "About me",
-                    textFieldHeight = 112
-                )
-                SelectAddressField(
-                    label = "Select address at the map",
-                    placeholder = "Here will be your address"
-                )
-                Row(
-                    modifier = Modifier
-                        .padding(top = 16.dp)
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .height(40.dp)
-                            .width(146.dp)
-                            .border(
-                                width = 1.dp,
-                                color = Color.Black,
-                                shape = RoundedCornerShape(100.dp)
-                            )
-                            .clickable {
-
-                            },
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.habits_icon),
-                            contentDescription = "Habits icon",
-                            modifier = Modifier
-                                .padding(start = 16.dp)
-                                .width(18.dp)
-                                .height(18.dp),
-                        )
-                        Text(
-                            text = "Open habits",
-                            style = TextStyle(
-                                color = colorResource(id = R.color.primary_dark),
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.Bold,
-                            ),
-                        )
-                    }
-                    Row(
-                        modifier = Modifier
-                            .height(40.dp)
-                            .width(146.dp)
-                            .border(
-                                width = 1.dp,
-                                color = Color.Black,
-                                shape = RoundedCornerShape(100.dp)
-                            )
-                            .clickable {
-
-                            },
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.interests_icon),
-                            contentDescription = "Habits icon",
-                            modifier = Modifier
-                                .padding(start = 16.dp)
-                                .width(18.dp)
-                                .height(18.dp),
-                        )
-                        Text(
-                            text = "Open interests",
-                            style = TextStyle(
-                                color = colorResource(id = R.color.primary_dark),
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.Bold,
-                            ),
-                        )
-                    }
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun MessageScreen() {
-    val navController = NavbarItem.Chats.navHostController ?: rememberNavController()
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 24.dp, bottom = 16.dp, start = 40.dp, end = 40.dp)
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth(),
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.back_btn),
-                modifier = Modifier
-                    .height(40.dp)
-                    .width(40.dp)
-                    .clickable {
-                        navController.navigate(NavbarItem.Chats.name)
-                    },
-                contentDescription = "Back button"
-            )
-            Image(
-                modifier = Modifier
-                    .width(56.dp)
-                    .height(56.dp)
-                    .padding(start = 16.dp),
-                painter = painterResource(id = R.drawable.ordinary_client),
-                contentDescription = "Client avatar",
-                alignment = Alignment.Center,
-            )
-            Text(
-                text = "Username here",
-                modifier = Modifier.padding(start = 8.dp),
-                style = TextStyle(
-                    color = Color.Black,
-                    fontSize = integerResource(
-                        id = R.integer.primary_text_size
-                    ).sp,
-                    fontWeight = FontWeight.Bold,
-                )
-            )
-        }
-        Divider(
-            color = colorResource(id = R.color.black),
-            modifier = Modifier
-                .padding(top = 8.dp)
-                .fillMaxWidth()
-        )
-        var messages by remember {
-            mutableStateOf(listOf<ChatMessage>())
-        }
-        val mutableListOfMessages = mutableListOf<ChatMessage>()
-        FirebaseDatabase.getInstance("https://roomer-34a08-default-rtdb.europe-west1.firebasedatabase.app").reference.addValueEventListener(
-            object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    for (postSnapshot in snapshot.children) {
-                        mutableListOfMessages.add(
-                            ChatMessage(
-                                postSnapshot.child("messageText").value as String,
-                                postSnapshot.child("messageSenderUser").value as String,
-                                postSnapshot.child("messageReceiverUser").value as String,
-                                postSnapshot.child("messageTime").value as Long,
-                            )
-                        )
-                    }
-                    messages = mutableListOfMessages
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-
-                }
-            })
-        var editMessageText by remember {
-            mutableStateOf(TextFieldValue(""))
-        }
-        LazyColumn(modifier = Modifier.fillMaxWidth()) {
-            items(messages.size) { index ->
-                Message(
-                    isUserMessage = false,
-                    text = messages[index].messageText,
-                    data = convertLongToTime(messages[index].messageTime)
-                )
-            }
-        }
-        Row(modifier = Modifier.fillMaxSize(), verticalAlignment = Alignment.Bottom) {
-            TextField(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                value = editMessageText,
-                placeholder = {
-                    Text(
-                        text = "Type your message", style = TextStyle(
-                            color = colorResource(
-                                id = R.color.text_secondary
-                            ),
-                            fontSize = integerResource(id = R.integer.primary_text_size).sp,
-                        )
-                    )
-                },
-                onValueChange = { editMessageText = it },
-                trailingIcon = {
-                    Row {
-                        Image(
-                            painter = painterResource(id = R.drawable.add_icon),
-                            contentDescription = "Add icon",
-                            modifier = Modifier
-                                .width(32.dp)
-                                .height(32.dp)
-                        )
-                        Box(
-                            modifier = Modifier
-                                .padding(end = 16.dp)
-                                .width(48.dp)
-                                .height(32.dp)
-                                .background(
-                                    color = colorResource(id = R.color.secondary_color),
-                                    RoundedCornerShape(100.dp)
-                                )
-                                .clickable {
-                                    FirebaseDatabase
-                                        .getInstance("https://roomer-34a08-default-rtdb.europe-west1.firebasedatabase.app")
-                                        .reference
-                                        .push()
-                                        .setValue(
-                                            ChatMessage(
-                                                editMessageText.text,
-                                                FirebaseAuth.getInstance().currentUser?.displayName
-                                                    ?: "Error",
-                                                "Second user",
-                                            )
-                                        )
-                                    editMessageText = TextFieldValue("")
-                                },
-                            contentAlignment = Alignment.Center,
-                        ) {
-                            Image(
-                                painter = painterResource(id = R.drawable.send_icon),
-                                contentDescription = "Enter message",
-                                alignment = Alignment.Center,
-                                modifier = Modifier
-                                    .width(24.dp)
-                                    .height(24.dp)
-
-                            )
-                        }
-                    }
-                },
-                colors = TextFieldDefaults.textFieldColors(backgroundColor = colorResource(id = R.color.primary))
-            )
-        }
-    }
-}
-
-@Composable
 fun FavouriteScreen() {
     val navController = NavbarItem.Favourite.navHostController ?: rememberNavController()
     Scaffold(bottomBar = { Navbar(navController, NavbarItem.Favourite.name) }) {
@@ -656,19 +368,21 @@ fun FavouriteScreen() {
             RecommendedRoom(3, "Fav3", "Loc3", "", true),
             RecommendedRoom(4, "Fav4", "Loc4", "", true)
         )
-        Text(
-            text = "Favourite",
-            style = TextStyle(
-                fontSize = integerResource(id = R.integer.label_text_size).sp,
-                fontWeight = FontWeight.Bold,
-            ),
-            modifier = Modifier.padding(top = 8.dp, bottom = 24.dp)
-        )
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            item {
+                Text(
+                    text = "Favourite",
+                    style = TextStyle(
+                        fontSize = integerResource(id = R.integer.label_text_size).sp,
+                        fontWeight = FontWeight.Bold,
+                    ),
+                    modifier = Modifier.padding(top = 8.dp)
+                )
+            }
             items(listOfFavourites.size) { index ->
                 RoomCard(recommendedRoom = listOfFavourites[index], isMiniVersion = false)
             }

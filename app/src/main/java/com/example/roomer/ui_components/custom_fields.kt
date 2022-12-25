@@ -35,7 +35,6 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
@@ -457,5 +456,61 @@ fun EmailField(modifier: Modifier = Modifier) {
                 .background(colorResource(id = R.color.secondary_color)),
             colors = TextFieldDefaults.textFieldColors(backgroundColor = colorResource(id = R.color.secondary_color))
         )
+    }
+}
+
+@Composable
+fun InterestField(paddingValues: PaddingValues, label: String) {
+    var interestsList by remember {
+        mutableStateOf(TextFieldValue(""))
+    }
+    var openDialog by remember {
+        mutableStateOf(false)
+    }
+    val icon = if (openDialog)
+        Icons.Filled.KeyboardArrowUp
+    else
+        Icons.Filled.KeyboardArrowDown
+    Column() {
+        Column(
+            modifier = Modifier.padding(paddingValues),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Text(
+                text = label,
+                style = TextStyle(
+                    fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                    color = Color.Black
+                )
+            )
+            TextField(
+                value = interestsList.text,
+                onValueChange = {
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { openDialog = !openDialog },
+                enabled = false,
+                trailingIcon = {
+                    Icon(icon, "Dropdown icon")
+                },
+                colors = TextFieldDefaults.textFieldColors(backgroundColor = colorResource(id = R.color.secondary_color)),
+                textStyle = TextStyle(fontSize = 14.sp, color = Color.Black)
+            )
+        }
+        if (openDialog) {
+            AlertDialog(
+                onDismissRequest = { openDialog = false },
+                title = { Text("Change interests") },
+                text = {
+
+                },
+                buttons = {
+                    Button(modifier = Modifier.fillMaxWidth(), onClick = { openDialog = false }) {
+                        Text("Dismiss")
+                    }
+                }
+            )
+        }
     }
 }

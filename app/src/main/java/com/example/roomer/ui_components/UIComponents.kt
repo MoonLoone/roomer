@@ -10,6 +10,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -29,6 +30,7 @@ import com.example.roomer.R
 import com.example.roomer.models.MessageToList
 import com.example.roomer.models.RecommendedRoom
 import com.example.roomer.models.RecommendedRoommate
+import com.example.roomer.models.SearchUserResult
 import com.example.roomer.utils.NavbarItem
 
 @Composable
@@ -96,7 +98,7 @@ fun Navbar(navController: NavHostController, selectedNavbarItemName: String) {
                             ) {
                                 Image(
                                     modifier = Modifier
-                                        .align(Alignment.Center)
+                                        .align(Center)
                                         .width(24.dp)
                                         .height(24.dp),
                                     painter = painterResource(id = item.iconSelected),
@@ -122,7 +124,7 @@ fun Navbar(navController: NavHostController, selectedNavbarItemName: String) {
                             ) {
                                 Image(
                                     modifier = Modifier
-                                        .align(Alignment.Center)
+                                        .align(Center)
                                         .width(24.dp)
                                         .height(24.dp),
                                     painter = painterResource(id = item.iconUnSelected),
@@ -161,7 +163,7 @@ fun MessageItem(
                 .width(56.dp)
                 .height(56.dp)
                 .padding(start = 8.dp, end = 16.dp, bottom = 8.dp, top = 8.dp),
-            alignment = Alignment.Center
+            alignment = Center
         )
         Column(modifier = Modifier.fillMaxWidth()) {
             Row(modifier = Modifier.fillMaxWidth()) {
@@ -175,7 +177,7 @@ fun MessageItem(
                     Image(
                         painter = painterResource(id = if (message.isRead) R.drawable.checked_messages_icon else R.drawable.unchecked_messages_icon),
                         contentDescription = if (message.isRead) "Messages checked" else "Messages unchecked",
-                        alignment = Alignment.Center,
+                        alignment = Center,
                         modifier = Modifier
                             .width(18.dp)
                             .height(18.dp),
@@ -420,7 +422,7 @@ fun RoomCard(recommendedRoom: RecommendedRoom, isMiniVersion: Boolean) {
 }
 
 @Composable
-fun SearchField() {
+fun SearchField(onNavigateToFriends: () -> Unit) {
     var searcherText by remember {
         mutableStateOf(TextFieldValue(""))
     }
@@ -469,12 +471,30 @@ fun SearchField() {
                 contentDescription = "Searcher filters",
                 modifier = Modifier
                     .height(24.dp)
-                    .width(24.dp),
+                    .width(24.dp)
+                    .clickable {
+                        onNavigateToFriends.invoke()
+                    },
             )
         },
         colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.White)
     )
 }
+
+@Composable
+fun BackBtn(onBackNavigation: () -> Unit) {
+    Image(
+        painter = painterResource(id = R.drawable.back_btn),
+        modifier = Modifier
+            .height(40.dp)
+            .width(40.dp)
+            .clickable {
+                onBackNavigation.invoke()
+            },
+        contentDescription = "Back button"
+    )
+}
+
 @Composable
 fun GreenButtonPrimary(
     text: String,
@@ -529,7 +549,7 @@ fun ButtonsRow(label: String, values: List<String>) {
             .fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        androidx.compose.material.Text(
+        Text(
             text = label,
             fontSize = integerResource(id = R.integer.primary_text_size).sp,
             color = Color.Black,
@@ -544,7 +564,7 @@ fun ButtonsRow(label: String, values: List<String>) {
         ) {
             for (value in values) {
                 if (value == selectedItem) {
-                    GreenButtonPrimary(text = value) {  }
+                    GreenButtonPrimary(text = value) { }
                 } else {
                     GreenButtonOutline(text = value) {
                         selectedItem = value
@@ -554,3 +574,195 @@ fun ButtonsRow(label: String, values: List<String>) {
         }
     }
 }
+
+@Composable
+fun FilterSelect(selectItemName: String, onNavigateToFriends: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(48.dp),
+        horizontalArrangement = Arrangement.Center,
+    ) {
+        Row(
+            modifier = Modifier
+                .height(40.dp)
+                .width(88.dp)
+                .background(
+                    color = if (selectItemName == "Room") colorResource(id = R.color.primary_dark) else Color.White,
+                    RoundedCornerShape(topStart = 100.dp, bottomStart = 100.dp),
+                )
+                .border(
+                    1.dp,
+                    color = colorResource(id = R.color.text_secondary),
+                    RoundedCornerShape(topStart = 100.dp, bottomStart = 100.dp)
+                )
+                .clickable { if (selectItemName == "Roommate") onNavigateToFriends.invoke() },
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            if (selectItemName == "Room") Image(
+                painter = painterResource(id = R.drawable.unchecked_messages_icon),
+                contentDescription = "Select room",
+                modifier = Modifier
+                    .height(18.dp)
+                    .width(18.dp),
+                colorFilter = ColorFilter.tint(
+                    colorResource(id = R.color.primary)
+                )
+            )
+            Text(
+                text = "Room",
+                style = TextStyle(
+                    fontSize = 14.sp,
+                    color = if (selectItemName == "Room") colorResource(id = R.color.primary) else colorResource(
+                        id = R.color.text_secondary
+                    )
+                )
+            )
+        }
+        Row(
+            modifier = Modifier
+                .height(40.dp)
+                .width(88.dp)
+                .background(
+                    color = if (selectItemName == "Roommate") colorResource(id = R.color.primary_dark) else Color.White,
+                    RoundedCornerShape(topEnd = 100.dp, bottomEnd = 100.dp),
+                )
+                .border(
+                    1.dp,
+                    color = colorResource(id = R.color.text_secondary),
+                    RoundedCornerShape(topEnd = 100.dp, bottomEnd = 100.dp)
+                )
+                .clickable { if (selectItemName == "Room") onNavigateToFriends.invoke() },
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                text = "Roommate", style = TextStyle(
+                    fontSize = 14.sp,
+                    color = if (selectItemName == "Roommate") colorResource(id = R.color.primary) else colorResource(
+                        id = R.color.text_secondary
+                    )
+                )
+            )
+            if (selectItemName == "Roommate") Image(
+                painter = painterResource(id = R.drawable.unchecked_messages_icon),
+                contentDescription = "Select roommate",
+                modifier = Modifier
+                    .height(18.dp)
+                    .width(18.dp),
+                colorFilter = ColorFilter.tint(
+                    colorResource(id = R.color.primary)
+                )
+            )
+        }
+    }
+}
+
+@Composable
+fun UserCardResult(searchUser: SearchUserResult) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(148.dp)
+            .background(
+                color = colorResource(id = R.color.primary),
+                shape = RoundedCornerShape(20.dp),
+            )
+    ) {
+        Image(
+            painterResource(id = R.drawable.ordinary_client),
+            contentDescription = searchUser.name,
+            modifier = Modifier
+                .fillMaxHeight()
+                .width(104.dp),
+            contentScale = ContentScale.FillBounds,
+        )
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(start = 12.dp, top = 8.dp, end = 12.dp, bottom = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            Text(
+                text = searchUser.name,
+                style = TextStyle(
+                    fontSize = integerResource(id = R.integer.label_text_size).sp,
+                    color = Color.Black,
+                    fontWeight = FontWeight.Bold,
+                )
+            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(20.dp),
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.location_icon),
+                    contentDescription = "Location",
+                    modifier = Modifier
+                        .width(integerResource(id = R.integer.ordinary_icon_size).dp)
+                        .height(integerResource(id = R.integer.ordinary_icon_size).dp)
+                        .align(Alignment.CenterVertically),
+                )
+                Text(
+                    text = searchUser.location,
+                    style = TextStyle(fontSize = 18.sp, color = Color.Black)
+                )
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(20.dp)
+            ) {
+                Text(
+                    text = "Status:",
+                    style = TextStyle(
+                        fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Black,
+                    )
+                )
+                Text(
+                    searchUser.status,
+                    style = TextStyle(
+                        fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                        color = Color.Black,
+                    ),
+                    modifier = Modifier.padding(start = 8.dp),
+                )
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(20.dp)
+            ) {
+                Text(
+                    text = "Rating:",
+                    style = TextStyle(
+                        fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Black,
+                    )
+                )
+                Text(
+                    text = searchUser.rate,
+                    style = TextStyle(
+                        fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Black,
+                    ),
+                    modifier = Modifier.padding(start = 8.dp),
+                )
+                Icon(
+                    painter = painterResource(id = R.drawable.rating_icon),
+                    contentDescription = "Rating star",
+                    modifier = Modifier
+                        .height(integerResource(id = R.integer.ordinary_icon_size).dp)
+                        .width(integerResource(id = R.integer.ordinary_icon_size).dp),
+                )
+            }
+        }
+    }
+}
+
