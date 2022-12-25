@@ -1,14 +1,18 @@
 package com.example.roomer.ui_components
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.PhotoCamera
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -22,6 +26,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -547,5 +552,82 @@ fun ButtonsRow(label: String, values: List<String>) {
                 }
             }
         }
+    }
+}
+
+@Preview
+@Composable
+fun ProfilePicture() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Image(
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .width(152.dp)
+                .height(152.dp)
+                .clickable {
+
+                },
+            painter = painterResource(id = R.drawable.usual_client),
+            contentDescription = "Your avatar")
+        Icon(
+            Icons.Filled.PhotoCamera,
+            contentDescription = "Upload photo",
+            modifier = Modifier
+                .height(24.dp)
+                .width(24.dp)
+                .offset(50.dp, (-25).dp)
+                .background(Color.White, shape = CircleShape)
+        )
+    }
+}
+
+@Composable
+fun InterestsButtons(
+    label: String,
+    values: List<String>,
+    chooseLimit: Int = 10
+) {
+    var selectedItems by rememberSaveable {
+        mutableStateOf(listOf(values[0]))
+    }
+    val chunkedValues = values.chunked(3)
+    Column(
+        modifier = Modifier
+            .fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalAlignment = Alignment.Start
+    ) {
+        androidx.compose.material.Text(
+            text = label,
+            fontSize = integerResource(id = R.integer.primary_text_size).sp,
+            color = Color.Black,
+            textAlign = TextAlign.Start,
+            fontWeight = FontWeight.Medium
+        )
+        for (row in chunkedValues) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                for (value in row) {
+                    if (value in selectedItems)
+                        GreenButtonPrimary(text = value) {
+                            selectedItems = selectedItems.minus(value)
+                        }
+                    else
+                        GreenButtonOutline(text = value) {
+                            if (selectedItems.size < chooseLimit)
+                                selectedItems = selectedItems.plus(value)
+                        }
+                }
+            }
+        }
+
     }
 }

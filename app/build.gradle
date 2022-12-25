@@ -2,6 +2,10 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'com.google.gms.google-services'
+    id 'com.google.dagger.hilt.android'
+    id 'kotlin-kapt'
+    id 'com.google.devtools.ksp' version '1.7.20-1.0.8'
+
 }
 
 android {
@@ -36,12 +40,28 @@ android {
                 '-opt-in=androidx.compose.material3.ExperimentalMaterial3Api'
         ]
     }
+    buildTypes {
+        debug {
+            buildConfigField "String", "BASE_URL", "\"http://176.113.83.93:8000/\""
+            // <---note the escape
+        }
+    }
     buildFeatures {
         compose = true
     }
 
     composeOptions {
         kotlinCompilerExtensionVersion = "1.3.2"
+    }
+    kapt {
+        correctErrorTypes true
+    }
+    applicationVariants.all { variant ->
+        kotlin.sourceSets {
+            getByName(variant.name) {
+                kotlin.srcDir("build/generated/ksp/${variant.name}/kotlin")
+            }
+        }
     }
 }
 
@@ -103,4 +123,8 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+    implementation "com.google.dagger:hilt-android:2.44.2"
+    kapt "com.google.dagger:hilt-compiler:2.44"
+    implementation 'io.github.raamcosta.compose-destinations:core:1.7.27-beta'
+    ksp 'io.github.raamcosta.compose-destinations:ksp:1.7.27-beta'
 }

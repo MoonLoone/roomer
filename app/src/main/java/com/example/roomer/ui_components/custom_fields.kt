@@ -36,6 +36,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
@@ -73,7 +74,8 @@ fun DropdownTextField(
             text = label,
             style = TextStyle(
                 fontSize = integerResource(id = R.integer.primary_text_size).sp,
-                color = Color.Black
+                color = Color.Black,
+                fontWeight = FontWeight.Medium
             )
         )
         TextField(
@@ -113,7 +115,9 @@ fun DropdownTextField(
 @Composable
 fun SelectSex(paddingValues: PaddingValues = PaddingValues(top = 16.dp)) {
     Column(
-        modifier = Modifier.padding(paddingValues),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(paddingValues),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         var isMaleSelected by remember {
@@ -122,8 +126,9 @@ fun SelectSex(paddingValues: PaddingValues = PaddingValues(top = 16.dp)) {
         Text(
             text = "Sex",
             fontSize = integerResource(id = R.integer.primary_text_size).sp,
-            color = Color.Black
-        )
+            color = Color.Black,
+            fontWeight = FontWeight.Medium,
+            )
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             Row(
                 modifier = Modifier
@@ -204,6 +209,7 @@ fun SelectSex(paddingValues: PaddingValues = PaddingValues(top = 16.dp)) {
 fun ScreenTextField(
     textHint: String,
     label: String = "",
+    height: Dp = 20.dp,
     paddingValues: PaddingValues = PaddingValues(top = 16.dp),
     textFieldHeight: Int = 56,
 ) {
@@ -217,6 +223,7 @@ fun ScreenTextField(
         Text(
             text = label,
             fontSize = integerResource(id = R.integer.primary_text_size).sp,
+            fontWeight = FontWeight.Medium,
             color = Color.Black
         )
         TextField(
@@ -273,7 +280,8 @@ fun DateField(
         Text(
             text = label,
             fontSize = integerResource(id = R.integer.primary_text_size).sp,
-            color = Color.Black
+            color = Color.Black,
+            fontWeight = FontWeight.Medium
         )
         TextField(
             value = textState.text, onValueChange = { },
@@ -295,8 +303,7 @@ fun DateField(
                 .clickable {
                     dialogState.show()
                 }
-                .fillMaxWidth()
-                .height(56.dp),
+                .fillMaxWidth(),
             colors = TextFieldDefaults.textFieldColors(backgroundColor = colorResource(id = R.color.secondary_color)),
             enabled = false,
         )
@@ -323,6 +330,7 @@ fun SelectAddressField(
                 style = TextStyle(
                     fontSize = integerResource(id = R.integer.primary_text_size).sp,
                     color = Color.Black,
+                    fontWeight = FontWeight.Medium
                 ),
             )
             Box(
@@ -369,15 +377,18 @@ fun SelectAddressField(
 }
 
 @Composable
-fun PasswordTextField(
+fun PasswordField(
     modifier: Modifier = Modifier,
-    label: String = "Password"
+    label: String = "Password",
+    placeholder: String = "Password",
+    value: String = "",
+    onValueChange: (String) -> Unit,
 ) {
+    var visibility by rememberSaveable {
+        mutableStateOf(false)
+    }
 
-    var password by rememberSaveable { mutableStateOf("") }
-    var passwordVisibility by remember { mutableStateOf(false) }
-
-    val icon = if (passwordVisibility)
+    val icon = if (visibility)
         Icons.Filled.Visibility
     else
         Icons.Filled.VisibilityOff
@@ -395,15 +406,13 @@ fun PasswordTextField(
             fontWeight = FontWeight.Medium
         )
         TextField(
-            value = password,
-            onValueChange = {
-                password = it
-            },
-            placeholder = { Text(text = "Password") },
+            value = value,
+            onValueChange = onValueChange,
+            placeholder = { Text(text = placeholder) },
             leadingIcon = { Icon(Icons.Outlined.Password, "password icon") },
             trailingIcon = {
                 IconButton(onClick = {
-                    passwordVisibility = !passwordVisibility
+                    visibility = !visibility
                 }) {
                     Icon(
                         imageVector = icon,
@@ -414,7 +423,7 @@ fun PasswordTextField(
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Password
             ),
-            visualTransformation = if (passwordVisibility) VisualTransformation.None
+            visualTransformation = if (visibility) VisualTransformation.None
             else PasswordVisualTransformation(),
             modifier = modifier
                 .fillMaxWidth()
@@ -425,29 +434,29 @@ fun PasswordTextField(
 }
 
 @Composable
-fun EmailField(modifier: Modifier = Modifier) {
-
-    var email by rememberSaveable { mutableStateOf("") }
-
-
+fun EmailField(
+    modifier: Modifier = Modifier,
+    label: String = "Email",
+    placeholder: String = "Type your email here",
+    value: String = "",
+    onValueChange: (String) -> Unit,
+) {
     Column(
         modifier = modifier
             .fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Text(
-            text = "Email",
+            text = label,
             fontSize = integerResource(id = R.integer.primary_text_size).sp,
             color = Color.Black,
             textAlign = TextAlign.Start,
             fontWeight = FontWeight.Medium
         )
         TextField(
-            value = email,
-            onValueChange = {
-                email = it
-            },
-            placeholder = { Text(text = "Email") },
+            value = value,
+            onValueChange = onValueChange,
+            placeholder = { Text(text = placeholder) },
             leadingIcon = { Icon(Icons.Outlined.Email, "some icon") },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Email
@@ -458,4 +467,9 @@ fun EmailField(modifier: Modifier = Modifier) {
             colors = TextFieldDefaults.textFieldColors(backgroundColor = colorResource(id = R.color.secondary_color))
         )
     }
+}
+
+@Composable
+fun AboutMeField() {
+
 }

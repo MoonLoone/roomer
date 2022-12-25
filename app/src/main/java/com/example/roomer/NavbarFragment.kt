@@ -11,12 +11,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.navigation.compose.rememberNavController
+import com.example.roomer.screens.NavGraphs
 import com.example.roomer.ui_components.Navbar
 import com.example.roomer.utils.NavbarHostContainer
 import com.example.roomer.utils.Screens
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.ramcosta.composedestinations.DestinationsNavHost
 
 class NavbarFragment : Fragment() {
 
@@ -27,8 +29,7 @@ class NavbarFragment : Fragment() {
     ): View {
         return ComposeView(context = requireContext()).apply {
             setContent {
-                val navController = rememberNavController()
-                NavbarHostContainer(navController = navController, paddingValues = PaddingValues())
+                DestinationsNavHost(navGraph = NavGraphs.root)
             }
         }
     }
