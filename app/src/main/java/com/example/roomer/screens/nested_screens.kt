@@ -1,9 +1,11 @@
 package com.example.roomer.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
@@ -14,15 +16,18 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.roomer.R
 import com.example.roomer.models.ChatMessage
@@ -34,7 +39,6 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.ramcosta.composedestinations.annotation.Destination
 
 @Composable
 fun MessageScreen() {
@@ -180,11 +184,9 @@ fun MessageScreen() {
     }
 }
 
-@Destination
 @Composable
 fun SearchRoomScreen() {
     val navController = NavbarItem.Home.navHostController ?: rememberNavController()
-
     var fromPrice by remember {
         mutableStateOf(TextFieldValue(""))
     }
@@ -203,6 +205,7 @@ fun SearchRoomScreen() {
     val apartmentType = remember {
         mutableStateOf(TextFieldValue(""))
     }
+    val context = LocalContext.current
     Scaffold(
         modifier = Modifier.padding(start = 40.dp, end = 40.dp, top = 16.dp),
         floatingActionButton = {
@@ -210,19 +213,27 @@ fun SearchRoomScreen() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 20.dp)
+                    .verticalScroll(rememberScrollState())
                     .height(40.dp),
                 text = "Show results",
                 onClick = {
-                    navController.navigate(
-                        Screens.SearchRoomResults.name + "?from=${fromPrice.text}&to=${toPrice.text}" +
-                                "&location=${location.value.text}&bedrooms=${bedrooms.value.text}" +
-                                "&bathrooms=${bathrooms.value.text}&apartment_type=${apartmentType.value.text}"
-                    )
+                    if ((Integer.getInteger(fromPrice.text) ?: 0) > (Integer.getInteger(toPrice.text)?: 0)){
+                        Toast.makeText(context,"To price less than from price", Toast.LENGTH_SHORT).show()
+                    }
+                    else {
+                        navController.navigate(
+                            Screens.SearchRoomResults.name + "?from=${fromPrice.text}&to=${toPrice.text}" +
+                                    "&location=${location.value.text}&bedrooms=${bedrooms.value.text}" +
+                                    "&bathrooms=${bathrooms.value.text}&apartment_type=${apartmentType.value.text}"
+                        )
+                    }
                 })
         }) {
         val padding = it
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Row(horizontalArrangement = Arrangement.SpaceBetween) {
@@ -269,13 +280,19 @@ fun SearchRoomScreen() {
                         value = fromPrice, onValueChange = { fromPrice = it },
                         modifier = Modifier
                             .width(120.dp)
-                            .height(56.dp),
+                            .height(56.dp)
+                            .background(
+                                color = colorResource(
+                                    id = R.color.primary
+                                )
+                            ),
                         placeholder = { Text("Start price") },
                         colors = TextFieldDefaults.textFieldColors(
                             backgroundColor = colorResource(
                                 id = R.color.primary
                             )
-                        )
+                        ),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     )
                 }
                 Column() {
@@ -298,7 +315,8 @@ fun SearchRoomScreen() {
                             backgroundColor = colorResource(
                                 id = R.color.primary
                             )
-                        )
+                        ),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     )
                 }
             }
@@ -322,7 +340,6 @@ fun SearchRoomScreen() {
     }
 }
 
-@Destination
 @Composable
 fun SearchRoomResults() {
     val navController = NavbarItem.Home.navHostController ?: rememberNavController()
@@ -339,7 +356,7 @@ fun SearchRoomResults() {
         "House" -> "H"
         else -> "DO"
     }
-    val viewModel = SearchRoomResultsViewModel()
+    val viewModel:SearchRoomResultsViewModel = viewModel()
     val rooms by viewModel.rooms.collectAsState()
     viewModel.loadRooms(from, to, bedrooms, bathrooms, apartmenType)
     val loadingState = viewModel.loadingState.collectAsState()
@@ -381,7 +398,7 @@ fun SearchRoomResults() {
                             RoomCard(
                                 recommendedRoom = RecommendedRoom(
                                     id = 0,
-                                    name = rooms[index].description,
+                                    name = rooms[index].title,
                                     location = rooms[index].location,
                                     roomImagePath = rooms[index].photo,
                                     isLiked = false,
@@ -414,7 +431,6 @@ fun SearchRoomResults() {
     }
 }
 
-@Destination
 @Composable
 fun SearchRoommateScreen() {
     val navController = NavbarItem.Home.navHostController ?: rememberNavController()
@@ -445,6 +461,7 @@ fun SearchRoommateScreen() {
     val cleanHabits = remember {
         mutableStateOf(TextFieldValue(""))
     }
+    val context = LocalContext.current
     Scaffold(
         modifier = Modifier.padding(start = 40.dp, end = 40.dp, top = 16.dp, bottom = 16.dp),
         floatingActionButton = {
@@ -455,12 +472,17 @@ fun SearchRoommateScreen() {
                     .height(40.dp),
                 text = "Show results",
                 onClick = {
-                    navController.navigate(
-                        Screens.SearchRoommateResults.name +
-                                "?sex=M&employment=${employment.value.text}&alcohol_attitude=${alcoholAttitude.value.text}" +
-                                "&smoking_attitude=${smokingAttitude.value.text}&sleep_time=${sleepTime.value.text}" +
-                                "&personality_type=${personality.value.text}&clean_habits=${cleanHabits.value.text}"
-                    )
+                    if ((Integer.getInteger(fromAge.text) ?: 0) > (Integer.getInteger(toAge.text)?: 0)){
+                        Toast.makeText(context,"To age less than from age", Toast.LENGTH_SHORT).show()
+                    }
+                    else {
+                        navController.navigate(
+                            Screens.SearchRoommateResults.name +
+                                    "?sex=M&employment=${employment.value.text}&alcohol_attitude=${alcoholAttitude.value.text}" +
+                                    "&smoking_attitude=${smokingAttitude.value.text}&sleep_time=${sleepTime.value.text}" +
+                                    "&personality_type=${personality.value.text}&clean_habits=${cleanHabits.value.text}"
+                        )
+                    }
                 })
         }) {
         val padding = it
@@ -513,12 +535,13 @@ fun SearchRoommateScreen() {
                         modifier = Modifier
                             .width(120.dp)
                             .height(56.dp),
-                        placeholder = { Text("Start price") },
+                        placeholder = { Text("Start age") },
                         colors = TextFieldDefaults.textFieldColors(
                             backgroundColor = colorResource(
                                 id = R.color.primary
                             )
-                        )
+                        ),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     )
                 }
                 Column() {
@@ -536,12 +559,13 @@ fun SearchRoommateScreen() {
                         modifier = Modifier
                             .width(120.dp)
                             .height(56.dp),
-                        placeholder = { Text("End price") },
+                        placeholder = { Text("End age") },
                         colors = TextFieldDefaults.textFieldColors(
                             backgroundColor = colorResource(
                                 id = R.color.primary
                             )
-                        )
+                        ),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     )
                 }
             }
@@ -585,7 +609,6 @@ fun SearchRoommateScreen() {
     }
 }
 
-@Destination
 @Composable
 fun SearchRoommateResults() {
     val navController = NavbarItem.Home.navHostController ?: rememberNavController()
@@ -611,7 +634,7 @@ fun SearchRoommateResults() {
         "It Depends" -> "D"
         else -> "C"
     }
-    val viewModel = SearchRoommateResultViewModel()
+    val viewModel:SearchRoommateResultViewModel = viewModel()
     viewModel.loadRoommates(
         sex,
         employment,

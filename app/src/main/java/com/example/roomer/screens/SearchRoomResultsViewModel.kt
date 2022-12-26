@@ -7,6 +7,7 @@ import com.example.roomer.repository.RoomerRepository
 import com.example.roomer.utils.LoadingStates
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -25,6 +26,7 @@ class SearchRoomResultsViewModel : ViewModel() {
         bathroomsCount: String,
         housingType: String,
     ) = effect {
+        delay(2000)
         _loadingStates.value = LoadingStates.Loading
         coroutineScope {
             val response = RoomerRepository.getFilterRooms(

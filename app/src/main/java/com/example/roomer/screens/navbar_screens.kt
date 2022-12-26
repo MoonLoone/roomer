@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
@@ -38,14 +39,14 @@ import com.example.roomer.utils.Screens
 fun ProfileScreen() {
     val navController = NavbarItem.Profile.navHostController ?: rememberNavController()
     Scaffold(bottomBar = { Navbar(navController, NavbarItem.Profile.name) }) {
-        val padding = it
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 24.dp, bottom = 88.dp, start = 40.dp, end = 40.dp)
+                .verticalScroll(rememberScrollState())
+                .padding(top = 24.dp, bottom = it.calculateBottomPadding(), start = 40.dp, end = 40.dp)
         ) {
             Text(
-                text = "Profile",
+                text = stringResource(R.string.profile_title),
                 textAlign = TextAlign.Start,
                 fontSize = integerResource(id = R.integer.label_text_size).sp,
             )
@@ -109,11 +110,10 @@ fun ProfileScreen() {
 fun ChatsScreen() {
     val navController = NavbarItem.Chats.navHostController ?: rememberNavController()
     Scaffold(bottomBar = { Navbar(navController, NavbarItem.Chats.name) }) {
-        val padding = it
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 24.dp, bottom = 16.dp, start = 40.dp, end = 40.dp)
+                .padding(top = 24.dp, bottom = it.calculateBottomPadding(), start = 40.dp, end = 40.dp)
         ) {
             var searchText by remember {
                 mutableStateOf(TextFieldValue(""))
@@ -178,7 +178,7 @@ fun ChatsScreen() {
                     ),
                 colors = TextFieldDefaults.textFieldColors(backgroundColor = colorResource(id = R.color.white))
             )
-            val listOfMessages = listOf<MessageToList>(
+            val listOfMessages = listOf(
                 MessageToList(userAvatarPath = "path",
                     messageDate = "12.22",
                     messageCutText = "Hello my name is Piter",
@@ -219,7 +219,7 @@ fun ChatsScreen() {
 fun HomeScreen() {
     val navController = NavbarItem.Home.navHostController ?: rememberNavController()
     val recommendedRooms = mutableListOf<RecommendedRoom>()
-    val recommendedRoomates = mutableListOf<RecommendedRoommate>()
+    val recommendedRoommates = mutableListOf<RecommendedRoommate>()
     for (i in 0..5) {
         recommendedRooms.add(
             RecommendedRoom(
@@ -230,21 +230,21 @@ fun HomeScreen() {
                 false
             )
         )
-        recommendedRoomates.add(
+        recommendedRoommates.add(
             RecommendedRoommate(
                 i,
-                "Vasya $i",
+                "Andrey $i",
                 0.2,
                 "",
             )
         )
     }
     Scaffold(bottomBar = { Navbar(navController, NavbarItem.Home.name) }) {
-        val padding = it
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 18.dp, bottom = 88.dp, start = 40.dp, end = 40.dp)
+                .verticalScroll(rememberScrollState())
+                .padding(top = 18.dp, bottom = it.calculateBottomPadding(), start = 40.dp, end = 40.dp)
         ) {
             Row(
                 modifier = Modifier
@@ -304,8 +304,8 @@ fun HomeScreen() {
                             .height(148.dp),
                         horizontalArrangement = Arrangement.spacedBy(16.dp),
                     ) {
-                        items(recommendedRoomates.size - 2) { index ->
-                            UserCard(recommendedRoommate = recommendedRoomates[index])
+                        items(recommendedRoommates.size - 2) { index ->
+                            UserCard(recommendedRoommate = recommendedRoommates[index])
                         }
                         items(recommendedRooms.size - 2) { index ->
                             RoomCard(recommendedRoom = recommendedRooms[index], true)
@@ -334,7 +334,7 @@ fun HomeScreen() {
                 }
                 Column(modifier = Modifier.fillMaxWidth()) {
                     Text(
-                        "Recomended rommates",
+                        "Recommended roommates",
                         style = TextStyle(
                             color = Color.Black,
                             fontSize = 20.sp,
@@ -347,8 +347,8 @@ fun HomeScreen() {
                             .height(148.dp),
                         horizontalArrangement = Arrangement.spacedBy(16.dp),
                     ) {
-                        items(recommendedRoomates.size) { index ->
-                            UserCard(recommendedRoommate = recommendedRoomates[index])
+                        items(recommendedRoommates.size) { index ->
+                            UserCard(recommendedRoommate = recommendedRoommates[index])
                         }
                     }
                 }
@@ -361,15 +361,14 @@ fun HomeScreen() {
 fun FavouriteScreen() {
     val navController = NavbarItem.Favourite.navHostController ?: rememberNavController()
     Scaffold(bottomBar = { Navbar(navController, NavbarItem.Favourite.name) }) {
-        val padding = it
-        val listOfFavourites = listOf<RecommendedRoom>(
+        val listOfFavourites = listOf(
             RecommendedRoom(1, "Fav1", "Loc", "", true),
             RecommendedRoom(2, "Fav2", "Loc2", "", true),
             RecommendedRoom(3, "Fav3", "Loc3", "", true),
             RecommendedRoom(4, "Fav4", "Loc4", "", true)
         )
         LazyColumn(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize().padding(bottom=it.calculateBottomPadding()),
             verticalArrangement = Arrangement.spacedBy(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
@@ -394,8 +393,6 @@ fun FavouriteScreen() {
 fun PostScreen() {
     val navController = NavbarItem.Post.navHostController ?: rememberNavController()
     Scaffold(bottomBar = { Navbar(navController, NavbarItem.Post.name) }) {
-        val padding = it
-
-        Text("Hello from post")
+        Text("Hello from post", Modifier.padding(it))
     }
 }

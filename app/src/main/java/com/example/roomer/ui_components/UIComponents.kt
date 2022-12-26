@@ -300,7 +300,7 @@ fun UserCard(recommendedRoommate: RecommendedRoommate) {
             )
     ) {
         Image(
-            painter = painterResource(id = R.drawable.ordinary_client),
+            painter = painterResource(id = R.drawable.ordinnary_user),
             contentDescription = recommendedRoommate.name,
             modifier = Modifier
                 .fillMaxWidth()
@@ -349,6 +349,8 @@ fun RoomCard(recommendedRoom: RecommendedRoom, isMiniVersion: Boolean) {
     val imageHeight = if (isMiniVersion) 92.dp else 140.dp
     val nameTextSize = if (isMiniVersion) 16.sp else 20.sp
     val locationTextSize = if (isMiniVersion) 12.sp else 14.sp
+    val title = recommendedRoom.name.substring(0, recommendedRoom.name.length.coerceAtMost(16))
+    val location = recommendedRoom.location.substring(0, recommendedRoom.location.length.coerceAtMost(32))
     Column(
         modifier = Modifier
             .width(cardWidth)
@@ -367,7 +369,7 @@ fun RoomCard(recommendedRoom: RecommendedRoom, isMiniVersion: Boolean) {
                 .height(imageHeight),
         ) {
             Image(
-                painter = painterResource(id = R.drawable.ordinary_client),
+                painter = painterResource(id = R.drawable.ordinnary_room),
                 contentDescription = "Room image",
                 modifier = Modifier
                     .fillMaxWidth()
@@ -389,7 +391,7 @@ fun RoomCard(recommendedRoom: RecommendedRoom, isMiniVersion: Boolean) {
             )
         }
         Text(
-            text = recommendedRoom.name,
+            text = title,
             modifier = Modifier.padding(start = 10.dp, top = if (isMiniVersion) 4.dp else 10.dp),
             style = TextStyle(
                 color = colorResource(
@@ -412,7 +414,7 @@ fun RoomCard(recommendedRoom: RecommendedRoom, isMiniVersion: Boolean) {
                 colorFilter = ColorFilter.tint(color = colorResource(id = R.color.secondary_color))
             )
             Text(
-                text = recommendedRoom.location, style = TextStyle(
+                text = location, style = TextStyle(
                     color = colorResource(id = R.color.secondary_color),
                     fontSize = locationTextSize,
                 )
@@ -678,7 +680,7 @@ fun UserCardResult(searchUser: UsersFilterInfo) {
             )
     ) {
         Image(
-            painterResource(id = R.drawable.ordinary_client),
+            painterResource(id = R.drawable.ordinnary_user),
             contentDescription = searchUser.firstName,
             modifier = Modifier
                 .fillMaxHeight()

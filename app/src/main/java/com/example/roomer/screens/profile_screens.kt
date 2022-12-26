@@ -20,18 +20,19 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
 import com.example.roomer.R
 import com.example.roomer.ui_components.*
+import com.example.roomer.utils.Choices
 import com.example.roomer.utils.NavbarItem
 
 @Composable
 fun AccountScreen() {
+
     val navController = NavbarItem.Profile.navHostController ?: rememberNavController()
-    val listOfEmployments = listOf<String>("Employed", "Unemployed", "Seasonable")
     Scaffold(bottomBar = { Navbar(navController, NavbarItem.Profile.name) }) {
-        val padding = it
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 24.dp, bottom = 88.dp, start = 40.dp, end = 40.dp)
+                .verticalScroll(rememberScrollState())
+                .padding(top = 24.dp, bottom = it.calculateBottomPadding(), start = 40.dp, end = 40.dp),
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth(),
@@ -50,14 +51,14 @@ fun AccountScreen() {
             }
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
+                    .fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 ScreenTextField(label = "First Name", textHint = "Vasya")
                 ScreenTextField(label = "Last Name", textHint = "Pupkin")
                 DateField(label = "Date of birth")
                 SelectSex()
-                DropdownTextField(listOfItems = listOfEmployments, label = "Employment")
+                DropdownTextField(listOfItems = Choices.employment, label = "Employment")
                 ScreenTextField(
                     textHint = "Some text about you",
                     label = "About me",

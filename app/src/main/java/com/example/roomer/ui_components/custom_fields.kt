@@ -52,6 +52,9 @@ fun DropdownTextField(
     paddingValues: PaddingValues = PaddingValues(top = 16.dp),
     textSelected: MutableState<TextFieldValue> = mutableStateOf(TextFieldValue("")),
 ) {
+    if (textSelected.value.text==""){
+        textSelected.value = TextFieldValue(listOfItems[0])
+    }
     var isExpanded by remember {
         mutableStateOf(false)
     }
