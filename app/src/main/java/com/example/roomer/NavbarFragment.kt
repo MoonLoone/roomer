@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
@@ -21,7 +20,7 @@ class NavbarFragment : Fragment() {
         return ComposeView(context = requireContext()).apply {
             setContent {
                 val navController = rememberNavController()
-                NavbarHostContainer(navController = navController, paddingValues = PaddingValues())
+                NavbarHostContainer(navController = navController)
             }
         }
     }

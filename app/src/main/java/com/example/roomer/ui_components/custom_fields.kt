@@ -28,6 +28,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -89,7 +90,7 @@ fun DropdownTextField(
                 .clickable { isExpanded = !isExpanded },
             enabled = false,
             trailingIcon = {
-                Icon(icon, "Dropdown icon")
+                Icon(icon, stringResource(R.string.dropdown_icon))
             },
             colors = TextFieldDefaults.textFieldColors(backgroundColor = colorResource(id = R.color.secondary_color)),
             textStyle = TextStyle(fontSize = 14.sp, color = Color.Black)
@@ -120,7 +121,7 @@ fun SelectSex(paddingValues: PaddingValues = PaddingValues(top = 16.dp)) {
             mutableStateOf(true)
         }
         Text(
-            text = "Sex",
+            text = stringResource(R.string.sex),
             fontSize = integerResource(id = R.integer.primary_text_size).sp,
             color = Color.Black
         )
@@ -146,13 +147,13 @@ fun SelectSex(paddingValues: PaddingValues = PaddingValues(top = 16.dp)) {
             ) {
                 Image(
                     painter = painterResource(id = if (isMaleSelected) R.drawable.sex_male_in_icon else R.drawable.sex_male_un_icon),
-                    contentDescription = "Male icon",
+                    contentDescription = stringResource(R.string.male_icon),
                     modifier = Modifier
                         .width(18.dp)
                         .height(18.dp),
                 )
                 Text(
-                    text = "Male",
+                    text = stringResource(R.string.male),
                     modifier = Modifier.padding(start = 4.dp),
                     fontSize = 14.sp,
                     color = if (isMaleSelected) colorResource(
@@ -181,7 +182,7 @@ fun SelectSex(paddingValues: PaddingValues = PaddingValues(top = 16.dp)) {
             ) {
                 Image(
                     painter = painterResource(id = if (!isMaleSelected) R.drawable.sex_female_in_icon else R.drawable.sex_female_un_icon),
-                    contentDescription = "Female icon",
+                    contentDescription = stringResource(R.string.female_icon),
                     modifier = Modifier
                         .width(18.dp)
                         .height(18.dp),
@@ -244,7 +245,7 @@ fun ScreenTextField(
 
 @Composable
 fun DateField(
-    label: String = "Date field", paddingValues: PaddingValues = PaddingValues(top = 16.dp)
+    label: String = stringResource(R.string.date_title), paddingValues: PaddingValues = PaddingValues(top = 16.dp)
 ) {
     val dialogState = rememberMaterialDialogState()
     var textState by remember {
@@ -253,8 +254,8 @@ fun DateField(
     MaterialDialog(
         dialogState = dialogState,
         buttons = {
-            positiveButton("Ok")
-            negativeButton("Cancel")
+            positiveButton(stringResource(R.string.positive_button))
+            negativeButton(stringResource(R.string.negative_button))
         }
     ) {
         datepicker { date ->
@@ -278,7 +279,7 @@ fun DateField(
             trailingIcon = {
                 Icon(
                     painter = painterResource(id = R.drawable.calendar_icon),
-                    contentDescription = "Calendar icon",
+                    contentDescription = stringResource(R.string.calendar_icon),
                     modifier = Modifier
                         .width(24.dp)
                         .height(24.dp),
@@ -338,7 +339,7 @@ fun SelectAddressField(
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.select_adr_icon),
-                    contentDescription = "Select address",
+                    contentDescription = stringResource(id = R.string.select_addr_title),
                     modifier = Modifier
                         .width(32.dp)
                         .height(32.dp),

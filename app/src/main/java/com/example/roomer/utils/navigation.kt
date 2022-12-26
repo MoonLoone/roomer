@@ -1,6 +1,5 @@
 package com.example.roomer.utils
 
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -10,7 +9,7 @@ import androidx.navigation.navigation
 
 
 @Composable
-fun NavbarHostContainer(navController: NavHostController, paddingValues: PaddingValues) {
+fun NavbarHostContainer(navController: NavHostController) {
     NavHost(
         navController = navController,
         startDestination = NavbarItem.Home.name,

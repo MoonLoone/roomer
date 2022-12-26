@@ -217,10 +217,12 @@ fun SearchRoomScreen() {
                     .height(40.dp),
                 text = "Show results",
                 onClick = {
-                    if ((Integer.getInteger(fromPrice.text) ?: 0) > (Integer.getInteger(toPrice.text)?: 0)){
-                        Toast.makeText(context,"To price less than from price", Toast.LENGTH_SHORT).show()
-                    }
-                    else {
+                    if ((Integer.getInteger(fromPrice.text)
+                            ?: 0) > (Integer.getInteger(toPrice.text) ?: 0)
+                    ) {
+                        Toast.makeText(context, "To price less than from price", Toast.LENGTH_SHORT)
+                            .show()
+                    } else {
                         navController.navigate(
                             Screens.SearchRoomResults.name + "?from=${fromPrice.text}&to=${toPrice.text}" +
                                     "&location=${location.value.text}&bedrooms=${bedrooms.value.text}" +
@@ -229,11 +231,11 @@ fun SearchRoomScreen() {
                     }
                 })
         }) {
-        val padding = it
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState()),
+                .verticalScroll(rememberScrollState())
+                .padding(it),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Row(horizontalArrangement = Arrangement.SpaceBetween) {
@@ -267,7 +269,7 @@ fun SearchRoomScreen() {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Column() {
+                Column {
                     Text(
                         "From", style = TextStyle(
                             fontSize = integerResource(id = R.integer.primary_text_size).sp,
@@ -277,7 +279,10 @@ fun SearchRoomScreen() {
                         )
                     )
                     TextField(
-                        value = fromPrice, onValueChange = { fromPrice = it },
+                        value = fromPrice,
+                        onValueChange = { changedText ->
+                            fromPrice = changedText
+                        },
                         modifier = Modifier
                             .width(120.dp)
                             .height(56.dp)
@@ -295,7 +300,7 @@ fun SearchRoomScreen() {
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     )
                 }
-                Column() {
+                Column {
                     Text(
                         "To", style = TextStyle(
                             fontSize = integerResource(id = R.integer.primary_text_size).sp,
@@ -306,7 +311,9 @@ fun SearchRoomScreen() {
                     )
                     TextField(
                         value = toPrice,
-                        onValueChange = { toPrice = it },
+                        onValueChange = { changedText ->
+                            toPrice = changedText
+                        },
                         modifier = Modifier
                             .width(120.dp)
                             .height(56.dp),
@@ -348,22 +355,21 @@ fun SearchRoomResults() {
     val location = navController.currentBackStackEntry?.arguments?.getString("location") ?: ""
     val bedrooms = navController.currentBackStackEntry?.arguments?.getString("bedrooms") ?: ""
     val bathrooms = navController.currentBackStackEntry?.arguments?.getString("bathrooms") ?: ""
-    var apartmenType =
+    var apartmentType =
         navController.currentBackStackEntry?.arguments?.getString("apartment_type") ?: ""
-    apartmenType = when (apartmenType) {
+    apartmentType = when (apartmentType) {
         "Flat" -> "F"
         "Duplex" -> "DU"
         "House" -> "H"
         else -> "DO"
     }
-    val viewModel:SearchRoomResultsViewModel = viewModel()
+    val viewModel: SearchRoomResultsViewModel = viewModel()
     val rooms by viewModel.rooms.collectAsState()
-    viewModel.loadRooms(from, to, bedrooms, bathrooms, apartmenType)
+    viewModel.loadRooms(from, to, bedrooms, bathrooms, apartmentType)
     val loadingState = viewModel.loadingState.collectAsState()
     Scaffold(
         bottomBar = { Navbar(navController, NavbarItem.Home.name) },
     ) {
-        val padding = it
         when (loadingState.value) {
             LoadingStates.Success ->
                 Column(
@@ -371,6 +377,7 @@ fun SearchRoomResults() {
                         start = 40.dp,
                         end = 40.dp,
                         top = 16.dp,
+                        bottom = it.calculateBottomPadding()
                     ),
                     verticalArrangement = Arrangement.spacedBy(24.dp),
                 ) {
@@ -423,7 +430,7 @@ fun SearchRoomResults() {
                         )
                     )
                     GreenButtonOutline(text = "Retry") {
-                        viewModel.loadRooms(from, to, bedrooms, bathrooms, apartmenType)
+                        viewModel.loadRooms(from, to, bedrooms, bathrooms, apartmentType)
                     }
                 }
             }
@@ -472,10 +479,12 @@ fun SearchRoommateScreen() {
                     .height(40.dp),
                 text = "Show results",
                 onClick = {
-                    if ((Integer.getInteger(fromAge.text) ?: 0) > (Integer.getInteger(toAge.text)?: 0)){
-                        Toast.makeText(context,"To age less than from age", Toast.LENGTH_SHORT).show()
-                    }
-                    else {
+                    if ((Integer.getInteger(fromAge.text) ?: 0) > (Integer.getInteger(toAge.text)
+                            ?: 0)
+                    ) {
+                        Toast.makeText(context, "To age less than from age", Toast.LENGTH_SHORT)
+                            .show()
+                    } else {
                         navController.navigate(
                             Screens.SearchRoommateResults.name +
                                     "?sex=M&employment=${employment.value.text}&alcohol_attitude=${alcoholAttitude.value.text}" +
@@ -485,10 +494,9 @@ fun SearchRoommateScreen() {
                     }
                 })
         }) {
-        val padding = it
         Column(
             modifier = Modifier
-                .padding(bottom = 64.dp)
+                .padding(bottom = it.calculateBottomPadding() + 16.dp)
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
@@ -521,7 +529,7 @@ fun SearchRoommateScreen() {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Column() {
+                Column {
                     Text(
                         "From", style = TextStyle(
                             fontSize = integerResource(id = R.integer.primary_text_size).sp,
@@ -531,7 +539,10 @@ fun SearchRoommateScreen() {
                         )
                     )
                     TextField(
-                        value = fromAge, onValueChange = { fromAge = it },
+                        value = fromAge,
+                        onValueChange = { changedText ->
+                            fromAge = changedText
+                        },
                         modifier = Modifier
                             .width(120.dp)
                             .height(56.dp),
@@ -544,7 +555,7 @@ fun SearchRoommateScreen() {
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     )
                 }
-                Column() {
+                Column {
                     Text(
                         "To", style = TextStyle(
                             fontSize = integerResource(id = R.integer.primary_text_size).sp,
@@ -555,7 +566,9 @@ fun SearchRoommateScreen() {
                     )
                     TextField(
                         value = toAge,
-                        onValueChange = { toAge = it },
+                        onValueChange = { changedText ->
+                            toAge = changedText
+                        },
                         modifier = Modifier
                             .width(120.dp)
                             .height(56.dp),
@@ -634,7 +647,7 @@ fun SearchRoommateResults() {
         "It Depends" -> "D"
         else -> "C"
     }
-    val viewModel:SearchRoommateResultViewModel = viewModel()
+    val viewModel: SearchRoommateResultViewModel = viewModel()
     viewModel.loadRoommates(
         sex,
         employment,

@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -32,7 +33,12 @@ fun AccountScreen() {
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
-                .padding(top = 24.dp, bottom = it.calculateBottomPadding(), start = 40.dp, end = 40.dp),
+                .padding(
+                    top = 24.dp,
+                    bottom = it.calculateBottomPadding(),
+                    start = 40.dp,
+                    end = 40.dp
+                ),
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth(),
@@ -40,7 +46,7 @@ fun AccountScreen() {
             ) {
                 BackBtn(onBackNavigation = { navController.navigate(NavbarItem.Profile.name) })
                 Text(
-                    text = "Account",
+                    text = stringResource(R.string.account_title),
                     fontSize = integerResource(
                         id = R.integer.label_text_size
                     ).sp,
@@ -54,19 +60,19 @@ fun AccountScreen() {
                     .fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                ScreenTextField(label = "First Name", textHint = "Vasya")
-                ScreenTextField(label = "Last Name", textHint = "Pupkin")
-                DateField(label = "Date of birth")
+                ScreenTextField(label = stringResource(R.string.first_name), textHint = "Vasya")
+                ScreenTextField(label = stringResource(R.string.last_name), textHint = "Pupkin")
+                DateField(label = stringResource(R.string.date_of_birth))
                 SelectSex()
-                DropdownTextField(listOfItems = Choices.employment, label = "Employment")
+                DropdownTextField(listOfItems = Choices.employment, label = stringResource(R.string.employment))
                 ScreenTextField(
-                    textHint = "Some text about you",
-                    label = "About me",
+                    textHint = stringResource(R.string.hint_about_you),
+                    label = stringResource(R.string.about_me),
                     textFieldHeight = 112
                 )
                 SelectAddressField(
-                    label = "Select address at the map",
-                    placeholder = "Here will be your address"
+                    label = stringResource(R.string.select_addr_title),
+                    placeholder = stringResource(R.string.addr_placeholder)
                 )
                 Row(
                     modifier = Modifier
@@ -90,14 +96,14 @@ fun AccountScreen() {
                     ) {
                         Image(
                             painter = painterResource(id = R.drawable.habits_icon),
-                            contentDescription = "Habits icon",
+                            contentDescription = stringResource(R.string.habits_icon_description),
                             modifier = Modifier
                                 .padding(start = 16.dp)
                                 .width(18.dp)
                                 .height(18.dp),
                         )
                         Text(
-                            text = "Open habits",
+                            text = stringResource(id = R.string.habits_button),
                             style = TextStyle(
                                 color = colorResource(id = R.color.primary_dark),
                                 fontSize = 14.sp,
@@ -121,14 +127,14 @@ fun AccountScreen() {
                     ) {
                         Image(
                             painter = painterResource(id = R.drawable.interests_icon),
-                            contentDescription = "Habits icon",
+                            contentDescription = stringResource(id = R.string.habits_icon_description),
                             modifier = Modifier
                                 .padding(start = 16.dp)
                                 .width(18.dp)
                                 .height(18.dp),
                         )
                         Text(
-                            text = "Open interests",
+                            text = stringResource(id = R.string.interests_button),
                             style = TextStyle(
                                 color = colorResource(id = R.color.primary_dark),
                                 fontSize = 14.sp,

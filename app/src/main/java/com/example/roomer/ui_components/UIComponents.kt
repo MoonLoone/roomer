@@ -19,6 +19,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
@@ -158,7 +159,7 @@ fun MessageItem(
     ) {
         Image(
             painter = painterResource(id = R.drawable.ordinary_client),
-            contentDescription = "message_client_avatar",
+            contentDescription = stringResource(R.string.user_avatar_description),
             modifier = Modifier
                 .width(56.dp)
                 .height(56.dp)
@@ -176,7 +177,8 @@ fun MessageItem(
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                     Image(
                         painter = painterResource(id = if (message.isRead) R.drawable.checked_messages_icon else R.drawable.unchecked_messages_icon),
-                        contentDescription = if (message.isRead) "Messages checked" else "Messages unchecked",
+                        contentDescription = if (message.isRead) stringResource(R.string.message_checked_description) else stringResource(
+                                                    R.string.message_unchecked_description),
                         alignment = Center,
                         modifier = Modifier
                             .width(18.dp)
@@ -280,7 +282,7 @@ fun Message(isUserMessage: Boolean, text: String, data: String) {
                 Text(text = text)
                 Image(
                     painter = painterResource(id = R.drawable.checked_messages_icon),
-                    contentDescription = "Checked message"
+                    contentDescription = stringResource(id = R.string.message_checked_description)
                 )
                 Text(text = data)
             }
@@ -321,10 +323,10 @@ fun UserCard(recommendedRoommate: RecommendedRoommate) {
                     fontWeight = FontWeight.Bold
                 )
             )
-            Row() {
+            Row {
                 Icon(
                     painter = painterResource(id = R.drawable.rating_icon),
-                    contentDescription = "Rating icon",
+                    contentDescription = stringResource(R.string.rate_icon),
                     modifier = Modifier
                         .width(integerResource(id = R.integer.ordinary_icon_size).dp)
                         .height(integerResource(id = R.integer.ordinary_icon_size).dp)
@@ -370,7 +372,7 @@ fun RoomCard(recommendedRoom: RecommendedRoom, isMiniVersion: Boolean) {
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ordinnary_room),
-                contentDescription = "Room image",
+                contentDescription = stringResource(id = R.string.room_image_description),
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight(),
@@ -379,7 +381,7 @@ fun RoomCard(recommendedRoom: RecommendedRoom, isMiniVersion: Boolean) {
             Image(
                 painter = if (isLiked) painterResource(id = R.drawable.room_like_in_icon) else painterResource(
                     id = R.drawable.room_like_icon
-                ), contentDescription = "Like icon",
+                ), contentDescription = stringResource(id = R.string.like_icon),
                 modifier = Modifier
                     .align(Alignment.TopEnd)
                     .padding(top = 10.dp, end = 10.dp)
@@ -407,7 +409,7 @@ fun RoomCard(recommendedRoom: RecommendedRoom, isMiniVersion: Boolean) {
         ) {
             Image(
                 painter = painterResource(id = R.drawable.location_icon),
-                contentDescription = "Location icon",
+                contentDescription = stringResource(id = R.string.location_icon),
                 modifier = Modifier
                     .width(14.dp)
                     .height(14.dp),
@@ -450,7 +452,7 @@ fun SearchField(onNavigateToFriends: () -> Unit) {
         },
         label = {
             Text(
-                text = "Search for roommate or housing",
+                text = stringResource(id = R.string.search_placeholder),
                 modifier = Modifier.padding(bottom = 24.dp),
                 style = TextStyle(
                     color = colorResource(id = R.color.primary_dark),
@@ -461,7 +463,7 @@ fun SearchField(onNavigateToFriends: () -> Unit) {
         leadingIcon = {
             Icon(
                 painter = painterResource(id = R.drawable.loupe_icon),
-                contentDescription = "Search loupe",
+                contentDescription = stringResource(id = R.string.search_icon_description),
                 modifier = Modifier
                     .height(24.dp)
                     .width(24.dp),
@@ -470,7 +472,7 @@ fun SearchField(onNavigateToFriends: () -> Unit) {
         trailingIcon = {
             Icon(
                 painter = painterResource(id = R.drawable.search_filter_icon),
-                contentDescription = "Searcher filters",
+                contentDescription = stringResource(id = R.string.search_placeholder),
                 modifier = Modifier
                     .height(24.dp)
                     .width(24.dp)
@@ -493,7 +495,7 @@ fun BackBtn(onBackNavigation: () -> Unit) {
             .clickable {
                 onBackNavigation.invoke()
             },
-        contentDescription = "Back button"
+        contentDescription = stringResource(id = R.string.back_button)
     )
 }
 
@@ -597,7 +599,9 @@ fun FilterSelect(selectItemName: String, onNavigateToFriends: () -> Unit) {
                 .height(40.dp)
                 .width(88.dp)
                 .background(
-                    color = if (selectItemName == "Room") colorResource(id = R.color.primary_dark) else Color.White,
+                    color = if (selectItemName == stringResource(id = R.string.room)) colorResource(
+                        id = R.color.primary_dark
+                    ) else Color.White,
                     RoundedCornerShape(topStart = 100.dp, bottomStart = 100.dp),
                 )
                 .border(
@@ -609,7 +613,7 @@ fun FilterSelect(selectItemName: String, onNavigateToFriends: () -> Unit) {
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            if (selectItemName == "Room") Image(
+            if (selectItemName == stringResource(id = R.string.roommate)) Image(
                 painter = painterResource(id = R.drawable.unchecked_messages_icon),
                 contentDescription = "Select room",
                 modifier = Modifier
@@ -620,10 +624,10 @@ fun FilterSelect(selectItemName: String, onNavigateToFriends: () -> Unit) {
                 )
             )
             Text(
-                text = "Room",
+                text = stringResource(id = R.string.room),
                 style = TextStyle(
                     fontSize = 14.sp,
-                    color = if (selectItemName == "Room") colorResource(id = R.color.primary) else colorResource(
+                    color = if (selectItemName == stringResource(id = R.string.room)) colorResource(id = R.color.primary) else colorResource(
                         id = R.color.text_secondary
                     )
                 )
@@ -634,7 +638,9 @@ fun FilterSelect(selectItemName: String, onNavigateToFriends: () -> Unit) {
                 .height(40.dp)
                 .width(88.dp)
                 .background(
-                    color = if (selectItemName == "Roommate") colorResource(id = R.color.primary_dark) else Color.White,
+                    color = if (selectItemName == stringResource(id = R.string.roommate)) colorResource(
+                        id = R.color.primary_dark
+                    ) else Color.White,
                     RoundedCornerShape(topEnd = 100.dp, bottomEnd = 100.dp),
                 )
                 .border(
@@ -649,14 +655,14 @@ fun FilterSelect(selectItemName: String, onNavigateToFriends: () -> Unit) {
             Text(
                 text = "Roommate", style = TextStyle(
                     fontSize = 14.sp,
-                    color = if (selectItemName == "Roommate") colorResource(id = R.color.primary) else colorResource(
+                    color = if (selectItemName == stringResource(id = R.string.roommate)) colorResource(id = R.color.primary) else colorResource(
                         id = R.color.text_secondary
                     )
                 )
             )
-            if (selectItemName == "Roommate") Image(
+            if (selectItemName == stringResource(id = R.string.roommate)) Image(
                 painter = painterResource(id = R.drawable.unchecked_messages_icon),
-                contentDescription = "Select roommate",
+                contentDescription = stringResource(id = R.string.roommate),
                 modifier = Modifier
                     .height(18.dp)
                     .width(18.dp),
@@ -708,7 +714,7 @@ fun UserCardResult(searchUser: UsersFilterInfo) {
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.location_icon),
-                    contentDescription = "Location",
+                    contentDescription = stringResource(id = R.string.location_icon),
                     modifier = Modifier
                         .width(integerResource(id = R.integer.ordinary_icon_size).dp)
                         .height(integerResource(id = R.integer.ordinary_icon_size).dp)
@@ -725,7 +731,7 @@ fun UserCardResult(searchUser: UsersFilterInfo) {
                     .height(20.dp)
             ) {
                 Text(
-                    text = "Status:",
+                    text = stringResource(id = R.string.status),
                     style = TextStyle(
                         fontSize = integerResource(id = R.integer.primary_text_size).sp,
                         fontWeight = FontWeight.Bold,
