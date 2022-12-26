@@ -16,6 +16,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
@@ -27,12 +28,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.example.roomer.R
 import com.example.roomer.models.MessageToList
 import com.example.roomer.models.RecommendedRoom
 import com.example.roomer.models.RecommendedRoommate
 import com.example.roomer.models.UsersFilterInfo
 import com.example.roomer.utils.NavbarItem
+
 
 @Composable
 fun ProfileContentLine(text: String, iconId: Int, onNavigateToFriends: () -> Unit = {}) {
@@ -301,13 +305,16 @@ fun UserCard(recommendedRoommate: RecommendedRoommate) {
                 shape = RoundedCornerShape(8.dp)
             )
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.ordinnary_user),
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(recommendedRoommate.imagePath)
+                .crossfade(true)
+                .build(),
+            placeholder = painterResource(R.drawable.ordinnary_user),
             contentDescription = recommendedRoommate.name,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(92.dp),
-            contentScale = ContentScale.FillBounds,
         )
         Column(
             modifier = Modifier
@@ -370,8 +377,12 @@ fun RoomCard(recommendedRoom: RecommendedRoom, isMiniVersion: Boolean) {
                 .fillMaxWidth()
                 .height(imageHeight),
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.ordinnary_room),
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(recommendedRoom.roomImagePath)
+                    .crossfade(true)
+                    .build(),
+                placeholder = painterResource(id = R.drawable.ordinnary_room),
                 contentDescription = stringResource(id = R.string.room_image_description),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -685,14 +696,19 @@ fun UserCardResult(searchUser: UsersFilterInfo) {
                 shape = RoundedCornerShape(20.dp),
             )
     ) {
-        Image(
-            painterResource(id = R.drawable.ordinnary_user),
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(searchUser.avatar)
+                .crossfade(true)
+                .build(),
+            placeholder = painterResource(id = R.drawable.ordinnary_user),
             contentDescription = searchUser.firstName,
             modifier = Modifier
                 .fillMaxHeight()
                 .width(104.dp),
             contentScale = ContentScale.FillBounds,
         )
+
         Column(
             modifier = Modifier
                 .fillMaxSize()

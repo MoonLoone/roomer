@@ -18,7 +18,6 @@ class SearchRoomResultsViewModel : ViewModel() {
     val rooms: StateFlow<List<RoomsFilterInfo>> = _rooms
     private val _loadingStates = MutableStateFlow(LoadingStates.Loading)
     val loadingState = _loadingStates.asStateFlow()
-
     fun loadRooms(
         monthPriceFrom: String,
         monthPriceTo: String,

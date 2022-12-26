@@ -86,6 +86,7 @@ dependencies {
 
     //Coil
     implementation "io.coil-kt:coil:$coil_version"
+    implementation("io.coil-kt:coil-compose:2.2.2")
 
     //Paging3
     implementation "androidx.paging:paging-runtime:$paging_version"

@@ -401,6 +401,15 @@ fun SearchRoomResults() {
                         verticalArrangement = Arrangement.spacedBy(16.dp),
                         modifier = Modifier.padding(bottom = it.calculateBottomPadding())
                     ) {
+                        item {
+                            if (rooms.isEmpty()) {
+                                Text(
+                                    text = "Sorry, nothing here", style = TextStyle(
+                                        fontSize = integerResource(id = R.integer.label_text_size).sp,
+                                    )
+                                )
+                            }
+                        }
                         items(rooms.size) { index ->
                             RoomCard(
                                 recommendedRoom = RecommendedRoom(
@@ -496,7 +505,7 @@ fun SearchRoommateScreen() {
         }) {
         Column(
             modifier = Modifier
-                .padding(bottom = it.calculateBottomPadding() + 16.dp)
+                .padding(bottom = it.calculateBottomPadding() + 32.dp)
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
