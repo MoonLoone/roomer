@@ -49,11 +49,9 @@ import java.time.format.DateTimeFormatter
 fun DropdownTextField(
     listOfItems: List<String>,
     label: String,
-    paddingValues: PaddingValues = PaddingValues(top = 16.dp)
+    paddingValues: PaddingValues = PaddingValues(top = 16.dp),
+    textSelected: MutableState<TextFieldValue> = mutableStateOf(TextFieldValue("")),
 ) {
-    var selectedItem by remember {
-        mutableStateOf(listOfItems[0])
-    }
     var isExpanded by remember {
         mutableStateOf(false)
     }
@@ -76,9 +74,9 @@ fun DropdownTextField(
             )
         )
         TextField(
-            value = selectedItem,
+            value = textSelected.value,
             onValueChange = {
-                selectedItem = it
+                textSelected.value = it
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -100,7 +98,7 @@ fun DropdownTextField(
         ) {
             listOfItems.forEach { text ->
                 DropdownMenuItem(onClick = {
-                    selectedItem = text
+                    textSelected.value = TextFieldValue(text)
                     isExpanded = false
                 }) { Text(text = text) }
             }
@@ -205,10 +203,8 @@ fun ScreenTextField(
     label: String = "",
     paddingValues: PaddingValues = PaddingValues(top = 16.dp),
     textFieldHeight: Int = 56,
+    text: MutableState<TextFieldValue> = mutableStateOf(TextFieldValue("")),
 ) {
-    var text by remember {
-        mutableStateOf(TextFieldValue(""))
-    }
     Column(
         modifier = Modifier.padding(paddingValues),
         verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -219,7 +215,7 @@ fun ScreenTextField(
             color = Color.Black
         )
         TextField(
-            value = text,
+            value = text.value,
             textStyle = TextStyle(
                 color = Color.Black,
                 fontSize = integerResource(id = R.integer.primary_text_size).sp,
@@ -232,7 +228,7 @@ fun ScreenTextField(
                     color = colorResource(id = R.color.text_secondary)
                 )
             },
-            onValueChange = { text = it },
+            onValueChange = { text.value = it },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(textFieldHeight.dp)

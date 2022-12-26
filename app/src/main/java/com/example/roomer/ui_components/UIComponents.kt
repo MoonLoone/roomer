@@ -30,7 +30,7 @@ import com.example.roomer.R
 import com.example.roomer.models.MessageToList
 import com.example.roomer.models.RecommendedRoom
 import com.example.roomer.models.RecommendedRoommate
-import com.example.roomer.models.SearchUserResult
+import com.example.roomer.models.UsersFilterInfo
 import com.example.roomer.utils.NavbarItem
 
 @Composable
@@ -540,7 +540,13 @@ fun GreenButtonOutline(
 }
 
 @Composable
-fun ButtonsRow(label: String, values: List<String>) {
+fun ButtonsRow(
+    label: String,
+    values: List<String>,
+    selectedValue: MutableState<TextFieldValue> = mutableStateOf(
+        TextFieldValue("")
+    )
+) {
     var selectedItem by remember {
         mutableStateOf(values[0])
     }
@@ -568,6 +574,7 @@ fun ButtonsRow(label: String, values: List<String>) {
                 } else {
                     GreenButtonOutline(text = value) {
                         selectedItem = value
+                        selectedValue.value = TextFieldValue(value)
                     }
                 }
             }
@@ -660,7 +667,7 @@ fun FilterSelect(selectItemName: String, onNavigateToFriends: () -> Unit) {
 }
 
 @Composable
-fun UserCardResult(searchUser: SearchUserResult) {
+fun UserCardResult(searchUser: UsersFilterInfo) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -672,7 +679,7 @@ fun UserCardResult(searchUser: SearchUserResult) {
     ) {
         Image(
             painterResource(id = R.drawable.ordinary_client),
-            contentDescription = searchUser.name,
+            contentDescription = searchUser.firstName,
             modifier = Modifier
                 .fillMaxHeight()
                 .width(104.dp),
@@ -685,7 +692,7 @@ fun UserCardResult(searchUser: SearchUserResult) {
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             Text(
-                text = searchUser.name,
+                text = searchUser.firstName + " " + searchUser.lastName,
                 style = TextStyle(
                     fontSize = integerResource(id = R.integer.label_text_size).sp,
                     color = Color.Black,
@@ -706,7 +713,7 @@ fun UserCardResult(searchUser: SearchUserResult) {
                         .align(Alignment.CenterVertically),
                 )
                 Text(
-                    text = searchUser.location,
+                    text = "Moscow",
                     style = TextStyle(fontSize = 18.sp, color = Color.Black)
                 )
             }
@@ -724,7 +731,7 @@ fun UserCardResult(searchUser: SearchUserResult) {
                     )
                 )
                 Text(
-                    searchUser.status,
+                    "Occasionally",
                     style = TextStyle(
                         fontSize = integerResource(id = R.integer.primary_text_size).sp,
                         color = Color.Black,
@@ -746,7 +753,7 @@ fun UserCardResult(searchUser: SearchUserResult) {
                     )
                 )
                 Text(
-                    text = searchUser.rate,
+                    text = "7",
                     style = TextStyle(
                         fontSize = integerResource(id = R.integer.primary_text_size).sp,
                         fontWeight = FontWeight.Bold,

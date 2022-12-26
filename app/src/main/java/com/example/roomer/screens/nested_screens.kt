@@ -4,6 +4,7 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material3.Divider
@@ -26,16 +27,14 @@ import androidx.navigation.compose.rememberNavController
 import com.example.roomer.R
 import com.example.roomer.models.ChatMessage
 import com.example.roomer.models.RecommendedRoom
-import com.example.roomer.models.SearchUserResult
 import com.example.roomer.ui_components.*
-import com.example.roomer.utils.NavbarItem
-import com.example.roomer.utils.Screens
-import com.example.roomer.utils.convertLongToTime
+import com.example.roomer.utils.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.ramcosta.composedestinations.annotation.Destination
 
 @Composable
 fun MessageScreen() {
@@ -181,9 +180,29 @@ fun MessageScreen() {
     }
 }
 
+@Destination
 @Composable
 fun SearchRoomScreen() {
     val navController = NavbarItem.Home.navHostController ?: rememberNavController()
+
+    var fromPrice by remember {
+        mutableStateOf(TextFieldValue(""))
+    }
+    var toPrice by remember {
+        mutableStateOf(TextFieldValue(""))
+    }
+    val location = remember {
+        mutableStateOf(TextFieldValue(""))
+    }
+    val bedrooms = remember {
+        mutableStateOf(TextFieldValue(""))
+    }
+    val bathrooms = remember {
+        mutableStateOf(TextFieldValue(""))
+    }
+    val apartmentType = remember {
+        mutableStateOf(TextFieldValue(""))
+    }
     Scaffold(
         modifier = Modifier.padding(start = 40.dp, end = 40.dp, top = 16.dp),
         floatingActionButton = {
@@ -193,21 +212,23 @@ fun SearchRoomScreen() {
                     .padding(start = 20.dp)
                     .height(40.dp),
                 text = "Show results",
-                onClick = { navController.navigate(Screens.SearchRoomResults.name) })
+                onClick = {
+                    navController.navigate(
+                        Screens.SearchRoomResults.name + "?from=${fromPrice.text}&to=${toPrice.text}" +
+                                "&location=${location.value.text}&bedrooms=${bedrooms.value.text}" +
+                                "&bathrooms=${bathrooms.value.text}&apartment_type=${apartmentType.value.text}"
+                    )
+                })
         }) {
         val padding = it
-        var fromPrice by remember {
-            mutableStateOf(TextFieldValue(""))
-        }
-        var toPrice by remember {
-            mutableStateOf(TextFieldValue(""))
-        }
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Row(horizontalArrangement = Arrangement.SpaceBetween) {
-                BackBtn(onBackNavigation = { navController.navigate(NavbarItem.Home.name) })
+                BackBtn(onBackNavigation = {
+                    navController.navigate(NavbarItem.Home.name)
+                })
                 Text(
                     text = "Search filter", modifier = Modifier.fillMaxWidth(), style = TextStyle(
                         fontSize = integerResource(
@@ -281,68 +302,149 @@ fun SearchRoomScreen() {
                     )
                 }
             }
-            ScreenTextField(textHint = "Put some city, street", label = "Location")
-            ButtonsRow(label = "Bedrooms", values = listOf("Any", "1", "2", "3+"))
-            ButtonsRow(label = "Bathrooms", values = listOf("Any", "1", "2", "3+"))
+            ScreenTextField(textHint = "Put some city, street", label = "Location", text = location)
+            ButtonsRow(
+                label = "Bedrooms",
+                values = listOf("Any", "1", "2", ">3"),
+                selectedValue = bedrooms
+            )
+            ButtonsRow(
+                label = "Bathrooms",
+                values = listOf("Any", "1", "2", ">3"),
+                selectedValue = bathrooms
+            )
             ButtonsRow(
                 label = "Apartment Type",
-                values = listOf("Any", "House", "Flat", "Dorm")
+                values = listOf("Any", "House", "Flat", "Dorm"),
+                selectedValue = apartmentType
             )
         }
     }
 }
 
+@Destination
 @Composable
 fun SearchRoomResults() {
     val navController = NavbarItem.Home.navHostController ?: rememberNavController()
-    val listOfFavourites = listOf<RecommendedRoom>(
-        RecommendedRoom(1, "Fav1", "Loc", "", true),
-        RecommendedRoom(2, "Fav2", "Loc2", "", true),
-        RecommendedRoom(3, "Fav3", "Loc3", "", true),
-        RecommendedRoom(4, "Fav4", "Loc4", "", true)
-    )
+    val from = navController.currentBackStackEntry?.arguments?.getString("from") ?: ""
+    val to = navController.currentBackStackEntry?.arguments?.getString("to") ?: ""
+    val location = navController.currentBackStackEntry?.arguments?.getString("location") ?: ""
+    val bedrooms = navController.currentBackStackEntry?.arguments?.getString("bedrooms") ?: ""
+    val bathrooms = navController.currentBackStackEntry?.arguments?.getString("bathrooms") ?: ""
+    var apartmenType =
+        navController.currentBackStackEntry?.arguments?.getString("apartment_type") ?: ""
+    apartmenType = when (apartmenType) {
+        "Flat" -> "F"
+        "Duplex" -> "DU"
+        "House" -> "H"
+        else -> "DO"
+    }
+    val viewModel = SearchRoomResultsViewModel()
+    val rooms by viewModel.rooms.collectAsState()
+    viewModel.loadRooms(from, to, bedrooms, bathrooms, apartmenType)
+    val loadingState = viewModel.loadingState.collectAsState()
     Scaffold(
         bottomBar = { Navbar(navController, NavbarItem.Home.name) },
     ) {
         val padding = it
-        Column(
-            modifier = Modifier.padding(
-                start = 40.dp,
-                end = 40.dp,
-                top = 16.dp,
-            ),
-            verticalArrangement = Arrangement.spacedBy(24.dp),
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                BackBtn(onBackNavigation = { navController.navigate(NavbarItem.Home.name) })
-                Text(
-                    text = "Housing Results",
-                    fontSize = integerResource(
-                        id = R.integer.label_text_size
-                    ).sp,
-                    textAlign = TextAlign.Center,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.fillMaxWidth(),
-                )
-            }
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier.padding(bottom = it.calculateBottomPadding())
-            ) {
-                items(listOfFavourites.size) { index ->
-                    RoomCard(recommendedRoom = listOfFavourites[index], isMiniVersion = false)
+        when (loadingState.value) {
+            LoadingStates.Success ->
+                Column(
+                    modifier = Modifier.padding(
+                        start = 40.dp,
+                        end = 40.dp,
+                        top = 16.dp,
+                    ),
+                    verticalArrangement = Arrangement.spacedBy(24.dp),
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        BackBtn(onBackNavigation = { navController.navigate(NavbarItem.Home.name) })
+                        Text(
+                            text = "Housing Results",
+                            fontSize = integerResource(
+                                id = R.integer.label_text_size
+                            ).sp,
+                            textAlign = TextAlign.Center,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+                    }
+                    LazyColumn(
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        modifier = Modifier.padding(bottom = it.calculateBottomPadding())
+                    ) {
+                        items(rooms.size) { index ->
+                            RoomCard(
+                                recommendedRoom = RecommendedRoom(
+                                    id = 0,
+                                    name = rooms[index].description,
+                                    location = rooms[index].location,
+                                    roomImagePath = rooms[index].photo,
+                                    isLiked = false,
+                                ), isMiniVersion = false
+                            )
+                        }
+                    }
+                }
+            LoadingStates.Loading -> CircularProgressIndicator(modifier = Modifier.fillMaxSize())
+            LoadingStates.Error -> {
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    Text(
+                        text = "Sorry, something went wrong. You should to retry",
+                        style = TextStyle(
+                            fontSize = integerResource(
+                                id = R.integer.primary_text_size
+                            ).sp,
+                            color = Color.Black,
+                        )
+                    )
+                    GreenButtonOutline(text = "Retry") {
+                        viewModel.loadRooms(from, to, bedrooms, bathrooms, apartmenType)
+                    }
                 }
             }
         }
     }
 }
 
+@Destination
 @Composable
 fun SearchRoommateScreen() {
     val navController = NavbarItem.Home.navHostController ?: rememberNavController()
+    var fromAge by remember {
+        mutableStateOf(TextFieldValue(""))
+    }
+    var toAge by remember {
+        mutableStateOf(TextFieldValue(""))
+    }
+    val sleepTime = remember {
+        mutableStateOf(TextFieldValue(""))
+    }
+    val personality = remember {
+        mutableStateOf(TextFieldValue(""))
+    }
+    val smokingAttitude = remember {
+        mutableStateOf(TextFieldValue(""))
+    }
+    val alcoholAttitude = remember {
+        mutableStateOf(TextFieldValue(""))
+    }
+    val location = remember {
+        mutableStateOf(TextFieldValue(""))
+    }
+    val employment = remember {
+        mutableStateOf(TextFieldValue(""))
+    }
+    val cleanHabits = remember {
+        mutableStateOf(TextFieldValue(""))
+    }
     Scaffold(
         modifier = Modifier.padding(start = 40.dp, end = 40.dp, top = 16.dp, bottom = 16.dp),
         floatingActionButton = {
@@ -352,21 +454,15 @@ fun SearchRoommateScreen() {
                     .fillMaxWidth()
                     .height(40.dp),
                 text = "Show results",
-                onClick = { navController.navigate(Screens.SearchRoommateResults.name) })
+                onClick = {
+                    navController.navigate(
+                        Screens.SearchRoommateResults.name +
+                                "?sex=M&employment=${employment.value.text}&alcohol_attitude=${alcoholAttitude.value.text}" +
+                                "&smoking_attitude=${smokingAttitude.value.text}&sleep_time=${sleepTime.value.text}" +
+                                "&personality_type=${personality.value.text}&clean_habits=${cleanHabits.value.text}"
+                    )
+                })
         }) {
-        val listOfSleepTime = listOf<String>("Night", "Day", "Occasionally")
-        val listOfPersonality = listOf<String>("Extraverted", "Introverted", "Mixed")
-        val listOfSmocking = listOf<String>("Positive", "Negative", "Indifferent")
-        val listOfAlchogol = listOf("Positive", "Negative", "Indifferent")
-        val listOfLocation = listOf("In my town", "Not in my town")
-        val listOfEmployment = listOf("Not Employed", "Employed", "Searching For Work")
-        val listOfCleanHabits = listOf("Neat", "It Depends", "Chaos")
-        var fromAge by remember {
-            mutableStateOf(TextFieldValue(""))
-        }
-        var toAge by remember {
-            mutableStateOf(TextFieldValue(""))
-        }
         val padding = it
         Column(
             modifier = Modifier
@@ -449,69 +545,155 @@ fun SearchRoommateScreen() {
                     )
                 }
             }
-            DropdownTextField(listOfItems = listOfSleepTime, label = "Sleep time")
-            DropdownTextField(listOfItems = listOfPersonality, label = "Personality")
-            DropdownTextField(listOfItems = listOfSmocking, label = "Smocking attitude")
-            DropdownTextField(listOfItems = listOfAlchogol, label = "Alcohol attitude")
-            DropdownTextField(listOfItems = listOfLocation, label = "Location")
-            DropdownTextField(listOfItems = listOfEmployment, label = "Employment")
-            DropdownTextField(listOfItems = listOfCleanHabits, label = "Clean habits")
+            DropdownTextField(
+                listOfItems = Choices.sleepTime,
+                label = "Sleep time",
+                textSelected = sleepTime,
+            )
+            DropdownTextField(
+                listOfItems = Choices.personality,
+                label = "Personality",
+                textSelected = personality,
+            )
+            DropdownTextField(
+                listOfItems = Choices.smockingAttitude,
+                label = "Smocking attitude",
+                textSelected = smokingAttitude,
+            )
+            DropdownTextField(
+                listOfItems = Choices.alcoholAttitude,
+                label = "Alcohol attitude",
+                textSelected = alcoholAttitude,
+            )
+            DropdownTextField(
+                listOfItems = Choices.location,
+                label = "Location",
+                textSelected = location,
+            )
+            DropdownTextField(
+                listOfItems = Choices.employment,
+                label = "Employment",
+                textSelected = employment,
+            )
+            DropdownTextField(
+                listOfItems = Choices.cleanHabits,
+                label = "Clean habits",
+                textSelected = cleanHabits,
+            )
             InterestField(paddingValues = it, label = "Interests")
         }
     }
 }
 
+@Destination
 @Composable
 fun SearchRoommateResults() {
     val navController = NavbarItem.Home.navHostController ?: rememberNavController()
-    val resultsList = listOf<SearchUserResult>(
-        SearchUserResult(
-            "Mark Zuckenberg",
-            "London, Avenu 12",
-            "Occasionly",
-            "7",
-        ),
-        SearchUserResult(
-            "Mark Zuckenberg",
-            "London, Avenu 12",
-            "Occasionly",
-            "7",
-        ),
-        SearchUserResult(
-            "Mark Zuckenberg",
-            "London, Avenu 12",
-            "Occasionly",
-            "7",
-        ),
+    var sex = navController.currentBackStackEntry?.arguments?.getString("sex") ?: ""
+    var employment = navController.currentBackStackEntry?.arguments?.getString("employment") ?: ""
+    var alcoholAttitude =
+        navController.currentBackStackEntry?.arguments?.getString("alcohol_attitude") ?: ""
+    var smokingAttitude =
+        navController.currentBackStackEntry?.arguments?.getString("smoking_attitude") ?: ""
+    var sleepTime = navController.currentBackStackEntry?.arguments?.getString("sleep_time") ?: ""
+    var personalityType =
+        navController.currentBackStackEntry?.arguments?.getString("personality_type") ?: ""
+    var cleanHabits =
+        navController.currentBackStackEntry?.arguments?.getString("clean_habits") ?: ""
+    employment = employment[0].titlecase()
+    sex = sex[0].titlecase()
+    alcoholAttitude = alcoholAttitude[0].titlecase()
+    smokingAttitude = smokingAttitude[0].titlecase()
+    sleepTime = sleepTime[0].titlecase()
+    personalityType = personalityType[0].titlecase()
+    cleanHabits = when (cleanHabits) {
+        "Neat" -> "N"
+        "It Depends" -> "D"
+        else -> "C"
+    }
+    val viewModel = SearchRoommateResultViewModel()
+    viewModel.loadRoommates(
+        sex,
+        employment,
+        alcoholAttitude,
+        smokingAttitude,
+        sleepTime,
+        personalityType,
+        cleanHabits
     )
+    val roommates by viewModel.roommates.collectAsState()
+    val loadingState = viewModel.loadingState.collectAsState()
     Scaffold(
         bottomBar = { Navbar(navController, NavbarItem.Home.name) },
     ) {
-        Column(
-            modifier = Modifier.padding(start = 40.dp, end = 40.dp, top = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(24.dp),
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                BackBtn(onBackNavigation = { navController.navigate(NavbarItem.Home.name) })
-                Text(
-                    text = "Roommate Results",
-                    fontSize = integerResource(
-                        id = R.integer.label_text_size
-                    ).sp,
-                    textAlign = TextAlign.Center,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.fillMaxWidth(),
-                )
-            }
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier.padding(bottom = it.calculateBottomPadding())
-            ) {
-                items(resultsList.size) { index ->
-                    UserCardResult(searchUser = resultsList[index])
+        when (loadingState.value) {
+            LoadingStates.Success ->
+                Column(
+                    modifier = Modifier.padding(start = 40.dp, end = 40.dp, top = 16.dp),
+                    verticalArrangement = Arrangement.spacedBy(24.dp),
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        BackBtn(onBackNavigation = { navController.navigate(NavbarItem.Home.name) })
+                        Text(
+                            text = "Roommate Results",
+                            fontSize = integerResource(
+                                id = R.integer.label_text_size
+                            ).sp,
+                            textAlign = TextAlign.Center,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+                    }
+                    LazyColumn(
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        modifier = Modifier.padding(bottom = it.calculateBottomPadding())
+                    ) {
+                        item {
+                            if (roommates.isEmpty()) {
+                                Text(
+                                    text = "Sorry, nothing here", style = TextStyle(
+                                        fontSize = integerResource(
+                                            id = R.integer.label_text_size
+                                        ).sp,
+                                    )
+                                )
+                            }
+                        }
+                        items(roommates.size) { index ->
+                            UserCardResult(roommates[index])
+                        }
+                    }
+                }
+            LoadingStates.Loading -> CircularProgressIndicator(modifier = Modifier.fillMaxSize())
+            LoadingStates.Error -> {
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    Text(
+                        text = "Sorry, something went wrong. You should to retry",
+                        style = TextStyle(
+                            fontSize = integerResource(
+                                id = R.integer.primary_text_size
+                            ).sp,
+                            color = Color.Black,
+                        )
+                    )
+                    GreenButtonOutline(text = "Retry") {
+                        viewModel.loadRoommates(
+                            sex,
+                            employment,
+                            alcoholAttitude,
+                            smokingAttitude,
+                            sleepTime,
+                            personalityType,
+                            cleanHabits
+                        )
+                    }
                 }
             }
         }
