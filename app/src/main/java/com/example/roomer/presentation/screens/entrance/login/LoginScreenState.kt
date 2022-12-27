@@ -1,8 +1,8 @@
 package com.example.roomer.state
 
-data class LoginState(
+data class LoginScreenState(
     var isLoading : Boolean = false,
-    var success : Int = -1,
+    var success : Boolean = false,
     var error : String = "",
     var internetProblem : Boolean = false
 )

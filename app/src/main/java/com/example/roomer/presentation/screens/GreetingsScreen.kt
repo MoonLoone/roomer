@@ -1,4 +1,4 @@
-package com.example.roomer.screens
+package com.example.roomer.presentation.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -13,9 +13,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.roomer.R
-import com.example.roomer.screens.destinations.LoginScreenDestination
+import com.example.roomer.presentation.screens.destinations.LoginScreenDestination
+import com.example.roomer.presentation.screens.destinations.SignUpScreen1Destination
 import com.example.roomer.ui_components.GreenButtonOutline
 import com.example.roomer.ui_components.GreenButtonPrimary
+import com.example.roomer.ui_components.SignUpScreen1
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -53,13 +55,15 @@ fun StartScreen(
                 .padding(top = 16.dp)
                 .fillMaxWidth(),
         ) {
-            navigator.navigate(LoginScreenDestination(1))
+            navigator.navigate(LoginScreenDestination(0))
         }
         GreenButtonOutline(
             text = "Sign Up",
             modifier = Modifier
                 .padding(top = 8.dp)
                 .fillMaxWidth(),
-        ) {}
+        ) {
+            navigator.navigate(SignUpScreen1Destination(1))
+        }
     }
 }

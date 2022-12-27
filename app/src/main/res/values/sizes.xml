@@ -4,4 +4,7 @@
     <integer name="secondary_text_size">12</integer>
     <integer name="label_text_size">24</integer>
     <integer name="ordinary_icon_size">16</integer>
+    <integer name="screen_padding_size">40</integer>
+    <integer name="elements_margin_size">16</integer>
+    <integer name="elements_margin_size_small">8</integer>
 </resources>

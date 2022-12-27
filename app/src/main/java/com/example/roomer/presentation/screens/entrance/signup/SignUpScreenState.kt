@@ -1,0 +1,11 @@
+package com.example.roomer.presentation.screens.entrance.signup
+
+data class SignUpScreenState (
+    val success: Boolean = false,
+    val isLoading: Boolean = false,
+    val error: String = "",
+    val internetProblem: Boolean = false,
+//    val isEmailError: Boolean = false,
+//    val isUsernameError: Boolean = false,
+//    val isPasswordError: Boolean = false,
+)

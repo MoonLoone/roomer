@@ -364,51 +364,51 @@ fun HabitsScreen() {
     }
 }
 
-@Preview
-@Composable
-fun InterestsScreen() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 40.dp, end = 40.dp),
-            horizontalAlignment = Alignment.Start,
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-        ) {
-            LinearProgressIndicator(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                color = colorResource(id = R.color.primary_dark),
-                progress = 0.8f
-            )
-            Text(
-                text = "Tell us about your interests",
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Medium,
-                textAlign = TextAlign.Start
-            )
-            InterestsButtons(
-                label = "Select a maximum of 10",
-                values = listOf(
-                    "Football","Basketball","Baseball",
-                    "Swimming","Gym","Reading",
-                    "Movies","TV Shows","Singing",
-                    "Painting","Cooking",),
-                chooseLimit = 10
-            )
-            GreenButtonPrimary(
-                text = "Finish",
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
-
-            }
-        }
-    }
-}
+//@Preview
+//@Composable
+//fun InterestsScreen() {
+//    Column(
+//        modifier = Modifier
+//            .fillMaxSize()
+//            .background(Color.White),
+//        horizontalAlignment = Alignment.CenterHorizontally,
+//        verticalArrangement = Arrangement.Center,
+//    ) {
+//        Column(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .padding(start = 40.dp, end = 40.dp),
+//            horizontalAlignment = Alignment.Start,
+//            verticalArrangement = Arrangement.spacedBy(16.dp),
+//        ) {
+//            LinearProgressIndicator(
+//                modifier = Modifier
+//                    .fillMaxWidth(),
+//                color = colorResource(id = R.color.primary_dark),
+//                progress = 0.8f
+//            )
+//            Text(
+//                text = "Tell us about your interests",
+//                fontSize = 24.sp,
+//                fontWeight = FontWeight.Medium,
+//                textAlign = TextAlign.Start
+//            )
+//            InterestsButtons(
+//                label = "Select a maximum of 10",
+//                values = listOf(
+//                    "Football","Basketball","Baseball",
+//                    "Swimming","Gym","Reading",
+//                    "Movies","TV Shows","Singing",
+//                    "Painting","Cooking",),
+//                chooseLimit = 10
+//            )
+//            GreenButtonPrimary(
+//                text = "Finish",
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//            ) {
+//
+//            }
+//        }
+//    }
+//}

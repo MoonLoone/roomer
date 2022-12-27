@@ -1,9 +1,11 @@
-package com.example.roomer.api.usecase
+package com.example.roomer.domain.usecase
 
-import android.util.Log
-import com.example.roomer.api.repository.RoomerRepository
-import com.example.roomer.api.utils.Resource
+import com.example.roomer.data.repository.RoomerRepository
+import com.example.roomer.utils.ConstUseCase
+import com.example.roomer.utils.Resource
+import kotlinx.coroutines.Delay
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import org.json.JSONObject
@@ -14,11 +16,12 @@ class LoginUseCase (
     private val repository: RoomerRepository
 ) {
 
-    operator fun invoke(email: String, password: String): Flow<Resource<String>> = flow {
+    operator fun invoke(email: String, password: String, delay: Long): Flow<Resource<String>> = flow {
 
         try {
 
             emit(Resource.Loading())
+            delay(delay)
 
             val process = repository.userLogin(email, password)
 
@@ -29,17 +32,14 @@ class LoginUseCase (
             }
             else {
                 val errMsg = process.errorBody()?.string()?.let {
-                    JSONObject(it).getString("non_field_errors")
+                    JSONObject(it).getJSONArray(ConstUseCase.loginErrorName).toString()
                 }
-                Log.e("LOG :::", "Error $errMsg")
-
                 emit(Resource.Error(errMsg!!))
             }
 
         } catch (e: IOException) {
 
-                emit(Resource.Internet("Sunucuya ulaşılamadı. İnternet bağlantınızı kontrol ediniz!"))
-                Log.e("LOG :::", e.localizedMessage!!)
+                emit(Resource.Internet(ConstUseCase.internetErrorMessage))
         }
     }
 }

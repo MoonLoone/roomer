@@ -35,6 +35,8 @@ import com.example.roomer.models.MessageToList
 import com.example.roomer.models.RecommendedRoom
 import com.example.roomer.models.RecommendedRoommate
 import com.example.roomer.utils.NavbarItem
+import androidx.compose.material3.AlertDialog
+import com.example.roomer.domain.model.interests.InterestModel
 
 @Composable
 fun ProfileContentLine(text: String, iconId: Int, onNavigateToFriends: () -> Unit = {}) {
@@ -479,9 +481,11 @@ fun SearchField() {
 fun GreenButtonPrimary(
     text: String,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    enabled: Boolean = true,
+    onClick: () -> Unit,
 ) {
     Button(
+        enabled = enabled,
         onClick = onClick,
         modifier = modifier,
         shape = CircleShape,
@@ -588,12 +592,11 @@ fun ProfilePicture() {
 @Composable
 fun InterestsButtons(
     label: String,
-    values: List<String>,
+    values: List<InterestModel>,
+    selectedItems: List<InterestModel>,
+    onSelectedChange: (List<InterestModel>) -> Unit,
     chooseLimit: Int = 10
 ) {
-    var selectedItems by rememberSaveable {
-        mutableStateOf(listOf(values[0]))
-    }
     val chunkedValues = values.chunked(3)
     Column(
         modifier = Modifier
@@ -617,17 +620,45 @@ fun InterestsButtons(
             ) {
                 for (value in row) {
                     if (value in selectedItems)
-                        GreenButtonPrimary(text = value) {
-                            selectedItems = selectedItems.minus(value)
+                        GreenButtonPrimary(text = value.interest) {
+                            selectedItems.minus(value).let(onSelectedChange)
                         }
                     else
-                        GreenButtonOutline(text = value) {
+                        GreenButtonOutline(text = value.interest) {
                             if (selectedItems.size < chooseLimit)
-                                selectedItems = selectedItems.plus(value)
+                                selectedItems.plus(value).let(onSelectedChange)
                         }
                 }
             }
         }
 
     }
+}
+
+@Composable
+fun SimpleAlertDialog(
+    title: String,
+    text: String,
+    buttonText: String = "Got you!",
+    confirmDismissOnClick: () -> Unit,
+    ) {
+    AlertDialog(
+        containerColor = Color.White,
+        onDismissRequest = confirmDismissOnClick,
+        title = {
+            Text(text = title)
+        },
+        titleContentColor = Color.Red,
+        text = {
+            Text(text = text)
+        },
+        confirmButton = {
+            GreenButtonOutline(
+                text = buttonText,
+                modifier = Modifier
+                    .fillMaxWidth(),
+                onClick = confirmDismissOnClick
+            )
+        }
+    )
 }

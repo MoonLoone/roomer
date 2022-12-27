@@ -11,7 +11,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.navigation.compose.rememberNavController
-import com.example.roomer.screens.NavGraphs
+import com.example.roomer.presentation.screens.NavGraphs
 import com.example.roomer.ui_components.Navbar
 import com.example.roomer.utils.NavbarHostContainer
 import com.example.roomer.utils.Screens

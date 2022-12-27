@@ -1,5 +1,6 @@
 package com.example.roomer.api
 
+import com.example.roomer.data.remote.RoomerApi
 import com.example.roomer.utils.Consts
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

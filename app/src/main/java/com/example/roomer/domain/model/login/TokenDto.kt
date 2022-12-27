@@ -1,4 +1,4 @@
-package com.example.roomer.api.dto
+package com.example.roomer.domain.model.login
 
 import com.google.gson.annotations.SerializedName
 

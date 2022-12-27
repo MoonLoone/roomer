@@ -9,12 +9,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Password
+import androidx.compose.material.icons.outlined.VerifiedUser
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -23,11 +21,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -250,7 +250,6 @@ fun ScreenTextField(
     }
 }
 
-
 @Composable
 fun DateField(
     label: String = "Date field", paddingValues: PaddingValues = PaddingValues(top = 16.dp)
@@ -379,10 +378,13 @@ fun SelectAddressField(
 @Composable
 fun PasswordField(
     modifier: Modifier = Modifier,
-    label: String = "Password",
-    placeholder: String = "Password",
-    value: String = "",
+    label: String,
+    placeholder: String,
+    value: String,
     onValueChange: (String) -> Unit,
+    enabled: Boolean = true,
+    isError: Boolean = false,
+    errorMessage: String
 ) {
     var visibility by rememberSaveable {
         mutableStateOf(false)
@@ -406,17 +408,18 @@ fun PasswordField(
             fontWeight = FontWeight.Medium
         )
         TextField(
+            enabled=enabled,
             value = value,
             onValueChange = onValueChange,
             placeholder = { Text(text = placeholder) },
-            leadingIcon = { Icon(Icons.Outlined.Password, "password icon") },
+            leadingIcon = { Icon(Icons.Outlined.Password, stringResource(R.string.icon_description)) },
             trailingIcon = {
                 IconButton(onClick = {
                     visibility = !visibility
                 }) {
                     Icon(
                         imageVector = icon,
-                        "Some stuff"
+                        stringResource(R.string.icon_description)
                     )
                 }
             },
@@ -428,18 +431,31 @@ fun PasswordField(
             modifier = modifier
                 .fillMaxWidth()
                 .background(colorResource(id = R.color.secondary_color)),
-            colors = TextFieldDefaults.textFieldColors(backgroundColor = colorResource(id = R.color.secondary_color))
+            colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = colorResource(id = R.color.secondary_color),
+                focusedIndicatorColor = colorResource(id = R.color.primary_dark)
+            ),
+            isError = isError
         )
+        if (isError) {
+            Text(
+                color = Color.Red,
+                text = errorMessage
+            )
+        }
     }
 }
 
 @Composable
 fun EmailField(
     modifier: Modifier = Modifier,
-    label: String = "Email",
-    placeholder: String = "Type your email here",
-    value: String = "",
+    label: String,
+    placeholder: String,
+    value: String,
     onValueChange: (String) -> Unit,
+    enabled: Boolean = true,
+    isError: Boolean = false,
+    errorMessage: String
 ) {
     Column(
         modifier = modifier
@@ -454,22 +470,143 @@ fun EmailField(
             fontWeight = FontWeight.Medium
         )
         TextField(
+            enabled=enabled,
             value = value,
             onValueChange = onValueChange,
             placeholder = { Text(text = placeholder) },
-            leadingIcon = { Icon(Icons.Outlined.Email, "some icon") },
+            leadingIcon = { Icon(Icons.Outlined.Email, stringResource(R.string.icon_description)) },
+            trailingIcon = { if (isError)
+                Icon(Icons.Filled.Error, stringResource(R.string.error_icon_description),tint = MaterialTheme.colors.error) },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Email
             ),
             modifier = modifier
                 .fillMaxWidth()
                 .background(colorResource(id = R.color.secondary_color)),
-            colors = TextFieldDefaults.textFieldColors(backgroundColor = colorResource(id = R.color.secondary_color))
+            colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = colorResource(id = R.color.secondary_color),
+                focusedIndicatorColor = colorResource(id = R.color.primary_dark)
+            ),
+            isError = isError
         )
+        if (isError) {
+            Text(
+                color = Color.Red,
+                text = errorMessage
+            )
+        }
     }
 }
 
 @Composable
-fun AboutMeField() {
+fun UsualTextField(
+    title: String,
+    placeholder: String,
+    value: String,
+    onValueChange: (String) -> Unit,
+    isError: Boolean = false,
+    errorMessage: String = ""
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        Text(
+            text = title,
+            fontSize = integerResource(id = R.integer.primary_text_size).sp,
+            color = Color.Black,
+            textAlign = TextAlign.Start,
+            fontWeight = FontWeight.Medium
+        )
+        TextField(
+            value = value,
+            textStyle = TextStyle(
+                color = Color.Black,
+                fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                textAlign = TextAlign.Start,
+            ),
+            placeholder = {
+                Text(
+                    text = placeholder,
+                    fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                    color = colorResource(id = R.color.text_secondary)
+                )
+            },
+            onValueChange = onValueChange,
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(colorResource(id = R.color.secondary_color)),
+            colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = colorResource(id = R.color.secondary_color),
+                focusedIndicatorColor = colorResource(id = R.color.primary_dark)),
+            isError = isError
+        )
+        if (isError) {
+            Text(
+                color = Color.Red,
+                text = errorMessage
+            )
+        }
+    }
+}
 
+@Composable
+fun IconedTextField(
+    title: String,
+    placeholder: String,
+    value: String,
+    onValueChange: (String) -> Unit,
+    icon: ImageVector,
+    enabled: Boolean = true,
+    isError: Boolean = false,
+    errorMessage: String = ""
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        Text(
+            text = title,
+            fontSize = integerResource(id = R.integer.primary_text_size).sp,
+            color = Color.Black,
+            textAlign = TextAlign.Start,
+            fontWeight = FontWeight.Medium
+        )
+        TextField(
+            leadingIcon = { Icon(icon, stringResource(R.string.icon_description)) },
+            value = value,
+            enabled = enabled,
+            textStyle = TextStyle(
+                color = Color.Black,
+                fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                textAlign = TextAlign.Start,
+            ),
+            trailingIcon = { if (isError)
+                Icon(Icons.Filled.Error, stringResource(R.string.error_icon_description),tint = MaterialTheme.colors.error) },
+
+            placeholder = {
+                Text(
+                    text = placeholder,
+                    fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                    color = colorResource(id = R.color.text_secondary)
+                )
+            },
+            onValueChange = onValueChange,
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(colorResource(id = R.color.secondary_color)),
+            colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = colorResource(id = R.color.secondary_color),
+                focusedIndicatorColor = colorResource(id = R.color.primary_dark)),
+                isError = isError
+        )
+            if (isError) {
+                Text(
+                    color = Color.Red,
+                    text = errorMessage
+                )
+            }
+    }
 }

@@ -3,7 +3,7 @@ package com.example.roomer
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import com.example.roomer.screens.NavGraphs
+import com.example.roomer.presentation.screens.NavGraphs
 import com.ramcosta.composedestinations.DestinationsNavHost
 import dagger.hilt.android.AndroidEntryPoint
 
