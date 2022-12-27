@@ -398,6 +398,7 @@ fun RoomCard(recommendedRoom: RecommendedRoom, isMiniVersion: Boolean) {
                     .padding(top = 10.dp, end = 10.dp)
                     .width(32.dp)
                     .height(32.dp)
+                    .clip(RoundedCornerShape(100))
                     .clickable {
                         isLiked = !isLiked
                     }
@@ -503,6 +504,7 @@ fun BackBtn(onBackNavigation: () -> Unit) {
         modifier = Modifier
             .height(40.dp)
             .width(40.dp)
+            .clip(RoundedCornerShape(100.dp))
             .clickable {
                 onBackNavigation.invoke()
             },
@@ -609,24 +611,25 @@ fun FilterSelect(selectItemName: String, onNavigateToFriends: () -> Unit) {
             modifier = Modifier
                 .height(40.dp)
                 .width(88.dp)
+                .border(
+                    1.dp,
+                    color = colorResource(id = R.color.text_secondary),
+                    RoundedCornerShape(topStart = 100.dp, bottomStart = 100.dp)
+                )
                 .background(
                     color = if (selectItemName == stringResource(id = R.string.room)) colorResource(
                         id = R.color.primary_dark
                     ) else Color.White,
                     RoundedCornerShape(topStart = 100.dp, bottomStart = 100.dp),
                 )
-                .border(
-                    1.dp,
-                    color = colorResource(id = R.color.text_secondary),
-                    RoundedCornerShape(topStart = 100.dp, bottomStart = 100.dp)
-                )
+                .clip(RoundedCornerShape(topStart = 100.dp, bottomStart = 100.dp))
                 .clickable { if (selectItemName == "Roommate") onNavigateToFriends.invoke() },
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            if (selectItemName == stringResource(id = R.string.roommate)) Image(
+            if (selectItemName == stringResource(id = R.string.room)) Image(
                 painter = painterResource(id = R.drawable.unchecked_messages_icon),
-                contentDescription = "Select room",
+                contentDescription = stringResource(id = R.string.room),
                 modifier = Modifier
                     .height(18.dp)
                     .width(18.dp),
@@ -648,23 +651,24 @@ fun FilterSelect(selectItemName: String, onNavigateToFriends: () -> Unit) {
             modifier = Modifier
                 .height(40.dp)
                 .width(88.dp)
+                .border(
+                    1.dp,
+                    color = colorResource(id = R.color.text_secondary),
+                    RoundedCornerShape(topEnd = 100.dp, bottomEnd = 100.dp)
+                )
                 .background(
                     color = if (selectItemName == stringResource(id = R.string.roommate)) colorResource(
                         id = R.color.primary_dark
                     ) else Color.White,
                     RoundedCornerShape(topEnd = 100.dp, bottomEnd = 100.dp),
                 )
-                .border(
-                    1.dp,
-                    color = colorResource(id = R.color.text_secondary),
-                    RoundedCornerShape(topEnd = 100.dp, bottomEnd = 100.dp)
-                )
+                .clip(RoundedCornerShape(topEnd = 100.dp, bottomEnd = 100.dp))
                 .clickable { if (selectItemName == "Room") onNavigateToFriends.invoke() },
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = "Roommate", style = TextStyle(
+                text = stringResource(id = R.string.roommate), style = TextStyle(
                     fontSize = 14.sp,
                     color = if (selectItemName == stringResource(id = R.string.roommate)) colorResource(id = R.color.primary) else colorResource(
                         id = R.color.text_secondary

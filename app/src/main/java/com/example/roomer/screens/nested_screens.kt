@@ -213,7 +213,7 @@ fun SearchRoomScreen() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 20.dp)
-                    .verticalScroll(rememberScrollState())
+                    .background(color = Color.White, shape = RoundedCornerShape(100.dp))
                     .height(40.dp),
                 text = "Show results",
                 onClick = {
@@ -285,16 +285,11 @@ fun SearchRoomScreen() {
                         },
                         modifier = Modifier
                             .width(120.dp)
-                            .height(56.dp)
-                            .background(
-                                color = colorResource(
-                                    id = R.color.primary
-                                )
-                            ),
+                            .height(56.dp),
                         placeholder = { Text("Start price") },
                         colors = TextFieldDefaults.textFieldColors(
                             backgroundColor = colorResource(
-                                id = R.color.primary
+                                id = R.color.secondary_color
                             )
                         ),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -320,7 +315,7 @@ fun SearchRoomScreen() {
                         placeholder = { Text("End price") },
                         colors = TextFieldDefaults.textFieldColors(
                             backgroundColor = colorResource(
-                                id = R.color.primary
+                                id = R.color.secondary_color
                             )
                         ),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -505,7 +500,7 @@ fun SearchRoommateScreen() {
         }) {
         Column(
             modifier = Modifier
-                .padding(bottom = it.calculateBottomPadding() + 32.dp)
+                .padding(bottom = it.calculateBottomPadding() + 64.dp)
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
@@ -558,7 +553,7 @@ fun SearchRoommateScreen() {
                         placeholder = { Text("Start age") },
                         colors = TextFieldDefaults.textFieldColors(
                             backgroundColor = colorResource(
-                                id = R.color.primary
+                                id = R.color.secondary_color
                             )
                         ),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -584,7 +579,7 @@ fun SearchRoommateScreen() {
                         placeholder = { Text("End age") },
                         colors = TextFieldDefaults.textFieldColors(
                             backgroundColor = colorResource(
-                                id = R.color.primary
+                                id = R.color.secondary_color
                             )
                         ),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
