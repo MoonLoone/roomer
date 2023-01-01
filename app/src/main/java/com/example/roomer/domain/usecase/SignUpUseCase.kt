@@ -29,11 +29,15 @@ class SignUpUseCase (
                 }
             }
             else {
-                val errMsg = process.errorBody()?.string()?.let {
-                    val errorOn = JSONObject(it).names()!![0].toString()
-                    errorOn + " " + JSONObject(it).getJSONArray(errorOn)[0]
+                var errMsg = process.errorBody()!!.string()
+                val errorOn = JSONObject(errMsg).names()!![0].toString()
+                errMsg = JSONObject(errMsg).getJSONArray(errorOn)[0].toString()
+
+                if (errorOn == "email") {
+                    emit(Resource.EmailError(message = errMsg))
+                } else {
+                    emit(Resource.Error(message = errMsg))
                 }
-                emit(Resource.Error(message = errMsg!!))
             }
 
         } catch (e: IOException) {

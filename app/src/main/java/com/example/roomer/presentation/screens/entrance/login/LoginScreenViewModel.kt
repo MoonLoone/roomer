@@ -83,6 +83,13 @@ class LoginScreenViewModel(application: Application) : AndroidViewModel(applicat
                             internetProblem = false
                         )
                     }
+                    else -> {
+                        _state.value = LoginScreenState(
+                            error = result.message!!,
+                            isLoading = false,
+                            internetProblem = false
+                        )
+                    }
                 }
             }
             }

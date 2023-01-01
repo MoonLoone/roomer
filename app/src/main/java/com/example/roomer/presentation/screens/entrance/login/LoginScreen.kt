@@ -49,7 +49,6 @@ fun LoginScreen(
     var passwordValue by rememberSaveable {
         mutableStateOf("")
     }
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -140,7 +139,7 @@ fun LoginScreen(
                 passwordValue = ""
             }
             if (state.success) {
-                if (id == 1) {
+                if (id == 0) {
                     navigator.navigate(MainScreenDestination(1))
                 }
                 else {

@@ -17,7 +17,6 @@ import com.example.roomer.presentation.screens.destinations.LoginScreenDestinati
 import com.example.roomer.presentation.screens.destinations.SignUpScreen1Destination
 import com.example.roomer.ui_components.GreenButtonOutline
 import com.example.roomer.ui_components.GreenButtonPrimary
-import com.example.roomer.ui_components.SignUpScreen1
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator

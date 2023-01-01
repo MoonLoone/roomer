@@ -71,6 +71,13 @@ class InterestsScreenViewModel(
                             error = result.message!!
                         )
                     }
+                    else -> {
+                        _state.value = InterestsScreenState(
+                            internetProblem = false,
+                            isLoading = false,
+                            error = result.message!!
+                        )
+                    }
                 }
             }
         }

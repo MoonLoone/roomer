@@ -21,7 +21,6 @@ class LoginUseCase (
         try {
 
             emit(Resource.Loading())
-            delay(delay)
 
             val process = repository.userLogin(email, password)
 

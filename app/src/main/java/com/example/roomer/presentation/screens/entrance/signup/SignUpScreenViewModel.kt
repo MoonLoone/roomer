@@ -77,6 +77,14 @@ class SignUpScreenViewModel(
                             error = result.message!!
                         )
                     }
+                    is Resource.EmailError -> {
+                        _state.value = SignUpScreenState(
+                            internetProblem = false,
+                            isLoading = false,
+                            error = result.message!!,
+                            isEmailError = true
+                        )
+                    }
                     }
                 }
             }

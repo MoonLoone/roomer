@@ -5,7 +5,7 @@ data class SignUpScreenState (
     val isLoading: Boolean = false,
     val error: String = "",
     val internetProblem: Boolean = false,
-//    val isEmailError: Boolean = false,
+    val isEmailError: Boolean = false,
 //    val isUsernameError: Boolean = false,
 //    val isPasswordError: Boolean = false,
 )

@@ -28,6 +28,7 @@ import com.example.roomer.presentation.screens.destinations.InterestsScreenDesti
 import com.example.roomer.presentation.screens.destinations.LoginScreenDestination
 import com.ramcosta.composedestinations.annotation.Destination
 import com.example.roomer.ui_components.*
+import com.example.roomer.utils.Consts
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Destination
@@ -87,7 +88,8 @@ fun SignUpScreen1(
                 enabled = !state.isLoading,
                 label = stringResource(id = R.string.email_label),
                 placeholder = stringResource(id = R.string.email_placeholder),
-                errorMessage = ""
+                errorMessage = state.error,
+                isError = state.isEmailError
             )
             PasswordField(
                 value = passwordValue,
@@ -119,21 +121,21 @@ fun SignUpScreen1(
                 )
             }
             if (state.success) {
-//                navigator.navigate(LoginScreenDestination(1))
-                navigator.navigate(InterestsScreenDestination(1))
+                navigator.navigate(LoginScreenDestination(1))
+//                navigator.navigate(InterestsScreenDestination(1))
             }
             if (state.isLoading) {
                 CircularProgressIndicator(
                     color = colorResource(id = R.color.primary_dark)
                 )
             }
-            if (state.error.isNotEmpty()) {
-                SimpleAlertDialog(title = "An error occurred!", text = state.error) {
-                    signUpScreenViewModel.clearState()
-                }
-                passwordValue = ""
-                confirmPasswordValue = ""
-            }
+//            if (state.error.isNotEmpty()) {
+//                SimpleAlertDialog(title = stringResource(R.string.login_alert_dialog_title), text = state.error) {
+//                    signUpScreenViewModel.clearState()
+//                }
+//                passwordValue = ""
+//                confirmPasswordValue = ""
+//            }
         }
     }
 }
