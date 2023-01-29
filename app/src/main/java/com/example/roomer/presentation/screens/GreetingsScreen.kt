@@ -15,8 +15,8 @@ import androidx.compose.ui.unit.sp
 import com.example.roomer.R
 import com.example.roomer.presentation.screens.destinations.LoginScreenDestination
 import com.example.roomer.presentation.screens.destinations.SignUpScreen1Destination
-import com.example.roomer.ui_components.GreenButtonOutline
-import com.example.roomer.ui_components.GreenButtonPrimary
+import com.example.roomer.presentation.ui_components.GreenButtonOutline
+import com.example.roomer.presentation.ui_components.GreenButtonPrimary
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator

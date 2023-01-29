@@ -16,7 +16,7 @@ class LoginUseCase (
     private val repository: RoomerRepository
 ) {
 
-    operator fun invoke(email: String, password: String, delay: Long): Flow<Resource<String>> = flow {
+    operator fun invoke(email: String, password: String): Flow<Resource<String>> = flow {
 
         try {
 
@@ -33,7 +33,7 @@ class LoginUseCase (
                 val errMsg = process.errorBody()?.string()?.let {
                     JSONObject(it).getJSONArray(ConstUseCase.loginErrorName).toString()
                 }
-                emit(Resource.Error(errMsg!!))
+                emit(Resource.Error.GeneralError(errMsg!!))
             }
 
         } catch (e: IOException) {

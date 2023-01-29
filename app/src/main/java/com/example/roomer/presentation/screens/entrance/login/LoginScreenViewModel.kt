@@ -48,7 +48,7 @@ class LoginScreenViewModel(application: Application) : AndroidViewModel(applicat
         }
 
         viewModelScope.launch {
-            loginUseCase(email, password, REQUEST_DELAY).collect { result ->
+            loginUseCase(email, password).collect { result ->
                 when (result) {
 
                     is Resource.Loading -> {
@@ -107,7 +107,6 @@ class LoginScreenViewModel(application: Application) : AndroidViewModel(applicat
     companion object {
         const val FIELD_DEFAULT_VALUE = ""
         const val EMPTY_FIELD_ERR_MSG = "Field(s) can't be empty!"
-        const val REQUEST_DELAY: Long = 2000
 
     }
 }

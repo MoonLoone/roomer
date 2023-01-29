@@ -1,4 +1,4 @@
-package com.example.roomer.ui_components
+package com.example.roomer.presentation.ui_components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.ClickableText

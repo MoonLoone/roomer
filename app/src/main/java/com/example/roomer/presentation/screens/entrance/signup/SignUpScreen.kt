@@ -24,11 +24,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.roomer.R
-import com.example.roomer.presentation.screens.destinations.InterestsScreenDestination
 import com.example.roomer.presentation.screens.destinations.LoginScreenDestination
+import com.example.roomer.presentation.ui_components.EmailField
+import com.example.roomer.presentation.ui_components.GreenButtonPrimary
+import com.example.roomer.presentation.ui_components.IconedTextField
+import com.example.roomer.presentation.ui_components.PasswordField
 import com.ramcosta.composedestinations.annotation.Destination
-import com.example.roomer.ui_components.*
-import com.example.roomer.utils.Consts
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Destination

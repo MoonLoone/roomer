@@ -1,7 +1,8 @@
 package com.example.roomer.utils
 
 import androidx.compose.runtime.Composable
-import com.example.roomer.ui_components.*
+import com.example.roomer.presentation.ui_components.AccountScreen
+import com.example.roomer.presentation.ui_components.MessageScreen
 
 enum class Screens(val composeViewFunction: @Composable () -> Unit, val parentName: String) {
     Account(

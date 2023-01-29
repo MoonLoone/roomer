@@ -1,4 +1,4 @@
-package com.example.roomer.ui_components
+package com.example.roomer.presentation.ui_components
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.Orientation
@@ -406,9 +406,11 @@ fun AccountScreen() {
             ) {
                 ScreenTextField(label = "First Name", textHint = "Vasya")
                 ScreenTextField(label = "Last Name", textHint = "Pupkin")
-                DateField(label = "Date of birth")
+//                TODO change dateField arguments
+//                DateField(label = "Date of birth")
                 SelectSex()
-                DropdownTextField(listOfItems = listOfEmployments, label = "Employment")
+                //TODO change sexField arguments
+//                DropdownTextField(listOfItems = listOfEmployments, label = "Employment")
                 ScreenTextField(
                     textHint = "Some text about you",
                     label = "About me",

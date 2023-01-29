@@ -25,13 +25,21 @@ class InterestsScreenViewModel(
 ) : AndroidViewModel(application) {
 
     private val roomerRepository = RoomerRepository(RoomerApiObj.api)
-    private val _state = mutableStateOf(InterestsScreenState())
 
+    private val _state = mutableStateOf(InterestsScreenState())
     val state: State<InterestsScreenState> = _state
+
     private val interestsUseCase = InterestsUseCase(roomerRepository)
+
     private val _interests: MutableState<List<InterestModel>> =
         mutableStateOf(emptyList())
     val interests: State<List<InterestModel>> = _interests
+
+    private val token = SpManager().getSharedPreference(
+        getApplication<Application>().applicationContext,
+        key = SpManager.Sp.TOKEN,
+        ""
+    )!!
 
     init {
         getInterests()
@@ -39,20 +47,16 @@ class InterestsScreenViewModel(
 
     fun getInterests() {
         viewModelScope.launch {
-            interestsUseCase.loadInterests(REQUEST_DELAY).collect { result ->
+            interestsUseCase.loadInterests().collect { result ->
                 when (result) {
 
                     is Resource.Loading -> {
                         _state.value = InterestsScreenState(
                             isLoading = true,
-                            internetProblem = false
                         )
                     }
                     is Resource.Success -> {
-
                         _state.value = InterestsScreenState(
-                            isLoading = false,
-                            internetProblem = false,
                             isInterestsLoaded = true
                         )
                         _interests.value = result.data!!
@@ -60,21 +64,11 @@ class InterestsScreenViewModel(
                     is Resource.Internet -> {
                         _state.value = InterestsScreenState(
                             internetProblem = true,
-                            isLoading = false,
                             error = result.message!!
                         )
                     }
                     is Resource.Error -> {
                         _state.value = InterestsScreenState(
-                            internetProblem = false,
-                            isLoading = false,
-                            error = result.message!!
-                        )
-                    }
-                    else -> {
-                        _state.value = InterestsScreenState(
-                            internetProblem = false,
-                            isLoading = false,
                             error = result.message!!
                         )
                     }
@@ -83,15 +77,44 @@ class InterestsScreenViewModel(
         }
     }
 
-    fun setInterests(selectedItems: List<InterestModel>) {
+    fun putInterests(selectedItems: List<InterestModel>) {
         if (selectedItems.isEmpty()) {
             _state.value = InterestsScreenState(
-                            isLoading = false,
-                            internetProblem = false,
-                            success = true,
-                            error = NO_CHOSEN_ERR_MSG
-                        )
+                error = NO_CHOSEN_ERR_MSG,
+                isInterestsLoaded = true
+            )
             return
+        }
+        viewModelScope.launch {
+            interestsUseCase.putInterests(token, selectedItems).collect { result ->
+                when (result) {
+                    is Resource.Loading -> {
+                        _state.value = InterestsScreenState(
+                            isLoading = true,
+                            isInterestsLoaded = true
+                        )
+                    }
+                    is Resource.Success -> {
+                        _state.value = InterestsScreenState(
+                            isInterestsLoaded = true,
+                            isInterestsSent = true
+                        )
+                    }
+                    is Resource.Internet -> {
+                        _state.value = InterestsScreenState(
+                            internetProblem = true,
+                            error = result.message!!,
+                            isInterestsLoaded = true
+                        )
+                    }
+                    is Resource.Error -> {
+                        _state.value = InterestsScreenState(
+                            error = result.message!!,
+                            isInterestsLoaded = true
+                        )
+                    }
+                }
+            }
         }
     }
 
@@ -101,6 +124,5 @@ class InterestsScreenViewModel(
 
     companion object {
         const val NO_CHOSEN_ERR_MSG = "No interests chosen!"
-        const val REQUEST_DELAY: Long = 2000
     }
 }

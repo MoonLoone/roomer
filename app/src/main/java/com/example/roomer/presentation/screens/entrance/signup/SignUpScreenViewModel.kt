@@ -36,7 +36,7 @@ class SignUpScreenViewModel(
         }
 
         viewModelScope.launch {
-            signUpUseCase(username, email, password, REQUEST_DELAY).collect { result ->
+            signUpUseCase(username, email, password).collect { result ->
                 when (result) {
 
                     is Resource.Loading -> {
@@ -71,21 +71,26 @@ class SignUpScreenViewModel(
                         )
                     }
                     is Resource.Error -> {
-                        _state.value = SignUpScreenState(
-                            internetProblem = false,
-                            isLoading = false,
-                            error = result.message!!
-                        )
+                        when (result) {
+                            is Resource.Error.EmailError -> {
+                                _state.value = SignUpScreenState(
+                                    internetProblem = false,
+                                    isLoading = false,
+                                    error = result.message!!,
+                                    isEmailError = true
+                                )
+                            }
+                            else -> {
+                                _state.value = SignUpScreenState(
+                                    internetProblem = false,
+                                    isLoading = false,
+                                    error = result.message!!
+                                )
+                            }
+                        }
+
                     }
-                    is Resource.EmailError -> {
-                        _state.value = SignUpScreenState(
-                            internetProblem = false,
-                            isLoading = false,
-                            error = result.message!!,
-                            isEmailError = true
-                        )
-                    }
-                    }
+                }
                 }
             }
         }
@@ -97,6 +102,5 @@ class SignUpScreenViewModel(
     companion object {
         const val EMPTY_FIELD_ERR_MSG = "Field(s) can't be empty!"
         const val CONF_PASS_ERR_MSG = "You have to confirm password!"
-        const val REQUEST_DELAY: Long = 2000
     }
 }

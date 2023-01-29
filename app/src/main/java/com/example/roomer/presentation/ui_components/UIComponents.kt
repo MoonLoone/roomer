@@ -1,6 +1,5 @@
-package com.example.roomer.ui_components
+package com.example.roomer.presentation.ui_components
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -12,7 +11,6 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,6 +34,7 @@ import com.example.roomer.models.RecommendedRoom
 import com.example.roomer.models.RecommendedRoommate
 import com.example.roomer.utils.NavbarItem
 import androidx.compose.material3.AlertDialog
+import androidx.compose.ui.graphics.vector.ImageVector
 import com.example.roomer.domain.model.interests.InterestModel
 
 @Composable
@@ -500,14 +499,68 @@ fun GreenButtonPrimary(
         )
     }
 }
+@Composable
+fun GreenButtonPrimaryIconed(
+    text: String,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    onClick: () -> Unit,
+    trailingIcon: ImageVector,
+) {
+    Button(
+        enabled = enabled,
+        onClick = onClick,
+        modifier = modifier,
+        shape = CircleShape,
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = colorResource(id = R.color.primary_dark),
+            contentColor = colorResource(id = R.color.secondary_color)
+        ),
+
+
+    ) {
+        Icon(trailingIcon, "None", tint = colorResource(id = R.color.secondary_color))
+        androidx.compose.material.Text(
+            text = text,
+        )
+    }
+}
+
+@Composable
+fun GreenButtonOutlineIconed(
+    text: String,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
+    trailingIcon: ImageVector,
+    enabled: Boolean = true
+) {
+    Button(
+        onClick = onClick,
+        modifier = modifier,
+        shape = CircleShape,
+        colors = ButtonDefaults.outlinedButtonColors(
+            backgroundColor = Color.White,
+            contentColor = colorResource(id = R.color.primary_dark)
+        ),
+        border = BorderStroke(1.dp, color = colorResource(id = R.color.text_secondary)),
+        enabled = enabled
+    ) {
+        Icon(trailingIcon, "None", tint = colorResource(id = R.color.primary_dark))
+        androidx.compose.material.Text(
+            text = text,
+        )
+    }
+}
 
 @Composable
 fun GreenButtonOutline(
     text: String,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
     onClick: () -> Unit
 ) {
     Button(
+        enabled = enabled,
         onClick = onClick,
         modifier = modifier,
         shape = CircleShape,
@@ -524,10 +577,13 @@ fun GreenButtonOutline(
 }
 
 @Composable
-fun ButtonsRow(label: String, values: List<String>) {
-    var selectedItem by remember {
-        mutableStateOf(values[0])
-    }
+fun ButtonsRow(
+    label: String,
+    values: List<String>,
+    value: String,
+    onValueChange: (String) -> Unit,
+    enabled: Boolean = true
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth(),
@@ -546,12 +602,12 @@ fun ButtonsRow(label: String, values: List<String>) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            for (value in values) {
-                if (value == selectedItem) {
-                    GreenButtonPrimary(text = value) {  }
+            for (item in values) {
+                if (item == value) {
+                    GreenButtonPrimary(text = item, enabled = enabled) {}
                 } else {
-                    GreenButtonOutline(text = value) {
-                        selectedItem = value
+                    GreenButtonOutline(text = item, enabled = enabled) {
+                        onValueChange(item)
                     }
                 }
             }

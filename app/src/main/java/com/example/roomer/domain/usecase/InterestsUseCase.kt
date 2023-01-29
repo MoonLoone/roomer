@@ -15,15 +15,36 @@ import java.io.IOException
 class InterestsUseCase(
     private val repository: RoomerRepository
 ) {
-    fun loadInterests(delay: Long) : Flow<Resource<List<InterestModel>>> = flow {
+    fun loadInterests() : Flow<Resource<List<InterestModel>>> = flow {
         try {
             emit(Resource.Loading())
-            delay(delay)
 
             val process = repository.getInterests()
 
             coroutineScope {
                 emit(Resource.Success(process))
+            }
+
+        } catch (e: IOException) {
+            emit(Resource.Internet(ConstUseCase.internetErrorMessage))
+        }
+    }
+    fun putInterests(
+        token: String,
+        interests: List<InterestModel>
+    ) : Flow<Resource<String>> = flow {
+        try {
+            emit(Resource.Loading())
+
+            val process = repository.putInterests(token, interests)
+
+            if (process.isSuccessful) {
+                coroutineScope {
+                    emit(Resource.Success(process.body()!!.id))
+                }
+            }
+            else {
+                emit(Resource.Error.GeneralError(message = "An error occurred"))
             }
 
         } catch (e: IOException) {

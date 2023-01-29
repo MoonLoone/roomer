@@ -1,4 +1,4 @@
-package com.example.roomer.ui_components
+package com.example.roomer.presentation.ui_components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -12,7 +12,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Password
-import androidx.compose.material.icons.outlined.VerifiedUser
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -51,11 +50,10 @@ import java.time.format.DateTimeFormatter
 fun DropdownTextField(
     listOfItems: List<String>,
     label: String,
-    paddingValues: PaddingValues = PaddingValues(top = 16.dp)
+    value: String,
+    onValueChange: (String) -> Unit,
+    enabled: Boolean = true
 ) {
-    var selectedItem by remember {
-        mutableStateOf(listOfItems[0])
-    }
     var isExpanded by remember {
         mutableStateOf(false)
     }
@@ -67,7 +65,6 @@ fun DropdownTextField(
     else
         Icons.Filled.KeyboardArrowDown
     Column(
-        modifier = Modifier.padding(paddingValues),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Text(
@@ -79,16 +76,17 @@ fun DropdownTextField(
             )
         )
         TextField(
-            value = selectedItem,
-            onValueChange = {
-                selectedItem = it
-            },
+            value = value,
+            onValueChange = onValueChange,
             modifier = Modifier
                 .fillMaxWidth()
                 .onGloballyPositioned { coordinates ->
                     textFieldSize = coordinates.size.toSize()
                 }
-                .clickable { isExpanded = !isExpanded },
+                .clickable {
+                    if (enabled)
+                    isExpanded = !isExpanded
+                           },
             enabled = false,
             trailingIcon = {
                 Icon(icon, "Dropdown icon")
@@ -103,7 +101,7 @@ fun DropdownTextField(
         ) {
             listOfItems.forEach { text ->
                 DropdownMenuItem(onClick = {
-                    selectedItem = text
+                    onValueChange(text)
                     isExpanded = false
                 }) { Text(text = text) }
             }
@@ -204,6 +202,59 @@ fun SelectSex(paddingValues: PaddingValues = PaddingValues(top = 16.dp)) {
     }
 }
 
+@Composable
+fun SexField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    title: String = "Select sex",
+    enabled: Boolean = true
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        Text(
+            text = title,
+            fontSize = integerResource(id = R.integer.primary_text_size).sp,
+            fontWeight = FontWeight.Medium,
+            color = Color.Black
+        )
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            if (value == "M") {
+                GreenButtonPrimaryIconed(
+                    text = "Male",
+                    onClick = {},
+                    trailingIcon = Icons.Filled.Male,
+                    enabled = enabled
+                )
+                GreenButtonOutlineIconed(
+                    text = "Female",
+                    onClick = { onValueChange("F") },
+                    trailingIcon = Icons.Filled.Female,
+                    enabled = enabled
+                )
+            }
+            else {
+                GreenButtonOutlineIconed(
+                    text = "Male",
+                    onClick = { onValueChange("M") },
+                    trailingIcon = Icons.Filled.Male,
+                    enabled = enabled
+                )
+                GreenButtonPrimaryIconed(
+                    text = "Female",
+                    onClick = {},
+                    trailingIcon = Icons.Filled.Female,
+                    enabled = enabled
+                )
+            }
+        }
+    }
+}
+
 
 @Composable
 fun ScreenTextField(
@@ -252,12 +303,12 @@ fun ScreenTextField(
 
 @Composable
 fun DateField(
-    label: String = "Date field", paddingValues: PaddingValues = PaddingValues(top = 16.dp)
+    label: String = "Date field",
+    value: String,
+    onValueChange: (String) -> Unit,
+    enabled: Boolean = true
 ) {
     val dialogState = rememberMaterialDialogState()
-    var textState by remember {
-        mutableStateOf(TextFieldValue("11.12.2002"))
-    }
     MaterialDialog(
         dialogState = dialogState,
         buttons = {
@@ -267,13 +318,14 @@ fun DateField(
     ) {
         datepicker { date ->
             val formattedDate = date.format(
-                DateTimeFormatter.ofPattern("dd.MM.yyyy")
+                DateTimeFormatter.ofPattern("yyyy.MM.dd.")
             )
-            textState = TextFieldValue(formattedDate)
+            onValueChange(formattedDate)
         }
     }
     Column(
-        modifier = Modifier.padding(paddingValues),
+        modifier = Modifier
+            .fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Text(
@@ -283,7 +335,8 @@ fun DateField(
             fontWeight = FontWeight.Medium
         )
         TextField(
-            value = textState.text, onValueChange = { },
+            value = value,
+            onValueChange = { },
             trailingIcon = {
                 Icon(
                     painter = painterResource(id = R.drawable.calendar_icon),
@@ -300,7 +353,8 @@ fun DateField(
             ),
             modifier = Modifier
                 .clickable {
-                    dialogState.show()
+                    if (enabled)
+                        dialogState.show()
                 }
                 .fillMaxWidth(),
             colors = TextFieldDefaults.textFieldColors(backgroundColor = colorResource(id = R.color.secondary_color)),
@@ -505,7 +559,8 @@ fun UsualTextField(
     value: String,
     onValueChange: (String) -> Unit,
     isError: Boolean = false,
-    errorMessage: String = ""
+    errorMessage: String = "",
+    enabled: Boolean = true
 ) {
     Column(
         modifier = Modifier
@@ -526,6 +581,7 @@ fun UsualTextField(
                 fontSize = integerResource(id = R.integer.primary_text_size).sp,
                 textAlign = TextAlign.Start,
             ),
+            enabled = enabled,
             placeholder = {
                 Text(
                     text = placeholder,

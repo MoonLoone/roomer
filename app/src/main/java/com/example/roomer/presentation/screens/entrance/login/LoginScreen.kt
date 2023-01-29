@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.ClickableText
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,7 +29,10 @@ import com.example.roomer.R
 import com.example.roomer.presentation.screens.destinations.InterestsScreenDestination
 import com.example.roomer.presentation.screens.destinations.MainScreenDestination
 import com.example.roomer.presentation.screens.destinations.SignUpScreen1Destination
-import com.example.roomer.ui_components.*
+import com.example.roomer.presentation.ui_components.EmailField
+import com.example.roomer.presentation.ui_components.GreenButtonPrimary
+import com.example.roomer.presentation.ui_components.PasswordField
+import com.example.roomer.presentation.ui_components.SimpleAlertDialog
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
