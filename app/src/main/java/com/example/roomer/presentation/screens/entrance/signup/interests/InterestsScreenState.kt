@@ -1,4 +1,4 @@
-package com.example.roomer.presentation.screens.entrance.interests
+package com.example.roomer.presentation.screens.entrance.signup.interests
 
 data class InterestsScreenState (
     val isInterestsSent: Boolean = false,

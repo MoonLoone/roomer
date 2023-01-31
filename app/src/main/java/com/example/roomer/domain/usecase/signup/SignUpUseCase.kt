@@ -1,4 +1,4 @@
-package com.example.roomer.domain.usecase
+package com.example.roomer.domain.usecase.signup
 
 import android.util.Log
 import com.example.roomer.utils.Resource

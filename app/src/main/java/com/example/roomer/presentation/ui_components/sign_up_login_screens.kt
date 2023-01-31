@@ -242,8 +242,8 @@ import com.example.roomer.R
 //    }
 //}
 //
-//@Composable
-//fun SignUpScreen3() {
+@Composable
+fun SignUpScreen3() {
 //    Column(
 //        modifier = Modifier
 //            .fillMaxSize()
@@ -302,7 +302,7 @@ import com.example.roomer.R
 //            }
 //        }
 //    }
-//}
+}
 //
 //@Composable
 //fun HabitsScreen() {

@@ -1,4 +1,4 @@
-package com.example.roomer.presentation.screens.entrance.interests
+package com.example.roomer.presentation.screens.entrance.signup.interests
 
 import android.app.Application
 import androidx.compose.runtime.MutableState
@@ -8,16 +8,10 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.roomer.api.RoomerApiObj
 import com.example.roomer.data.repository.RoomerRepository
-import com.example.roomer.domain.model.interests.InterestModel
+import com.example.roomer.domain.model.signup.interests.InterestModel
 import com.example.roomer.domain.usecase.InterestsUseCase
 import com.example.roomer.utils.Resource
-import com.example.roomer.domain.usecase.SignUpUseCase
 import com.example.roomer.utils.SpManager
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class InterestsScreenViewModel(

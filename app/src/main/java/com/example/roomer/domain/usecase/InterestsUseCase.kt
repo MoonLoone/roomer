@@ -1,7 +1,7 @@
 package com.example.roomer.domain.usecase
 
 import com.example.roomer.data.repository.RoomerRepository
-import com.example.roomer.domain.model.interests.InterestModel
+import com.example.roomer.domain.model.signup.interests.InterestModel
 import com.example.roomer.utils.ConstUseCase
 import com.example.roomer.utils.Resource
 import kotlinx.coroutines.Delay

@@ -17,6 +17,7 @@ import com.example.roomer.presentation.screens.destinations.LoginScreenDestinati
 import com.example.roomer.presentation.screens.destinations.SignUpScreen1Destination
 import com.example.roomer.presentation.ui_components.GreenButtonOutline
 import com.example.roomer.presentation.ui_components.GreenButtonPrimary
+import com.example.roomer.utils.Consts
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -54,7 +55,7 @@ fun StartScreen(
                 .padding(top = 16.dp)
                 .fillMaxWidth(),
         ) {
-            navigator.navigate(LoginScreenDestination(0))
+            navigator.navigate(LoginScreenDestination(Consts.greetingScreenId))
         }
         GreenButtonOutline(
             text = "Sign Up",
@@ -62,7 +63,7 @@ fun StartScreen(
                 .padding(top = 8.dp)
                 .fillMaxWidth(),
         ) {
-            navigator.navigate(SignUpScreen1Destination(1))
+            navigator.navigate(SignUpScreen1Destination(Consts.greetingScreenId))
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.roomer.domain.usecase
+package com.example.roomer.domain.usecase.signup
 
 import com.example.roomer.utils.Resource
 import com.example.roomer.data.repository.RoomerRepository
@@ -32,15 +32,8 @@ class SignUpOneUseCase (
                 }
             }
             else {
-                var errMsg = process.errorBody()!!.string()
-                val errorOn = JSONObject(errMsg).names()!![0].toString()
-                errMsg = JSONObject(errMsg).getJSONArray(errorOn)[0].toString()
-
-                when (errorOn) {
-                    "first_name" -> emit(Resource.Error.FirstNameError(message = errMsg))
-                    "last_name" -> emit(Resource.Error.LastNameError(message = errMsg))
-                    else -> emit(Resource.Error.GeneralError(message = errMsg))
-                }
+                val errMsg = process.errorBody()!!.string()
+                emit(Resource.Error.GeneralError(message = errMsg))
             }
 
         } catch (e: IOException) {

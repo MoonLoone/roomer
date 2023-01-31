@@ -54,10 +54,10 @@ fun DropdownTextField(
     onValueChange: (String) -> Unit,
     enabled: Boolean = true
 ) {
-    var isExpanded by remember {
+    var isExpanded by rememberSaveable {
         mutableStateOf(false)
     }
-    var textFieldSize by remember {
+    var textFieldSize by rememberSaveable {
         mutableStateOf(Size.Zero)
     }
     val icon = if (isExpanded)
@@ -85,8 +85,8 @@ fun DropdownTextField(
                 }
                 .clickable {
                     if (enabled)
-                    isExpanded = !isExpanded
-                           },
+                        isExpanded = !isExpanded
+                },
             enabled = false,
             trailingIcon = {
                 Icon(icon, "Dropdown icon")
@@ -104,6 +104,68 @@ fun DropdownTextField(
                     onValueChange(text)
                     isExpanded = false
                 }) { Text(text = text) }
+            }
+        }
+    }
+}
+@Composable
+fun DropdownTextFieldMapped(
+    mapOfItems: Map<String, String>,
+    label: String,
+    value: String, //There gonna be keys
+    onValueChange: (String) -> Unit,
+    enabled: Boolean = true
+) {
+    var isExpanded by rememberSaveable {
+        mutableStateOf(false)
+    }
+    var textFieldSize by remember {
+        mutableStateOf(Size.Zero)
+    }
+    val icon = if (isExpanded)
+        Icons.Filled.KeyboardArrowUp
+    else
+        Icons.Filled.KeyboardArrowDown
+    Column(
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        Text(
+            text = label,
+            style = TextStyle(
+                fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                color = Color.Black,
+                fontWeight = FontWeight.Medium
+            )
+        )
+        TextField(
+            value = mapOfItems.getValue(value),
+            onValueChange = onValueChange,
+            modifier = Modifier
+                .fillMaxWidth()
+                .onGloballyPositioned { coordinates ->
+                    textFieldSize = coordinates.size.toSize()
+                }
+                .clickable {
+                    if (enabled)
+                        isExpanded = !isExpanded
+                },
+            enabled = false,
+            trailingIcon = {
+                Icon(icon, "Dropdown icon")
+            },
+            colors = TextFieldDefaults.textFieldColors(backgroundColor = colorResource(id = R.color.secondary_color)),
+            textStyle = TextStyle(fontSize = 14.sp, color = Color.Black)
+        )
+
+        DropdownMenu(
+            expanded = isExpanded, onDismissRequest = { isExpanded = false },
+            modifier = Modifier.width(with(LocalDensity.current) { textFieldSize.width.toDp() })
+        ) {
+            mapOfItems.forEach { entry ->
+                DropdownMenuItem(onClick = {
+                    onValueChange(entry.key)
+                    isExpanded = false
+                }) { Text(text = entry.value) }
             }
         }
     }
@@ -318,7 +380,7 @@ fun DateField(
     ) {
         datepicker { date ->
             val formattedDate = date.format(
-                DateTimeFormatter.ofPattern("yyyy.MM.dd.")
+                DateTimeFormatter.ofPattern("yyyy-MM-dd")
             )
             onValueChange(formattedDate)
         }
@@ -438,7 +500,7 @@ fun PasswordField(
     onValueChange: (String) -> Unit,
     enabled: Boolean = true,
     isError: Boolean = false,
-    errorMessage: String
+    errorMessage: String = ""
 ) {
     var visibility by rememberSaveable {
         mutableStateOf(false)
@@ -462,6 +524,7 @@ fun PasswordField(
             fontWeight = FontWeight.Medium
         )
         TextField(
+            singleLine = true,
             enabled=enabled,
             value = value,
             onValueChange = onValueChange,
@@ -509,7 +572,7 @@ fun EmailField(
     onValueChange: (String) -> Unit,
     enabled: Boolean = true,
     isError: Boolean = false,
-    errorMessage: String
+    errorMessage: String = ""
 ) {
     Column(
         modifier = modifier
@@ -524,6 +587,7 @@ fun EmailField(
             fontWeight = FontWeight.Medium
         )
         TextField(
+            singleLine = true,
             enabled=enabled,
             value = value,
             onValueChange = onValueChange,
@@ -560,7 +624,9 @@ fun UsualTextField(
     onValueChange: (String) -> Unit,
     isError: Boolean = false,
     errorMessage: String = "",
-    enabled: Boolean = true
+    enabled: Boolean = true,
+    singleLine: Boolean = true,
+    maxLines: Int = 5
 ) {
     Column(
         modifier = Modifier
@@ -575,6 +641,8 @@ fun UsualTextField(
             fontWeight = FontWeight.Medium
         )
         TextField(
+            maxLines = maxLines,
+            singleLine = singleLine,
             value = value,
             textStyle = TextStyle(
                 color = Color.Black,
@@ -616,7 +684,9 @@ fun IconedTextField(
     icon: ImageVector,
     enabled: Boolean = true,
     isError: Boolean = false,
-    errorMessage: String = ""
+    errorMessage: String = "",
+    singleLine: Boolean = true,
+    maxLines: Int = 5
 ) {
     Column(
         modifier = Modifier
@@ -631,6 +701,8 @@ fun IconedTextField(
             fontWeight = FontWeight.Medium
         )
         TextField(
+            maxLines = maxLines,
+            singleLine = singleLine,
             leadingIcon = { Icon(icon, stringResource(R.string.icon_description)) },
             value = value,
             enabled = enabled,

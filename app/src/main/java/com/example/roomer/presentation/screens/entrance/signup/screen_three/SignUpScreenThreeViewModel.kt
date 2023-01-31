@@ -7,8 +7,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.roomer.api.RoomerApiObj
 import com.example.roomer.data.repository.RoomerRepository
-import com.example.roomer.domain.usecase.SignUpOneUseCase
-import com.example.roomer.domain.usecase.SignUpThreeUseCase
+import com.example.roomer.domain.usecase.signup.SignUpThreeUseCase
 import com.example.roomer.utils.Resource
 import com.example.roomer.utils.SpManager
 import kotlinx.coroutines.launch

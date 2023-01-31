@@ -2,15 +2,13 @@ package com.example.roomer.presentation.screens.entrance.login
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,13 +24,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.roomer.R
-import com.example.roomer.presentation.screens.destinations.InterestsScreenDestination
 import com.example.roomer.presentation.screens.destinations.MainScreenDestination
 import com.example.roomer.presentation.screens.destinations.SignUpScreen1Destination
+import com.example.roomer.presentation.screens.destinations.SignUpScreenOneDestination
 import com.example.roomer.presentation.ui_components.EmailField
 import com.example.roomer.presentation.ui_components.GreenButtonPrimary
 import com.example.roomer.presentation.ui_components.PasswordField
 import com.example.roomer.presentation.ui_components.SimpleAlertDialog
+import com.example.roomer.utils.Consts
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
@@ -44,19 +43,23 @@ fun LoginScreen(
     loginScreenViewModel: LoginScreenViewModel = viewModel()
 ) {
     val state = loginScreenViewModel.state.value
-    val focusManager = LocalFocusManager.current
     var emailValue by rememberSaveable {
         mutableStateOf("")
     }
     var passwordValue by rememberSaveable {
         mutableStateOf("")
     }
+    val focusManager = LocalFocusManager.current
+    val interactionSource = remember { MutableInteractionSource() }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
-            .clickable { focusManager.clearFocus() },
-
+            .clickable(
+                indication = null,
+                interactionSource = interactionSource
+            ) { focusManager.clearFocus() },
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
@@ -70,7 +73,7 @@ fun LoginScreen(
                 ),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(integerResource(id = R.integer.elements_margin_size).dp),
-        ){
+        ) {
             Text(
                 text = stringResource(R.string.login_screen_title),
                 fontSize = integerResource(id = R.integer.label_text_size).sp,
@@ -81,7 +84,6 @@ fun LoginScreen(
                 value = emailValue,
                 onValueChange = { emailValue = it },
                 enabled = !state.isLoading,
-                errorMessage = "",
                 label = stringResource(R.string.email_label),
                 placeholder = stringResource(R.string.email_placeholder)
             )
@@ -90,15 +92,14 @@ fun LoginScreen(
                 onValueChange = { passwordValue = it },
                 enabled = !state.isLoading,
                 placeholder = stringResource(R.string.password_placeholder),
-                errorMessage = "",
                 label = stringResource(R.string.password_label)
-                )
+            )
             GreenButtonPrimary(
                 modifier = Modifier
                     .fillMaxWidth(),
                 text = stringResource(R.string.login_button_text),
                 enabled = !state.isLoading,
-                ) {
+            ) {
                 loginScreenViewModel.getUserLogin(emailValue, passwordValue)
             }
             Row(
@@ -116,7 +117,7 @@ fun LoginScreen(
                 ClickableText(
                     text = AnnotatedString(stringResource(R.string.login_screen_sign_up_text)),
                     modifier = Modifier
-                        .padding(start= integerResource(id = R.integer.elements_margin_size_small).dp),
+                        .padding(start = integerResource(id = R.integer.elements_margin_size_small).dp),
                     style = TextStyle(
                         fontSize = integerResource(id = R.integer.primary_text_size).sp,
                         fontWeight = FontWeight.Medium,
@@ -125,7 +126,7 @@ fun LoginScreen(
 
                     ),
                     onClick = {
-                        navigator.navigate(SignUpScreen1Destination(1))
+                        navigator.navigate(SignUpScreen1Destination(Consts.loginScreenId))
                     }
                 )
             }
@@ -135,17 +136,19 @@ fun LoginScreen(
                 )
             }
             if (state.error.isNotEmpty()) {
-                SimpleAlertDialog(title = stringResource(R.string.login_alert_dialog_title), text = state.error) {
+                SimpleAlertDialog(
+                    title = stringResource(R.string.login_alert_dialog_title),
+                    text = state.error
+                ) {
                     loginScreenViewModel.clearViewModel()
                 }
                 passwordValue = ""
             }
             if (state.success) {
-                if (id == 0) {
-                    navigator.navigate(MainScreenDestination(1))
-                }
-                else {
-                    navigator.navigate(InterestsScreenDestination(1))
+                if (id == Consts.greetingScreenId) {
+                    navigator.navigate(MainScreenDestination(Consts.loginScreenId))
+                } else {
+                    navigator.navigate(SignUpScreenOneDestination(Consts.loginScreenId))
                 }
             }
         }

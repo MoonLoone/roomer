@@ -1,15 +1,24 @@
 package com.example.roomer.data.repository
 
+import android.graphics.Bitmap
 import com.example.roomer.data.remote.RoomerApi
-import com.example.roomer.domain.model.interests.InterestModel
-import com.example.roomer.domain.model.interests.PutInterestsModel
+import com.example.roomer.domain.model.signup.interests.InterestModel
+import com.example.roomer.domain.model.signup.interests.PutInterestsModel
 import com.example.roomer.domain.model.login.LoginDto
 import com.example.roomer.domain.model.login.TokenDto
 import com.example.roomer.domain.model.signup.IdModel
 import com.example.roomer.domain.model.signup.SignUpModel
-import com.example.roomer.domain.model.signupone.SignUpOneModel
-import com.example.roomer.domain.model.signupthree.SignUpThreeModel
+import com.example.roomer.domain.model.signup.signup_one.SignUpOneModel
+import com.example.roomer.domain.model.signup.signup_three.SignUpThreeModel
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Response
+import java.io.ByteArrayOutputStream
+import java.io.File
+import kotlin.random.Random
+import kotlin.random.nextUInt
 
 class RoomerRepository (
     private val roomerApi: RoomerApi
@@ -77,7 +86,32 @@ class RoomerRepository (
                 smokingAttitude,
                 personalityType,
                 cleanHabits
-                )
+            )
+        )
+    }
+
+    override suspend fun putSignUpDataTwo(
+        token: String,
+        avatar: Bitmap,
+        aboutMe: String,
+        employment: String
+    ): Response<IdModel> {
+        val refToken = "Token ".plus(token)
+        val stream = ByteArrayOutputStream()
+        avatar.compress(Bitmap.CompressFormat.JPEG, 80, stream)
+        val byteArray = stream.toByteArray()
+        val avatarBody = MultipartBody.Part.createFormData(
+            "avatar",
+            Random.nextUInt(8000000u).toString().plus(".jpeg"),
+            byteArray.toRequestBody("image/*".toMediaTypeOrNull(), 0, byteArray.size)
+        )
+        return roomerApi.putSignUpDataTwo(
+            token = refToken,
+            avatar = avatarBody,
+            hashMapOf(
+                Pair("about_me", aboutMe.toRequestBody()),
+                Pair("employment", employment.toRequestBody()),
+            )
         )
     }
 

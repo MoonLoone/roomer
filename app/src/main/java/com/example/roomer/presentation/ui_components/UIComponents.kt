@@ -1,5 +1,12 @@
 package com.example.roomer.presentation.ui_components
 
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
+import android.net.Uri
+import android.os.Build
+import android.provider.MediaStore
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -34,8 +41,14 @@ import com.example.roomer.models.RecommendedRoom
 import com.example.roomer.models.RecommendedRoommate
 import com.example.roomer.utils.NavbarItem
 import androidx.compose.material3.AlertDialog
+import androidx.compose.runtime.saveable.Saver
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.example.roomer.domain.model.interests.InterestModel
+import androidx.compose.ui.platform.LocalContext
+import com.example.roomer.domain.model.signup.interests.InterestModel
+import java.io.File
 
 @Composable
 fun ProfileContentLine(text: String, iconId: Int, onNavigateToFriends: () -> Unit = {}) {
@@ -575,7 +588,6 @@ fun GreenButtonOutline(
         )
     }
 }
-
 @Composable
 fun ButtonsRow(
     label: String,
@@ -614,25 +626,99 @@ fun ButtonsRow(
         }
     }
 }
-
-@Preview
 @Composable
-fun ProfilePicture() {
+fun ButtonsRowMapped(
+    label: String,
+    values: Map<String, String>,
+    value: String, //There gonna be keys
+    onValueChange: (String) -> Unit,
+    enabled: Boolean = true
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        androidx.compose.material.Text(
+            text = label,
+            fontSize = integerResource(id = R.integer.primary_text_size).sp,
+            color = Color.Black,
+            textAlign = TextAlign.End,
+            fontWeight = FontWeight.Medium
+        )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            for (item in values) {
+                if (item.key == value) {
+                    GreenButtonPrimary(text = item.value, enabled = enabled) {}
+                } else {
+                    GreenButtonOutline(text = item.value, enabled = enabled) {
+                        onValueChange(item.key)
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+@Composable
+fun ProfilePicture(
+    enabled: Boolean = true,
+    bitmapValue: Bitmap?,
+    onBitmapValueChange: (Bitmap?) -> Unit
+) {
+    val imageUri = rememberSaveable {
+        mutableStateOf<Uri?>(null)
+    }
+    val context = LocalContext.current
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->  
+        imageUri.value = uri
+    }
+    imageUri.value?.let {
+        if (Build.VERSION.SDK_INT < 28) {
+            onBitmapValueChange(MediaStore.Images.Media.getBitmap(context.contentResolver, it))
+
+        } else {
+            val source = ImageDecoder.createSource(context.contentResolver, it)
+            onBitmapValueChange(ImageDecoder.decodeBitmap(source))
+        }
+    }
     Column(
         modifier = Modifier
             .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Image(
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .width(152.dp)
-                .height(152.dp)
-                .clickable {
-
-                },
+        val imageModifier = Modifier
+            .align(Alignment.CenterHorizontally)
+            .width(152.dp)
+            .height(152.dp)
+            .clip(CircleShape)
+            .border(2.dp, colorResource(id = R.color.primary_dark), CircleShape)
+            .clickable {
+                if (enabled) launcher.launch("image/*")
+            }
+        bitmapValue?.let {
+            Image(
+                bitmap = it.asImageBitmap(),
+                contentDescription = "Your avatar",
+                modifier = imageModifier,
+                contentScale = ContentScale.Crop,
+                alignment = Alignment.Center
+            )
+        } ?: Image(
+            modifier = imageModifier,
             painter = painterResource(id = R.drawable.usual_client),
-            contentDescription = "Your avatar")
+            contentDescription = "Your avatar",
+            contentScale = ContentScale.Crop,
+            alignment = Alignment.Center
+        )
         Icon(
             Icons.Filled.PhotoCamera,
             contentDescription = "Upload photo",

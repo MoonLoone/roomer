@@ -1,25 +1,29 @@
-package com.example.roomer.presentation.screens.entrance.signup.screen_one
+package com.example.roomer.presentation.screens.entrance.signup.screen_two
 
 import android.app.Application
+import android.graphics.Bitmap
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.roomer.api.RoomerApiObj
 import com.example.roomer.data.repository.RoomerRepository
-import com.example.roomer.domain.usecase.signup.SignUpOneUseCase
+import com.example.roomer.domain.usecase.signup.SignUpThreeUseCase
+import com.example.roomer.domain.usecase.signup.SignUpTwoUseCase
+import com.example.roomer.presentation.screens.UsualScreenState
 import com.example.roomer.utils.Resource
 import com.example.roomer.utils.SpManager
 import kotlinx.coroutines.launch
+import java.io.File
 
-class SignUpScreenOneViewModel(
+class SignUpScreenTwoViewModel(
     application: Application,
 ) : AndroidViewModel(application) {
     private val roomerRepository = RoomerRepository(RoomerApiObj.api)
-    private val _state = mutableStateOf(SignUpOneState())
+    private val _state = mutableStateOf(UsualScreenState())
 
-    val state: State<SignUpOneState> = _state
-    private val signUpOneUseCase = SignUpOneUseCase(roomerRepository)
+    val state: State<UsualScreenState> = _state
+    private val signUpTwoUseCase = SignUpTwoUseCase(roomerRepository)
 
     private val token = SpManager().getSharedPreference(
         getApplication<Application>().applicationContext,
@@ -28,32 +32,42 @@ class SignUpScreenOneViewModel(
     )!!
 
     fun applyData(
-        firstName: String,
-        lastName: String,
-        sex: String,
-        birthDate: String
+        avatar: Bitmap?,
+        aboutMe: String,
+        employment: String
     ) {
+        if (aboutMe.isEmpty()) {
+            _state.value = UsualScreenState(
+                error = "Can't proceed with about me field empty"
+            )
+            return
+        } else if (avatar == null) {
+            _state.value = UsualScreenState(
+                error = "Can't proceed with no uploaded profile picture"
+            )
+            return
+        }
         viewModelScope.launch {
-            signUpOneUseCase(token, firstName, lastName, sex, birthDate).collect { result ->
+            signUpTwoUseCase(token, avatar, aboutMe, employment).collect { result ->
                 when(result) {
                     is Resource.Success -> {
-                        _state.value = SignUpOneState(
+                        _state.value = UsualScreenState(
                             success = true
                         )
                     }
                     is Resource.Loading -> {
-                        _state.value = SignUpOneState(
+                        _state.value = UsualScreenState(
                             isLoading = true
                         )
                     }
                     is Resource.Internet -> {
-                        _state.value = SignUpOneState(
+                        _state.value = UsualScreenState(
                             internetProblem = true,
                             error = result.message!!
                         )
                     }
                     is Resource.Error -> {
-                        _state.value = SignUpOneState(
+                        _state.value = UsualScreenState(
                             error = result.message!!
                         )
                     }
@@ -62,6 +76,6 @@ class SignUpScreenOneViewModel(
         }
     }
     fun clearState() {
-        _state.value = SignUpOneState()
+        _state.value = UsualScreenState()
     }
 }

@@ -1,4 +1,4 @@
-package com.example.roomer.presentation.screens.entrance.interests
+package com.example.roomer.presentation.screens.entrance.signup.interests
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -17,10 +17,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.roomer.R
-import com.example.roomer.domain.model.interests.InterestModel
+import com.example.roomer.domain.model.signup.interests.InterestModel
+import com.example.roomer.presentation.screens.destinations.MainScreenDestination
 import com.example.roomer.presentation.ui_components.GreenButtonOutline
 import com.example.roomer.presentation.ui_components.GreenButtonPrimary
 import com.example.roomer.presentation.ui_components.InterestsButtons
+import com.example.roomer.utils.Consts
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
@@ -34,8 +36,8 @@ fun InterestsScreen(
 
     val state = interestsScreenViewModel.state.value
     val interests = interestsScreenViewModel.interests.value
-    var selectedItems: MutableState<List<InterestModel>> = rememberSaveable {
-        mutableStateOf(emptyList())
+    val selectedItems = rememberSaveable {
+        mutableStateOf<List<InterestModel>>(emptyList())
     }
     Column(
         modifier = Modifier
@@ -71,7 +73,7 @@ fun InterestsScreen(
                     onSelectedChange = { selectedItems.value = it })
             }
             if (state.isInterestsSent) {
-                //TODO navigation to further screen
+                navigator.navigate(MainScreenDestination(Consts.interestsScreenId))
             }
             if (state.isLoading) {
                 CircularProgressIndicator(

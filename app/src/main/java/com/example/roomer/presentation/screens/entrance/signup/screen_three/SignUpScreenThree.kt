@@ -19,37 +19,37 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.roomer.R
-import com.example.roomer.presentation.ui_components.ButtonsRow
-import com.example.roomer.presentation.ui_components.DropdownTextField
-import com.example.roomer.presentation.ui_components.GreenButtonPrimary
-import com.example.roomer.presentation.ui_components.SimpleAlertDialog
+import com.example.roomer.presentation.screens.destinations.InterestsScreenDestination
+import com.example.roomer.presentation.ui_components.*
+import com.example.roomer.utils.Consts
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
-@Preview
+@Destination
 @Composable
 fun SignUpScreenThree(
-//    id: Int,
-//    navigator: DestinationsNavigator,
+    id: Int,
+    navigator: DestinationsNavigator,
     signUpScreenThreeViewModel: SignUpScreenThreeViewModel = viewModel()
 ) {
     var sleepTimeValue by rememberSaveable {
-        mutableStateOf("Night")
+        mutableStateOf("N")
     }
     var alcoholAttitudeValue by rememberSaveable {
-        mutableStateOf("Indifferent")
+        mutableStateOf("I")
     }
     var smokingAttitudeValue by rememberSaveable {
-        mutableStateOf("Indifferent")
+        mutableStateOf("I")
     }
     var personalityValue by rememberSaveable {
-        mutableStateOf("Mixed")
+        mutableStateOf("M")
     }
     var cleanHabitsValue by rememberSaveable {
-        mutableStateOf("Neat")
+        mutableStateOf("N")
     }
     val focusManager = LocalFocusManager.current
     val state = signUpScreenThreeViewModel.state.value
@@ -82,32 +82,52 @@ fun SignUpScreenThree(
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Start
             )
-            ButtonsRow(
+            ButtonsRowMapped(
                 label = "Your usual sleep time",
-                values = listOf("Night", "Day", "Occasionally"),
+                values = mapOf(
+                    Pair("N", "Night"),
+                    Pair("D", "Day"),
+                    Pair("O", "Occasionally")
+                ),
                 value = sleepTimeValue,
                 onValueChange = { sleepTimeValue = it }
             )
-            ButtonsRow(
+            ButtonsRowMapped(
                 label = "Attitude to alcohol",
-                values = listOf("Positive", "Negative", "Indifferent"),
+                values = mapOf(
+                    Pair("P", "Positive"),
+                    Pair("N", "Negative"),
+                    Pair("I", "Indifferent")
+                ),
                 value = alcoholAttitudeValue,
                 onValueChange = { alcoholAttitudeValue = it }
             )
-            ButtonsRow(
+            ButtonsRowMapped(
                 label = "Attitude to smoking",
-                values = listOf("Positive", "Negative", "Indifferent"),
+                values = mapOf(
+                    Pair("P", "Positive"),
+                    Pair("N", "Negative"),
+                    Pair("I", "Indifferent")
+                ),
                 value = smokingAttitudeValue,
                 onValueChange = { smokingAttitudeValue = it }
             )
-            ButtonsRow(
+            ButtonsRowMapped(
                 label = "Personality type",
-                values = listOf("Extraverted", "Introverted", "Mixed"),
+                values = mapOf(
+                    Pair("E", "Extraverted"),
+                    Pair("I", "Introverted"),
+                    Pair("M", "Mixed")
+                ),
                 value = personalityValue,
                 onValueChange = { personalityValue = it }
             )
-            DropdownTextField(
-                listOfItems = listOf("Neat", "It Depends", "Chaos"),
+            DropdownTextFieldMapped(
+                mapOfItems = mapOf(
+                    Pair("N", "Neat"),
+                    Pair("D", "It Depends"),
+                    Pair("C", "Chaos")
+                ),
                 label = "Clean habits",
                 value = cleanHabitsValue,
                 onValueChange = { cleanHabitsValue = it }
@@ -126,7 +146,7 @@ fun SignUpScreenThree(
                 )
             }
             if (state.success) {
-                //TODO add navigation to the next screen
+                navigator.navigate(InterestsScreenDestination(Consts.signUpThreeScreenId))
             }
 
             if (state.isLoading) {
@@ -135,7 +155,10 @@ fun SignUpScreenThree(
                 )
             }
             if (state.internetProblem || state.error.isNotEmpty()) {
-                SimpleAlertDialog(title = stringResource(R.string.login_alert_dialog_title), text = state.error) {
+                SimpleAlertDialog(
+                    title = stringResource(R.string.login_alert_dialog_title),
+                    text = state.error
+                ) {
                     signUpScreenThreeViewModel.clearState()
                 }
             }

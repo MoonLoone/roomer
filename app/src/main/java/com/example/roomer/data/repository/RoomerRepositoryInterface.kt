@@ -1,9 +1,11 @@
 package com.example.roomer.data.repository
 
-import com.example.roomer.domain.model.interests.InterestModel
+import android.graphics.Bitmap
+import com.example.roomer.domain.model.signup.interests.InterestModel
 import com.example.roomer.domain.model.login.TokenDto
 import com.example.roomer.domain.model.signup.IdModel
 import retrofit2.Response
+import java.io.File
 
 interface RoomerRepositoryInterface {
     suspend fun userLogin(email:String, password:String) : Response<TokenDto>
@@ -25,4 +27,11 @@ interface RoomerRepositoryInterface {
         personalityType: String,
         cleanHabits: String
         ) : Response<IdModel>
+    suspend fun putSignUpDataTwo(
+        token: String,
+        avatar: Bitmap,
+        aboutMe: String,
+        employment: String
+    ) : Response<IdModel>
+
 }

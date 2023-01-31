@@ -2,15 +2,13 @@ package com.example.roomer.presentation.screens.entrance.signup.screen_one
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,7 +21,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.roomer.R
+import com.example.roomer.presentation.screens.destinations.SignUpScreenTwoDestination
 import com.example.roomer.presentation.ui_components.*
+import com.example.roomer.utils.Consts
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
@@ -41,19 +41,23 @@ fun SignUpScreenOne(
         mutableStateOf("")
     }
     var birthDateValue by rememberSaveable {
-        mutableStateOf("2022.01.27")
+        mutableStateOf("2022-01-27")
     }
     var sexValue by rememberSaveable {
         mutableStateOf("M")
     }
     val state = signUpScreenOneViewModel.state.value
     val focusManager = LocalFocusManager.current
+    val interactionSource = remember { MutableInteractionSource() }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
-            .clickable { focusManager.clearFocus() },
+            .clickable(
+                indication = null,
+                interactionSource = interactionSource
+            ) { focusManager.clearFocus() },
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
@@ -83,10 +87,8 @@ fun SignUpScreenOne(
                 onValueChange = {
                     firstNameValue = it
                     signUpScreenOneViewModel.clearState()
-                                },
+                },
                 enabled = !state.isLoading,
-                isError = state.isFirstNameError,
-                errorMessage = state.error
             )
             UsualTextField(
                 title = "Last Name",
@@ -97,15 +99,13 @@ fun SignUpScreenOne(
                     signUpScreenOneViewModel.clearState()
                 },
                 enabled = !state.isLoading,
-                isError = state.isLastNameError,
-                errorMessage = state.error
             )
             DateField(
                 label = "Date Of Birth",
                 value = birthDateValue,
                 onValueChange = { birthDateValue = it },
                 enabled = !state.isLoading
-                )
+            )
             SexField(
                 value = sexValue,
                 onValueChange = { sexValue = it },
@@ -117,7 +117,12 @@ fun SignUpScreenOne(
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
-                signUpScreenOneViewModel.applyData(firstNameValue, lastNameValue, sexValue, birthDateValue)
+                signUpScreenOneViewModel.applyData(
+                    firstNameValue,
+                    lastNameValue,
+                    sexValue,
+                    birthDateValue
+                )
             }
             if (state.isLoading) {
                 CircularProgressIndicator(
@@ -125,12 +130,13 @@ fun SignUpScreenOne(
                 )
             }
             if (state.internetProblem) {
-                SimpleAlertDialog(title = stringResource(R.string.login_alert_dialog_title), text = state.error) {
-                    signUpScreenOneViewModel.clearState()
-                }
+                SimpleAlertDialog(
+                    title = stringResource(R.string.login_alert_dialog_title),
+                    text = state.error
+                ) { signUpScreenOneViewModel.clearState() }
             }
             if (state.success) {
-                //TODO add navigation to the next screen if success
+                navigator.navigate(SignUpScreenTwoDestination(Consts.signUpTwoScreenId))
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.example.roomer.domain.usecase
+package com.example.roomer.domain.usecase.signup
 
 import com.example.roomer.data.repository.RoomerRepository
 import com.example.roomer.utils.ConstUseCase

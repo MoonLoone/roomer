@@ -8,9 +8,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.roomer.api.RoomerApiObj
 import com.example.roomer.data.repository.RoomerRepository
 import com.example.roomer.utils.Resource
-import com.example.roomer.domain.usecase.SignUpUseCase
+import com.example.roomer.domain.usecase.signup.SignUpUseCase
 import com.example.roomer.utils.SpManager
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class SignUpScreenViewModel(
@@ -25,13 +24,21 @@ class SignUpScreenViewModel(
 
     fun signUpUser(email: String, password: String, username: String, confPassword: String) {
 
-        if (email.trim().isEmpty() || password.trim().isEmpty() || username.trim().isEmpty()) {
+        if (
+            email.trim().isEmpty() ||
+            password.trim().isEmpty() ||
+            username.trim().isEmpty() ||
+            confPassword.trim().isEmpty()
+                ) {
             _state.value =
-                SignUpScreenState(error = EMPTY_FIELD_ERR_MSG, isLoading = false)
+                SignUpScreenState(error = EMPTY_FIELD_ERR_MSG)
             return
-        } else if (confPassword.trim().isEmpty()) {
+        } else if (confPassword != password) {
             _state.value =
-                SignUpScreenState(error = CONF_PASS_ERR_MSG, isLoading = false)
+                SignUpScreenState(
+                    error = CONF_PASS_ERR_MSG,
+                    isConfPasswordError = true
+                )
             return
         }
 
@@ -42,7 +49,6 @@ class SignUpScreenViewModel(
                     is Resource.Loading -> {
                         _state.value = SignUpScreenState(
                             isLoading = true,
-                            internetProblem = false
                         )
                     }
                     is Resource.Success -> {
@@ -58,15 +64,12 @@ class SignUpScreenViewModel(
                         )
 
                         _state.value = SignUpScreenState(
-                            isLoading = false,
-                            internetProblem = false,
                             success = true,
                         )
                     }
                     is Resource.Internet -> {
                         _state.value = SignUpScreenState(
                             internetProblem = true,
-                            isLoading = false,
                             error = result.message!!
                         )
                     }
@@ -74,16 +77,24 @@ class SignUpScreenViewModel(
                         when (result) {
                             is Resource.Error.EmailError -> {
                                 _state.value = SignUpScreenState(
-                                    internetProblem = false,
-                                    isLoading = false,
                                     error = result.message!!,
                                     isEmailError = true
                                 )
                             }
+                            is Resource.Error.UsernameError -> {
+                                _state.value = SignUpScreenState(
+                                    error = result.message!!,
+                                    isUsernameError = true
+                                )
+                            }
+                            is Resource.Error.PasswordError -> {
+                                _state.value = SignUpScreenState(
+                                    error = result.message!!,
+                                    isPasswordError = true
+                                )
+                            }
                             else -> {
                                 _state.value = SignUpScreenState(
-                                    internetProblem = false,
-                                    isLoading = false,
                                     error = result.message!!
                                 )
                             }
@@ -91,9 +102,9 @@ class SignUpScreenViewModel(
 
                     }
                 }
-                }
             }
         }
+    }
 
     fun clearState() {
         _state.value = SignUpScreenState()
@@ -101,6 +112,6 @@ class SignUpScreenViewModel(
 
     companion object {
         const val EMPTY_FIELD_ERR_MSG = "Field(s) can't be empty!"
-        const val CONF_PASS_ERR_MSG = "You have to confirm password!"
+        const val CONF_PASS_ERR_MSG = "Passwords aren't matching"
     }
 }

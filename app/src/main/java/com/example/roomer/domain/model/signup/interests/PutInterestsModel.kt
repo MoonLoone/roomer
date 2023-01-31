@@ -1,4 +1,4 @@
-package com.example.roomer.domain.model.interests
+package com.example.roomer.domain.model.signup.interests
 
 import com.google.gson.annotations.SerializedName
 

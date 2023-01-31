@@ -1,4 +1,4 @@
-package com.example.roomer.domain.model.signupthree
+package com.example.roomer.domain.model.signup.signup_three
 
 import com.google.gson.annotations.SerializedName
 
