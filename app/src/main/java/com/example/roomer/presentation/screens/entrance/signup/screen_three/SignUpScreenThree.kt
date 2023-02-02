@@ -51,15 +51,12 @@ fun SignUpScreenThree(
     var cleanHabitsValue by rememberSaveable {
         mutableStateOf("N")
     }
-    val focusManager = LocalFocusManager.current
     val state = signUpScreenThreeViewModel.state.value
-
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White)
-            .clickable { focusManager.clearFocus() },
+            .background(Color.White),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
@@ -74,7 +71,7 @@ fun SignUpScreenThree(
                 modifier = Modifier
                     .fillMaxWidth(),
                 color = colorResource(id = R.color.primary_dark),
-                progress = 0.2f
+                progress = 0.6f
             )
             Text(
                 text = "Tell us about your living habits",

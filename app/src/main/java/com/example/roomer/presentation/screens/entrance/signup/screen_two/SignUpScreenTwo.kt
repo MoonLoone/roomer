@@ -2,7 +2,10 @@ package com.example.roomer.presentation.screens.entrance.signup.screen_two
 
 import android.graphics.Bitmap
 import android.net.Uri
+import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material3.CircularProgressIndicator
@@ -12,6 +15,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -34,7 +38,7 @@ fun SignUpScreenTwo(
     navigator: DestinationsNavigator,
     signUpScreenTwoViewModel: SignUpScreenTwoViewModel = viewModel()
 ) {
-    val avatarBitmap = rememberSaveable {
+    val avatarBitmap = remember {
         mutableStateOf<Bitmap?>(null)
     }
     var aboutMeValue by rememberSaveable {
@@ -44,11 +48,17 @@ fun SignUpScreenTwo(
         mutableStateOf("E")
     }
     val state = signUpScreenTwoViewModel.state.value
+    val focusManager = LocalFocusManager.current
+    val interactionSource = remember { MutableInteractionSource() }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White),
+            .background(Color.White)
+            .clickable(
+                indication = null,
+                interactionSource = interactionSource
+            ) { focusManager.clearFocus() },
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
@@ -83,12 +93,14 @@ fun SignUpScreenTwo(
                 onBitmapValueChange = { avatarBitmap.value = it }
             )
             UsualTextField(
+                enabled = !state.isLoading,
                 title = "Write something about you",
                 placeholder = "About Me",
                 value = aboutMeValue,
                 onValueChange = { aboutMeValue = it }
             )
             DropdownTextFieldMapped(
+                enabled = !state.isLoading,
                 mapOfItems = mapOf(
                     Pair("NE", "Not Employed"),
                     Pair("E", "Employed"),
@@ -100,6 +112,7 @@ fun SignUpScreenTwo(
             )
             //TODO Implement address field
             GreenButtonPrimary(
+                enabled = !state.isLoading,
                 text = "Confirm",
                 modifier = Modifier
                     .fillMaxWidth()

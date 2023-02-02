@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -54,10 +55,12 @@ fun DropdownTextField(
     onValueChange: (String) -> Unit,
     enabled: Boolean = true
 ) {
-    var isExpanded by rememberSaveable {
+    val interactionSource = remember { MutableInteractionSource() }
+
+    var isExpanded by remember {
         mutableStateOf(false)
     }
-    var textFieldSize by rememberSaveable {
+    var textFieldSize by remember {
         mutableStateOf(Size.Zero)
     }
     val icon = if (isExpanded)
@@ -83,7 +86,10 @@ fun DropdownTextField(
                 .onGloballyPositioned { coordinates ->
                     textFieldSize = coordinates.size.toSize()
                 }
-                .clickable {
+                .clickable(
+                    interactionSource = interactionSource,
+                    indication = null
+                ) {
                     if (enabled)
                         isExpanded = !isExpanded
                 },
@@ -108,6 +114,7 @@ fun DropdownTextField(
         }
     }
 }
+
 @Composable
 fun DropdownTextFieldMapped(
     mapOfItems: Map<String, String>,
@@ -116,7 +123,9 @@ fun DropdownTextFieldMapped(
     onValueChange: (String) -> Unit,
     enabled: Boolean = true
 ) {
-    var isExpanded by rememberSaveable {
+    val interactionSource = remember { MutableInteractionSource() }
+
+    var isExpanded by remember {
         mutableStateOf(false)
     }
     var textFieldSize by remember {
@@ -145,7 +154,10 @@ fun DropdownTextFieldMapped(
                 .onGloballyPositioned { coordinates ->
                     textFieldSize = coordinates.size.toSize()
                 }
-                .clickable {
+                .clickable(
+                    interactionSource = interactionSource,
+                    indication = null
+                ) {
                     if (enabled)
                         isExpanded = !isExpanded
                 },
@@ -171,7 +183,6 @@ fun DropdownTextFieldMapped(
     }
 }
 
-
 @Composable
 fun SelectSex(paddingValues: PaddingValues = PaddingValues(top = 16.dp)) {
     Column(
@@ -188,7 +199,7 @@ fun SelectSex(paddingValues: PaddingValues = PaddingValues(top = 16.dp)) {
             fontSize = integerResource(id = R.integer.primary_text_size).sp,
             color = Color.Black,
             fontWeight = FontWeight.Medium,
-            )
+        )
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             Row(
                 modifier = Modifier
@@ -298,8 +309,7 @@ fun SexField(
                     trailingIcon = Icons.Filled.Female,
                     enabled = enabled
                 )
-            }
-            else {
+            } else {
                 GreenButtonOutlineIconed(
                     text = "Male",
                     onClick = { onValueChange("M") },
@@ -525,11 +535,16 @@ fun PasswordField(
         )
         TextField(
             singleLine = true,
-            enabled=enabled,
+            enabled = enabled,
             value = value,
             onValueChange = onValueChange,
             placeholder = { Text(text = placeholder) },
-            leadingIcon = { Icon(Icons.Outlined.Password, stringResource(R.string.icon_description)) },
+            leadingIcon = {
+                Icon(
+                    Icons.Outlined.Password,
+                    stringResource(R.string.icon_description)
+                )
+            },
             trailingIcon = {
                 IconButton(onClick = {
                     visibility = !visibility
@@ -588,13 +603,19 @@ fun EmailField(
         )
         TextField(
             singleLine = true,
-            enabled=enabled,
+            enabled = enabled,
             value = value,
             onValueChange = onValueChange,
             placeholder = { Text(text = placeholder) },
-            leadingIcon = { Icon(Icons.Outlined.Email, stringResource(R.string.icon_description)) },
-            trailingIcon = { if (isError)
-                Icon(Icons.Filled.Error, stringResource(R.string.error_icon_description),tint = MaterialTheme.colors.error) },
+            leadingIcon = { Icon(Icons.Filled.Email, stringResource(R.string.icon_description)) },
+            trailingIcon = {
+                if (isError)
+                    Icon(
+                        Icons.Filled.Error,
+                        stringResource(R.string.error_icon_description),
+                        tint = MaterialTheme.colors.error
+                    )
+            },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Email
             ),
@@ -663,7 +684,8 @@ fun UsualTextField(
                 .background(colorResource(id = R.color.secondary_color)),
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = colorResource(id = R.color.secondary_color),
-                focusedIndicatorColor = colorResource(id = R.color.primary_dark)),
+                focusedIndicatorColor = colorResource(id = R.color.primary_dark)
+            ),
             isError = isError
         )
         if (isError) {
@@ -711,8 +733,14 @@ fun IconedTextField(
                 fontSize = integerResource(id = R.integer.primary_text_size).sp,
                 textAlign = TextAlign.Start,
             ),
-            trailingIcon = { if (isError)
-                Icon(Icons.Filled.Error, stringResource(R.string.error_icon_description),tint = MaterialTheme.colors.error) },
+            trailingIcon = {
+                if (isError)
+                    Icon(
+                        Icons.Filled.Error,
+                        stringResource(R.string.error_icon_description),
+                        tint = MaterialTheme.colors.error
+                    )
+            },
 
             placeholder = {
                 Text(
@@ -727,14 +755,15 @@ fun IconedTextField(
                 .background(colorResource(id = R.color.secondary_color)),
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = colorResource(id = R.color.secondary_color),
-                focusedIndicatorColor = colorResource(id = R.color.primary_dark)),
-                isError = isError
+                focusedIndicatorColor = colorResource(id = R.color.primary_dark)
+            ),
+            isError = isError
         )
-            if (isError) {
-                Text(
-                    color = Color.Red,
-                    text = errorMessage
-                )
-            }
+        if (isError) {
+            Text(
+                color = Color.Red,
+                text = errorMessage
+            )
+        }
     }
 }

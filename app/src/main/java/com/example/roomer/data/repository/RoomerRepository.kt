@@ -12,11 +12,9 @@ import com.example.roomer.domain.model.signup.signup_one.SignUpOneModel
 import com.example.roomer.domain.model.signup.signup_three.SignUpThreeModel
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Response
 import java.io.ByteArrayOutputStream
-import java.io.File
 import kotlin.random.Random
 import kotlin.random.nextUInt
 

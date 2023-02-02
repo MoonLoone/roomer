@@ -8,6 +8,8 @@ import android.provider.MediaStore
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.*
+import androidx.compose.foundation.interaction.Interaction
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -48,6 +50,8 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import com.example.roomer.domain.model.signup.interests.InterestModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 import java.io.File
 
 @Composable
@@ -504,8 +508,8 @@ fun GreenButtonPrimary(
         colors = ButtonDefaults.buttonColors(
             backgroundColor = colorResource(id = R.color.primary_dark),
             contentColor = colorResource(id = R.color.secondary_color)
-        )
-
+        ),
+//        interactionSource = NoRippleInteractionSource()
     ) {
         androidx.compose.material.Text(
             text = text,
@@ -529,8 +533,7 @@ fun GreenButtonPrimaryIconed(
             backgroundColor = colorResource(id = R.color.primary_dark),
             contentColor = colorResource(id = R.color.secondary_color)
         ),
-
-
+        interactionSource = NoRippleInteractionSource()
     ) {
         Icon(trailingIcon, "None", tint = colorResource(id = R.color.secondary_color))
         androidx.compose.material.Text(
@@ -556,7 +559,8 @@ fun GreenButtonOutlineIconed(
             contentColor = colorResource(id = R.color.primary_dark)
         ),
         border = BorderStroke(1.dp, color = colorResource(id = R.color.text_secondary)),
-        enabled = enabled
+        enabled = enabled,
+        interactionSource = NoRippleInteractionSource()
     ) {
         Icon(trailingIcon, "None", tint = colorResource(id = R.color.primary_dark))
         androidx.compose.material.Text(
@@ -581,7 +585,8 @@ fun GreenButtonOutline(
             backgroundColor = Color.White,
             contentColor = colorResource(id = R.color.primary_dark)
         ),
-        border = BorderStroke(1.dp, color = colorResource(id = R.color.text_secondary))
+        border = BorderStroke(1.dp, color = colorResource(id = R.color.text_secondary)),
+        interactionSource = NoRippleInteractionSource()
     ) {
         androidx.compose.material.Text(
             text = text,
@@ -681,15 +686,6 @@ fun ProfilePicture(
     ) { uri: Uri? ->  
         imageUri.value = uri
     }
-    imageUri.value?.let {
-        if (Build.VERSION.SDK_INT < 28) {
-            onBitmapValueChange(MediaStore.Images.Media.getBitmap(context.contentResolver, it))
-
-        } else {
-            val source = ImageDecoder.createSource(context.contentResolver, it)
-            onBitmapValueChange(ImageDecoder.decodeBitmap(source))
-        }
-    }
     Column(
         modifier = Modifier
             .fillMaxWidth(),
@@ -702,7 +698,18 @@ fun ProfilePicture(
             .clip(CircleShape)
             .border(2.dp, colorResource(id = R.color.primary_dark), CircleShape)
             .clickable {
-                if (enabled) launcher.launch("image/*")
+                if (enabled) {
+                    launcher.launch("image/*")
+                    imageUri.value?.let {
+                        if (Build.VERSION.SDK_INT < 28) {
+                            onBitmapValueChange(MediaStore.Images.Media.getBitmap(context.contentResolver, it))
+
+                        } else {
+                            val source = ImageDecoder.createSource(context.contentResolver, it)
+                            onBitmapValueChange(ImageDecoder.decodeBitmap(source))
+                        }
+                    }
+                }
             }
         bitmapValue?.let {
             Image(
@@ -803,4 +810,14 @@ fun SimpleAlertDialog(
             )
         }
     )
+}
+
+class NoRippleInteractionSource : MutableInteractionSource {
+
+    override val interactions: Flow<Interaction> = emptyFlow()
+
+    override suspend fun emit(interaction: Interaction) {}
+
+    override fun tryEmit(interaction: Interaction) = true
+
 }

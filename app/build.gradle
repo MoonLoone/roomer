@@ -2,7 +2,6 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'com.google.gms.google-services'
-    id 'com.google.dagger.hilt.android'
     id 'kotlin-kapt'
     id 'com.google.devtools.ksp' version '1.7.20-1.0.8'
 
@@ -43,7 +42,7 @@ android {
     buildTypes {
         debug {
             buildConfigField "String", "BASE_URL", "\"http://176.113.83.93:8000/\""
-            // <---note the escape
+            debuggable true
         }
     }
     buildFeatures {
@@ -121,10 +120,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
-    implementation "com.google.dagger:hilt-android:2.44.2"
-    kapt "com.google.dagger:hilt-compiler:2.44"
     implementation 'io.github.raamcosta.compose-destinations:core:1.7.27-beta'
     ksp 'io.github.raamcosta.compose-destinations:ksp:1.7.27-beta'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
 }
