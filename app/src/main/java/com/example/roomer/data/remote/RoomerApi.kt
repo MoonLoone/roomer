@@ -9,6 +9,8 @@ import com.example.roomer.domain.model.signup.SignUpModel
 import com.example.roomer.domain.model.signup.signup_one.SignUpOneModel
 import com.example.roomer.domain.model.signup.signup_three.SignUpThreeModel
 import com.example.roomer.domain.model.signup.signup_two.SignUpTwoModel
+import com.example.roomer.domain.model.RoomsFilterInfo
+import com.example.roomer.domain.model.UsersFilterInfo
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -50,4 +52,24 @@ interface RoomerApi {
         @Part avatar: MultipartBody.Part,
         @PartMap signUpTwoModel: HashMap<String, RequestBody>
         ) : Response<IdModel>
+
+    @GET("/housing/")
+    suspend fun filterRooms(
+        @Query("month_price_from") monthPriceFrom: String,
+        @Query("month_price_to") monthPriceTo: String,
+        @Query(" bedrooms_count") bedroomsCount: String,
+        @Query("bathrooms_count") bathroomsCount: String,
+        @Query("housing_type") housingType: String,
+    ): Response<List<RoomsFilterInfo>>
+
+    @GET("/profile/")
+    suspend fun filterRoommates(
+        @Query("sex") sex: String,
+        @Query("employment") employment: String,
+        @Query("alcohol_attitude") alcoholAttitude: String,
+        @Query("smoking_attitude") smokingAttitude: String,
+        @Query("sleep_time") sleepTime: String,
+        @Query("personality_type") personalityType: String,
+        @Query("clean_habits") cleanHabits: String,
+    ): Response<List<UsersFilterInfo>>
 }

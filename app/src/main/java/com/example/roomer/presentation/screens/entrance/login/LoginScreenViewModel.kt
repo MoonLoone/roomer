@@ -1,18 +1,15 @@
 package com.example.roomer.presentation.screens.entrance.login
 
 import android.app.Application
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.roomer.api.RoomerApiObj
+import com.example.roomer.data.remote.RoomerApiObj
 import com.example.roomer.data.repository.RoomerRepository
 import com.example.roomer.domain.usecase.LoginUseCase
 import com.example.roomer.utils.Resource
-import com.example.roomer.state.LoginScreenState
 import com.example.roomer.utils.SpManager
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class LoginScreenViewModel(application: Application) : AndroidViewModel(application) {

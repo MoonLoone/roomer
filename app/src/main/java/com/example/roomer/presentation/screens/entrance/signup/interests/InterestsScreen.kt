@@ -93,6 +93,7 @@ fun InterestsScreen(
                 enabled = state.isInterestsLoaded
             ) {
                 interestsScreenViewModel.putInterests(selectedItems.value)
+                //TODO Add navigation to main page
             }
         }
     }

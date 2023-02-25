@@ -4,14 +4,20 @@ import android.graphics.Bitmap
 import com.example.roomer.domain.model.signup.interests.InterestModel
 import com.example.roomer.domain.model.login.TokenDto
 import com.example.roomer.domain.model.signup.IdModel
+import com.example.roomer.domain.model.RoomsFilterInfo
+import com.example.roomer.domain.model.UsersFilterInfo
 import retrofit2.Response
 import java.io.File
 
 interface RoomerRepositoryInterface {
     suspend fun userLogin(email:String, password:String) : Response<TokenDto>
+
     suspend fun userSignUp(username: String, email:String, password:String) : Response<IdModel>
+
     suspend fun getInterests() : List<InterestModel>
+
     suspend fun putInterests(token: String, interests: List<InterestModel>) : Response<IdModel>
+
     suspend fun putSignUpDataOne(
         token: String,
         firstName: String,
@@ -19,6 +25,7 @@ interface RoomerRepositoryInterface {
         sex: String,
         birthDate: String
         ) : Response<IdModel>
+
     suspend fun putSignUpDataThree(
         token: String,
         sleepTime: String,
@@ -27,6 +34,7 @@ interface RoomerRepositoryInterface {
         personalityType: String,
         cleanHabits: String
         ) : Response<IdModel>
+
     suspend fun putSignUpDataTwo(
         token: String,
         avatar: Bitmap,
@@ -34,4 +42,21 @@ interface RoomerRepositoryInterface {
         employment: String
     ) : Response<IdModel>
 
+    suspend fun getFilterRooms(
+        monthPriceFrom: String,
+        monthPriceTo: String,
+        bedroomsCount: String,
+        bathroomsCount: String,
+        housingType: String,
+    ): Response<List<RoomsFilterInfo>>
+
+    suspend fun getFilterRoommates(
+        sex: String,
+        employment: String,
+        alcoholAttitude: String,
+        smokingAttitude: String,
+        sleepTime: String,
+        personalityType: String,
+        cleanHabits: String,
+    ): Response<List<UsersFilterInfo>>
 }

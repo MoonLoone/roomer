@@ -10,6 +10,8 @@ import com.example.roomer.domain.model.signup.IdModel
 import com.example.roomer.domain.model.signup.SignUpModel
 import com.example.roomer.domain.model.signup.signup_one.SignUpOneModel
 import com.example.roomer.domain.model.signup.signup_three.SignUpThreeModel
+import com.example.roomer.domain.model.RoomsFilterInfo
+import com.example.roomer.domain.model.UsersFilterInfo
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -110,6 +112,42 @@ class RoomerRepository (
                 Pair("about_me", aboutMe.toRequestBody()),
                 Pair("employment", employment.toRequestBody()),
             )
+        )
+    }
+
+    override suspend fun getFilterRooms(
+        monthPriceFrom: String,
+        monthPriceTo: String,
+        bedroomsCount: String,
+        bathroomsCount: String,
+        housingType: String
+    ): Response<List<RoomsFilterInfo>> {
+        return roomerApi.filterRooms(
+            monthPriceFrom,
+            monthPriceTo,
+            bedroomsCount,
+            bathroomsCount,
+            housingType,
+        )
+    }
+
+    override suspend fun getFilterRoommates(
+        sex: String,
+        employment: String,
+        alcoholAttitude: String,
+        smokingAttitude: String,
+        sleepTime: String,
+        personalityType: String,
+        cleanHabits: String
+    ): Response<List<UsersFilterInfo>> {
+        return roomerApi.filterRoommates(
+            sex,
+            employment,
+            alcoholAttitude,
+            smokingAttitude,
+            sleepTime,
+            personalityType,
+            cleanHabits,
         )
     }
 

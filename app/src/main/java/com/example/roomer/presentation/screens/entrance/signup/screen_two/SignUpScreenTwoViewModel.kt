@@ -6,15 +6,13 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.roomer.api.RoomerApiObj
+import com.example.roomer.data.remote.RoomerApiObj
 import com.example.roomer.data.repository.RoomerRepository
-import com.example.roomer.domain.usecase.signup.SignUpThreeUseCase
 import com.example.roomer.domain.usecase.signup.SignUpTwoUseCase
 import com.example.roomer.presentation.screens.UsualScreenState
 import com.example.roomer.utils.Resource
 import com.example.roomer.utils.SpManager
 import kotlinx.coroutines.launch
-import java.io.File
 
 class SignUpScreenTwoViewModel(
     application: Application,

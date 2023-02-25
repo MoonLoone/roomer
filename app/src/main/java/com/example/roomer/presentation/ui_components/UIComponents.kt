@@ -36,29 +36,24 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.roomer.R
-import com.example.roomer.models.MessageToList
-import com.example.roomer.models.RecommendedRoom
-import com.example.roomer.models.RecommendedRoommate
-import com.example.roomer.models.UsersFilterInfo
+import com.example.roomer.domain.model.MessageToList
+import com.example.roomer.domain.model.RecommendedRoom
+import com.example.roomer.domain.model.RecommendedRoommate
+import com.example.roomer.domain.model.UsersFilterInfo
 import com.example.roomer.utils.NavbarItem
 import androidx.compose.material3.AlertDialog
-import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
 import com.example.roomer.domain.model.signup.interests.InterestModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
-import java.io.File
 
 
 @Composable

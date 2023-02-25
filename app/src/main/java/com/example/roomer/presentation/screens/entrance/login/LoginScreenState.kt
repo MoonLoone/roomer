@@ -1,4 +1,4 @@
-package com.example.roomer.state
+package com.example.roomer.presentation.screens.entrance.login
 
 data class LoginScreenState(
     var isLoading : Boolean = false,
