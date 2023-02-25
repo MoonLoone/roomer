@@ -21,14 +21,17 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
@@ -37,10 +40,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.example.roomer.R
 import com.example.roomer.models.MessageToList
 import com.example.roomer.models.RecommendedRoom
 import com.example.roomer.models.RecommendedRoommate
+import com.example.roomer.models.UsersFilterInfo
 import com.example.roomer.utils.NavbarItem
 import androidx.compose.material3.AlertDialog
 import androidx.compose.runtime.saveable.Saver
@@ -53,6 +59,7 @@ import com.example.roomer.domain.model.signup.interests.InterestModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import java.io.File
+
 
 @Composable
 fun ProfileContentLine(text: String, iconId: Int, onNavigateToFriends: () -> Unit = {}) {
@@ -119,7 +126,7 @@ fun Navbar(navController: NavHostController, selectedNavbarItemName: String) {
                             ) {
                                 Image(
                                     modifier = Modifier
-                                        .align(Alignment.Center)
+                                        .align(Center)
                                         .width(24.dp)
                                         .height(24.dp),
                                     painter = painterResource(id = item.iconSelected),
@@ -145,7 +152,7 @@ fun Navbar(navController: NavHostController, selectedNavbarItemName: String) {
                             ) {
                                 Image(
                                     modifier = Modifier
-                                        .align(Alignment.Center)
+                                        .align(Center)
                                         .width(24.dp)
                                         .height(24.dp),
                                     painter = painterResource(id = item.iconUnSelected),
@@ -179,12 +186,12 @@ fun MessageItem(
     ) {
         Image(
             painter = painterResource(id = R.drawable.ordinary_client),
-            contentDescription = "message_client_avatar",
+            contentDescription = stringResource(R.string.user_avatar_description),
             modifier = Modifier
                 .width(56.dp)
                 .height(56.dp)
                 .padding(start = 8.dp, end = 16.dp, bottom = 8.dp, top = 8.dp),
-            alignment = Alignment.Center
+            alignment = Center
         )
         Column(modifier = Modifier.fillMaxWidth()) {
             Row(modifier = Modifier.fillMaxWidth()) {
@@ -197,8 +204,9 @@ fun MessageItem(
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                     Image(
                         painter = painterResource(id = if (message.isRead) R.drawable.checked_messages_icon else R.drawable.unchecked_messages_icon),
-                        contentDescription = if (message.isRead) "Messages checked" else "Messages unchecked",
-                        alignment = Alignment.Center,
+                        contentDescription = if (message.isRead) stringResource(R.string.message_checked_description) else stringResource(
+                                                    R.string.message_unchecked_description),
+                        alignment = Center,
                         modifier = Modifier
                             .width(18.dp)
                             .height(18.dp),
@@ -301,7 +309,7 @@ fun Message(isUserMessage: Boolean, text: String, data: String) {
                 Text(text = text)
                 Image(
                     painter = painterResource(id = R.drawable.checked_messages_icon),
-                    contentDescription = "Checked message"
+                    contentDescription = stringResource(id = R.string.message_checked_description)
                 )
                 Text(text = data)
             }
@@ -320,8 +328,12 @@ fun UserCard(recommendedRoommate: RecommendedRoommate) {
                 shape = RoundedCornerShape(8.dp)
             )
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.ordinary_client),
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(recommendedRoommate.imagePath)
+                .crossfade(true)
+                .build(),
+            placeholder = painterResource(R.drawable.ordinnary_user),
             contentDescription = recommendedRoommate.name,
             modifier = Modifier
                 .fillMaxWidth()
@@ -342,10 +354,10 @@ fun UserCard(recommendedRoommate: RecommendedRoommate) {
                     fontWeight = FontWeight.Bold
                 )
             )
-            Row() {
+            Row {
                 Icon(
                     painter = painterResource(id = R.drawable.rating_icon),
-                    contentDescription = "Rating icon",
+                    contentDescription = stringResource(R.string.rate_icon),
                     modifier = Modifier
                         .width(integerResource(id = R.integer.ordinary_icon_size).dp)
                         .height(integerResource(id = R.integer.ordinary_icon_size).dp)
@@ -364,11 +376,18 @@ fun UserCard(recommendedRoommate: RecommendedRoommate) {
 }
 
 @Composable
-fun ApartmentCard(recommendedRoom: RecommendedRoom) {
+fun RoomCard(recommendedRoom: RecommendedRoom, isMiniVersion: Boolean) {
+    val cardWidth = if (isMiniVersion) 240.dp else 332.dp
+    val cardHeight = if (isMiniVersion) 148.dp else 222.dp
+    val imageHeight = if (isMiniVersion) 92.dp else 140.dp
+    val nameTextSize = if (isMiniVersion) 16.sp else 20.sp
+    val locationTextSize = if (isMiniVersion) 12.sp else 14.sp
+    val title = recommendedRoom.name.substring(0, recommendedRoom.name.length.coerceAtMost(16))
+    val location = recommendedRoom.location.substring(0, recommendedRoom.location.length.coerceAtMost(32))
     Column(
         modifier = Modifier
-            .width(240.dp)
-            .height(148.dp)
+            .width(cardWidth)
+            .height(cardHeight)
             .background(
                 color = colorResource(id = R.color.primary_dark),
                 shape = RoundedCornerShape(16.dp)
@@ -380,38 +399,43 @@ fun ApartmentCard(recommendedRoom: RecommendedRoom) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(92.dp),
+                .height(imageHeight),
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.ordinary_client),
-                contentDescription = "Room image",
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(recommendedRoom.roomImagePath)
+                    .crossfade(true)
+                    .build(),
+                placeholder = painterResource(id = R.drawable.ordinnary_room),
+                contentDescription = stringResource(id = R.string.room_image_description),
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight(),
-                contentScale = ContentScale.Fit,
+                contentScale = ContentScale.FillBounds,
             )
             Image(
                 painter = if (isLiked) painterResource(id = R.drawable.room_like_in_icon) else painterResource(
                     id = R.drawable.room_like_icon
-                ), contentDescription = "Like icon",
+                ), contentDescription = stringResource(id = R.string.like_icon),
                 modifier = Modifier
                     .align(Alignment.TopEnd)
                     .padding(top = 10.dp, end = 10.dp)
                     .width(32.dp)
                     .height(32.dp)
+                    .clip(RoundedCornerShape(100))
                     .clickable {
                         isLiked = !isLiked
                     }
             )
         }
         Text(
-            text = recommendedRoom.name,
-            modifier = Modifier.padding(start = 10.dp, top = 4.dp),
+            text = title,
+            modifier = Modifier.padding(start = 10.dp, top = if (isMiniVersion) 4.dp else 10.dp),
             style = TextStyle(
                 color = colorResource(
                     id = R.color.secondary_color
                 ),
-                fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                fontSize = nameTextSize,
                 fontWeight = FontWeight.Bold,
             )
         )
@@ -421,16 +445,16 @@ fun ApartmentCard(recommendedRoom: RecommendedRoom) {
         ) {
             Image(
                 painter = painterResource(id = R.drawable.location_icon),
-                contentDescription = "Location icon",
+                contentDescription = stringResource(id = R.string.location_icon),
                 modifier = Modifier
                     .width(14.dp)
                     .height(14.dp),
                 colorFilter = ColorFilter.tint(color = colorResource(id = R.color.secondary_color))
             )
             Text(
-                text = recommendedRoom.location, style = TextStyle(
+                text = location, style = TextStyle(
                     color = colorResource(id = R.color.secondary_color),
-                    fontSize = 12.sp,
+                    fontSize = locationTextSize,
                 )
             )
         }
@@ -438,7 +462,7 @@ fun ApartmentCard(recommendedRoom: RecommendedRoom) {
 }
 
 @Composable
-fun SearchField() {
+fun SearchField(onNavigateToFriends: () -> Unit) {
     var searcherText by remember {
         mutableStateOf(TextFieldValue(""))
     }
@@ -464,7 +488,7 @@ fun SearchField() {
         },
         label = {
             Text(
-                text = "Search for roommate or housing",
+                text = stringResource(id = R.string.search_placeholder),
                 modifier = Modifier.padding(bottom = 24.dp),
                 style = TextStyle(
                     color = colorResource(id = R.color.primary_dark),
@@ -475,7 +499,7 @@ fun SearchField() {
         leadingIcon = {
             Icon(
                 painter = painterResource(id = R.drawable.loupe_icon),
-                contentDescription = "Search loupe",
+                contentDescription = stringResource(id = R.string.search_icon_description),
                 modifier = Modifier
                     .height(24.dp)
                     .width(24.dp),
@@ -484,15 +508,34 @@ fun SearchField() {
         trailingIcon = {
             Icon(
                 painter = painterResource(id = R.drawable.search_filter_icon),
-                contentDescription = "Searcher filters",
+                contentDescription = stringResource(id = R.string.search_placeholder),
                 modifier = Modifier
                     .height(24.dp)
-                    .width(24.dp),
+                    .width(24.dp)
+                    .clickable {
+                        onNavigateToFriends.invoke()
+                    },
             )
         },
         colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.White)
     )
 }
+
+@Composable
+fun BackBtn(onBackNavigation: () -> Unit) {
+    Image(
+        painter = painterResource(id = R.drawable.back_btn),
+        modifier = Modifier
+            .height(40.dp)
+            .width(40.dp)
+            .clip(RoundedCornerShape(100.dp))
+            .clickable {
+                onBackNavigation.invoke()
+            },
+        contentDescription = stringResource(id = R.string.back_button)
+    )
+}
+
 @Composable
 fun GreenButtonPrimary(
     text: String,
@@ -683,7 +726,7 @@ fun ProfilePicture(
     val context = LocalContext.current
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
-    ) { uri: Uri? ->  
+    ) { uri: Uri? ->
         imageUri.value = uri
     }
     Column(
@@ -737,6 +780,210 @@ fun ProfilePicture(
         )
     }
 }
+
+@Composable
+fun FilterSelect(selectItemName: String, onNavigateToFriends: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(48.dp),
+        horizontalArrangement = Arrangement.Center,
+    ) {
+        Row(
+            modifier = Modifier
+                .height(40.dp)
+                .width(88.dp)
+                .border(
+                    1.dp,
+                    color = colorResource(id = R.color.text_secondary),
+                    RoundedCornerShape(topStart = 100.dp, bottomStart = 100.dp)
+                )
+                .background(
+                    color = if (selectItemName == stringResource(id = R.string.room)) colorResource(
+                        id = R.color.primary_dark
+                    ) else Color.White,
+                    RoundedCornerShape(topStart = 100.dp, bottomStart = 100.dp),
+                )
+                .clip(RoundedCornerShape(topStart = 100.dp, bottomStart = 100.dp))
+                .clickable { if (selectItemName == "Roommate") onNavigateToFriends.invoke() },
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            if (selectItemName == stringResource(id = R.string.room)) Image(
+                painter = painterResource(id = R.drawable.unchecked_messages_icon),
+                contentDescription = stringResource(id = R.string.room),
+                modifier = Modifier
+                    .height(18.dp)
+                    .width(18.dp),
+                colorFilter = ColorFilter.tint(
+                    colorResource(id = R.color.primary)
+                )
+            )
+            Text(
+                text = stringResource(id = R.string.room),
+                style = TextStyle(
+                    fontSize = 14.sp,
+                    color = if (selectItemName == stringResource(id = R.string.room)) colorResource(id = R.color.primary) else colorResource(
+                        id = R.color.text_secondary
+                    )
+                )
+            )
+        }
+        Row(
+            modifier = Modifier
+                .height(40.dp)
+                .width(88.dp)
+                .border(
+                    1.dp,
+                    color = colorResource(id = R.color.text_secondary),
+                    RoundedCornerShape(topEnd = 100.dp, bottomEnd = 100.dp)
+                )
+                .background(
+                    color = if (selectItemName == stringResource(id = R.string.roommate)) colorResource(
+                        id = R.color.primary_dark
+                    ) else Color.White,
+                    RoundedCornerShape(topEnd = 100.dp, bottomEnd = 100.dp),
+                )
+                .clip(RoundedCornerShape(topEnd = 100.dp, bottomEnd = 100.dp))
+                .clickable { if (selectItemName == "Room") onNavigateToFriends.invoke() },
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                text = stringResource(id = R.string.roommate), style = TextStyle(
+                    fontSize = 14.sp,
+                    color = if (selectItemName == stringResource(id = R.string.roommate)) colorResource(id = R.color.primary) else colorResource(
+                        id = R.color.text_secondary
+                    )
+                )
+            )
+            if (selectItemName == stringResource(id = R.string.roommate)) Image(
+                painter = painterResource(id = R.drawable.unchecked_messages_icon),
+                contentDescription = stringResource(id = R.string.roommate),
+                modifier = Modifier
+                    .height(18.dp)
+                    .width(18.dp),
+                colorFilter = ColorFilter.tint(
+                    colorResource(id = R.color.primary)
+                )
+            )
+        }
+    }
+}
+
+@Composable
+fun UserCardResult(searchUser: UsersFilterInfo) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(148.dp)
+            .background(
+                color = colorResource(id = R.color.primary),
+                shape = RoundedCornerShape(20.dp),
+            )
+    ) {
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(searchUser.avatar)
+                .crossfade(true)
+                .build(),
+            placeholder = painterResource(id = R.drawable.ordinnary_user),
+            contentDescription = searchUser.firstName,
+            modifier = Modifier
+                .fillMaxHeight()
+                .width(104.dp),
+            contentScale = ContentScale.FillBounds,
+        )
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(start = 12.dp, top = 8.dp, end = 12.dp, bottom = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            Text(
+                text = searchUser.firstName + " " + searchUser.lastName,
+                style = TextStyle(
+                    fontSize = integerResource(id = R.integer.label_text_size).sp,
+                    color = Color.Black,
+                    fontWeight = FontWeight.Bold,
+                )
+            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(20.dp),
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.location_icon),
+                    contentDescription = stringResource(id = R.string.location_icon),
+                    modifier = Modifier
+                        .width(integerResource(id = R.integer.ordinary_icon_size).dp)
+                        .height(integerResource(id = R.integer.ordinary_icon_size).dp)
+                        .align(Alignment.CenterVertically),
+                )
+                Text(
+                    text = "Moscow",
+                    style = TextStyle(fontSize = 18.sp, color = Color.Black)
+                )
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(20.dp)
+            ) {
+                Text(
+                    text = stringResource(id = R.string.status),
+                    style = TextStyle(
+                        fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Black,
+                    )
+                )
+                Text(
+                    "Occasionally",
+                    style = TextStyle(
+                        fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                        color = Color.Black,
+                    ),
+                    modifier = Modifier.padding(start = 8.dp),
+                )
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(20.dp)
+            ) {
+                Text(
+                    text = "Rating:",
+                    style = TextStyle(
+                        fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Black,
+                    )
+                )
+                Text(
+                    text = "7",
+                    style = TextStyle(
+                        fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Black,
+                    ),
+                    modifier = Modifier.padding(start = 8.dp),
+                )
+                Icon(
+                    painter = painterResource(id = R.drawable.rating_icon),
+                    contentDescription = "Rating star",
+                    modifier = Modifier
+                        .height(integerResource(id = R.integer.ordinary_icon_size).dp)
+                        .width(integerResource(id = R.integer.ordinary_icon_size).dp),
+                )
+            }
+        }
+    }
+}
+
+
 
 @Composable
 fun InterestsButtons(

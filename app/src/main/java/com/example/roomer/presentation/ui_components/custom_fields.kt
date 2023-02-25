@@ -95,7 +95,7 @@ fun DropdownTextField(
                 },
             enabled = false,
             trailingIcon = {
-                Icon(icon, "Dropdown icon")
+                Icon(icon, stringResource(R.string.dropdown_icon))
             },
             colors = TextFieldDefaults.textFieldColors(backgroundColor = colorResource(id = R.color.secondary_color)),
             textStyle = TextStyle(fontSize = 14.sp, color = Color.Black)
@@ -195,7 +195,7 @@ fun SelectSex(paddingValues: PaddingValues = PaddingValues(top = 16.dp)) {
             mutableStateOf(true)
         }
         Text(
-            text = "Sex",
+            text = stringResource(R.string.sex),
             fontSize = integerResource(id = R.integer.primary_text_size).sp,
             color = Color.Black,
             fontWeight = FontWeight.Medium,
@@ -222,13 +222,13 @@ fun SelectSex(paddingValues: PaddingValues = PaddingValues(top = 16.dp)) {
             ) {
                 Image(
                     painter = painterResource(id = if (isMaleSelected) R.drawable.sex_male_in_icon else R.drawable.sex_male_un_icon),
-                    contentDescription = "Male icon",
+                    contentDescription = stringResource(R.string.male_icon),
                     modifier = Modifier
                         .width(18.dp)
                         .height(18.dp),
                 )
                 Text(
-                    text = "Male",
+                    text = stringResource(R.string.male),
                     modifier = Modifier.padding(start = 4.dp),
                     fontSize = 14.sp,
                     color = if (isMaleSelected) colorResource(
@@ -257,7 +257,7 @@ fun SelectSex(paddingValues: PaddingValues = PaddingValues(top = 16.dp)) {
             ) {
                 Image(
                     painter = painterResource(id = if (!isMaleSelected) R.drawable.sex_female_in_icon else R.drawable.sex_female_un_icon),
-                    contentDescription = "Female icon",
+                    contentDescription = stringResource(R.string.female_icon),
                     modifier = Modifier
                         .width(18.dp)
                         .height(18.dp),
@@ -332,13 +332,10 @@ fun SexField(
 fun ScreenTextField(
     textHint: String,
     label: String = "",
-    height: Dp = 20.dp,
     paddingValues: PaddingValues = PaddingValues(top = 16.dp),
     textFieldHeight: Int = 56,
+    text: MutableState<TextFieldValue> = mutableStateOf(TextFieldValue("")),
 ) {
-    var text by remember {
-        mutableStateOf(TextFieldValue(""))
-    }
     Column(
         modifier = Modifier.padding(paddingValues),
         verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -350,7 +347,7 @@ fun ScreenTextField(
             color = Color.Black
         )
         TextField(
-            value = text,
+            value = text.value,
             textStyle = TextStyle(
                 color = Color.Black,
                 fontSize = integerResource(id = R.integer.primary_text_size).sp,
@@ -363,7 +360,7 @@ fun ScreenTextField(
                     color = colorResource(id = R.color.text_secondary)
                 )
             },
-            onValueChange = { text = it },
+            onValueChange = { text.value = it },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(textFieldHeight.dp)
@@ -381,11 +378,14 @@ fun DateField(
     enabled: Boolean = true
 ) {
     val dialogState = rememberMaterialDialogState()
+    var textState by remember {
+        mutableStateOf(TextFieldValue("11.12.2002"))
+    }
     MaterialDialog(
         dialogState = dialogState,
         buttons = {
-            positiveButton("Ok")
-            negativeButton("Cancel")
+            positiveButton(stringResource(R.string.positive_button))
+            negativeButton(stringResource(R.string.negative_button))
         }
     ) {
         datepicker { date ->
@@ -412,7 +412,7 @@ fun DateField(
             trailingIcon = {
                 Icon(
                     painter = painterResource(id = R.drawable.calendar_icon),
-                    contentDescription = "Calendar icon",
+                    contentDescription = stringResource(R.string.calendar_icon),
                     modifier = Modifier
                         .width(24.dp)
                         .height(24.dp),
@@ -473,7 +473,7 @@ fun SelectAddressField(
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.select_adr_icon),
-                    contentDescription = "Select address",
+                    contentDescription = stringResource(id = R.string.select_addr_title),
                     modifier = Modifier
                         .width(32.dp)
                         .height(32.dp),
@@ -763,6 +763,62 @@ fun IconedTextField(
             Text(
                 color = Color.Red,
                 text = errorMessage
+            )
+        }
+    }
+}
+
+@Composable
+fun InterestField(paddingValues: PaddingValues, label: String) {
+    var interestsList by remember {
+        mutableStateOf(TextFieldValue(""))
+    }
+    var openDialog by remember {
+        mutableStateOf(false)
+    }
+    val icon = if (openDialog)
+        Icons.Filled.KeyboardArrowUp
+    else
+        Icons.Filled.KeyboardArrowDown
+    Column() {
+        Column(
+            modifier = Modifier.padding(paddingValues),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Text(
+                text = label,
+                style = TextStyle(
+                    fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                    color = Color.Black
+                )
+            )
+            TextField(
+                value = interestsList.text,
+                onValueChange = {
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { openDialog = !openDialog },
+                enabled = false,
+                trailingIcon = {
+                    Icon(icon, "Dropdown icon")
+                },
+                colors = TextFieldDefaults.textFieldColors(backgroundColor = colorResource(id = R.color.secondary_color)),
+                textStyle = TextStyle(fontSize = 14.sp, color = Color.Black)
+            )
+        }
+        if (openDialog) {
+            AlertDialog(
+                onDismissRequest = { openDialog = false },
+                title = { Text("Change interests") },
+                text = {
+
+                },
+                buttons = {
+                    Button(modifier = Modifier.fillMaxWidth(), onClick = { openDialog = false }) {
+                        Text("Dismiss")
+                    }
+                }
             )
         }
     }

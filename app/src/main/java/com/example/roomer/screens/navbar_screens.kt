@@ -1,4 +1,8 @@
+<<<<<<<< HEAD:app/src/main/java/com/example/roomer/presentation/ui_components/screens.kt
 package com.example.roomer.presentation.ui_components
+========
+package com.example.roomer.screens
+>>>>>>>> origin/master:app/src/main/java/com/example/roomer/screens/navbar_screens.kt
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.Orientation
@@ -9,17 +13,18 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
@@ -28,31 +33,25 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
 import com.example.roomer.R
-import com.example.roomer.models.ChatMessage
 import com.example.roomer.models.MessageToList
 import com.example.roomer.models.RecommendedRoom
 import com.example.roomer.models.RecommendedRoommate
+import com.example.roomer.ui_components.*
 import com.example.roomer.utils.NavbarItem
 import com.example.roomer.utils.Screens
-import com.example.roomer.utils.convertLongToTime
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 
 @Composable
 fun ProfileScreen() {
     val navController = NavbarItem.Profile.navHostController ?: rememberNavController()
     Scaffold(bottomBar = { Navbar(navController, NavbarItem.Profile.name) }) {
-        val padding = it
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 24.dp, bottom = 88.dp, start = 40.dp, end = 40.dp)
+                .verticalScroll(rememberScrollState())
+                .padding(top = 24.dp, bottom = it.calculateBottomPadding(), start = 40.dp, end = 40.dp)
         ) {
             Text(
-                text = "Profile",
+                text = stringResource(R.string.profile_title),
                 textAlign = TextAlign.Start,
                 fontSize = integerResource(id = R.integer.label_text_size).sp,
             )
@@ -64,6 +63,7 @@ fun ProfileScreen() {
                     .padding(top = 24.dp, bottom = 16.dp)
                     .width(152.dp)
                     .height(152.dp)
+                    .clip(RoundedCornerShape(100))
                     .clickable {
 
                     },
@@ -116,11 +116,10 @@ fun ProfileScreen() {
 fun ChatsScreen() {
     val navController = NavbarItem.Chats.navHostController ?: rememberNavController()
     Scaffold(bottomBar = { Navbar(navController, NavbarItem.Chats.name) }) {
-        val padding = it
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 24.dp, bottom = 16.dp, start = 40.dp, end = 40.dp)
+                .padding(top = 24.dp, bottom = it.calculateBottomPadding(), start = 40.dp, end = 40.dp)
         ) {
             var searchText by remember {
                 mutableStateOf(TextFieldValue(""))
@@ -185,7 +184,7 @@ fun ChatsScreen() {
                     ),
                 colors = TextFieldDefaults.textFieldColors(backgroundColor = colorResource(id = R.color.white))
             )
-            val listOfMessages = listOf<MessageToList>(
+            val listOfMessages = listOf(
                 MessageToList(userAvatarPath = "path",
                     messageDate = "12.22",
                     messageCutText = "Hello my name is Piter",
@@ -226,7 +225,7 @@ fun ChatsScreen() {
 fun HomeScreen() {
     val navController = NavbarItem.Home.navHostController ?: rememberNavController()
     val recommendedRooms = mutableListOf<RecommendedRoom>()
-    val recommendedRoomates = mutableListOf<RecommendedRoommate>()
+    val recommendedRoommates = mutableListOf<RecommendedRoommate>()
     for (i in 0..5) {
         recommendedRooms.add(
             RecommendedRoom(
@@ -237,21 +236,21 @@ fun HomeScreen() {
                 false
             )
         )
-        recommendedRoomates.add(
+        recommendedRoommates.add(
             RecommendedRoommate(
                 i,
-                "Vasya $i",
+                "Andrey $i",
                 0.2,
                 "",
             )
         )
     }
     Scaffold(bottomBar = { Navbar(navController, NavbarItem.Home.name) }) {
-        val padding = it
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 18.dp, bottom = 88.dp, start = 40.dp, end = 40.dp)
+                .verticalScroll(rememberScrollState())
+                .padding(top = 18.dp, bottom = it.calculateBottomPadding(), start = 40.dp, end = 40.dp)
         ) {
             Row(
                 modifier = Modifier
@@ -285,7 +284,7 @@ fun HomeScreen() {
                     alignment = Alignment.Center,
                 )
             }
-            SearchField()
+            SearchField(onNavigateToFriends = { navController.navigate(Screens.SearchRoom.name) })
             Column(
                 modifier = Modifier
                     .scrollable(
@@ -311,11 +310,11 @@ fun HomeScreen() {
                             .height(148.dp),
                         horizontalArrangement = Arrangement.spacedBy(16.dp),
                     ) {
-                        items(recommendedRoomates.size - 2) { index ->
-                            UserCard(recommendedRoommate = recommendedRoomates[index])
+                        items(recommendedRoommates.size - 2) { index ->
+                            UserCard(recommendedRoommate = recommendedRoommates[index])
                         }
                         items(recommendedRooms.size - 2) { index ->
-                            ApartmentCard(recommendedRoom = recommendedRooms[index])
+                            RoomCard(recommendedRoom = recommendedRooms[index], true)
                         }
                     }
                 }
@@ -335,13 +334,13 @@ fun HomeScreen() {
                         horizontalArrangement = Arrangement.spacedBy(16.dp),
                     ) {
                         items(recommendedRooms.size) { index ->
-                            ApartmentCard(recommendedRoom = recommendedRooms[index])
+                            RoomCard(recommendedRoom = recommendedRooms[index], true)
                         }
                     }
                 }
                 Column(modifier = Modifier.fillMaxWidth()) {
                     Text(
-                        "Recomended rommates",
+                        "Recommended roommates",
                         style = TextStyle(
                             color = Color.Black,
                             fontSize = 20.sp,
@@ -354,8 +353,8 @@ fun HomeScreen() {
                             .height(148.dp),
                         horizontalArrangement = Arrangement.spacedBy(16.dp),
                     ) {
-                        items(recommendedRoomates.size) { index ->
-                            UserCard(recommendedRoommate = recommendedRoomates[index])
+                        items(recommendedRoommates.size) { index ->
+                            UserCard(recommendedRoommate = recommendedRoommates[index])
                         }
                     }
                 }
@@ -365,6 +364,7 @@ fun HomeScreen() {
 }
 
 @Composable
+<<<<<<<< HEAD:app/src/main/java/com/example/roomer/presentation/ui_components/screens.kt
 fun AccountScreen() {
     val navController = NavbarItem.Profile.navHostController ?: rememberNavController()
     val listOfEmployments = listOf<String>("Employed", "Unemployed", "Seasonable")
@@ -648,11 +648,36 @@ fun MessageScreen() {
 }
 
 @Composable
+========
+>>>>>>>> origin/master:app/src/main/java/com/example/roomer/screens/navbar_screens.kt
 fun FavouriteScreen() {
     val navController = NavbarItem.Favourite.navHostController ?: rememberNavController()
     Scaffold(bottomBar = { Navbar(navController, NavbarItem.Favourite.name) }) {
-        val padding = it
-        Text("Hello from favourite")
+        val listOfFavourites = listOf(
+            RecommendedRoom(1, "Fav1", "Loc", "", true),
+            RecommendedRoom(2, "Fav2", "Loc2", "", true),
+            RecommendedRoom(3, "Fav3", "Loc3", "", true),
+            RecommendedRoom(4, "Fav4", "Loc4", "", true)
+        )
+        LazyColumn(
+            modifier = Modifier.fillMaxSize().padding(bottom=it.calculateBottomPadding()),
+            verticalArrangement = Arrangement.spacedBy(24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            item {
+                Text(
+                    text = "Favourite",
+                    style = TextStyle(
+                        fontSize = integerResource(id = R.integer.label_text_size).sp,
+                        fontWeight = FontWeight.Bold,
+                    ),
+                    modifier = Modifier.padding(top = 8.dp)
+                )
+            }
+            items(listOfFavourites.size) { index ->
+                RoomCard(recommendedRoom = listOfFavourites[index], isMiniVersion = false)
+            }
+        }
     }
 }
 
@@ -660,7 +685,6 @@ fun FavouriteScreen() {
 fun PostScreen() {
     val navController = NavbarItem.Post.navHostController ?: rememberNavController()
     Scaffold(bottomBar = { Navbar(navController, NavbarItem.Post.name) }) {
-        val padding = it
-        Text("Hello from post")
+        Text("Hello from post", Modifier.padding(it))
     }
 }
