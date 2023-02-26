@@ -20,8 +20,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
 import com.example.roomer.R
-import com.example.roomer.presentation.ui_components.*
-import com.example.roomer.utils.Choices
+import com.example.roomer.presentation.ui_components.BackBtn
+import com.example.roomer.presentation.ui_components.Navbar
+import com.example.roomer.presentation.ui_components.ScreenTextField
+import com.example.roomer.presentation.ui_components.SelectAddressField
 import com.example.roomer.utils.NavbarItem
 
 @Composable

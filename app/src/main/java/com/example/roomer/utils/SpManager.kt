@@ -28,11 +28,8 @@ class SpManager {
         edit.remove(key.toString())
         edit.apply()
     }
+
     enum class Sp {
-        USERNAME,
-        EMAIL,
-        PASSWORD,
-        TOKEN,
-        ISSIGNUP
+        USERNAME, EMAIL, PASSWORD, TOKEN, ISSIGNUP
     }
 }

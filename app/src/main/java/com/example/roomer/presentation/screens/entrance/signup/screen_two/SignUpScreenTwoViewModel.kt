@@ -47,7 +47,7 @@ class SignUpScreenTwoViewModel(
         }
         viewModelScope.launch {
             signUpTwoUseCase(token, avatar, aboutMe, employment).collect { result ->
-                when(result) {
+                when (result) {
                     is Resource.Success -> {
                         _state.value = UsualScreenState(
                             success = true
@@ -73,6 +73,7 @@ class SignUpScreenTwoViewModel(
             }
         }
     }
+
     fun clearState() {
         _state.value = UsualScreenState()
     }

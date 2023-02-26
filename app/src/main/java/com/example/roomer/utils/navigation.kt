@@ -57,9 +57,8 @@ fun NavGraphBuilder.homeGraph(navController: NavHostController) {
             Screens.SearchRoomResults.composeViewFunction.invoke()
         }
         composable(Screens.SearchRoommate.name) { Screens.SearchRoommate.composeViewFunction.invoke() }
-        composable(Screens.SearchRoommateResults.name+
-                "?sex={sex}&employment={employment}&alcohol_attitude={alcohol_attitude}" +
-                "&smoking_attitude={smoking_attitude}&sleep_time={sleep_time}&personality_type={personality_type}" +
-                "&clean_habits={clean_habits}") { Screens.SearchRoommateResults.composeViewFunction.invoke() }
+        composable(
+            Screens.SearchRoommateResults.name + "?sex={sex}&employment={employment}&alcohol_attitude={alcohol_attitude}" + "&smoking_attitude={smoking_attitude}&sleep_time={sleep_time}&personality_type={personality_type}" + "&clean_habits={clean_habits}"
+        ) { Screens.SearchRoommateResults.composeViewFunction.invoke() }
     }
 }

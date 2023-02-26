@@ -150,7 +150,10 @@ fun SignUpScreen1(
                 )
             }
             if (state.internetProblem) {
-                SimpleAlertDialog(title = stringResource(R.string.login_alert_dialog_title), text = state.error) {
+                SimpleAlertDialog(
+                    title = stringResource(R.string.login_alert_dialog_title),
+                    text = state.error
+                ) {
                     signUpScreenViewModel.clearState()
                 }
             }

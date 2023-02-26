@@ -37,10 +37,8 @@ class LoginScreenViewModel(application: Application) : AndroidViewModel(applicat
 
     fun getUserLogin(email: String, password: String) {
 
-        if (email.trim().isEmpty() || password.trim().isEmpty()
-        ) {
-            _state.value =
-                LoginScreenState(error = EMPTY_FIELD_ERR_MSG, isLoading = false)
+        if (email.trim().isEmpty() || password.trim().isEmpty()) {
+            _state.value = LoginScreenState(error = EMPTY_FIELD_ERR_MSG, isLoading = false)
             return
         }
 
@@ -50,8 +48,7 @@ class LoginScreenViewModel(application: Application) : AndroidViewModel(applicat
 
                     is Resource.Loading -> {
                         _state.value = LoginScreenState(
-                            isLoading = true,
-                            internetProblem = false
+                            isLoading = true, internetProblem = false
                         )
                     }
                     is Resource.Success -> {
@@ -68,36 +65,27 @@ class LoginScreenViewModel(application: Application) : AndroidViewModel(applicat
                     }
                     is Resource.Internet -> {
                         _state.value = LoginScreenState(
-                            internetProblem = true,
-                            isLoading = false,
-                            error = result.message!!
+                            internetProblem = true, isLoading = false, error = result.message!!
                         )
                     }
                     is Resource.Error -> {
                         _state.value = LoginScreenState(
-                            error = result.message!!,
-                            isLoading = false,
-                            internetProblem = false
+                            error = result.message!!, isLoading = false, internetProblem = false
                         )
                     }
                     else -> {
                         _state.value = LoginScreenState(
-                            error = result.message!!,
-                            isLoading = false,
-                            internetProblem = false
+                            error = result.message!!, isLoading = false, internetProblem = false
                         )
                     }
                 }
             }
-            }
+        }
     }
 
     fun clearViewModel() {
         _state.value = LoginScreenState(
-            error = "",
-            isLoading = false,
-            internetProblem = false,
-            success = false
+            error = "", isLoading = false, internetProblem = false, success = false
         )
     }
 

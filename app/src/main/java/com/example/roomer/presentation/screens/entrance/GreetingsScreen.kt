@@ -17,7 +17,6 @@ import com.example.roomer.R
 import com.example.roomer.presentation.screens.destinations.HomeScreenDestination
 import com.example.roomer.presentation.screens.destinations.LoginScreenDestination
 import com.example.roomer.presentation.screens.destinations.SignUpScreen1Destination
-import com.example.roomer.presentation.screens.entrance.GreetingScreenViewModel
 import com.example.roomer.presentation.ui_components.GreenButtonOutline
 import com.example.roomer.presentation.ui_components.GreenButtonPrimary
 import com.example.roomer.utils.Consts
@@ -40,7 +39,7 @@ fun StartScreen(
             .padding(start = 40.dp, end = 40.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
-    ){
+    ) {
         Text(
             text = "Welcome to Roomer",
             fontSize = 30.sp,

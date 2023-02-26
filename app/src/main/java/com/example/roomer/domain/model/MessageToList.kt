@@ -1,7 +1,5 @@
 package com.example.roomer.domain.model
 
-import com.example.roomer.utils.Screens
-
 data class MessageToList(
     val userAvatarPath: String,
     val messageDate: String,

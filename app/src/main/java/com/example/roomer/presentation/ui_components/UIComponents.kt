@@ -16,16 +16,20 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PhotoCamera
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -46,12 +50,8 @@ import com.example.roomer.domain.model.MessageToList
 import com.example.roomer.domain.model.RecommendedRoom
 import com.example.roomer.domain.model.RecommendedRoommate
 import com.example.roomer.domain.model.UsersFilterInfo
-import com.example.roomer.utils.NavbarItem
-import androidx.compose.material3.AlertDialog
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.graphics.vector.ImageVector
 import com.example.roomer.domain.model.signup.interests.InterestModel
+import com.example.roomer.utils.NavbarItem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
@@ -96,13 +96,11 @@ fun Navbar(navController: NavHostController, selectedNavbarItemName: String) {
             .height(80.dp)
     ) {
         NavbarItem.values().map { it.name }.forEach { screen ->
-            BottomNavigationItem(
-                selected = (selectedItem == screen),
+            BottomNavigationItem(selected = (selectedItem == screen),
                 modifier = Modifier
                     .width(80.dp)
                     .padding(
-                        start = 4.dp,
-                        end = 4.dp
+                        start = 4.dp, end = 4.dp
                     ),
                 onClick = {
                     selectedItem = screen
@@ -173,12 +171,10 @@ fun Navbar(navController: NavHostController, selectedNavbarItemName: String) {
 fun MessageItem(
     message: MessageToList,
 ) {
-    Row(
-        modifier = Modifier
-            .clickable { message.navigateToMessage.invoke() }
-            .fillMaxWidth()
-            .height(64.dp)
-    ) {
+    Row(modifier = Modifier
+        .clickable { message.navigateToMessage.invoke() }
+        .fillMaxWidth()
+        .height(64.dp)) {
         Image(
             painter = painterResource(id = R.drawable.ordinary_client),
             contentDescription = stringResource(R.string.user_avatar_description),
@@ -200,7 +196,8 @@ fun MessageItem(
                     Image(
                         painter = painterResource(id = if (message.isRead) R.drawable.checked_messages_icon else R.drawable.unchecked_messages_icon),
                         contentDescription = if (message.isRead) stringResource(R.string.message_checked_description) else stringResource(
-                                                    R.string.message_unchecked_description),
+                            R.string.message_unchecked_description
+                        ),
                         alignment = Center,
                         modifier = Modifier
                             .width(18.dp)
@@ -229,21 +226,17 @@ fun MessageItem(
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                     if (message.unreadMessages > 0) {
                         Text(
-                            text =
-                            when (message.unreadMessages) {
+                            text = when (message.unreadMessages) {
                                 in 1..999 -> message.unreadMessages.toString()
                                 else -> "999+"
-                            },
-                            modifier = Modifier
+                            }, modifier = Modifier
                                 .width(48.dp)
                                 .height(20.dp)
                                 .background(
                                     color = colorResource(
                                         id = R.color.primary
-                                    ),
-                                    shape = RoundedCornerShape(20.dp)
-                                ),
-                            style = TextStyle(
+                                    ), shape = RoundedCornerShape(20.dp)
+                                ), style = TextStyle(
                                 color = Color.Black,
                                 fontSize = 14.sp,
                                 textAlign = TextAlign.Center,
@@ -298,8 +291,7 @@ fun Message(isUserMessage: Boolean, text: String, data: String) {
                     .background(
                         colorResource(id = R.color.primary),
                         RoundedCornerShape(bottomStart = 16.dp, topStart = 16.dp, bottomEnd = 16.dp)
-                    ),
-                horizontalAlignment = Alignment.End
+                    ), horizontalAlignment = Alignment.End
             ) {
                 Text(text = text)
                 Image(
@@ -319,15 +311,12 @@ fun UserCard(recommendedRoommate: RecommendedRoommate) {
             .height(148.dp)
             .width(100.dp)
             .background(
-                color = colorResource(id = R.color.primary),
-                shape = RoundedCornerShape(8.dp)
+                color = colorResource(id = R.color.primary), shape = RoundedCornerShape(8.dp)
             )
     ) {
         AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(recommendedRoommate.imagePath)
-                .crossfade(true)
-                .build(),
+            model = ImageRequest.Builder(LocalContext.current).data(recommendedRoommate.imagePath)
+                .crossfade(true).build(),
             placeholder = painterResource(R.drawable.ordinnary_user),
             contentDescription = recommendedRoommate.name,
             modifier = Modifier
@@ -342,11 +331,8 @@ fun UserCard(recommendedRoommate: RecommendedRoommate) {
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             Text(
-                text = recommendedRoommate.name,
-                style = TextStyle(
-                    color = Color.Black,
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold
+                text = recommendedRoommate.name, style = TextStyle(
+                    color = Color.Black, fontSize = 14.sp, fontWeight = FontWeight.Bold
                 )
             )
             Row {
@@ -358,11 +344,8 @@ fun UserCard(recommendedRoommate: RecommendedRoommate) {
                         .height(integerResource(id = R.integer.ordinary_icon_size).dp)
                 )
                 Text(
-                    text = recommendedRoommate.rating.toString(),
-                    style = TextStyle(
-                        color = Color.Black,
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Bold
+                    text = recommendedRoommate.rating.toString(), style = TextStyle(
+                        color = Color.Black, fontSize = 14.sp, fontWeight = FontWeight.Bold
                     )
                 )
             }
@@ -378,14 +361,14 @@ fun RoomCard(recommendedRoom: RecommendedRoom, isMiniVersion: Boolean) {
     val nameTextSize = if (isMiniVersion) 16.sp else 20.sp
     val locationTextSize = if (isMiniVersion) 12.sp else 14.sp
     val title = recommendedRoom.name.substring(0, recommendedRoom.name.length.coerceAtMost(16))
-    val location = recommendedRoom.location.substring(0, recommendedRoom.location.length.coerceAtMost(32))
+    val location =
+        recommendedRoom.location.substring(0, recommendedRoom.location.length.coerceAtMost(32))
     Column(
         modifier = Modifier
             .width(cardWidth)
             .height(cardHeight)
             .background(
-                color = colorResource(id = R.color.primary_dark),
-                shape = RoundedCornerShape(16.dp)
+                color = colorResource(id = R.color.primary_dark), shape = RoundedCornerShape(16.dp)
             )
     ) {
         var isLiked by remember {
@@ -398,9 +381,7 @@ fun RoomCard(recommendedRoom: RecommendedRoom, isMiniVersion: Boolean) {
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(recommendedRoom.roomImagePath)
-                    .crossfade(true)
-                    .build(),
+                    .data(recommendedRoom.roomImagePath).crossfade(true).build(),
                 placeholder = painterResource(id = R.drawable.ordinnary_room),
                 contentDescription = stringResource(id = R.string.room_image_description),
                 modifier = Modifier
@@ -408,10 +389,10 @@ fun RoomCard(recommendedRoom: RecommendedRoom, isMiniVersion: Boolean) {
                     .fillMaxHeight(),
                 contentScale = ContentScale.FillBounds,
             )
-            Image(
-                painter = if (isLiked) painterResource(id = R.drawable.room_like_in_icon) else painterResource(
-                    id = R.drawable.room_like_icon
-                ), contentDescription = stringResource(id = R.string.like_icon),
+            Image(painter = if (isLiked) painterResource(id = R.drawable.room_like_in_icon) else painterResource(
+                id = R.drawable.room_like_icon
+            ),
+                contentDescription = stringResource(id = R.string.like_icon),
                 modifier = Modifier
                     .align(Alignment.TopEnd)
                     .padding(top = 10.dp, end = 10.dp)
@@ -420,8 +401,7 @@ fun RoomCard(recommendedRoom: RecommendedRoom, isMiniVersion: Boolean) {
                     .clip(RoundedCornerShape(100))
                     .clickable {
                         isLiked = !isLiked
-                    }
-            )
+                    })
         }
         Text(
             text = title,
@@ -461,58 +441,50 @@ fun SearchField(onNavigateToFriends: () -> Unit) {
     var searcherText by remember {
         mutableStateOf(TextFieldValue(""))
     }
-    TextField(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 16.dp)
-            .height(56.dp)
-            .border(
-                width = 2.dp,
-                shape = RoundedCornerShape(4.dp),
+    TextField(modifier = Modifier
+        .fillMaxWidth()
+        .padding(top = 16.dp)
+        .height(56.dp)
+        .border(
+            width = 2.dp,
+            shape = RoundedCornerShape(4.dp),
+            color = colorResource(id = R.color.primary_dark),
+        ), textStyle = TextStyle(
+        color = Color.Black,
+        fontSize = integerResource(id = R.integer.primary_text_size).sp,
+    ), value = searcherText, onValueChange = {
+        if (it.text.length > 100) {
+            searcherText = it
+        }
+    }, label = {
+        Text(
+            text = stringResource(id = R.string.search_placeholder),
+            modifier = Modifier.padding(bottom = 24.dp),
+            style = TextStyle(
                 color = colorResource(id = R.color.primary_dark),
+                fontSize = 12.sp,
             ),
-        textStyle = TextStyle(
-            color = Color.Black,
-            fontSize = integerResource(id = R.integer.primary_text_size).sp,
-        ),
-        value = searcherText,
-        onValueChange = {
-            if (it.text.length > 100) {
-                searcherText = it
-            }
-        },
-        label = {
-            Text(
-                text = stringResource(id = R.string.search_placeholder),
-                modifier = Modifier.padding(bottom = 24.dp),
-                style = TextStyle(
-                    color = colorResource(id = R.color.primary_dark),
-                    fontSize = 12.sp,
-                ),
-            )
-        },
-        leadingIcon = {
-            Icon(
-                painter = painterResource(id = R.drawable.loupe_icon),
-                contentDescription = stringResource(id = R.string.search_icon_description),
-                modifier = Modifier
-                    .height(24.dp)
-                    .width(24.dp),
-            )
-        },
-        trailingIcon = {
-            Icon(
-                painter = painterResource(id = R.drawable.search_filter_icon),
-                contentDescription = stringResource(id = R.string.search_placeholder),
-                modifier = Modifier
-                    .height(24.dp)
-                    .width(24.dp)
-                    .clickable {
-                        onNavigateToFriends.invoke()
-                    },
-            )
-        },
-        colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.White)
+        )
+    }, leadingIcon = {
+        Icon(
+            painter = painterResource(id = R.drawable.loupe_icon),
+            contentDescription = stringResource(id = R.string.search_icon_description),
+            modifier = Modifier
+                .height(24.dp)
+                .width(24.dp),
+        )
+    }, trailingIcon = {
+        Icon(
+            painter = painterResource(id = R.drawable.search_filter_icon),
+            contentDescription = stringResource(id = R.string.search_placeholder),
+            modifier = Modifier
+                .height(24.dp)
+                .width(24.dp)
+                .clickable {
+                    onNavigateToFriends.invoke()
+                },
+        )
+    }, colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.White)
     )
 }
 
@@ -554,6 +526,7 @@ fun GreenButtonPrimary(
         )
     }
 }
+
 @Composable
 fun GreenButtonPrimaryIconed(
     text: String,
@@ -593,8 +566,7 @@ fun GreenButtonOutlineIconed(
         modifier = modifier,
         shape = CircleShape,
         colors = ButtonDefaults.outlinedButtonColors(
-            backgroundColor = Color.White,
-            contentColor = colorResource(id = R.color.primary_dark)
+            backgroundColor = Color.White, contentColor = colorResource(id = R.color.primary_dark)
         ),
         border = BorderStroke(1.dp, color = colorResource(id = R.color.text_secondary)),
         enabled = enabled,
@@ -609,10 +581,7 @@ fun GreenButtonOutlineIconed(
 
 @Composable
 fun GreenButtonOutline(
-    text: String,
-    modifier: Modifier = Modifier,
-    enabled: Boolean = true,
-    onClick: () -> Unit
+    text: String, modifier: Modifier = Modifier, enabled: Boolean = true, onClick: () -> Unit
 ) {
     Button(
         enabled = enabled,
@@ -620,8 +589,7 @@ fun GreenButtonOutline(
         modifier = modifier,
         shape = CircleShape,
         colors = ButtonDefaults.outlinedButtonColors(
-            backgroundColor = Color.White,
-            contentColor = colorResource(id = R.color.primary_dark)
+            backgroundColor = Color.White, contentColor = colorResource(id = R.color.primary_dark)
         ),
         border = BorderStroke(1.dp, color = colorResource(id = R.color.text_secondary)),
         interactionSource = NoRippleInteractionSource()
@@ -631,6 +599,7 @@ fun GreenButtonOutline(
         )
     }
 }
+
 @Composable
 fun ButtonsRow(
     label: String,
@@ -640,9 +609,7 @@ fun ButtonsRow(
     enabled: Boolean = true
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         androidx.compose.material.Text(
             text = label,
@@ -652,8 +619,7 @@ fun ButtonsRow(
             fontWeight = FontWeight.Medium
         )
         Row(
-            modifier = Modifier
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -669,18 +635,14 @@ fun ButtonsRow(
         }
     }
 }
+
 @Composable
 fun ButtonsRowMapped(
-    label: String,
-    values: Map<String, String>,
-    value: String, //There gonna be keys
-    onValueChange: (String) -> Unit,
-    enabled: Boolean = true
+    label: String, values: Map<String, String>, value: String, //There gonna be keys
+    onValueChange: (String) -> Unit, enabled: Boolean = true
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         androidx.compose.material.Text(
             text = label,
@@ -690,8 +652,7 @@ fun ButtonsRowMapped(
             fontWeight = FontWeight.Medium
         )
         Row(
-            modifier = Modifier
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -711,9 +672,7 @@ fun ButtonsRowMapped(
 
 @Composable
 fun ProfilePicture(
-    enabled: Boolean = true,
-    bitmapValue: Bitmap?,
-    onBitmapValueChange: (Bitmap?) -> Unit
+    enabled: Boolean = true, bitmapValue: Bitmap?, onBitmapValueChange: (Bitmap?) -> Unit
 ) {
     val imageUri = rememberSaveable {
         mutableStateOf<Uri?>(null)
@@ -725,9 +684,7 @@ fun ProfilePicture(
         imageUri.value = uri
     }
     Column(
-        modifier = Modifier
-            .fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally
     ) {
         val imageModifier = Modifier
             .align(Alignment.CenterHorizontally)
@@ -740,7 +697,11 @@ fun ProfilePicture(
                     launcher.launch("image/*")
                     imageUri.value?.let {
                         if (Build.VERSION.SDK_INT < 28) {
-                            onBitmapValueChange(MediaStore.Images.Media.getBitmap(context.contentResolver, it))
+                            onBitmapValueChange(
+                                MediaStore.Images.Media.getBitmap(
+                                    context.contentResolver, it
+                                )
+                            )
 
                         } else {
                             val source = ImageDecoder.createSource(context.contentResolver, it)
@@ -815,10 +776,11 @@ fun FilterSelect(selectItemName: String, onNavigateToFriends: () -> Unit) {
                 )
             )
             Text(
-                text = stringResource(id = R.string.room),
-                style = TextStyle(
+                text = stringResource(id = R.string.room), style = TextStyle(
                     fontSize = 14.sp,
-                    color = if (selectItemName == stringResource(id = R.string.room)) colorResource(id = R.color.primary) else colorResource(
+                    color = if (selectItemName == stringResource(id = R.string.room)) colorResource(
+                        id = R.color.primary
+                    ) else colorResource(
                         id = R.color.text_secondary
                     )
                 )
@@ -847,7 +809,9 @@ fun FilterSelect(selectItemName: String, onNavigateToFriends: () -> Unit) {
             Text(
                 text = stringResource(id = R.string.roommate), style = TextStyle(
                     fontSize = 14.sp,
-                    color = if (selectItemName == stringResource(id = R.string.roommate)) colorResource(id = R.color.primary) else colorResource(
+                    color = if (selectItemName == stringResource(id = R.string.roommate)) colorResource(
+                        id = R.color.primary
+                    ) else colorResource(
                         id = R.color.text_secondary
                     )
                 )
@@ -878,10 +842,8 @@ fun UserCardResult(searchUser: UsersFilterInfo) {
             )
     ) {
         AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(searchUser.avatar)
-                .crossfade(true)
-                .build(),
+            model = ImageRequest.Builder(LocalContext.current).data(searchUser.avatar)
+                .crossfade(true).build(),
             placeholder = painterResource(id = R.drawable.ordinnary_user),
             contentDescription = searchUser.firstName,
             modifier = Modifier
@@ -897,8 +859,7 @@ fun UserCardResult(searchUser: UsersFilterInfo) {
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             Text(
-                text = searchUser.firstName + " " + searchUser.lastName,
-                style = TextStyle(
+                text = searchUser.firstName + " " + searchUser.lastName, style = TextStyle(
                     fontSize = integerResource(id = R.integer.label_text_size).sp,
                     color = Color.Black,
                     fontWeight = FontWeight.Bold,
@@ -918,8 +879,7 @@ fun UserCardResult(searchUser: UsersFilterInfo) {
                         .align(Alignment.CenterVertically),
                 )
                 Text(
-                    text = "Moscow",
-                    style = TextStyle(fontSize = 18.sp, color = Color.Black)
+                    text = "Moscow", style = TextStyle(fontSize = 18.sp, color = Color.Black)
                 )
             }
             Row(
@@ -928,8 +888,7 @@ fun UserCardResult(searchUser: UsersFilterInfo) {
                     .height(20.dp)
             ) {
                 Text(
-                    text = stringResource(id = R.string.status),
-                    style = TextStyle(
+                    text = stringResource(id = R.string.status), style = TextStyle(
                         fontSize = integerResource(id = R.integer.primary_text_size).sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black,
@@ -950,8 +909,7 @@ fun UserCardResult(searchUser: UsersFilterInfo) {
                     .height(20.dp)
             ) {
                 Text(
-                    text = "Rating:",
-                    style = TextStyle(
+                    text = "Rating:", style = TextStyle(
                         fontSize = integerResource(id = R.integer.primary_text_size).sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black,
@@ -979,7 +937,6 @@ fun UserCardResult(searchUser: UsersFilterInfo) {
 }
 
 
-
 @Composable
 fun InterestsButtons(
     label: String,
@@ -990,8 +947,7 @@ fun InterestsButtons(
 ) {
     val chunkedValues = values.chunked(3)
     Column(
-        modifier = Modifier
-            .fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalAlignment = Alignment.Start
     ) {
@@ -1004,21 +960,18 @@ fun InterestsButtons(
         )
         for (row in chunkedValues) {
             Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 for (value in row) {
-                    if (value in selectedItems)
-                        GreenButtonPrimary(text = value.interest) {
-                            selectedItems.minus(value).let(onSelectedChange)
-                        }
-                    else
-                        GreenButtonOutline(text = value.interest) {
-                            if (selectedItems.size < chooseLimit)
-                                selectedItems.plus(value).let(onSelectedChange)
-                        }
+                    if (value in selectedItems) GreenButtonPrimary(text = value.interest) {
+                        selectedItems.minus(value).let(onSelectedChange)
+                    }
+                    else GreenButtonOutline(text = value.interest) {
+                        if (selectedItems.size < chooseLimit) selectedItems.plus(value)
+                            .let(onSelectedChange)
+                    }
                 }
             }
         }
@@ -1032,26 +985,18 @@ fun SimpleAlertDialog(
     text: String,
     buttonText: String = "Got you!",
     confirmDismissOnClick: () -> Unit,
-    ) {
-    AlertDialog(
-        containerColor = Color.White,
-        onDismissRequest = confirmDismissOnClick,
-        title = {
-            Text(text = title)
-        },
-        titleContentColor = Color.Red,
-        text = {
-            Text(text = text)
-        },
-        confirmButton = {
-            GreenButtonOutline(
-                text = buttonText,
-                modifier = Modifier
-                    .fillMaxWidth(),
-                onClick = confirmDismissOnClick
-            )
-        }
-    )
+) {
+    AlertDialog(containerColor = Color.White, onDismissRequest = confirmDismissOnClick, title = {
+        Text(text = title)
+    }, titleContentColor = Color.Red, text = {
+        Text(text = text)
+    }, confirmButton = {
+        GreenButtonOutline(
+            text = buttonText,
+            modifier = Modifier.fillMaxWidth(),
+            onClick = confirmDismissOnClick
+        )
+    })
 }
 
 class NoRippleInteractionSource : MutableInteractionSource {

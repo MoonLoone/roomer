@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.io.IOException
 
-class SignUpThreeUseCase (
+class SignUpThreeUseCase(
     private val repository: RoomerRepository
 ) {
 
@@ -20,7 +20,6 @@ class SignUpThreeUseCase (
         personalityType: String,
         cleanHabits: String
     ): Flow<Resource<String>> = flow {
-
         try {
             emit(Resource.Loading())
             val process = repository.putSignUpDataThree(
@@ -31,17 +30,14 @@ class SignUpThreeUseCase (
                 personalityType,
                 cleanHabits
             )
-
             if (process.isSuccessful) {
                 coroutineScope {
                     emit(Resource.Success())
                 }
-            }
-            else {
+            } else {
                 val errMsg = process.errorBody()!!.string()
                 emit(Resource.Error.GeneralError(message = errMsg))
             }
-
         } catch (e: IOException) {
             emit(Resource.Internet(ConstUseCase.internetErrorMessage))
         }

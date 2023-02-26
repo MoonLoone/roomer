@@ -1,6 +1,5 @@
 package com.example.roomer.presentation.screens
 
-import com.example.roomer.presentation.ui_components.*
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
@@ -33,6 +32,7 @@ import com.example.roomer.R
 import com.example.roomer.domain.model.MessageToList
 import com.example.roomer.domain.model.RecommendedRoom
 import com.example.roomer.domain.model.RecommendedRoommate
+import com.example.roomer.presentation.ui_components.*
 import com.example.roomer.utils.NavbarItem
 import com.example.roomer.utils.Screens
 import com.ramcosta.composedestinations.annotation.Destination
@@ -45,7 +45,12 @@ fun ProfileScreen() {
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
-                .padding(top = 24.dp, bottom = it.calculateBottomPadding(), start = 40.dp, end = 40.dp)
+                .padding(
+                    top = 24.dp,
+                    bottom = it.calculateBottomPadding(),
+                    start = 40.dp,
+                    end = 40.dp
+                )
         ) {
             Text(
                 text = stringResource(R.string.profile_title),
@@ -116,7 +121,12 @@ fun ChatsScreen() {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 24.dp, bottom = it.calculateBottomPadding(), start = 40.dp, end = 40.dp)
+                .padding(
+                    top = 24.dp,
+                    bottom = it.calculateBottomPadding(),
+                    start = 40.dp,
+                    end = 40.dp
+                )
         ) {
             var searchText by remember {
                 mutableStateOf(TextFieldValue(""))
@@ -248,7 +258,12 @@ fun HomeScreen() {
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
-                .padding(top = 18.dp, bottom = it.calculateBottomPadding(), start = 40.dp, end = 40.dp)
+                .padding(
+                    top = 18.dp,
+                    bottom = it.calculateBottomPadding(),
+                    start = 40.dp,
+                    end = 40.dp
+                )
         ) {
             Row(
                 modifier = Modifier
@@ -372,7 +387,9 @@ fun FavouriteScreen() {
             RecommendedRoom(4, "Fav4", "Loc4", "", true)
         )
         LazyColumn(
-            modifier = Modifier.fillMaxSize().padding(bottom=it.calculateBottomPadding()),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(bottom = it.calculateBottomPadding()),
             verticalArrangement = Arrangement.spacedBy(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {

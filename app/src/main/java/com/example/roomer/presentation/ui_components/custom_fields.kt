@@ -2,7 +2,6 @@ package com.example.roomer.presentation.ui_components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
@@ -11,7 +10,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
-import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Password
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -35,8 +33,6 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
@@ -63,23 +59,19 @@ fun DropdownTextField(
     var textFieldSize by remember {
         mutableStateOf(Size.Zero)
     }
-    val icon = if (isExpanded)
-        Icons.Filled.KeyboardArrowUp
-    else
-        Icons.Filled.KeyboardArrowDown
+    val icon = if (isExpanded) Icons.Filled.KeyboardArrowUp
+    else Icons.Filled.KeyboardArrowDown
     Column(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Text(
-            text = label,
-            style = TextStyle(
+            text = label, style = TextStyle(
                 fontSize = integerResource(id = R.integer.primary_text_size).sp,
                 color = Color.Black,
                 fontWeight = FontWeight.Medium
             )
         )
-        TextField(
-            value = value,
+        TextField(value = value,
             onValueChange = onValueChange,
             modifier = Modifier
                 .fillMaxWidth()
@@ -87,11 +79,9 @@ fun DropdownTextField(
                     textFieldSize = coordinates.size.toSize()
                 }
                 .clickable(
-                    interactionSource = interactionSource,
-                    indication = null
+                    interactionSource = interactionSource, indication = null
                 ) {
-                    if (enabled)
-                        isExpanded = !isExpanded
+                    if (enabled) isExpanded = !isExpanded
                 },
             enabled = false,
             trailingIcon = {
@@ -101,8 +91,8 @@ fun DropdownTextField(
             textStyle = TextStyle(fontSize = 14.sp, color = Color.Black)
         )
 
-        DropdownMenu(
-            expanded = isExpanded, onDismissRequest = { isExpanded = false },
+        DropdownMenu(expanded = isExpanded,
+            onDismissRequest = { isExpanded = false },
             modifier = Modifier.width(with(LocalDensity.current) { textFieldSize.width.toDp() })
         ) {
             listOfItems.forEach { text ->
@@ -117,11 +107,8 @@ fun DropdownTextField(
 
 @Composable
 fun DropdownTextFieldMapped(
-    mapOfItems: Map<String, String>,
-    label: String,
-    value: String, //There gonna be keys
-    onValueChange: (String) -> Unit,
-    enabled: Boolean = true
+    mapOfItems: Map<String, String>, label: String, value: String, //There gonna be keys
+    onValueChange: (String) -> Unit, enabled: Boolean = true
 ) {
     val interactionSource = remember { MutableInteractionSource() }
 
@@ -131,23 +118,19 @@ fun DropdownTextFieldMapped(
     var textFieldSize by remember {
         mutableStateOf(Size.Zero)
     }
-    val icon = if (isExpanded)
-        Icons.Filled.KeyboardArrowUp
-    else
-        Icons.Filled.KeyboardArrowDown
+    val icon = if (isExpanded) Icons.Filled.KeyboardArrowUp
+    else Icons.Filled.KeyboardArrowDown
     Column(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Text(
-            text = label,
-            style = TextStyle(
+            text = label, style = TextStyle(
                 fontSize = integerResource(id = R.integer.primary_text_size).sp,
                 color = Color.Black,
                 fontWeight = FontWeight.Medium
             )
         )
-        TextField(
-            value = mapOfItems.getValue(value),
+        TextField(value = mapOfItems.getValue(value),
             onValueChange = onValueChange,
             modifier = Modifier
                 .fillMaxWidth()
@@ -155,11 +138,9 @@ fun DropdownTextFieldMapped(
                     textFieldSize = coordinates.size.toSize()
                 }
                 .clickable(
-                    interactionSource = interactionSource,
-                    indication = null
+                    interactionSource = interactionSource, indication = null
                 ) {
-                    if (enabled)
-                        isExpanded = !isExpanded
+                    if (enabled) isExpanded = !isExpanded
                 },
             enabled = false,
             trailingIcon = {
@@ -169,8 +150,8 @@ fun DropdownTextFieldMapped(
             textStyle = TextStyle(fontSize = 14.sp, color = Color.Black)
         )
 
-        DropdownMenu(
-            expanded = isExpanded, onDismissRequest = { isExpanded = false },
+        DropdownMenu(expanded = isExpanded,
+            onDismissRequest = { isExpanded = false },
             modifier = Modifier.width(with(LocalDensity.current) { textFieldSize.width.toDp() })
         ) {
             mapOfItems.forEach { entry ->
@@ -191,9 +172,7 @@ fun SexField(
     enabled: Boolean = true
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Text(
             text = title,
@@ -206,10 +185,7 @@ fun SexField(
         ) {
             if (value == "M") {
                 GreenButtonPrimaryIconed(
-                    text = "Male",
-                    onClick = {},
-                    trailingIcon = Icons.Filled.Male,
-                    enabled = enabled
+                    text = "Male", onClick = {}, trailingIcon = Icons.Filled.Male, enabled = enabled
                 )
                 GreenButtonOutlineIconed(
                     text = "Female",
@@ -245,8 +221,7 @@ fun ScreenTextField(
     text: MutableState<TextFieldValue> = mutableStateOf(TextFieldValue("")),
 ) {
     Column(
-        modifier = Modifier.padding(paddingValues),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        modifier = Modifier.padding(paddingValues), verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Text(
             text = label,
@@ -254,8 +229,7 @@ fun ScreenTextField(
             fontWeight = FontWeight.Medium,
             color = Color.Black
         )
-        TextField(
-            value = text.value,
+        TextField(value = text.value,
             textStyle = TextStyle(
                 color = Color.Black,
                 fontSize = integerResource(id = R.integer.primary_text_size).sp,
@@ -289,13 +263,10 @@ fun DateField(
     var textState by remember {
         mutableStateOf(TextFieldValue("11.12.2002"))
     }
-    MaterialDialog(
-        dialogState = dialogState,
-        buttons = {
-            positiveButton(stringResource(R.string.positive_button))
-            negativeButton(stringResource(R.string.negative_button))
-        }
-    ) {
+    MaterialDialog(dialogState = dialogState, buttons = {
+        positiveButton(stringResource(R.string.positive_button))
+        negativeButton(stringResource(R.string.negative_button))
+    }) {
         datepicker { date ->
             val formattedDate = date.format(
                 DateTimeFormatter.ofPattern("yyyy-MM-dd")
@@ -304,9 +275,7 @@ fun DateField(
         }
     }
     Column(
-        modifier = Modifier
-            .fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Text(
             text = label,
@@ -333,8 +302,7 @@ fun DateField(
             ),
             modifier = Modifier
                 .clickable {
-                    if (enabled)
-                        dialogState.show()
+                    if (enabled) dialogState.show()
                 }
                 .fillMaxWidth(),
             colors = TextFieldDefaults.textFieldColors(backgroundColor = colorResource(id = R.color.secondary_color)),
@@ -345,13 +313,10 @@ fun DateField(
 
 @Composable
 fun SelectAddressField(
-    paddingValues: PaddingValues = PaddingValues(top = 16.dp),
-    label: String,
-    placeholder: String
+    paddingValues: PaddingValues = PaddingValues(top = 16.dp), label: String, placeholder: String
 ) {
     Column(
-        modifier = Modifier.padding(paddingValues),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        modifier = Modifier.padding(paddingValues), verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -371,8 +336,7 @@ fun SelectAddressField(
                     .width(48.dp)
                     .height(48.dp)
                     .background(
-                        color = colorResource(id = R.color.primary_dark),
-                        RoundedCornerShape(100.dp)
+                        color = colorResource(id = R.color.primary_dark), RoundedCornerShape(100.dp)
                     )
                     .clickable {
 
@@ -391,8 +355,8 @@ fun SelectAddressField(
         var location by remember {
             mutableStateOf(TextFieldValue(placeholder))
         }
-        TextField(
-            value = location, onValueChange = {},
+        TextField(value = location,
+            onValueChange = {},
             modifier = Modifier
                 .fillMaxWidth()
                 .height(56.dp)
@@ -424,15 +388,11 @@ fun PasswordField(
         mutableStateOf(false)
     }
 
-    val icon = if (visibility)
-        Icons.Filled.Visibility
-    else
-        Icons.Filled.VisibilityOff
+    val icon = if (visibility) Icons.Filled.Visibility
+    else Icons.Filled.VisibilityOff
 
     Column(
-        modifier = modifier
-            .fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        modifier = modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Text(
             text = label,
@@ -449,8 +409,7 @@ fun PasswordField(
             placeholder = { Text(text = placeholder) },
             leadingIcon = {
                 Icon(
-                    Icons.Outlined.Password,
-                    stringResource(R.string.icon_description)
+                    Icons.Outlined.Password, stringResource(R.string.icon_description)
                 )
             },
             trailingIcon = {
@@ -458,8 +417,7 @@ fun PasswordField(
                     visibility = !visibility
                 }) {
                     Icon(
-                        imageVector = icon,
-                        stringResource(R.string.icon_description)
+                        imageVector = icon, stringResource(R.string.icon_description)
                     )
                 }
             },
@@ -479,8 +437,7 @@ fun PasswordField(
         )
         if (isError) {
             Text(
-                color = Color.Red,
-                text = errorMessage
+                color = Color.Red, text = errorMessage
             )
         }
     }
@@ -498,9 +455,7 @@ fun EmailField(
     errorMessage: String = ""
 ) {
     Column(
-        modifier = modifier
-            .fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        modifier = modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Text(
             text = label,
@@ -517,12 +472,11 @@ fun EmailField(
             placeholder = { Text(text = placeholder) },
             leadingIcon = { Icon(Icons.Filled.Email, stringResource(R.string.icon_description)) },
             trailingIcon = {
-                if (isError)
-                    Icon(
-                        Icons.Filled.Error,
-                        stringResource(R.string.error_icon_description),
-                        tint = MaterialTheme.colors.error
-                    )
+                if (isError) Icon(
+                    Icons.Filled.Error,
+                    stringResource(R.string.error_icon_description),
+                    tint = MaterialTheme.colors.error
+                )
             },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Email
@@ -538,8 +492,7 @@ fun EmailField(
         )
         if (isError) {
             Text(
-                color = Color.Red,
-                text = errorMessage
+                color = Color.Red, text = errorMessage
             )
         }
     }
@@ -558,9 +511,7 @@ fun UsualTextField(
     maxLines: Int = 5
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Text(
             text = title,
@@ -598,8 +549,7 @@ fun UsualTextField(
         )
         if (isError) {
             Text(
-                color = Color.Red,
-                text = errorMessage
+                color = Color.Red, text = errorMessage
             )
         }
     }
@@ -619,9 +569,7 @@ fun IconedTextField(
     maxLines: Int = 5
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Text(
             text = title,
@@ -642,12 +590,11 @@ fun IconedTextField(
                 textAlign = TextAlign.Start,
             ),
             trailingIcon = {
-                if (isError)
-                    Icon(
-                        Icons.Filled.Error,
-                        stringResource(R.string.error_icon_description),
-                        tint = MaterialTheme.colors.error
-                    )
+                if (isError) Icon(
+                    Icons.Filled.Error,
+                    stringResource(R.string.error_icon_description),
+                    tint = MaterialTheme.colors.error
+                )
             },
 
             placeholder = {
@@ -669,8 +616,7 @@ fun IconedTextField(
         )
         if (isError) {
             Text(
-                color = Color.Red,
-                text = errorMessage
+                color = Color.Red, text = errorMessage
             )
         }
     }
@@ -684,26 +630,21 @@ fun InterestField(paddingValues: PaddingValues, label: String) {
     var openDialog by remember {
         mutableStateOf(false)
     }
-    val icon = if (openDialog)
-        Icons.Filled.KeyboardArrowUp
-    else
-        Icons.Filled.KeyboardArrowDown
+    val icon = if (openDialog) Icons.Filled.KeyboardArrowUp
+    else Icons.Filled.KeyboardArrowDown
     Column() {
         Column(
             modifier = Modifier.padding(paddingValues),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Text(
-                text = label,
-                style = TextStyle(
+                text = label, style = TextStyle(
                     fontSize = integerResource(id = R.integer.primary_text_size).sp,
                     color = Color.Black
                 )
             )
-            TextField(
-                value = interestsList.text,
-                onValueChange = {
-                },
+            TextField(value = interestsList.text,
+                onValueChange = {},
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable { openDialog = !openDialog },
@@ -716,8 +657,7 @@ fun InterestField(paddingValues: PaddingValues, label: String) {
             )
         }
         if (openDialog) {
-            AlertDialog(
-                onDismissRequest = { openDialog = false },
+            AlertDialog(onDismissRequest = { openDialog = false },
                 title = { Text("Change interests") },
                 text = {
 
@@ -726,8 +666,7 @@ fun InterestField(paddingValues: PaddingValues, label: String) {
                     Button(modifier = Modifier.fillMaxWidth(), onClick = { openDialog = false }) {
                         Text("Dismiss")
                     }
-                }
-            )
+                })
         }
     }
 }

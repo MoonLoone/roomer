@@ -1,6 +1,6 @@
 package com.example.roomer.presentation.screens.entrance.signup
 
-data class SignUpScreenState (
+data class SignUpScreenState(
     val success: Boolean = false,
     val isLoading: Boolean = false,
     val error: String = "",

@@ -1,30 +1,25 @@
 package com.example.roomer.data.repository
 
 import android.graphics.Bitmap
-import com.example.roomer.domain.model.signup.interests.InterestModel
-import com.example.roomer.domain.model.login.TokenDto
-import com.example.roomer.domain.model.signup.IdModel
 import com.example.roomer.domain.model.RoomsFilterInfo
 import com.example.roomer.domain.model.UsersFilterInfo
+import com.example.roomer.domain.model.login.TokenDto
+import com.example.roomer.domain.model.signup.IdModel
+import com.example.roomer.domain.model.signup.interests.InterestModel
 import retrofit2.Response
-import java.io.File
 
 interface RoomerRepositoryInterface {
-    suspend fun userLogin(email:String, password:String) : Response<TokenDto>
+    suspend fun userLogin(email: String, password: String): Response<TokenDto>
 
-    suspend fun userSignUp(username: String, email:String, password:String) : Response<IdModel>
+    suspend fun userSignUp(username: String, email: String, password: String): Response<IdModel>
 
-    suspend fun getInterests() : List<InterestModel>
+    suspend fun getInterests(): List<InterestModel>
 
-    suspend fun putInterests(token: String, interests: List<InterestModel>) : Response<IdModel>
+    suspend fun putInterests(token: String, interests: List<InterestModel>): Response<IdModel>
 
     suspend fun putSignUpDataOne(
-        token: String,
-        firstName: String,
-        lastName: String,
-        sex: String,
-        birthDate: String
-        ) : Response<IdModel>
+        token: String, firstName: String, lastName: String, sex: String, birthDate: String
+    ): Response<IdModel>
 
     suspend fun putSignUpDataThree(
         token: String,
@@ -33,14 +28,11 @@ interface RoomerRepositoryInterface {
         smokingAttitude: String,
         personalityType: String,
         cleanHabits: String
-        ) : Response<IdModel>
+    ): Response<IdModel>
 
     suspend fun putSignUpDataTwo(
-        token: String,
-        avatar: Bitmap,
-        aboutMe: String,
-        employment: String
-    ) : Response<IdModel>
+        token: String, avatar: Bitmap, aboutMe: String, employment: String
+    ): Response<IdModel>
 
     suspend fun getFilterRooms(
         monthPriceFrom: String,

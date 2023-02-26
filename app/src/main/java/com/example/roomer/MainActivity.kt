@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            DestinationsNavHost(navGraph = NavGraphs.root )
+            DestinationsNavHost(navGraph = NavGraphs.root)
             val navController = rememberNavController()
             NavbarHostContainer(navController = navController)
         }
