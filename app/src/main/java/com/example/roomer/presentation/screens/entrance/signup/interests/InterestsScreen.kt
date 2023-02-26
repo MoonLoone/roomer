@@ -18,11 +18,10 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.roomer.R
 import com.example.roomer.domain.model.signup.interests.InterestModel
-import com.example.roomer.presentation.screens.destinations.MainScreenDestination
+import com.example.roomer.presentation.screens.destinations.HomeScreenDestination
 import com.example.roomer.presentation.ui_components.GreenButtonOutline
 import com.example.roomer.presentation.ui_components.GreenButtonPrimary
 import com.example.roomer.presentation.ui_components.InterestsButtons
-import com.example.roomer.utils.Consts
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
@@ -73,7 +72,7 @@ fun InterestsScreen(
                     onSelectedChange = { selectedItems.value = it })
             }
             if (state.isInterestsSent) {
-                navigator.navigate(MainScreenDestination(Consts.interestsScreenId))
+                navigator.navigate(HomeScreenDestination())
             }
             if (state.isLoading) {
                 CircularProgressIndicator(
@@ -93,7 +92,6 @@ fun InterestsScreen(
                 enabled = state.isInterestsLoaded
             ) {
                 interestsScreenViewModel.putInterests(selectedItems.value)
-                //TODO Add navigation to main page
             }
         }
     }

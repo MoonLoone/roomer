@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.roomer.R
+import com.example.roomer.presentation.screens.destinations.HomeScreenDestination
 import com.example.roomer.presentation.screens.destinations.MainScreenDestination
 import com.example.roomer.presentation.screens.destinations.SignUpScreen1Destination
 import com.example.roomer.presentation.screens.destinations.SignUpScreenOneDestination
@@ -146,7 +147,7 @@ fun LoginScreen(
             }
             if (state.success) {
                 if (id == Consts.greetingScreenId) {
-                    navigator.navigate(MainScreenDestination(Consts.loginScreenId))
+                    navigator.navigate(HomeScreenDestination())
                 } else {
                     navigator.navigate(SignUpScreenOneDestination(Consts.loginScreenId))
                 }

@@ -10,7 +10,5 @@ object Consts {
     const val signUpTwoScreenId = 3
     const val signUpThreeScreenId = 4
     const val interestsScreenId = 5
-    const val mainScreenId = 6
     const val signUpScreenId = 7
-
 }

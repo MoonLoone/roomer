@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.TabRowDefaults.Divider
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material3.Icon
@@ -31,18 +30,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
 import com.example.roomer.R
-import com.example.roomer.domain.model.ChatMessage
 import com.example.roomer.domain.model.MessageToList
 import com.example.roomer.domain.model.RecommendedRoom
 import com.example.roomer.domain.model.RecommendedRoommate
 import com.example.roomer.utils.NavbarItem
 import com.example.roomer.utils.Screens
-import com.example.roomer.utils.convertLongToTime
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.ramcosta.composedestinations.annotation.Destination
 
 @Composable
 fun ProfileScreen() {
@@ -225,6 +218,7 @@ fun ChatsScreen() {
     }
 }
 
+@Destination
 @Composable
 fun HomeScreen() {
     val navController = NavbarItem.Home.navHostController ?: rememberNavController()
