@@ -1,6 +1,8 @@
 package com.example.roomer.presentation.screens.entrance.signup.screen_two
 
 import android.graphics.Bitmap
+import android.net.Uri
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -27,6 +29,7 @@ import com.example.roomer.presentation.ui_components.*
 import com.example.roomer.utils.Consts
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import java.io.File
 
 @Destination
 @Composable
@@ -114,11 +117,7 @@ fun SignUpScreenTwo(
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
-                signUpScreenTwoViewModel.applyData(
-                    avatarBitmap.value,
-                    aboutMeValue,
-                    employmentValue
-                )
+                signUpScreenTwoViewModel.applyData(avatarBitmap.value, aboutMeValue, employmentValue)
             }
             if (state.success) {
                 navigator.navigate(SignUpScreenThreeDestination(Consts.signUpTwoScreenId))

@@ -53,7 +53,8 @@ fun InterestsScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             LinearProgressIndicator(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth(),
                 color = colorResource(id = R.color.primary_dark),
                 progress = 0.8f
             )
@@ -64,7 +65,8 @@ fun InterestsScreen(
                 textAlign = TextAlign.Start
             )
             if (state.isInterestsLoaded) {
-                InterestsButtons(label = "Choose 10 maximum",
+                InterestsButtons(
+                    label = "Choose 10 maximum",
                     values = interests,
                     selectedItems = selectedItems.value,
                     onSelectedChange = { selectedItems.value = it })
@@ -78,13 +80,15 @@ fun InterestsScreen(
                 )
             }
             if (state.internetProblem) {
-                if (!state.isInterestsLoaded) GreenButtonOutline(text = "Retry") {
-                    interestsScreenViewModel.getInterests()
-                }
+                if (!state.isInterestsLoaded)
+                    GreenButtonOutline(text = "Retry") {
+                        interestsScreenViewModel.getInterests()
+                    }
             }
             GreenButtonPrimary(
                 text = "Apply",
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth(),
                 enabled = state.isInterestsLoaded
             ) {
                 interestsScreenViewModel.putInterests(selectedItems.value)

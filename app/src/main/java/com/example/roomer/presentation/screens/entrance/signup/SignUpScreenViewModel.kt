@@ -7,8 +7,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.roomer.data.remote.RoomerApiObj
 import com.example.roomer.data.repository.RoomerRepository
-import com.example.roomer.domain.usecase.signup.SignUpUseCase
 import com.example.roomer.utils.Resource
+import com.example.roomer.domain.usecase.signup.SignUpUseCase
 import com.example.roomer.utils.SpManager
 import kotlinx.coroutines.launch
 
@@ -24,15 +24,21 @@ class SignUpScreenViewModel(
 
     fun signUpUser(email: String, password: String, username: String, confPassword: String) {
 
-        if (email.trim().isEmpty() || password.trim().isEmpty() || username.trim()
-                .isEmpty() || confPassword.trim().isEmpty()
-        ) {
-            _state.value = SignUpScreenState(error = EMPTY_FIELD_ERR_MSG)
+        if (
+            email.trim().isEmpty() ||
+            password.trim().isEmpty() ||
+            username.trim().isEmpty() ||
+            confPassword.trim().isEmpty()
+                ) {
+            _state.value =
+                SignUpScreenState(error = EMPTY_FIELD_ERR_MSG)
             return
         } else if (confPassword != password) {
-            _state.value = SignUpScreenState(
-                error = CONF_PASS_ERR_MSG, isConfPasswordError = true
-            )
+            _state.value =
+                SignUpScreenState(
+                    error = CONF_PASS_ERR_MSG,
+                    isConfPasswordError = true
+                )
             return
         }
 
@@ -63,24 +69,28 @@ class SignUpScreenViewModel(
                     }
                     is Resource.Internet -> {
                         _state.value = SignUpScreenState(
-                            internetProblem = true, error = result.message!!
+                            internetProblem = true,
+                            error = result.message!!
                         )
                     }
                     is Resource.Error -> {
                         when (result) {
                             is Resource.Error.EmailError -> {
                                 _state.value = SignUpScreenState(
-                                    error = result.message!!, isEmailError = true
+                                    error = result.message!!,
+                                    isEmailError = true
                                 )
                             }
                             is Resource.Error.UsernameError -> {
                                 _state.value = SignUpScreenState(
-                                    error = result.message!!, isUsernameError = true
+                                    error = result.message!!,
+                                    isUsernameError = true
                                 )
                             }
                             is Resource.Error.PasswordError -> {
                                 _state.value = SignUpScreenState(
-                                    error = result.message!!, isPasswordError = true
+                                    error = result.message!!,
+                                    isPasswordError = true
                                 )
                             }
                             else -> {

@@ -5,5 +5,5 @@ data class RecommendedRoom(
     val name: String,
     val location: String,
     val roomImagePath: String,
-    val isLiked: Boolean,
+    val isLiked:Boolean,
 )

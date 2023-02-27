@@ -14,7 +14,11 @@ enum class NavbarItem(
     val destination: String = "",
 ) {
     Home(
-        R.drawable.homeun, R.drawable.homein, "Home", { HomeScreen() }, destination = "Home screen"
+        R.drawable.homeun,
+        R.drawable.homein,
+        "Home",
+        { HomeScreen() },
+        destination = "Home screen"
     ),
     Favourite(
         R.drawable.favun,

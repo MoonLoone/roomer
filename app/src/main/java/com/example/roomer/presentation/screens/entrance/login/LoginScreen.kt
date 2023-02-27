@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.roomer.R
 import com.example.roomer.presentation.screens.destinations.HomeScreenDestination
+import com.example.roomer.presentation.screens.destinations.MainScreenDestination
 import com.example.roomer.presentation.screens.destinations.SignUpScreen1Destination
 import com.example.roomer.presentation.screens.destinations.SignUpScreenOneDestination
 import com.example.roomer.presentation.ui_components.EmailField
@@ -153,3 +154,4 @@ fun LoginScreen(
             }
         }
     }
+}
