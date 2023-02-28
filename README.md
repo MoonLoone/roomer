@@ -14,8 +14,8 @@
   <li>Поиск с помощью карты</li>
   <li>Создание объявлений</li>
 </ul>
-##Команда разработки
--Мутлов Максим - Team Lead (github: MoonLoone)
--Родион Иванников - Backend, Software Architect (github: Ret14)
--Андрей Караник - Mobile Developer (github: Andrey-Karanik)
--Вероника Терехова - Mobile Developer (github: Iascatt)
+## Команда разработки
++ Мутлов Максим - Team Lead (github: MoonLoone)
++ Родион Иванников - Backend, Software Architect (github: Ret14)
++ Андрей Караник - Mobile Developer (github: Andrey-Karanik)
++ Вероника Терехова - Mobile Developer (github: Iascatt)
