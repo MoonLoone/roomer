@@ -14,7 +14,7 @@
   <li>Поиск с помощью карты</li>
   <li>Создание объявлений</li>
 </ul>
-## Команда разработки ##
+<h2> Команда разработки </h2>
 
 + Мутлов Максим - Team Lead (github: MoonLoone)
 + Родион Иванников - Backend, Software Architect (github: Ret14)
