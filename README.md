@@ -15,6 +15,7 @@
   <li>Создание объявлений</li>
 </ul>
 ## Команда разработки ##
+
 + Мутлов Максим - Team Lead (github: MoonLoone)
 + Родион Иванников - Backend, Software Architect (github: Ret14)
 + Андрей Караник - Mobile Developer (github: Andrey-Karanik)
