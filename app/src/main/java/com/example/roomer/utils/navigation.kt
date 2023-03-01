@@ -55,12 +55,14 @@ fun NavGraphBuilder.homeGraph(navController: NavHostController) {
     ) {
         composable(NavbarItem.Home.destination) { NavbarItem.Home.composeViewFunction.invoke() }
         composable(Screens.SearchRoom.name) { Screens.SearchRoom.composeViewFunction.invoke() }
-        composable(
-            Screens.SearchRoomResults.name ) {
+        composable(Screens.SearchRoomResults.name) {
             Screens.SearchRoomResults.composeViewFunction.invoke()
         }
-        composable(Screens.SearchRoommate.name) { Screens.SearchRoommate.composeViewFunction.invoke() }
-        composable(
-            Screens.SearchRoommateResults.name) { Screens.SearchRoommateResults.composeViewFunction.invoke() }
+        composable(Screens.SearchRoommate.name) {
+            Screens.SearchRoommate.composeViewFunction.invoke()
+        }
+        composable(Screens.SearchRoommateResults.name) {
+            Screens.SearchRoommateResults.composeViewFunction.invoke()
+        }
     }
 }
