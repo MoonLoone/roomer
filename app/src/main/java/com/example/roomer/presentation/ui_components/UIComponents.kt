@@ -897,7 +897,7 @@ fun FilterSelect(selectItemName: String, onNavigateToFriends: () -> Unit) {
                         colorResource(
                             R.color.primary
                         ) else colorResource(
-                        R.color.text_secondary
+                            R.color.text_secondary
                     )
                 )
             )
