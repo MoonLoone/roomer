@@ -2,27 +2,27 @@ package com.example.roomer.data.repository
 
 import android.graphics.Bitmap
 import com.example.roomer.data.remote.RoomerApi
-import com.example.roomer.domain.model.signup.interests.InterestModel
-import com.example.roomer.domain.model.signup.interests.PutInterestsModel
+import com.example.roomer.domain.model.RoomsFilterInfo
+import com.example.roomer.domain.model.UsersFilterInfo
 import com.example.roomer.domain.model.login.LoginDto
 import com.example.roomer.domain.model.login.TokenDto
 import com.example.roomer.domain.model.signup.IdModel
 import com.example.roomer.domain.model.signup.SignUpModel
+import com.example.roomer.domain.model.signup.interests.InterestModel
+import com.example.roomer.domain.model.signup.interests.PutInterestsModel
 import com.example.roomer.domain.model.signup.signup_one.SignUpOneModel
 import com.example.roomer.domain.model.signup.signup_three.SignUpThreeModel
-import com.example.roomer.domain.model.RoomsFilterInfo
-import com.example.roomer.domain.model.UsersFilterInfo
+import java.io.ByteArrayOutputStream
+import kotlin.random.Random
+import kotlin.random.nextUInt
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Response
-import java.io.ByteArrayOutputStream
-import kotlin.random.Random
-import kotlin.random.nextUInt
 
-class RoomerRepository (
+class RoomerRepository(
     private val roomerApi: RoomerApi
-    ) : RoomerRepositoryInterface {
+) : RoomerRepositoryInterface {
     override suspend fun userLogin(
         email: String,
         password: String
@@ -150,5 +150,4 @@ class RoomerRepository (
             cleanHabits,
         )
     }
-
 }

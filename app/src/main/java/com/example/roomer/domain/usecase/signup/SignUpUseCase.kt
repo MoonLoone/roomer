@@ -1,17 +1,15 @@
 package com.example.roomer.domain.usecase.signup
 
-import android.util.Log
-import com.example.roomer.utils.Resource
 import com.example.roomer.data.repository.RoomerRepository
 import com.example.roomer.utils.ConstUseCase
+import com.example.roomer.utils.Resource
+import java.io.IOException
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import org.json.JSONObject
-import java.io.IOException
 
-class SignUpUseCase (
+class SignUpUseCase(
     private val repository: RoomerRepository
 ) {
 
@@ -26,8 +24,7 @@ class SignUpUseCase (
                 coroutineScope {
                     emit(Resource.Success(process.body()!!.id))
                 }
-            }
-            else {
+            } else {
                 var errMsg = process.errorBody()!!.string()
                 val errorOn = JSONObject(errMsg).names()!![0].toString()
                 errMsg = JSONObject(errMsg).getJSONArray(errorOn)[0].toString()
@@ -38,7 +35,6 @@ class SignUpUseCase (
                     emit(Resource.Error.GeneralError(message = errMsg))
                 }
             }
-
         } catch (e: IOException) {
             emit(Resource.Internet(ConstUseCase.internetErrorMessage))
         }

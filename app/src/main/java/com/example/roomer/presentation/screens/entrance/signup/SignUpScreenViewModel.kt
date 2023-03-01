@@ -7,8 +7,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.roomer.data.remote.RoomerApiObj
 import com.example.roomer.data.repository.RoomerRepository
-import com.example.roomer.utils.Resource
 import com.example.roomer.domain.usecase.signup.SignUpUseCase
+import com.example.roomer.utils.Resource
 import com.example.roomer.utils.SpManager
 import kotlinx.coroutines.launch
 
@@ -29,7 +29,7 @@ class SignUpScreenViewModel(
             password.trim().isEmpty() ||
             username.trim().isEmpty() ||
             confPassword.trim().isEmpty()
-                ) {
+        ) {
             _state.value =
                 SignUpScreenState(error = EMPTY_FIELD_ERR_MSG)
             return
@@ -99,7 +99,6 @@ class SignUpScreenViewModel(
                                 )
                             }
                         }
-
                     }
                 }
             }

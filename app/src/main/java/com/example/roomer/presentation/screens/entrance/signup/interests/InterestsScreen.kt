@@ -69,7 +69,8 @@ fun InterestsScreen(
                     label = "Choose 10 maximum",
                     values = interests,
                     selectedItems = selectedItems.value,
-                    onSelectedChange = { selectedItems.value = it })
+                    onSelectedChange = { selectedItems.value = it }
+                )
             }
             if (state.isInterestsSent) {
                 navigator.navigate(HomeScreenDestination())

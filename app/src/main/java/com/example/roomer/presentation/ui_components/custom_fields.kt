@@ -2,7 +2,6 @@ package com.example.roomer.presentation.ui_components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
@@ -35,8 +34,6 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
@@ -45,7 +42,6 @@ import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import java.time.format.DateTimeFormatter
-
 
 @Composable
 fun DropdownTextField(
@@ -97,19 +93,24 @@ fun DropdownTextField(
             trailingIcon = {
                 Icon(icon, stringResource(R.string.dropdown_icon))
             },
-            colors = TextFieldDefaults.textFieldColors(backgroundColor = colorResource(id = R.color.secondary_color)),
+            colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = colorResource(id = R.color.secondary_color)
+            ),
             textStyle = TextStyle(fontSize = 14.sp, color = Color.Black)
         )
 
         DropdownMenu(
-            expanded = isExpanded, onDismissRequest = { isExpanded = false },
+            expanded = isExpanded,
+            onDismissRequest = { isExpanded = false },
             modifier = Modifier.width(with(LocalDensity.current) { textFieldSize.width.toDp() })
         ) {
             listOfItems.forEach { text ->
-                DropdownMenuItem(onClick = {
-                    onValueChange(text)
-                    isExpanded = false
-                }) { Text(text = text) }
+                DropdownMenuItem(
+                    onClick = {
+                        onValueChange(text)
+                        isExpanded = false
+                    }
+                ) { Text(text = text) }
             }
         }
     }
@@ -119,7 +120,7 @@ fun DropdownTextField(
 fun DropdownTextFieldMapped(
     mapOfItems: Map<String, String>,
     label: String,
-    value: String, //There gonna be keys
+    value: String, // There gonna be keys
     onValueChange: (String) -> Unit,
     enabled: Boolean = true
 ) {
@@ -165,19 +166,24 @@ fun DropdownTextFieldMapped(
             trailingIcon = {
                 Icon(icon, "Dropdown icon")
             },
-            colors = TextFieldDefaults.textFieldColors(backgroundColor = colorResource(id = R.color.secondary_color)),
+            colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = colorResource(id = R.color.secondary_color)
+            ),
             textStyle = TextStyle(fontSize = 14.sp, color = Color.Black)
         )
 
         DropdownMenu(
-            expanded = isExpanded, onDismissRequest = { isExpanded = false },
+            expanded = isExpanded,
+            onDismissRequest = { isExpanded = false },
             modifier = Modifier.width(with(LocalDensity.current) { textFieldSize.width.toDp() })
         ) {
             mapOfItems.forEach { entry ->
-                DropdownMenuItem(onClick = {
-                    onValueChange(entry.key)
-                    isExpanded = false
-                }) { Text(text = entry.value) }
+                DropdownMenuItem(
+                    onClick = {
+                        onValueChange(entry.key)
+                        isExpanded = false
+                    }
+                ) { Text(text = entry.value) }
             }
         }
     }
@@ -235,7 +241,6 @@ fun SexField(
     }
 }
 
-
 @Composable
 fun ScreenTextField(
     textHint: String,
@@ -273,7 +278,9 @@ fun ScreenTextField(
                 .fillMaxWidth()
                 .height(textFieldHeight.dp)
                 .background(colorResource(id = R.color.secondary_color)),
-            colors = TextFieldDefaults.textFieldColors(backgroundColor = colorResource(id = R.color.secondary_color))
+            colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = colorResource(id = R.color.secondary_color)
+            )
         )
     }
 }
@@ -337,7 +344,9 @@ fun DateField(
                         dialogState.show()
                 }
                 .fillMaxWidth(),
-            colors = TextFieldDefaults.textFieldColors(backgroundColor = colorResource(id = R.color.secondary_color)),
+            colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = colorResource(id = R.color.secondary_color)
+            ),
             enabled = false,
         )
     }
@@ -375,7 +384,6 @@ fun SelectAddressField(
                         RoundedCornerShape(100.dp)
                     )
                     .clickable {
-
                     },
                 contentAlignment = Alignment.Center,
             ) {
@@ -392,12 +400,12 @@ fun SelectAddressField(
             mutableStateOf(TextFieldValue(placeholder))
         }
         TextField(
-            value = location, onValueChange = {},
+            value = location,
+            onValueChange = {},
             modifier = Modifier
                 .fillMaxWidth()
                 .height(56.dp)
                 .clickable {
-
                 },
             textStyle = TextStyle(
                 fontSize = integerResource(id = R.integer.primary_text_size).sp,
@@ -454,9 +462,11 @@ fun PasswordField(
                 )
             },
             trailingIcon = {
-                IconButton(onClick = {
-                    visibility = !visibility
-                }) {
+                IconButton(
+                    onClick = {
+                        visibility = !visibility
+                    }
+                ) {
                     Icon(
                         imageVector = icon,
                         stringResource(R.string.icon_description)
@@ -711,7 +721,9 @@ fun InterestField(paddingValues: PaddingValues, label: String) {
                 trailingIcon = {
                     Icon(icon, "Dropdown icon")
                 },
-                colors = TextFieldDefaults.textFieldColors(backgroundColor = colorResource(id = R.color.secondary_color)),
+                colors = TextFieldDefaults.textFieldColors(
+                    backgroundColor = colorResource(id = R.color.secondary_color)
+                ),
                 textStyle = TextStyle(fontSize = 14.sp, color = Color.Black)
             )
         }
@@ -720,7 +732,6 @@ fun InterestField(paddingValues: PaddingValues, label: String) {
                 onDismissRequest = { openDialog = false },
                 title = { Text("Change interests") },
                 text = {
-
                 },
                 buttons = {
                     Button(modifier = Modifier.fillMaxWidth(), onClick = { openDialog = false }) {

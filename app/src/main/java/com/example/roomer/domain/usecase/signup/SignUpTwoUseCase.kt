@@ -4,13 +4,12 @@ import android.graphics.Bitmap
 import com.example.roomer.data.repository.RoomerRepository
 import com.example.roomer.utils.ConstUseCase
 import com.example.roomer.utils.Resource
+import java.io.IOException
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import java.io.File
-import java.io.IOException
 
-class SignUpTwoUseCase (
+class SignUpTwoUseCase(
     private val repository: RoomerRepository
 ) {
     operator fun invoke(
@@ -28,12 +27,10 @@ class SignUpTwoUseCase (
                 coroutineScope {
                     emit(Resource.Success())
                 }
-            }
-            else {
+            } else {
                 val errMsg = process.errorBody()!!.string()
                 emit(Resource.Error.GeneralError(message = errMsg))
             }
-
         } catch (e: IOException) {
             emit(Resource.Internet(ConstUseCase.internetErrorMessage))
         }

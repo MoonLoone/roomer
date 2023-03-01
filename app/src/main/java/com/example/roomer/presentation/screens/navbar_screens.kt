@@ -1,6 +1,5 @@
 package com.example.roomer.presentation.screens
 
-import com.example.roomer.presentation.ui_components.*
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
@@ -33,6 +32,7 @@ import com.example.roomer.R
 import com.example.roomer.domain.model.MessageToList
 import com.example.roomer.domain.model.RecommendedRoom
 import com.example.roomer.domain.model.RecommendedRoommate
+import com.example.roomer.presentation.ui_components.*
 import com.example.roomer.utils.NavbarItem
 import com.example.roomer.utils.Screens
 import com.ramcosta.composedestinations.annotation.Destination
@@ -45,7 +45,12 @@ fun ProfileScreen() {
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
-                .padding(top = 24.dp, bottom = it.calculateBottomPadding(), start = 40.dp, end = 40.dp)
+                .padding(
+                    top = 24.dp,
+                    bottom = it.calculateBottomPadding(),
+                    start = 40.dp,
+                    end = 40.dp
+                )
         ) {
             Text(
                 text = stringResource(R.string.profile_title),
@@ -62,7 +67,6 @@ fun ProfileScreen() {
                     .height(152.dp)
                     .clip(RoundedCornerShape(100))
                     .clickable {
-
                     },
             )
             ProfileContentLine(
@@ -72,9 +76,11 @@ fun ProfileScreen() {
                     navController.navigate(
                         Screens.Account.name
                     )
-                })
+                }
+            )
             ProfileContentLine(
-                Screens.Location.name, R.drawable.location_icon,
+                Screens.Location.name,
+                R.drawable.location_icon,
                 onNavigateToFriends = {
                     navController.navigate(
                         Screens.Location.name
@@ -82,7 +88,8 @@ fun ProfileScreen() {
                 },
             )
             ProfileContentLine(
-                Screens.Rating.name, R.drawable.rating_icon,
+                Screens.Rating.name,
+                R.drawable.rating_icon,
                 onNavigateToFriends = {
                     navController.navigate(
                         Screens.Rating.name
@@ -90,7 +97,8 @@ fun ProfileScreen() {
                 },
             )
             ProfileContentLine(
-                Screens.Settings.name, R.drawable.settings_icon,
+                Screens.Settings.name,
+                R.drawable.settings_icon,
                 onNavigateToFriends = {
                     navController.navigate(
                         Screens.Settings.name
@@ -98,7 +106,8 @@ fun ProfileScreen() {
                 },
             )
             ProfileContentLine(
-                Screens.Logout.name, R.drawable.logout_icon,
+                Screens.Logout.name,
+                R.drawable.logout_icon,
                 onNavigateToFriends = {
                     navController.navigate(
                         Screens.Logout.name
@@ -116,7 +125,12 @@ fun ChatsScreen() {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 24.dp, bottom = it.calculateBottomPadding(), start = 40.dp, end = 40.dp)
+                .padding(
+                    top = 24.dp,
+                    bottom = it.calculateBottomPadding(),
+                    start = 40.dp,
+                    end = 40.dp
+                )
         ) {
             var searchText by remember {
                 mutableStateOf(TextFieldValue(""))
@@ -136,7 +150,8 @@ fun ChatsScreen() {
                     color = Color.Black,
                     fontSize = integerResource(id = R.integer.primary_text_size).sp,
                 ),
-                value = searchText, onValueChange = { value ->
+                value = searchText,
+                onValueChange = { value ->
                     if (value.text.length <= 100) {
                         searchText = value
                     }
@@ -173,36 +188,45 @@ fun ChatsScreen() {
                     .height(56.dp)
                     .border(
                         BorderStroke(
-                            2.dp, colorResource(
+                            2.dp,
+                            colorResource(
                                 id = R.color.primary_dark
                             )
                         ),
                         RoundedCornerShape(4.dp)
                     ),
-                colors = TextFieldDefaults.textFieldColors(backgroundColor = colorResource(id = R.color.white))
+                colors = TextFieldDefaults.textFieldColors(
+                    backgroundColor = colorResource(id = R.color.white)
+                )
             )
             val listOfMessages = listOf(
-                MessageToList(userAvatarPath = "path",
+                MessageToList(
+                    userAvatarPath = "path",
                     messageDate = "12.22",
                     messageCutText = "Hello my name is Piter",
                     username = "Grigoriev Oleg",
                     isRead = false,
                     unreadMessages = 0,
-                    navigateToMessage = { navController.navigate(Screens.Chat.name) }),
-                MessageToList(userAvatarPath = "path",
+                    navigateToMessage = { navController.navigate(Screens.Chat.name) }
+                ),
+                MessageToList(
+                    userAvatarPath = "path",
                     messageDate = "12.22",
                     messageCutText = "Hello my name is Piter",
                     username = "Grigoriev Oleg",
                     isRead = true,
                     unreadMessages = 10000,
-                    navigateToMessage = { navController.navigate(Screens.Chat.name) }),
-                MessageToList(userAvatarPath = "path",
+                    navigateToMessage = { navController.navigate(Screens.Chat.name) }
+                ),
+                MessageToList(
+                    userAvatarPath = "path",
                     messageDate = "12.22",
                     messageCutText = "Hello my name is Piter",
                     username = "Grigoriev Oleg",
                     isRead = false,
                     unreadMessages = 15,
-                    navigateToMessage = { navController.navigate(Screens.Chat.name) }),
+                    navigateToMessage = { navController.navigate(Screens.Chat.name) }
+                ),
             )
             LazyColumn(
                 Modifier
@@ -248,7 +272,12 @@ fun HomeScreen() {
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
-                .padding(top = 18.dp, bottom = it.calculateBottomPadding(), start = 40.dp, end = 40.dp)
+                .padding(
+                    top = 18.dp,
+                    bottom = it.calculateBottomPadding(),
+                    start = 40.dp,
+                    end = 40.dp
+                )
         ) {
             Row(
                 modifier = Modifier
@@ -372,7 +401,7 @@ fun FavouriteScreen() {
             RecommendedRoom(4, "Fav4", "Loc4", "", true)
         )
         LazyColumn(
-            modifier = Modifier.fillMaxSize().padding(bottom=it.calculateBottomPadding()),
+            modifier = Modifier.fillMaxSize().padding(bottom = it.calculateBottomPadding()),
             verticalArrangement = Arrangement.spacedBy(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {

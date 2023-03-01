@@ -21,7 +21,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
 import com.example.roomer.R
 import com.example.roomer.presentation.ui_components.*
-import com.example.roomer.utils.Choices
 import com.example.roomer.utils.NavbarItem
 
 @Composable
@@ -40,7 +39,8 @@ fun AccountScreen() {
                 ),
         ) {
             Row(
-                verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 BackBtn(onBackNavigation = { navController.navigate(NavbarItem.Profile.name) })
@@ -89,7 +89,6 @@ fun AccountScreen() {
                                 shape = RoundedCornerShape(100.dp)
                             )
                             .clickable {
-
                             },
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -120,13 +119,14 @@ fun AccountScreen() {
                                 shape = RoundedCornerShape(100.dp)
                             )
                             .clickable {
-
                             },
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Image(
                             painter = painterResource(id = R.drawable.interests_icon),
-                            contentDescription = stringResource(id = R.string.habits_icon_description),
+                            contentDescription = stringResource(
+                                id = R.string.habits_icon_description
+                            ),
                             modifier = Modifier
                                 .padding(start = 16.dp)
                                 .width(18.dp)
