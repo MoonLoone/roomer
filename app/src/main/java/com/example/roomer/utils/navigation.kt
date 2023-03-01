@@ -7,7 +7,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 
-
 @Composable
 fun NavbarHostContainer(navController: NavHostController) {
     NavHost(
@@ -27,9 +26,12 @@ fun NavbarHostContainer(navController: NavHostController) {
 
 fun NavGraphBuilder.profileGraph(navController: NavHostController) {
     navigation(
-        startDestination = NavbarItem.Profile.destination, route = NavbarItem.Profile.name
+        startDestination = NavbarItem.Profile.destination,
+        route = NavbarItem.Profile.name
     ) {
-        composable(NavbarItem.Profile.destination) { NavbarItem.Profile.composeViewFunction.invoke() }
+        composable(NavbarItem.Profile.destination) {
+            NavbarItem.Profile.composeViewFunction.invoke()
+        }
         composable(Screens.Account.name) { Screens.Account.composeViewFunction.invoke() }
         composable(Screens.Location.name) { Screens.Location.composeViewFunction.invoke() }
         composable(Screens.Logout.name) { Screens.Logout.composeViewFunction.invoke() }
@@ -40,7 +42,8 @@ fun NavGraphBuilder.profileGraph(navController: NavHostController) {
 
 fun NavGraphBuilder.chatGraph(navController: NavHostController) {
     navigation(
-        startDestination = NavbarItem.Chats.destination, route = NavbarItem.Chats.name
+        startDestination = NavbarItem.Chats.destination,
+        route = NavbarItem.Chats.name
     ) {
         composable(NavbarItem.Chats.destination) { NavbarItem.Chats.composeViewFunction.invoke() }
         composable(Screens.Chat.name) { Screens.Chat.composeViewFunction.invoke() }
@@ -49,17 +52,21 @@ fun NavGraphBuilder.chatGraph(navController: NavHostController) {
 
 fun NavGraphBuilder.homeGraph(navController: NavHostController) {
     navigation(
-        startDestination = NavbarItem.Home.destination, route = NavbarItem.Home.name
+        startDestination = NavbarItem.Home.destination,
+        route = NavbarItem.Home.name
     ) {
         composable(NavbarItem.Home.destination) { NavbarItem.Home.composeViewFunction.invoke() }
         composable(Screens.SearchRoom.name) { Screens.SearchRoom.composeViewFunction.invoke() }
-        composable(Screens.SearchRoomResults.name + "?from={from}&to={to}&location={location}&bedrooms={bedrooms}&bathrooms={bathrooms}&apartment_type={apartment_type}") {
+        composable(
+            Screens.SearchRoomResults.name
+        ) {
             Screens.SearchRoomResults.composeViewFunction.invoke()
         }
-        composable(Screens.SearchRoommate.name) { Screens.SearchRoommate.composeViewFunction.invoke() }
-        composable(Screens.SearchRoommateResults.name+
-                "?sex={sex}&employment={employment}&alcohol_attitude={alcohol_attitude}" +
-                "&smoking_attitude={smoking_attitude}&sleep_time={sleep_time}&personality_type={personality_type}" +
-                "&clean_habits={clean_habits}") { Screens.SearchRoommateResults.composeViewFunction.invoke() }
+        composable(Screens.SearchRoommate.name) {
+            Screens.SearchRoommate.composeViewFunction.invoke()
+        }
+        composable(
+            Screens.SearchRoommateResults.name
+        ) { Screens.SearchRoommateResults.composeViewFunction.invoke() }
     }
 }

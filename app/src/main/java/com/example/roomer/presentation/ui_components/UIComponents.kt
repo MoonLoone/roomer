@@ -7,25 +7,53 @@ import android.os.Build
 import android.provider.MediaStore
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.*
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.Interaction
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.TextField
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PhotoCamera
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -46,15 +74,10 @@ import com.example.roomer.domain.model.MessageToList
 import com.example.roomer.domain.model.RecommendedRoom
 import com.example.roomer.domain.model.RecommendedRoommate
 import com.example.roomer.domain.model.UsersFilterInfo
-import com.example.roomer.utils.NavbarItem
-import androidx.compose.material3.AlertDialog
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.graphics.vector.ImageVector
 import com.example.roomer.domain.model.signup.interests.InterestModel
+import com.example.roomer.utils.NavbarItem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
-
 
 @Composable
 fun ProfileContentLine(text: String, iconId: Int, onNavigateToFriends: () -> Unit = {}) {
@@ -164,7 +187,8 @@ fun Navbar(navController: NavHostController, selectedNavbarItemName: String) {
                             )
                         }
                     }
-                })
+                }
+            )
         }
     }
 }
@@ -198,16 +222,23 @@ fun MessageItem(
                 )
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                     Image(
-                        painter = painterResource(id = if (message.isRead) R.drawable.checked_messages_icon else R.drawable.unchecked_messages_icon),
-                        contentDescription = if (message.isRead) stringResource(R.string.message_checked_description) else stringResource(
-                                                    R.string.message_unchecked_description),
+                        painter = painterResource(
+                            id = if (message.isRead) R.drawable.checked_messages_icon
+                            else R.drawable.unchecked_messages_icon
+                        ),
+                        contentDescription = if (message.isRead) stringResource(
+                            R.string.message_checked_description
+                        ) else stringResource(
+                            R.string.message_unchecked_description
+                        ),
                         alignment = Center,
                         modifier = Modifier
                             .width(18.dp)
                             .height(18.dp),
                     )
                     Text(
-                        text = message.messageDate, style = TextStyle(
+                        text = message.messageDate,
+                        style = TextStyle(
                             color = colorResource(id = R.color.text_secondary),
                             fontSize = 12.sp,
                             textAlign = TextAlign.End
@@ -221,7 +252,8 @@ fun MessageItem(
                     .padding(top = 8.dp),
             ) {
                 Text(
-                    text = message.messageCutText, style = TextStyle(
+                    text = message.messageCutText,
+                    style = TextStyle(
                         color = colorResource(id = R.color.text_secondary),
                         fontSize = 14.sp,
                     )
@@ -230,10 +262,10 @@ fun MessageItem(
                     if (message.unreadMessages > 0) {
                         Text(
                             text =
-                            when (message.unreadMessages) {
-                                in 1..999 -> message.unreadMessages.toString()
-                                else -> "999+"
-                            },
+                                when (message.unreadMessages) {
+                                    in 1..999 -> message.unreadMessages.toString()
+                                    else -> "999+"
+                                },
                             modifier = Modifier
                                 .width(48.dp)
                                 .height(20.dp)
@@ -378,7 +410,8 @@ fun RoomCard(recommendedRoom: RecommendedRoom, isMiniVersion: Boolean) {
     val nameTextSize = if (isMiniVersion) 16.sp else 20.sp
     val locationTextSize = if (isMiniVersion) 12.sp else 14.sp
     val title = recommendedRoom.name.substring(0, recommendedRoom.name.length.coerceAtMost(16))
-    val location = recommendedRoom.location.substring(0, recommendedRoom.location.length.coerceAtMost(32))
+    val location =
+        recommendedRoom.location.substring(0, recommendedRoom.location.length.coerceAtMost(32))
     Column(
         modifier = Modifier
             .width(cardWidth)
@@ -409,9 +442,11 @@ fun RoomCard(recommendedRoom: RecommendedRoom, isMiniVersion: Boolean) {
                 contentScale = ContentScale.FillBounds,
             )
             Image(
-                painter = if (isLiked) painterResource(id = R.drawable.room_like_in_icon) else painterResource(
+                painter = if (isLiked) painterResource(id = R.drawable.room_like_in_icon)
+                else painterResource(
                     id = R.drawable.room_like_icon
-                ), contentDescription = stringResource(id = R.string.like_icon),
+                ),
+                contentDescription = stringResource(id = R.string.like_icon),
                 modifier = Modifier
                     .align(Alignment.TopEnd)
                     .padding(top = 10.dp, end = 10.dp)
@@ -447,7 +482,8 @@ fun RoomCard(recommendedRoom: RecommendedRoom, isMiniVersion: Boolean) {
                 colorFilter = ColorFilter.tint(color = colorResource(id = R.color.secondary_color))
             )
             Text(
-                text = location, style = TextStyle(
+                text = location,
+                style = TextStyle(
                     color = colorResource(id = R.color.secondary_color),
                     fontSize = locationTextSize,
                 )
@@ -554,6 +590,7 @@ fun GreenButtonPrimary(
         )
     }
 }
+
 @Composable
 fun GreenButtonPrimaryIconed(
     text: String,
@@ -631,6 +668,7 @@ fun GreenButtonOutline(
         )
     }
 }
+
 @Composable
 fun ButtonsRow(
     label: String,
@@ -669,11 +707,12 @@ fun ButtonsRow(
         }
     }
 }
+
 @Composable
 fun ButtonsRowMapped(
     label: String,
     values: Map<String, String>,
-    value: String, //There gonna be keys
+    value: String, // There gonna be keys
     onValueChange: (String) -> Unit,
     enabled: Boolean = true
 ) {
@@ -708,7 +747,6 @@ fun ButtonsRowMapped(
     }
 }
 
-
 @Composable
 fun ProfilePicture(
     enabled: Boolean = true,
@@ -740,8 +778,12 @@ fun ProfilePicture(
                     launcher.launch("image/*")
                     imageUri.value?.let {
                         if (Build.VERSION.SDK_INT < 28) {
-                            onBitmapValueChange(MediaStore.Images.Media.getBitmap(context.contentResolver, it))
-
+                            onBitmapValueChange(
+                                MediaStore.Images.Media.getBitmap(
+                                    context.contentResolver,
+                                    it
+                                )
+                            )
                         } else {
                             val source = ImageDecoder.createSource(context.contentResolver, it)
                             onBitmapValueChange(ImageDecoder.decodeBitmap(source))
@@ -818,7 +860,9 @@ fun FilterSelect(selectItemName: String, onNavigateToFriends: () -> Unit) {
                 text = stringResource(id = R.string.room),
                 style = TextStyle(
                     fontSize = 14.sp,
-                    color = if (selectItemName == stringResource(id = R.string.room)) colorResource(id = R.color.primary) else colorResource(
+                    color = if (selectItemName == stringResource(id = R.string.room)) colorResource(
+                        id = R.color.primary
+                    ) else colorResource(
                         id = R.color.text_secondary
                     )
                 )
@@ -834,9 +878,10 @@ fun FilterSelect(selectItemName: String, onNavigateToFriends: () -> Unit) {
                     RoundedCornerShape(topEnd = 100.dp, bottomEnd = 100.dp)
                 )
                 .background(
-                    color = if (selectItemName == stringResource(id = R.string.roommate)) colorResource(
-                        id = R.color.primary_dark
-                    ) else Color.White,
+                    color = if (selectItemName == stringResource(id = R.string.roommate))
+                        colorResource(
+                            id = R.color.primary_dark
+                        ) else Color.White,
                     RoundedCornerShape(topEnd = 100.dp, bottomEnd = 100.dp),
                 )
                 .clip(RoundedCornerShape(topEnd = 100.dp, bottomEnd = 100.dp))
@@ -845,10 +890,14 @@ fun FilterSelect(selectItemName: String, onNavigateToFriends: () -> Unit) {
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = stringResource(id = R.string.roommate), style = TextStyle(
+                text = stringResource(id = R.string.roommate),
+                style = TextStyle(
                     fontSize = 14.sp,
-                    color = if (selectItemName == stringResource(id = R.string.roommate)) colorResource(id = R.color.primary) else colorResource(
-                        id = R.color.text_secondary
+                    color = if (selectItemName == stringResource(id = R.string.roommate))
+                        colorResource(
+                            R.color.primary
+                        ) else colorResource(
+                        R.color.text_secondary
                     )
                 )
             )
@@ -978,8 +1027,6 @@ fun UserCardResult(searchUser: UsersFilterInfo) {
     }
 }
 
-
-
 @Composable
 fun InterestsButtons(
     label: String,
@@ -1022,7 +1069,6 @@ fun InterestsButtons(
                 }
             }
         }
-
     }
 }
 
@@ -1032,7 +1078,7 @@ fun SimpleAlertDialog(
     text: String,
     buttonText: String = "Got you!",
     confirmDismissOnClick: () -> Unit,
-    ) {
+) {
     AlertDialog(
         containerColor = Color.White,
         onDismissRequest = confirmDismissOnClick,
@@ -1061,5 +1107,4 @@ class NoRippleInteractionSource : MutableInteractionSource {
     override suspend fun emit(interaction: Interaction) {}
 
     override fun tryEmit(interaction: Interaction) = true
-
 }

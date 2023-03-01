@@ -1,7 +1,7 @@
 package com.example.roomer.domain.model
 
-import com.example.roomer.utils.convertLongToTime
-import java.util.*
+import java.util.Date
+
 
 data class ChatMessage(
     var messageText: String,

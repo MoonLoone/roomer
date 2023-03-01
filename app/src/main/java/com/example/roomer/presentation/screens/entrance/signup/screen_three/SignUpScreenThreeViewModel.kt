@@ -43,7 +43,7 @@ class SignUpScreenThreeViewModel(
                 personalityType,
                 cleanHabits
             ).collect { result ->
-                when(result) {
+                when (result) {
                     is Resource.Success -> {
                         _state.value = SignUpThreeState(
                             success = true

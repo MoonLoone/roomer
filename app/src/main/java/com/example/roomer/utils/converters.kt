@@ -1,7 +1,7 @@
 package com.example.roomer.utils
 
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
 
 fun convertLongToTime(time: Long): String {
     val date = Date(time)

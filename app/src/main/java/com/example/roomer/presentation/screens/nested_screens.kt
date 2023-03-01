@@ -1,18 +1,35 @@
 package com.example.roomer.presentation.screens
 
 import android.widget.Toast
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,8 +49,19 @@ import androidx.navigation.compose.rememberNavController
 import com.example.roomer.R
 import com.example.roomer.domain.model.ChatMessage
 import com.example.roomer.domain.model.RecommendedRoom
-import com.example.roomer.presentation.ui_components.*
-import com.example.roomer.utils.*
+import com.example.roomer.presentation.ui_components.BackBtn
+import com.example.roomer.presentation.ui_components.FilterSelect
+import com.example.roomer.presentation.ui_components.GreenButtonOutline
+import com.example.roomer.presentation.ui_components.InterestField
+import com.example.roomer.presentation.ui_components.Message
+import com.example.roomer.presentation.ui_components.Navbar
+import com.example.roomer.presentation.ui_components.RoomCard
+import com.example.roomer.presentation.ui_components.ScreenTextField
+import com.example.roomer.presentation.ui_components.UserCardResult
+import com.example.roomer.utils.LoadingStates
+import com.example.roomer.utils.NavbarItem
+import com.example.roomer.utils.Screens
+import com.example.roomer.utils.convertLongToTime
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -49,7 +77,8 @@ fun MessageScreen() {
             .padding(top = 24.dp, bottom = 16.dp, start = 40.dp, end = 40.dp)
     ) {
         Row(
-            verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth(),
         ) {
             BackBtn(onBackNavigation = { navController.navigate(NavbarItem.Chats.name) })
             Image(
@@ -83,7 +112,9 @@ fun MessageScreen() {
             mutableStateOf(listOf<ChatMessage>())
         }
         val mutableListOfMessages = mutableListOf<ChatMessage>()
-        FirebaseDatabase.getInstance("https://roomer-34a08-default-rtdb.europe-west1.firebasedatabase.app").reference.addValueEventListener(
+        FirebaseDatabase.getInstance(
+            "https://roomer-34a08-default-rtdb.europe-west1.firebasedatabase.app"
+        ).reference.addValueEventListener(
             object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     for (postSnapshot in snapshot.children) {
@@ -100,9 +131,9 @@ fun MessageScreen() {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-
                 }
-            })
+            }
+        )
         var editMessageText by remember {
             mutableStateOf(TextFieldValue(""))
         }
@@ -117,12 +148,12 @@ fun MessageScreen() {
         }
         Row(modifier = Modifier.fillMaxSize(), verticalAlignment = Alignment.Bottom) {
             TextField(
-                modifier = Modifier
-                    .fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 value = editMessageText,
                 placeholder = {
                     Text(
-                        text = "Type your message", style = TextStyle(
+                        text = "Type your message",
+                        style = TextStyle(
                             color = colorResource(
                                 id = R.color.text_secondary
                             ),
@@ -150,9 +181,9 @@ fun MessageScreen() {
                                     RoundedCornerShape(100.dp)
                                 )
                                 .clickable {
-                                    FirebaseDatabase
-                                        .getInstance("https://roomer-34a08-default-rtdb.europe-west1.firebasedatabase.app")
-                                        .reference
+                                    FirebaseDatabase.getInstance(
+                                        ""
+                                    ).reference
                                         .push()
                                         .setValue(
                                             ChatMessage(
@@ -178,7 +209,9 @@ fun MessageScreen() {
                         }
                     }
                 },
-                colors = TextFieldDefaults.textFieldColors(backgroundColor = colorResource(id = R.color.primary))
+                colors = TextFieldDefaults.textFieldColors(
+                    backgroundColor = colorResource(id = R.color.primary)
+                )
             )
         }
     }
@@ -217,20 +250,22 @@ fun SearchRoomScreen() {
                     .height(40.dp),
                 text = "Show results",
                 onClick = {
-                    if ((Integer.getInteger(fromPrice.text)
-                            ?: 0) > (Integer.getInteger(toPrice.text) ?: 0)
+                    if ((
+                        Integer.getInteger(fromPrice.text)
+                            ?: 0
+                        ) > (Integer.getInteger(toPrice.text) ?: 0)
                     ) {
                         Toast.makeText(context, "To price less than from price", Toast.LENGTH_SHORT)
                             .show()
                     } else {
                         navController.navigate(
-                            Screens.SearchRoomResults.name + "?from=${fromPrice.text}&to=${toPrice.text}" +
-                                    "&location=${location.value.text}&bedrooms=${bedrooms.value.text}" +
-                                    "&bathrooms=${bathrooms.value.text}&apartment_type=${apartmentType.value.text}"
+                            Screens.SearchRoomResults.name
                         )
                     }
-                })
-        }) {
+                }
+            )
+        }
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -239,30 +274,39 @@ fun SearchRoomScreen() {
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Row(horizontalArrangement = Arrangement.SpaceBetween) {
-                BackBtn(onBackNavigation = {
-                    navController.navigate(NavbarItem.Home.name)
-                })
+                BackBtn(
+                    onBackNavigation = {
+                        navController.navigate(NavbarItem.Home.name)
+                    }
+                )
                 Text(
-                    text = "Search filter", modifier = Modifier.fillMaxWidth(), style = TextStyle(
+                    text = "Search filter",
+                    modifier = Modifier.fillMaxWidth(),
+                    style = TextStyle(
                         fontSize = integerResource(
                             id = R.integer.label_text_size
-                        ).sp, color = Color.Black
-                    ), textAlign = TextAlign.Center
+                        ).sp,
+                        color = Color.Black
+                    ),
+                    textAlign = TextAlign.Center
                 )
             }
             FilterSelect(
                 selectItemName = "Room",
-                onNavigateToFriends = { navController.navigate(Screens.SearchRoommate.name) })
+                onNavigateToFriends = { navController.navigate(Screens.SearchRoommate.name) }
+            )
             Text(
                 "Choose room parameters",
                 style = TextStyle(
-                    fontSize = 20.sp, color = Color.Black
+                    fontSize = 20.sp,
+                    color = Color.Black
                 ),
             )
             Text(
                 "Month price",
                 style = TextStyle(
-                    fontSize = 16.sp, color = Color.Black
+                    fontSize = 16.sp,
+                    color = Color.Black
                 ),
             )
             Row(
@@ -271,7 +315,8 @@ fun SearchRoomScreen() {
             ) {
                 Column {
                     Text(
-                        "From", style = TextStyle(
+                        "From",
+                        style = TextStyle(
                             fontSize = integerResource(id = R.integer.primary_text_size).sp,
                             color = colorResource(
                                 id = R.color.text_secondary
@@ -297,7 +342,8 @@ fun SearchRoomScreen() {
                 }
                 Column {
                     Text(
-                        "To", style = TextStyle(
+                        "To",
+                        style = TextStyle(
                             fontSize = integerResource(id = R.integer.primary_text_size).sp,
                             color = colorResource(
                                 id = R.color.text_secondary
@@ -399,7 +445,8 @@ fun SearchRoomResults() {
                         item {
                             if (rooms.isEmpty()) {
                                 Text(
-                                    text = "Sorry, nothing here", style = TextStyle(
+                                    text = "Sorry, nothing here",
+                                    style = TextStyle(
                                         fontSize = integerResource(id = R.integer.label_text_size).sp,
                                     )
                                 )
@@ -413,7 +460,8 @@ fun SearchRoomResults() {
                                     location = rooms[index].location,
                                     roomImagePath = rooms[index].photo,
                                     isLiked = false,
-                                ), isMiniVersion = false
+                                ),
+                                isMiniVersion = false
                             )
                         }
                     }
@@ -483,21 +531,21 @@ fun SearchRoommateScreen() {
                     .height(40.dp),
                 text = "Show results",
                 onClick = {
-                    if ((Integer.getInteger(fromAge.text) ?: 0) > (Integer.getInteger(toAge.text)
-                            ?: 0)
+                    if ((Integer.getInteger(fromAge.text) ?: 0) > (
+                        Integer.getInteger(toAge.text) ?: 0
+                        )
                     ) {
                         Toast.makeText(context, "To age less than from age", Toast.LENGTH_SHORT)
                             .show()
                     } else {
                         navController.navigate(
-                            Screens.SearchRoommateResults.name +
-                                    "?sex=M&employment=${employment.value.text}&alcohol_attitude=${alcoholAttitude.value.text}" +
-                                    "&smoking_attitude=${smokingAttitude.value.text}&sleep_time=${sleepTime.value.text}" +
-                                    "&personality_type=${personality.value.text}&clean_habits=${cleanHabits.value.text}"
+                            Screens.SearchRoommateResults.name
                         )
                     }
-                })
-        }) {
+                }
+            )
+        }
+    ) {
         Column(
             modifier = Modifier
                 .padding(bottom = it.calculateBottomPadding() + 64.dp)
@@ -507,26 +555,37 @@ fun SearchRoommateScreen() {
             Row(horizontalArrangement = Arrangement.SpaceBetween) {
                 BackBtn(onBackNavigation = { navController.navigate(NavbarItem.Home.name) })
                 Text(
-                    text = "Search filter", modifier = Modifier.fillMaxWidth(), style = TextStyle(
+                    text = "Search filter",
+                    modifier = Modifier.fillMaxWidth(),
+                    style = TextStyle(
                         fontSize = integerResource(
                             id = R.integer.label_text_size
-                        ).sp, color = Color.Black
-                    ), textAlign = TextAlign.Center
+                        ).sp,
+                        color = Color.Black
+                    ),
+                    textAlign = TextAlign.Center
                 )
             }
             FilterSelect(
                 selectItemName = "Roommate",
-                onNavigateToFriends = { navController.navigate(Screens.SearchRoom.name) })
+                onNavigateToFriends = {
+                    navController.navigate(
+                        Screens.SearchRoom.name
+                    )
+                }
+            )
             Text(
                 "Choose roommate parameters",
                 style = TextStyle(
-                    fontSize = 20.sp, color = Color.Black
+                    fontSize = 20.sp,
+                    color = Color.Black
                 ),
             )
             Text(
                 "Age",
                 style = TextStyle(
-                    fontSize = 16.sp, color = Color.Black
+                    fontSize = 16.sp,
+                    color = Color.Black
                 ),
             )
             Row(
@@ -535,7 +594,8 @@ fun SearchRoommateScreen() {
             ) {
                 Column {
                     Text(
-                        "From", style = TextStyle(
+                        "From",
+                        style = TextStyle(
                             fontSize = integerResource(id = R.integer.primary_text_size).sp,
                             color = colorResource(
                                 id = R.color.text_secondary
@@ -561,7 +621,8 @@ fun SearchRoommateScreen() {
                 }
                 Column {
                     Text(
-                        "To", style = TextStyle(
+                        "To",
+                        style = TextStyle(
                             fontSize = integerResource(id = R.integer.primary_text_size).sp,
                             color = colorResource(
                                 id = R.color.text_secondary
@@ -695,7 +756,8 @@ fun SearchRoommateResults() {
                         item {
                             if (roommates.isEmpty()) {
                                 Text(
-                                    text = "Sorry, nothing here", style = TextStyle(
+                                    text = "Sorry, nothing here",
+                                    style = TextStyle(
                                         fontSize = integerResource(
                                             id = R.integer.label_text_size
                                         ).sp,

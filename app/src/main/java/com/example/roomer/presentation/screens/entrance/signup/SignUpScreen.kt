@@ -3,13 +3,21 @@ package com.example.roomer.presentation.screens.entrance.signup
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.VerifiedUser
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,7 +31,11 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.roomer.R
 import com.example.roomer.presentation.screens.destinations.LoginScreenDestination
-import com.example.roomer.presentation.ui_components.*
+import com.example.roomer.presentation.ui_components.EmailField
+import com.example.roomer.presentation.ui_components.GreenButtonPrimary
+import com.example.roomer.presentation.ui_components.IconedTextField
+import com.example.roomer.presentation.ui_components.PasswordField
+import com.example.roomer.presentation.ui_components.SimpleAlertDialog
 import com.example.roomer.utils.Consts
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -150,7 +162,10 @@ fun SignUpScreen1(
                 )
             }
             if (state.internetProblem) {
-                SimpleAlertDialog(title = stringResource(R.string.login_alert_dialog_title), text = state.error) {
+                SimpleAlertDialog(
+                    title = stringResource(R.string.login_alert_dialog_title),
+                    text = state.error
+                ) {
                     signUpScreenViewModel.clearState()
                 }
             }

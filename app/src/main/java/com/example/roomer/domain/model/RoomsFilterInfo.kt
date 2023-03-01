@@ -20,7 +20,7 @@ data class RoomsFilterInfo(
     @SerializedName("sharing_type")
     val sharingType: String = "",
     @SerializedName("location")
-    val location:String = "Ordinary location",
+    val location: String = "Ordinary location",
     @SerializedName("title")
-    val title:String = "Ordinary location",
+    val title: String = "Ordinary location",
 )

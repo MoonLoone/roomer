@@ -89,7 +89,7 @@ class LoginScreenViewModel(application: Application) : AndroidViewModel(applicat
                     }
                 }
             }
-            }
+        }
     }
 
     fun clearViewModel() {
@@ -104,6 +104,5 @@ class LoginScreenViewModel(application: Application) : AndroidViewModel(applicat
     companion object {
         const val FIELD_DEFAULT_VALUE = ""
         const val EMPTY_FIELD_ERR_MSG = "Field(s) can't be empty!"
-
     }
 }

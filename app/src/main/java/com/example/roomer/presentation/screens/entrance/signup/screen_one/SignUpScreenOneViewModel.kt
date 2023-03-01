@@ -35,7 +35,7 @@ class SignUpScreenOneViewModel(
     ) {
         viewModelScope.launch {
             signUpOneUseCase(token, firstName, lastName, sex, birthDate).collect { result ->
-                when(result) {
+                when (result) {
                     is Resource.Success -> {
                         _state.value = SignUpOneState(
                             success = true

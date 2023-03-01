@@ -3,8 +3,11 @@ package com.example.roomer.utils
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import com.example.roomer.R
-import com.example.roomer.presentation.screens.*
-
+import com.example.roomer.presentation.screens.ChatsScreen
+import com.example.roomer.presentation.screens.FavouriteScreen
+import com.example.roomer.presentation.screens.HomeScreen
+import com.example.roomer.presentation.screens.PostScreen
+import com.example.roomer.presentation.screens.ProfileScreen
 enum class NavbarItem(
     val iconUnSelected: Int,
     val iconSelected: Int,

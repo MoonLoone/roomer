@@ -1,11 +1,16 @@
 package com.example.roomer.presentation.screens.entrance.signup.interests
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,7 +23,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.roomer.R
 import com.example.roomer.domain.model.signup.interests.InterestModel
-import com.example.roomer.presentation.screens.destinations.HomeScreenDestination
 import com.example.roomer.presentation.ui_components.GreenButtonOutline
 import com.example.roomer.presentation.ui_components.GreenButtonPrimary
 import com.example.roomer.presentation.ui_components.InterestsButtons
@@ -69,10 +73,13 @@ fun InterestsScreen(
                     label = "Choose 10 maximum",
                     values = interests,
                     selectedItems = selectedItems.value,
-                    onSelectedChange = { selectedItems.value = it })
+                    onSelectedChange = { selectedItems.value = it }
+                )
             }
             if (state.isInterestsSent) {
-                navigator.navigate(HomeScreenDestination())
+                navigator.navigate(
+                    com.example.roomer.presentation.screens.destinations.HomeScreenDestination()
+                )
             }
             if (state.isLoading) {
                 CircularProgressIndicator(
