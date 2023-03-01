@@ -1,6 +1,6 @@
 package com.example.roomer.domain.model
 
-import java.util.*
+import java.util.Date
 
 data class ChatMessage(
     var messageText: String,

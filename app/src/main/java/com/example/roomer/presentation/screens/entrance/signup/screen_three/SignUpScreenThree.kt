@@ -1,7 +1,11 @@
 package com.example.roomer.presentation.screens.entrance.signup.screen_three
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
@@ -22,7 +26,10 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.roomer.R
 import com.example.roomer.presentation.screens.destinations.InterestsScreenDestination
-import com.example.roomer.presentation.ui_components.*
+import com.example.roomer.presentation.ui_components.ButtonsRowMapped
+import com.example.roomer.presentation.ui_components.DropdownTextFieldMapped
+import com.example.roomer.presentation.ui_components.GreenButtonPrimary
+import com.example.roomer.presentation.ui_components.SimpleAlertDialog
 import com.example.roomer.utils.Consts
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator

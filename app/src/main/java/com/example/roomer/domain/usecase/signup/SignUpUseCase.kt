@@ -13,7 +13,11 @@ class SignUpUseCase(
     private val repository: RoomerRepository
 ) {
 
-    operator fun invoke(username: String, email: String, password: String): Flow<Resource<String>> = flow {
+    operator fun invoke(
+        username: String,
+        email: String,
+        password: String
+    ): Flow<Resource<String>> = flow {
 
         try {
 
