@@ -262,10 +262,10 @@ fun MessageItem(
                     if (message.unreadMessages > 0) {
                         Text(
                             text =
-                                when (message.unreadMessages) {
-                                    in 1..999 -> message.unreadMessages.toString()
-                                    else -> "999+"
-                                },
+                            when (message.unreadMessages) {
+                                in 1..999 -> message.unreadMessages.toString()
+                                else -> "999+"
+                            },
                             modifier = Modifier
                                 .width(48.dp)
                                 .height(20.dp)
@@ -889,16 +889,14 @@ fun FilterSelect(selectItemName: String, onNavigateToFriends: () -> Unit) {
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
         ) {
+            val color = if (selectItemName == stringResource(id = R.string.roommate))
+                colorResource(R.color.primary)
+            else colorResource(R.color.text_secondary)
             Text(
                 text = stringResource(id = R.string.roommate),
                 style = TextStyle(
                     fontSize = 14.sp,
-                    color = if (selectItemName == stringResource(id = R.string.roommate))
-                        colorResource(
-                            R.color.primary
-                        ) else colorResource(
-                            R.color.text_secondary
-                    )
+                    color = color
                 )
             )
             if (selectItemName == stringResource(id = R.string.roommate)) Image(
