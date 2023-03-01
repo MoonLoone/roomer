@@ -223,7 +223,8 @@ fun MessageItem(
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                     Image(
                         painter = painterResource(
-                            id = if (message.isRead) R.drawable.checked_messages_icon else R.drawable.unchecked_messages_icon
+                            id = if (message.isRead) R.drawable.checked_messages_icon
+                            else R.drawable.unchecked_messages_icon
                         ),
                         contentDescription = if (message.isRead) stringResource(
                             R.string.message_checked_description
@@ -261,10 +262,10 @@ fun MessageItem(
                     if (message.unreadMessages > 0) {
                         Text(
                             text =
-                                when (message.unreadMessages) {
-                                    in 1..999 -> message.unreadMessages.toString()
-                                    else -> "999+"
-                                },
+                            when (message.unreadMessages) {
+                                in 1..999 -> message.unreadMessages.toString()
+                                else -> "999+"
+                            },
                             modifier = Modifier
                                 .width(48.dp)
                                 .height(20.dp)
@@ -590,6 +591,7 @@ fun GreenButtonPrimary(
         )
     }
 }
+
 @Composable
 fun GreenButtonPrimaryIconed(
     text: String,
@@ -667,6 +669,7 @@ fun GreenButtonOutline(
         )
     }
 }
+
 @Composable
 fun ButtonsRow(
     label: String,
@@ -705,6 +708,7 @@ fun ButtonsRow(
         }
     }
 }
+
 @Composable
 fun ButtonsRowMapped(
     label: String,
@@ -882,15 +886,16 @@ fun FilterSelect(selectItemName: String, onNavigateToFriends: () -> Unit) {
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
         ) {
+            val color = if (selectItemName == stringResource(id = R.string.roommate)) colorResource(
+                id = R.color.primary
+            ) else colorResource(
+                id = R.color.text_secondary
+            )
             Text(
                 text = stringResource(id = R.string.roommate),
                 style = TextStyle(
                     fontSize = 14.sp,
-                    color = if (selectItemName == stringResource(id = R.string.roommate)) colorResource(
-                        id = R.color.primary
-                    ) else colorResource(
-                        id = R.color.text_secondary
-                    )
+                    color = color
                 )
             )
             if (selectItemName == stringResource(id = R.string.roommate)) Image(

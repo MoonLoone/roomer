@@ -183,9 +183,7 @@ fun MessageScreen() {
                                 )
                                 .clickable {
                                     FirebaseDatabase
-                                        .getInstance(
-                                            "https://roomer-34a08-default-rtdb.europe-west1.firebasedatabase.app"
-                                        )
+                                        .getInstance()
                                         .reference
                                         .push()
                                         .setValue(
@@ -262,9 +260,7 @@ fun SearchRoomScreen() {
                             .show()
                     } else {
                         navController.navigate(
-                            Screens.SearchRoomResults.name + "?from=${fromPrice.text}&to=${toPrice.text}" +
-                                "&location=${location.value.text}&bedrooms=${bedrooms.value.text}" +
-                                "&bathrooms=${bathrooms.value.text}&apartment_type=${apartmentType.value.text}"
+                            Screens.SearchRoomResults.name
                         )
                     }
                 }
@@ -545,10 +541,7 @@ fun SearchRoommateScreen() {
                             .show()
                     } else {
                         navController.navigate(
-                            Screens.SearchRoommateResults.name +
-                                "?sex=M&employment=${employment.value.text}&alcohol_attitude=${alcoholAttitude.value.text}" +
-                                "&smoking_attitude=${smokingAttitude.value.text}&sleep_time=${sleepTime.value.text}" +
-                                "&personality_type=${personality.value.text}&clean_habits=${cleanHabits.value.text}"
+                            Screens.SearchRoommateResults.name
                         )
                     }
                 }
