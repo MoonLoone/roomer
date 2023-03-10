@@ -7,10 +7,16 @@ import com.example.roomer.presentation.screens.SearchRoomResults
 import com.example.roomer.presentation.screens.SearchRoomScreen
 import com.example.roomer.presentation.screens.SearchRoommateResults
 import com.example.roomer.presentation.screens.SearchRoommateScreen
+import com.example.roomer.presentation.screens.destinations.AccountScreenDestination
+import com.example.roomer.presentation.screens.destinations.MessageScreenDestination
+import com.example.roomer.presentation.screens.destinations.SearchRoomResultsDestination
+import com.example.roomer.presentation.screens.destinations.SearchRoomScreenDestination
+import com.example.roomer.presentation.screens.destinations.SearchRoommateResultsDestination
+import com.example.roomer.presentation.screens.destinations.SearchRoommateScreenDestination
 
 enum class Screens(val composeViewFunction: @Composable () -> Unit, val parentName: String) {
     Account(
-        { AccountScreen() },
+        { AccountScreenDestination() },
         NavbarItem.Profile.name,
     ),
     Location(
@@ -30,23 +36,23 @@ enum class Screens(val composeViewFunction: @Composable () -> Unit, val parentNa
         NavbarItem.Profile.name,
     ),
     Chat(
-        { MessageScreen() },
+        { MessageScreenDestination() },
         NavbarItem.Chats.name,
     ),
     SearchRoom(
-        { SearchRoomScreen() },
+        { SearchRoomScreenDestination() },
         NavbarItem.Home.name,
     ),
     SearchRoommate(
-        { SearchRoommateScreen() },
+        { SearchRoommateScreenDestination() },
         NavbarItem.Home.name,
     ),
     SearchRoommateResults(
-        { SearchRoommateResults() },
+        { SearchRoommateResultsDestination() },
         NavbarItem.Home.name,
     ),
     SearchRoomResults(
-        { SearchRoomResults() },
+        { SearchRoomResultsDestination() },
         NavbarItem.Home.name,
     )
 }

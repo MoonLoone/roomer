@@ -5,8 +5,10 @@ import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -41,6 +43,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -66,6 +69,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -75,7 +79,9 @@ import com.example.roomer.domain.model.RecommendedRoom
 import com.example.roomer.domain.model.RecommendedRoommate
 import com.example.roomer.domain.model.UsersFilterInfo
 import com.example.roomer.domain.model.signup.interests.InterestModel
+import com.example.roomer.presentation.screens.appCurrentDestinationAsState
 import com.example.roomer.utils.NavbarItem
+import com.ramcosta.composedestinations.navigation.navigate
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
@@ -108,91 +114,88 @@ fun ProfileContentLine(text: String, iconId: Int, onNavigateToFriends: () -> Uni
 }
 
 @Composable
-fun Navbar(navController: NavHostController, selectedNavbarItemName: String) {
-    var selectedItem by remember {
-        mutableStateOf(selectedNavbarItemName)
-    }
-    BottomNavigation(
-        backgroundColor = colorResource(id = R.color.secondary_color),
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(80.dp)
-    ) {
-        NavbarItem.values().map { it.name }.forEach { screen ->
-            BottomNavigationItem(
-                selected = (selectedItem == screen),
-                modifier = Modifier
-                    .width(80.dp)
-                    .padding(
-                        start = 4.dp,
-                        end = 4.dp
-                    ),
-                onClick = {
-                    selectedItem = screen
-                    navController.navigate(screen)
-                },
-                icon = {
-                    val item = NavbarItem.valueOf(screen)
-                    if (selectedItem == screen) {
-                        Column {
-                            Box(
-                                modifier = Modifier
-                                    .width(64.dp)
-                                    .height(32.dp)
-                                    .clip(RoundedCornerShape(16.dp))
-                                    .background(colorResource(id = R.color.primary)),
-                            ) {
-                                Image(
+fun Navbar(navController: NavHostController)  {
+    val currentDestination = navController.appCurrentDestinationAsState().value
+    AnimatedVisibility(visible = true) {
+        BottomNavigation(
+            backgroundColor = colorResource(id = R.color.secondary_color),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(80.dp)
+        ) {
+            NavbarItem.values().forEach { screen ->
+                BottomNavigationItem(
+                    selected = (currentDestination == screen.direction),
+                    modifier = Modifier
+                        .width(80.dp)
+                        .padding(
+                            start = 4.dp,
+                            end = 4.dp
+                        ),
+                    onClick = {
+                        navController.navigate(screen.direction)
+                    },
+                    icon = {
+                        if (currentDestination == screen.direction) {
+                            Column {
+                                Box(
                                     modifier = Modifier
-                                        .align(Center)
-                                        .width(24.dp)
-                                        .height(24.dp),
-                                    painter = painterResource(id = item.iconSelected),
-                                    contentDescription = item.description
+                                        .width(64.dp)
+                                        .height(32.dp)
+                                        .clip(RoundedCornerShape(16.dp))
+                                        .background(colorResource(id = R.color.primary)),
+                                ) {
+                                    Image(
+                                        modifier = Modifier
+                                            .align(Center)
+                                            .width(24.dp)
+                                            .height(24.dp),
+                                        painter = painterResource(id = screen.iconSelected),
+                                        contentDescription = screen.name
+                                    )
+                                }
+                                Text(
+                                    text = screen.name,
+                                    fontSize = integerResource(id = R.integer.secondary_text_size).sp,
+                                    color = Color.Black,
+                                    modifier = Modifier
+                                        .align(Alignment.CenterHorizontally)
+                                        .padding(top = 4.dp)
                                 )
                             }
-                            Text(
-                                text = screen,
-                                fontSize = integerResource(id = R.integer.secondary_text_size).sp,
-                                color = Color.Black,
-                                modifier = Modifier
-                                    .align(Alignment.CenterHorizontally)
-                                    .padding(top = 4.dp)
-                            )
-                        }
-                    } else {
-                        Column {
-                            Box(
-                                modifier = Modifier
-                                    .width(32.dp)
-                                    .height(32.dp)
-                                    .align(Alignment.CenterHorizontally)
-                            ) {
-                                Image(
+                        } else {
+                            Column {
+                                Box(
                                     modifier = Modifier
-                                        .align(Center)
-                                        .width(24.dp)
-                                        .height(24.dp),
-                                    painter = painterResource(id = item.iconUnSelected),
-                                    contentDescription = item.description
+                                        .width(32.dp)
+                                        .height(32.dp)
+                                        .align(Alignment.CenterHorizontally)
+                                ) {
+                                    Image(
+                                        modifier = Modifier
+                                            .align(Center)
+                                            .width(24.dp)
+                                            .height(24.dp),
+                                        painter = painterResource(id = screen.iconUnSelected),
+                                        contentDescription = screen.name
+                                    )
+                                }
+                                Text(
+                                    text = screen.name,
+                                    fontSize = integerResource(id = R.integer.secondary_text_size).sp,
+                                    color = colorResource(id = R.color.text_secondary),
+                                    modifier = Modifier
+                                        .align(Alignment.CenterHorizontally)
+                                        .padding(top = 4.dp),
                                 )
                             }
-                            Text(
-                                text = screen,
-                                fontSize = integerResource(id = R.integer.secondary_text_size).sp,
-                                color = colorResource(id = R.color.text_secondary),
-                                modifier = Modifier
-                                    .align(Alignment.CenterHorizontally)
-                                    .padding(top = 4.dp),
-                            )
                         }
                     }
-                }
-            )
+                )
+            }
         }
     }
 }
-
 @Composable
 fun MessageItem(
     message: MessageToList,

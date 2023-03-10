@@ -25,6 +25,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -67,10 +68,12 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.ramcosta.composedestinations.annotation.Destination
 
+@Destination
 @Composable
 fun MessageScreen() {
-    val navController = NavbarItem.Chats.navHostController ?: rememberNavController()
+    val navController = rememberNavController()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -218,9 +221,10 @@ fun MessageScreen() {
     }
 }
 
+@Destination
 @Composable
 fun SearchRoomScreen() {
-    val navController = NavbarItem.Home.navHostController ?: rememberNavController()
+    val navController = rememberNavController()
     var fromPrice by remember {
         mutableStateOf(TextFieldValue(""))
     }
@@ -252,9 +256,9 @@ fun SearchRoomScreen() {
                 text = "Show results",
                 onClick = {
                     if ((
-                        Integer.getInteger(fromPrice.text)
-                            ?: 0
-                        ) > (Integer.getInteger(toPrice.text) ?: 0)
+                                Integer.getInteger(fromPrice.text)
+                                    ?: 0
+                                ) > (Integer.getInteger(toPrice.text) ?: 0)
                     ) {
                         Toast.makeText(context, "To price less than from price", Toast.LENGTH_SHORT)
                             .show()
@@ -389,9 +393,10 @@ fun SearchRoomScreen() {
     }
 }
 
+@Destination
 @Composable
 fun SearchRoomResults() {
-    val navController = NavbarItem.Home.navHostController ?: rememberNavController()
+    val navController = rememberNavController()
     val from = navController.currentBackStackEntry?.arguments?.getString("from") ?: ""
     val to = navController.currentBackStackEntry?.arguments?.getString("to") ?: ""
     val location = navController.currentBackStackEntry?.arguments?.getString("location") ?: ""
@@ -409,91 +414,86 @@ fun SearchRoomResults() {
     val rooms by viewModel.rooms.collectAsState()
     viewModel.loadRooms(from, to, bedrooms, bathrooms, apartmentType)
     val loadingState = viewModel.loadingState.collectAsState()
-    Scaffold(
-        bottomBar = { Navbar(navController, NavbarItem.Home.name) },
-    ) {
-        when (loadingState.value) {
-            LoadingStates.Success ->
-                Column(
-                    modifier = Modifier.padding(
-                        start = 40.dp,
-                        end = 40.dp,
-                        top = 16.dp,
-                        bottom = it.calculateBottomPadding()
-                    ),
-                    verticalArrangement = Arrangement.spacedBy(24.dp),
+    when (loadingState.value) {
+        LoadingStates.Success ->
+            Column(
+                modifier = Modifier.padding(
+                    start = 40.dp,
+                    end = 40.dp,
+                    top = 16.dp,
+                ),
+                verticalArrangement = Arrangement.spacedBy(24.dp),
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
+                    BackBtn(onBackNavigation = { navController.navigate(NavbarItem.Home.name) })
+                    Text(
+                        text = "Housing Results",
+                        fontSize = integerResource(
+                            id = R.integer.label_text_size
+                        ).sp,
+                        textAlign = TextAlign.Center,
+                        fontWeight = FontWeight.Bold,
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        BackBtn(onBackNavigation = { navController.navigate(NavbarItem.Home.name) })
-                        Text(
-                            text = "Housing Results",
-                            fontSize = integerResource(
-                                id = R.integer.label_text_size
-                            ).sp,
-                            textAlign = TextAlign.Center,
-                            fontWeight = FontWeight.Bold,
-                            modifier = Modifier.fillMaxWidth(),
-                        )
-                    }
-                    LazyColumn(
-                        verticalArrangement = Arrangement.spacedBy(16.dp),
-                        modifier = Modifier.padding(bottom = it.calculateBottomPadding())
-                    ) {
-                        item {
-                            if (rooms.isEmpty()) {
-                                Text(
-                                    text = "Sorry, nothing here",
-                                    style = TextStyle(
-                                        fontSize = integerResource(id = R.integer.label_text_size).sp,
-                                    )
+                    )
+                }
+                LazyColumn(
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                ) {
+                    item {
+                        if (rooms.isEmpty()) {
+                            Text(
+                                text = "Sorry, nothing here",
+                                style = TextStyle(
+                                    fontSize = integerResource(id = R.integer.label_text_size).sp,
                                 )
-                            }
-                        }
-                        items(rooms.size) { index ->
-                            RoomCard(
-                                recommendedRoom = RecommendedRoom(
-                                    id = 0,
-                                    name = rooms[index].title,
-                                    location = rooms[index].location,
-                                    roomImagePath = rooms[index].photo,
-                                    isLiked = false,
-                                ),
-                                isMiniVersion = false
                             )
                         }
                     }
-                }
-            LoadingStates.Loading -> CircularProgressIndicator(modifier = Modifier.fillMaxSize())
-            LoadingStates.Error -> {
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-                    Text(
-                        text = "Sorry, something went wrong. You should to retry",
-                        style = TextStyle(
-                            fontSize = integerResource(
-                                id = R.integer.primary_text_size
-                            ).sp,
-                            color = Color.Black,
+                    items(rooms.size) { index ->
+                        RoomCard(
+                            recommendedRoom = RecommendedRoom(
+                                id = 0,
+                                name = rooms[index].title,
+                                location = rooms[index].location,
+                                roomImagePath = rooms[index].photo,
+                                isLiked = false,
+                            ),
+                            isMiniVersion = false
                         )
-                    )
-                    GreenButtonOutline(text = "Retry") {
-                        viewModel.loadRooms(from, to, bedrooms, bathrooms, apartmentType)
                     }
+                }
+            }
+        LoadingStates.Loading -> CircularProgressIndicator(modifier = Modifier.fillMaxSize())
+        LoadingStates.Error -> {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                Text(
+                    text = "Sorry, something went wrong. You should to retry",
+                    style = TextStyle(
+                        fontSize = integerResource(
+                            id = R.integer.primary_text_size
+                        ).sp,
+                        color = Color.Black,
+                    )
+                )
+                GreenButtonOutline(text = "Retry") {
+                    viewModel.loadRooms(from, to, bedrooms, bathrooms, apartmentType)
                 }
             }
         }
     }
 }
 
+@Destination
 @Composable
 fun SearchRoommateScreen() {
-    val navController = NavbarItem.Home.navHostController ?: rememberNavController()
+    val navController = rememberNavController()
     var fromAge by remember {
         mutableStateOf(TextFieldValue(""))
     }
@@ -533,9 +533,9 @@ fun SearchRoommateScreen() {
                 text = "Show results",
                 onClick = {
                     if ((Integer.getInteger(fromAge.text) ?: 0) > (
-                        Integer.getInteger(toAge.text)
-                            ?: 0
-                        )
+                                Integer.getInteger(toAge.text)
+                                    ?: 0
+                                )
                     ) {
                         Toast.makeText(context, "To age less than from age", Toast.LENGTH_SHORT)
                             .show()
@@ -685,9 +685,10 @@ fun SearchRoommateScreen() {
     }
 }
 
+@Destination
 @Composable
 fun SearchRoommateResults() {
-    val navController = NavbarItem.Home.navHostController ?: rememberNavController()
+    val navController = rememberNavController()
     var sex = navController.currentBackStackEntry?.arguments?.getString("sex") ?: ""
     var employment = navController.currentBackStackEntry?.arguments?.getString("employment") ?: ""
     var alcoholAttitude =
@@ -722,78 +723,73 @@ fun SearchRoommateResults() {
     )
     val roommates by viewModel.roommates.collectAsState()
     val loadingState = viewModel.loadingState.collectAsState()
-    Scaffold(
-        bottomBar = { Navbar(navController, NavbarItem.Home.name) },
-    ) {
-        when (loadingState.value) {
-            LoadingStates.Success ->
-                Column(
-                    modifier = Modifier.padding(start = 40.dp, end = 40.dp, top = 16.dp),
-                    verticalArrangement = Arrangement.spacedBy(24.dp),
+    when (loadingState.value) {
+        LoadingStates.Success ->
+            Column(
+                modifier = Modifier.padding(start = 40.dp, end = 40.dp, top = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(24.dp),
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
+                    BackBtn(onBackNavigation = { navController.navigate(NavbarItem.Home.name) })
+                    Text(
+                        text = "Roommate Results",
+                        fontSize = integerResource(
+                            id = R.integer.label_text_size
+                        ).sp,
+                        textAlign = TextAlign.Center,
+                        fontWeight = FontWeight.Bold,
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        BackBtn(onBackNavigation = { navController.navigate(NavbarItem.Home.name) })
-                        Text(
-                            text = "Roommate Results",
-                            fontSize = integerResource(
-                                id = R.integer.label_text_size
-                            ).sp,
-                            textAlign = TextAlign.Center,
-                            fontWeight = FontWeight.Bold,
-                            modifier = Modifier.fillMaxWidth(),
-                        )
-                    }
-                    LazyColumn(
-                        verticalArrangement = Arrangement.spacedBy(16.dp),
-                        modifier = Modifier.padding(bottom = it.calculateBottomPadding())
-                    ) {
-                        item {
-                            if (roommates.isEmpty()) {
-                                Text(
-                                    text = "Sorry, nothing here",
-                                    style = TextStyle(
-                                        fontSize = integerResource(
-                                            id = R.integer.label_text_size
-                                        ).sp,
-                                    )
+                    )
+                }
+                LazyColumn(
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                ) {
+                    item {
+                        if (roommates.isEmpty()) {
+                            Text(
+                                text = "Sorry, nothing here",
+                                style = TextStyle(
+                                    fontSize = integerResource(
+                                        id = R.integer.label_text_size
+                                    ).sp,
                                 )
-                            }
+                            )
                         }
-                        items(roommates.size) { index ->
-                            UserCardResult(roommates[index])
-                        }
+                    }
+                    items(roommates.size) { index ->
+                        UserCardResult(roommates[index])
                     }
                 }
-            LoadingStates.Loading -> CircularProgressIndicator(modifier = Modifier.fillMaxSize())
-            LoadingStates.Error -> {
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-                    Text(
-                        text = "Sorry, something went wrong. You should to retry",
-                        style = TextStyle(
-                            fontSize = integerResource(
-                                id = R.integer.primary_text_size
-                            ).sp,
-                            color = Color.Black,
-                        )
+            }
+        LoadingStates.Loading -> CircularProgressIndicator(modifier = Modifier.fillMaxSize())
+        LoadingStates.Error -> {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                Text(
+                    text = "Sorry, something went wrong. You should to retry",
+                    style = TextStyle(
+                        fontSize = integerResource(
+                            id = R.integer.primary_text_size
+                        ).sp,
+                        color = Color.Black,
                     )
-                    GreenButtonOutline(text = "Retry") {
-                        viewModel.loadRoommates(
-                            sex,
-                            employment,
-                            alcoholAttitude,
-                            smokingAttitude,
-                            sleepTime,
-                            personalityType,
-                            cleanHabits
-                        )
-                    }
+                )
+                GreenButtonOutline(text = "Retry") {
+                    viewModel.loadRoommates(
+                        sex,
+                        employment,
+                        alcoholAttitude,
+                        smokingAttitude,
+                        sleepTime,
+                        personalityType,
+                        cleanHabits
+                    )
                 }
             }
         }
