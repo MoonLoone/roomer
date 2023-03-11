@@ -112,7 +112,7 @@ fun ProfileContentLine(text: String, iconId: Int, onNavigateToFriends: () -> Uni
 }
 
 @Composable
-fun Navbar(navController: NavHostController)  {
+fun Navbar(navController: NavHostController) {
     val navbarState = NavbarManagement.navbarState
     val currentDestination = navController.appCurrentDestinationAsState().value
     AnimatedVisibility(visible = navbarState.value) {
@@ -264,10 +264,10 @@ fun MessageItem(
                     if (message.unreadMessages > 0) {
                         Text(
                             text =
-                            when (message.unreadMessages) {
-                                in 1..999 -> message.unreadMessages.toString()
-                                else -> "999+"
-                            },
+                                when (message.unreadMessages) {
+                                    in 1..999 -> message.unreadMessages.toString()
+                                    else -> "999+"
+                                },
                             modifier = Modifier
                                 .width(48.dp)
                                 .height(20.dp)

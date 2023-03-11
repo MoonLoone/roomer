@@ -104,28 +104,24 @@ fun ProfileScreen(
             Screens.Location.name,
             R.drawable.location_icon,
             onNavigateToFriends = {
-
             },
         )
         ProfileContentLine(
             Screens.Rating.name,
             R.drawable.rating_icon,
             onNavigateToFriends = {
-
             },
         )
         ProfileContentLine(
             Screens.Settings.name,
             R.drawable.settings_icon,
             onNavigateToFriends = {
-
             },
         )
         ProfileContentLine(
             Screens.Logout.name,
             R.drawable.logout_icon,
             onNavigateToFriends = {
-
             },
         )
     }

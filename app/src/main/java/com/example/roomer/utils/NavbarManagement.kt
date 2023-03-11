@@ -7,12 +7,11 @@ object NavbarManagement {
 
     var navbarState: MutableState<Boolean> = mutableStateOf(false)
 
-    fun showNavbar(){
+    fun showNavbar() {
         navbarState.value = true
     }
 
-    fun hideNavbar(){
+    fun hideNavbar() {
         navbarState.value = false
     }
-
 }

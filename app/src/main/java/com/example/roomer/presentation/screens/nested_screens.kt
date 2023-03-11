@@ -74,7 +74,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Destination
 @Composable
 fun MessageScreen(
-    navigator:DestinationsNavigator,
+    navigator: DestinationsNavigator,
 ) {
     Column(
         modifier = Modifier
@@ -226,7 +226,7 @@ fun MessageScreen(
 @Destination
 @Composable
 fun SearchRoomScreen(
-    navigator:DestinationsNavigator,
+    navigator: DestinationsNavigator,
 ) {
     var fromPrice by remember {
         mutableStateOf(TextFieldValue(""))
@@ -259,9 +259,9 @@ fun SearchRoomScreen(
                 text = "Show results",
                 onClick = {
                     if ((
-                                Integer.getInteger(fromPrice.text)
-                                    ?: 0
-                                ) > (Integer.getInteger(toPrice.text) ?: 0)
+                        Integer.getInteger(fromPrice.text)
+                            ?: 0
+                        ) > (Integer.getInteger(toPrice.text) ?: 0)
                     ) {
                         Toast.makeText(context, "To price less than from price", Toast.LENGTH_SHORT)
                             .show()
@@ -397,12 +397,12 @@ fun SearchRoomScreen(
 @Destination
 @Composable
 fun SearchRoomResults(
-    navigator:DestinationsNavigator,
+    navigator: DestinationsNavigator,
 ) {
     val from = ""
-    val to =  ""
-    val location =  ""
-    val bedrooms =  ""
+    val to = ""
+    val location = ""
+    val bedrooms = ""
     val bathrooms = ""
     var apartmentType = ""
     apartmentType = when (apartmentType) {
@@ -494,7 +494,7 @@ fun SearchRoomResults(
 @Destination
 @Composable
 fun SearchRoommateScreen(
-    navigator:DestinationsNavigator,
+    navigator: DestinationsNavigator,
 ) {
     var fromAge by remember {
         mutableStateOf(TextFieldValue(""))
@@ -535,9 +535,9 @@ fun SearchRoommateScreen(
                 text = "Show results",
                 onClick = {
                     if ((Integer.getInteger(fromAge.text) ?: 0) > (
-                                Integer.getInteger(toAge.text)
-                                    ?: 0
-                                )
+                        Integer.getInteger(toAge.text)
+                            ?: 0
+                        )
                     ) {
                         Toast.makeText(context, "To age less than from age", Toast.LENGTH_SHORT)
                             .show()
@@ -688,9 +688,9 @@ fun SearchRoommateScreen(
 @Destination
 @Composable
 fun SearchRoommateResults(
-    navigator:DestinationsNavigator,
+    navigator: DestinationsNavigator,
 ) {
-    //TODO("Make search results")
+    // TODO("Make search results")
     var sex = ""
     var employment = ""
     var alcoholAttitude = ""

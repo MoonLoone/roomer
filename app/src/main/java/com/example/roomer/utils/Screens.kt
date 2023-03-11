@@ -1,12 +1,6 @@
 package com.example.roomer.utils
 
 import androidx.compose.runtime.Composable
-import com.example.roomer.presentation.screens.AccountScreen
-import com.example.roomer.presentation.screens.MessageScreen
-import com.example.roomer.presentation.screens.SearchRoomResults
-import com.example.roomer.presentation.screens.SearchRoomScreen
-import com.example.roomer.presentation.screens.SearchRoommateResults
-import com.example.roomer.presentation.screens.SearchRoommateScreen
 import com.example.roomer.presentation.screens.destinations.AccountScreenDestination
 import com.example.roomer.presentation.screens.destinations.MessageScreenDestination
 import com.example.roomer.presentation.screens.destinations.SearchRoomResultsDestination
