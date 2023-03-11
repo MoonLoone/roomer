@@ -155,7 +155,8 @@ fun Navbar(navController: NavHostController) {
                                 }
                                 Text(
                                     text = screen.name,
-                                    fontSize = integerResource(id = R.integer.secondary_text_size).sp,
+                                    fontSize =
+                                    integerResource(id = R.integer.secondary_text_size).sp,
                                     color = Color.Black,
                                     modifier = Modifier
                                         .align(Alignment.CenterHorizontally)
@@ -181,7 +182,8 @@ fun Navbar(navController: NavHostController) {
                                 }
                                 Text(
                                     text = screen.name,
-                                    fontSize = integerResource(id = R.integer.secondary_text_size).sp,
+                                    fontSize =
+                                    integerResource(id = R.integer.secondary_text_size).sp,
                                     color = colorResource(id = R.color.text_secondary),
                                     modifier = Modifier
                                         .align(Alignment.CenterHorizontally)
