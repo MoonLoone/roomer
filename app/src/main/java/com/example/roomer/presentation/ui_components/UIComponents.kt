@@ -5,7 +5,6 @@ import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
@@ -43,7 +42,6 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -69,7 +67,6 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -81,6 +78,7 @@ import com.example.roomer.domain.model.UsersFilterInfo
 import com.example.roomer.domain.model.signup.interests.InterestModel
 import com.example.roomer.presentation.screens.appCurrentDestinationAsState
 import com.example.roomer.utils.NavbarItem
+import com.example.roomer.utils.NavbarManagement
 import com.ramcosta.composedestinations.navigation.navigate
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
@@ -115,8 +113,9 @@ fun ProfileContentLine(text: String, iconId: Int, onNavigateToFriends: () -> Uni
 
 @Composable
 fun Navbar(navController: NavHostController)  {
+    val navbarState = NavbarManagement.navbarState
     val currentDestination = navController.appCurrentDestinationAsState().value
-    AnimatedVisibility(visible = true) {
+    AnimatedVisibility(visible = navbarState.value) {
         BottomNavigation(
             backgroundColor = colorResource(id = R.color.secondary_color),
             modifier = Modifier

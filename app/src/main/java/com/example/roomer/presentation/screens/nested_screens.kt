@@ -25,7 +25,6 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -46,22 +45,23 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.compose.rememberNavController
 import com.example.roomer.R
 import com.example.roomer.domain.model.ChatMessage
 import com.example.roomer.domain.model.RecommendedRoom
+import com.example.roomer.presentation.screens.destinations.ChatsScreenDestination
+import com.example.roomer.presentation.screens.destinations.HomeScreenDestination
+import com.example.roomer.presentation.screens.destinations.SearchRoomResultsDestination
+import com.example.roomer.presentation.screens.destinations.SearchRoomScreenDestination
+import com.example.roomer.presentation.screens.destinations.SearchRoommateScreenDestination
 import com.example.roomer.presentation.ui_components.BackBtn
 import com.example.roomer.presentation.ui_components.FilterSelect
 import com.example.roomer.presentation.ui_components.GreenButtonOutline
 import com.example.roomer.presentation.ui_components.InterestField
 import com.example.roomer.presentation.ui_components.Message
-import com.example.roomer.presentation.ui_components.Navbar
 import com.example.roomer.presentation.ui_components.RoomCard
 import com.example.roomer.presentation.ui_components.ScreenTextField
 import com.example.roomer.presentation.ui_components.UserCardResult
 import com.example.roomer.utils.LoadingStates
-import com.example.roomer.utils.NavbarItem
-import com.example.roomer.utils.Screens
 import com.example.roomer.utils.convertLongToTime
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -69,11 +69,13 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Destination
 @Composable
-fun MessageScreen() {
-    val navController = rememberNavController()
+fun MessageScreen(
+    navigator:DestinationsNavigator,
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -83,7 +85,7 @@ fun MessageScreen() {
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth(),
         ) {
-            BackBtn(onBackNavigation = { navController.navigate(NavbarItem.Chats.name) })
+            BackBtn(onBackNavigation = { navigator.navigate(ChatsScreenDestination) })
             Image(
                 modifier = Modifier
                     .width(56.dp)
@@ -223,8 +225,9 @@ fun MessageScreen() {
 
 @Destination
 @Composable
-fun SearchRoomScreen() {
-    val navController = rememberNavController()
+fun SearchRoomScreen(
+    navigator:DestinationsNavigator,
+) {
     var fromPrice by remember {
         mutableStateOf(TextFieldValue(""))
     }
@@ -263,9 +266,7 @@ fun SearchRoomScreen() {
                         Toast.makeText(context, "To price less than from price", Toast.LENGTH_SHORT)
                             .show()
                     } else {
-                        navController.navigate(
-                            Screens.SearchRoomResults.name
-                        )
+                        navigator.navigate(SearchRoomResultsDestination)
                     }
                 }
             )
@@ -281,7 +282,7 @@ fun SearchRoomScreen() {
             Row(horizontalArrangement = Arrangement.SpaceBetween) {
                 BackBtn(
                     onBackNavigation = {
-                        navController.navigate(NavbarItem.Home.name)
+                        navigator.navigate(HomeScreenDestination)
                     }
                 )
                 Text(
@@ -298,7 +299,7 @@ fun SearchRoomScreen() {
             }
             FilterSelect(
                 selectItemName = "Room",
-                onNavigateToFriends = { navController.navigate(Screens.SearchRoommate.name) }
+                onNavigateToFriends = { navigator.navigate(SearchRoommateScreenDestination) }
             )
             Text(
                 "Choose room parameters",
@@ -395,15 +396,15 @@ fun SearchRoomScreen() {
 
 @Destination
 @Composable
-fun SearchRoomResults() {
-    val navController = rememberNavController()
-    val from = navController.currentBackStackEntry?.arguments?.getString("from") ?: ""
-    val to = navController.currentBackStackEntry?.arguments?.getString("to") ?: ""
-    val location = navController.currentBackStackEntry?.arguments?.getString("location") ?: ""
-    val bedrooms = navController.currentBackStackEntry?.arguments?.getString("bedrooms") ?: ""
-    val bathrooms = navController.currentBackStackEntry?.arguments?.getString("bathrooms") ?: ""
-    var apartmentType =
-        navController.currentBackStackEntry?.arguments?.getString("apartment_type") ?: ""
+fun SearchRoomResults(
+    navigator:DestinationsNavigator,
+) {
+    val from = ""
+    val to =  ""
+    val location =  ""
+    val bedrooms =  ""
+    val bathrooms = ""
+    var apartmentType = ""
     apartmentType = when (apartmentType) {
         "Flat" -> "F"
         "Duplex" -> "DU"
@@ -429,7 +430,7 @@ fun SearchRoomResults() {
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    BackBtn(onBackNavigation = { navController.navigate(NavbarItem.Home.name) })
+                    BackBtn(onBackNavigation = { navigator.navigate(HomeScreenDestination) })
                     Text(
                         text = "Housing Results",
                         fontSize = integerResource(
@@ -492,8 +493,9 @@ fun SearchRoomResults() {
 
 @Destination
 @Composable
-fun SearchRoommateScreen() {
-    val navController = rememberNavController()
+fun SearchRoommateScreen(
+    navigator:DestinationsNavigator,
+) {
     var fromAge by remember {
         mutableStateOf(TextFieldValue(""))
     }
@@ -540,9 +542,7 @@ fun SearchRoommateScreen() {
                         Toast.makeText(context, "To age less than from age", Toast.LENGTH_SHORT)
                             .show()
                     } else {
-                        navController.navigate(
-                            Screens.SearchRoommateResults.name
-                        )
+                        navigator.navigate(SearchRoommateScreenDestination)
                     }
                 }
             )
@@ -555,7 +555,7 @@ fun SearchRoommateScreen() {
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             Row(horizontalArrangement = Arrangement.SpaceBetween) {
-                BackBtn(onBackNavigation = { navController.navigate(NavbarItem.Home.name) })
+                BackBtn(onBackNavigation = { navigator.navigate(HomeScreenDestination) })
                 Text(
                     text = "Search filter",
                     modifier = Modifier.fillMaxWidth(),
@@ -570,7 +570,7 @@ fun SearchRoommateScreen() {
             }
             FilterSelect(
                 selectItemName = "Roommate",
-                onNavigateToFriends = { navController.navigate(Screens.SearchRoom.name) }
+                onNavigateToFriends = { navigator.navigate(SearchRoomScreenDestination) }
             )
             Text(
                 "Choose roommate parameters",
@@ -687,25 +687,17 @@ fun SearchRoommateScreen() {
 
 @Destination
 @Composable
-fun SearchRoommateResults() {
-    val navController = rememberNavController()
-    var sex = navController.currentBackStackEntry?.arguments?.getString("sex") ?: ""
-    var employment = navController.currentBackStackEntry?.arguments?.getString("employment") ?: ""
-    var alcoholAttitude =
-        navController.currentBackStackEntry?.arguments?.getString("alcohol_attitude") ?: ""
-    var smokingAttitude =
-        navController.currentBackStackEntry?.arguments?.getString("smoking_attitude") ?: ""
-    var sleepTime = navController.currentBackStackEntry?.arguments?.getString("sleep_time") ?: ""
-    var personalityType =
-        navController.currentBackStackEntry?.arguments?.getString("personality_type") ?: ""
-    var cleanHabits =
-        navController.currentBackStackEntry?.arguments?.getString("clean_habits") ?: ""
-    employment = employment[0].titlecase()
-    sex = sex[0].titlecase()
-    alcoholAttitude = alcoholAttitude[0].titlecase()
-    smokingAttitude = smokingAttitude[0].titlecase()
-    sleepTime = sleepTime[0].titlecase()
-    personalityType = personalityType[0].titlecase()
+fun SearchRoommateResults(
+    navigator:DestinationsNavigator,
+) {
+    //TODO("Make search results")
+    var sex = ""
+    var employment = ""
+    var alcoholAttitude = ""
+    var smokingAttitude = ""
+    var sleepTime = ""
+    var personalityType = ""
+    var cleanHabits = ""
     cleanHabits = when (cleanHabits) {
         "Neat" -> "N"
         "It Depends" -> "D"
@@ -734,7 +726,7 @@ fun SearchRoommateResults() {
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    BackBtn(onBackNavigation = { navController.navigate(NavbarItem.Home.name) })
+                    BackBtn(onBackNavigation = { navigator.navigate(HomeScreenDestination) })
                     Text(
                         text = "Roommate Results",
                         fontSize = integerResource(

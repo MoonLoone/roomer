@@ -43,16 +43,19 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.compose.rememberNavController
 import com.example.roomer.R
 import com.example.roomer.domain.model.MessageToList
 import com.example.roomer.domain.model.RecommendedRoom
 import com.example.roomer.domain.model.RecommendedRoommate
+import com.example.roomer.presentation.screens.destinations.AccountScreenDestination
+import com.example.roomer.presentation.screens.destinations.MessageScreenDestination
+import com.example.roomer.presentation.screens.destinations.SearchRoomScreenDestination
 import com.example.roomer.presentation.ui_components.MessageItem
 import com.example.roomer.presentation.ui_components.ProfileContentLine
 import com.example.roomer.presentation.ui_components.RoomCard
 import com.example.roomer.presentation.ui_components.SearchField
 import com.example.roomer.presentation.ui_components.UserCard
+import com.example.roomer.utils.NavbarManagement
 import com.example.roomer.utils.Screens
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -61,8 +64,8 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 fun ProfileScreen(
     navigator: DestinationsNavigator,
-
 ) {
+    NavbarManagement.showNavbar()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -94,7 +97,7 @@ fun ProfileScreen(
             Screens.Account.name,
             R.drawable.account_icon,
             onNavigateToFriends = {
-
+                navigator.navigate(AccountScreenDestination)
             }
         )
         ProfileContentLine(
@@ -133,6 +136,7 @@ fun ProfileScreen(
 fun ChatsScreen(
     navigator: DestinationsNavigator,
 ) {
+    NavbarManagement.showNavbar()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -217,7 +221,7 @@ fun ChatsScreen(
                 username = "Grigoriev Oleg",
                 isRead = false,
                 unreadMessages = 0,
-                navigateToMessage = {  }
+                navigateToMessage = { navigator.navigate(MessageScreenDestination) }
             ),
             MessageToList(
                 userAvatarPath = "path",
@@ -226,7 +230,7 @@ fun ChatsScreen(
                 username = "Grigoriev Oleg",
                 isRead = true,
                 unreadMessages = 10000,
-                navigateToMessage = {  }
+                navigateToMessage = { navigator.navigate(MessageScreenDestination) }
             ),
             MessageToList(
                 userAvatarPath = "path",
@@ -235,7 +239,7 @@ fun ChatsScreen(
                 username = "Grigoriev Oleg",
                 isRead = false,
                 unreadMessages = 15,
-                navigateToMessage = {  }
+                navigateToMessage = { navigator.navigate(MessageScreenDestination) }
             ),
         )
         LazyColumn(
@@ -256,6 +260,7 @@ fun ChatsScreen(
 fun HomeScreen(
     navigator: DestinationsNavigator,
 ) {
+    NavbarManagement.showNavbar()
     val recommendedRooms = mutableListOf<RecommendedRoom>()
     val recommendedRoommates = mutableListOf<RecommendedRoommate>()
     for (i in 0..5) {
@@ -319,7 +324,7 @@ fun HomeScreen(
                 alignment = Alignment.Center,
             )
         }
-        SearchField(onNavigateToFriends = {  })
+        SearchField(onNavigateToFriends = { navigator.navigate(SearchRoomScreenDestination) })
         Column(
             modifier = Modifier
                 .scrollable(
@@ -402,7 +407,7 @@ fun HomeScreen(
 fun FavouriteScreen(
     navigator: DestinationsNavigator,
 ) {
-
+    NavbarManagement.showNavbar()
     val listOfFavourites = listOf(
         RecommendedRoom(1, "Fav1", "Loc", "", true),
         RecommendedRoom(2, "Fav2", "Loc2", "", true),
@@ -436,5 +441,5 @@ fun FavouriteScreen(
 fun PostScreen(
     navigator: DestinationsNavigator,
 ) {
-    val navController = rememberNavController()
+    NavbarManagement.showNavbar()
 }
