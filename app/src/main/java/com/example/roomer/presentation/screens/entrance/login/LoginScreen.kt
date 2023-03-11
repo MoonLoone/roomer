@@ -41,6 +41,7 @@ import com.example.roomer.presentation.ui_components.GreenButtonPrimary
 import com.example.roomer.presentation.ui_components.PasswordField
 import com.example.roomer.presentation.ui_components.SimpleAlertDialog
 import com.example.roomer.utils.Consts
+import com.example.roomer.utils.NavbarManagement
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
@@ -51,6 +52,7 @@ fun LoginScreen(
     navigator: DestinationsNavigator,
     loginScreenViewModel: LoginScreenViewModel = viewModel()
 ) {
+    NavbarManagement.hideNavbar()
     val state = loginScreenViewModel.state.value
     var emailValue by rememberSaveable {
         mutableStateOf("")
