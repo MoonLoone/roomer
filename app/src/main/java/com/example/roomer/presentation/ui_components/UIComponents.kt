@@ -197,6 +197,7 @@ fun Navbar(navController: NavHostController) {
         }
     }
 }
+
 @Composable
 fun MessageItem(
     message: MessageToList,
@@ -448,7 +449,8 @@ fun RoomCard(recommendedRoom: RecommendedRoom, isMiniVersion: Boolean) {
                 contentScale = ContentScale.FillBounds,
             )
             Image(
-                painter = if (isLiked) painterResource(id = R.drawable.room_like_in_icon) else painterResource(
+                painter = if (isLiked) painterResource(id = R.drawable.room_like_in_icon)
+                else painterResource(
                     id = R.drawable.room_like_icon
                 ),
                 contentDescription = stringResource(id = R.string.like_icon),
@@ -880,9 +882,11 @@ fun FilterSelect(selectItemName: String, onNavigateToFriends: () -> Unit) {
                     RoundedCornerShape(topEnd = 100.dp, bottomEnd = 100.dp)
                 )
                 .background(
-                    color = if (selectItemName == stringResource(id = R.string.roommate)) colorResource(
-                        id = R.color.primary_dark
-                    ) else Color.White,
+                    color = if (selectItemName == stringResource(id = R.string.roommate))
+                        colorResource(
+                            id = R.color.primary_dark
+                        )
+                    else Color.White,
                     RoundedCornerShape(topEnd = 100.dp, bottomEnd = 100.dp),
                 )
                 .clip(RoundedCornerShape(topEnd = 100.dp, bottomEnd = 100.dp))

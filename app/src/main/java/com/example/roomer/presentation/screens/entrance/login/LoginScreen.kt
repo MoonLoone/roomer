@@ -31,7 +31,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.roomer.R
 import com.example.roomer.presentation.screens.destinations.HomeScreenDestination
 import com.example.roomer.presentation.screens.destinations.SignUpScreen1Destination
@@ -50,7 +50,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 fun LoginScreen(
     id: Int,
     navigator: DestinationsNavigator,
-    loginScreenViewModel: LoginScreenViewModel = viewModel()
+    loginScreenViewModel: LoginScreenViewModel = hiltViewModel()
 ) {
     NavbarManagement.hideNavbar()
     val state = loginScreenViewModel.state.value

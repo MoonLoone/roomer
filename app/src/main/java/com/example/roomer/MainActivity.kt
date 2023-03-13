@@ -9,7 +9,9 @@ import androidx.navigation.compose.rememberNavController
 import com.example.roomer.presentation.screens.NavGraphs
 import com.example.roomer.presentation.ui_components.Navbar
 import com.ramcosta.composedestinations.DestinationsNavHost
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

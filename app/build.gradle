@@ -4,7 +4,7 @@ plugins {
     id 'com.google.gms.google-services'
     id 'kotlin-kapt'
     id 'com.google.devtools.ksp' version '1.7.20-1.0.8'
-
+    id 'com.google.dagger.hilt.android'
 }
 
 android {
@@ -72,6 +72,13 @@ dependencies {
     def composeBom = platform('androidx.compose:compose-bom:2022.10.00')
     def paging_version = "3.1.1"
     def compose_dest_version = "1.7.33-beta"
+    def hilt_version = "2.44"
+
+    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'com.google.android.material:material:1.7.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    testImplementation 'junit:junit:4.13.2'
 
     //Room
     implementation "androidx.room:room-runtime:$room_version"
@@ -115,9 +122,14 @@ dependencies {
     implementation "io.github.raamcosta.compose-destinations:core:$compose_dest_version"
     ksp "io.github.raamcosta.compose-destinations:ksp:$compose_dest_version"
 
-    implementation 'androidx.core:core-ktx:1.9.0'
-    implementation 'androidx.appcompat:appcompat:1.5.1'
-    implementation 'com.google.android.material:material:1.7.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    testImplementation 'junit:junit:4.13.2'
+    //Hilt DI
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-compiler:$hilt_version"
+    implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
+
+}
+
+// Allow references to generated code
+kapt {
+    correctErrorTypes true
 }

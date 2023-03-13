@@ -27,7 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.roomer.R
 import com.example.roomer.presentation.screens.destinations.SignUpScreenTwoDestination
 import com.example.roomer.presentation.ui_components.DateField
@@ -44,7 +44,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 fun SignUpScreenOne(
     id: Int,
     navigator: DestinationsNavigator,
-    signUpScreenOneViewModel: SignUpScreenOneViewModel = viewModel()
+    signUpScreenOneViewModel: SignUpScreenOneViewModel = hiltViewModel()
 ) {
     var firstNameValue by rememberSaveable {
         mutableStateOf("")

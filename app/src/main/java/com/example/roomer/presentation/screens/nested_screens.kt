@@ -44,6 +44,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.roomer.R
 import com.example.roomer.domain.model.ChatMessage
@@ -411,7 +412,7 @@ fun SearchRoomResults(
         "House" -> "H"
         else -> "DO"
     }
-    val viewModel: SearchRoomResultsViewModel = viewModel()
+    val viewModel: SearchRoomResultsViewModel = hiltViewModel()
     val rooms by viewModel.rooms.collectAsState()
     viewModel.loadRooms(from, to, bedrooms, bathrooms, apartmentType)
     val loadingState = viewModel.loadingState.collectAsState()
@@ -703,7 +704,7 @@ fun SearchRoommateResults(
         "It Depends" -> "D"
         else -> "C"
     }
-    val viewModel: SearchRoommateResultViewModel = viewModel()
+    val viewModel: SearchRoommateResultViewModel = hiltViewModel()
     viewModel.loadRoommates(
         sex,
         employment,
