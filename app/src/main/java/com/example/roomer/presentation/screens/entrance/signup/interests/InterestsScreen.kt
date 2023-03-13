@@ -20,7 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.roomer.R
 import com.example.roomer.domain.model.signup.interests.InterestModel
 import com.example.roomer.presentation.screens.destinations.HomeScreenDestination
@@ -35,7 +35,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 fun InterestsScreen(
     id: Int,
     navigator: DestinationsNavigator,
-    interestsScreenViewModel: InterestsScreenViewModel = viewModel()
+    interestsScreenViewModel: InterestsScreenViewModel = hiltViewModel()
 ) {
 
     val state = interestsScreenViewModel.state.value

@@ -28,7 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.roomer.R
 import com.example.roomer.presentation.screens.destinations.LoginScreenDestination
 import com.example.roomer.presentation.ui_components.EmailField
@@ -45,7 +45,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 fun SignUpScreen1(
     id: Int,
     navigator: DestinationsNavigator,
-    signUpScreenViewModel: SignUpScreenViewModel = viewModel()
+    signUpScreenViewModel: SignUpScreenViewModel = hiltViewModel()
 ) {
     var emailValue by rememberSaveable {
         mutableStateOf("")

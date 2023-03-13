@@ -23,7 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.roomer.R
 import com.example.roomer.presentation.screens.destinations.InterestsScreenDestination
 import com.example.roomer.presentation.ui_components.ButtonsRowMapped
@@ -39,7 +39,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 fun SignUpScreenThree(
     id: Int,
     navigator: DestinationsNavigator,
-    signUpScreenThreeViewModel: SignUpScreenThreeViewModel = viewModel()
+    signUpScreenThreeViewModel: SignUpScreenThreeViewModel = hiltViewModel()
 ) {
     var sleepTimeValue by rememberSaveable {
         mutableStateOf("N")

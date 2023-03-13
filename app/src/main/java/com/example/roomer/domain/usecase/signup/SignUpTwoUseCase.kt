@@ -1,7 +1,7 @@
 package com.example.roomer.domain.usecase.signup
 
 import android.graphics.Bitmap
-import com.example.roomer.data.repository.RoomerRepository
+import com.example.roomer.data.repository.RoomerRepositoryInterface
 import com.example.roomer.utils.ConstUseCase
 import com.example.roomer.utils.Resource
 import java.io.IOException
@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class SignUpTwoUseCase(
-    private val repository: RoomerRepository
+    private val repository: RoomerRepositoryInterface
 ) {
     operator fun invoke(
         token: String,
