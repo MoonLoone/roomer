@@ -7,6 +7,7 @@ import com.example.roomer.domain.model.UsersFilterInfo
 import com.example.roomer.domain.model.login.LoginDto
 import com.example.roomer.domain.model.login.TokenDto
 import com.example.roomer.domain.model.signup.IdModel
+import com.example.roomer.domain.model.signup.SignUpDataModel
 import com.example.roomer.domain.model.signup.SignUpModel
 import com.example.roomer.domain.model.signup.interests.InterestModel
 import com.example.roomer.domain.model.signup.interests.PutInterestsModel
@@ -40,6 +41,51 @@ class RoomerRepository(
 
     override suspend fun getInterests(): List<InterestModel> {
         return roomerApi.getInterests()
+    }
+
+    override suspend fun putSignUpData(
+        token: String,
+        firstName: String,
+        lastName: String,
+        sex: String,
+        birthDate: String,
+        avatar: Bitmap,
+        aboutMe: String,
+        employment: String,
+        sleepTime: String,
+        alcoholAttitude: String,
+        smokingAttitude: String,
+        personalityType: String,
+        cleanHabits: String,
+        interests: List<InterestModel>
+    ): Response<IdModel> {
+        val refToken = "Token ".plus(token)
+        val stream = ByteArrayOutputStream()
+        avatar.compress(Bitmap.CompressFormat.JPEG, 80, stream)
+        val byteArray = stream.toByteArray()
+        val avatarBody = MultipartBody.Part.createFormData(
+            "avatar",
+            Random.nextUInt(8000000u).toString().plus(".jpeg"),
+            byteArray.toRequestBody("image/*".toMediaTypeOrNull(), 0, byteArray.size)
+        )
+        return roomerApi.putSignUpData(
+            token = refToken,
+            avatar = avatarBody,
+            SignUpDataModel(
+                firstName,
+                lastName,
+                sex,
+                birthDate,
+                aboutMe,
+                employment,
+                sleepTime,
+                alcoholAttitude,
+                smokingAttitude,
+                personalityType,
+                cleanHabits,
+                interests
+            )
+        )
     }
 
     override suspend fun putInterests(

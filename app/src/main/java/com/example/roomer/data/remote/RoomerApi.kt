@@ -5,6 +5,7 @@ import com.example.roomer.domain.model.UsersFilterInfo
 import com.example.roomer.domain.model.login.LoginDto
 import com.example.roomer.domain.model.login.TokenDto
 import com.example.roomer.domain.model.signup.IdModel
+import com.example.roomer.domain.model.signup.SignUpDataModel
 import com.example.roomer.domain.model.signup.SignUpModel
 import com.example.roomer.domain.model.signup.interests.InterestModel
 import com.example.roomer.domain.model.signup.interests.PutInterestsModel
@@ -58,6 +59,14 @@ interface RoomerApi {
         @Header("Authorization") token: String,
         @Part avatar: MultipartBody.Part,
         @PartMap signUpTwoModel: HashMap<String, RequestBody>
+    ): Response<IdModel>
+
+    @Multipart
+    @PUT("/auth/users/me/")
+    suspend fun putSignUpData(
+        @Header("Authorization") token: String,
+        @Part avatar: MultipartBody.Part,
+        @Part signUpModel: SignUpDataModel
     ): Response<IdModel>
 
     @GET("/housing/")

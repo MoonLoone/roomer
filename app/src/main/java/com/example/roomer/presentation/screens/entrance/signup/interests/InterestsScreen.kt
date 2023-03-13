@@ -3,6 +3,7 @@ package com.example.roomer.presentation.screens.entrance.signup.interests
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -10,6 +11,8 @@ import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -23,7 +26,10 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.roomer.R
 import com.example.roomer.domain.model.signup.interests.InterestModel
+import com.example.roomer.presentation.screens.destinations.AboutMeAvatarScreenDestination
+import com.example.roomer.presentation.screens.destinations.HabitsScreenDestination
 import com.example.roomer.presentation.screens.destinations.HomeScreenDestination
+import com.example.roomer.presentation.screens.entrance.signup.SignUpViewModel
 import com.example.roomer.presentation.ui_components.GreenButtonOutline
 import com.example.roomer.presentation.ui_components.GreenButtonPrimary
 import com.example.roomer.presentation.ui_components.InterestsButtons
@@ -33,12 +39,11 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Destination
 @Composable
 fun InterestsScreen(
-    id: Int,
     navigator: DestinationsNavigator,
-    interestsScreenViewModel: InterestsScreenViewModel = viewModel()
+    interestsScreenViewModel: InterestsScreenViewModel = viewModel(),
+    signUpViewModel: SignUpViewModel = viewModel()
 ) {
-
-    val state = interestsScreenViewModel.state.value
+    val state by interestsScreenViewModel.state.collectAsState()
     val interests = interestsScreenViewModel.interests.value
     val selectedItems = rememberSaveable {
         mutableStateOf<List<InterestModel>>(emptyList())
@@ -91,13 +96,36 @@ fun InterestsScreen(
                         interestsScreenViewModel.getInterests()
                     }
             }
-            GreenButtonPrimary(
-                text = "Apply",
+            Row(
                 modifier = Modifier
                     .fillMaxWidth(),
-                enabled = state.isInterestsLoaded
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                interestsScreenViewModel.putInterests(selectedItems.value)
+                GreenButtonPrimary(
+                    text = "Go Back",
+                ) {
+                    navigator.navigate(HabitsScreenDestination())
+                }
+                GreenButtonPrimary(
+                    text = "Finish",
+                ) {
+                    interestsScreenViewModel.putSignUpData(
+                        signUpViewModel.firstName,
+                        signUpViewModel.lastName,
+                        signUpViewModel.sex,
+                        signUpViewModel.birthDate,
+                        signUpViewModel.avatar!!,
+                        signUpViewModel.personDescription,
+                        signUpViewModel.employment,
+                        signUpViewModel.sleepTime,
+                        signUpViewModel.alcoholAttitude,
+                        signUpViewModel.smokingAttitude,
+                        signUpViewModel.personalityType,
+                        signUpViewModel.cleanHabits,
+                        signUpViewModel.interests,
+                    )
+                }
             }
         }
     }

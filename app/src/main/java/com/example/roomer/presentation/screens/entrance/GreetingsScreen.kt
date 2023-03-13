@@ -1,5 +1,6 @@
 package com.example.roomer.presentation.screens.entrance
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,6 +21,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.roomer.R
 import com.example.roomer.presentation.screens.destinations.HomeScreenDestination
 import com.example.roomer.presentation.screens.destinations.LoginScreenDestination
+import com.example.roomer.presentation.screens.destinations.PrimaryUserInfoScreenDestination
 import com.example.roomer.presentation.screens.destinations.SignUpScreen1Destination
 import com.example.roomer.presentation.ui_components.GreenButtonOutline
 import com.example.roomer.presentation.ui_components.GreenButtonPrimary
@@ -35,7 +37,7 @@ fun StartScreen(
     navigator: DestinationsNavigator,
     greetingScreenViewModel: GreetingScreenViewModel = viewModel()
 ) {
-    if (greetingScreenViewModel.isUserAuthorized) navigator.navigate(HomeScreenDestination())
+//    if (greetingScreenViewModel.isUserAuthorized) navigator.navigate(HomeScreenDestination())
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -71,7 +73,7 @@ fun StartScreen(
                 .padding(top = 8.dp)
                 .fillMaxWidth(),
         ) {
-            navigator.navigate(SignUpScreen1Destination(Consts.greetingScreenId))
+            navigator.navigate(SignUpScreen1Destination)
         }
     }
 }

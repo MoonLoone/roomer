@@ -34,8 +34,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.roomer.R
 import com.example.roomer.presentation.screens.destinations.HomeScreenDestination
-import com.example.roomer.presentation.screens.destinations.SignUpScreen1Destination
-import com.example.roomer.presentation.screens.destinations.SignUpScreenOneDestination
+import com.example.roomer.presentation.screens.destinations.PrimaryUserInfoScreenDestination
 import com.example.roomer.presentation.ui_components.EmailField
 import com.example.roomer.presentation.ui_components.GreenButtonPrimary
 import com.example.roomer.presentation.ui_components.PasswordField
@@ -139,7 +138,7 @@ fun LoginScreen(
 
                     ),
                     onClick = {
-                        navigator.navigate(SignUpScreen1Destination(Consts.loginScreenId))
+                        //TODO Change navigation destination
                     }
                 )
             }
@@ -161,7 +160,7 @@ fun LoginScreen(
                 if (id == Consts.greetingScreenId) {
                     navigator.navigate(HomeScreenDestination())
                 } else {
-                    navigator.navigate(SignUpScreenOneDestination(Consts.loginScreenId))
+                    navigator.navigate(PrimaryUserInfoScreenDestination)
                 }
             }
         }

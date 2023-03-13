@@ -15,6 +15,23 @@ interface RoomerRepositoryInterface {
 
     suspend fun getInterests(): List<InterestModel>
 
+    suspend fun putSignUpData(
+        token: String,
+        firstName: String,
+        lastName: String,
+        sex: String,
+        birthDate: String,
+        avatar: Bitmap,
+        aboutMe: String,
+        employment: String,
+        sleepTime: String,
+        alcoholAttitude: String,
+        smokingAttitude: String,
+        personalityType: String,
+        cleanHabits: String,
+        interests: List<InterestModel>
+    ): Response<IdModel>
+
     suspend fun putInterests(token: String, interests: List<InterestModel>): Response<IdModel>
 
     suspend fun putSignUpDataOne(

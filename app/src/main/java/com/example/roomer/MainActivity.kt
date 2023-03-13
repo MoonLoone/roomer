@@ -13,8 +13,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             DestinationsNavHost(navGraph = NavGraphs.root)
-            val navController = rememberNavController()
-            NavbarHostContainer(navController = navController)
+//            val navController = rememberNavController()
+//            NavbarHostContainer(navController = navController)
         }
     }
 }

@@ -43,7 +43,6 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Destination
 @Composable
 fun SignUpScreen1(
-    id: Int,
     navigator: DestinationsNavigator,
     signUpScreenViewModel: SignUpScreenViewModel = viewModel()
 ) {
