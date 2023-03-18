@@ -119,7 +119,6 @@ fun SignUpScreenTwo(
                 value = employmentValue,
                 onValueChange = { employmentValue = it }
             )
-            // TODO Implement address field
             GreenButtonPrimary(
                 enabled = !state.isLoading,
                 text = "Confirm",
