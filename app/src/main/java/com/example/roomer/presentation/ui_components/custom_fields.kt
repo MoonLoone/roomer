@@ -591,7 +591,8 @@ fun UsualTextField(
     errorMessage: String = "",
     enabled: Boolean = true,
     singleLine: Boolean = true,
-    maxLines: Int = 5
+    maxLines: Int = 5,
+    isNumbersInput: Boolean = false
 ) {
     Column(
         modifier = Modifier
@@ -630,7 +631,10 @@ fun UsualTextField(
                 backgroundColor = colorResource(id = R.color.secondary_color),
                 focusedIndicatorColor = colorResource(id = R.color.primary_dark)
             ),
-            isError = isError
+            isError = isError,
+            keyboardOptions = if (isNumbersInput) KeyboardOptions(
+                keyboardType = KeyboardType.Number
+            ) else KeyboardOptions(keyboardType = KeyboardType.Ascii)
         )
         if (isError) {
             Text(

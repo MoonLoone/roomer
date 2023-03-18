@@ -45,7 +45,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.roomer.R
 import com.example.roomer.domain.model.ChatMessage
 import com.example.roomer.domain.model.RecommendedRoom
@@ -55,13 +54,16 @@ import com.example.roomer.presentation.screens.destinations.SearchRoomResultsDes
 import com.example.roomer.presentation.screens.destinations.SearchRoomScreenDestination
 import com.example.roomer.presentation.screens.destinations.SearchRoommateScreenDestination
 import com.example.roomer.presentation.ui_components.BackBtn
+import com.example.roomer.presentation.ui_components.ButtonsRow
+import com.example.roomer.presentation.ui_components.ButtonsRowMapped
+import com.example.roomer.presentation.ui_components.DropdownTextFieldMapped
 import com.example.roomer.presentation.ui_components.FilterSelect
 import com.example.roomer.presentation.ui_components.GreenButtonOutline
 import com.example.roomer.presentation.ui_components.InterestField
 import com.example.roomer.presentation.ui_components.Message
 import com.example.roomer.presentation.ui_components.RoomCard
-import com.example.roomer.presentation.ui_components.ScreenTextField
 import com.example.roomer.presentation.ui_components.UserCardResult
+import com.example.roomer.presentation.ui_components.UsualTextField
 import com.example.roomer.utils.LoadingStates
 import com.example.roomer.utils.convertLongToTime
 import com.google.firebase.auth.FirebaseAuth
@@ -230,22 +232,22 @@ fun SearchRoomScreen(
     navigator: DestinationsNavigator,
 ) {
     var fromPrice by remember {
-        mutableStateOf(TextFieldValue(""))
+        mutableStateOf("0")
     }
     var toPrice by remember {
-        mutableStateOf(TextFieldValue(""))
+        mutableStateOf("0")
     }
     val location = remember {
-        mutableStateOf(TextFieldValue(""))
+        mutableStateOf("Astrakhan city")
     }
     val bedrooms = remember {
-        mutableStateOf(TextFieldValue(""))
+        mutableStateOf("1")
     }
     val bathrooms = remember {
-        mutableStateOf(TextFieldValue(""))
+        mutableStateOf("1")
     }
     val apartmentType = remember {
-        mutableStateOf(TextFieldValue(""))
+        mutableStateOf("F")
     }
     val context = LocalContext.current
     Scaffold(
@@ -259,11 +261,7 @@ fun SearchRoomScreen(
                     .height(40.dp),
                 text = "Show results",
                 onClick = {
-                    if ((
-                        Integer.getInteger(fromPrice.text)
-                            ?: 0
-                        ) > (Integer.getInteger(toPrice.text) ?: 0)
-                    ) {
+                    if (fromPrice > toPrice) {
                         Toast.makeText(context, "To price less than from price", Toast.LENGTH_SHORT)
                             .show()
                     } else {
@@ -332,8 +330,8 @@ fun SearchRoomScreen(
                     )
                     TextField(
                         value = fromPrice,
-                        onValueChange = { changedText ->
-                            fromPrice = changedText
+                        onValueChange = { changedPrice ->
+                            fromPrice = changedPrice
                         },
                         modifier = Modifier
                             .width(120.dp)
@@ -352,15 +350,13 @@ fun SearchRoomScreen(
                         "To",
                         style = TextStyle(
                             fontSize = integerResource(id = R.integer.primary_text_size).sp,
-                            color = colorResource(
-                                id = R.color.text_secondary
-                            )
+                            color = colorResource(id = R.color.text_secondary)
                         )
                     )
                     TextField(
                         value = toPrice,
-                        onValueChange = { changedText ->
-                            toPrice = changedText
+                        onValueChange = { changedPrice ->
+                            toPrice = changedPrice
                         },
                         modifier = Modifier
                             .width(120.dp)
@@ -375,22 +371,35 @@ fun SearchRoomScreen(
                     )
                 }
             }
-            ScreenTextField(textHint = "Put some city, street", label = "Location", text = location)
-//            ButtonsRow(
-//                label = "Bedrooms",
-//                values = listOf("Any", "1", "2", ">3"),
-//                value = bedrooms
-//            )TODO Change implementation to String
-//            ButtonsRow(
-//                label = "Bathrooms",
-//                values = listOf("Any", "1", "2", ">3"),
-//                selectedValue = bathrooms
-//            )TODO Change implementation to String
-//            ButtonsRow(
-//                label = "Apartment Type",
-//                values = listOf("Any", "House", "Flat", "Dorm"),
-//                selectedValue = apartmentType
-//            )TODO Change implementation to String
+            UsualTextField(
+                title = "Location",
+                placeholder = "Put some city, street",
+                value = location.value,
+                onValueChange = { newValue -> location.value = newValue }
+            )
+            ButtonsRow(
+                label = "Bedrooms",
+                values = listOf("Any", "1", "2", ">3"),
+                value = bedrooms.value,
+                onValueChange = { bedrooms.value = it }
+            )
+            ButtonsRow(
+                label = "Bathrooms",
+                values = listOf("Any", "1", "2", ">3"),
+                value = bathrooms.value,
+                onValueChange = { bathrooms.value = it }
+            )
+            ButtonsRowMapped(
+                label = "Apartment Type",
+                values = mapOf(
+                    Pair("F", "Flat"),
+                    Pair("DU", "Duplex"),
+                    Pair("H", "House"),
+                    Pair("DO", "Dorm")
+                ),
+                value = apartmentType.value,
+                onValueChange = { apartmentType.value = it }
+            )
         }
     }
 }
@@ -498,31 +507,31 @@ fun SearchRoommateScreen(
     navigator: DestinationsNavigator,
 ) {
     var fromAge by remember {
-        mutableStateOf(TextFieldValue(""))
+        mutableStateOf("0")
     }
     var toAge by remember {
-        mutableStateOf(TextFieldValue(""))
+        mutableStateOf("0")
     }
     val sleepTime = remember {
-        mutableStateOf(TextFieldValue(""))
+        mutableStateOf("N")
     }
     val personality = remember {
-        mutableStateOf(TextFieldValue(""))
+        mutableStateOf("E")
     }
     val smokingAttitude = remember {
-        mutableStateOf(TextFieldValue(""))
+        mutableStateOf("I")
     }
     val alcoholAttitude = remember {
-        mutableStateOf(TextFieldValue(""))
+        mutableStateOf("I")
     }
     val location = remember {
-        mutableStateOf(TextFieldValue(""))
+        mutableStateOf("")
     }
     val employment = remember {
-        mutableStateOf(TextFieldValue(""))
+        mutableStateOf("E")
     }
     val cleanHabits = remember {
-        mutableStateOf(TextFieldValue(""))
+        mutableStateOf("N")
     }
     val context = LocalContext.current
     Scaffold(
@@ -535,11 +544,7 @@ fun SearchRoommateScreen(
                     .height(40.dp),
                 text = "Show results",
                 onClick = {
-                    if ((Integer.getInteger(fromAge.text) ?: 0) > (
-                        Integer.getInteger(toAge.text)
-                            ?: 0
-                        )
-                    ) {
+                    if (fromAge > toAge) {
                         Toast.makeText(context, "To age less than from age", Toast.LENGTH_SHORT)
                             .show()
                     } else {
@@ -646,41 +651,106 @@ fun SearchRoommateScreen(
                     )
                 }
             }
-//            DropdownTextField(
-//                listOfItems = Choices.sleepTime,
-//                label = "Sleep time",
-//                textSelected = sleepTime,
-//            )TODO Change implementation to String
-//            DropdownTextField(
-//                listOfItems = Choices.personality,
-//                label = "Personality",
-//                textSelected = personality,
-//            )TODO Change implementation to String
-//            DropdownTextField(
-//                listOfItems = Choices.smockingAttitude,
-//                label = "Smocking attitude",
-//                textSelected = smokingAttitude,
-//            )TODO Change implementation to String
-//            DropdownTextField(
-//                listOfItems = Choices.alcoholAttitude,
-//                label = "Alcohol attitude",
-//                textSelected = alcoholAttitude,
-//            )TODO Change implementation to String
-//            DropdownTextField(
-//                listOfItems = Choices.location,
-//                label = "Location",
-//                textSelected = location,
-//            )TODO Change implementation to String
-//            DropdownTextField(
-//                listOfItems = Choices.employment,
-//                label = "Employment",
-//                textSelected = employment,
-//            )TODO Change implementation to String
-//            DropdownTextField(
-//                listOfItems = Choices.cleanHabits,
-//                label = "Clean habits",
-//                textSelected = cleanHabits,
-//            )TODO Change implementation to String
+            DropdownTextFieldMapped(
+                mapOfItems = mapOf(
+                    Pair("N", "Night"),
+                    Pair("D", "Day"),
+                    Pair("O", "Occasionally")
+                ),
+                label = "Sleep time",
+                value = sleepTime.value,
+                onValueChange = { sleepTime.value = it }
+            )
+            DropdownTextFieldMapped(
+                label = "Personality type",
+                mapOfItems = mapOf(
+                    Pair("E", "Extraverted"),
+                    Pair("I", "Introverted"),
+                    Pair("M", "Mixed")
+                ),
+                value = personality.value,
+                onValueChange = { personality.value = it }
+            )
+            DropdownTextFieldMapped(
+                label = "Attitude to smoking",
+                mapOfItems = mapOf(
+                    Pair("P", "Positive"),
+                    Pair("N", "Negative"),
+                    Pair("I", "Indifferent")
+                ),
+                value = smokingAttitude.value,
+                onValueChange = { smokingAttitude.value = it }
+            )
+            DropdownTextFieldMapped(
+                label = "Attitude to alcohol",
+                mapOfItems = mapOf(
+                    Pair("P", "Positive"),
+                    Pair("N", "Negative"),
+                    Pair("I", "Indifferent")
+                ),
+                value = alcoholAttitude.value,
+                onValueChange = { alcoholAttitude.value = it }
+            )
+            DropdownTextFieldMapped(
+                mapOfItems = mapOf(
+                    Pair("N", "Night"),
+                    Pair("D", "Day"),
+                    Pair("O", "Occasionally")
+                ),
+                label = "Sleep time",
+                value = sleepTime.value,
+                onValueChange = { sleepTime.value = it }
+            )
+            DropdownTextFieldMapped(
+                mapOfItems = mapOf(
+                    Pair("N", "Night"),
+                    Pair("D", "Day"),
+                    Pair("O", "Occasionally")
+                ),
+                label = "Sleep time",
+                value = sleepTime.value,
+                onValueChange = { sleepTime.value = it }
+            )
+            DropdownTextFieldMapped(
+                mapOfItems = mapOf(
+                    Pair("N", "Night"),
+                    Pair("D", "Day"),
+                    Pair("O", "Occasionally")
+                ),
+                label = "Sleep time",
+                value = sleepTime.value,
+                onValueChange = { sleepTime.value = it }
+            )
+            DropdownTextFieldMapped(
+                mapOfItems = mapOf(
+                    Pair("N", "Night"),
+                    Pair("D", "Day"),
+                    Pair("O", "Occasionally")
+                ),
+                label = "Sleep time",
+                value = sleepTime.value,
+                onValueChange = { sleepTime.value = it }
+            )
+            DropdownTextFieldMapped(
+                mapOfItems = mapOf(
+                    Pair("NE", "Not Employed"),
+                    Pair("E", "Employed"),
+                    Pair("S", "Searching For Work")
+                ),
+                label = "What you currently do?",
+                value = employment.value,
+                onValueChange = { employment.value = it }
+            )
+            DropdownTextFieldMapped(
+                mapOfItems = mapOf(
+                    Pair("N", "Neat"),
+                    Pair("D", "It Depends"),
+                    Pair("C", "Chaos")
+                ),
+                label = "Clean habits",
+                value = cleanHabits.value,
+                onValueChange = { cleanHabits.value = it }
+            )
             InterestField(paddingValues = it, label = "Interests")
         }
     }
@@ -691,7 +761,6 @@ fun SearchRoommateScreen(
 fun SearchRoommateResults(
     navigator: DestinationsNavigator,
 ) {
-    // TODO("Make search results")
     var sex = ""
     var employment = ""
     var alcoholAttitude = ""

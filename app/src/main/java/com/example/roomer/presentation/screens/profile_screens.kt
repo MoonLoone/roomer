@@ -74,9 +74,9 @@ fun AccountScreen(
         ) {
             ScreenTextField(label = stringResource(R.string.first_name), textHint = "Vasya")
             ScreenTextField(label = stringResource(R.string.last_name), textHint = "Pupkin")
-//                DateField(label = stringResource(R.string.date_of_birth)) //TODO Add values logic
-//                SexField() //TODO Add parameters for new SexField implementation
-//                DropdownTextField(listOfItems = Choices.employment, label = stringResource(R.string.employment)) //TODO Add values logic
+//                DateField(label = stringResource(R.string.date_of_birth))
+//                SexField()
+//                DropdownTextField(listOfItems = Choices.employment, label = stringResource(R.string.employment))
             ScreenTextField(
                 textHint = stringResource(R.string.hint_about_you),
                 label = stringResource(R.string.about_me),

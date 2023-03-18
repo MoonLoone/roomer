@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.getValue
 import androidx.navigation.compose.rememberNavController
 import com.example.roomer.presentation.screens.NavGraphs
 import com.example.roomer.presentation.ui_components.Navbar
