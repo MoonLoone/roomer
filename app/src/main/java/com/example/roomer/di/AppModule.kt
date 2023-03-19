@@ -3,7 +3,7 @@ package com.example.roomer.di
 import com.example.roomer.data.remote.RoomerApi
 import com.example.roomer.data.repository.AuthRepository
 import com.example.roomer.data.repository.AuthRepositoryInterface
-import com.example.roomer.utils.Consts
+import com.example.roomer.utils.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,7 +20,7 @@ object AppModule {
     @Provides
     fun provideRoomerApi(): RoomerApi {
         return Retrofit.Builder()
-            .baseUrl(Consts.BASE_URL)
+            .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(RoomerApi::class.java)

@@ -36,7 +36,7 @@ import com.example.roomer.presentation.ui_components.GreenButtonPrimary
 import com.example.roomer.presentation.ui_components.IconedTextField
 import com.example.roomer.presentation.ui_components.PasswordField
 import com.example.roomer.presentation.ui_components.SimpleAlertDialog
-import com.example.roomer.utils.Consts
+import com.example.roomer.utils.Constants
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
@@ -154,7 +154,7 @@ fun SignUpScreen1(
                 )
             }
             if (state.success) {
-                navigator.navigate(LoginScreenDestination(Consts.signUpScreenId))
+                navigator.navigate(LoginScreenDestination(Constants.ScreensId.signUpScreenId))
             }
             if (state.isLoading) {
                 CircularProgressIndicator(

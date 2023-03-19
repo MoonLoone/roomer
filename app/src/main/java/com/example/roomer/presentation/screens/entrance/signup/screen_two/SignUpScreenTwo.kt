@@ -36,7 +36,7 @@ import com.example.roomer.presentation.ui_components.GreenButtonPrimary
 import com.example.roomer.presentation.ui_components.ProfilePicture
 import com.example.roomer.presentation.ui_components.SimpleAlertDialog
 import com.example.roomer.presentation.ui_components.UsualTextField
-import com.example.roomer.utils.Consts
+import com.example.roomer.utils.Constants
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
@@ -132,7 +132,7 @@ fun SignUpScreenTwo(
                 )
             }
             if (state.success) {
-                navigator.navigate(SignUpScreenThreeDestination(Consts.signUpTwoScreenId))
+                navigator.navigate(SignUpScreenThreeDestination(Constants.ScreensId.signUpTwoScreenId))
             }
 
             if (state.isLoading) {

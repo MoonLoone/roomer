@@ -2,7 +2,7 @@ package com.example.roomer.domain.usecase
 
 import com.example.roomer.data.repository.AuthRepositoryInterface
 import com.example.roomer.domain.model.signup.interests.InterestModel
-import com.example.roomer.utils.ConstUseCase
+import com.example.roomer.utils.Constants
 import com.example.roomer.utils.Resource
 import java.io.IOException
 import kotlinx.coroutines.coroutineScope
@@ -22,7 +22,7 @@ class InterestsUseCase(
                 emit(Resource.Success(process))
             }
         } catch (e: IOException) {
-            emit(Resource.Internet(ConstUseCase.internetErrorMessage))
+            emit(Resource.Internet(Constants.UseCase.internetErrorMessage))
         }
     }
     fun putInterests(
@@ -42,7 +42,7 @@ class InterestsUseCase(
                 emit(Resource.Error.GeneralError(message = "An error occurred"))
             }
         } catch (e: IOException) {
-            emit(Resource.Internet(ConstUseCase.internetErrorMessage))
+            emit(Resource.Internet(Constants.UseCase.internetErrorMessage))
         }
     }
 }

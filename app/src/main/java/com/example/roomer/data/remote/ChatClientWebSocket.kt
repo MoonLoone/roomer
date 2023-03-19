@@ -13,7 +13,7 @@ class ChatClientWebSocket: WebSocketListener() {
 
     fun open(){
         val client = OkHttpClient()
-        val request = Request.Builder().url("ws://176.113.83.93:8000/ws/socket-server/").build()
+        val request = Request.Builder().url(BASE_URL).build()
         socket = client.newWebSocket(request, this)
         Log.d("!!!", "Opened")
     }
@@ -39,6 +39,7 @@ class ChatClientWebSocket: WebSocketListener() {
 
     override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
         super.onClosing(webSocket, code, reason)
+        socket?.close(code, reason)
         Log.d("!!!", "Disconnected^ $code")
     }
 
@@ -46,4 +47,9 @@ class ChatClientWebSocket: WebSocketListener() {
         super.onMessage(webSocket, text)
         Log.d("!!!", text)
     }
+
+    companion object{
+        private const val BASE_URL = "ws://176.113.83.93:8000/ws"
+    }
+
 }

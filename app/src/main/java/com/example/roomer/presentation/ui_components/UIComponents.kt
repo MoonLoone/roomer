@@ -71,15 +71,13 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.roomer.R
-import com.example.roomer.domain.model.MessageToList
-import com.example.roomer.domain.model.RecommendedRoom
-import com.example.roomer.domain.model.RecommendedRoommate
-import com.example.roomer.domain.model.UsersFilterInfo
+import com.example.roomer.domain.model.entities.Message
+import com.example.roomer.domain.model.entities.Room
+import com.example.roomer.domain.model.entities.User
 import com.example.roomer.domain.model.signup.interests.InterestModel
 import com.example.roomer.presentation.screens.appCurrentDestinationAsState
-import com.example.roomer.utils.NavbarItem
 import com.example.roomer.utils.NavbarManagement
-import com.ramcosta.composedestinations.navigation.navigate
+import com.ramcosta.composedestinations.navigation.navigateTo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
@@ -122,7 +120,7 @@ fun Navbar(navController: NavHostController) {
                 .fillMaxWidth()
                 .height(80.dp)
         ) {
-            NavbarItem.values().forEach { screen ->
+            NavbarManagement.NavbarItem.values().forEach { screen ->
                 BottomNavigationItem(
                     selected = (currentDestination == screen.direction),
                     modifier = Modifier
@@ -132,7 +130,7 @@ fun Navbar(navController: NavHostController) {
                             end = 4.dp
                         ),
                     onClick = {
-                        navController.navigate(screen.direction)
+                        navController.navigateTo(screen.direction)
                     },
                     icon = {
                         if (currentDestination == screen.direction) {
@@ -200,11 +198,11 @@ fun Navbar(navController: NavHostController) {
 
 @Composable
 fun MessageItem(
-    message: MessageToList,
+    message: Message,
 ) {
     Row(
         modifier = Modifier
-            .clickable { message.navigateToMessage.invoke() }
+            .clickable {  }
             .fillMaxWidth()
             .height(64.dp)
     ) {
@@ -350,7 +348,7 @@ fun Message(isUserMessage: Boolean, text: String, data: String) {
 }
 
 @Composable
-fun UserCard(recommendedRoommate: RecommendedRoommate) {
+fun UserCard(recommendedRoommate: User) {
     Column(
         modifier = Modifier
             .height(148.dp)
@@ -362,11 +360,11 @@ fun UserCard(recommendedRoommate: RecommendedRoommate) {
     ) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
-                .data(recommendedRoommate.imagePath)
+                .data(recommendedRoommate.avatar)
                 .crossfade(true)
                 .build(),
             placeholder = painterResource(R.drawable.ordinnary_user),
-            contentDescription = recommendedRoommate.name,
+            contentDescription = recommendedRoommate.firstName+recommendedRoommate.lastName,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(92.dp),
@@ -379,7 +377,7 @@ fun UserCard(recommendedRoommate: RecommendedRoommate) {
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             Text(
-                text = recommendedRoommate.name,
+                text = recommendedRoommate.firstName+recommendedRoommate.lastName,
                 style = TextStyle(
                     color = Color.Black,
                     fontSize = 14.sp,
@@ -408,13 +406,13 @@ fun UserCard(recommendedRoommate: RecommendedRoommate) {
 }
 
 @Composable
-fun RoomCard(recommendedRoom: RecommendedRoom, isMiniVersion: Boolean) {
+fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean) {
     val cardWidth = if (isMiniVersion) 240.dp else 332.dp
     val cardHeight = if (isMiniVersion) 148.dp else 222.dp
     val imageHeight = if (isMiniVersion) 92.dp else 140.dp
     val nameTextSize = if (isMiniVersion) 16.sp else 20.sp
     val locationTextSize = if (isMiniVersion) 12.sp else 14.sp
-    val title = recommendedRoom.name.substring(0, recommendedRoom.name.length.coerceAtMost(16))
+    val title = recommendedRoom.title.substring(0, recommendedRoom.title.length.coerceAtMost(16))
     val location = recommendedRoom.location.substring(
         0,
         recommendedRoom.location.length.coerceAtMost(32)
@@ -438,7 +436,7 @@ fun RoomCard(recommendedRoom: RecommendedRoom, isMiniVersion: Boolean) {
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(recommendedRoom.roomImagePath)
+                    .data(recommendedRoom.photo)
                     .crossfade(true)
                     .build(),
                 placeholder = painterResource(id = R.drawable.ordinnary_room),
@@ -921,7 +919,7 @@ fun FilterSelect(selectItemName: String, onNavigateToFriends: () -> Unit) {
 }
 
 @Composable
-fun UserCardResult(searchUser: UsersFilterInfo) {
+fun UserCardResult(searchUser: User) {
     Row(
         modifier = Modifier
             .fillMaxWidth()

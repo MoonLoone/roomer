@@ -25,4 +25,5 @@ data class User(
     val personalityType: String = "",
     @SerializedName("clean_habits")
     val cleanHabits: String = "",
+    var rating: Double = 0.0,
 )

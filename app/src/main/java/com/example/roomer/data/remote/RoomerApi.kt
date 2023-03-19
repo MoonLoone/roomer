@@ -1,7 +1,7 @@
 package com.example.roomer.data.remote
 
-import com.example.roomer.domain.model.RoomsFilterInfo
-import com.example.roomer.domain.model.UsersFilterInfo
+import com.example.roomer.domain.model.entities.Room
+import com.example.roomer.domain.model.entities.User
 import com.example.roomer.domain.model.login.LoginDto
 import com.example.roomer.domain.model.login.TokenDto
 import com.example.roomer.domain.model.signup.IdModel
@@ -67,7 +67,7 @@ interface RoomerApi {
         @Query(" bedrooms_count") bedroomsCount: String,
         @Query("bathrooms_count") bathroomsCount: String,
         @Query("housing_type") housingType: String,
-    ): Response<List<RoomsFilterInfo>>
+    ): Response<List<Room>>
 
     @GET("/profile/")
     suspend fun filterRoommates(
@@ -78,5 +78,5 @@ interface RoomerApi {
         @Query("sleep_time") sleepTime: String,
         @Query("personality_type") personalityType: String,
         @Query("clean_habits") cleanHabits: String,
-    ): Response<List<UsersFilterInfo>>
+    ): Response<List<User>>
 }

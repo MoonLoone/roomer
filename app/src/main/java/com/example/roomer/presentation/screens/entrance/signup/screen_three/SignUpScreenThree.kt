@@ -30,7 +30,7 @@ import com.example.roomer.presentation.ui_components.ButtonsRowMapped
 import com.example.roomer.presentation.ui_components.DropdownTextFieldMapped
 import com.example.roomer.presentation.ui_components.GreenButtonPrimary
 import com.example.roomer.presentation.ui_components.SimpleAlertDialog
-import com.example.roomer.utils.Consts
+import com.example.roomer.utils.Constants
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
@@ -148,7 +148,7 @@ fun SignUpScreenThree(
                 )
             }
             if (state.success) {
-                navigator.navigate(InterestsScreenDestination(Consts.signUpThreeScreenId))
+                navigator.navigate(InterestsScreenDestination(Constants.ScreensId.signUpThreeScreenId))
             }
 
             if (state.isLoading) {

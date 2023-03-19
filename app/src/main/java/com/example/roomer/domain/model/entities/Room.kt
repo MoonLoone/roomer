@@ -23,4 +23,5 @@ data class Room(
     val location: String = "Ordinary location",
     @SerializedName("title")
     val title: String = "Ordinary location",
+    val isLiked: Boolean = false,
 )

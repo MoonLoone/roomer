@@ -35,7 +35,7 @@ import com.example.roomer.presentation.ui_components.GreenButtonPrimary
 import com.example.roomer.presentation.ui_components.SexField
 import com.example.roomer.presentation.ui_components.SimpleAlertDialog
 import com.example.roomer.presentation.ui_components.UsualTextField
-import com.example.roomer.utils.Consts
+import com.example.roomer.utils.Constants
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
@@ -148,7 +148,7 @@ fun SignUpScreenOne(
                 ) { signUpScreenOneViewModel.clearState() }
             }
             if (state.success) {
-                navigator.navigate(SignUpScreenTwoDestination(Consts.signUpTwoScreenId))
+                navigator.navigate(SignUpScreenTwoDestination(Constants.ScreensId.signUpTwoScreenId))
             }
         }
     }

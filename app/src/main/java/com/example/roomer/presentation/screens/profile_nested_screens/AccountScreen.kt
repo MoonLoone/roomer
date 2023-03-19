@@ -1,4 +1,4 @@
-package com.example.roomer.presentation.screens
+package com.example.roomer.presentation.screens.profile_nested_screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -35,6 +35,7 @@ import com.example.roomer.presentation.ui_components.ScreenTextField
 import com.example.roomer.presentation.ui_components.SelectAddressField
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+
 
 @Destination
 @Composable

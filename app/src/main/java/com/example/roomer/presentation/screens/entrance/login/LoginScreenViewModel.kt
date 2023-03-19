@@ -16,12 +16,12 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class LoginScreenViewModel @Inject constructor(
     application: Application,
-    roomerRepository: AuthRepositoryInterface
+    authRepository: AuthRepositoryInterface
 ) : AndroidViewModel(application) {
 
     private val _state = mutableStateOf(LoginScreenState())
     val state: State<LoginScreenState> = _state
-    val loginUseCase = LoginUseCase(roomerRepository)
+    val loginUseCase = LoginUseCase(authRepository)
 
     init {
         val email = SpManager().getSharedPreference(

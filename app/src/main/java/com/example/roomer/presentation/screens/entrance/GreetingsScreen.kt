@@ -19,11 +19,9 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.roomer.R
 import com.example.roomer.presentation.screens.destinations.HomeScreenDestination
-import com.example.roomer.presentation.screens.destinations.LoginScreenDestination
-import com.example.roomer.presentation.screens.destinations.SignUpScreen1Destination
 import com.example.roomer.presentation.ui_components.GreenButtonOutline
 import com.example.roomer.presentation.ui_components.GreenButtonPrimary
-import com.example.roomer.utils.Consts
+import com.example.roomer.utils.Constants
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -63,7 +61,11 @@ fun StartScreen(
                 .padding(top = 16.dp)
                 .fillMaxWidth(),
         ) {
-            navigator.navigate(LoginScreenDestination(Consts.greetingScreenId))
+            navigator.navigate(
+                com.example.roomer.presentation.screens.destinations.LoginScreenDestination(
+                    Constants.ScreensId.loginScreenId
+                )
+            )
         }
         GreenButtonOutline(
             text = "Sign Up",
@@ -71,7 +73,11 @@ fun StartScreen(
                 .padding(top = 8.dp)
                 .fillMaxWidth(),
         ) {
-            navigator.navigate(SignUpScreen1Destination(Consts.greetingScreenId))
+            navigator.navigate(
+                com.example.roomer.presentation.screens.destinations.SignUpScreen1Destination(
+                    Constants.ScreensId.greetingScreenId
+                )
+            )
         }
     }
 }
