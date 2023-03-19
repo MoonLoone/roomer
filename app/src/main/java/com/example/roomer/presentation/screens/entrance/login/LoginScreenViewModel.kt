@@ -59,15 +59,15 @@ class LoginScreenViewModel @Inject constructor(
                         )
                     }
                     is Resource.Success -> {
-                        _state.value = LoginScreenState(
-                            isLoading = false,
-                            internetProblem = false,
-                            success = true,
-                        )
                         SpManager().setSharedPreference(
                             getApplication<Application>().applicationContext,
                             key = SpManager.Sp.TOKEN,
                             value = result.data
+                        )
+                        _state.value = LoginScreenState(
+                            isLoading = false,
+                            internetProblem = false,
+                            success = true,
                         )
                     }
                     is Resource.Internet -> {
@@ -78,13 +78,6 @@ class LoginScreenViewModel @Inject constructor(
                         )
                     }
                     is Resource.Error -> {
-                        _state.value = LoginScreenState(
-                            error = result.message!!,
-                            isLoading = false,
-                            internetProblem = false
-                        )
-                    }
-                    else -> {
                         _state.value = LoginScreenState(
                             error = result.message!!,
                             isLoading = false,
