@@ -16,26 +16,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.roomer.R
-import com.example.roomer.presentation.screens.destinations.HomeScreenDestination
 import com.example.roomer.presentation.screens.destinations.LoginScreenDestination
 import com.example.roomer.presentation.screens.destinations.SignUpScreen1Destination
 import com.example.roomer.presentation.ui_components.GreenButtonOutline
 import com.example.roomer.presentation.ui_components.GreenButtonPrimary
 import com.example.roomer.utils.Consts
 import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
-@RootNavGraph(start = true)
 @Destination
 @Composable
 fun StartScreen(
     navigator: DestinationsNavigator,
-    greetingScreenViewModel: GreetingScreenViewModel = viewModel()
 ) {
-    if (greetingScreenViewModel.isUserAuthorized) navigator.navigate(HomeScreenDestination())
     Column(
         modifier = Modifier
             .fillMaxSize()
