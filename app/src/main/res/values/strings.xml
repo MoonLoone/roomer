@@ -50,4 +50,5 @@
     <string name="room">Room</string>
     <string name="roommate">Roommate</string>
     <string name="status">Status:</string>
+    <string name="logo_content_description">Roomer application logo</string>
 </resources>
