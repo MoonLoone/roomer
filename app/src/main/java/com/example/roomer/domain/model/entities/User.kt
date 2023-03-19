@@ -1,8 +1,8 @@
-package com.example.roomer.domain.model
+package com.example.roomer.domain.model.entities
 
 import com.google.gson.annotations.SerializedName
 
-data class UsersFilterInfo(
+data class User(
     @SerializedName("id")
     val id: Int,
     @SerializedName("first_name")

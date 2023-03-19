@@ -1,6 +1,6 @@
-package com.example.roomer.domain.model
+package com.example.roomer.domain.model.entities
 
-data class MessageToList(
+data class Message(
     val userAvatarPath: String,
     val messageDate: String,
     val messageCutText: String,

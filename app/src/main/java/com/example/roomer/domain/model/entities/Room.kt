@@ -1,12 +1,12 @@
-package com.example.roomer.domain.model
+package com.example.roomer.domain.model.entities
 
 import com.google.gson.annotations.SerializedName
 
-data class RoomsFilterInfo(
+data class Room(
     @SerializedName("month_price")
     val monthPrice: Int = 0,
     @SerializedName("host")
-    val host: UsersFilterInfo? = null,
+    val host: User? = null,
     @SerializedName("description")
     val description: String = "",
     @SerializedName("photo")

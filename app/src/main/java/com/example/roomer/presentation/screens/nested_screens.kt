@@ -46,8 +46,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.roomer.R
-import com.example.roomer.domain.model.ChatMessage
-import com.example.roomer.domain.model.RecommendedRoom
+import com.example.roomer.data.remote.ChatClientWebSocket
+import com.example.roomer.domain.model.entities.Message
+import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.presentation.screens.destinations.ChatsScreenDestination
 import com.example.roomer.presentation.screens.destinations.HomeScreenDestination
 import com.example.roomer.presentation.screens.destinations.SearchRoomResultsDestination
@@ -65,12 +66,6 @@ import com.example.roomer.presentation.ui_components.RoomCard
 import com.example.roomer.presentation.ui_components.UserCardResult
 import com.example.roomer.presentation.ui_components.UsualTextField
 import com.example.roomer.utils.LoadingStates
-import com.example.roomer.utils.convertLongToTime
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
@@ -79,6 +74,8 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 fun MessageScreen(
     navigator: DestinationsNavigator,
 ) {
+    val client = ChatClientWebSocket()
+    client.open()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -116,32 +113,11 @@ fun MessageScreen(
                 .padding(top = 8.dp)
                 .fillMaxWidth()
         )
-        var messages by remember {
-            mutableStateOf(listOf<ChatMessage>())
-        }
-        val mutableListOfMessages = mutableListOf<ChatMessage>()
-        FirebaseDatabase.getInstance(
-            "https://roomer-34a08-default-rtdb.europe-west1.firebasedatabase.app"
-        ).reference.addValueEventListener(
-            object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    for (postSnapshot in snapshot.children) {
-                        mutableListOfMessages.add(
-                            ChatMessage(
-                                postSnapshot.child("messageText").value as String,
-                                postSnapshot.child("messageSenderUser").value as String,
-                                postSnapshot.child("messageReceiverUser").value as String,
-                                postSnapshot.child("messageTime").value as Long,
-                            )
-                        )
-                    }
-                    messages = mutableListOfMessages
-                }
 
-                override fun onCancelled(error: DatabaseError) {
-                }
-            }
-        )
+        var messages by remember {
+            mutableStateOf(listOf<Message>())
+        }
+        val mutableListOfMessages = mutableListOf<Message>()
         var editMessageText by remember {
             mutableStateOf(TextFieldValue(""))
         }
@@ -149,8 +125,8 @@ fun MessageScreen(
             items(messages.size) { index ->
                 Message(
                     isUserMessage = false,
-                    text = messages[index].messageText,
-                    data = convertLongToTime(messages[index].messageTime)
+                    text = messages[index].messageCutText,
+                    data = messages[index].messageDate
                 )
             }
         }
@@ -190,19 +166,7 @@ fun MessageScreen(
                                     RoundedCornerShape(100.dp)
                                 )
                                 .clickable {
-                                    FirebaseDatabase
-                                        .getInstance()
-                                        .reference
-                                        .push()
-                                        .setValue(
-                                            ChatMessage(
-                                                editMessageText.text,
-                                                FirebaseAuth.getInstance().currentUser?.displayName
-                                                    ?: "Error",
-                                                "Second user",
-                                            )
-                                        )
-                                    editMessageText = TextFieldValue("")
+
                                 },
                             contentAlignment = Alignment.Center,
                         ) {
@@ -466,12 +430,8 @@ fun SearchRoomResults(
                     }
                     items(rooms.size) { index ->
                         RoomCard(
-                            recommendedRoom = RecommendedRoom(
-                                id = 0,
-                                name = rooms[index].title,
-                                location = rooms[index].location,
-                                roomImagePath = rooms[index].photo,
-                                isLiked = false,
+                            recommendedRoom = Room(
+
                             ),
                             isMiniVersion = false
                         )

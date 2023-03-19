@@ -1,8 +1,8 @@
 package com.example.roomer.di
 
 import com.example.roomer.data.remote.RoomerApi
-import com.example.roomer.data.repository.RoomerRepository
-import com.example.roomer.data.repository.RoomerRepositoryInterface
+import com.example.roomer.data.repository.AuthRepository
+import com.example.roomer.data.repository.AuthRepositoryInterface
 import com.example.roomer.utils.Consts
 import dagger.Module
 import dagger.Provides
@@ -28,7 +28,7 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideRoomerRepository(roomerApi: RoomerApi): RoomerRepositoryInterface {
-        return RoomerRepository(roomerApi)
+    fun provideRoomerRepository(roomerApi: RoomerApi): AuthRepositoryInterface {
+        return AuthRepository(roomerApi)
     }
 }
