@@ -36,7 +36,6 @@ import com.example.roomer.presentation.ui_components.SelectAddressField
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
-
 @Destination
 @Composable
 fun AccountScreen(

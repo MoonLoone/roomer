@@ -8,6 +8,4 @@ import javax.inject.Inject
 class ChatScreenViewModel @Inject constructor(
     application: Application,
     authRepository: AuthRepositoryInterface
-): AndroidViewModel(application) {
-
-}
+) : AndroidViewModel(application)

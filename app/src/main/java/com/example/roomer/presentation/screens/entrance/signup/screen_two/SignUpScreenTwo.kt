@@ -132,7 +132,9 @@ fun SignUpScreenTwo(
                 )
             }
             if (state.success) {
-                navigator.navigate(SignUpScreenThreeDestination(Constants.ScreensId.signUpTwoScreenId))
+                navigator.navigate(
+                    SignUpScreenThreeDestination(Constants.ScreensId.signUpTwoScreenId)
+                )
             }
 
             if (state.isLoading) {

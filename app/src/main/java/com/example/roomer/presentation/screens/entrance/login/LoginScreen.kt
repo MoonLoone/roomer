@@ -141,7 +141,9 @@ fun LoginScreen(
 
                     ),
                     onClick = {
-                        navigator.navigate(SignUpScreen1Destination(Constants.ScreensId.loginScreenId))
+                        navigator.navigate(
+                            SignUpScreen1Destination(Constants.ScreensId.loginScreenId)
+                        )
                     }
                 )
             }
@@ -163,7 +165,9 @@ fun LoginScreen(
                 if (id == Constants.ScreensId.greetingScreenId) {
                     navigator.navigate(HomeScreenDestination())
                 } else {
-                    navigator.navigate(SignUpScreenOneDestination(Constants.ScreensId.loginScreenId))
+                    navigator.navigate(
+                        SignUpScreenOneDestination(Constants.ScreensId.loginScreenId)
+                    )
                 }
             }
         }

@@ -7,7 +7,6 @@ import android.os.Build
 import android.provider.MediaStore
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -29,8 +28,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.BottomNavigation
-import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.TextField
@@ -67,7 +64,6 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.roomer.R
@@ -75,9 +71,6 @@ import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.domain.model.signup.interests.InterestModel
-import com.example.roomer.presentation.screens.appCurrentDestinationAsState
-import com.example.roomer.utils.NavbarManagement
-import com.ramcosta.composedestinations.navigation.navigateTo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
@@ -110,99 +103,12 @@ fun ProfileContentLine(text: String, iconId: Int, onNavigateToFriends: () -> Uni
 }
 
 @Composable
-fun Navbar(navController: NavHostController) {
-    val navbarState = NavbarManagement.navbarState
-    val currentDestination = navController.appCurrentDestinationAsState().value
-    AnimatedVisibility(visible = navbarState.value) {
-        BottomNavigation(
-            backgroundColor = colorResource(id = R.color.secondary_color),
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(80.dp)
-        ) {
-            NavbarManagement.NavbarItem.values().forEach { screen ->
-                BottomNavigationItem(
-                    selected = (currentDestination == screen.direction),
-                    modifier = Modifier
-                        .width(80.dp)
-                        .padding(
-                            start = 4.dp,
-                            end = 4.dp
-                        ),
-                    onClick = {
-                        navController.navigateTo(screen.direction)
-                    },
-                    icon = {
-                        if (currentDestination == screen.direction) {
-                            Column {
-                                Box(
-                                    modifier = Modifier
-                                        .width(64.dp)
-                                        .height(32.dp)
-                                        .clip(RoundedCornerShape(16.dp))
-                                        .background(colorResource(id = R.color.primary)),
-                                ) {
-                                    Image(
-                                        modifier = Modifier
-                                            .align(Center)
-                                            .width(24.dp)
-                                            .height(24.dp),
-                                        painter = painterResource(id = screen.iconSelected),
-                                        contentDescription = screen.name
-                                    )
-                                }
-                                Text(
-                                    text = screen.name,
-                                    fontSize =
-                                        integerResource(id = R.integer.secondary_text_size).sp,
-                                    color = Color.Black,
-                                    modifier = Modifier
-                                        .align(Alignment.CenterHorizontally)
-                                        .padding(top = 4.dp)
-                                )
-                            }
-                        } else {
-                            Column {
-                                Box(
-                                    modifier = Modifier
-                                        .width(32.dp)
-                                        .height(32.dp)
-                                        .align(Alignment.CenterHorizontally)
-                                ) {
-                                    Image(
-                                        modifier = Modifier
-                                            .align(Center)
-                                            .width(24.dp)
-                                            .height(24.dp),
-                                        painter = painterResource(id = screen.iconUnSelected),
-                                        contentDescription = screen.name
-                                    )
-                                }
-                                Text(
-                                    text = screen.name,
-                                    fontSize =
-                                        integerResource(id = R.integer.secondary_text_size).sp,
-                                    color = colorResource(id = R.color.text_secondary),
-                                    modifier = Modifier
-                                        .align(Alignment.CenterHorizontally)
-                                        .padding(top = 4.dp),
-                                )
-                            }
-                        }
-                    }
-                )
-            }
-        }
-    }
-}
-
-@Composable
 fun MessageItem(
     message: Message,
 ) {
     Row(
         modifier = Modifier
-            .clickable {  }
+            .clickable { }
             .fillMaxWidth()
             .height(64.dp)
     ) {
@@ -364,7 +270,7 @@ fun UserCard(recommendedRoommate: User) {
                 .crossfade(true)
                 .build(),
             placeholder = painterResource(R.drawable.ordinnary_user),
-            contentDescription = recommendedRoommate.firstName+recommendedRoommate.lastName,
+            contentDescription = recommendedRoommate.firstName + recommendedRoommate.lastName,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(92.dp),
@@ -377,7 +283,7 @@ fun UserCard(recommendedRoommate: User) {
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             Text(
-                text = recommendedRoommate.firstName+recommendedRoommate.lastName,
+                text = recommendedRoommate.firstName + recommendedRoommate.lastName,
                 style = TextStyle(
                     color = Color.Black,
                     fontSize = 14.sp,

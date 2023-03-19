@@ -27,12 +27,9 @@ import com.example.roomer.presentation.screens.destinations.HomeScreenDestinatio
 import com.example.roomer.presentation.ui_components.BackBtn
 import com.example.roomer.presentation.ui_components.GreenButtonOutline
 import com.example.roomer.presentation.ui_components.UserCardResult
-import com.example.roomer.utils.Constants
 import com.example.roomer.utils.LoadingStates
-
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-
 
 @Destination
 @Composable
@@ -64,7 +61,7 @@ fun SearchRoommateResults(
     val roommates by viewModel.roommates.collectAsState()
     val loadingState = viewModel.loadingState.collectAsState()
     when (loadingState.value) {
-       LoadingStates.Success ->
+        LoadingStates.Success ->
             Column(
                 modifier = Modifier.padding(start = 40.dp, end = 40.dp, top = 16.dp),
                 verticalArrangement = Arrangement.spacedBy(24.dp),

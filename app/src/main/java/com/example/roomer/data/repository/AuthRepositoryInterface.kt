@@ -3,7 +3,6 @@ package com.example.roomer.data.repository
 import android.graphics.Bitmap
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
-
 import com.example.roomer.domain.model.login.TokenDto
 import com.example.roomer.domain.model.signup.IdModel
 import com.example.roomer.domain.model.signup.interests.InterestModel

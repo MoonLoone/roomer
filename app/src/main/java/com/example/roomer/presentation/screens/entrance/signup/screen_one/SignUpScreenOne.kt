@@ -148,7 +148,9 @@ fun SignUpScreenOne(
                 ) { signUpScreenOneViewModel.clearState() }
             }
             if (state.success) {
-                navigator.navigate(SignUpScreenTwoDestination(Constants.ScreensId.signUpTwoScreenId))
+                navigator.navigate(
+                    SignUpScreenTwoDestination(Constants.ScreensId.signUpTwoScreenId)
+                )
             }
         }
     }

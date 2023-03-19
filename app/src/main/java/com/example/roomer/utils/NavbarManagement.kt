@@ -42,7 +42,7 @@ object NavbarManagement {
             R.drawable.postin,
             PostScreenDestination,
         ),
-        Messenger(
+        Chat(
             R.drawable.chatun,
             R.drawable.chatin,
             MessengerScreenDestination,
@@ -53,5 +53,4 @@ object NavbarManagement {
             ProfileScreenDestination
         )
     }
-
 }

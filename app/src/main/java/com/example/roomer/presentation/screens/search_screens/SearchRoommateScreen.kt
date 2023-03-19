@@ -42,7 +42,6 @@ import com.example.roomer.presentation.ui_components.InterestField
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
-
 @Destination
 @Composable
 fun SearchRoommateScreen(

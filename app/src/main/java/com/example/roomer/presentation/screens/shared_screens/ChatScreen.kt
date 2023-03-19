@@ -42,7 +42,6 @@ import com.example.roomer.presentation.ui_components.Message
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
-
 @Destination
 @Composable
 fun MessageScreen(
@@ -140,7 +139,6 @@ fun MessageScreen(
                                     RoundedCornerShape(100.dp)
                                 )
                                 .clickable {
-
                                 },
                             contentAlignment = Alignment.Center,
                         ) {

@@ -32,7 +32,6 @@ import com.example.roomer.utils.LoadingStates
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
-
 @Destination
 @Composable
 fun SearchRoomResults(
@@ -95,9 +94,7 @@ fun SearchRoomResults(
                     }
                     items(rooms.size) { index ->
                         RoomCard(
-                            recommendedRoom = Room(
-
-                            ),
+                            recommendedRoom = Room(),
                             isMiniVersion = false
                         )
                     }

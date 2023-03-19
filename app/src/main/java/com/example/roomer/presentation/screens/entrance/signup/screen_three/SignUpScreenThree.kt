@@ -148,7 +148,9 @@ fun SignUpScreenThree(
                 )
             }
             if (state.success) {
-                navigator.navigate(InterestsScreenDestination(Constants.ScreensId.signUpThreeScreenId))
+                navigator.navigate(
+                    InterestsScreenDestination(Constants.ScreensId.signUpThreeScreenId)
+                )
             }
 
             if (state.isLoading) {
