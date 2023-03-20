@@ -1,6 +1,5 @@
 package com.example.roomer.presentation.screens.entrance
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,12 +16,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.roomer.R
-import com.example.roomer.presentation.screens.destinations.HomeScreenDestination
 import com.example.roomer.presentation.screens.destinations.LoginScreenDestination
-import com.example.roomer.presentation.screens.destinations.PrimaryUserInfoScreenDestination
-import com.example.roomer.presentation.screens.destinations.SignUpScreen1Destination
+import com.example.roomer.presentation.screens.destinations.SignUpScreenDestination
 import com.example.roomer.presentation.ui_components.GreenButtonOutline
 import com.example.roomer.presentation.ui_components.GreenButtonPrimary
 import com.example.roomer.utils.Consts
@@ -35,7 +31,6 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 fun StartScreen(
     navigator: DestinationsNavigator,
-    greetingScreenViewModel: GreetingScreenViewModel = viewModel()
 ) {
 //    if (greetingScreenViewModel.isUserAuthorized) navigator.navigate(HomeScreenDestination())
     Column(
@@ -73,7 +68,7 @@ fun StartScreen(
                 .padding(top = 8.dp)
                 .fillMaxWidth(),
         ) {
-            navigator.navigate(SignUpScreen1Destination)
+            navigator.navigate(SignUpScreenDestination)
         }
     }
 }

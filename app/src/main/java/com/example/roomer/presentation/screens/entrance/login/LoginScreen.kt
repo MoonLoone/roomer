@@ -48,7 +48,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 fun LoginScreen(
     id: Int,
     navigator: DestinationsNavigator,
-    loginScreenViewModel: LoginScreenViewModel = viewModel()
+    loginScreenViewModel: LoginScreenViewModel = viewModel(),
 ) {
     val state = loginScreenViewModel.state.value
     var emailValue by rememberSaveable {
@@ -138,7 +138,7 @@ fun LoginScreen(
 
                     ),
                     onClick = {
-                        //TODO Change navigation destination
+//                        navigator.navigate(SignUpScreenDestination(signUpScreenViewModel = signUpViewModel))
                     }
                 )
             }

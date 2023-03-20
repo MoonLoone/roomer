@@ -63,7 +63,8 @@ class InterestsScreenViewModel(
                     is Resource.Internet -> {
                         _state.update { currentState ->
                             currentState.copy(
-                                isLoading = false, internetProblem = true,
+                                isLoading = false,
+                                internetProblem = true,
                                 error = result.message!!
                             )
                         }

@@ -1,6 +1,5 @@
 package com.example.roomer.domain.model.signup
 
-import android.graphics.Bitmap
 import com.example.roomer.domain.model.signup.interests.InterestModel
 import com.google.gson.annotations.SerializedName
 

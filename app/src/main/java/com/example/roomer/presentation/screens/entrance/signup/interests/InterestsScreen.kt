@@ -13,8 +13,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,29 +23,26 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.roomer.R
-import com.example.roomer.domain.model.signup.interests.InterestModel
-import com.example.roomer.presentation.screens.destinations.AboutMeAvatarScreenDestination
 import com.example.roomer.presentation.screens.destinations.HabitsScreenDestination
 import com.example.roomer.presentation.screens.destinations.HomeScreenDestination
 import com.example.roomer.presentation.screens.entrance.signup.SignUpViewModel
 import com.example.roomer.presentation.ui_components.GreenButtonOutline
 import com.example.roomer.presentation.ui_components.GreenButtonPrimary
 import com.example.roomer.presentation.ui_components.InterestsButtons
+import com.example.roomer.utils.SignUpNavGraph
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
+@SignUpNavGraph
 @Destination
 @Composable
 fun InterestsScreen(
     navigator: DestinationsNavigator,
     interestsScreenViewModel: InterestsScreenViewModel = viewModel(),
-    signUpViewModel: SignUpViewModel = viewModel()
+    signUpViewModel: SignUpViewModel
 ) {
     val state by interestsScreenViewModel.state.collectAsState()
     val interests = interestsScreenViewModel.interests.value
-    val selectedItems = rememberSaveable {
-        mutableStateOf<List<InterestModel>>(emptyList())
-    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -78,8 +73,8 @@ fun InterestsScreen(
                 InterestsButtons(
                     label = "Choose 10 maximum",
                     values = interests,
-                    selectedItems = selectedItems.value,
-                    onSelectedChange = { selectedItems.value = it }
+                    selectedItems = signUpViewModel.interests,
+                    onSelectedChange = { signUpViewModel.interests = it }
                 )
             }
             if (state.isInterestsSent) {
