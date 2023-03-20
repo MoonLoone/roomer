@@ -1,6 +1,6 @@
 package com.example.roomer.domain.usecase.signup
 
-import com.example.roomer.data.repository.RoomerRepository
+import com.example.roomer.data.repository.RoomerRepositoryInterface
 import com.example.roomer.utils.ConstUseCase
 import com.example.roomer.utils.Resource
 import java.io.IOException
@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.flow
 import org.json.JSONObject
 
 class SignUpUseCase(
-    private val repository: RoomerRepository
+    private val repository: RoomerRepositoryInterface
 ) {
 
     operator fun invoke(

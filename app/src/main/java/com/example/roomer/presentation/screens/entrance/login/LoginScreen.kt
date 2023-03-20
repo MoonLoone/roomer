@@ -31,7 +31,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.roomer.R
 import com.example.roomer.presentation.screens.destinations.HomeScreenDestination
 import com.example.roomer.presentation.screens.destinations.PrimaryUserInfoScreenDestination
@@ -41,6 +41,7 @@ import com.example.roomer.presentation.ui_components.GreenButtonPrimary
 import com.example.roomer.presentation.ui_components.PasswordField
 import com.example.roomer.presentation.ui_components.SimpleAlertDialog
 import com.example.roomer.utils.Consts
+import com.example.roomer.utils.NavbarManagement
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
@@ -49,8 +50,9 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 fun LoginScreen(
     id: Int,
     navigator: DestinationsNavigator,
-    loginScreenViewModel: LoginScreenViewModel = viewModel(),
+    loginScreenViewModel: LoginScreenViewModel = hiltViewModel()
 ) {
+    NavbarManagement.hideNavbar()
     val state = loginScreenViewModel.state.value
     var emailValue by rememberSaveable {
         mutableStateOf("")

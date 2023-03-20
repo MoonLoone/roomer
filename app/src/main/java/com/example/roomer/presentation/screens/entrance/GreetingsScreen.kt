@@ -23,16 +23,13 @@ import com.example.roomer.presentation.ui_components.GreenButtonOutline
 import com.example.roomer.presentation.ui_components.GreenButtonPrimary
 import com.example.roomer.utils.Consts
 import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
-@RootNavGraph(start = true)
 @Destination
 @Composable
 fun StartScreen(
     navigator: DestinationsNavigator,
 ) {
-//    if (greetingScreenViewModel.isUserAuthorized) navigator.navigate(HomeScreenDestination())
     Column(
         modifier = Modifier
             .fillMaxSize()

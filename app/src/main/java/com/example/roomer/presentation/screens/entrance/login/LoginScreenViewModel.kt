@@ -5,16 +5,20 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.roomer.data.remote.RoomerApiObj
-import com.example.roomer.data.repository.RoomerRepository
+import com.example.roomer.data.repository.RoomerRepositoryInterface
 import com.example.roomer.domain.usecase.LoginUseCase
 import com.example.roomer.utils.Resource
 import com.example.roomer.utils.SpManager
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.launch
 
-class LoginScreenViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class LoginScreenViewModel @Inject constructor(
+    application: Application,
+    roomerRepository: RoomerRepositoryInterface
+) : AndroidViewModel(application) {
 
-    private val roomerRepository = RoomerRepository(RoomerApiObj.api)
     private val _state = mutableStateOf(LoginScreenState())
     val state: State<LoginScreenState> = _state
     val loginUseCase = LoginUseCase(roomerRepository)
@@ -55,15 +59,15 @@ class LoginScreenViewModel(application: Application) : AndroidViewModel(applicat
                         )
                     }
                     is Resource.Success -> {
-                        _state.value = LoginScreenState(
-                            isLoading = false,
-                            internetProblem = false,
-                            success = true,
-                        )
                         SpManager().setSharedPreference(
                             getApplication<Application>().applicationContext,
                             key = SpManager.Sp.TOKEN,
                             value = result.data
+                        )
+                        _state.value = LoginScreenState(
+                            isLoading = false,
+                            internetProblem = false,
+                            success = true,
                         )
                     }
                     is Resource.Internet -> {
@@ -74,13 +78,6 @@ class LoginScreenViewModel(application: Application) : AndroidViewModel(applicat
                         )
                     }
                     is Resource.Error -> {
-                        _state.value = LoginScreenState(
-                            error = result.message!!,
-                            isLoading = false,
-                            internetProblem = false
-                        )
-                    }
-                    else -> {
                         _state.value = LoginScreenState(
                             error = result.message!!,
                             isLoading = false,

@@ -2,10 +2,11 @@ package com.example.roomer.presentation.screens
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.roomer.data.remote.RoomerApiObj
-import com.example.roomer.data.repository.RoomerRepository
+import com.example.roomer.data.repository.RoomerRepositoryInterface
 import com.example.roomer.domain.model.RoomsFilterInfo
 import com.example.roomer.utils.LoadingStates
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
@@ -14,12 +15,14 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class SearchRoomResultsViewModel : ViewModel() {
+@HiltViewModel
+class SearchRoomResultsViewModel @Inject constructor(
+    private val roomerRepository: RoomerRepositoryInterface
+) : ViewModel() {
     private val _rooms = MutableStateFlow(emptyList<RoomsFilterInfo>())
     val rooms: StateFlow<List<RoomsFilterInfo>> = _rooms
     private val _loadingStates = MutableStateFlow(LoadingStates.Loading)
     val loadingState = _loadingStates.asStateFlow()
-    private val roomerRepository = RoomerRepository(RoomerApiObj.api)
 
     fun loadRooms(
         monthPriceFrom: String,

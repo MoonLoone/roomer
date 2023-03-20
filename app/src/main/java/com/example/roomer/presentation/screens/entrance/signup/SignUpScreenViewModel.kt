@@ -5,18 +5,20 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.roomer.data.remote.RoomerApiObj
-import com.example.roomer.data.repository.RoomerRepository
+import com.example.roomer.data.repository.RoomerRepositoryInterface
 import com.example.roomer.domain.usecase.signup.SignUpUseCase
 import com.example.roomer.utils.Resource
 import com.example.roomer.utils.SpManager
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.launch
 
-class SignUpScreenViewModel(
+@HiltViewModel
+class SignUpScreenViewModel @Inject constructor(
     application: Application,
+    roomerRepository: RoomerRepositoryInterface
 ) : AndroidViewModel(application) {
 
-    private val roomerRepository = RoomerRepository(RoomerApiObj.api)
     private val _state = mutableStateOf(SignUpScreenState())
 
     val state: State<SignUpScreenState> = _state
