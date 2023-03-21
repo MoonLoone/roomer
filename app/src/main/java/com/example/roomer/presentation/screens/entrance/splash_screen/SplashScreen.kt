@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -32,7 +33,7 @@ fun SplashScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
-            imageVector = ImageVector.vectorResource(id = R.drawable.roomer_logo),
+            painter = painterResource(id = R.drawable.roomer_logo),
             contentDescription = stringResource(
                 R.string.logo_content_description
             )
