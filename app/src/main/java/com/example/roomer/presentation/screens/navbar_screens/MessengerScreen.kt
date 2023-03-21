@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Button
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material3.Icon
@@ -32,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.roomer.R
 import com.example.roomer.domain.model.entities.Message
+import com.example.roomer.presentation.screens.destinations.ChatScreenDestination
 import com.example.roomer.presentation.ui_components.MessageItem
 import com.example.roomer.utils.NavbarManagement
 import com.ramcosta.composedestinations.annotation.Destination
@@ -126,6 +128,11 @@ fun MessengerScreen(
                 .padding(top = 24.dp, bottom = 16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+            item { 
+                Button(onClick = { navigator.navigate(ChatScreenDestination)
+                  })  {}
+            }
+
             items(listOfMessages.size) { index ->
                 MessageItem(listOfMessages[index])
             }

@@ -33,8 +33,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.roomer.R
-import com.example.roomer.data.remote.ChatClientWebSocket
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.presentation.screens.destinations.MessengerScreenDestination
 import com.example.roomer.presentation.ui_components.BackBtn
@@ -44,11 +44,11 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Destination
 @Composable
-fun MessageScreen(
+fun ChatScreen(
     navigator: DestinationsNavigator,
+    viewModel: ChatScreenViewModel = hiltViewModel()
 ) {
-    val client = ChatClientWebSocket()
-    client.open()
+    viewModel.startChat()
     Column(
         modifier = Modifier
             .fillMaxSize()

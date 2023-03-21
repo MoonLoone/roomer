@@ -58,4 +58,8 @@ interface AuthRepositoryInterface {
         personalityType: String,
         cleanHabits: String,
     ): Response<List<User>>
+
+    suspend fun getCurrentUserInfo(
+        token:String,
+    ): Response<User>
 }

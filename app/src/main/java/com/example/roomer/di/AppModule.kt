@@ -31,4 +31,5 @@ object AppModule {
     fun provideRoomerRepository(roomerApi: RoomerApi): AuthRepositoryInterface {
         return AuthRepository(roomerApi)
     }
+
 }

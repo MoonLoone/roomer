@@ -8,13 +8,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -57,7 +55,6 @@ fun ProfileScreen(
                 .padding(top = 24.dp, bottom = 16.dp)
                 .width(152.dp)
                 .height(152.dp)
-                .clip(RoundedCornerShape(100))
                 .clickable {
                 },
         )
@@ -67,12 +64,6 @@ fun ProfileScreen(
             onNavigateToFriends = {
                 navigator.navigate(AccountScreenDestination)
             }
-        )
-        ProfileContentLine(
-            "Location",
-            R.drawable.location_icon,
-            onNavigateToFriends = {
-            },
         )
         ProfileContentLine(
             "Rating",

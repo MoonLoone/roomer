@@ -6,20 +6,25 @@ import okhttp3.Request
 import okhttp3.Response
 import okhttp3.WebSocket
 import okhttp3.WebSocketListener
+import org.json.JSONObject
 
 class ChatClientWebSocket : WebSocketListener() {
 
     private var socket: WebSocket? = null
 
-    fun open() {
+    fun open(currentUserId: Int, recipientUserId: Int) {
+        socket?.let {
+            Log.d("!!!", "Socket already exist")
+            return
+        }
         val client = OkHttpClient()
-        val request = Request.Builder().url(BASE_URL).build()
+        val request = Request.Builder().url("$BASE_URL/${currentUserId}/${recipientUserId}/").build()
         socket = client.newWebSocket(request, this)
-        Log.d("!!!", "Opened")
     }
 
     fun sendMessage(message: String) {
-        socket?.send(message)
+        val messageJson = JSONObject().put("message",message)
+        socket?.let { socket!!.send(messageJson.toString()) }
     }
 
     override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
@@ -37,15 +42,15 @@ class ChatClientWebSocket : WebSocketListener() {
     override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
         super.onClosing(webSocket, code, reason)
         socket?.close(code, reason)
-        Log.d("!!!", "Disconnected^ $code")
+        Log.d("$$$", "Disconnected^ $code")
     }
 
     override fun onMessage(webSocket: WebSocket, text: String) {
         super.onMessage(webSocket, text)
-        Log.d("!!!", text)
+        Log.d("$$$", text)
     }
 
     companion object {
-        private const val BASE_URL = "ws://176.113.83.93:8000/ws"
+        private const val BASE_URL = "ws://176.113.83.93:8000/ws/chat"
     }
 }

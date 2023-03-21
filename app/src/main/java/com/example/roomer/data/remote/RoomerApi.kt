@@ -79,4 +79,10 @@ interface RoomerApi {
         @Query("personality_type") personalityType: String,
         @Query("clean_habits") cleanHabits: String,
     ): Response<List<User>>
+
+    @GET("/auth/users/me/")
+    suspend fun getCurrentUserInfo(
+        @Header("Authorization") token: String,
+    ): Response<User>
+
 }
