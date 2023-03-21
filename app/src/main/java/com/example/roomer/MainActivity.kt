@@ -10,11 +10,9 @@ import androidx.navigation.compose.rememberNavController
 import com.example.roomer.presentation.screens.NavGraphs
 import com.example.roomer.presentation.screens.entrance.signup.SignUpViewModel
 import com.example.roomer.presentation.ui_components.Navbar
-import com.example.roomer.presentation.screens.entrance.signup.SignUpViewModel
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.navigation.dependency
 import dagger.hilt.android.AndroidEntryPoint
-import com.ramcosta.composedestinations.navigation.dependency
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -27,7 +25,6 @@ class MainActivity : AppCompatActivity() {
                 DestinationsNavHost(
                     navGraph = NavGraphs.root,
                     navController = navController,
-                    navGraph = NavGraphs.root,
                     dependenciesContainerBuilder = {
                         dependency(NavGraphs.signUp) {
                             val parentEntry = remember(navBackStackEntry) {
