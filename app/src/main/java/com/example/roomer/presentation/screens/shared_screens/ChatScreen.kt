@@ -39,6 +39,7 @@ import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.presentation.screens.destinations.MessengerScreenDestination
 import com.example.roomer.presentation.ui_components.BackBtn
 import com.example.roomer.presentation.ui_components.Message
+import com.example.roomer.utils.NavbarManagement
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
@@ -48,6 +49,7 @@ fun ChatScreen(
     navigator: DestinationsNavigator,
     viewModel: ChatScreenViewModel = hiltViewModel()
 ) {
+    NavbarManagement.hideNavbar()
     viewModel.startChat()
     Column(
         modifier = Modifier
@@ -98,8 +100,8 @@ fun ChatScreen(
             items(messages.size) { index ->
                 Message(
                     isUserMessage = false,
-                    text = messages[index].messageCutText,
-                    data = messages[index].messageDate
+                    text = messages[index].text,
+                    data = messages[index].dateTime
                 )
             }
         }
@@ -149,7 +151,9 @@ fun ChatScreen(
                                 modifier = Modifier
                                     .width(24.dp)
                                     .height(24.dp)
-
+                                    .clickable {
+                                        viewModel.sendMessage(editMessageText.text)
+                                    }
                             )
                         }
                     }

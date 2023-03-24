@@ -1,11 +1,20 @@
 package com.example.roomer.domain.model.entities
 
+import com.google.gson.annotations.SerializedName
+
 data class Message(
-    val userAvatarPath: String,
-    val messageDate: String,
-    val messageCutText: String,
-    val username: String,
-    var isRead: Boolean,
-    var unreadMessages: Int,
-    val navigateToMessage: () -> Unit,
+    @SerializedName("id")
+    val i: Int,
+    @SerializedName("chat_id")
+    val chatId: Int,
+    @SerializedName("date_time")
+    val dateTime: String,
+    @SerializedName("text")
+    val text: String,
+    @SerializedName("donor")
+    val donor: User,
+    @SerializedName("recipient")
+    val recipient: User,
+    @SerializedName("isChecked")
+    val isChecked: Boolean,
 )

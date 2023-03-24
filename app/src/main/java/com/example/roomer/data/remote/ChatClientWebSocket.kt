@@ -22,8 +22,7 @@ class ChatClientWebSocket : WebSocketListener() {
         socket = client.newWebSocket(request, this)
     }
 
-    fun sendMessage(message: String) {
-        val messageJson = JSONObject().put("message",message)
+    fun sendMessage(messageJson: JSONObject) {
         socket?.let { socket!!.send(messageJson.toString()) }
     }
 

@@ -151,7 +151,5 @@ class AuthRepository(
         )
     }
 
-    override suspend fun getCurrentUserInfo(token: String): Response<User> {
-        return roomerApi.getCurrentUserInfo(token)
-    }
+
 }

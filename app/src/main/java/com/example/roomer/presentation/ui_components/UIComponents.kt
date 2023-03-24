@@ -103,8 +103,9 @@ fun ProfileContentLine(text: String, iconId: Int, onNavigateToFriends: () -> Uni
 }
 
 @Composable
-fun MessageItem(
+fun ChatItem(
     message: Message,
+    unreadMessages: Int = 0,
 ) {
     Row(
         modifier = Modifier
@@ -124,7 +125,7 @@ fun MessageItem(
         Column(modifier = Modifier.fillMaxWidth()) {
             Row(modifier = Modifier.fillMaxWidth()) {
                 Text(
-                    text = message.username,
+                    text = message.recipient.firstName+message.recipient.lastName,
                     fontSize = integerResource(id = R.integer.primary_text_size).sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.Black,
@@ -132,10 +133,10 @@ fun MessageItem(
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                     Image(
                         painter = painterResource(
-                            id = if (message.isRead) R.drawable.checked_messages_icon
+                            id = if (message.isChecked) R.drawable.checked_messages_icon
                             else R.drawable.unchecked_messages_icon
                         ),
-                        contentDescription = if (message.isRead) stringResource(
+                        contentDescription = if (message.isChecked) stringResource(
                             R.string.message_checked_description
                         ) else stringResource(
                             R.string.message_unchecked_description
@@ -146,7 +147,7 @@ fun MessageItem(
                             .height(18.dp),
                     )
                     Text(
-                        text = message.messageDate,
+                        text = message.dateTime,
                         style = TextStyle(
                             color = colorResource(id = R.color.text_secondary),
                             fontSize = 12.sp,
@@ -161,18 +162,18 @@ fun MessageItem(
                     .padding(top = 8.dp),
             ) {
                 Text(
-                    text = message.messageCutText,
+                    text = message.text,
                     style = TextStyle(
                         color = colorResource(id = R.color.text_secondary),
                         fontSize = 14.sp,
                     )
                 )
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                    if (message.unreadMessages > 0) {
+                    if (unreadMessages > 0) {
                         Text(
                             text =
-                                when (message.unreadMessages) {
-                                    in 1..999 -> message.unreadMessages.toString()
+                                when (unreadMessages) {
+                                    in 1..999 -> unreadMessages.toString()
                                     else -> "999+"
                                 },
                             modifier = Modifier

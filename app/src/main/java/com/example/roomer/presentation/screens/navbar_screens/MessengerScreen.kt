@@ -12,12 +12,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,10 +31,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.roomer.R
 import com.example.roomer.domain.model.entities.Message
-import com.example.roomer.presentation.screens.destinations.ChatScreenDestination
-import com.example.roomer.presentation.ui_components.MessageItem
+import com.example.roomer.presentation.ui_components.ChatItem
 import com.example.roomer.utils.NavbarManagement
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -43,8 +43,8 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 fun MessengerScreen(
     navigator: DestinationsNavigator,
+    viewModel: MessengerViewModel = hiltViewModel(),
 ) {
-    NavbarManagement.showNavbar()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -54,6 +54,31 @@ fun MessengerScreen(
                 end = 40.dp
             )
     ) {
+        NavbarManagement.showNavbar()
+        viewModel.getChats()
+        val listOfChats by viewModel.chats.collectAsState()
+        val loadingState = viewModel.state
+        Searcher()
+        ChatsListScreen(listOfChats = listOfChats, navigator = navigator)
+    }
+}
+
+@Composable
+fun ChatsListScreen(listOfChats: List<Message>, navigator: DestinationsNavigator) {
+    LazyColumn(
+        Modifier
+            .fillMaxSize()
+            .padding(top = 24.dp, bottom = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        items(listOfChats.size) { index ->
+            ChatItem(listOfChats[index])
+        }
+    }
+}
+
+@Composable
+fun Searcher(){
         var searchText by remember {
             mutableStateOf(TextFieldValue(""))
         }
@@ -121,21 +146,6 @@ fun MessengerScreen(
                 backgroundColor = colorResource(id = R.color.white)
             )
         )
-        val listOfMessages = listOf<Message>()
-        LazyColumn(
-            Modifier
-                .fillMaxSize()
-                .padding(top = 24.dp, bottom = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            item { 
-                Button(onClick = { navigator.navigate(ChatScreenDestination)
-                  })  {}
-            }
-
-            items(listOfMessages.size) { index ->
-                MessageItem(listOfMessages[index])
-            }
-        }
     }
-}
+
+

@@ -1,5 +1,6 @@
 package com.example.roomer.data.remote
 
+import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.domain.model.login.LoginDto
@@ -84,5 +85,10 @@ interface RoomerApi {
     suspend fun getCurrentUserInfo(
         @Header("Authorization") token: String,
     ): Response<User>
+
+    @GET("/chats/")
+    suspend fun getChatsForUser(
+        @Query("user_id") userId: Int,
+    ): Response<List<Message>>
 
 }
