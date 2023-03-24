@@ -8,17 +8,17 @@ import okhttp3.WebSocket
 import okhttp3.WebSocketListener
 import org.json.JSONObject
 
-class ChatClientWebSocket : WebSocketListener() {
+class ChatClientWebSocket(private val onMessageReceived: (String) -> Unit) : WebSocketListener() {
 
-    private var socket: WebSocket? = null
+    var socket: WebSocket? = null
 
     fun open(currentUserId: Int, recipientUserId: Int) {
         socket?.let {
-            Log.d("!!!", "Socket already exist")
             return
         }
         val client = OkHttpClient()
-        val request = Request.Builder().url("$BASE_URL/${currentUserId}/${recipientUserId}/").build()
+        val request =
+            Request.Builder().url("$BASE_URL/$currentUserId/$recipientUserId/").build()
         socket = client.newWebSocket(request, this)
     }
 
@@ -28,6 +28,7 @@ class ChatClientWebSocket : WebSocketListener() {
 
     override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
         super.onClosed(webSocket, code, reason)
+        Log.d("!!!", "With $code, reason $reason")
     }
 
     override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
@@ -41,12 +42,12 @@ class ChatClientWebSocket : WebSocketListener() {
     override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
         super.onClosing(webSocket, code, reason)
         socket?.close(code, reason)
-        Log.d("$$$", "Disconnected^ $code")
+        Log.d("$$$", "Disconnected with code: $code")
     }
 
     override fun onMessage(webSocket: WebSocket, text: String) {
         super.onMessage(webSocket, text)
-        Log.d("$$$", text)
+        onMessageReceived.invoke(text)
     }
 
     companion object {

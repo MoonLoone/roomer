@@ -12,4 +12,5 @@ interface RoomerRepositoryInterface {
         token: String,
     ): Response<User>
 
+    suspend fun getMessagesForChat(userId: Int, chatId: Int): Response<List<Message>>
 }

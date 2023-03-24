@@ -89,6 +89,6 @@ interface RoomerApi {
     @GET("/chats/")
     suspend fun getChatsForUser(
         @Query("user_id") userId: Int,
+        @Query("chat_id") chatId: String = "",
     ): Response<List<Message>>
-
 }

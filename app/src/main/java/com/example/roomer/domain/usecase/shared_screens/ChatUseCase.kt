@@ -4,6 +4,4 @@ import com.example.roomer.data.repository.RoomerRepository
 
 class ChatUseCase(
     private val roomerRepository: RoomerRepository,
-) {
-
-}
+)

@@ -150,6 +150,4 @@ class AuthRepository(
             cleanHabits,
         )
     }
-
-
 }

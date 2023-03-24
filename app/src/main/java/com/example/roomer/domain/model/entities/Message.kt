@@ -4,11 +4,11 @@ import com.google.gson.annotations.SerializedName
 
 data class Message(
     @SerializedName("id")
-    val i: Int,
+    val id: Int,
     @SerializedName("chat_id")
     val chatId: Int,
     @SerializedName("date_time")
-    val dateTime: String,
+    var dateTime: String,
     @SerializedName("text")
     val text: String,
     @SerializedName("donor")

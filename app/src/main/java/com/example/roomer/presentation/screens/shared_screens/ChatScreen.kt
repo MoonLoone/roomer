@@ -12,16 +12,19 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -42,126 +45,154 @@ import com.example.roomer.presentation.ui_components.Message
 import com.example.roomer.utils.NavbarManagement
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import kotlinx.coroutines.launch
 
 @Destination
 @Composable
 fun ChatScreen(
     navigator: DestinationsNavigator,
-    viewModel: ChatScreenViewModel = hiltViewModel()
+    viewModel: ChatScreenViewModel = hiltViewModel(),
+    recipientId: Int,
+    chatId: Int,
 ) {
     NavbarManagement.hideNavbar()
-    viewModel.startChat()
+    viewModel.startChat(recipientId, chatId)
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(top = 24.dp, bottom = 16.dp, start = 40.dp, end = 40.dp)
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            BackBtn(onBackNavigation = { navigator.navigate(MessengerScreenDestination) })
-            Image(
-                modifier = Modifier
-                    .width(56.dp)
-                    .height(56.dp)
-                    .padding(start = 16.dp),
-                painter = painterResource(id = R.drawable.ordinary_client),
-                contentDescription = "Client avatar",
-                alignment = Alignment.Center,
-            )
-            Text(
-                text = "Username here",
-                modifier = Modifier.padding(start = 8.dp),
-                style = TextStyle(
-                    color = Color.Black,
-                    fontSize = integerResource(
-                        id = R.integer.primary_text_size
-                    ).sp,
-                    fontWeight = FontWeight.Bold,
-                )
-            )
-        }
-        Divider(
-            color = colorResource(id = R.color.black),
-            modifier = Modifier
-                .padding(top = 8.dp)
-                .fillMaxWidth()
-        )
-
-        var messages by remember {
-            mutableStateOf(listOf<Message>())
-        }
-        val mutableListOfMessages = mutableListOf<Message>()
-        var editMessageText by remember {
+        TopLine { navigator.navigate(MessengerScreenDestination) }
+        val messageText = remember {
             mutableStateOf(TextFieldValue(""))
         }
-        LazyColumn(modifier = Modifier.fillMaxWidth()) {
-            items(messages.size) { index ->
-                Message(
-                    isUserMessage = false,
-                    text = messages[index].text,
-                    data = messages[index].dateTime
-                )
-            }
-        }
-        Row(modifier = Modifier.fillMaxSize(), verticalAlignment = Alignment.Bottom) {
-            TextField(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                value = editMessageText,
-                placeholder = {
-                    Text(
-                        text = "Type your message",
-                        style = TextStyle(
-                            color = colorResource(
-                                id = R.color.text_secondary
-                            ),
-                            fontSize = integerResource(id = R.integer.primary_text_size).sp,
-                        )
-                    )
-                },
-                onValueChange = { editMessageText = it },
-                trailingIcon = {
-                    Row {
-                        Image(
-                            painter = painterResource(id = R.drawable.add_icon),
-                            contentDescription = "Add icon",
-                            modifier = Modifier
-                                .width(32.dp)
-                                .height(32.dp)
-                        )
-                        Box(
-                            modifier = Modifier
-                                .padding(end = 16.dp)
-                                .width(48.dp)
-                                .height(32.dp)
-                                .background(
-                                    color = colorResource(id = R.color.secondary_color),
-                                    RoundedCornerShape(100.dp)
-                                )
-                                .clickable {
-                                },
-                            contentAlignment = Alignment.Center,
-                        ) {
-                            Image(
-                                painter = painterResource(id = R.drawable.send_icon),
-                                contentDescription = "Enter message",
-                                alignment = Alignment.Center,
-                                modifier = Modifier
-                                    .width(24.dp)
-                                    .height(24.dp)
-                                    .clickable {
-                                        viewModel.sendMessage(editMessageText.text)
-                                    }
-                            )
-                        }
-                    }
-                },
-                colors = TextFieldDefaults.textFieldColors(
-                    backgroundColor = colorResource(id = R.color.primary)
-                )
+        val messages = viewModel.messages.collectAsState()
+        MessagesList(
+            messages = messages.value,
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+        )
+        EnterMessage(
+            editMessageText = messageText,
+            onSend = { message -> viewModel.sendMessage(message) }
+        )
+    }
+}
+
+@Composable
+private fun TopLine(onNavigateTo: () -> Unit) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.fillMaxWidth(),
+    ) {
+        BackBtn(onBackNavigation = { onNavigateTo.invoke() })
+        Image(
+            modifier = Modifier
+                .width(56.dp)
+                .height(56.dp)
+                .padding(start = 16.dp),
+            painter = painterResource(id = R.drawable.ordinary_client),
+            contentDescription = "Client avatar",
+            alignment = Alignment.Center,
+        )
+        Text(
+            text = "Username here",
+            modifier = Modifier.padding(start = 8.dp),
+            style = TextStyle(
+                color = Color.Black,
+                fontSize = integerResource(
+                    id = R.integer.primary_text_size
+                ).sp,
+                fontWeight = FontWeight.Bold,
+            )
+        )
+    }
+    Divider(
+        color = colorResource(id = R.color.black),
+        modifier = Modifier
+            .padding(top = 8.dp)
+            .fillMaxWidth()
+    )
+}
+
+@Composable
+private fun MessagesList(messages: List<Message>, modifier: Modifier) {
+    val lazyListState: LazyListState = rememberLazyListState()
+    val scope = rememberCoroutineScope()
+    LazyColumn(modifier = modifier, state = lazyListState) {
+        items(messages.size) { index ->
+            Message(
+                isUserMessage = false,
+                text = messages[index].text,
+                data = messages[index].dateTime
             )
         }
+        scope.launch { lazyListState.scrollToItem(messages.size) }
+    }
+}
+
+@Composable
+private fun EnterMessage(
+    editMessageText: MutableState<TextFieldValue>,
+    onSend: (message: String) -> Unit
+) {
+    Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.Bottom) {
+        TextField(
+            modifier = Modifier
+                .fillMaxWidth(),
+            value = editMessageText.value,
+            placeholder = {
+                Text(
+                    text = "Type your message",
+                    style = TextStyle(
+                        color = colorResource(
+                            id = R.color.text_secondary
+                        ),
+                        fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                    )
+                )
+            },
+            onValueChange = { editMessageText.value = it },
+            trailingIcon = {
+                Row {
+                    Image(
+                        painter = painterResource(id = R.drawable.add_icon),
+                        contentDescription = "Add icon",
+                        modifier = Modifier
+                            .width(32.dp)
+                            .height(32.dp)
+                    )
+                    Box(
+                        modifier = Modifier
+                            .padding(end = 16.dp)
+                            .width(48.dp)
+                            .height(32.dp)
+                            .background(
+                                color = colorResource(id = R.color.secondary_color),
+                                RoundedCornerShape(100.dp)
+                            )
+                            .clickable {
+                            },
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.send_icon),
+                            contentDescription = "Enter message",
+                            alignment = Alignment.Center,
+                            modifier = Modifier
+                                .width(24.dp)
+                                .height(24.dp)
+                                .clickable {
+                                    onSend(editMessageText.value.text)
+                                }
+                        )
+                    }
+                }
+            },
+            colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = colorResource(id = R.color.primary)
+            )
+        )
     }
 }

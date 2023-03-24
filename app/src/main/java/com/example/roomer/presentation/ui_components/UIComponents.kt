@@ -106,10 +106,11 @@ fun ProfileContentLine(text: String, iconId: Int, onNavigateToFriends: () -> Uni
 fun ChatItem(
     message: Message,
     unreadMessages: Int = 0,
+    navigateTo: () -> Unit,
 ) {
     Row(
         modifier = Modifier
-            .clickable { }
+            .clickable { navigateTo.invoke() }
             .fillMaxWidth()
             .height(64.dp)
     ) {
@@ -125,7 +126,7 @@ fun ChatItem(
         Column(modifier = Modifier.fillMaxWidth()) {
             Row(modifier = Modifier.fillMaxWidth()) {
                 Text(
-                    text = message.recipient.firstName+message.recipient.lastName,
+                    text = message.recipient.firstName + message.recipient.lastName,
                     fontSize = integerResource(id = R.integer.primary_text_size).sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.Black,

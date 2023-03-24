@@ -58,5 +58,4 @@ interface AuthRepositoryInterface {
         personalityType: String,
         cleanHabits: String,
     ): Response<List<User>>
-
 }

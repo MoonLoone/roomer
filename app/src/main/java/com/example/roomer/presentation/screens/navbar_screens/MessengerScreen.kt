@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.roomer.R
 import com.example.roomer.domain.model.entities.Message
+import com.example.roomer.presentation.screens.destinations.ChatScreenDestination
 import com.example.roomer.presentation.ui_components.ChatItem
 import com.example.roomer.utils.NavbarManagement
 import com.ramcosta.composedestinations.annotation.Destination
@@ -45,6 +47,9 @@ fun MessengerScreen(
     navigator: DestinationsNavigator,
     viewModel: MessengerViewModel = hiltViewModel(),
 ) {
+    NavbarManagement.showNavbar()
+    val loadingState = viewModel.state
+    val listOfChats by viewModel.chats.collectAsState()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -54,98 +59,126 @@ fun MessengerScreen(
                 end = 40.dp
             )
     ) {
-        NavbarManagement.showNavbar()
-        viewModel.getChats()
-        val listOfChats by viewModel.chats.collectAsState()
-        val loadingState = viewModel.state
         Searcher()
         ChatsListScreen(listOfChats = listOfChats, navigator = navigator)
+        if (loadingState.value.isLoading) {
+            CircularProgressIndicator(modifier = Modifier.fillMaxSize())
+            viewModel.getChats()
+        }
     }
 }
 
 @Composable
-fun ChatsListScreen(listOfChats: List<Message>, navigator: DestinationsNavigator) {
+private fun ChatsListScreen(listOfChats: List<Message>, navigator: DestinationsNavigator) {
     LazyColumn(
         Modifier
             .fillMaxSize()
             .padding(top = 24.dp, bottom = 16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+        if (listOfChats.isEmpty()) {
+            item {
+                EmptyChatListNotification {
+                    navigator.navigate(ChatScreenDestination(302, 17))
+                }
+            }
+        }
         items(listOfChats.size) { index ->
-            ChatItem(listOfChats[index])
+            ChatItem(
+                listOfChats[index],
+                navigateTo = {
+                    navigator.navigate(
+                        ChatScreenDestination(
+                            listOfChats[index].recipient.id,
+                            chatId = listOfChats[index].chatId
+                        )
+                    )
+                }
+            )
         }
     }
 }
 
 @Composable
-fun Searcher(){
-        var searchText by remember {
-            mutableStateOf(TextFieldValue(""))
-        }
-        TextField(
-            label = {
-                Text(
-                    text = "Search in messages",
-                    style = TextStyle(
-                        color = colorResource(id = R.color.primary_dark),
-                        fontSize = 12.sp
-                    ),
-                    modifier = Modifier.padding(bottom = 8.dp)
-                )
-            },
-            textStyle = TextStyle(
-                color = Color.Black,
-                fontSize = integerResource(id = R.integer.primary_text_size).sp,
-            ),
-            value = searchText,
-            onValueChange = { value ->
-                if (value.text.length <= 100) {
-                    searchText = value
-                }
-            },
-            leadingIcon = {
-                Icon(
-                    painter = painterResource(id = R.drawable.loupe_icon),
-                    contentDescription = "search_icon",
-                    modifier = Modifier
-                        .height(
-                            integerResource(id = R.integer.ordinary_icon_size).dp
-                        )
-                        .width(
-                            integerResource(id = R.integer.ordinary_icon_size).dp
-                        ),
-                )
-            },
-            trailingIcon = {
-                Icon(
-                    painter = painterResource(id = R.drawable.clear_icon),
-                    contentDescription = "clear_text",
-                    modifier = Modifier
-                        .height(
-                            24.dp
-                        )
-                        .width(
-                            24.dp
-                        )
-                        .clickable { searchText = TextFieldValue("") },
-                )
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp)
-                .border(
-                    BorderStroke(
-                        2.dp,
-                        colorResource(
-                            id = R.color.primary_dark
-                        )
-                    ),
-                    RoundedCornerShape(4.dp)
+private fun Searcher() {
+    var searchText by remember {
+        mutableStateOf(TextFieldValue(""))
+    }
+    TextField(
+        label = {
+            Text(
+                text = "Search in messages",
+                style = TextStyle(
+                    color = colorResource(id = R.color.primary_dark),
+                    fontSize = 12.sp
                 ),
-            colors = TextFieldDefaults.textFieldColors(
-                backgroundColor = colorResource(id = R.color.white)
+                modifier = Modifier.padding(bottom = 8.dp)
             )
+        },
+        textStyle = TextStyle(
+            color = Color.Black,
+            fontSize = integerResource(id = R.integer.primary_text_size).sp,
+        ),
+        value = searchText,
+        onValueChange = { value ->
+            if (value.text.length <= 100) {
+                searchText = value
+            }
+        },
+        leadingIcon = {
+            Icon(
+                painter = painterResource(id = R.drawable.loupe_icon),
+                contentDescription = "search_icon",
+                modifier = Modifier
+                    .height(
+                        integerResource(id = R.integer.ordinary_icon_size).dp
+                    )
+                    .width(
+                        integerResource(id = R.integer.ordinary_icon_size).dp
+                    ),
+            )
+        },
+        trailingIcon = {
+            Icon(
+                painter = painterResource(id = R.drawable.clear_icon),
+                contentDescription = "clear_text",
+                modifier = Modifier
+                    .height(
+                        24.dp
+                    )
+                    .width(
+                        24.dp
+                    )
+                    .clickable { searchText = TextFieldValue("") },
+            )
+        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(56.dp)
+            .border(
+                BorderStroke(
+                    2.dp,
+                    colorResource(
+                        id = R.color.primary_dark
+                    )
+                ),
+                RoundedCornerShape(4.dp)
+            ),
+        colors = TextFieldDefaults.textFieldColors(
+            backgroundColor = colorResource(id = R.color.white)
+        )
+    )
+}
+
+@Composable
+private fun EmptyChatListNotification(onNavigate: () -> Unit) {
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Text(text = "No chats here")
+        Text(
+            text = "Do you want to start new chat?",
+            modifier = Modifier.clickable {
+                onNavigate.invoke()
+            }
         )
     }
-
-
+}
