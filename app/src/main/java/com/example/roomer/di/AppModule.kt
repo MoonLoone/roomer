@@ -11,6 +11,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -20,10 +22,27 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideRoomerApi(): RoomerApi {
+    fun provideLoggingInterceptor(): HttpLoggingInterceptor {
+        val logger = HttpLoggingInterceptor()
+        logger.level = HttpLoggingInterceptor.Level.BODY
+        return logger
+    }
+
+    @Singleton
+    @Provides
+    fun provideOkHttpClient(logger: HttpLoggingInterceptor): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor(logger)
+            .build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideRoomerApi(okHttpClient: OkHttpClient): RoomerApi {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
             .build()
             .create(RoomerApi::class.java)
     }

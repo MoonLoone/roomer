@@ -2,7 +2,7 @@ package com.example.roomer.presentation.screens.search_screens
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.roomer.data.repository.AuthRepositoryInterface
+import com.example.roomer.data.repository.RoomerRepositoryInterface
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.utils.LoadingStates
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class SearchRoommateResultViewModel @Inject constructor(
-    private val roomerRepository: AuthRepositoryInterface
+    private val roomerRepository: RoomerRepositoryInterface
 ) : ViewModel() {
     private val _roommates = MutableStateFlow(emptyList<User>())
     val roommates: StateFlow<List<User>> = _roommates

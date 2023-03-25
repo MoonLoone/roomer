@@ -6,7 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.roomer.data.repository.AuthRepositoryInterface
-import com.example.roomer.domain.usecase.LoginUseCase
+import com.example.roomer.domain.usecase.login_sign_up.LoginUseCase
 import com.example.roomer.utils.Resource
 import com.example.roomer.utils.SpManager
 import dagger.hilt.android.lifecycle.HiltViewModel

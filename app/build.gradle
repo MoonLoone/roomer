@@ -108,6 +108,10 @@ dependencies {
     //Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$gson_converter_version"
+
+    //OkHttp Logging Interceptor
+    implementation "com.squareup.okhttp3:logging-interceptor:4.10.0"
+
     //GSON
     implementation "com.google.code.gson:gson:$gson_version"
 
