@@ -12,7 +12,7 @@ out/
 # Gradle files
 .gradle
 .gradle/
-build/
+build
 
 # Signing files
 .signing/
@@ -83,6 +83,7 @@ obj/
 .idea/gradle.xml
 .idea/jarRepositories.xml
 .idea/navEditor.xml
+.idea
 
 # Legacy Eclipse project files
 .classpath
