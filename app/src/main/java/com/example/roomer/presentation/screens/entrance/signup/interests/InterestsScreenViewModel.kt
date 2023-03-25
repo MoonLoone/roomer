@@ -10,17 +10,15 @@ import androidx.lifecycle.viewModelScope
 import com.example.roomer.data.repository.RoomerRepositoryInterface
 import com.example.roomer.domain.model.signup.interests.InterestModel
 import com.example.roomer.domain.usecase.SignUpUseCase
-import com.example.roomer.presentation.screens.entrance.signup.SignUpState
 import com.example.roomer.utils.Resource
 import com.example.roomer.utils.SpManager
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import javax.inject.Inject
 import kotlinx.coroutines.launch
-
 
 @HiltViewModel
 class InterestsScreenViewModel @Inject constructor(

@@ -32,7 +32,8 @@ class MainActivity : AppCompatActivity() {
                             }
                             viewModel<SignUpViewModel>(parentEntry)
                         }
-                    })
+                    }
+                )
             }
         }
     }

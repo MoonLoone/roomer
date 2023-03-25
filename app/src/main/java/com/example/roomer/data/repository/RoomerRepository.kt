@@ -10,9 +10,6 @@ import com.example.roomer.domain.model.signup.IdModel
 import com.example.roomer.domain.model.signup.SignUpDataModel
 import com.example.roomer.domain.model.signup.SignUpModel
 import com.example.roomer.domain.model.signup.interests.InterestModel
-import com.example.roomer.domain.model.signup.interests.PutInterestsModel
-import com.example.roomer.domain.model.signup.signup_one.SignUpOneModel
-import com.example.roomer.domain.model.signup.signup_three.SignUpThreeModel
 import java.io.ByteArrayOutputStream
 import kotlin.random.Random
 import kotlin.random.nextUInt
@@ -49,7 +46,6 @@ class RoomerRepository(
         lastName: String,
         sex: String,
         birthDate: String,
-        avatar: Bitmap,
         aboutMe: String,
         employment: String,
         sleepTime: String,
@@ -60,17 +56,8 @@ class RoomerRepository(
         interests: List<InterestModel>
     ): Response<IdModel> {
         val refToken = "Token ".plus(token)
-        val stream = ByteArrayOutputStream()
-        avatar.compress(Bitmap.CompressFormat.JPEG, 80, stream)
-        val byteArray = stream.toByteArray()
-        val avatarBody = MultipartBody.Part.createFormData(
-            "avatar",
-            Random.nextUInt(8000000u).toString().plus(".jpeg"),
-            byteArray.toRequestBody("image/*".toMediaTypeOrNull(), 0, byteArray.size)
-        )
         return roomerApi.putSignUpData(
-            token = refToken,
-            avatar = avatarBody,
+            refToken,
             SignUpDataModel(
                 firstName,
                 lastName,
@@ -88,77 +75,17 @@ class RoomerRepository(
         )
     }
 
-    override suspend fun putInterests(
-        token: String,
-        interests: List<InterestModel>
-    ): Response<IdModel> {
-        val refToken = "Token ".plus(token)
-
-        return roomerApi.putInterests(
-            token = refToken,
-            PutInterestsModel(interests)
-        )
-    }
-
-    override suspend fun putSignUpDataOne(
-        token: String,
-        firstName: String,
-        lastName: String,
-        sex: String,
-        birthDate: String
-    ): Response<IdModel> {
-        val refToken = "Token ".plus(token)
-
-        return roomerApi.putSignUpDataOne(
-            refToken,
-            SignUpOneModel(birthDate, sex, firstName, lastName)
-        )
-    }
-
-    override suspend fun putSignUpDataThree(
-        token: String,
-        sleepTime: String,
-        alcoholAttitude: String,
-        smokingAttitude: String,
-        personalityType: String,
-        cleanHabits: String
-    ): Response<IdModel> {
-        val refToken = "Token ".plus(token)
-        return roomerApi.putSignUpDataThree(
-            refToken,
-            SignUpThreeModel(
-                sleepTime,
-                alcoholAttitude,
-                smokingAttitude,
-                personalityType,
-                cleanHabits
-            )
-        )
-    }
-
-    override suspend fun putSignUpDataTwo(
-        token: String,
-        avatar: Bitmap,
-        aboutMe: String,
-        employment: String
-    ): Response<IdModel> {
+    override suspend fun putSignUpAvatar(token: String, avatar: Bitmap): Response<IdModel> {
         val refToken = "Token ".plus(token)
         val stream = ByteArrayOutputStream()
         avatar.compress(Bitmap.CompressFormat.JPEG, 80, stream)
         val byteArray = stream.toByteArray()
-        val avatarBody = MultipartBody.Part.createFormData(
+        val avatarPart = MultipartBody.Part.createFormData(
             "avatar",
             Random.nextUInt(8000000u).toString().plus(".jpeg"),
             byteArray.toRequestBody("image/*".toMediaTypeOrNull(), 0, byteArray.size)
         )
-        return roomerApi.putSignUpDataTwo(
-            token = refToken,
-            avatar = avatarBody,
-            hashMapOf(
-                Pair("about_me", aboutMe.toRequestBody()),
-                Pair("employment", employment.toRequestBody()),
-            )
-        )
+        return roomerApi.putSignUpAvatar(refToken, avatarPart)
     }
 
     override suspend fun getFilterRooms(

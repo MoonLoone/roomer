@@ -21,7 +21,6 @@ interface RoomerRepositoryInterface {
         lastName: String,
         sex: String,
         birthDate: String,
-        avatar: Bitmap,
         aboutMe: String,
         employment: String,
         sleepTime: String,
@@ -32,30 +31,9 @@ interface RoomerRepositoryInterface {
         interests: List<InterestModel>
     ): Response<IdModel>
 
-    suspend fun putInterests(token: String, interests: List<InterestModel>): Response<IdModel>
-
-    suspend fun putSignUpDataOne(
+    suspend fun putSignUpAvatar(
         token: String,
-        firstName: String,
-        lastName: String,
-        sex: String,
-        birthDate: String
-    ): Response<IdModel>
-
-    suspend fun putSignUpDataThree(
-        token: String,
-        sleepTime: String,
-        alcoholAttitude: String,
-        smokingAttitude: String,
-        personalityType: String,
-        cleanHabits: String
-    ): Response<IdModel>
-
-    suspend fun putSignUpDataTwo(
-        token: String,
-        avatar: Bitmap,
-        aboutMe: String,
-        employment: String
+        avatar: Bitmap
     ): Response<IdModel>
 
     suspend fun getFilterRooms(
