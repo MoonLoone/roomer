@@ -27,7 +27,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Destination
 @Composable
-fun StartScreen(
+fun GreetingsScreen(
     navigator: DestinationsNavigator,
 ) {
     Column(
