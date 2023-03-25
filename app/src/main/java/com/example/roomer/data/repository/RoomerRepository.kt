@@ -14,7 +14,8 @@ class RoomerRepository @Inject constructor(private val roomerApi: RoomerApi) :
     }
 
     override suspend fun getCurrentUserInfo(token: String): Response<User> {
-        return roomerApi.getCurrentUserInfo(token)
+        val refToken = "Token ".plus(token)
+        return roomerApi.getCurrentUserInfo(refToken)
     }
 
     override suspend fun getMessagesForChat(userId: Int, chatId: Int): Response<List<Message>> {

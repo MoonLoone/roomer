@@ -24,7 +24,7 @@ object AppModule {
     @Provides
     fun provideLoggingInterceptor(): HttpLoggingInterceptor {
         val logger = HttpLoggingInterceptor()
-        logger.level = HttpLoggingInterceptor.Level.BODY
+        logger.level = HttpLoggingInterceptor.Level.BASIC
         return logger
     }
 
