@@ -6,13 +6,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.roomer.domain.model.login_sign_up.interests.InterestModel
-import javax.inject.Singleton
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
-@Singleton
 class SignUpViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(SignUpState())
     val uiState: StateFlow<SignUpState> = _uiState.asStateFlow()
