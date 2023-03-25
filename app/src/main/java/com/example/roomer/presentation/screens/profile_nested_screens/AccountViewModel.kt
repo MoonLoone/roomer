@@ -1,4 +1,4 @@
-package com.example.roomer.presentation.screens
+package com.example.roomer.presentation.screens.profile_nested_screens
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

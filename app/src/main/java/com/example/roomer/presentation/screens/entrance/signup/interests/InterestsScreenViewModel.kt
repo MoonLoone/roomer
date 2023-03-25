@@ -6,7 +6,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.roomer.data.repository.RoomerRepositoryInterface
+import com.example.roomer.data.repository.AuthRepositoryInterface
 import com.example.roomer.domain.model.signup.interests.InterestModel
 import com.example.roomer.domain.usecase.InterestsUseCase
 import com.example.roomer.utils.Resource
@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class InterestsScreenViewModel @Inject constructor(
     application: Application,
-    roomerRepository: RoomerRepositoryInterface
+    roomerRepository: AuthRepositoryInterface
 ) : AndroidViewModel(application) {
 
     private val _state = mutableStateOf(InterestsScreenState())

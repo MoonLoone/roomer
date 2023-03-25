@@ -1,7 +1,7 @@
 package com.example.roomer.domain.usecase
 
-import com.example.roomer.data.repository.RoomerRepositoryInterface
-import com.example.roomer.utils.ConstUseCase
+import com.example.roomer.data.repository.AuthRepositoryInterface
+import com.example.roomer.utils.Constants
 import com.example.roomer.utils.Resource
 import java.io.IOException
 import kotlinx.coroutines.coroutineScope
@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.flow
 import org.json.JSONObject
 
 class LoginUseCase(
-    private val repository: RoomerRepositoryInterface
+    private val repository: AuthRepositoryInterface
 ) {
 
     operator fun invoke(email: String, password: String): Flow<Resource<String>> = flow {
@@ -27,13 +27,13 @@ class LoginUseCase(
                 }
             } else {
                 val errMsg = process.errorBody()?.string()?.let {
-                    JSONObject(it).getJSONArray(ConstUseCase.loginErrorName).toString()
+                    JSONObject(it).getJSONArray(Constants.UseCase.loginErrorName).toString()
                 }
                 emit(Resource.Error.GeneralError(errMsg!!))
             }
         } catch (e: IOException) {
 
-            emit(Resource.Internet(ConstUseCase.internetErrorMessage))
+            emit(Resource.Internet(Constants.UseCase.internetErrorMessage))
         }
     }
 }

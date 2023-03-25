@@ -5,7 +5,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.roomer.data.repository.RoomerRepositoryInterface
+import com.example.roomer.data.repository.AuthRepositoryInterface
 import com.example.roomer.domain.usecase.LoginUseCase
 import com.example.roomer.utils.Resource
 import com.example.roomer.utils.SpManager
@@ -16,12 +16,12 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class LoginScreenViewModel @Inject constructor(
     application: Application,
-    roomerRepository: RoomerRepositoryInterface
+    authRepository: AuthRepositoryInterface
 ) : AndroidViewModel(application) {
 
     private val _state = mutableStateOf(LoginScreenState())
     val state: State<LoginScreenState> = _state
-    val loginUseCase = LoginUseCase(roomerRepository)
+    val loginUseCase = LoginUseCase(authRepository)
 
     init {
         val email = SpManager().getSharedPreference(

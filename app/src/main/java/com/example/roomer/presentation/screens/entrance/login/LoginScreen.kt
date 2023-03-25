@@ -40,7 +40,7 @@ import com.example.roomer.presentation.ui_components.EmailField
 import com.example.roomer.presentation.ui_components.GreenButtonPrimary
 import com.example.roomer.presentation.ui_components.PasswordField
 import com.example.roomer.presentation.ui_components.SimpleAlertDialog
-import com.example.roomer.utils.Consts
+import com.example.roomer.utils.Constants
 import com.example.roomer.utils.NavbarManagement
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -141,7 +141,9 @@ fun LoginScreen(
 
                     ),
                     onClick = {
-                        navigator.navigate(SignUpScreen1Destination(Consts.loginScreenId))
+                        navigator.navigate(
+                            SignUpScreen1Destination(Constants.ScreensId.loginScreenId)
+                        )
                     }
                 )
             }
@@ -160,10 +162,12 @@ fun LoginScreen(
                 passwordValue = ""
             }
             if (state.success) {
-                if (id == Consts.greetingScreenId) {
+                if (id == Constants.ScreensId.greetingScreenId) {
                     navigator.navigate(HomeScreenDestination())
                 } else {
-                    navigator.navigate(SignUpScreenOneDestination(Consts.loginScreenId))
+                    navigator.navigate(
+                        SignUpScreenOneDestination(Constants.ScreensId.loginScreenId)
+                    )
                 }
             }
         }

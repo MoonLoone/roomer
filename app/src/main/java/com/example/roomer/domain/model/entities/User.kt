@@ -1,10 +1,10 @@
-package com.example.roomer.domain.model
+package com.example.roomer.domain.model.entities
 
 import com.google.gson.annotations.SerializedName
 
-data class UsersFilterInfo(
+data class User(
     @SerializedName("id")
-    val id: Int,
+    val id: Int = -1,
     @SerializedName("first_name")
     val firstName: String = "",
     @SerializedName("last_name")
@@ -25,4 +25,5 @@ data class UsersFilterInfo(
     val personalityType: String = "",
     @SerializedName("clean_habits")
     val cleanHabits: String = "",
+    var rating: Double = 0.0,
 )
