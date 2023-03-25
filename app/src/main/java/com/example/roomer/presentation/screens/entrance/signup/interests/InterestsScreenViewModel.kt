@@ -8,7 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.roomer.data.repository.RoomerRepositoryInterface
-import com.example.roomer.domain.model.signup.interests.InterestModel
+import com.example.roomer.domain.model.login_sign_up.interests.InterestModel
 import com.example.roomer.domain.usecase.SignUpUseCase
 import com.example.roomer.utils.Resource
 import com.example.roomer.utils.SpManager

@@ -4,12 +4,12 @@ import android.graphics.Bitmap
 import com.example.roomer.data.remote.RoomerApi
 import com.example.roomer.domain.model.RoomsFilterInfo
 import com.example.roomer.domain.model.UsersFilterInfo
-import com.example.roomer.domain.model.login.LoginDto
-import com.example.roomer.domain.model.login.TokenDto
-import com.example.roomer.domain.model.signup.IdModel
-import com.example.roomer.domain.model.signup.SignUpDataModel
-import com.example.roomer.domain.model.signup.SignUpModel
-import com.example.roomer.domain.model.signup.interests.InterestModel
+import com.example.roomer.domain.model.login_sign_up.LoginDto
+import com.example.roomer.domain.model.login_sign_up.TokenDto
+import com.example.roomer.domain.model.login_sign_up.IdModel
+import com.example.roomer.domain.model.login_sign_up.SignUpDataModel
+import com.example.roomer.domain.model.login_sign_up.SignUpModel
+import com.example.roomer.domain.model.login_sign_up.interests.InterestModel
 import java.io.ByteArrayOutputStream
 import kotlin.random.Random
 import kotlin.random.nextUInt
@@ -28,12 +28,12 @@ class RoomerRepository(
         return roomerApi.login(LoginDto(email, password))
     }
 
-    override suspend fun userSignUp(
+    override suspend fun userSignUpPrimary(
         username: String,
         email: String,
         password: String
     ): Response<IdModel> {
-        return roomerApi.signUp(SignUpModel(username, password, email))
+        return roomerApi.signUpPrimary(SignUpModel(username, password, email))
     }
 
     override suspend fun getInterests(): List<InterestModel> {

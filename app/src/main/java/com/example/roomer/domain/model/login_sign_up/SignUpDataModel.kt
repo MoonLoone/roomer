@@ -1,6 +1,6 @@
-package com.example.roomer.domain.model.signup
+package com.example.roomer.domain.model.login_sign_up
 
-import com.example.roomer.domain.model.signup.interests.InterestModel
+import com.example.roomer.domain.model.login_sign_up.interests.InterestModel
 import com.google.gson.annotations.SerializedName
 
 data class SignUpDataModel(

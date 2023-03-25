@@ -75,7 +75,7 @@ import com.example.roomer.domain.model.MessageToList
 import com.example.roomer.domain.model.RecommendedRoom
 import com.example.roomer.domain.model.RecommendedRoommate
 import com.example.roomer.domain.model.UsersFilterInfo
-import com.example.roomer.domain.model.signup.interests.InterestModel
+import com.example.roomer.domain.model.login_sign_up.interests.InterestModel
 import com.example.roomer.presentation.screens.appCurrentDestinationAsState
 import com.example.roomer.utils.NavbarItem
 import com.example.roomer.utils.NavbarManagement

@@ -3,15 +3,15 @@ package com.example.roomer.data.repository
 import android.graphics.Bitmap
 import com.example.roomer.domain.model.RoomsFilterInfo
 import com.example.roomer.domain.model.UsersFilterInfo
-import com.example.roomer.domain.model.login.TokenDto
-import com.example.roomer.domain.model.signup.IdModel
-import com.example.roomer.domain.model.signup.interests.InterestModel
+import com.example.roomer.domain.model.login_sign_up.TokenDto
+import com.example.roomer.domain.model.login_sign_up.IdModel
+import com.example.roomer.domain.model.login_sign_up.interests.InterestModel
 import retrofit2.Response
 
 interface RoomerRepositoryInterface {
     suspend fun userLogin(email: String, password: String): Response<TokenDto>
 
-    suspend fun userSignUp(username: String, email: String, password: String): Response<IdModel>
+    suspend fun userSignUpPrimary(username: String, email: String, password: String): Response<IdModel>
 
     suspend fun getInterests(): List<InterestModel>
 
