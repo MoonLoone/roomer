@@ -31,7 +31,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.integerResource
@@ -89,7 +88,6 @@ fun ProfileScreen(
                 .padding(top = 24.dp, bottom = 16.dp)
                 .width(152.dp)
                 .height(152.dp)
-                .clip(RoundedCornerShape(100))
                 .clickable {
                 },
         )
@@ -99,12 +97,6 @@ fun ProfileScreen(
             onNavigateToFriends = {
                 navigator.navigate(AccountScreenDestination)
             }
-        )
-        ProfileContentLine(
-            Screens.Location.name,
-            R.drawable.location_icon,
-            onNavigateToFriends = {
-            },
         )
         ProfileContentLine(
             Screens.Rating.name,
