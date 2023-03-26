@@ -61,9 +61,6 @@ android {
 }
 
 dependencies {
-    implementation 'com.google.firebase:firebase-messaging-ktx:23.1.1'
-    implementation 'com.google.firebase:firebase-auth-ktx:21.1.0'
-    implementation 'com.google.firebase:firebase-database-ktx:20.1.0'
     def retrofit_version = '2.9.0'
     def gson_version = '2.10'
     def gson_converter_version = '2.9.0'
@@ -75,8 +72,8 @@ dependencies {
     def hilt_version = "2.44"
 
     implementation 'androidx.core:core-ktx:1.9.0'
-    implementation 'androidx.appcompat:appcompat:1.5.1'
-    implementation 'com.google.android.material:material:1.7.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     testImplementation 'junit:junit:4.13.2'
 
@@ -111,6 +108,10 @@ dependencies {
     //Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$gson_converter_version"
+
+    //OkHttp Logging Interceptor
+    implementation "com.squareup.okhttp3:logging-interceptor:4.10.0"
+
     //GSON
     implementation "com.google.code.gson:gson:$gson_version"
 

@@ -7,7 +7,6 @@ import android.os.Build
 import android.provider.MediaStore
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -29,8 +28,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.BottomNavigation
-import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.TextField
@@ -67,19 +64,13 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.roomer.R
-import com.example.roomer.domain.model.MessageToList
-import com.example.roomer.domain.model.RecommendedRoom
-import com.example.roomer.domain.model.RecommendedRoommate
-import com.example.roomer.domain.model.UsersFilterInfo
-import com.example.roomer.domain.model.signup.interests.InterestModel
-import com.example.roomer.presentation.screens.appCurrentDestinationAsState
-import com.example.roomer.utils.NavbarItem
-import com.example.roomer.utils.NavbarManagement
-import com.ramcosta.composedestinations.navigation.navigate
+import com.example.roomer.domain.model.entities.Message
+import com.example.roomer.domain.model.entities.Room
+import com.example.roomer.domain.model.entities.User
+import com.example.roomer.domain.model.login_sign_up.interests.InterestModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
@@ -112,99 +103,14 @@ fun ProfileContentLine(text: String, iconId: Int, onNavigateToFriends: () -> Uni
 }
 
 @Composable
-fun Navbar(navController: NavHostController) {
-    val navbarState = NavbarManagement.navbarState
-    val currentDestination = navController.appCurrentDestinationAsState().value
-    AnimatedVisibility(visible = navbarState.value) {
-        BottomNavigation(
-            backgroundColor = colorResource(id = R.color.secondary_color),
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(80.dp)
-        ) {
-            NavbarItem.values().forEach { screen ->
-                BottomNavigationItem(
-                    selected = (currentDestination == screen.direction),
-                    modifier = Modifier
-                        .width(80.dp)
-                        .padding(
-                            start = 4.dp,
-                            end = 4.dp
-                        ),
-                    onClick = {
-                        navController.navigate(screen.direction)
-                    },
-                    icon = {
-                        if (currentDestination == screen.direction) {
-                            Column {
-                                Box(
-                                    modifier = Modifier
-                                        .width(64.dp)
-                                        .height(32.dp)
-                                        .clip(RoundedCornerShape(16.dp))
-                                        .background(colorResource(id = R.color.primary)),
-                                ) {
-                                    Image(
-                                        modifier = Modifier
-                                            .align(Center)
-                                            .width(24.dp)
-                                            .height(24.dp),
-                                        painter = painterResource(id = screen.iconSelected),
-                                        contentDescription = screen.name
-                                    )
-                                }
-                                Text(
-                                    text = screen.name,
-                                    fontSize =
-                                        integerResource(id = R.integer.secondary_text_size).sp,
-                                    color = Color.Black,
-                                    modifier = Modifier
-                                        .align(Alignment.CenterHorizontally)
-                                        .padding(top = 4.dp)
-                                )
-                            }
-                        } else {
-                            Column {
-                                Box(
-                                    modifier = Modifier
-                                        .width(32.dp)
-                                        .height(32.dp)
-                                        .align(Alignment.CenterHorizontally)
-                                ) {
-                                    Image(
-                                        modifier = Modifier
-                                            .align(Center)
-                                            .width(24.dp)
-                                            .height(24.dp),
-                                        painter = painterResource(id = screen.iconUnSelected),
-                                        contentDescription = screen.name
-                                    )
-                                }
-                                Text(
-                                    text = screen.name,
-                                    fontSize =
-                                        integerResource(id = R.integer.secondary_text_size).sp,
-                                    color = colorResource(id = R.color.text_secondary),
-                                    modifier = Modifier
-                                        .align(Alignment.CenterHorizontally)
-                                        .padding(top = 4.dp),
-                                )
-                            }
-                        }
-                    }
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun MessageItem(
-    message: MessageToList,
+fun ChatItem(
+    message: Message,
+    unreadMessages: Int = 0,
+    navigateTo: () -> Unit,
 ) {
     Row(
         modifier = Modifier
-            .clickable { message.navigateToMessage.invoke() }
+            .clickable { navigateTo.invoke() }
             .fillMaxWidth()
             .height(64.dp)
     ) {
@@ -220,7 +126,7 @@ fun MessageItem(
         Column(modifier = Modifier.fillMaxWidth()) {
             Row(modifier = Modifier.fillMaxWidth()) {
                 Text(
-                    text = message.username,
+                    text = message.recipient.firstName + message.recipient.lastName,
                     fontSize = integerResource(id = R.integer.primary_text_size).sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.Black,
@@ -228,10 +134,10 @@ fun MessageItem(
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                     Image(
                         painter = painterResource(
-                            id = if (message.isRead) R.drawable.checked_messages_icon
+                            id = if (message.isChecked) R.drawable.checked_messages_icon
                             else R.drawable.unchecked_messages_icon
                         ),
-                        contentDescription = if (message.isRead) stringResource(
+                        contentDescription = if (message.isChecked) stringResource(
                             R.string.message_checked_description
                         ) else stringResource(
                             R.string.message_unchecked_description
@@ -242,7 +148,7 @@ fun MessageItem(
                             .height(18.dp),
                     )
                     Text(
-                        text = message.messageDate,
+                        text = message.dateTime,
                         style = TextStyle(
                             color = colorResource(id = R.color.text_secondary),
                             fontSize = 12.sp,
@@ -257,18 +163,18 @@ fun MessageItem(
                     .padding(top = 8.dp),
             ) {
                 Text(
-                    text = message.messageCutText,
+                    text = message.text,
                     style = TextStyle(
                         color = colorResource(id = R.color.text_secondary),
                         fontSize = 14.sp,
                     )
                 )
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                    if (message.unreadMessages > 0) {
+                    if (unreadMessages > 0) {
                         Text(
                             text =
-                                when (message.unreadMessages) {
-                                    in 1..999 -> message.unreadMessages.toString()
+                                when (unreadMessages) {
+                                    in 1..999 -> unreadMessages.toString()
                                     else -> "999+"
                                 },
                             modifier = Modifier
@@ -350,7 +256,7 @@ fun Message(isUserMessage: Boolean, text: String, data: String) {
 }
 
 @Composable
-fun UserCard(recommendedRoommate: RecommendedRoommate) {
+fun UserCard(recommendedRoommate: User) {
     Column(
         modifier = Modifier
             .height(148.dp)
@@ -362,11 +268,11 @@ fun UserCard(recommendedRoommate: RecommendedRoommate) {
     ) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
-                .data(recommendedRoommate.imagePath)
+                .data(recommendedRoommate.avatar)
                 .crossfade(true)
                 .build(),
             placeholder = painterResource(R.drawable.ordinnary_user),
-            contentDescription = recommendedRoommate.name,
+            contentDescription = recommendedRoommate.firstName + recommendedRoommate.lastName,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(92.dp),
@@ -379,7 +285,7 @@ fun UserCard(recommendedRoommate: RecommendedRoommate) {
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             Text(
-                text = recommendedRoommate.name,
+                text = recommendedRoommate.firstName + recommendedRoommate.lastName,
                 style = TextStyle(
                     color = Color.Black,
                     fontSize = 14.sp,
@@ -408,13 +314,13 @@ fun UserCard(recommendedRoommate: RecommendedRoommate) {
 }
 
 @Composable
-fun RoomCard(recommendedRoom: RecommendedRoom, isMiniVersion: Boolean) {
+fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean) {
     val cardWidth = if (isMiniVersion) 240.dp else 332.dp
     val cardHeight = if (isMiniVersion) 148.dp else 222.dp
     val imageHeight = if (isMiniVersion) 92.dp else 140.dp
     val nameTextSize = if (isMiniVersion) 16.sp else 20.sp
     val locationTextSize = if (isMiniVersion) 12.sp else 14.sp
-    val title = recommendedRoom.name.substring(0, recommendedRoom.name.length.coerceAtMost(16))
+    val title = recommendedRoom.title.substring(0, recommendedRoom.title.length.coerceAtMost(16))
     val location = recommendedRoom.location.substring(
         0,
         recommendedRoom.location.length.coerceAtMost(32)
@@ -438,7 +344,7 @@ fun RoomCard(recommendedRoom: RecommendedRoom, isMiniVersion: Boolean) {
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(recommendedRoom.roomImagePath)
+                    .data(recommendedRoom.photo)
                     .crossfade(true)
                     .build(),
                 placeholder = painterResource(id = R.drawable.ordinnary_room),
@@ -921,7 +827,7 @@ fun FilterSelect(selectItemName: String, onNavigateToFriends: () -> Unit) {
 }
 
 @Composable
-fun UserCardResult(searchUser: UsersFilterInfo) {
+fun UserCardResult(searchUser: User) {
     Row(
         modifier = Modifier
             .fillMaxWidth()

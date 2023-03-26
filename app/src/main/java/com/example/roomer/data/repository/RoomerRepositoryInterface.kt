@@ -1,53 +1,19 @@
 package com.example.roomer.data.repository
 
-import android.graphics.Bitmap
-import com.example.roomer.domain.model.RoomsFilterInfo
-import com.example.roomer.domain.model.UsersFilterInfo
-import com.example.roomer.domain.model.login.TokenDto
-import com.example.roomer.domain.model.signup.IdModel
-import com.example.roomer.domain.model.signup.interests.InterestModel
+import com.example.roomer.domain.model.entities.Message
+import com.example.roomer.domain.model.entities.Room
+import com.example.roomer.domain.model.entities.User
 import retrofit2.Response
 
 interface RoomerRepositoryInterface {
-    suspend fun userLogin(email: String, password: String): Response<TokenDto>
 
-    suspend fun userSignUp(username: String, email: String, password: String): Response<IdModel>
+    suspend fun getChats(userId: Int): Response<List<Message>>
 
-    suspend fun getInterests(): List<InterestModel>
-
-    suspend fun putInterests(token: String, interests: List<InterestModel>): Response<IdModel>
-
-    suspend fun putSignUpDataOne(
+    suspend fun getCurrentUserInfo(
         token: String,
-        firstName: String,
-        lastName: String,
-        sex: String,
-        birthDate: String
-    ): Response<IdModel>
+    ): Response<User>
 
-    suspend fun putSignUpDataThree(
-        token: String,
-        sleepTime: String,
-        alcoholAttitude: String,
-        smokingAttitude: String,
-        personalityType: String,
-        cleanHabits: String
-    ): Response<IdModel>
-
-    suspend fun putSignUpDataTwo(
-        token: String,
-        avatar: Bitmap,
-        aboutMe: String,
-        employment: String
-    ): Response<IdModel>
-
-    suspend fun getFilterRooms(
-        monthPriceFrom: String,
-        monthPriceTo: String,
-        bedroomsCount: String,
-        bathroomsCount: String,
-        housingType: String,
-    ): Response<List<RoomsFilterInfo>>
+    suspend fun getMessagesForChat(userId: Int, chatId: Int): Response<List<Message>>
 
     suspend fun getFilterRoommates(
         sex: String,
@@ -56,6 +22,14 @@ interface RoomerRepositoryInterface {
         smokingAttitude: String,
         sleepTime: String,
         personalityType: String,
-        cleanHabits: String,
-    ): Response<List<UsersFilterInfo>>
+        cleanHabits: String
+    ): Response<List<User>>
+
+    suspend fun getFilterRooms(
+        monthPriceFrom: String,
+        monthPriceTo: String,
+        bedroomsCount: String,
+        bathroomsCount: String,
+        housingType: String
+    ): Response<List<Room>>
 }
