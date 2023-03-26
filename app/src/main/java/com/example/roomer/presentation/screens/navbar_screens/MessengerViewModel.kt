@@ -5,7 +5,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.roomer.converters.convertTimeDateFromBackend
+import com.example.roomer.local.converters.convertTimeDateFromBackend
 import com.example.roomer.data.repository.RoomerRepository
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.usecase.navbar_screens.MessengerUseCase

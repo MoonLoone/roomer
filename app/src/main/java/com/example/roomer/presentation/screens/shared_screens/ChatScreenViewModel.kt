@@ -6,8 +6,8 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.roomer.converters.createJson
-import com.example.roomer.converters.getFromJson
+import com.example.roomer.local.converters.createJson
+import com.example.roomer.local.converters.getFromJson
 import com.example.roomer.data.remote.ChatClientWebSocket
 import com.example.roomer.data.repository.RoomerRepository
 import com.example.roomer.domain.model.entities.Message
