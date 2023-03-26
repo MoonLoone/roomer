@@ -1,5 +1,19 @@
 <resources>
     <string name="app_name">Roomer</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="login_screen_title">Login</string>
+    <string name="login_button_text">Login</string>
+    <string name="login_screen_supported_text">Don\'t have an account?</string>
+    <string name="login_screen_sign_up_text">Sign Up</string>
+    <string name="login_alert_dialog_title">An error occurred!</string>
+    <string name="error_icon_description">error</string>
+    <string name="icon_description">Description</string>
+    <string name="email_placeholder">Enter email here</string>
+    <string name="email_label">Email</string>
+    <string name="password_placeholder">Enter password here</string>
+    <string name="password_label">Password</string>
+    <string name="conf_pass_label">Confirm password</string>
+    <string name="conf_pass_placeholder">Confirm password here</string>
     <string name="profile_title">Profile</string>
     <string name="account_title">Account</string>
     <string name="first_name">First Name</string>
@@ -36,4 +50,5 @@
     <string name="room">Room</string>
     <string name="roommate">Roommate</string>
     <string name="status">Status:</string>
+    <string name="logo_content_description">Roomer application logo</string>
 </resources>
