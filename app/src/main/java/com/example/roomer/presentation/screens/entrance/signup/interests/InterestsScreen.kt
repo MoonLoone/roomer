@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -64,14 +65,14 @@ fun InterestsScreen(
                 progress = 0.8f
             )
             Text(
-                text = "Tell us about your interests",
+                text = stringResource(R.string.tell_us_about_interests),
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Start
             )
             if (state.isInterestsLoaded) {
                 InterestsButtons(
-                    label = "Choose 10 maximum",
+                    label = stringResource(R.string.choose_10_maximum),
                     values = interests,
                     selectedItems = selectedItems.value,
                     onSelectedChange = { selectedItems.value = it }
@@ -87,12 +88,12 @@ fun InterestsScreen(
             }
             if (state.internetProblem) {
                 if (!state.isInterestsLoaded)
-                    GreenButtonOutline(text = "Retry") {
+                    GreenButtonOutline(text = stringResource(R.string.retry)) {
                         interestsScreenViewModel.getInterests()
                     }
             }
             GreenButtonPrimary(
-                text = "Apply",
+                text = stringResource(R.string.apply_button),
                 modifier = Modifier
                     .fillMaxWidth(),
                 enabled = state.isInterestsLoaded

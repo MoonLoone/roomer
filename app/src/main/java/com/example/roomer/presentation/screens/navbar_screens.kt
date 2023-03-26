@@ -82,7 +82,7 @@ fun ProfileScreen(
         )
         Image(
             painter = painterResource(id = R.drawable.ordinary_client),
-            contentDescription = "Client avatar",
+            contentDescription = stringResource(R.string.user_avatar_description),
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(top = 24.dp, bottom = 16.dp)
@@ -140,7 +140,7 @@ fun ChatsScreen(
         TextField(
             label = {
                 Text(
-                    text = "Search in messages",
+                    text = stringResource(R.string.search_in_messages),
                     style = TextStyle(
                         color = colorResource(id = R.color.primary_dark),
                         fontSize = 12.sp
@@ -161,7 +161,7 @@ fun ChatsScreen(
             leadingIcon = {
                 Icon(
                     painter = painterResource(id = R.drawable.loupe_icon),
-                    contentDescription = "search_icon",
+                    contentDescription = stringResource(R.string.search_icon_content_description),
                     modifier = Modifier
                         .height(
                             integerResource(id = R.integer.ordinary_icon_size).dp
@@ -174,7 +174,7 @@ fun ChatsScreen(
             trailingIcon = {
                 Icon(
                     painter = painterResource(id = R.drawable.clear_icon),
-                    contentDescription = "clear_text",
+                    contentDescription = stringResource(R.string.clear_text_content_description),
                     modifier = Modifier
                         .height(
                             24.dp
@@ -288,14 +288,14 @@ fun HomeScreen(
         ) {
             Column(modifier = Modifier.fillMaxHeight()) {
                 Text(
-                    text = "Welcome back!",
+                    text = stringResource(R.string.home_screen_title),
                     style = TextStyle(
                         color = colorResource(id = R.color.text_secondary),
                         fontSize = 18.sp,
                     )
                 )
                 Text(
-                    text = "Client name here",
+                    text = stringResource(R.string.username_here),
                     style = TextStyle(
                         color = colorResource(id = R.color.text_secondary),
                         fontSize = 24.sp,
@@ -305,7 +305,7 @@ fun HomeScreen(
             }
             Image(
                 painter = painterResource(id = R.drawable.ordinary_client),
-                contentDescription = "Client avatar",
+                contentDescription = stringResource(R.string.user_avatar_description),
                 modifier = Modifier
                     .height(56.dp)
                     .width(56.dp),
@@ -325,7 +325,7 @@ fun HomeScreen(
         ) {
             Column(modifier = Modifier.fillMaxWidth()) {
                 Text(
-                    "Recently watched",
+                    stringResource(R.string.recently_watched),
                     style = TextStyle(
                         color = Color.Black,
                         fontSize = 20.sp,
@@ -348,7 +348,7 @@ fun HomeScreen(
             }
             Column(modifier = Modifier.fillMaxWidth()) {
                 Text(
-                    "Recommended rooms",
+                    stringResource(R.string.recommended_rooms),
                     style = TextStyle(
                         color = Color.Black,
                         fontSize = 20.sp,
@@ -368,7 +368,7 @@ fun HomeScreen(
             }
             Column(modifier = Modifier.fillMaxWidth()) {
                 Text(
-                    "Recommended roommates",
+                    stringResource(R.string.recommended_roommates),
                     style = TextStyle(
                         color = Color.Black,
                         fontSize = 20.sp,
@@ -410,7 +410,7 @@ fun FavouriteScreen(
     ) {
         item {
             Text(
-                text = "Favourite",
+                text = stringResource(R.string.favourite_screen_title),
                 style = TextStyle(
                     fontSize = integerResource(id = R.integer.label_text_size).sp,
                     fontWeight = FontWeight.Bold,

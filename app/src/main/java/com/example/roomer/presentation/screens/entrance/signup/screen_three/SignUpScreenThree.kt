@@ -79,13 +79,13 @@ fun SignUpScreenThree(
                 progress = 0.6f
             )
             Text(
-                text = "Tell us about your living habits",
+                text = stringResource(R.string.tell_us_about_your_living_habits),
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Start
             )
             ButtonsRowMapped(
-                label = "Your usual sleep time",
+                label = stringResource(R.string.your_usual_sleep_time),
                 values = mapOf(
                     Pair("N", "Night"),
                     Pair("D", "Day"),
@@ -95,7 +95,7 @@ fun SignUpScreenThree(
                 onValueChange = { sleepTimeValue = it }
             )
             ButtonsRowMapped(
-                label = "Attitude to alcohol",
+                label = stringResource(R.string.attitude_to_alcohol_title),
                 values = mapOf(
                     Pair("P", "Positive"),
                     Pair("N", "Negative"),
@@ -105,7 +105,7 @@ fun SignUpScreenThree(
                 onValueChange = { alcoholAttitudeValue = it }
             )
             ButtonsRowMapped(
-                label = "Attitude to smoking",
+                label = stringResource(R.string.attitude_to_smoking_title),
                 values = mapOf(
                     Pair("P", "Positive"),
                     Pair("N", "Negative"),
@@ -115,7 +115,7 @@ fun SignUpScreenThree(
                 onValueChange = { smokingAttitudeValue = it }
             )
             ButtonsRowMapped(
-                label = "Personality type",
+                label = stringResource(R.string.personality_type_title),
                 values = mapOf(
                     Pair("E", "Extraverted"),
                     Pair("I", "Introverted"),
@@ -130,12 +130,12 @@ fun SignUpScreenThree(
                     Pair("D", "It Depends"),
                     Pair("C", "Chaos")
                 ),
-                label = "Clean habits",
+                label = stringResource(R.string.clean_habits_title),
                 value = cleanHabitsValue,
                 onValueChange = { cleanHabitsValue = it }
             )
             GreenButtonPrimary(
-                text = "Continue",
+                text = stringResource(R.string.continue_button),
                 modifier = Modifier
                     .fillMaxWidth()
             ) {

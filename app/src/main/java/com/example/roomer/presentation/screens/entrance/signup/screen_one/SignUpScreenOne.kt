@@ -87,14 +87,14 @@ fun SignUpScreenOne(
                 progress = 0.2f
             )
             Text(
-                text = "Tell us more about you",
+                text = stringResource(R.string.tell_us_more_about_you),
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Start
             )
             UsualTextField(
-                title = "First Name",
-                placeholder = "Your first name here",
+                title = stringResource(R.string.first_name),
+                placeholder = stringResource(R.string.first_name_placeholder),
                 value = firstNameValue,
                 onValueChange = {
                     firstNameValue = it
@@ -103,8 +103,8 @@ fun SignUpScreenOne(
                 enabled = !state.isLoading,
             )
             UsualTextField(
-                title = "Last Name",
-                placeholder = "Your last name here",
+                title = stringResource(R.string.last_name),
+                placeholder = stringResource(R.string.last_name_placeholder),
                 value = lastNameValue,
                 onValueChange = {
                     lastNameValue = it
@@ -113,7 +113,7 @@ fun SignUpScreenOne(
                 enabled = !state.isLoading,
             )
             DateField(
-                label = "Date Of Birth",
+                label = stringResource(R.string.date_of_birth),
                 value = birthDateValue,
                 onValueChange = { birthDateValue = it },
                 enabled = !state.isLoading
@@ -125,7 +125,7 @@ fun SignUpScreenOne(
             )
             GreenButtonPrimary(
                 enabled = !state.isLoading,
-                text = "Continue",
+                text = stringResource(R.string.continue_button),
                 modifier = Modifier
                     .fillMaxWidth()
             ) {

@@ -190,7 +190,7 @@ fun DropdownTextFieldMapped(
                 },
             enabled = false,
             trailingIcon = {
-                Icon(icon, "Dropdown icon")
+                Icon(icon, stringResource(R.string.dropdown_icon))
             },
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = colorResource(id = R.color.secondary_color)
@@ -219,7 +219,7 @@ fun DropdownTextFieldMapped(
 fun SexField(
     value: String,
     onValueChange: (String) -> Unit,
-    title: String = "Select sex",
+    title: String = stringResource(R.string.select_sex_title),
     enabled: Boolean = true
 ) {
     Column(
@@ -238,26 +238,26 @@ fun SexField(
         ) {
             if (value == "M") {
                 GreenButtonPrimaryIconed(
-                    text = "Male",
+                    text = stringResource(R.string.male),
                     onClick = {},
                     trailingIcon = Icons.Filled.Male,
                     enabled = enabled
                 )
                 GreenButtonOutlineIconed(
-                    text = "Female",
+                    text = stringResource(R.string.female),
                     onClick = { onValueChange("F") },
                     trailingIcon = Icons.Filled.Female,
                     enabled = enabled
                 )
             } else {
                 GreenButtonOutlineIconed(
-                    text = "Male",
+                    text = stringResource(R.string.male),
                     onClick = { onValueChange("M") },
                     trailingIcon = Icons.Filled.Male,
                     enabled = enabled
                 )
                 GreenButtonPrimaryIconed(
-                    text = "Female",
+                    text = stringResource(R.string.female),
                     onClick = {},
                     trailingIcon = Icons.Filled.Female,
                     enabled = enabled
@@ -749,7 +749,7 @@ fun InterestField(paddingValues: PaddingValues, label: String) {
                     .clickable { openDialog = !openDialog },
                 enabled = false,
                 trailingIcon = {
-                    Icon(icon, "Dropdown icon")
+                    Icon(icon, stringResource(R.string.dropdown_icon))
                 },
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = colorResource(id = R.color.secondary_color)
@@ -760,12 +760,12 @@ fun InterestField(paddingValues: PaddingValues, label: String) {
         if (openDialog) {
             AlertDialog(
                 onDismissRequest = { openDialog = false },
-                title = { Text("Change interests") },
+                title = { Text(stringResource(R.string.change_interests)) },
                 text = {
                 },
                 buttons = {
                     Button(modifier = Modifier.fillMaxWidth(), onClick = { openDialog = false }) {
-                        Text("Dismiss")
+                        Text(stringResource(R.string.dismiss))
                     }
                 }
             )

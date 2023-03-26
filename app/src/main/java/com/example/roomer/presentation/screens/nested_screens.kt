@@ -37,6 +37,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -95,11 +96,11 @@ fun MessageScreen(
                     .height(56.dp)
                     .padding(start = 16.dp),
                 painter = painterResource(id = R.drawable.ordinary_client),
-                contentDescription = "Client avatar",
+                contentDescription = stringResource(R.string.user_avatar_description),
                 alignment = Alignment.Center,
             )
             Text(
-                text = "Username here",
+                text = stringResource(R.string.username_here),
                 modifier = Modifier.padding(start = 8.dp),
                 style = TextStyle(
                     color = Color.Black,
@@ -161,7 +162,7 @@ fun MessageScreen(
                 value = editMessageText,
                 placeholder = {
                     Text(
-                        text = "Type your message",
+                        text = stringResource(R.string.type_your_message),
                         style = TextStyle(
                             color = colorResource(
                                 id = R.color.text_secondary
@@ -175,7 +176,7 @@ fun MessageScreen(
                     Row {
                         Image(
                             painter = painterResource(id = R.drawable.add_icon),
-                            contentDescription = "Add icon",
+                            contentDescription = stringResource(R.string.add_icon),
                             modifier = Modifier
                                 .width(32.dp)
                                 .height(32.dp)
@@ -208,7 +209,7 @@ fun MessageScreen(
                         ) {
                             Image(
                                 painter = painterResource(id = R.drawable.send_icon),
-                                contentDescription = "Enter message",
+                                contentDescription = stringResource(R.string.enter_message_content_description),
                                 alignment = Alignment.Center,
                                 modifier = Modifier
                                     .width(24.dp)
@@ -259,7 +260,7 @@ fun SearchRoomScreen(
                     .padding(start = 20.dp)
                     .background(color = Color.White, shape = RoundedCornerShape(100.dp))
                     .height(40.dp),
-                text = "Show results",
+                text = stringResource(R.string.show_results),
                 onClick = {
                     if (fromPrice > toPrice) {
                         Toast.makeText(context, "To price less than from price", Toast.LENGTH_SHORT)
@@ -285,7 +286,7 @@ fun SearchRoomScreen(
                     }
                 )
                 Text(
-                    text = "Search filter",
+                    text = stringResource(R.string.search_filter),
                     modifier = Modifier.fillMaxWidth(),
                     style = TextStyle(
                         fontSize = integerResource(
@@ -301,14 +302,14 @@ fun SearchRoomScreen(
                 onNavigateToFriends = { navigator.navigate(SearchRoommateScreenDestination) }
             )
             Text(
-                "Choose room parameters",
+                stringResource(R.string.choose_room_parameters),
                 style = TextStyle(
                     fontSize = 20.sp,
                     color = Color.Black
                 ),
             )
             Text(
-                "Month price",
+                stringResource(R.string.month_price),
                 style = TextStyle(
                     fontSize = 16.sp,
                     color = Color.Black
@@ -320,7 +321,7 @@ fun SearchRoomScreen(
             ) {
                 Column {
                     Text(
-                        "From",
+                        stringResource(R.string.from_price_title),
                         style = TextStyle(
                             fontSize = integerResource(id = R.integer.primary_text_size).sp,
                             color = colorResource(
@@ -336,7 +337,7 @@ fun SearchRoomScreen(
                         modifier = Modifier
                             .width(120.dp)
                             .height(56.dp),
-                        placeholder = { Text("Start price") },
+                        placeholder = { Text(stringResource(R.string.start_price_placeholder)) },
                         colors = TextFieldDefaults.textFieldColors(
                             backgroundColor = colorResource(
                                 id = R.color.secondary_color
@@ -347,7 +348,7 @@ fun SearchRoomScreen(
                 }
                 Column {
                     Text(
-                        "To",
+                        stringResource(R.string.to_price_title),
                         style = TextStyle(
                             fontSize = integerResource(id = R.integer.primary_text_size).sp,
                             color = colorResource(id = R.color.text_secondary)
@@ -361,7 +362,7 @@ fun SearchRoomScreen(
                         modifier = Modifier
                             .width(120.dp)
                             .height(56.dp),
-                        placeholder = { Text("End price") },
+                        placeholder = { Text(stringResource(R.string.end_price_placeholder)) },
                         colors = TextFieldDefaults.textFieldColors(
                             backgroundColor = colorResource(
                                 id = R.color.secondary_color
@@ -372,25 +373,25 @@ fun SearchRoomScreen(
                 }
             }
             UsualTextField(
-                title = "Location",
-                placeholder = "Put some city, street",
+                title = stringResource(R.string.location_title),
+                placeholder = stringResource(R.string.put_some_city_placeholder),
                 value = location.value,
                 onValueChange = { newValue -> location.value = newValue }
             )
             ButtonsRow(
-                label = "Bedrooms",
+                label = stringResource(R.string.bedrooms_title),
                 values = listOf("Any", "1", "2", ">3"),
                 value = bedrooms.value,
                 onValueChange = { bedrooms.value = it }
             )
             ButtonsRow(
-                label = "Bathrooms",
+                label = stringResource(R.string.bathrooms_title),
                 values = listOf("Any", "1", "2", ">3"),
                 value = bathrooms.value,
                 onValueChange = { bathrooms.value = it }
             )
             ButtonsRowMapped(
-                label = "Apartment Type",
+                label = stringResource(R.string.apartment_type_title),
                 values = mapOf(
                     Pair("F", "Flat"),
                     Pair("DU", "Duplex"),
@@ -442,7 +443,7 @@ fun SearchRoomResults(
                 ) {
                     BackBtn(onBackNavigation = { navigator.navigate(HomeScreenDestination) })
                     Text(
-                        text = "Housing Results",
+                        text = stringResource(R.string.housing_results),
                         fontSize = integerResource(
                             id = R.integer.label_text_size
                         ).sp,
@@ -457,7 +458,7 @@ fun SearchRoomResults(
                     item {
                         if (rooms.isEmpty()) {
                             Text(
-                                text = "Sorry, nothing here",
+                                text = stringResource(R.string.sorry_nothing_here),
                                 style = TextStyle(
                                     fontSize = integerResource(id = R.integer.label_text_size).sp,
                                 )
@@ -485,7 +486,7 @@ fun SearchRoomResults(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Text(
-                    text = "Sorry, something went wrong. You should to retry",
+                    text = stringResource(R.string.something_went_wrong),
                     style = TextStyle(
                         fontSize = integerResource(
                             id = R.integer.primary_text_size
@@ -493,7 +494,7 @@ fun SearchRoomResults(
                         color = Color.Black,
                     )
                 )
-                GreenButtonOutline(text = "Retry") {
+                GreenButtonOutline(text = stringResource(R.string.retry)) {
                     viewModel.loadRooms(from, to, bedrooms, bathrooms, apartmentType)
                 }
             }
@@ -542,7 +543,7 @@ fun SearchRoommateScreen(
                     .padding(start = 20.dp)
                     .fillMaxWidth()
                     .height(40.dp),
-                text = "Show results",
+                text = stringResource(R.string.show_results),
                 onClick = {
                     if (fromAge > toAge) {
                         Toast.makeText(context, "To age less than from age", Toast.LENGTH_SHORT)
@@ -563,7 +564,7 @@ fun SearchRoommateScreen(
             Row(horizontalArrangement = Arrangement.SpaceBetween) {
                 BackBtn(onBackNavigation = { navigator.navigate(HomeScreenDestination) })
                 Text(
-                    text = "Search filter",
+                    text = stringResource(R.string.search_filter),
                     modifier = Modifier.fillMaxWidth(),
                     style = TextStyle(
                         fontSize = integerResource(
@@ -579,14 +580,14 @@ fun SearchRoommateScreen(
                 onNavigateToFriends = { navigator.navigate(SearchRoomScreenDestination) }
             )
             Text(
-                "Choose roommate parameters",
+                stringResource(R.string.choose_roommate_parameters),
                 style = TextStyle(
                     fontSize = 20.sp,
                     color = Color.Black
                 ),
             )
             Text(
-                "Age",
+                stringResource(R.string.age_title),
                 style = TextStyle(
                     fontSize = 16.sp,
                     color = Color.Black
@@ -598,7 +599,7 @@ fun SearchRoommateScreen(
             ) {
                 Column {
                     Text(
-                        "From",
+                        stringResource(R.string.from_age_title),
                         style = TextStyle(
                             fontSize = integerResource(id = R.integer.primary_text_size).sp,
                             color = colorResource(
@@ -614,7 +615,7 @@ fun SearchRoommateScreen(
                         modifier = Modifier
                             .width(120.dp)
                             .height(56.dp),
-                        placeholder = { Text("Start age") },
+                        placeholder = { Text(stringResource(R.string.start_age_placeholder)) },
                         colors = TextFieldDefaults.textFieldColors(
                             backgroundColor = colorResource(
                                 id = R.color.secondary_color
@@ -625,7 +626,7 @@ fun SearchRoommateScreen(
                 }
                 Column {
                     Text(
-                        "To",
+                        stringResource(R.string.to_age_title),
                         style = TextStyle(
                             fontSize = integerResource(id = R.integer.primary_text_size).sp,
                             color = colorResource(
@@ -641,7 +642,7 @@ fun SearchRoommateScreen(
                         modifier = Modifier
                             .width(120.dp)
                             .height(56.dp),
-                        placeholder = { Text("End age") },
+                        placeholder = { Text(stringResource(R.string.end_age_placeholder)) },
                         colors = TextFieldDefaults.textFieldColors(
                             backgroundColor = colorResource(
                                 id = R.color.secondary_color
@@ -657,12 +658,12 @@ fun SearchRoommateScreen(
                     Pair("D", "Day"),
                     Pair("O", "Occasionally")
                 ),
-                label = "Sleep time",
+                label = stringResource(R.string.sleep_time_title),
                 value = sleepTime.value,
                 onValueChange = { sleepTime.value = it }
             )
             DropdownTextFieldMapped(
-                label = "Personality type",
+                label = stringResource(R.string.personality_type_title),
                 mapOfItems = mapOf(
                     Pair("E", "Extraverted"),
                     Pair("I", "Introverted"),
@@ -672,7 +673,7 @@ fun SearchRoommateScreen(
                 onValueChange = { personality.value = it }
             )
             DropdownTextFieldMapped(
-                label = "Attitude to smoking",
+                label = stringResource(R.string.attitude_to_smoking_title),
                 mapOfItems = mapOf(
                     Pair("P", "Positive"),
                     Pair("N", "Negative"),
@@ -682,7 +683,7 @@ fun SearchRoommateScreen(
                 onValueChange = { smokingAttitude.value = it }
             )
             DropdownTextFieldMapped(
-                label = "Attitude to alcohol",
+                label = stringResource(R.string.attitude_to_alcohol_title),
                 mapOfItems = mapOf(
                     Pair("P", "Positive"),
                     Pair("N", "Negative"),
@@ -697,7 +698,7 @@ fun SearchRoommateScreen(
                     Pair("D", "Day"),
                     Pair("O", "Occasionally")
                 ),
-                label = "Sleep time",
+                label = stringResource(R.string.sleep_time_title),
                 value = sleepTime.value,
                 onValueChange = { sleepTime.value = it }
             )
@@ -707,7 +708,7 @@ fun SearchRoommateScreen(
                     Pair("D", "Day"),
                     Pair("O", "Occasionally")
                 ),
-                label = "Sleep time",
+                label = stringResource(R.string.sleep_time_title),
                 value = sleepTime.value,
                 onValueChange = { sleepTime.value = it }
             )
@@ -717,7 +718,7 @@ fun SearchRoommateScreen(
                     Pair("D", "Day"),
                     Pair("O", "Occasionally")
                 ),
-                label = "Sleep time",
+                label = stringResource(R.string.sleep_time_title),
                 value = sleepTime.value,
                 onValueChange = { sleepTime.value = it }
             )
@@ -727,7 +728,7 @@ fun SearchRoommateScreen(
                     Pair("D", "Day"),
                     Pair("O", "Occasionally")
                 ),
-                label = "Sleep time",
+                label = stringResource(R.string.sleep_time_title),
                 value = sleepTime.value,
                 onValueChange = { sleepTime.value = it }
             )
@@ -737,7 +738,7 @@ fun SearchRoommateScreen(
                     Pair("E", "Employed"),
                     Pair("S", "Searching For Work")
                 ),
-                label = "What you currently do?",
+                label = stringResource(R.string.what_you_currently_do_title),
                 value = employment.value,
                 onValueChange = { employment.value = it }
             )
@@ -747,11 +748,11 @@ fun SearchRoommateScreen(
                     Pair("D", "It Depends"),
                     Pair("C", "Chaos")
                 ),
-                label = "Clean habits",
+                label = stringResource(R.string.clean_habits_title),
                 value = cleanHabits.value,
                 onValueChange = { cleanHabits.value = it }
             )
-            InterestField(paddingValues = it, label = "Interests")
+            InterestField(paddingValues = it, label = stringResource(R.string.interests))
         }
     }
 }
@@ -798,7 +799,7 @@ fun SearchRoommateResults(
                 ) {
                     BackBtn(onBackNavigation = { navigator.navigate(HomeScreenDestination) })
                     Text(
-                        text = "Roommate Results",
+                        text = stringResource(R.string.roommate_results),
                         fontSize = integerResource(
                             id = R.integer.label_text_size
                         ).sp,
@@ -813,7 +814,7 @@ fun SearchRoommateResults(
                     item {
                         if (roommates.isEmpty()) {
                             Text(
-                                text = "Sorry, nothing here",
+                                text = stringResource(R.string.sorry_nothing_here),
                                 style = TextStyle(
                                     fontSize = integerResource(
                                         id = R.integer.label_text_size
@@ -834,7 +835,7 @@ fun SearchRoommateResults(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Text(
-                    text = "Sorry, something went wrong. You should to retry",
+                    text = stringResource(R.string.something_went_wrong),
                     style = TextStyle(
                         fontSize = integerResource(
                             id = R.integer.primary_text_size
@@ -842,7 +843,7 @@ fun SearchRoommateResults(
                         color = Color.Black,
                     )
                 )
-                GreenButtonOutline(text = "Retry") {
+                GreenButtonOutline(text = stringResource(R.string.retry)) {
                     viewModel.loadRoommates(
                         sex,
                         employment,

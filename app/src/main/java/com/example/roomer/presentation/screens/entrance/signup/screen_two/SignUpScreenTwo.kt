@@ -85,13 +85,13 @@ fun SignUpScreenTwo(
                 progress = 0.4f
             )
             Text(
-                text = "Just basic profile info",
+                text = stringResource(R.string.just_basic_profile_info),
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Start
             )
             Text(
-                text = "Add profile picture",
+                text = stringResource(R.string.add_profile_picture),
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Start
@@ -103,8 +103,8 @@ fun SignUpScreenTwo(
             )
             UsualTextField(
                 enabled = !state.isLoading,
-                title = "Write something about you",
-                placeholder = "About Me",
+                title = stringResource(R.string.write_something_about_you),
+                placeholder = stringResource(R.string.about_me),
                 value = aboutMeValue,
                 onValueChange = { aboutMeValue = it }
             )
@@ -115,13 +115,13 @@ fun SignUpScreenTwo(
                     Pair("E", "Employed"),
                     Pair("S", "Searching For Work")
                 ),
-                label = "What you currently do?",
+                label = stringResource(R.string.what_you_currently_do_title),
                 value = employmentValue,
                 onValueChange = { employmentValue = it }
             )
             GreenButtonPrimary(
                 enabled = !state.isLoading,
-                text = "Confirm",
+                text = stringResource(R.string.confirm_button),
                 modifier = Modifier
                     .fillMaxWidth()
             ) {

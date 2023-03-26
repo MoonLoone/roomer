@@ -617,7 +617,7 @@ fun GreenButtonPrimaryIconed(
         ),
         interactionSource = NoRippleInteractionSource()
     ) {
-        Icon(trailingIcon, "None", tint = colorResource(id = R.color.secondary_color))
+        Icon(trailingIcon, stringResource(R.string.none_content_description), tint = colorResource(id = R.color.secondary_color))
         androidx.compose.material.Text(
             text = text,
         )
@@ -644,7 +644,7 @@ fun GreenButtonOutlineIconed(
         enabled = enabled,
         interactionSource = NoRippleInteractionSource()
     ) {
-        Icon(trailingIcon, "None", tint = colorResource(id = R.color.primary_dark))
+        Icon(trailingIcon, stringResource(R.string.none_content_description), tint = colorResource(id = R.color.primary_dark))
         androidx.compose.material.Text(
             text = text,
         )
@@ -798,7 +798,7 @@ fun ProfilePicture(
         bitmapValue?.let {
             Image(
                 bitmap = it.asImageBitmap(),
-                contentDescription = "Your avatar",
+                contentDescription = stringResource(R.string.email_placeholder),
                 modifier = imageModifier,
                 contentScale = ContentScale.Crop,
                 alignment = Alignment.Center
@@ -806,13 +806,13 @@ fun ProfilePicture(
         } ?: Image(
             modifier = imageModifier,
             painter = painterResource(id = R.drawable.usual_client),
-            contentDescription = "Your avatar",
+            contentDescription = stringResource(R.string.email_placeholder),
             contentScale = ContentScale.Crop,
             alignment = Alignment.Center
         )
         Icon(
             Icons.Filled.PhotoCamera,
-            contentDescription = "Upload photo",
+            contentDescription = stringResource(R.string.upload_photo_content_description),
             modifier = Modifier
                 .height(24.dp)
                 .width(24.dp)
@@ -990,7 +990,7 @@ fun UserCardResult(searchUser: UsersFilterInfo) {
                     )
                 )
                 Text(
-                    "Occasionally",
+                    stringResource(R.string.occasionally),
                     style = TextStyle(
                         fontSize = integerResource(id = R.integer.primary_text_size).sp,
                         color = Color.Black,
@@ -1004,7 +1004,7 @@ fun UserCardResult(searchUser: UsersFilterInfo) {
                     .height(20.dp)
             ) {
                 Text(
-                    text = "Rating:",
+                    text = stringResource(R.string.rating_and_colon),
                     style = TextStyle(
                         fontSize = integerResource(id = R.integer.primary_text_size).sp,
                         fontWeight = FontWeight.Bold,
@@ -1022,7 +1022,7 @@ fun UserCardResult(searchUser: UsersFilterInfo) {
                 )
                 Icon(
                     painter = painterResource(id = R.drawable.rating_icon),
-                    contentDescription = "Rating star",
+                    contentDescription = stringResource(R.string.rating_star_content_description),
                     modifier = Modifier
                         .height(integerResource(id = R.integer.ordinary_icon_size).dp)
                         .width(integerResource(id = R.integer.ordinary_icon_size).dp),
@@ -1081,7 +1081,7 @@ fun InterestsButtons(
 fun SimpleAlertDialog(
     title: String,
     text: String,
-    buttonText: String = "Got you!",
+    buttonText: String = stringResource(R.string.got_you),
     confirmDismissOnClick: () -> Unit,
 ) {
     AlertDialog(

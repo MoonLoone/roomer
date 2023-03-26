@@ -82,14 +82,14 @@ fun SignUpScreen1(
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             Text(
-                text = "Sign Up",
+                text = stringResource(R.string.sign_up_screen_title),
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Center
             )
             IconedTextField(
-                title = "Username",
-                placeholder = "Enter username here",
+                title = stringResource(id = R.string.username_label),
+                placeholder = stringResource(id = R.string.username_placeholder),
                 onValueChange = {
                     usernameValue = it
                     if (state.isUsernameError)
@@ -142,7 +142,7 @@ fun SignUpScreen1(
             )
             GreenButtonPrimary(
                 enabled = !state.isLoading,
-                text = "Confirm",
+                text = stringResource(R.string.confirm_button),
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
