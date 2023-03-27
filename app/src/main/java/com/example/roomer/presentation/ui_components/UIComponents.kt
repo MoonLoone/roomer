@@ -597,7 +597,7 @@ fun ButtonsRow(
     ) {
         androidx.compose.material.Text(
             text = label,
-            fontSize = integerResource(id = R.integer.primary_text_size).sp,
+            fontSize = integerResource(id = R.integer.button_text_size).sp,
             color = Color.Black,
             textAlign = TextAlign.End,
             fontWeight = FontWeight.Medium
@@ -636,7 +636,7 @@ fun ButtonsRowMapped(
     ) {
         androidx.compose.material.Text(
             text = label,
-            fontSize = integerResource(id = R.integer.primary_text_size).sp,
+            fontSize = integerResource(id = R.integer.button_text_size).sp,
             color = Color.Black,
             textAlign = TextAlign.End,
             fontWeight = FontWeight.Medium
@@ -739,7 +739,7 @@ fun FilterSelect(selectItemName: String, onNavigateToFriends: () -> Unit) {
         Row(
             modifier = Modifier
                 .height(40.dp)
-                .width(88.dp)
+                .width(80.dp)
                 .border(
                     1.dp,
                     color = colorResource(id = R.color.text_secondary),
@@ -781,7 +781,7 @@ fun FilterSelect(selectItemName: String, onNavigateToFriends: () -> Unit) {
         Row(
             modifier = Modifier
                 .height(40.dp)
-                .width(88.dp)
+                .width(100.dp)
                 .border(
                     1.dp,
                     color = colorResource(id = R.color.text_secondary),

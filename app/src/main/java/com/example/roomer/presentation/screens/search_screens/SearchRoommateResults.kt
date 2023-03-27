@@ -35,19 +35,15 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 fun SearchRoommateResults(
     navigator: DestinationsNavigator,
+    sex: String = "",
+    //age: String = "",
+    employment: String = "",
+    alcoholAttitude: String = "",
+    smokingAttitude: String = "",
+    sleepTime: String = "",
+    personalityType: String = "",
+    cleanHabits: String = ""
 ) {
-    var sex = ""
-    var employment = ""
-    var alcoholAttitude = ""
-    var smokingAttitude = ""
-    var sleepTime = ""
-    var personalityType = ""
-    var cleanHabits = ""
-    cleanHabits = when (cleanHabits) {
-        "Neat" -> "N"
-        "It Depends" -> "D"
-        else -> "C"
-    }
     val viewModel: SearchRoommateResultViewModel = hiltViewModel()
     viewModel.loadRoommates(
         sex,

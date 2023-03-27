@@ -1,13 +1,7 @@
 package com.example.roomer.presentation.screens.search_screens
 
 import android.widget.Toast
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -26,6 +20,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -33,12 +28,8 @@ import androidx.compose.ui.unit.sp
 import com.example.roomer.R
 import com.example.roomer.presentation.screens.destinations.HomeScreenDestination
 import com.example.roomer.presentation.screens.destinations.SearchRoomScreenDestination
-import com.example.roomer.presentation.screens.destinations.SearchRoommateScreenDestination
-import com.example.roomer.presentation.ui_components.BackBtn
-import com.example.roomer.presentation.ui_components.DropdownTextFieldMapped
-import com.example.roomer.presentation.ui_components.FilterSelect
-import com.example.roomer.presentation.ui_components.GreenButtonOutline
-import com.example.roomer.presentation.ui_components.InterestField
+import com.example.roomer.presentation.screens.destinations.SearchRoommateResultsDestination
+import com.example.roomer.presentation.ui_components.*
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
@@ -47,6 +38,9 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 fun SearchRoommateScreen(
     navigator: DestinationsNavigator,
 ) {
+    val sex = remember {
+        mutableStateOf("N")
+    }
     var fromAge by remember {
         mutableStateOf("0")
     }
@@ -65,7 +59,7 @@ fun SearchRoommateScreen(
     val alcoholAttitude = remember {
         mutableStateOf("I")
     }
-    val location = remember {
+    var location = remember {
         mutableStateOf("")
     }
     val employment = remember {
@@ -76,23 +70,29 @@ fun SearchRoommateScreen(
     }
     val context = LocalContext.current
     Scaffold(
-        modifier = Modifier.padding(start = 40.dp, end = 40.dp, top = 16.dp, bottom = 16.dp),
+        modifier = Modifier.padding(start = 40.dp, end = 40.dp, top = 16.dp, bottom = 40.dp),
         floatingActionButton = {
             GreenButtonOutline(
                 modifier = Modifier
-                    .padding(start = 20.dp)
+                    .padding(start = 20.dp, bottom = 40.dp)
                     .fillMaxWidth()
                     .height(40.dp),
-                text = "Show results",
-                onClick = {
-                    if (fromAge > toAge) {
-                        Toast.makeText(context, "To age less than from age", Toast.LENGTH_SHORT)
-                            .show()
-                    } else {
-                        navigator.navigate(SearchRoommateScreenDestination)
-                    }
+                text = "Show results"
+            ) {
+                if (fromAge > toAge) {
+                    Toast.makeText(context, "To age less than from age", Toast.LENGTH_SHORT)
+                        .show()
+                } else {
+                    navigator.navigate(
+                        SearchRoommateResultsDestination(
+                            sex.value,
+                            employment.value, alcoholAttitude.value,
+                            smokingAttitude.value,
+                            sleepTime.value, personality.value, cleanHabits.value
+                        )
+                    )
                 }
-            )
+            }
         }
     ) {
         Column(
@@ -126,11 +126,22 @@ fun SearchRoommateScreen(
                     color = Color.Black
                 ),
             )
+            ButtonsRowMapped(
+                label = "Sex",
+                values = mapOf(
+                    Pair("M", "Male"),
+                    Pair("F", "Female"),
+                    Pair("", "Any")
+                ),
+                value = sex.value,
+                onValueChange = { if (it != "") sex.value = it }
+            )
             Text(
                 "Age",
                 style = TextStyle(
                     fontSize = 16.sp,
-                    color = Color.Black
+                    color = Color.Black,
+                    fontWeight = FontWeight.Medium
                 ),
             )
             Row(
@@ -232,46 +243,7 @@ fun SearchRoommateScreen(
                 value = alcoholAttitude.value,
                 onValueChange = { alcoholAttitude.value = it }
             )
-            DropdownTextFieldMapped(
-                mapOfItems = mapOf(
-                    Pair("N", "Night"),
-                    Pair("D", "Day"),
-                    Pair("O", "Occasionally")
-                ),
-                label = "Sleep time",
-                value = sleepTime.value,
-                onValueChange = { sleepTime.value = it }
-            )
-            DropdownTextFieldMapped(
-                mapOfItems = mapOf(
-                    Pair("N", "Night"),
-                    Pair("D", "Day"),
-                    Pair("O", "Occasionally")
-                ),
-                label = "Sleep time",
-                value = sleepTime.value,
-                onValueChange = { sleepTime.value = it }
-            )
-            DropdownTextFieldMapped(
-                mapOfItems = mapOf(
-                    Pair("N", "Night"),
-                    Pair("D", "Day"),
-                    Pair("O", "Occasionally")
-                ),
-                label = "Sleep time",
-                value = sleepTime.value,
-                onValueChange = { sleepTime.value = it }
-            )
-            DropdownTextFieldMapped(
-                mapOfItems = mapOf(
-                    Pair("N", "Night"),
-                    Pair("D", "Day"),
-                    Pair("O", "Occasionally")
-                ),
-                label = "Sleep time",
-                value = sleepTime.value,
-                onValueChange = { sleepTime.value = it }
-            )
+
             DropdownTextFieldMapped(
                 mapOfItems = mapOf(
                     Pair("NE", "Not Employed"),
@@ -293,6 +265,7 @@ fun SearchRoommateScreen(
                 onValueChange = { cleanHabits.value = it }
             )
             InterestField(paddingValues = it, label = "Interests")
+            Spacer(modifier = Modifier.height(40.dp))
         }
     }
 }

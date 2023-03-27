@@ -2,22 +2,19 @@ package com.example.roomer.presentation.screens.search_screens
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.roomer.data.repository.RoomerRepositoryInterface
+import com.example.roomer.data.repository.SearchRepositoryInterface
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.utils.LoadingStates
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.*
 import javax.inject.Inject
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 
 @HiltViewModel
 class SearchRoomResultsViewModel @Inject constructor(
-    private val roomerRepository: RoomerRepositoryInterface
+    private val roomerRepository: SearchRepositoryInterface
 ) : ViewModel() {
     private val _rooms = MutableStateFlow(emptyList<Room>())
     val rooms: StateFlow<List<Room>> = _rooms
@@ -31,7 +28,6 @@ class SearchRoomResultsViewModel @Inject constructor(
         bathroomsCount: String,
         housingType: String,
     ) = effect {
-        delay(2000)
         _loadingStates.value = LoadingStates.Loading
         coroutineScope {
             val response = roomerRepository.getFilterRooms(
@@ -51,6 +47,10 @@ class SearchRoomResultsViewModel @Inject constructor(
     }
 
     private fun effect(block: suspend () -> Unit) {
-        viewModelScope.launch(Dispatchers.IO) { block() }
+        viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) { block() }
     }
+    private val coroutineExceptionHandler = CoroutineExceptionHandler{ _, throwable ->
+        throwable.printStackTrace()
+    }
+
 }

@@ -48,7 +48,7 @@ interface RoomerApi {
     suspend fun filterRooms(
         @Query("month_price_from") monthPriceFrom: String,
         @Query("month_price_to") monthPriceTo: String,
-        @Query(" bedrooms_count") bedroomsCount: String,
+        @Query("bedrooms_count") bedroomsCount: String,
         @Query("bathrooms_count") bathroomsCount: String,
         @Query("housing_type") housingType: String,
     ): Response<List<Room>>

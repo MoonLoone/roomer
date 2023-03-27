@@ -14,22 +14,4 @@ interface RoomerRepositoryInterface {
     ): Response<User>
 
     suspend fun getMessagesForChat(userId: Int, chatId: Int): Response<List<Message>>
-
-    suspend fun getFilterRoommates(
-        sex: String,
-        employment: String,
-        alcoholAttitude: String,
-        smokingAttitude: String,
-        sleepTime: String,
-        personalityType: String,
-        cleanHabits: String
-    ): Response<List<User>>
-
-    suspend fun getFilterRooms(
-        monthPriceFrom: String,
-        monthPriceTo: String,
-        bedroomsCount: String,
-        bathroomsCount: String,
-        housingType: String
-    ): Response<List<Room>>
 }

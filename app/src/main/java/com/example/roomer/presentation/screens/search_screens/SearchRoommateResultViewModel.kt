@@ -2,14 +2,13 @@ package com.example.roomer.presentation.screens.search_screens
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.roomer.data.repository.RoomerRepositoryInterface
+import com.example.roomer.data.repository.SearchRepositoryInterface
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.utils.LoadingStates
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,7 +16,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class SearchRoommateResultViewModel @Inject constructor(
-    private val roomerRepository: RoomerRepositoryInterface
+    private val roomerRepository: SearchRepositoryInterface
 ) : ViewModel() {
     private val _roommates = MutableStateFlow(emptyList<User>())
     val roommates: StateFlow<List<User>> = _roommates
@@ -32,7 +31,6 @@ class SearchRoommateResultViewModel @Inject constructor(
         personalityType: String,
         cleanHabits: String,
     ) = effect {
-        delay(2000)
         _loadingStates.value = LoadingStates.Loading
         coroutineScope {
             val response = roomerRepository.getFilterRoommates(

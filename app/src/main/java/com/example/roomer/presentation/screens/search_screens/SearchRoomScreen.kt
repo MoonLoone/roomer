@@ -2,14 +2,7 @@ package com.example.roomer.presentation.screens.search_screens
 
 import android.widget.Toast
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -58,7 +51,7 @@ fun SearchRoomScreen(
         mutableStateOf("0")
     }
     val location = remember {
-        mutableStateOf("Astrakhan city")
+        mutableStateOf("")
     }
     val bedrooms = remember {
         mutableStateOf("1")
@@ -71,12 +64,12 @@ fun SearchRoomScreen(
     }
     val context = LocalContext.current
     Scaffold(
-        modifier = Modifier.padding(start = 40.dp, end = 40.dp, top = 16.dp),
+        modifier = Modifier.padding(start = 40.dp, end = 40.dp, top = 16.dp, bottom = 40.dp),
         floatingActionButton = {
             GreenButtonOutline(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 20.dp)
+                    .padding(start = 20.dp, bottom = 40.dp)
                     .background(color = Color.White, shape = RoundedCornerShape(100.dp))
                     .height(40.dp),
                 text = "Show results",
@@ -85,7 +78,9 @@ fun SearchRoomScreen(
                         Toast.makeText(context, "To price less than from price", Toast.LENGTH_SHORT)
                             .show()
                     } else {
-                        navigator.navigate(SearchRoomResultsDestination)
+                        navigator.navigate(SearchRoomResultsDestination(fromPrice,
+                            toPrice, location.value, bedrooms.value,
+                            bathrooms.value, apartmentType.value))
                     }
                 }
             )
@@ -195,7 +190,7 @@ fun SearchRoomScreen(
                 title = "Location",
                 placeholder = "Put some city, street",
                 value = location.value,
-                onValueChange = { newValue -> location.value = newValue }
+                onValueChange = { location.value = it }
             )
             ButtonsRow(
                 label = "Bedrooms",
@@ -220,6 +215,7 @@ fun SearchRoomScreen(
                 value = apartmentType.value,
                 onValueChange = { apartmentType.value = it }
             )
+            Spacer(modifier = Modifier.height(100.dp))
         }
     }
 }

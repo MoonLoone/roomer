@@ -36,20 +36,14 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 fun SearchRoomResults(
     navigator: DestinationsNavigator,
+    viewModel: SearchRoomResultsViewModel = hiltViewModel(),
+    from: String = "",
+    to: String = "",
+    location: String  = "",
+    bedrooms: String = "",
+    bathrooms: String = "",
+    apartmentType: String = "DO"
 ) {
-    val from = ""
-    val to = ""
-    val location = ""
-    val bedrooms = ""
-    val bathrooms = ""
-    var apartmentType = ""
-    apartmentType = when (apartmentType) {
-        "Flat" -> "F"
-        "Duplex" -> "DU"
-        "House" -> "H"
-        else -> "DO"
-    }
-    val viewModel: SearchRoomResultsViewModel = hiltViewModel()
     val rooms by viewModel.rooms.collectAsState()
     viewModel.loadRooms(from, to, bedrooms, bathrooms, apartmentType)
     val loadingState = viewModel.loadingState.collectAsState()
@@ -107,7 +101,7 @@ fun SearchRoomResults(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Text(
-                    text = "Sorry, something went wrong. You should to retry",
+                    text = "Sorry, something went wrong. You should retry",
                     style = TextStyle(
                         fontSize = integerResource(
                             id = R.integer.primary_text_size
