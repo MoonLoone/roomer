@@ -1,11 +1,6 @@
 package com.example.roomer.presentation.screens.search_screens
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material3.Text
@@ -23,7 +18,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.roomer.R
-import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.presentation.screens.destinations.HomeScreenDestination
 import com.example.roomer.presentation.ui_components.BackBtn
 import com.example.roomer.presentation.ui_components.GreenButtonOutline
@@ -54,6 +48,7 @@ fun SearchRoomResults(
                     start = 40.dp,
                     end = 40.dp,
                     top = 16.dp,
+                    bottom = 80.dp
                 ),
                 verticalArrangement = Arrangement.spacedBy(24.dp),
             ) {
@@ -88,7 +83,7 @@ fun SearchRoomResults(
                     }
                     items(rooms.size) { index ->
                         RoomCard(
-                            recommendedRoom = Room(),
+                            recommendedRoom = rooms[index],
                             isMiniVersion = false
                         )
                     }

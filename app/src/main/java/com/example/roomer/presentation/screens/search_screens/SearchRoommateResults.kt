@@ -35,7 +35,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 fun SearchRoommateResults(
     navigator: DestinationsNavigator,
-    sex: String = "",
+    _sex: String = "",
     //age: String = "",
     employment: String = "",
     alcoholAttitude: String = "",
@@ -45,6 +45,7 @@ fun SearchRoommateResults(
     cleanHabits: String = ""
 ) {
     val viewModel: SearchRoommateResultViewModel = hiltViewModel()
+    val sex = if (_sex == "A") null else _sex
     viewModel.loadRoommates(
         sex,
         employment,
@@ -59,7 +60,7 @@ fun SearchRoommateResults(
     when (loadingState.value) {
         LoadingStates.Success ->
             Column(
-                modifier = Modifier.padding(start = 40.dp, end = 40.dp, top = 16.dp),
+                modifier = Modifier.padding(start = 40.dp, end = 40.dp, top = 16.dp, bottom = 80.dp),
                 verticalArrangement = Arrangement.spacedBy(24.dp),
             ) {
                 Row(

@@ -23,7 +23,7 @@ class SearchRoommateResultViewModel @Inject constructor(
     private val _loadingStates = MutableStateFlow(LoadingStates.Loading)
     val loadingState = _loadingStates.asStateFlow()
     fun loadRoommates(
-        sex: String,
+        sex: String?,
         employment: String,
         alcoholAttitude: String,
         smokingAttitude: String,

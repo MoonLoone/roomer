@@ -131,7 +131,7 @@ fun SearchRoommateScreen(
                 values = mapOf(
                     Pair("M", "Male"),
                     Pair("F", "Female"),
-                    Pair("", "Any")
+                    Pair("A", "Any")
                 ),
                 value = sex.value,
                 onValueChange = { if (it != "") sex.value = it }

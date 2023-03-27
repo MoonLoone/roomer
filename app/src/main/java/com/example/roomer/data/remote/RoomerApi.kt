@@ -55,7 +55,7 @@ interface RoomerApi {
 
     @GET("/profile/")
     suspend fun filterRoommates(
-        @Query("sex") sex: String,
+        @Query("sex") sex: String?,
         @Query("employment") employment: String,
         @Query("alcohol_attitude") alcoholAttitude: String,
         @Query("smoking_attitude") smokingAttitude: String,

@@ -26,7 +26,7 @@ class SearchRepository @Inject constructor(private val roomerApi: RoomerApi) :
     }
 
     override suspend fun getFilterRoommates(
-        sex: String,
+        sex: String?,
         employment: String,
         alcoholAttitude: String,
         smokingAttitude: String,

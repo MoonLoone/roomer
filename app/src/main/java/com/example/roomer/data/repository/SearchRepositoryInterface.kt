@@ -14,7 +14,7 @@ interface SearchRepositoryInterface {
     ): Response<List<Room>>
 
     suspend fun getFilterRoommates(
-        sex: String,
+        sex: String?,
         employment: String,
         alcoholAttitude: String,
         smokingAttitude: String,
