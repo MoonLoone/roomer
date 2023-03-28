@@ -39,7 +39,7 @@ fun SearchRoommateScreen(
     navigator: DestinationsNavigator,
 ) {
     val sex = remember {
-        mutableStateOf("N")
+        mutableStateOf("A")
     }
     var fromAge by remember {
         mutableStateOf("0")
@@ -79,7 +79,7 @@ fun SearchRoommateScreen(
                     .height(40.dp),
                 text = "Show results"
             ) {
-                if (fromAge > toAge) {
+                if (fromAge.toInt() > toAge.toInt()) {
                     Toast.makeText(context, "To age less than from age", Toast.LENGTH_SHORT)
                         .show()
                 } else {
@@ -161,7 +161,11 @@ fun SearchRoommateScreen(
                     TextField(
                         value = fromAge,
                         onValueChange = { changedText ->
-                            fromAge = changedText
+                            if (changedText.toIntOrNull() != null)
+                                fromAge = changedText
+                            else
+                                Toast.makeText(context, "Not numeric value", Toast.LENGTH_SHORT)
+                                    .show()
                         },
                         modifier = Modifier
                             .width(120.dp)
@@ -188,7 +192,11 @@ fun SearchRoommateScreen(
                     TextField(
                         value = toAge,
                         onValueChange = { changedText ->
-                            toAge = changedText
+                            if (changedText.toIntOrNull() != null)
+                                toAge = changedText
+                            else
+                                Toast.makeText(context, "Not numeric value", Toast.LENGTH_SHORT)
+                                    .show()
                         },
                         modifier = Modifier
                             .width(120.dp)

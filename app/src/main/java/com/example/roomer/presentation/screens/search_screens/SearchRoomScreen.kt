@@ -74,7 +74,7 @@ fun SearchRoomScreen(
                     .height(40.dp),
                 text = "Show results",
                 onClick = {
-                    if (fromPrice > toPrice) {
+                    if (fromPrice.toInt() > toPrice.toInt()) {
                         Toast.makeText(context, "To price less than from price", Toast.LENGTH_SHORT)
                             .show()
                     } else {
@@ -146,7 +146,11 @@ fun SearchRoomScreen(
                     TextField(
                         value = fromPrice,
                         onValueChange = { changedPrice ->
-                            fromPrice = changedPrice
+                            if (changedPrice.toIntOrNull() != null)
+                                fromPrice = changedPrice
+                            else
+                                Toast.makeText(context, "Not numeric value", Toast.LENGTH_SHORT)
+                                    .show()
                         },
                         modifier = Modifier
                             .width(120.dp)
@@ -171,7 +175,11 @@ fun SearchRoomScreen(
                     TextField(
                         value = toPrice,
                         onValueChange = { changedPrice ->
-                            toPrice = changedPrice
+                            if (changedPrice.toIntOrNull() != null)
+                                toPrice = changedPrice
+                            else
+                                Toast.makeText(context, "Not numeric value", Toast.LENGTH_SHORT)
+                                    .show()
                         },
                         modifier = Modifier
                             .width(120.dp)

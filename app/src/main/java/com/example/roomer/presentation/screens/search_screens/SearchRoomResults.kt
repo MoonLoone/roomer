@@ -34,10 +34,12 @@ fun SearchRoomResults(
     from: String = "",
     to: String = "",
     location: String  = "",
-    bedrooms: String = "",
-    bathrooms: String = "",
+    _bedrooms: String = "",
+    _bathrooms: String = "",
     apartmentType: String = "DO"
 ) {
+    val bedrooms = if (_bedrooms == "Any") null else _bedrooms
+    val bathrooms = if (_bathrooms == "Any") null else _bathrooms
     val rooms by viewModel.rooms.collectAsState()
     viewModel.loadRooms(from, to, bedrooms, bathrooms, apartmentType)
     val loadingState = viewModel.loadingState.collectAsState()

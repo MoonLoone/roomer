@@ -46,22 +46,22 @@ interface RoomerApi {
 
     @GET("/housing/")
     suspend fun filterRooms(
-        @Query("month_price_from") monthPriceFrom: String,
-        @Query("month_price_to") monthPriceTo: String,
-        @Query("bedrooms_count") bedroomsCount: String,
-        @Query("bathrooms_count") bathroomsCount: String,
-        @Query("housing_type") housingType: String,
+       @Query("month_price_from") monthPriceFrom: String?,
+        @Query("month_price_to") monthPriceTo: String?,
+        @Query("bedrooms_count") bedroomsCount: String?,
+        @Query("bathrooms_count") bathroomsCount: String?,
+        @Query("housing_type") housingType: String?,
     ): Response<List<Room>>
 
     @GET("/profile/")
     suspend fun filterRoommates(
         @Query("sex") sex: String?,
-        @Query("employment") employment: String,
-        @Query("alcohol_attitude") alcoholAttitude: String,
-        @Query("smoking_attitude") smokingAttitude: String,
-        @Query("sleep_time") sleepTime: String,
-        @Query("personality_type") personalityType: String,
-        @Query("clean_habits") cleanHabits: String,
+        @Query("employment") employment: String?,
+        @Query("alcohol_attitude") alcoholAttitude: String?,
+        @Query("smoking_attitude") smokingAttitude: String?,
+        @Query("sleep_time") sleepTime: String?,
+        @Query("personality_type") personalityType: String?,
+        @Query("clean_habits") cleanHabits: String?,
     ): Response<List<User>>
 
     @GET("/auth/users/me/")

@@ -24,12 +24,12 @@ class SearchRoommateResultViewModel @Inject constructor(
     val loadingState = _loadingStates.asStateFlow()
     fun loadRoommates(
         sex: String?,
-        employment: String,
-        alcoholAttitude: String,
-        smokingAttitude: String,
-        sleepTime: String,
-        personalityType: String,
-        cleanHabits: String,
+        employment: String?,
+        alcoholAttitude: String?,
+        smokingAttitude: String?,
+        sleepTime: String?,
+        personalityType: String?,
+        cleanHabits: String?,
     ) = effect {
         _loadingStates.value = LoadingStates.Loading
         coroutineScope {

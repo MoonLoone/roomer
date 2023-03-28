@@ -22,11 +22,11 @@ class SearchRoomResultsViewModel @Inject constructor(
     val loadingState = _loadingStates.asStateFlow()
 
     fun loadRooms(
-        monthPriceFrom: String,
-        monthPriceTo: String,
-        bedroomsCount: String,
-        bathroomsCount: String,
-        housingType: String,
+        monthPriceFrom: String?,
+        monthPriceTo: String?,
+        bedroomsCount: String?,
+        bathroomsCount: String?,
+        housingType: String?,
     ) = effect {
         _loadingStates.value = LoadingStates.Loading
         coroutineScope {
