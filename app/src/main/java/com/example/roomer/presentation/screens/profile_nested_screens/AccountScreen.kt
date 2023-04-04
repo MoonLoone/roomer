@@ -19,10 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.integerResource
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.*
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -46,9 +43,9 @@ fun AccountScreen(
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
             .padding(
-                top = 24.dp,
-                start = 40.dp,
-                end = 40.dp
+                top = dimensionResource(id = R.dimen.screen_top_margin),
+                start = dimensionResource(id = R.dimen.screen_start_margin),
+                end = dimensionResource(id = R.dimen.screen_end_margin),
             ),
     ) {
         Row(
@@ -94,9 +91,9 @@ fun AccountScreen(
                         .height(40.dp)
                         .width(146.dp)
                         .border(
-                            width = 1.dp,
+                            width = dimensionResource(id = R.dimen.ordinary_border),
                             color = Color.Black,
-                            shape = RoundedCornerShape(100.dp)
+                            shape = RoundedCornerShape(dimensionResource(id = R.dimen.rounded_corner_full))
                         )
                         .clickable {
                         },
@@ -107,14 +104,14 @@ fun AccountScreen(
                         contentDescription = stringResource(R.string.habits_icon_description),
                         modifier = Modifier
                             .padding(start = 16.dp)
-                            .width(18.dp)
-                            .height(18.dp),
+                            .width(dimensionResource(id = R.dimen.ordinary_icon))
+                            .height(dimensionResource(id = R.dimen.ordinary_icon)),
                     )
                     Text(
                         text = stringResource(id = R.string.habits_button),
                         style = TextStyle(
                             color = colorResource(id = R.color.primary_dark),
-                            fontSize = 14.sp,
+                            fontSize = integerResource(id = R.integer.primary_text).sp,
                             fontWeight = FontWeight.Bold,
                         ),
                     )
@@ -124,9 +121,9 @@ fun AccountScreen(
                         .height(40.dp)
                         .width(146.dp)
                         .border(
-                            width = 1.dp,
+                            width = dimensionResource(id = R.dimen.ordinary_border),
                             color = Color.Black,
-                            shape = RoundedCornerShape(100.dp)
+                            shape = RoundedCornerShape(dimensionResource(id = R.dimen.rounded_corner_full))
                         )
                         .clickable {
                         },
@@ -139,14 +136,14 @@ fun AccountScreen(
                         ),
                         modifier = Modifier
                             .padding(start = 16.dp)
-                            .width(18.dp)
-                            .height(18.dp),
+                            .width(dimensionResource(id = R.dimen.ordinary_icon))
+                            .height(dimensionResource(id = R.dimen.ordinary_icon)),
                     )
                     Text(
                         text = stringResource(id = R.string.interests_button),
                         style = TextStyle(
                             color = colorResource(id = R.color.primary_dark),
-                            fontSize = 14.sp,
+                            fontSize = integerResource(id = R.integer.primary_text).sp,
                             fontWeight = FontWeight.Bold,
                         ),
                     )

@@ -15,6 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -63,7 +64,10 @@ fun SearchRoommateResults(
     when (loadingState.value) {
         LoadingStates.Success ->
             Column(
-                modifier = Modifier.padding(start = 40.dp, end = 40.dp, top = 16.dp),
+                modifier = Modifier.padding(top = dimensionResource(id = R.dimen.screen_top_margin),
+                    start = dimensionResource(id = R.dimen.screen_start_margin),
+                    end = dimensionResource(id = R.dimen.screen_end_margin)
+                ),
                 verticalArrangement = Arrangement.spacedBy(24.dp),
             ) {
                 Row(

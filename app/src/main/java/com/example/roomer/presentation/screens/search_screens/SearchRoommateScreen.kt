@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
@@ -76,7 +77,11 @@ fun SearchRoommateScreen(
     }
     val context = LocalContext.current
     Scaffold(
-        modifier = Modifier.padding(start = 40.dp, end = 40.dp, top = 16.dp, bottom = 16.dp),
+        modifier = Modifier.padding(top = dimensionResource(id = R.dimen.screen_top_margin),
+            start = dimensionResource(id = R.dimen.screen_start_margin),
+            end = dimensionResource(id = R.dimen.screen_end_margin),
+            bottom = dimensionResource(id = R.dimen.screen_bottom_margin),
+        ),
         floatingActionButton = {
             GreenButtonOutline(
                 modifier = Modifier
@@ -99,7 +104,7 @@ fun SearchRoommateScreen(
             modifier = Modifier
                 .padding(bottom = it.calculateBottomPadding() + 64.dp)
                 .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.list_elements_margin)),
         ) {
             Row(horizontalArrangement = Arrangement.SpaceBetween) {
                 BackBtn(onBackNavigation = { navigator.navigate(HomeScreenDestination) })
@@ -129,7 +134,7 @@ fun SearchRoommateScreen(
             Text(
                 "Age",
                 style = TextStyle(
-                    fontSize = 16.sp,
+                    fontSize = integerResource(id = R.integer.primary_text).sp,
                     color = Color.Black
                 ),
             )

@@ -7,7 +7,8 @@
     <dimen name="navbar_height">80.dp</dimen>
     <integer name="primary_text">16</integer>
     <integer name="secondary_text">12</integer>
-    <integer name="label_text">25</integer>
+    <integer name="big_text">20</integer>
+    <integer name="label_text">24</integer>
     <dimen name="small_icon">14.dp</dimen>
     <dimen name="ordinary_icon">16.dp</dimen>
     <dimen name="big_icon">24.dp</dimen>

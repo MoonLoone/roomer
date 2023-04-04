@@ -29,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -60,7 +61,12 @@ fun ChatScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 24.dp, bottom = 16.dp, start = 40.dp, end = 40.dp)
+            .padding(
+                top = dimensionResource(id = R.dimen.screen_top_margin),
+                start = dimensionResource(id = R.dimen.screen_start_margin),
+                end = dimensionResource(id = R.dimen.screen_end_margin),
+                bottom = dimensionResource(id = R.dimen.screen_bottom_margin)
+            )
     ) {
         TopLine { navigator.navigate(MessengerScreenDestination) }
         val messageText = remember {
@@ -160,8 +166,8 @@ private fun EnterMessage(
                         painter = painterResource(id = R.drawable.add_icon),
                         contentDescription = "Add icon",
                         modifier = Modifier
-                            .width(32.dp)
-                            .height(32.dp)
+                            .width(dimensionResource(id = R.dimen.extremely_icon))
+                            .height(dimensionResource(id = R.dimen.extremely_icon))
                     )
                     Box(
                         modifier = Modifier
@@ -170,7 +176,7 @@ private fun EnterMessage(
                             .height(32.dp)
                             .background(
                                 color = colorResource(id = R.color.secondary_color),
-                                RoundedCornerShape(100.dp)
+                                RoundedCornerShape(dimensionResource(id = R.dimen.rounded_corner_full))
                             )
                             .clickable {
                             },
@@ -181,8 +187,8 @@ private fun EnterMessage(
                             contentDescription = "Enter message",
                             alignment = Alignment.Center,
                             modifier = Modifier
-                                .width(24.dp)
-                                .height(24.dp)
+                                .width(dimensionResource(id = R.dimen.big_icon))
+                                .height(dimensionResource(id = R.dimen.big_icon))
                                 .clickable {
                                     onSend(editMessageText.value.text)
                                 }

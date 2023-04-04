@@ -55,9 +55,9 @@ fun MessengerScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(
-                top = 24.dp,
-                start = 40.dp,
-                end = 40.dp
+                top = dimensionResource(id = R.dimen.screen_top_margin),
+                start = dimensionResource(id = R.dimen.screen_start_margin),
+                end = dimensionResource(id = R.dimen.screen_end_margin)
             )
     ) {
         Searcher()
@@ -74,7 +74,11 @@ private fun ChatsListScreen(listOfChats: List<Message>, navigator: DestinationsN
     LazyColumn(
         Modifier
             .fillMaxSize()
-            .padding(top = 24.dp, bottom = 16.dp),
+            .padding(
+                top = dimensionResource(id = R.dimen.screen_top_margin),
+                start = dimensionResource(id = R.dimen.screen_start_margin),
+                end = dimensionResource(id = R.dimen.screen_end_margin)
+            ),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         if (listOfChats.isEmpty()) {
@@ -111,7 +115,7 @@ private fun Searcher() {
                 text = "Search in messages",
                 style = TextStyle(
                     color = colorResource(id = R.color.primary_dark),
-                    fontSize = 12.sp
+                    fontSize = integerResource(id = R.integer.secondary_text).sp,
                 ),
                 modifier = Modifier.padding(bottom = 8.dp)
             )
@@ -145,10 +149,10 @@ private fun Searcher() {
                 contentDescription = "clear_text",
                 modifier = Modifier
                     .height(
-                        24.dp
+                        dimensionResource(id = R.dimen.big_icon)
                     )
                     .width(
-                        24.dp
+                        dimensionResource(id = R.dimen.big_icon)
                     )
                     .clickable { searchText = TextFieldValue("") },
             )
@@ -158,7 +162,7 @@ private fun Searcher() {
             .height(56.dp)
             .border(
                 BorderStroke(
-                    2.dp,
+                    dimensionResource(id = R.dimen.ordinary_border),
                     colorResource(
                         id = R.color.primary_dark
                     )
