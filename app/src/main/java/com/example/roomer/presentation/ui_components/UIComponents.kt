@@ -307,7 +307,7 @@ fun UserCard(recommendedRoommate: User) {
                 text = recommendedRoommate.firstName + recommendedRoommate.lastName,
                 style = TextStyle(
                     color = Color.Black,
-                    fontSize = integerResource(id = R.integer.primary_text).sp,
+                    fontSize = integerResource(id = R.integer.secondary_text).sp,
                     fontWeight = FontWeight.Bold
                 )
             )
@@ -323,7 +323,7 @@ fun UserCard(recommendedRoommate: User) {
                     text = recommendedRoommate.rating.toString(),
                     style = TextStyle(
                         color = Color.Black,
-                        fontSize = integerResource(id = R.integer.primary_text).sp,
+                        fontSize = integerResource(id = R.integer.secondary_text).sp,
                         fontWeight = FontWeight.Bold
                     )
                 )
