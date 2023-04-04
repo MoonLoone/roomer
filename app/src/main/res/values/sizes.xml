@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="left_screen_padding">40dp</dimen>
+    <dimen name="right_screen_padding">40dp</dimen>
     <integer name="primary_text_size">16</integer>
     <integer name="secondary_text_size">12</integer>
     <integer name="label_text_size">24</integer>

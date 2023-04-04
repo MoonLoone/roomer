@@ -1,5 +1,6 @@
 package com.example.roomer
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
@@ -7,17 +8,27 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.remember
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
+import com.example.roomer.management.PermissionManager
 import com.example.roomer.presentation.screens.NavGraphs
+import com.example.roomer.presentation.screens.destinations.SearchRoomScreenDestination
 import com.example.roomer.presentation.screens.entrance.signup.SignUpViewModel
 import com.example.roomer.presentation.ui_components.Navbar
+import com.example.roomer.utils.Constants
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.navigation.dependency
+import com.ramcosta.composedestinations.navigation.navigateTo
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
+    val permissionManager: PermissionManager by lazy { PermissionManager(this, this) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val intent = Intent()
+        val navigate = intent.getStringExtra(Constants.NAVIGATE_TO_SCREEN)
+        permissionManager.askNotificationPermission()
         setContent {
             val navController = rememberNavController()
             Scaffold(bottomBar = { Navbar(navController = navController) }) {
@@ -34,7 +45,13 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                 )
+                navigate?.let {
+                    when(it){
+                        Constants.ROOMS_SCREEN_DEST ->  navController.navigateTo(SearchRoomScreenDestination())
+                    }
+                }
             }
         }
     }
+
 }

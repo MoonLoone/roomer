@@ -1,5 +1,6 @@
 package com.example.roomer.domain.usecase.login_sign_up
 
+import android.util.Log
 import com.example.roomer.data.repository.RoomerRepositoryInterface
 import com.example.roomer.utils.Constants
 import com.example.roomer.utils.Resource
@@ -16,7 +17,6 @@ class SplashScreenUseCase(
         try {
             emit(Resource.Loading())
             val process = repository.getCurrentUserInfo(token)
-
             if (process.isSuccessful) emit(Resource.Success())
             else {
                 val errMsg = process.errorBody()?.string()
