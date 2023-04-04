@@ -49,10 +49,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.integerResource
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.*
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -60,6 +57,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
@@ -68,79 +66,6 @@ import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import java.time.format.DateTimeFormatter
-
-@Composable
-fun DropdownTextField(
-    listOfItems: List<String>,
-    label: String,
-    value: String,
-    onValueChange: (String) -> Unit,
-    enabled: Boolean = true
-) {
-    val interactionSource = remember { MutableInteractionSource() }
-
-    var isExpanded by remember {
-        mutableStateOf(false)
-    }
-    var textFieldSize by remember {
-        mutableStateOf(Size.Zero)
-    }
-    val icon = if (isExpanded)
-        Icons.Filled.KeyboardArrowUp
-    else
-        Icons.Filled.KeyboardArrowDown
-    Column(
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        Text(
-            text = label,
-            style = TextStyle(
-                fontSize = integerResource(id = R.integer.primary_text_size).sp,
-                color = Color.Black,
-                fontWeight = FontWeight.Medium
-            )
-        )
-        TextField(
-            value = value,
-            onValueChange = onValueChange,
-            modifier = Modifier
-                .fillMaxWidth()
-                .onGloballyPositioned { coordinates ->
-                    textFieldSize = coordinates.size.toSize()
-                }
-                .clickable(
-                    interactionSource = interactionSource,
-                    indication = null
-                ) {
-                    if (enabled)
-                        isExpanded = !isExpanded
-                },
-            enabled = false,
-            trailingIcon = {
-                Icon(icon, stringResource(R.string.dropdown_icon))
-            },
-            colors = TextFieldDefaults.textFieldColors(
-                backgroundColor = colorResource(id = R.color.secondary_color)
-            ),
-            textStyle = TextStyle(fontSize = 14.sp, color = Color.Black)
-        )
-
-        DropdownMenu(
-            expanded = isExpanded,
-            onDismissRequest = { isExpanded = false },
-            modifier = Modifier.width(with(LocalDensity.current) { textFieldSize.width.toDp() })
-        ) {
-            listOfItems.forEach { text ->
-                DropdownMenuItem(
-                    onClick = {
-                        onValueChange(text)
-                        isExpanded = false
-                    }
-                ) { Text(text = text) }
-            }
-        }
-    }
-}
 
 @Composable
 fun DropdownTextFieldMapped(
@@ -163,12 +88,12 @@ fun DropdownTextFieldMapped(
     else
         Icons.Filled.KeyboardArrowDown
     Column(
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.column_elements_small_margin))
     ) {
         Text(
             text = label,
             style = TextStyle(
-                fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                fontSize = integerResource(id = R.integer.primary_text).sp,
                 color = Color.Black,
                 fontWeight = FontWeight.Medium
             )
@@ -195,7 +120,10 @@ fun DropdownTextFieldMapped(
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = colorResource(id = R.color.secondary_color)
             ),
-            textStyle = TextStyle(fontSize = 14.sp, color = Color.Black)
+            textStyle = TextStyle(
+                fontSize = integerResource(id = R.integer.primary_text).sp,
+                color = Color.Black
+            )
         )
 
         DropdownMenu(
@@ -225,16 +153,16 @@ fun SexField(
     Column(
         modifier = Modifier
             .fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.column_elements_small_margin))
     ) {
         Text(
             text = title,
-            fontSize = integerResource(id = R.integer.primary_text_size).sp,
+            fontSize = integerResource(id = R.integer.primary_text).sp,
             fontWeight = FontWeight.Medium,
             color = Color.Black
         )
         Row(
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
+            horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.row_ordinal_padding))
         ) {
             if (value == "M") {
                 GreenButtonPrimaryIconed(
@@ -268,11 +196,11 @@ fun SexField(
 }
 
 @Composable
-fun ScreenTextField(
+fun AccountScreenTextField(
     textHint: String,
     label: String = "",
-    paddingValues: PaddingValues = PaddingValues(top = 16.dp),
-    textFieldHeight: Int = 56,
+    paddingValues: PaddingValues = PaddingValues(),
+    textFieldHeight: Dp = dimensionResource(id = R.dimen.ordinal_text_field_height),
     text: MutableState<TextFieldValue> = mutableStateOf(TextFieldValue("")),
 ) {
     Column(
@@ -281,7 +209,7 @@ fun ScreenTextField(
     ) {
         Text(
             text = label,
-            fontSize = integerResource(id = R.integer.primary_text_size).sp,
+            fontSize = integerResource(id = R.integer.primary_text).sp,
             fontWeight = FontWeight.Medium,
             color = Color.Black
         )
@@ -289,20 +217,20 @@ fun ScreenTextField(
             value = text.value,
             textStyle = TextStyle(
                 color = Color.Black,
-                fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                fontSize = integerResource(id = R.integer.primary_text).sp,
                 textAlign = TextAlign.Start,
             ),
             placeholder = {
                 Text(
                     text = textHint,
-                    fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                    fontSize = integerResource(id = R.integer.primary_text).sp,
                     color = colorResource(id = R.color.text_secondary)
                 )
             },
             onValueChange = { text.value = it },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(textFieldHeight.dp)
+                .height(textFieldHeight)
                 .background(colorResource(id = R.color.secondary_color)),
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = colorResource(id = R.color.secondary_color)
@@ -343,7 +271,7 @@ fun DateField(
     ) {
         Text(
             text = label,
-            fontSize = integerResource(id = R.integer.primary_text_size).sp,
+            fontSize = integerResource(id = R.integer.primary_text).sp,
             color = Color.Black,
             fontWeight = FontWeight.Medium
         )
@@ -355,13 +283,13 @@ fun DateField(
                     painter = painterResource(id = R.drawable.calendar_icon),
                     contentDescription = stringResource(R.string.calendar_icon),
                     modifier = Modifier
-                        .width(24.dp)
-                        .height(24.dp),
+                        .width(dimensionResource(id = R.dimen.big_icon))
+                        .height(dimensionResource(id = R.dimen.big_icon)),
                 )
             },
             textStyle = TextStyle(
                 color = Color.Black,
-                fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                fontSize = integerResource(id = R.integer.primary_text).sp,
                 textAlign = TextAlign.Start,
             ),
             modifier = Modifier
@@ -380,13 +308,13 @@ fun DateField(
 
 @Composable
 fun SelectAddressField(
-    paddingValues: PaddingValues = PaddingValues(top = 16.dp),
+    paddingValues: PaddingValues = PaddingValues(),
     label: String,
     placeholder: String
 ) {
     Column(
         modifier = Modifier.padding(paddingValues),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.column_elements_small_margin))
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -396,18 +324,18 @@ fun SelectAddressField(
             Text(
                 text = label,
                 style = TextStyle(
-                    fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                    fontSize = integerResource(id = R.integer.primary_text).sp,
                     color = Color.Black,
                     fontWeight = FontWeight.Medium
                 ),
             )
             Box(
                 modifier = Modifier
-                    .width(48.dp)
-                    .height(48.dp)
+                    .width(dimensionResource(id = R.dimen.select_address_box))
+                    .height(dimensionResource(id = R.dimen.select_address_box))
                     .background(
                         color = colorResource(id = R.color.primary_dark),
-                        RoundedCornerShape(100.dp)
+                        RoundedCornerShape(dimensionResource(id = R.dimen.rounded_corner_full))
                     )
                     .clickable {
                     },
@@ -417,8 +345,8 @@ fun SelectAddressField(
                     painter = painterResource(id = R.drawable.select_adr_icon),
                     contentDescription = stringResource(id = R.string.select_addr_title),
                     modifier = Modifier
-                        .width(32.dp)
-                        .height(32.dp),
+                        .width(dimensionResource(id = R.dimen.extremely_icon))
+                        .height(dimensionResource(id = R.dimen.extremely_icon)),
                 )
             }
         }
@@ -430,11 +358,11 @@ fun SelectAddressField(
             onValueChange = {},
             modifier = Modifier
                 .fillMaxWidth()
-                .height(56.dp)
+                .height(dimensionResource(id = R.dimen.ordinal_text_field_height))
                 .clickable {
                 },
             textStyle = TextStyle(
-                fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                fontSize = integerResource(id = R.integer.primary_text).sp,
                 color = Color.Gray,
             ),
             enabled = false,
@@ -466,11 +394,11 @@ fun PasswordField(
     Column(
         modifier = modifier
             .fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.column_elements_small_margin))
     ) {
         Text(
             text = label,
-            fontSize = integerResource(id = R.integer.primary_text_size).sp,
+            fontSize = integerResource(id = R.integer.primary_text).sp,
             color = Color.Black,
             textAlign = TextAlign.Start,
             fontWeight = FontWeight.Medium
@@ -536,11 +464,11 @@ fun EmailField(
     Column(
         modifier = modifier
             .fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.column_elements_small_margin))
     ) {
         Text(
             text = label,
-            fontSize = integerResource(id = R.integer.primary_text_size).sp,
+            fontSize = integerResource(id = R.integer.primary_text).sp,
             color = Color.Black,
             textAlign = TextAlign.Start,
             fontWeight = FontWeight.Medium
@@ -597,11 +525,11 @@ fun UsualTextField(
     Column(
         modifier = Modifier
             .fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.column_elements_small_margin))
     ) {
         Text(
             text = title,
-            fontSize = integerResource(id = R.integer.primary_text_size).sp,
+            fontSize = integerResource(id = R.integer.primary_text).sp,
             color = Color.Black,
             textAlign = TextAlign.Start,
             fontWeight = FontWeight.Medium
@@ -612,14 +540,14 @@ fun UsualTextField(
             value = value,
             textStyle = TextStyle(
                 color = Color.Black,
-                fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                fontSize = integerResource(id = R.integer.primary_text).sp,
                 textAlign = TextAlign.Start,
             ),
             enabled = enabled,
             placeholder = {
                 Text(
                     text = placeholder,
-                    fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                    fontSize = integerResource(id = R.integer.primary_text).sp,
                     color = colorResource(id = R.color.text_secondary)
                 )
             },
@@ -661,11 +589,11 @@ fun IconedTextField(
     Column(
         modifier = Modifier
             .fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.column_elements_small_margin))
     ) {
         Text(
             text = title,
-            fontSize = integerResource(id = R.integer.primary_text_size).sp,
+            fontSize = integerResource(id = R.integer.primary_text).sp,
             color = Color.Black,
             textAlign = TextAlign.Start,
             fontWeight = FontWeight.Medium
@@ -678,7 +606,7 @@ fun IconedTextField(
             enabled = enabled,
             textStyle = TextStyle(
                 color = Color.Black,
-                fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                fontSize = integerResource(id = R.integer.primary_text).sp,
                 textAlign = TextAlign.Start,
             ),
             trailingIcon = {
@@ -693,7 +621,7 @@ fun IconedTextField(
             placeholder = {
                 Text(
                     text = placeholder,
-                    fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                    fontSize = integerResource(id = R.integer.primary_text).sp,
                     color = colorResource(id = R.color.text_secondary)
                 )
             },
@@ -731,12 +659,12 @@ fun InterestField(paddingValues: PaddingValues, label: String) {
     Column() {
         Column(
             modifier = Modifier.padding(paddingValues),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.column_elements_small_margin))
         ) {
             Text(
                 text = label,
                 style = TextStyle(
-                    fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                    fontSize = integerResource(id = R.integer.primary_text).sp,
                     color = Color.Black
                 )
             )
@@ -754,7 +682,10 @@ fun InterestField(paddingValues: PaddingValues, label: String) {
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = colorResource(id = R.color.secondary_color)
                 ),
-                textStyle = TextStyle(fontSize = 14.sp, color = Color.Black)
+                textStyle = TextStyle(
+                    fontSize = integerResource(id = R.integer.primary_text).sp,
+                    color = Color.Black
+                )
             )
         }
         if (openDialog) {

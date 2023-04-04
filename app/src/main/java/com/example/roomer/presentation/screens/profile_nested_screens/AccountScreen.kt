@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.sp
 import com.example.roomer.R
 import com.example.roomer.presentation.screens.destinations.ProfileScreenDestination
 import com.example.roomer.presentation.ui_components.BackBtn
-import com.example.roomer.presentation.ui_components.ScreenTextField
+import com.example.roomer.presentation.ui_components.AccountScreenTextField
 import com.example.roomer.presentation.ui_components.SelectAddressField
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -60,7 +60,7 @@ fun AccountScreen(
             Text(
                 text = stringResource(R.string.account_title),
                 fontSize = integerResource(
-                    id = R.integer.label_text_size
+                    id = R.integer.label_text
                 ).sp,
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
@@ -72,15 +72,12 @@ fun AccountScreen(
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            ScreenTextField(label = stringResource(R.string.first_name), textHint = "Vasya")
-            ScreenTextField(label = stringResource(R.string.last_name), textHint = "Pupkin")
-//                DateField(label = stringResource(R.string.date_of_birth))
-//                SexField()
-//                DropdownTextField(listOfItems = Choices.employment, label = stringResource(R.string.employment))
-            ScreenTextField(
+            AccountScreenTextField(label = stringResource(R.string.first_name), textHint = "Vasya")
+            AccountScreenTextField(label = stringResource(R.string.last_name), textHint = "Pupkin")
+            AccountScreenTextField(
                 textHint = stringResource(R.string.hint_about_you),
                 label = stringResource(R.string.about_me),
-                textFieldHeight = 112
+                textFieldHeight = 112.dp
             )
             SelectAddressField(
                 label = stringResource(R.string.select_addr_title),

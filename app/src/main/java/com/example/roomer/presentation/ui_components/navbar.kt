@@ -3,12 +3,7 @@ package com.example.roomer.presentation.ui_components
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
@@ -19,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -27,7 +23,6 @@ import androidx.navigation.NavHostController
 import com.example.roomer.R
 import com.example.roomer.presentation.screens.appCurrentDestinationAsState
 import com.example.roomer.utils.NavbarManagement
-import com.ramcosta.composedestinations.navigation.navigateTo
 
 @Composable
 fun Navbar(navController: NavHostController) {
@@ -38,7 +33,7 @@ fun Navbar(navController: NavHostController) {
             backgroundColor = colorResource(id = R.color.secondary_color),
             modifier = Modifier
                 .fillMaxWidth()
-                .height(80.dp)
+                .height(dimensionResource(id = R.dimen.navbar_height))
         ) {
             NavbarManagement.NavbarItem.values().forEach { screen ->
                 BottomNavigationItem(
@@ -47,10 +42,10 @@ fun Navbar(navController: NavHostController) {
                         .width(80.dp)
                         .padding(
                             start = 4.dp,
-                            end = 4.dp
+                            end = 4.dp,
                         ),
                     onClick = {
-                        navController.navigateTo(screen.direction)
+                        navController.navigate(screen.direction.route)
                     },
                     icon = {
                         if (currentDestination == screen.direction) {
@@ -59,22 +54,25 @@ fun Navbar(navController: NavHostController) {
                                     modifier = Modifier
                                         .width(64.dp)
                                         .height(32.dp)
-                                        .clip(RoundedCornerShape(16.dp))
+                                        .clip(
+                                            RoundedCornerShape(
+                                                dimensionResource(id = R.dimen.rounded_corner_ordinary)
+                                            )
+                                        )
                                         .background(colorResource(id = R.color.primary)),
                                 ) {
                                     Image(
                                         modifier = Modifier
                                             .align(Alignment.Center)
-                                            .width(24.dp)
-                                            .height(24.dp),
+                                            .width(dimensionResource(id = R.dimen.big_icon))
+                                            .height(dimensionResource(id = R.dimen.big_icon)),
                                         painter = painterResource(id = screen.iconSelected),
                                         contentDescription = screen.name
                                     )
                                 }
                                 Text(
                                     text = screen.name,
-                                    fontSize =
-                                        integerResource(id = R.integer.secondary_text_size).sp,
+                                    fontSize = integerResource(id = R.integer.secondary_text).sp,
                                     color = Color.Black,
                                     modifier = Modifier
                                         .align(Alignment.CenterHorizontally)
@@ -92,16 +90,15 @@ fun Navbar(navController: NavHostController) {
                                     Image(
                                         modifier = Modifier
                                             .align(Alignment.Center)
-                                            .width(24.dp)
-                                            .height(24.dp),
+                                            .width(dimensionResource(id = R.dimen.big_icon))
+                                            .height(dimensionResource(id = R.dimen.big_icon)),
                                         painter = painterResource(id = screen.iconUnSelected),
                                         contentDescription = screen.name
                                     )
                                 }
                                 Text(
                                     text = screen.name,
-                                    fontSize =
-                                        integerResource(id = R.integer.secondary_text_size).sp,
+                                    fontSize = integerResource(id = R.integer.secondary_text).sp,
                                     color = colorResource(id = R.color.text_secondary),
                                     modifier = Modifier
                                         .align(Alignment.CenterHorizontally)

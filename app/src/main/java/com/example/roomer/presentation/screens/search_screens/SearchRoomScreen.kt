@@ -109,7 +109,7 @@ fun SearchRoomScreen(
                     modifier = Modifier.fillMaxWidth(),
                     style = TextStyle(
                         fontSize = integerResource(
-                            id = R.integer.label_text_size
+                            id = R.integer.label_text
                         ).sp,
                         color = Color.Black
                     ),
@@ -142,7 +142,7 @@ fun SearchRoomScreen(
                     Text(
                         "From",
                         style = TextStyle(
-                            fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                            fontSize = integerResource(id = R.integer.primary_text).sp,
                             color = colorResource(
                                 id = R.color.text_secondary
                             )
@@ -169,7 +169,7 @@ fun SearchRoomScreen(
                     Text(
                         "To",
                         style = TextStyle(
-                            fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                            fontSize = integerResource(id = R.integer.primary_text).sp,
                             color = colorResource(id = R.color.text_secondary)
                         )
                     )

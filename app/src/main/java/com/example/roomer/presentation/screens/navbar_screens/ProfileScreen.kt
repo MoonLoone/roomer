@@ -45,7 +45,7 @@ fun ProfileScreen(
         Text(
             text = stringResource(R.string.profile_title),
             textAlign = TextAlign.Start,
-            fontSize = integerResource(id = R.integer.label_text_size).sp,
+            fontSize = integerResource(id = R.integer.label_text).sp,
         )
         Image(
             painter = painterResource(id = R.drawable.ordinary_client),

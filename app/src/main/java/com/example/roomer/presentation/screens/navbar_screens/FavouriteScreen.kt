@@ -37,7 +37,7 @@ fun FavouriteScreen(
             Text(
                 text = "Favourite",
                 style = TextStyle(
-                    fontSize = integerResource(id = R.integer.label_text_size).sp,
+                    fontSize = integerResource(id = R.integer.label_text).sp,
                     fontWeight = FontWeight.Bold,
                 ),
                 modifier = Modifier.padding(top = 8.dp)

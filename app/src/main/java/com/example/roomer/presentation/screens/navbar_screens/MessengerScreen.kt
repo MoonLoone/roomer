@@ -26,6 +26,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -117,7 +118,7 @@ private fun Searcher() {
         },
         textStyle = TextStyle(
             color = Color.Black,
-            fontSize = integerResource(id = R.integer.primary_text_size).sp,
+            fontSize = integerResource(id = R.integer.primary_text).sp,
         ),
         value = searchText,
         onValueChange = { value ->
@@ -131,10 +132,10 @@ private fun Searcher() {
                 contentDescription = "search_icon",
                 modifier = Modifier
                     .height(
-                        integerResource(id = R.integer.ordinary_icon_size).dp
+                        dimensionResource(id = R.dimen.ordinary_icon)
                     )
                     .width(
-                        integerResource(id = R.integer.ordinary_icon_size).dp
+                        dimensionResource(id = R.dimen.ordinary_icon)
                     ),
             )
         },

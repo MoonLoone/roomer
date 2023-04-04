@@ -102,7 +102,7 @@ private fun TopLine(onNavigateTo: () -> Unit) {
             style = TextStyle(
                 color = Color.Black,
                 fontSize = integerResource(
-                    id = R.integer.primary_text_size
+                    id = R.integer.primary_text
                 ).sp,
                 fontWeight = FontWeight.Bold,
             )
@@ -149,7 +149,7 @@ private fun EnterMessage(
                         color = colorResource(
                             id = R.color.text_secondary
                         ),
-                        fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                        fontSize = integerResource(id = R.integer.primary_text).sp,
                     )
                 )
             },

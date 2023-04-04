@@ -72,7 +72,7 @@ fun SearchRoomResults(
                     Text(
                         text = "Housing Results",
                         fontSize = integerResource(
-                            id = R.integer.label_text_size
+                            id = R.integer.label_text
                         ).sp,
                         textAlign = TextAlign.Center,
                         fontWeight = FontWeight.Bold,
@@ -87,7 +87,7 @@ fun SearchRoomResults(
                             Text(
                                 text = "Sorry, nothing here",
                                 style = TextStyle(
-                                    fontSize = integerResource(id = R.integer.label_text_size).sp,
+                                    fontSize = integerResource(id = R.integer.label_text).sp,
                                 )
                             )
                         }
@@ -110,7 +110,7 @@ fun SearchRoomResults(
                     text = "Sorry, something went wrong. You should to retry",
                     style = TextStyle(
                         fontSize = integerResource(
-                            id = R.integer.primary_text_size
+                            id = R.integer.primary_text
                         ).sp,
                         color = Color.Black,
                     )
