@@ -81,7 +81,9 @@ fun SearchRoomResults(
                     )
                 }
                 LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.list_elements_margin)),
+                    verticalArrangement = Arrangement.spacedBy(
+                        dimensionResource(id = R.dimen.list_elements_margin)
+                    ),
                 ) {
                     item {
                         if (rooms.isEmpty()) {

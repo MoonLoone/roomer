@@ -27,8 +27,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.roomer.R
 import com.example.roomer.presentation.screens.destinations.ProfileScreenDestination
-import com.example.roomer.presentation.ui_components.BackBtn
 import com.example.roomer.presentation.ui_components.AccountScreenTextField
+import com.example.roomer.presentation.ui_components.BackBtn
 import com.example.roomer.presentation.ui_components.SelectAddressField
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -93,7 +93,9 @@ fun AccountScreen(
                         .border(
                             width = dimensionResource(id = R.dimen.ordinary_border),
                             color = Color.Black,
-                            shape = RoundedCornerShape(dimensionResource(id = R.dimen.rounded_corner_full))
+                            shape = RoundedCornerShape(
+                                dimensionResource(id = R.dimen.rounded_corner_full)
+                            )
                         )
                         .clickable {
                         },
@@ -123,7 +125,9 @@ fun AccountScreen(
                         .border(
                             width = dimensionResource(id = R.dimen.ordinary_border),
                             color = Color.Black,
-                            shape = RoundedCornerShape(dimensionResource(id = R.dimen.rounded_corner_full))
+                            shape = RoundedCornerShape(
+                                dimensionResource(id = R.dimen.rounded_corner_full)
+                            )
                         )
                         .clickable {
                         },

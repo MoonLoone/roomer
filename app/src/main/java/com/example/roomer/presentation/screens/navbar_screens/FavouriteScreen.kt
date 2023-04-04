@@ -31,7 +31,9 @@ fun FavouriteScreen(
     LazyColumn(
         modifier = Modifier
             .fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.list_elements_margin)),
+        verticalArrangement = Arrangement.spacedBy(
+            dimensionResource(id = R.dimen.list_elements_margin)
+        ),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         item {

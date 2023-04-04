@@ -97,8 +97,10 @@ fun ProfileContentLine(text: String, iconId: Int, onNavigateToFriends: () -> Uni
         )
     }
     Divider(
-        color = Color.Black, modifier = Modifier.padding(
-            top = dimensionResource(id = R.dimen.divider_top_padding), bottom = dimensionResource(
+        color = Color.Black,
+        modifier = Modifier.padding(
+            top = dimensionResource(id = R.dimen.divider_top_padding),
+            bottom = dimensionResource(
                 id = R.dimen.screen_bottom_margin
             )
         )
@@ -176,10 +178,10 @@ fun ChatItem(
                     if (unreadMessages > 0) {
                         Text(
                             text =
-                            when (unreadMessages) {
-                                in 1..999 -> unreadMessages.toString()
-                                else -> "999+"
-                            },
+                                when (unreadMessages) {
+                                    in 1..999 -> unreadMessages.toString()
+                                    else -> "999+"
+                                },
                             modifier = Modifier
                                 .width(48.dp)
                                 .height(20.dp)
@@ -187,7 +189,9 @@ fun ChatItem(
                                     color = colorResource(
                                         id = R.color.primary
                                     ),
-                                    shape = RoundedCornerShape(dimensionResource(id = R.dimen.rounded_corner_ordinary))
+                                    shape = RoundedCornerShape(
+                                        dimensionResource(id = R.dimen.rounded_corner_ordinary)
+                                    )
                                 ),
                             style = TextStyle(
                                 color = Color.Black,
@@ -618,7 +622,9 @@ fun ButtonsRow(
     Column(
         modifier = Modifier
             .fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.column_elements_small_margin))
+        verticalArrangement = Arrangement.spacedBy(
+            dimensionResource(id = R.dimen.column_elements_small_margin)
+        )
     ) {
         androidx.compose.material.Text(
             text = label,
@@ -657,7 +663,9 @@ fun ButtonsRowMapped(
     Column(
         modifier = Modifier
             .fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.column_elements_small_margin))
+        verticalArrangement = Arrangement.spacedBy(
+            dimensionResource(id = R.dimen.column_elements_small_margin)
+        )
     ) {
         androidx.compose.material.Text(
             text = label,
@@ -905,7 +913,9 @@ fun UserCardResult(searchUser: User) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(start = 12.dp, top = 8.dp, end = 12.dp, bottom = 8.dp),
-            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.column_elements_small_margin)),
+            verticalArrangement = Arrangement.spacedBy(
+                dimensionResource(id = R.dimen.column_elements_small_margin)
+            ),
         ) {
             Text(
                 text = searchUser.firstName + " " + searchUser.lastName,
@@ -930,7 +940,10 @@ fun UserCardResult(searchUser: User) {
                 )
                 Text(
                     text = "Moscow",
-                    style = TextStyle(fontSize = integerResource(id = R.integer.primary_text).sp, color = Color.Black)
+                    style = TextStyle(
+                        fontSize = integerResource(id = R.integer.primary_text).sp,
+                        color = Color.Black
+                    )
                 )
             }
             Row(
@@ -1001,7 +1014,9 @@ fun InterestsButtons(
     Column(
         modifier = Modifier
             .fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.list_elements_margin)),
+        verticalArrangement = Arrangement.spacedBy(
+            dimensionResource(id = R.dimen.list_elements_margin)
+        ),
         horizontalAlignment = Alignment.Start
     ) {
         androidx.compose.material.Text(

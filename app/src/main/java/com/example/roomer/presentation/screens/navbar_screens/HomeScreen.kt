@@ -111,7 +111,9 @@ fun HomeScreen(
                 )
                 .fillMaxSize()
                 .padding(top = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.list_elements_margin)),
+            verticalArrangement = Arrangement.spacedBy(
+                dimensionResource(id = R.dimen.list_elements_margin)
+            ),
         ) {
             Column(modifier = Modifier.fillMaxWidth()) {
                 Text(
@@ -126,7 +128,9 @@ fun HomeScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(148.dp),
-                    horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.list_elements_margin)),
+                    horizontalArrangement = Arrangement.spacedBy(
+                        dimensionResource(id = R.dimen.list_elements_margin)
+                    ),
                 ) {
                     items(recommendedRoommates.size - 2) { index ->
                         UserCard(recommendedRoommate = recommendedRoommates[index])
@@ -149,7 +153,9 @@ fun HomeScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(148.dp),
-                    horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.list_elements_margin)),
+                    horizontalArrangement = Arrangement.spacedBy(
+                        dimensionResource(id = R.dimen.list_elements_margin)
+                    ),
                 ) {
                     items(recommendedRooms.size) { index ->
                         RoomCard(recommendedRoom = recommendedRooms[index], true)
@@ -169,7 +175,9 @@ fun HomeScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(148.dp),
-                    horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.list_elements_margin)),
+                    horizontalArrangement = Arrangement.spacedBy(
+                        dimensionResource(id = R.dimen.list_elements_margin)
+                    ),
                 ) {
                     items(recommendedRoommates.size) { index ->
                         UserCard(recommendedRoommate = recommendedRoommates[index])

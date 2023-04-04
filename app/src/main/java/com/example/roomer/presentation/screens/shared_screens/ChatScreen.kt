@@ -176,7 +176,9 @@ private fun EnterMessage(
                             .height(32.dp)
                             .background(
                                 color = colorResource(id = R.color.secondary_color),
-                                RoundedCornerShape(dimensionResource(id = R.dimen.rounded_corner_full))
+                                RoundedCornerShape(
+                                    dimensionResource(id = R.dimen.rounded_corner_full)
+                                )
                             )
                             .clickable {
                             },

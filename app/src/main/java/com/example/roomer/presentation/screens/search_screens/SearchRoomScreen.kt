@@ -72,7 +72,8 @@ fun SearchRoomScreen(
     }
     val context = LocalContext.current
     Scaffold(
-        modifier = Modifier.padding(top = dimensionResource(id = R.dimen.screen_top_margin),
+        modifier = Modifier.padding(
+            top = dimensionResource(id = R.dimen.screen_top_margin),
             start = dimensionResource(id = R.dimen.screen_start_margin),
             end = dimensionResource(id = R.dimen.screen_end_margin)
         ),
@@ -100,7 +101,9 @@ fun SearchRoomScreen(
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
                 .padding(it),
-            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.list_elements_margin))
+            verticalArrangement = Arrangement.spacedBy(
+                dimensionResource(id = R.dimen.list_elements_margin)
+            )
         ) {
             Row(horizontalArrangement = Arrangement.SpaceBetween) {
                 BackBtn(

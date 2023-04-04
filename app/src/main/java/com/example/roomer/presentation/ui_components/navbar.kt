@@ -56,7 +56,9 @@ fun Navbar(navController: NavHostController) {
                                         .height(32.dp)
                                         .clip(
                                             RoundedCornerShape(
-                                                dimensionResource(id = R.dimen.rounded_corner_ordinary)
+                                                dimensionResource(
+                                                    id = R.dimen.rounded_corner_ordinary
+                                                )
                                             )
                                         )
                                         .background(colorResource(id = R.color.primary)),

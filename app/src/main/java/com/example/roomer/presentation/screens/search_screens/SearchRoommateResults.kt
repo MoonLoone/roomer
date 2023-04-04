@@ -64,7 +64,8 @@ fun SearchRoommateResults(
     when (loadingState.value) {
         LoadingStates.Success ->
             Column(
-                modifier = Modifier.padding(top = dimensionResource(id = R.dimen.screen_top_margin),
+                modifier = Modifier.padding(
+                    top = dimensionResource(id = R.dimen.screen_top_margin),
                     start = dimensionResource(id = R.dimen.screen_start_margin),
                     end = dimensionResource(id = R.dimen.screen_end_margin)
                 ),

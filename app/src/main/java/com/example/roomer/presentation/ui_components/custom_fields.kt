@@ -88,7 +88,9 @@ fun DropdownTextFieldMapped(
     else
         Icons.Filled.KeyboardArrowDown
     Column(
-        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.column_elements_small_margin))
+        verticalArrangement = Arrangement.spacedBy(
+            dimensionResource(id = R.dimen.column_elements_small_margin)
+        )
     ) {
         Text(
             text = label,
@@ -153,7 +155,9 @@ fun SexField(
     Column(
         modifier = Modifier
             .fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.column_elements_small_margin))
+        verticalArrangement = Arrangement.spacedBy(
+            dimensionResource(id = R.dimen.column_elements_small_margin)
+        )
     ) {
         Text(
             text = title,
@@ -162,7 +166,9 @@ fun SexField(
             color = Color.Black
         )
         Row(
-            horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.row_ordinal_padding))
+            horizontalArrangement = Arrangement.spacedBy(
+                dimensionResource(id = R.dimen.row_ordinal_padding)
+            )
         ) {
             if (value == "M") {
                 GreenButtonPrimaryIconed(
@@ -314,7 +320,9 @@ fun SelectAddressField(
 ) {
     Column(
         modifier = Modifier.padding(paddingValues),
-        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.column_elements_small_margin))
+        verticalArrangement = Arrangement.spacedBy(
+            dimensionResource(id = R.dimen.column_elements_small_margin)
+        )
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -394,7 +402,9 @@ fun PasswordField(
     Column(
         modifier = modifier
             .fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.column_elements_small_margin))
+        verticalArrangement = Arrangement.spacedBy(
+            dimensionResource(id = R.dimen.column_elements_small_margin)
+        )
     ) {
         Text(
             text = label,
@@ -464,7 +474,9 @@ fun EmailField(
     Column(
         modifier = modifier
             .fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.column_elements_small_margin))
+        verticalArrangement = Arrangement.spacedBy(
+            dimensionResource(id = R.dimen.column_elements_small_margin)
+        )
     ) {
         Text(
             text = label,
@@ -525,7 +537,9 @@ fun UsualTextField(
     Column(
         modifier = Modifier
             .fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.column_elements_small_margin))
+        verticalArrangement = Arrangement.spacedBy(
+            dimensionResource(id = R.dimen.column_elements_small_margin)
+        )
     ) {
         Text(
             text = title,
@@ -589,7 +603,9 @@ fun IconedTextField(
     Column(
         modifier = Modifier
             .fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.column_elements_small_margin))
+        verticalArrangement = Arrangement.spacedBy(
+            dimensionResource(id = R.dimen.column_elements_small_margin)
+        )
     ) {
         Text(
             text = title,
@@ -659,7 +675,9 @@ fun InterestField(paddingValues: PaddingValues, label: String) {
     Column() {
         Column(
             modifier = Modifier.padding(paddingValues),
-            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.column_elements_small_margin))
+            verticalArrangement = Arrangement.spacedBy(
+                dimensionResource(id = R.dimen.column_elements_small_margin)
+            )
         ) {
             Text(
                 text = label,
