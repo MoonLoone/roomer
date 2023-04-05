@@ -9,10 +9,10 @@
     <integer name="secondary_text">12</integer>
     <integer name="big_text">20</integer>
     <integer name="label_text">24</integer>
-    <dimen name="small_icon">14.dp</dimen>
-    <dimen name="ordinary_icon">16.dp</dimen>
-    <dimen name="big_icon">24.dp</dimen>
-    <dimen name="extremely_icon">32.dp</dimen>
+    <dimen name="tine_icon">14.dp</dimen>
+    <dimen name="small_icon">16.dp</dimen>
+    <dimen name="ordinary_icon">24.dp</dimen>
+    <dimen name="big_icon">32.dp</dimen>
     <dimen name="list_elements_margin">16.dp</dimen>
     <dimen name="column_elements_small_margin">8.dp</dimen>
     <dimen name="row_ordinal_padding">16.dp</dimen>

@@ -136,10 +136,10 @@ private fun Searcher() {
                 contentDescription = "search_icon",
                 modifier = Modifier
                     .height(
-                        dimensionResource(id = R.dimen.ordinary_icon)
+                        dimensionResource(id = R.dimen.small_icon)
                     )
                     .width(
-                        dimensionResource(id = R.dimen.ordinary_icon)
+                        dimensionResource(id = R.dimen.small_icon)
                     ),
             )
         },
@@ -149,10 +149,10 @@ private fun Searcher() {
                 contentDescription = "clear_text",
                 modifier = Modifier
                     .height(
-                        dimensionResource(id = R.dimen.big_icon)
+                        dimensionResource(id = R.dimen.ordinary_icon)
                     )
                     .width(
-                        dimensionResource(id = R.dimen.big_icon)
+                        dimensionResource(id = R.dimen.ordinary_icon)
                     )
                     .clickable { searchText = TextFieldValue("") },
             )

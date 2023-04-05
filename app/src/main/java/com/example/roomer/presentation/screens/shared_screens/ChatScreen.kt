@@ -166,8 +166,8 @@ private fun EnterMessage(
                         painter = painterResource(id = R.drawable.add_icon),
                         contentDescription = "Add icon",
                         modifier = Modifier
-                            .width(dimensionResource(id = R.dimen.extremely_icon))
-                            .height(dimensionResource(id = R.dimen.extremely_icon))
+                            .width(dimensionResource(id = R.dimen.big_icon))
+                            .height(dimensionResource(id = R.dimen.big_icon))
                     )
                     Box(
                         modifier = Modifier
@@ -189,8 +189,8 @@ private fun EnterMessage(
                             contentDescription = "Enter message",
                             alignment = Alignment.Center,
                             modifier = Modifier
-                                .width(dimensionResource(id = R.dimen.big_icon))
-                                .height(dimensionResource(id = R.dimen.big_icon))
+                                .width(dimensionResource(id = R.dimen.ordinary_icon))
+                                .height(dimensionResource(id = R.dimen.ordinary_icon))
                                 .clickable {
                                     onSend(editMessageText.value.text)
                                 }

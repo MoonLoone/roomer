@@ -293,8 +293,8 @@ fun DateField(
                     painter = painterResource(id = R.drawable.calendar_icon),
                     contentDescription = stringResource(R.string.calendar_icon),
                     modifier = Modifier
-                        .width(dimensionResource(id = R.dimen.big_icon))
-                        .height(dimensionResource(id = R.dimen.big_icon)),
+                        .width(dimensionResource(id = R.dimen.ordinary_icon))
+                        .height(dimensionResource(id = R.dimen.ordinary_icon)),
                 )
             },
             textStyle = TextStyle(
@@ -357,8 +357,8 @@ fun SelectAddressField(
                     painter = painterResource(id = R.drawable.select_adr_icon),
                     contentDescription = stringResource(id = R.string.select_addr_title),
                     modifier = Modifier
-                        .width(dimensionResource(id = R.dimen.extremely_icon))
-                        .height(dimensionResource(id = R.dimen.extremely_icon)),
+                        .width(dimensionResource(id = R.dimen.big_icon))
+                        .height(dimensionResource(id = R.dimen.big_icon)),
                 )
             }
         }

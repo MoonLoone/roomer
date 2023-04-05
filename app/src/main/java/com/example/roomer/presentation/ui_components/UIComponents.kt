@@ -88,8 +88,8 @@ fun ProfileContentLine(text: String, iconId: Int, onNavigateToFriends: () -> Uni
             painter = painterResource(id = iconId),
             contentDescription = text,
             modifier = Modifier
-                .height(dimensionResource(id = R.dimen.big_icon))
-                .width(dimensionResource(id = R.dimen.big_icon))
+                .height(dimensionResource(id = R.dimen.ordinary_icon))
+                .width(dimensionResource(id = R.dimen.ordinary_icon))
                 .align(Alignment.CenterVertically),
             contentScale = ContentScale.Crop,
         )
@@ -153,8 +153,8 @@ fun ChatItem(
                         ),
                         alignment = Center,
                         modifier = Modifier
-                            .width(dimensionResource(id = R.dimen.ordinary_icon))
-                            .height(dimensionResource(id = R.dimen.ordinary_icon)),
+                            .width(dimensionResource(id = R.dimen.small_icon))
+                            .height(dimensionResource(id = R.dimen.small_icon)),
                     )
                     Text(
                         text = message.dateTime,
@@ -324,8 +324,8 @@ fun UserCard(recommendedRoommate: User) {
                     painter = painterResource(id = R.drawable.rating_icon),
                     contentDescription = stringResource(R.string.rate_icon),
                     modifier = Modifier
-                        .width(dimensionResource(id = R.dimen.ordinary_icon))
-                        .height(dimensionResource(id = R.dimen.ordinary_icon))
+                        .width(dimensionResource(id = R.dimen.small_icon))
+                        .height(dimensionResource(id = R.dimen.small_icon))
                 )
                 Text(
                     text = recommendedRoommate.rating.toString(),
@@ -390,8 +390,8 @@ fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean) {
                 modifier = Modifier
                     .align(Alignment.TopEnd)
                     .padding(top = 10.dp, end = 10.dp)
-                    .width(dimensionResource(id = R.dimen.extremely_icon))
-                    .height(dimensionResource(id = R.dimen.extremely_icon))
+                    .width(dimensionResource(id = R.dimen.big_icon))
+                    .height(dimensionResource(id = R.dimen.big_icon))
                     .clip(RoundedCornerShape(dimensionResource(id = R.dimen.rounded_corner_full)))
                     .clickable {
                         isLiked = !isLiked
@@ -417,8 +417,8 @@ fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean) {
                 painter = painterResource(id = R.drawable.location_icon),
                 contentDescription = stringResource(id = R.string.location_icon),
                 modifier = Modifier
-                    .width(dimensionResource(id = R.dimen.small_icon))
-                    .height(dimensionResource(id = R.dimen.small_icon)),
+                    .width(dimensionResource(id = R.dimen.tine_icon))
+                    .height(dimensionResource(id = R.dimen.tine_icon)),
                 colorFilter = ColorFilter.tint(color = colorResource(id = R.color.secondary_color))
             )
             Text(
@@ -472,8 +472,8 @@ fun SearchField(onNavigateToFriends: () -> Unit) {
                 painter = painterResource(id = R.drawable.loupe_icon),
                 contentDescription = stringResource(id = R.string.search_icon_description),
                 modifier = Modifier
-                    .height(dimensionResource(id = R.dimen.big_icon))
-                    .width(dimensionResource(id = R.dimen.big_icon)),
+                    .height(dimensionResource(id = R.dimen.ordinary_icon))
+                    .width(dimensionResource(id = R.dimen.ordinary_icon)),
             )
         },
         trailingIcon = {
@@ -481,8 +481,8 @@ fun SearchField(onNavigateToFriends: () -> Unit) {
                 painter = painterResource(id = R.drawable.search_filter_icon),
                 contentDescription = stringResource(id = R.string.search_placeholder),
                 modifier = Modifier
-                    .height(dimensionResource(id = R.dimen.big_icon))
-                    .width(dimensionResource(id = R.dimen.big_icon))
+                    .height(dimensionResource(id = R.dimen.ordinary_icon))
+                    .width(dimensionResource(id = R.dimen.ordinary_icon))
                     .clickable {
                         onNavigateToFriends.invoke()
                     },
@@ -761,8 +761,8 @@ fun ProfilePicture(
             Icons.Filled.PhotoCamera,
             contentDescription = "Upload photo",
             modifier = Modifier
-                .height(dimensionResource(id = R.dimen.big_icon))
-                .width(dimensionResource(id = R.dimen.big_icon))
+                .height(dimensionResource(id = R.dimen.ordinary_icon))
+                .width(dimensionResource(id = R.dimen.ordinary_icon))
                 .offset(50.dp, (-25).dp)
                 .background(Color.White, shape = CircleShape)
         )
@@ -812,8 +812,8 @@ fun FilterSelect(selectItemName: String, onNavigateToFriends: () -> Unit) {
                 painter = painterResource(id = R.drawable.unchecked_messages_icon),
                 contentDescription = stringResource(id = R.string.room),
                 modifier = Modifier
-                    .height(dimensionResource(id = R.dimen.ordinary_icon))
-                    .width(dimensionResource(id = R.dimen.ordinary_icon)),
+                    .height(dimensionResource(id = R.dimen.small_icon))
+                    .width(dimensionResource(id = R.dimen.small_icon)),
                 colorFilter = ColorFilter.tint(
                     colorResource(id = R.color.primary)
                 )
@@ -879,8 +879,8 @@ fun FilterSelect(selectItemName: String, onNavigateToFriends: () -> Unit) {
                 painter = painterResource(id = R.drawable.unchecked_messages_icon),
                 contentDescription = stringResource(id = R.string.roommate),
                 modifier = Modifier
-                    .height(dimensionResource(id = R.dimen.ordinary_icon))
-                    .width(dimensionResource(id = R.dimen.ordinary_icon)),
+                    .height(dimensionResource(id = R.dimen.small_icon))
+                    .width(dimensionResource(id = R.dimen.small_icon)),
                 colorFilter = ColorFilter.tint(
                     colorResource(id = R.color.primary)
                 )
@@ -938,8 +938,8 @@ fun UserCardResult(searchUser: User) {
                     painter = painterResource(id = R.drawable.location_icon),
                     contentDescription = stringResource(id = R.string.location_icon),
                     modifier = Modifier
-                        .width(dimensionResource(id = R.dimen.ordinary_icon))
-                        .height(dimensionResource(id = R.dimen.ordinary_icon))
+                        .width(dimensionResource(id = R.dimen.small_icon))
+                        .height(dimensionResource(id = R.dimen.small_icon))
                         .align(Alignment.CenterVertically),
                 )
                 Text(
@@ -998,8 +998,8 @@ fun UserCardResult(searchUser: User) {
                     painter = painterResource(id = R.drawable.rating_icon),
                     contentDescription = "Rating star",
                     modifier = Modifier
-                        .height(dimensionResource(id = R.dimen.ordinary_icon))
-                        .width(dimensionResource(id = R.dimen.ordinary_icon)),
+                        .height(dimensionResource(id = R.dimen.small_icon))
+                        .width(dimensionResource(id = R.dimen.small_icon)),
                 )
             }
         }

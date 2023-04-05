@@ -110,8 +110,8 @@ fun AccountScreen(
                         contentDescription = stringResource(R.string.habits_icon_description),
                         modifier = Modifier
                             .padding(start = 16.dp)
-                            .width(dimensionResource(id = R.dimen.ordinary_icon))
-                            .height(dimensionResource(id = R.dimen.ordinary_icon)),
+                            .width(dimensionResource(id = R.dimen.small_icon))
+                            .height(dimensionResource(id = R.dimen.small_icon)),
                     )
                     Text(
                         text = stringResource(id = R.string.habits_button),
@@ -144,8 +144,8 @@ fun AccountScreen(
                         ),
                         modifier = Modifier
                             .padding(start = 16.dp)
-                            .width(dimensionResource(id = R.dimen.ordinary_icon))
-                            .height(dimensionResource(id = R.dimen.ordinary_icon)),
+                            .width(dimensionResource(id = R.dimen.small_icon))
+                            .height(dimensionResource(id = R.dimen.small_icon)),
                     )
                     Text(
                         text = stringResource(id = R.string.interests_button),

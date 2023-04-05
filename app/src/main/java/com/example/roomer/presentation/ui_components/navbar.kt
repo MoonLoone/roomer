@@ -71,8 +71,8 @@ fun Navbar(navController: NavHostController) {
                                     Image(
                                         modifier = Modifier
                                             .align(Alignment.Center)
-                                            .width(dimensionResource(id = R.dimen.big_icon))
-                                            .height(dimensionResource(id = R.dimen.big_icon)),
+                                            .width(dimensionResource(id = R.dimen.ordinary_icon))
+                                            .height(dimensionResource(id = R.dimen.ordinary_icon)),
                                         painter = painterResource(id = screen.iconSelected),
                                         contentDescription = screen.name
                                     )
@@ -97,8 +97,8 @@ fun Navbar(navController: NavHostController) {
                                     Image(
                                         modifier = Modifier
                                             .align(Alignment.Center)
-                                            .width(dimensionResource(id = R.dimen.big_icon))
-                                            .height(dimensionResource(id = R.dimen.big_icon)),
+                                            .width(dimensionResource(id = R.dimen.ordinary_icon))
+                                            .height(dimensionResource(id = R.dimen.ordinary_icon)),
                                         painter = painterResource(id = screen.iconUnSelected),
                                         contentDescription = screen.name
                                     )
