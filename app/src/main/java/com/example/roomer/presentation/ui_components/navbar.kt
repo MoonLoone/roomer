@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -50,7 +51,7 @@ fun Navbar(navController: NavHostController) {
                             end = 4.dp
                         ),
                     onClick = {
-                        navController.navigateTo(screen.direction)
+                        navController.navigate(screen.direction.route)
                     },
                     icon = {
                         if (currentDestination == screen.direction) {
@@ -72,7 +73,7 @@ fun Navbar(navController: NavHostController) {
                                     )
                                 }
                                 Text(
-                                    text = screen.name,
+                                    text = stringResource(id = screen.nameResId),
                                     fontSize =
                                         integerResource(id = R.integer.secondary_text_size).sp,
                                     color = Color.Black,
@@ -99,7 +100,7 @@ fun Navbar(navController: NavHostController) {
                                     )
                                 }
                                 Text(
-                                    text = screen.name,
+                                    text = stringResource(id = screen.nameResId),
                                     fontSize =
                                         integerResource(id = R.integer.secondary_text_size).sp,
                                     color = colorResource(id = R.color.text_secondary),
