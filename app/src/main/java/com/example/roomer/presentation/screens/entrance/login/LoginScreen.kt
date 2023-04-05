@@ -23,13 +23,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.roomer.R
@@ -79,17 +79,17 @@ fun LoginScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
-                    start = integerResource(id = R.integer.screen_padding_size).dp,
-                    end = integerResource(id = R.integer.screen_padding_size).dp
+                    start = dimensionResource(id = R.dimen.screen_start_margin),
+                    end = dimensionResource(id = R.dimen.screen_end_margin),
                 ),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(
-                integerResource(id = R.integer.elements_margin_size).dp
+                dimensionResource(id = R.dimen.list_elements_margin)
             ),
         ) {
             Text(
                 text = stringResource(R.string.login_screen_title),
-                fontSize = integerResource(id = R.integer.label_text_size).sp,
+                fontSize = integerResource(id = R.integer.label_text).sp,
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Center
             )
@@ -123,7 +123,7 @@ fun LoginScreen(
             ) {
                 Text(
                     text = stringResource(R.string.login_screen_supported_text),
-                    fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                    fontSize = integerResource(id = R.integer.primary_text).sp,
                     fontWeight = FontWeight.Medium,
                     textAlign = TextAlign.Center
                 )
@@ -131,10 +131,10 @@ fun LoginScreen(
                     text = AnnotatedString(stringResource(R.string.login_screen_sign_up_text)),
                     modifier = Modifier
                         .padding(
-                            start = integerResource(id = R.integer.elements_margin_size_small).dp
+                            start = dimensionResource(id = R.dimen.column_elements_small_margin)
                         ),
                     style = TextStyle(
-                        fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                        fontSize = integerResource(id = R.integer.primary_text).sp,
                         fontWeight = FontWeight.Medium,
                         color = colorResource(id = R.color.primary_dark),
                         textAlign = TextAlign.Center

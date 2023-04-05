@@ -19,10 +19,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.roomer.R
 import com.example.roomer.presentation.screens.destinations.AboutMeAvatarScreenDestination
@@ -61,9 +62,14 @@ fun PrimaryUserInfoScreen(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 40.dp, end = 40.dp),
+                .padding(
+                    start = dimensionResource(id = R.dimen.screen_start_margin),
+                    end = dimensionResource(id = R.dimen.screen_end_margin)
+                ),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+            verticalArrangement = Arrangement.spacedBy(
+                dimensionResource(id = R.dimen.list_elements_margin)
+            ),
         ) {
             LinearProgressIndicator(
                 modifier = Modifier.fillMaxWidth(),
@@ -72,7 +78,7 @@ fun PrimaryUserInfoScreen(
             )
             Text(
                 text = "Tell us more about you",
-                fontSize = 24.sp,
+                fontSize = integerResource(id = R.integer.label_text).sp,
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Start
             )
