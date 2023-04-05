@@ -28,7 +28,6 @@ import androidx.navigation.NavHostController
 import com.example.roomer.R
 import com.example.roomer.presentation.screens.appCurrentDestinationAsState
 import com.example.roomer.utils.NavbarManagement
-import com.ramcosta.composedestinations.navigation.navigateTo
 
 @Composable
 fun Navbar(navController: NavHostController) {
