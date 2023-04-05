@@ -1,8 +1,11 @@
 package com.example.roomer.presentation.screens.navbar_screens
 
+import com.example.roomer.utils.ScreenState
+
 data class MessengerScreenState(
-    val success: Boolean = false,
-    val isLoading: Boolean = true,
-    val error: String = "",
-    val internetProblem: Boolean = false,
-)
+    val noChats: Boolean = true,
+    override var success: Boolean = false,
+    override var isLoading: Boolean = true,
+    override var error: String = "Unresolved error",
+    override var internetProblem: Boolean = false,
+) : ScreenState

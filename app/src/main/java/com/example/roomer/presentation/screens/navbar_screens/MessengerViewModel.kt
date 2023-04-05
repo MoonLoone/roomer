@@ -24,7 +24,7 @@ class MessengerViewModel @Inject constructor(
     private val roomerRepository: RoomerRepository,
 ) : AndroidViewModel(application) {
 
-    private val _state = mutableStateOf(MessengerScreenState())
+    private val _state = mutableStateOf(MessengerScreenState(false))
     val state: State<MessengerScreenState> = _state
     private val messengerUseCase = MessengerUseCase(roomerRepository)
     private val _chats = MutableStateFlow(emptyList<Message>())
@@ -42,8 +42,7 @@ class MessengerViewModel @Inject constructor(
                 when (it) {
                     is Resource.Internet -> {
                         _state.value = MessengerScreenState(
-                            isLoading = false,
-                            internetProblem = true
+
                         )
                     }
                     is Resource.Loading -> {

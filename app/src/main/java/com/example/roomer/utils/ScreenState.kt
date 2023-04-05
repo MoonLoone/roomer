@@ -1,8 +1,8 @@
 package com.example.roomer.utils
 
-open class ScreenState(
-    val success: Boolean = false,
-    val isLoading: Boolean = false,
-    val error: String = "",
-    val internetProblem: Boolean = false,
-)
+interface ScreenState {
+    var success: Boolean
+    var isLoading: Boolean
+    var error: String
+    var internetProblem: Boolean
+}
