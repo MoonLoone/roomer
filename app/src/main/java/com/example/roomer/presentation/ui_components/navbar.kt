@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -38,7 +39,7 @@ fun Navbar(navController: NavHostController) {
             backgroundColor = colorResource(id = R.color.secondary_color),
             modifier = Modifier
                 .fillMaxWidth()
-                .height(80.dp)
+                .height(dimensionResource(id = R.dimen.navbar_height))
         ) {
             NavbarManagement.NavbarItem.values().forEach { screen ->
                 BottomNavigationItem(
@@ -47,7 +48,7 @@ fun Navbar(navController: NavHostController) {
                         .width(80.dp)
                         .padding(
                             start = 4.dp,
-                            end = 4.dp
+                            end = 4.dp,
                         ),
                     onClick = {
                         navController.navigate(screen.direction.route)
@@ -59,14 +60,20 @@ fun Navbar(navController: NavHostController) {
                                     modifier = Modifier
                                         .width(64.dp)
                                         .height(32.dp)
-                                        .clip(RoundedCornerShape(16.dp))
+                                        .clip(
+                                            RoundedCornerShape(
+                                                dimensionResource(
+                                                    id = R.dimen.rounded_corner_ordinary
+                                                )
+                                            )
+                                        )
                                         .background(colorResource(id = R.color.primary)),
                                 ) {
                                     Image(
                                         modifier = Modifier
                                             .align(Alignment.Center)
-                                            .width(24.dp)
-                                            .height(24.dp),
+                                            .width(dimensionResource(id = R.dimen.ordinary_icon))
+                                            .height(dimensionResource(id = R.dimen.ordinary_icon)),
                                         painter = painterResource(id = screen.iconSelected),
                                         contentDescription = screen.name
                                     )
@@ -75,6 +82,7 @@ fun Navbar(navController: NavHostController) {
                                     text = stringResource(id = screen.nameResId),
                                     fontSize =
                                         integerResource(id = R.integer.secondary_text_size).sp,
+
                                     color = Color.Black,
                                     modifier = Modifier
                                         .align(Alignment.CenterHorizontally)
@@ -92,8 +100,8 @@ fun Navbar(navController: NavHostController) {
                                     Image(
                                         modifier = Modifier
                                             .align(Alignment.Center)
-                                            .width(24.dp)
-                                            .height(24.dp),
+                                            .width(dimensionResource(id = R.dimen.ordinary_icon))
+                                            .height(dimensionResource(id = R.dimen.ordinary_icon)),
                                         painter = painterResource(id = screen.iconUnSelected),
                                         contentDescription = screen.name
                                     )
