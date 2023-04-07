@@ -15,6 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -63,7 +64,11 @@ fun SearchRoommateResults(
     when (loadingState.value) {
         LoadingStates.Success ->
             Column(
-                modifier = Modifier.padding(start = 40.dp, end = 40.dp, top = 16.dp),
+                modifier = Modifier.padding(
+                    top = dimensionResource(id = R.dimen.screen_top_margin),
+                    start = dimensionResource(id = R.dimen.screen_start_margin),
+                    end = dimensionResource(id = R.dimen.screen_end_margin)
+                ),
                 verticalArrangement = Arrangement.spacedBy(24.dp),
             ) {
                 Row(
@@ -75,7 +80,7 @@ fun SearchRoommateResults(
                     Text(
                         text = "Roommate Results",
                         fontSize = integerResource(
-                            id = R.integer.label_text_size
+                            id = R.integer.label_text
                         ).sp,
                         textAlign = TextAlign.Center,
                         fontWeight = FontWeight.Bold,
@@ -91,7 +96,7 @@ fun SearchRoommateResults(
                                 text = "Sorry, nothing here",
                                 style = TextStyle(
                                     fontSize = integerResource(
-                                        id = R.integer.label_text_size
+                                        id = R.integer.label_text
                                     ).sp,
                                 )
                             )
@@ -112,7 +117,7 @@ fun SearchRoommateResults(
                     text = "Sorry, something went wrong. You should to retry",
                     style = TextStyle(
                         fontSize = integerResource(
-                            id = R.integer.primary_text_size
+                            id = R.integer.primary_text
                         ).sp,
                         color = Color.Black,
                     )

@@ -55,6 +55,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -79,7 +80,7 @@ fun ProfileContentLine(text: String, iconId: Int, onNavigateToFriends: () -> Uni
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(56.dp)
+            .height(dimensionResource(id = R.dimen.profile_line_height))
             .clickable(onClick = { onNavigateToFriends.invoke() }),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
@@ -87,19 +88,27 @@ fun ProfileContentLine(text: String, iconId: Int, onNavigateToFriends: () -> Uni
             painter = painterResource(id = iconId),
             contentDescription = text,
             modifier = Modifier
-                .height(24.dp)
-                .width(24.dp)
+                .height(dimensionResource(id = R.dimen.ordinary_icon))
+                .width(dimensionResource(id = R.dimen.ordinary_icon))
                 .align(Alignment.CenterVertically),
             contentScale = ContentScale.Crop,
         )
         Text(
-            fontSize = integerResource(id = R.integer.primary_text_size).sp,
+            fontSize = integerResource(id = R.integer.primary_text).sp,
             text = text,
             color = Color.Black,
             modifier = Modifier.align(Alignment.CenterVertically)
         )
     }
-    Divider(color = Color.Black, modifier = Modifier.padding(top = 4.dp, bottom = 16.dp))
+    Divider(
+        color = Color.Black,
+        modifier = Modifier.padding(
+            top = dimensionResource(id = R.dimen.divider_top_padding),
+            bottom = dimensionResource(
+                id = R.dimen.screen_bottom_margin
+            )
+        )
+    )
 }
 
 @Composable
@@ -112,14 +121,14 @@ fun ChatItem(
         modifier = Modifier
             .clickable { navigateTo.invoke() }
             .fillMaxWidth()
-            .height(64.dp)
+            .height(dimensionResource(id = R.dimen.chat_row_height))
     ) {
         Image(
             painter = painterResource(id = R.drawable.ordinary_client),
             contentDescription = stringResource(R.string.user_avatar_description),
             modifier = Modifier
-                .width(56.dp)
-                .height(56.dp)
+                .width(dimensionResource(id = R.dimen.small_avatar_image))
+                .height(dimensionResource(id = R.dimen.small_avatar_image))
                 .padding(start = 8.dp, end = 16.dp, bottom = 8.dp, top = 8.dp),
             alignment = Center
         )
@@ -127,7 +136,7 @@ fun ChatItem(
             Row(modifier = Modifier.fillMaxWidth()) {
                 Text(
                     text = message.recipient.firstName + message.recipient.lastName,
-                    fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                    fontSize = integerResource(id = R.integer.primary_text).sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.Black,
                 )
@@ -144,14 +153,14 @@ fun ChatItem(
                         ),
                         alignment = Center,
                         modifier = Modifier
-                            .width(18.dp)
-                            .height(18.dp),
+                            .width(dimensionResource(id = R.dimen.small_icon))
+                            .height(dimensionResource(id = R.dimen.small_icon)),
                     )
                     Text(
                         text = message.dateTime,
                         style = TextStyle(
                             color = colorResource(id = R.color.text_secondary),
-                            fontSize = 12.sp,
+                            fontSize = integerResource(id = R.integer.primary_text).sp,
                             textAlign = TextAlign.End
                         )
                     )
@@ -166,7 +175,7 @@ fun ChatItem(
                     text = message.text,
                     style = TextStyle(
                         color = colorResource(id = R.color.text_secondary),
-                        fontSize = 14.sp,
+                        fontSize = integerResource(id = R.integer.primary_text).sp,
                     )
                 )
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
@@ -184,11 +193,13 @@ fun ChatItem(
                                     color = colorResource(
                                         id = R.color.primary
                                     ),
-                                    shape = RoundedCornerShape(20.dp)
+                                    shape = RoundedCornerShape(
+                                        dimensionResource(id = R.dimen.rounded_corner_ordinary)
+                                    )
                                 ),
                             style = TextStyle(
                                 color = Color.Black,
-                                fontSize = 14.sp,
+                                fontSize = integerResource(id = R.integer.primary_text).sp,
                                 textAlign = TextAlign.Center,
                             )
                         )
@@ -199,7 +210,7 @@ fun ChatItem(
     }
     Divider(
         color = Color.Black,
-        modifier = Modifier.padding(top = 2.dp),
+        modifier = Modifier.padding(top = dimensionResource(id = R.dimen.divider_top_padding)),
     )
 }
 
@@ -212,14 +223,22 @@ fun Message(isUserMessage: Boolean, text: String, data: String) {
                     .padding(top = 16.dp)
                     .width(214.dp)
                     .border(
-                        1.dp,
+                        dimensionResource(id = R.dimen.ordinary_border),
                         Color.Black,
-                        RoundedCornerShape(topEnd = 16.dp, topStart = 16.dp, bottomEnd = 16.dp)
+                        RoundedCornerShape(
+                            topEnd = dimensionResource(id = R.dimen.rounded_corner_ordinary),
+                            topStart = dimensionResource(id = R.dimen.rounded_corner_ordinary),
+                            bottomEnd = dimensionResource(id = R.dimen.rounded_corner_ordinary)
+                        )
                     )
                     .height(IntrinsicSize.Max)
                     .background(
                         colorResource(id = R.color.secondary_color),
-                        RoundedCornerShape(topEnd = 16.dp, topStart = 16.dp, bottomEnd = 16.dp)
+                        RoundedCornerShape(
+                            topEnd = dimensionResource(id = R.dimen.rounded_corner_ordinary),
+                            topStart = dimensionResource(id = R.dimen.rounded_corner_ordinary),
+                            bottomEnd = dimensionResource(id = R.dimen.rounded_corner_ordinary)
+                        )
                     )
             ) {
                 Text(text = text, textAlign = TextAlign.Start, modifier = Modifier.padding(16.dp))
@@ -232,15 +251,23 @@ fun Message(isUserMessage: Boolean, text: String, data: String) {
                 modifier = Modifier
                     .padding(start = 40.dp, top = 16.dp)
                     .border(
-                        1.dp,
+                        dimensionResource(id = R.dimen.ordinary_border),
                         Color.Black,
-                        RoundedCornerShape(bottomStart = 16.dp, topStart = 16.dp, bottomEnd = 16.dp)
+                        RoundedCornerShape(
+                            bottomStart = dimensionResource(id = R.dimen.rounded_corner_ordinary),
+                            topStart = dimensionResource(id = R.dimen.rounded_corner_ordinary),
+                            bottomEnd = dimensionResource(id = R.dimen.rounded_corner_ordinary),
+                        )
                     )
                     .width(214.dp)
                     .height(IntrinsicSize.Max)
                     .background(
                         colorResource(id = R.color.primary),
-                        RoundedCornerShape(bottomStart = 16.dp, topStart = 16.dp, bottomEnd = 16.dp)
+                        RoundedCornerShape(
+                            bottomStart = dimensionResource(id = R.dimen.rounded_corner_ordinary),
+                            topStart = dimensionResource(id = R.dimen.rounded_corner_ordinary),
+                            bottomEnd = dimensionResource(id = R.dimen.rounded_corner_ordinary),
+                        )
                     ),
                 horizontalAlignment = Alignment.End
             ) {
@@ -288,7 +315,7 @@ fun UserCard(recommendedRoommate: User) {
                 text = recommendedRoommate.firstName + recommendedRoommate.lastName,
                 style = TextStyle(
                     color = Color.Black,
-                    fontSize = 14.sp,
+                    fontSize = integerResource(id = R.integer.secondary_text).sp,
                     fontWeight = FontWeight.Bold
                 )
             )
@@ -297,14 +324,14 @@ fun UserCard(recommendedRoommate: User) {
                     painter = painterResource(id = R.drawable.rating_icon),
                     contentDescription = stringResource(R.string.rate_icon),
                     modifier = Modifier
-                        .width(integerResource(id = R.integer.ordinary_icon_size).dp)
-                        .height(integerResource(id = R.integer.ordinary_icon_size).dp)
+                        .width(dimensionResource(id = R.dimen.small_icon))
+                        .height(dimensionResource(id = R.dimen.small_icon))
                 )
                 Text(
                     text = recommendedRoommate.rating.toString(),
                     style = TextStyle(
                         color = Color.Black,
-                        fontSize = 14.sp,
+                        fontSize = integerResource(id = R.integer.secondary_text).sp,
                         fontWeight = FontWeight.Bold
                     )
                 )
@@ -363,9 +390,9 @@ fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean) {
                 modifier = Modifier
                     .align(Alignment.TopEnd)
                     .padding(top = 10.dp, end = 10.dp)
-                    .width(32.dp)
-                    .height(32.dp)
-                    .clip(RoundedCornerShape(100))
+                    .width(dimensionResource(id = R.dimen.big_icon))
+                    .height(dimensionResource(id = R.dimen.big_icon))
+                    .clip(RoundedCornerShape(dimensionResource(id = R.dimen.rounded_corner_full)))
                     .clickable {
                         isLiked = !isLiked
                     }
@@ -390,8 +417,8 @@ fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean) {
                 painter = painterResource(id = R.drawable.location_icon),
                 contentDescription = stringResource(id = R.string.location_icon),
                 modifier = Modifier
-                    .width(14.dp)
-                    .height(14.dp),
+                    .width(dimensionResource(id = R.dimen.tine_icon))
+                    .height(dimensionResource(id = R.dimen.tine_icon)),
                 colorFilter = ColorFilter.tint(color = colorResource(id = R.color.secondary_color))
             )
             Text(
@@ -422,7 +449,7 @@ fun SearchField(onNavigateToFriends: () -> Unit) {
             ),
         textStyle = TextStyle(
             color = Color.Black,
-            fontSize = integerResource(id = R.integer.primary_text_size).sp,
+            fontSize = integerResource(id = R.integer.primary_text).sp,
         ),
         value = searcherText,
         onValueChange = {
@@ -436,7 +463,7 @@ fun SearchField(onNavigateToFriends: () -> Unit) {
                 modifier = Modifier.padding(bottom = 24.dp),
                 style = TextStyle(
                     color = colorResource(id = R.color.primary_dark),
-                    fontSize = 12.sp,
+                    fontSize = integerResource(id = R.integer.primary_text).sp,
                 ),
             )
         },
@@ -445,8 +472,8 @@ fun SearchField(onNavigateToFriends: () -> Unit) {
                 painter = painterResource(id = R.drawable.loupe_icon),
                 contentDescription = stringResource(id = R.string.search_icon_description),
                 modifier = Modifier
-                    .height(24.dp)
-                    .width(24.dp),
+                    .height(dimensionResource(id = R.dimen.ordinary_icon))
+                    .width(dimensionResource(id = R.dimen.ordinary_icon)),
             )
         },
         trailingIcon = {
@@ -454,8 +481,8 @@ fun SearchField(onNavigateToFriends: () -> Unit) {
                 painter = painterResource(id = R.drawable.search_filter_icon),
                 contentDescription = stringResource(id = R.string.search_placeholder),
                 modifier = Modifier
-                    .height(24.dp)
-                    .width(24.dp)
+                    .height(dimensionResource(id = R.dimen.ordinary_icon))
+                    .width(dimensionResource(id = R.dimen.ordinary_icon))
                     .clickable {
                         onNavigateToFriends.invoke()
                     },
@@ -472,7 +499,7 @@ fun BackBtn(onBackNavigation: () -> Unit) {
         modifier = Modifier
             .height(40.dp)
             .width(40.dp)
-            .clip(RoundedCornerShape(100.dp))
+            .clip(RoundedCornerShape(dimensionResource(id = R.dimen.rounded_corner_full)))
             .clickable {
                 onBackNavigation.invoke()
             },
@@ -546,7 +573,10 @@ fun GreenButtonOutlineIconed(
             backgroundColor = Color.White,
             contentColor = colorResource(id = R.color.primary_dark)
         ),
-        border = BorderStroke(1.dp, color = colorResource(id = R.color.text_secondary)),
+        border = BorderStroke(
+            dimensionResource(id = R.dimen.ordinary_border),
+            color = colorResource(id = R.color.text_secondary)
+        ),
         enabled = enabled,
         interactionSource = NoRippleInteractionSource()
     ) {
@@ -573,7 +603,10 @@ fun GreenButtonOutline(
             backgroundColor = Color.White,
             contentColor = colorResource(id = R.color.primary_dark)
         ),
-        border = BorderStroke(1.dp, color = colorResource(id = R.color.text_secondary)),
+        border = BorderStroke(
+            dimensionResource(id = R.dimen.ordinary_border),
+            color = colorResource(id = R.color.text_secondary)
+        ),
         interactionSource = NoRippleInteractionSource()
     ) {
         androidx.compose.material.Text(
@@ -593,11 +626,13 @@ fun ButtonsRow(
     Column(
         modifier = Modifier
             .fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(
+            dimensionResource(id = R.dimen.column_elements_small_margin)
+        )
     ) {
         androidx.compose.material.Text(
             text = label,
-            fontSize = integerResource(id = R.integer.primary_text_size).sp,
+            fontSize = integerResource(id = R.integer.primary_text).sp,
             color = Color.Black,
             textAlign = TextAlign.End,
             fontWeight = FontWeight.Medium
@@ -632,11 +667,13 @@ fun ButtonsRowMapped(
     Column(
         modifier = Modifier
             .fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(
+            dimensionResource(id = R.dimen.column_elements_small_margin)
+        )
     ) {
         androidx.compose.material.Text(
             text = label,
-            fontSize = integerResource(id = R.integer.primary_text_size).sp,
+            fontSize = integerResource(id = R.integer.primary_text).sp,
             color = Color.Black,
             textAlign = TextAlign.End,
             fontWeight = FontWeight.Medium
@@ -685,7 +722,11 @@ fun ProfilePicture(
             .width(152.dp)
             .height(152.dp)
             .clip(CircleShape)
-            .border(2.dp, colorResource(id = R.color.primary_dark), CircleShape)
+            .border(
+                dimensionResource(id = R.dimen.ordinary_border),
+                colorResource(id = R.color.primary_dark),
+                CircleShape
+            )
             .clickable {
                 if (enabled) {
                     launcher.launch("image/*")
@@ -720,8 +761,8 @@ fun ProfilePicture(
             Icons.Filled.PhotoCamera,
             contentDescription = "Upload photo",
             modifier = Modifier
-                .height(24.dp)
-                .width(24.dp)
+                .height(dimensionResource(id = R.dimen.ordinary_icon))
+                .width(dimensionResource(id = R.dimen.ordinary_icon))
                 .offset(50.dp, (-25).dp)
                 .background(Color.White, shape = CircleShape)
         )
@@ -741,17 +782,28 @@ fun FilterSelect(selectItemName: String, onNavigateToFriends: () -> Unit) {
                 .height(40.dp)
                 .width(88.dp)
                 .border(
-                    1.dp,
+                    dimensionResource(id = R.dimen.ordinary_border),
                     color = colorResource(id = R.color.text_secondary),
-                    RoundedCornerShape(topStart = 100.dp, bottomStart = 100.dp)
+                    RoundedCornerShape(
+                        topStart = dimensionResource(id = R.dimen.rounded_corner_full),
+                        bottomStart = dimensionResource(id = R.dimen.rounded_corner_full),
+                    )
                 )
                 .background(
                     color = if (selectItemName == stringResource(id = R.string.room)) colorResource(
                         id = R.color.primary_dark
                     ) else Color.White,
-                    RoundedCornerShape(topStart = 100.dp, bottomStart = 100.dp),
+                    RoundedCornerShape(
+                        topStart = dimensionResource(id = R.dimen.rounded_corner_full),
+                        bottomStart = dimensionResource(id = R.dimen.rounded_corner_full)
+                    ),
                 )
-                .clip(RoundedCornerShape(topStart = 100.dp, bottomStart = 100.dp))
+                .clip(
+                    RoundedCornerShape(
+                        topStart = dimensionResource(id = R.dimen.rounded_corner_full),
+                        bottomStart = dimensionResource(id = R.dimen.rounded_corner_full),
+                    )
+                )
                 .clickable { if (selectItemName == "Roommate") onNavigateToFriends.invoke() },
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
@@ -760,8 +812,8 @@ fun FilterSelect(selectItemName: String, onNavigateToFriends: () -> Unit) {
                 painter = painterResource(id = R.drawable.unchecked_messages_icon),
                 contentDescription = stringResource(id = R.string.room),
                 modifier = Modifier
-                    .height(18.dp)
-                    .width(18.dp),
+                    .height(dimensionResource(id = R.dimen.small_icon))
+                    .width(dimensionResource(id = R.dimen.small_icon)),
                 colorFilter = ColorFilter.tint(
                     colorResource(id = R.color.primary)
                 )
@@ -769,7 +821,7 @@ fun FilterSelect(selectItemName: String, onNavigateToFriends: () -> Unit) {
             Text(
                 text = stringResource(id = R.string.room),
                 style = TextStyle(
-                    fontSize = 14.sp,
+                    fontSize = integerResource(id = R.integer.primary_text).sp,
                     color = if (selectItemName == stringResource(id = R.string.room)) colorResource(
                         id = R.color.primary
                     ) else colorResource(
@@ -781,11 +833,14 @@ fun FilterSelect(selectItemName: String, onNavigateToFriends: () -> Unit) {
         Row(
             modifier = Modifier
                 .height(40.dp)
-                .width(88.dp)
+                .width(100.dp)
                 .border(
-                    1.dp,
+                    dimensionResource(id = R.dimen.ordinary_border),
                     color = colorResource(id = R.color.text_secondary),
-                    RoundedCornerShape(topEnd = 100.dp, bottomEnd = 100.dp)
+                    RoundedCornerShape(
+                        topEnd = dimensionResource(id = R.dimen.rounded_corner_full),
+                        bottomEnd = dimensionResource(id = R.dimen.rounded_corner_full),
+                    )
                 )
                 .background(
                     color = if (selectItemName == stringResource(id = R.string.roommate))
@@ -793,9 +848,17 @@ fun FilterSelect(selectItemName: String, onNavigateToFriends: () -> Unit) {
                             id = R.color.primary_dark
                         )
                     else Color.White,
-                    RoundedCornerShape(topEnd = 100.dp, bottomEnd = 100.dp),
+                    RoundedCornerShape(
+                        topEnd = dimensionResource(id = R.dimen.rounded_corner_full),
+                        bottomEnd = dimensionResource(id = R.dimen.rounded_corner_full),
+                    ),
                 )
-                .clip(RoundedCornerShape(topEnd = 100.dp, bottomEnd = 100.dp))
+                .clip(
+                    RoundedCornerShape(
+                        topEnd = dimensionResource(id = R.dimen.rounded_corner_full),
+                        bottomEnd = dimensionResource(id = R.dimen.rounded_corner_full),
+                    )
+                )
                 .clickable { if (selectItemName == "Room") onNavigateToFriends.invoke() },
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
@@ -808,7 +871,7 @@ fun FilterSelect(selectItemName: String, onNavigateToFriends: () -> Unit) {
             Text(
                 text = stringResource(id = R.string.roommate),
                 style = TextStyle(
-                    fontSize = 14.sp,
+                    fontSize = integerResource(id = R.integer.primary_text).sp,
                     color = color
                 )
             )
@@ -816,8 +879,8 @@ fun FilterSelect(selectItemName: String, onNavigateToFriends: () -> Unit) {
                 painter = painterResource(id = R.drawable.unchecked_messages_icon),
                 contentDescription = stringResource(id = R.string.roommate),
                 modifier = Modifier
-                    .height(18.dp)
-                    .width(18.dp),
+                    .height(dimensionResource(id = R.dimen.small_icon))
+                    .width(dimensionResource(id = R.dimen.small_icon)),
                 colorFilter = ColorFilter.tint(
                     colorResource(id = R.color.primary)
                 )
@@ -854,12 +917,14 @@ fun UserCardResult(searchUser: User) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(start = 12.dp, top = 8.dp, end = 12.dp, bottom = 8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(
+                dimensionResource(id = R.dimen.column_elements_small_margin)
+            ),
         ) {
             Text(
                 text = searchUser.firstName + " " + searchUser.lastName,
                 style = TextStyle(
-                    fontSize = integerResource(id = R.integer.label_text_size).sp,
+                    fontSize = integerResource(id = R.integer.label_text).sp,
                     color = Color.Black,
                     fontWeight = FontWeight.Bold,
                 )
@@ -873,13 +938,16 @@ fun UserCardResult(searchUser: User) {
                     painter = painterResource(id = R.drawable.location_icon),
                     contentDescription = stringResource(id = R.string.location_icon),
                     modifier = Modifier
-                        .width(integerResource(id = R.integer.ordinary_icon_size).dp)
-                        .height(integerResource(id = R.integer.ordinary_icon_size).dp)
+                        .width(dimensionResource(id = R.dimen.small_icon))
+                        .height(dimensionResource(id = R.dimen.small_icon))
                         .align(Alignment.CenterVertically),
                 )
                 Text(
                     text = "Moscow",
-                    style = TextStyle(fontSize = 18.sp, color = Color.Black)
+                    style = TextStyle(
+                        fontSize = integerResource(id = R.integer.primary_text).sp,
+                        color = Color.Black
+                    )
                 )
             }
             Row(
@@ -890,7 +958,7 @@ fun UserCardResult(searchUser: User) {
                 Text(
                     text = stringResource(id = R.string.status),
                     style = TextStyle(
-                        fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                        fontSize = integerResource(id = R.integer.primary_text).sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black,
                     )
@@ -898,7 +966,7 @@ fun UserCardResult(searchUser: User) {
                 Text(
                     "Occasionally",
                     style = TextStyle(
-                        fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                        fontSize = integerResource(id = R.integer.primary_text).sp,
                         color = Color.Black,
                     ),
                     modifier = Modifier.padding(start = 8.dp),
@@ -912,7 +980,7 @@ fun UserCardResult(searchUser: User) {
                 Text(
                     text = "Rating:",
                     style = TextStyle(
-                        fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                        fontSize = integerResource(id = R.integer.primary_text).sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black,
                     )
@@ -920,7 +988,7 @@ fun UserCardResult(searchUser: User) {
                 Text(
                     text = "7",
                     style = TextStyle(
-                        fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                        fontSize = integerResource(id = R.integer.primary_text).sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black,
                     ),
@@ -930,8 +998,8 @@ fun UserCardResult(searchUser: User) {
                     painter = painterResource(id = R.drawable.rating_icon),
                     contentDescription = "Rating star",
                     modifier = Modifier
-                        .height(integerResource(id = R.integer.ordinary_icon_size).dp)
-                        .width(integerResource(id = R.integer.ordinary_icon_size).dp),
+                        .height(dimensionResource(id = R.dimen.small_icon))
+                        .width(dimensionResource(id = R.dimen.small_icon)),
                 )
             }
         }
@@ -950,12 +1018,14 @@ fun InterestsButtons(
     Column(
         modifier = Modifier
             .fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
+        verticalArrangement = Arrangement.spacedBy(
+            dimensionResource(id = R.dimen.list_elements_margin)
+        ),
         horizontalAlignment = Alignment.Start
     ) {
         androidx.compose.material.Text(
             text = label,
-            fontSize = integerResource(id = R.integer.primary_text_size).sp,
+            fontSize = integerResource(id = R.integer.primary_text).sp,
             color = Color.Black,
             textAlign = TextAlign.Start,
             fontWeight = FontWeight.Medium
