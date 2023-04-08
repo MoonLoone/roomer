@@ -77,7 +77,7 @@ fun ChatScreen(
             messages = messages.value,
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f)
+                .weight(1f),
         )
         EnterMessage(
             editMessageText = messageText,

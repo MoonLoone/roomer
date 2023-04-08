@@ -18,6 +18,7 @@ import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Part
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface RoomerApi {
@@ -74,4 +75,12 @@ interface RoomerApi {
         @Query("user_id") userId: Int,
         @Query("chat_id") chatId: String = "",
     ): Response<List<Message>>
+
+    @PUT("/chats/{id}/")
+    suspend fun messageChecked(
+        @Path("id") id: Int,
+        @Header("Authorization") token: String,
+        @Body isChecked: Boolean = true
+    )
+
 }

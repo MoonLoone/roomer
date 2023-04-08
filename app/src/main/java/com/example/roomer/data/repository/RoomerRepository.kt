@@ -57,4 +57,8 @@ class RoomerRepository @Inject constructor(private val roomerApi: RoomerApi) :
             cleanHabits,
         )
     }
+
+    override suspend fun messageChecked(messageId: Int, token: String) {
+        return roomerApi.messageChecked(messageId,token)
+    }
 }
