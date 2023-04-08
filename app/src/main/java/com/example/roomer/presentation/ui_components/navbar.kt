@@ -81,7 +81,7 @@ fun Navbar(navController: NavHostController) {
                                 Text(
                                     text = stringResource(id = screen.nameResId),
                                     fontSize =
-                                        integerResource(id = R.integer.secondary_text_size).sp,
+                                        integerResource(id = R.integer.secondary_text).sp,
 
                                     color = Color.Black,
                                     modifier = Modifier
@@ -109,7 +109,7 @@ fun Navbar(navController: NavHostController) {
                                 Text(
                                     text = stringResource(id = screen.nameResId),
                                     fontSize =
-                                        integerResource(id = R.integer.secondary_text_size).sp,
+                                        integerResource(id = R.integer.secondary_text).sp,
                                     color = colorResource(id = R.color.text_secondary),
                                     modifier = Modifier
                                         .align(Alignment.CenterHorizontally)

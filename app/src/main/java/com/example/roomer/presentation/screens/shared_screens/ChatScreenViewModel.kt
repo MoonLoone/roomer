@@ -1,6 +1,7 @@
 package com.example.roomer.presentation.screens.shared_screens
 
 import android.app.Application
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -65,7 +66,12 @@ class ChatScreenViewModel @Inject constructor(
                 Pair("recipient_id", recipientUserId)
             )
             chatClientWebSocket.sendMessage(messageJson)
+
         }
+    }
+
+    fun messageRead(messageId: Int){
+
     }
 
     private fun decodeJSON(jsonString: String) {

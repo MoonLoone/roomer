@@ -1,6 +1,5 @@
 package com.example.roomer
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
@@ -8,7 +7,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.remember
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
-import com.example.roomer.management.PermissionManager
 import com.example.roomer.presentation.screens.NavGraphs
 import com.example.roomer.presentation.screens.destinations.SearchRoomScreenDestination
 import com.example.roomer.presentation.screens.entrance.signup.SignUpViewModel
@@ -29,6 +27,7 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent()
         val navigate = intent.getStringExtra(Constants.NAVIGATE_TO_SCREEN)
         permissionManager.askNotificationPermission()
+        NotificationManager.registerWork(this)
         setContent {
             val navController = rememberNavController()
             Scaffold(bottomBar = { Navbar(navController = navController) }) {
@@ -45,13 +44,7 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                 )
-                navigate?.let {
-                    when(it){
-                        Constants.ROOMS_SCREEN_DEST ->  navController.navigateTo(SearchRoomScreenDestination())
-                    }
-                }
             }
         }
     }
-
 }

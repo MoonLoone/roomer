@@ -32,4 +32,6 @@ interface RoomerRepositoryInterface {
         bathroomsCount: String,
         housingType: String
     ): Response<List<Room>>
+
+    suspend fun messageChecked(messageId:Int, token: String)
 }
