@@ -7,8 +7,10 @@ import com.example.roomer.domain.model.entities.User
 import javax.inject.Inject
 import retrofit2.Response
 
-class RoomerRepository @Inject constructor(private val roomerApi: RoomerApi) :
-    RoomerRepositoryInterface {
+class RoomerRepository @Inject constructor(
+    private val roomerApi: RoomerApi,
+    private val roomerStore: RoomerStoreInterface
+) : RoomerRepositoryInterface {
     override suspend fun getChats(userId: Int): Response<List<Message>> {
         return roomerApi.getChatsForUser(userId)
     }
@@ -56,5 +58,53 @@ class RoomerRepository @Inject constructor(private val roomerApi: RoomerApi) :
             personalityType,
             cleanHabits,
         )
+    }
+
+    override fun getLocalFavourites(): List<Room> {
+        return roomerStore.getFavourites()
+    }
+
+    override suspend fun addLocalFavourite(room: Room) {
+        roomerStore.addFavourite(room)
+    }
+
+    override suspend fun deleteLocalFavourite(room: Room) {
+        roomerStore.deleteFavourite(room)
+    }
+
+    override suspend fun isLocalFavouritesEmpty(): Boolean {
+        return roomerStore.isFavouritesEmpty()
+    }
+
+    override fun getLocalCurrentUser(): User {
+        return roomerStore.getCurrentUser()
+    }
+
+    override suspend fun deleteLocalCurrentUser() {
+        roomerStore.deleteCurrentUser()
+    }
+
+    override suspend fun updateLocalUser(user: User) {
+        roomerStore.updateUser(user)
+    }
+
+    override fun getAllLocalUsers(): List<User> {
+        return roomerStore.getAllUsers()
+    }
+
+    override suspend fun deleteLocalUser(user: User) {
+        roomerStore.deleteUser(user)
+    }
+
+    override suspend fun addLocalUser(user: User) {
+        roomerStore.addUser(user)
+    }
+
+    override suspend fun addManyLocalUsers(users: List<User>) {
+        roomerStore.addManyUsers(users)
+    }
+
+    override fun getUserById(userId: Int): User {
+        return roomerStore.getUserById(userId)
     }
 }

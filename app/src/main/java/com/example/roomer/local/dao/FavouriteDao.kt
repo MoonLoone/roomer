@@ -1,16 +1,21 @@
 package com.example.roomer.local.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import com.example.roomer.local.tables.LocalFavourite
+import androidx.room.*
+import com.example.roomer.local.entities.LocalRoom
+import com.example.roomer.local.entities.RoomWithHost
 
 @Dao
 interface FavouriteDao {
-    @Query("select * from favourite")
-    fun queryAll(): List<LocalFavourite>
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(newFavourite: LocalFavourite)
+    suspend fun save(newFavourites: List<LocalRoom>)
+
+    @Delete
+    suspend fun delete(room: LocalRoom)
+
+    @Transaction
+    @Query("SELECT * FROM favourite")
+    fun queryAll(): List<RoomWithHost>
+
+    @Query("SELECT COUNT(*) FROM favourite")
+    suspend fun count(): Long
 }

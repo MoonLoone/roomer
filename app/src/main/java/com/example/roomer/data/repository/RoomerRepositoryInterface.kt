@@ -32,4 +32,28 @@ interface RoomerRepositoryInterface {
         bathroomsCount: String,
         housingType: String
     ): Response<List<Room>>
+
+    fun getLocalFavourites(): List<Room>
+
+    suspend fun addLocalFavourite(room: Room)
+
+    suspend fun deleteLocalFavourite(room: Room)
+
+    suspend fun isLocalFavouritesEmpty(): Boolean
+
+    fun getLocalCurrentUser(): User
+
+    suspend fun deleteLocalCurrentUser()
+
+    suspend fun updateLocalUser(user: User)
+
+    fun getAllLocalUsers(): List<User>
+
+    suspend fun deleteLocalUser(user: User)
+
+    suspend fun addLocalUser(user: User)
+
+    suspend fun addManyLocalUsers(users: List<User>)
+
+    fun getUserById(userId: Int): User
 }
