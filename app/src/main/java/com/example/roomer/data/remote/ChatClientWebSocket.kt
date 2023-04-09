@@ -28,7 +28,7 @@ class ChatClientWebSocket(private val onMessageReceived: (String) -> Unit) : Web
 
     override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
         super.onClosed(webSocket, code, reason)
-        Log.d("!!!", "With $code, reason $reason")
+        Log.e("!!!", "With $code, reason $reason")
     }
 
     override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
@@ -42,7 +42,6 @@ class ChatClientWebSocket(private val onMessageReceived: (String) -> Unit) : Web
     override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
         super.onClosing(webSocket, code, reason)
         socket?.close(code, reason)
-        Log.d("$$$", "Disconnected with code: $code")
     }
 
     override fun onMessage(webSocket: WebSocket, text: String) {

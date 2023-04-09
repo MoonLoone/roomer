@@ -12,7 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -35,25 +35,28 @@ fun GreetingsScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
-            .padding(start = 40.dp, end = 40.dp),
+            .padding(
+                start = dimensionResource(id = R.dimen.screen_start_margin),
+                end = dimensionResource(id = R.dimen.screen_end_margin)
+            ),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
         Text(
-            text = stringResource(R.string.greetings_screen_header_1),
+            text = "Welcome to Roomer",
             fontSize = 30.sp,
             fontWeight = FontWeight.Medium,
             textAlign = TextAlign.Center
         )
         Text(
-            text = stringResource(R.string.greetings_screen_header_2),
+            text = "Get started with us",
             fontSize = 20.sp,
             fontWeight = FontWeight.Normal,
             textAlign = TextAlign.Center,
             color = colorResource(id = R.color.text_secondary)
         )
         GreenButtonPrimary(
-            text = stringResource(R.string.login_button_text),
+            text = "Login",
             modifier = Modifier
                 .padding(top = 16.dp)
                 .fillMaxWidth(),
@@ -65,7 +68,7 @@ fun GreetingsScreen(
             )
         }
         GreenButtonOutline(
-            text = stringResource(R.string.login_screen_sign_up_text),
+            text = "Sign Up",
             modifier = Modifier
                 .padding(top = 8.dp)
                 .fillMaxWidth(),

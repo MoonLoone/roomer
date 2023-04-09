@@ -47,7 +47,7 @@ class ChatScreenViewModel @Inject constructor(
                 SpManager.Sp.TOKEN,
                 LoginScreenViewModel.FIELD_DEFAULT_VALUE
             )
-            currentUserId = roomerRepository.getCurrentUserInfo("Token $token").body()?.id ?: 0
+            currentUserId = roomerRepository.getCurrentUserInfo(token.toString()).body()?.id ?: 0
             recipientUserId = recipientId
             chatClientWebSocket.open(currentUserId, recipientUserId)
             _messages.value =

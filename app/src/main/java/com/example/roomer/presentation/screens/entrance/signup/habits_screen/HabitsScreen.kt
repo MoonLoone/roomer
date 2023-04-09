@@ -16,9 +16,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.roomer.R
 import com.example.roomer.presentation.screens.destinations.AboutMeAvatarScreenDestination
@@ -48,9 +49,14 @@ fun HabitsScreen(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 40.dp, end = 40.dp),
+                .padding(
+                    start = dimensionResource(id = R.dimen.screen_start_margin),
+                    end = dimensionResource(id = R.dimen.screen_end_margin)
+                ),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+            verticalArrangement = Arrangement.spacedBy(
+                dimensionResource(id = R.dimen.list_elements_margin)
+            ),
         ) {
             LinearProgressIndicator(
                 modifier = Modifier
@@ -59,13 +65,13 @@ fun HabitsScreen(
                 progress = 0.6f
             )
             Text(
-                text = stringResource(R.string.tell_us_about_your_living_habits),
-                fontSize = 24.sp,
+                text = "Tell us about your living habits",
+                fontSize = integerResource(id = R.integer.label_text).sp,
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Start
             )
             ButtonsRowMapped(
-                label = stringResource(R.string.your_usual_sleep_time),
+                label = "Your usual sleep time",
                 values = mapOf(
                     Pair("N", "Night"),
                     Pair("D", "Day"),
@@ -77,7 +83,7 @@ fun HabitsScreen(
                 }
             )
             ButtonsRowMapped(
-                label = stringResource(R.string.attitude_to_alcohol_title),
+                label = "Attitude to alcohol",
                 values = mapOf(
                     Pair("P", "Positive"),
                     Pair("N", "Negative"),
@@ -89,7 +95,7 @@ fun HabitsScreen(
                 }
             )
             ButtonsRowMapped(
-                label = stringResource(R.string.attitude_to_smoking_title),
+                label = "Attitude to smoking",
                 values = mapOf(
                     Pair("P", "Positive"),
                     Pair("N", "Negative"),
@@ -101,7 +107,7 @@ fun HabitsScreen(
                 }
             )
             ButtonsRowMapped(
-                label = stringResource(R.string.personality_type_title),
+                label = "Personality type",
                 values = mapOf(
                     Pair("E", "Extraverted"),
                     Pair("I", "Introverted"),
