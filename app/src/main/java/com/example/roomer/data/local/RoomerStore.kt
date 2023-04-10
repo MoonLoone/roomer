@@ -30,7 +30,7 @@ class RoomerStore(
         favourites.delete(room.toLocalRoom())
     }
 
-    override fun getCurrentUser(): User {
+    override suspend fun getCurrentUser(): User {
         return users.getCurrentUser()
     }
 
@@ -44,7 +44,7 @@ class RoomerStore(
         users.delete(user)
     }
 
-    override fun getUserById(userId: Int): User {
+    override suspend fun getUserById(userId: Int): User {
         return users.getUserById(userId)
     }
 

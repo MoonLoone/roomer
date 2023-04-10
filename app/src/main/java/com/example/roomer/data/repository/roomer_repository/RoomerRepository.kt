@@ -76,7 +76,7 @@ class RoomerRepository @Inject constructor(
         return roomerStore.isFavouritesEmpty()
     }
 
-    override fun getLocalCurrentUser(): User {
+    override suspend fun getLocalCurrentUser(): User {
         return roomerStore.getCurrentUser()
     }
 
@@ -104,7 +104,5 @@ class RoomerRepository @Inject constructor(
         roomerStore.addManyUsers(users)
     }
 
-    override fun getUserById(userId: Int): User {
-        return roomerStore.getUserById(userId)
-    }
+    override suspend fun getUserById(userId: Int) = roomerStore.getUserById(userId)
 }

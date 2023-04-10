@@ -42,7 +42,7 @@ interface RoomerRepositoryInterface {
 
     suspend fun isLocalFavouritesEmpty(): Boolean
 
-    fun getLocalCurrentUser(): User
+    suspend fun getLocalCurrentUser(): User
 
     suspend fun deleteLocalCurrentUser()
 
@@ -56,5 +56,5 @@ interface RoomerRepositoryInterface {
 
     suspend fun addManyLocalUsers(users: List<User>)
 
-    fun getUserById(userId: Int): User
+    suspend fun getUserById(userId: Int): User
 }
