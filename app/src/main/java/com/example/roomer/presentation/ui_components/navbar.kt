@@ -22,6 +22,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -78,8 +79,10 @@ fun Navbar(navController: NavHostController) {
                                     )
                                 }
                                 Text(
-                                    text = screen.name,
-                                    fontSize = integerResource(id = R.integer.secondary_text).sp,
+                                    text = stringResource(id = screen.nameResId),
+                                    fontSize =
+                                        integerResource(id = R.integer.secondary_text_size).sp,
+
                                     color = Color.Black,
                                     modifier = Modifier
                                         .align(Alignment.CenterHorizontally)
@@ -104,8 +107,9 @@ fun Navbar(navController: NavHostController) {
                                     )
                                 }
                                 Text(
-                                    text = screen.name,
-                                    fontSize = integerResource(id = R.integer.secondary_text).sp,
+                                    text = stringResource(id = screen.nameResId),
+                                    fontSize =
+                                        integerResource(id = R.integer.secondary_text_size).sp,
                                     color = colorResource(id = R.color.text_secondary),
                                     modifier = Modifier
                                         .align(Alignment.CenterHorizontally)
