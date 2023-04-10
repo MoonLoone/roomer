@@ -1,4 +1,4 @@
-package com.example.roomer.local.dao
+package com.example.roomer.room.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
@@ -6,8 +6,8 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
-import com.example.roomer.local.entities.LocalRoom
-import com.example.roomer.local.entities.RoomWithHost
+import com.example.roomer.room.entities.LocalRoom
+import com.example.roomer.room.entities.RoomWithHost
 import kotlinx.coroutines.flow.Flow
 
 @Dao

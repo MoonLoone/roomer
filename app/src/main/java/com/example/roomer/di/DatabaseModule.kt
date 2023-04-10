@@ -2,9 +2,9 @@ package com.example.roomer.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.roomer.data.repository.RoomerStore
-import com.example.roomer.data.repository.RoomerStoreInterface
-import com.example.roomer.local.RoomerDatabase
+import com.example.roomer.data.local.RoomerStore
+import com.example.roomer.data.local.RoomerStoreInterface
+import com.example.roomer.room.RoomerDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

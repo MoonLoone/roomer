@@ -1,6 +1,7 @@
-package com.example.roomer.data.repository
+package com.example.roomer.data.repository.roomer_repository
 
 import com.example.roomer.data.remote.RoomerApi
+import com.example.roomer.data.local.RoomerStoreInterface
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
@@ -87,7 +88,7 @@ class RoomerRepository @Inject constructor(
         roomerStore.updateUser(user)
     }
 
-    override fun getAllLocalUsers(): List<User> {
+    override fun getAllLocalUsers(): Flow<List<User>> {
         return roomerStore.getAllUsers()
     }
 

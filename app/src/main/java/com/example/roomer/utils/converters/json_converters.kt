@@ -1,4 +1,4 @@
-package com.example.roomer.local.converters
+package com.example.roomer.utils.converters
 
 import org.json.JSONObject
 

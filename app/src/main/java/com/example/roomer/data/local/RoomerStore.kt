@@ -1,12 +1,11 @@
-package com.example.roomer.data.repository
+package com.example.roomer.data.local
 
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
-import com.example.roomer.local.RoomerDatabase
-import com.example.roomer.local.entities.LocalRoom
-import com.example.roomer.local.entities.RoomWithHost
+import com.example.roomer.room.RoomerDatabase
+import com.example.roomer.room.entities.LocalRoom
+import com.example.roomer.room.entities.RoomWithHost
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 
 class RoomerStore(
@@ -39,9 +38,7 @@ class RoomerStore(
         users.deleteCurrentUser()
     }
 
-    override fun getAllUsers(): List<User> {
-        return users.queryAll()
-    }
+    override fun getAllUsers(): Flow<List<User>> = users.queryAll()
 
     override suspend fun deleteUser(user: User) {
         users.delete(user)

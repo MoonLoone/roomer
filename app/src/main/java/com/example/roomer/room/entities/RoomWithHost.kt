@@ -1,4 +1,4 @@
-package com.example.roomer.local.entities
+package com.example.roomer.room.entities
 
 import androidx.room.Embedded
 import androidx.room.Relation

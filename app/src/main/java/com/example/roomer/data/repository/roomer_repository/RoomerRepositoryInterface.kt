@@ -1,4 +1,4 @@
-package com.example.roomer.data.repository
+package com.example.roomer.data.repository.roomer_repository
 
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.Room
@@ -48,7 +48,7 @@ interface RoomerRepositoryInterface {
 
     suspend fun updateLocalUser(user: User)
 
-    fun getAllLocalUsers(): List<User>
+    fun getAllLocalUsers(): Flow<List<User>>
 
     suspend fun deleteLocalUser(user: User)
 

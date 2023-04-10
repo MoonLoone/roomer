@@ -1,4 +1,4 @@
-package com.example.roomer.local.dao
+package com.example.roomer.room.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
@@ -7,11 +7,12 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.example.roomer.domain.model.entities.User
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface UserDao {
     @Query("SELECT * FROM user")
-    fun queryAll(): List<User>
+    fun queryAll(): Flow<List<User>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun add(user: User)
@@ -19,10 +20,10 @@ interface UserDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addMany(users: List<User>)
 
-    @Query("SELECT * FROM user WHERE isCurrentUser=true")
+    @Query("SELECT * FROM user WHERE isCurrentUser=1")
     fun getCurrentUser(): User
 
-    @Query("DELETE FROM user WHERE isCurrentUser=true")
+    @Query("DELETE FROM user WHERE isCurrentUser=1")
     suspend fun deleteCurrentUser()
 
     @Query("SELECT * FROM user WHERE userId=:userId")
