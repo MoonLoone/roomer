@@ -1,6 +1,7 @@
 package com.example.roomer.data.repository
 
 import com.example.roomer.domain.model.entities.Message
+import com.example.roomer.domain.model.entities.MessageNotification
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
 import retrofit2.Response
@@ -33,5 +34,7 @@ interface RoomerRepositoryInterface {
         housingType: String
     ): Response<List<Room>>
 
-    suspend fun messageChecked(messageId:Int, token: String)
+    suspend fun messageChecked(messageId:Int, token: String): Response<Message>
+
+    suspend fun getMessageNotifications(userId: Int): Response<List<MessageNotification>>
 }

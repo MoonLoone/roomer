@@ -5,6 +5,7 @@ import com.example.roomer.data.repository.AuthRepository
 import com.example.roomer.data.repository.AuthRepositoryInterface
 import com.example.roomer.data.repository.RoomerRepository
 import com.example.roomer.data.repository.RoomerRepositoryInterface
+import com.example.roomer.management.PermissionManager
 import com.example.roomer.utils.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides

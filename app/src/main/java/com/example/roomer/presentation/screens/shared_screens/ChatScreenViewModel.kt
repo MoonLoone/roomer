@@ -1,7 +1,6 @@
 package com.example.roomer.presentation.screens.shared_screens
 
 import android.app.Application
-import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -44,7 +43,7 @@ class ChatScreenViewModel @Inject constructor(
                 return@launch
             }
             val token = SpManager().getSharedPreference(
-                getApplication<Application>().applicationContext,
+                getApplication<Application>(),
                 SpManager.Sp.TOKEN,
                 LoginScreenViewModel.FIELD_DEFAULT_VALUE
             )
@@ -66,12 +65,18 @@ class ChatScreenViewModel @Inject constructor(
                 Pair("recipient_id", recipientUserId)
             )
             chatClientWebSocket.sendMessage(messageJson)
-
         }
     }
 
     fun messageRead(messageId: Int){
-
+        viewModelScope.launch {
+            val token = SpManager().getSharedPreference(
+                getApplication<Application>().applicationContext,
+                SpManager.Sp.TOKEN,
+                LoginScreenViewModel.FIELD_DEFAULT_VALUE
+            )?:""
+            roomerRepository.messageChecked(messageId, token)
+        }
     }
 
     private fun decodeJSON(jsonString: String) {
@@ -83,7 +88,7 @@ class ChatScreenViewModel @Inject constructor(
             text = getFromJson(json, "text"),
             donor = User(id = getFromJson(json, "donor").toInt()),
             recipient = User(id = getFromJson(json, "recipient").toInt()),
-            isChecked = getFromJson(json, "isChecked").toBoolean(),
+            isChecked = getFromJson(json, "is_checked").toBoolean(),
         )
         _messages.value = messages.value + message
     }

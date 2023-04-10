@@ -1,5 +1,6 @@
 package com.example.roomer.presentation.screens.shared_screens
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -40,6 +41,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.roomer.R
 import com.example.roomer.domain.model.entities.Message
+import com.example.roomer.domain.model.entities.User
 import com.example.roomer.presentation.screens.destinations.MessengerScreenDestination
 import com.example.roomer.presentation.ui_components.BackBtn
 import com.example.roomer.presentation.ui_components.Message
@@ -77,8 +79,8 @@ fun ChatScreen(
             messages = messages.value,
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f),
-        )
+                .weight(1f)
+        ) { id -> viewModel.messageRead(id) }
         EnterMessage(
             editMessageText = messageText,
             onSend = { message -> viewModel.sendMessage(message) }
@@ -123,13 +125,17 @@ private fun TopLine(onNavigateTo: () -> Unit) {
 }
 
 @Composable
-private fun MessagesList(messages: List<Message>, modifier: Modifier) {
+private fun MessagesList(messages: List<Message>, modifier: Modifier, checkMessage: (Int) -> Unit) {
     val lazyListState: LazyListState = rememberLazyListState()
     val scope = rememberCoroutineScope()
     LazyColumn(modifier = modifier, state = lazyListState) {
         items(messages.size) { index ->
+            if (!messages[index].isChecked && messages[index].donor != User()){
+                messages[index].isChecked = true
+                checkMessage.invoke(index+1)
+            }
             Message(
-                isUserMessage = false,
+                isUserMessage = messages[index].donor == User(),
                 text = messages[index].text,
                 data = messages[index].dateTime
             )

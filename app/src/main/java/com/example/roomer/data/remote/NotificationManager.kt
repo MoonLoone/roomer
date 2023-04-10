@@ -1,21 +1,45 @@
 package com.example.roomer.data.remote
 
 import android.content.Context
+import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.OneTimeWorkRequest
 import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.OutOfQuotaPolicy
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
-import com.example.roomer.domain.workers.NotificationWorker
+import com.example.roomer.domain.workers.ChatNotificationWorker
+import com.example.roomer.domain.workers.RecommendedNotificationWorker
 import java.util.concurrent.TimeUnit
 
 object NotificationManager {
 
-    fun registerWork(context: Context) {
-        val request =
-            PeriodicWorkRequest.Builder(NotificationWorker::class.java, 15, TimeUnit.MINUTES)
-                .build()
-        WorkManager.getInstance(context).enqueue(request)
+    private const val NOTIFICATION_TAG = "notification_tag"
+    private const val RECOMMENDATION_TAG = "recommendation_tag"
+
+    fun registerAllWorks(context: Context) {
+        registerRecommendationWork(context)
+        registerMessengerWork(context)
     }
 
+    private fun registerMessengerWork(context: Context) {
+        val request =
+            PeriodicWorkRequest.Builder(ChatNotificationWorker::class.java, 15, TimeUnit.MINUTES)
+                .addTag(NOTIFICATION_TAG)
+                .build()
+        WorkManager.getInstance(context)
+            .enqueueUniquePeriodicWork(NOTIFICATION_TAG, ExistingPeriodicWorkPolicy.KEEP, request)
+    }
+
+    private fun registerRecommendationWork(context: Context) {
+        /*val request =
+            PeriodicWorkRequest.Builder(RecommendedNotificationWorker::class.java, 3, TimeUnit.DAYS, 2, TimeUnit.DAYS)
+                .build()*/
+        val request = OneTimeWorkRequest.Builder(RecommendedNotificationWorker::class.java).build()
+        WorkManager.getInstance(context).enqueue(request)
+        //WorkManager.getInstance(context).enqueueUniquePeriodicWork(RECOMMENDATION_TAG, ExistingPeriodicWorkPolicy.KEEP, request)
+    }
+
+    fun stopAllWorks(context: Context) {
+        WorkManager.getInstance(context).cancelAllWorkByTag(NOTIFICATION_TAG)
+        WorkManager.getInstance(context).cancelAllWorkByTag(RECOMMENDATION_TAG)
+    }
 }

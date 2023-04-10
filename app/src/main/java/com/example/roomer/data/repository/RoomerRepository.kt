@@ -2,6 +2,7 @@ package com.example.roomer.data.repository
 
 import com.example.roomer.data.remote.RoomerApi
 import com.example.roomer.domain.model.entities.Message
+import com.example.roomer.domain.model.entities.MessageNotification
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
 import javax.inject.Inject
@@ -58,7 +59,12 @@ class RoomerRepository @Inject constructor(private val roomerApi: RoomerApi) :
         )
     }
 
-    override suspend fun messageChecked(messageId: Int, token: String) {
-        return roomerApi.messageChecked(messageId,token)
+    override suspend fun messageChecked(messageId: Int, token: String): Response<Message> {
+        val refToken = "Token ".plus(token)
+        return roomerApi.messageChecked(messageId,refToken)
+    }
+
+    override suspend fun getMessageNotifications(userId: Int): Response<List<MessageNotification>> {
+        return roomerApi.getNotifications(userId)
     }
 }

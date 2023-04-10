@@ -1,6 +1,7 @@
 package com.example.roomer.data.remote
 
 import com.example.roomer.domain.model.entities.Message
+import com.example.roomer.domain.model.entities.MessageNotification
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.domain.model.login_sign_up.IdModel
@@ -76,11 +77,15 @@ interface RoomerApi {
         @Query("chat_id") chatId: String = "",
     ): Response<List<Message>>
 
-    @PUT("/chats/{id}/")
+    @PUT("/chats/{id}/mark_checked/")
     suspend fun messageChecked(
         @Path("id") id: Int,
         @Header("Authorization") token: String,
         @Body isChecked: Boolean = true
-    )
+    ): Response<Message>
 
+    @GET("/notifications/")
+    suspend fun getNotifications(
+        @Query("user_id") userId: Int,
+    ): Response<List<MessageNotification>>
 }
