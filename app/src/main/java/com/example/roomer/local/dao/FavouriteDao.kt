@@ -1,8 +1,14 @@
 package com.example.roomer.local.dao
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Transaction
 import com.example.roomer.local.entities.LocalRoom
 import com.example.roomer.local.entities.RoomWithHost
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface FavouriteDao {
@@ -14,7 +20,7 @@ interface FavouriteDao {
 
     @Transaction
     @Query("SELECT * FROM favourite")
-    fun queryAll(): List<RoomWithHost>
+    fun queryAll(): Flow<List<RoomWithHost>>
 
     @Query("SELECT COUNT(*) FROM favourite")
     suspend fun count(): Long

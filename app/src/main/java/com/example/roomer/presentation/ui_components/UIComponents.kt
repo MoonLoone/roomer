@@ -341,7 +341,7 @@ fun UserCard(recommendedRoommate: User) {
 }
 
 @Composable
-fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean) {
+fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean, onLikeClick: (Boolean) -> Unit) {
     val cardWidth = if (isMiniVersion) 240.dp else 332.dp
     val cardHeight = if (isMiniVersion) 148.dp else 222.dp
     val imageHeight = if (isMiniVersion) 92.dp else 140.dp
@@ -371,14 +371,13 @@ fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean) {
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(recommendedRoom.photo)
+                    .data(recommendedRoom.fileContent[0].photo)
                     .crossfade(true)
                     .build(),
                 placeholder = painterResource(id = R.drawable.ordinnary_room),
                 contentDescription = stringResource(id = R.string.room_image_description),
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(),
+                    .fillMaxSize(),
                 contentScale = ContentScale.FillBounds,
             )
             Image(
@@ -395,6 +394,8 @@ fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean) {
                     .clip(RoundedCornerShape(dimensionResource(id = R.dimen.rounded_corner_full)))
                     .clickable {
                         isLiked = !isLiked
+                        recommendedRoom.isLiked = isLiked
+                        onLikeClick(isLiked)
                     }
             )
         }

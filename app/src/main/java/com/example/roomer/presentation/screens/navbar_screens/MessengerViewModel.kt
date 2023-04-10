@@ -38,7 +38,7 @@ class MessengerViewModel @Inject constructor(
                 LoginScreenViewModel.FIELD_DEFAULT_VALUE
             )
             val currentUser = roomerRepository.getCurrentUserInfo(token.toString()).body()
-            messengerUseCase.loadChats(currentUser?.id ?: 0).collect {
+            messengerUseCase.loadChats(currentUser?.userId ?: 0).collect {
                 when (it) {
                     is Resource.Internet -> {
                         _state.value = MessengerScreenState(

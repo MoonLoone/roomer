@@ -47,7 +47,7 @@ class ChatScreenViewModel @Inject constructor(
                 SpManager.Sp.TOKEN,
                 LoginScreenViewModel.FIELD_DEFAULT_VALUE
             )
-            currentUserId = roomerRepository.getCurrentUserInfo(token.toString()).body()?.id ?: 0
+            currentUserId = roomerRepository.getCurrentUserInfo(token.toString()).body()?.userId ?: 0
             recipientUserId = recipientId
             chatClientWebSocket.open(currentUserId, recipientUserId)
             _messages.value =
@@ -75,8 +75,8 @@ class ChatScreenViewModel @Inject constructor(
             chatId = getFromJson(json, "chat_id").toInt(),
             dateTime = "",
             text = getFromJson(json, "text"),
-            donor = User(id = getFromJson(json, "donor").toInt()),
-            recipient = User(id = getFromJson(json, "recipient").toInt()),
+            donor = User(userId = getFromJson(json, "donor").toInt()),
+            recipient = User(userId = getFromJson(json, "recipient").toInt()),
             isChecked = getFromJson(json, "isChecked").toBoolean(),
         )
         _messages.value = messages.value + message

@@ -4,6 +4,7 @@ import com.example.roomer.data.remote.RoomerApi
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import retrofit2.Response
 
@@ -60,9 +61,7 @@ class RoomerRepository @Inject constructor(
         )
     }
 
-    override fun getLocalFavourites(): List<Room> {
-        return roomerStore.getFavourites()
-    }
+    override suspend fun getLocalFavourites(): Flow<List<Room>> = roomerStore.getFavourites()
 
     override suspend fun addLocalFavourite(room: Room) {
         roomerStore.addFavourite(room)

@@ -28,10 +28,12 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.roomer.R
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.presentation.screens.destinations.SearchRoomScreenDestination
+import com.example.roomer.presentation.screens.navbar_screens.home_screen.HomeScreenViewModel
 import com.example.roomer.presentation.ui_components.RoomCard
 import com.example.roomer.presentation.ui_components.SearchField
 import com.example.roomer.presentation.ui_components.UserCard
@@ -43,14 +45,12 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 fun HomeScreen(
     navigator: DestinationsNavigator,
+    homeScreenViewModel: HomeScreenViewModel = hiltViewModel()
 ) {
     NavbarManagement.showNavbar()
     val recommendedRooms = mutableListOf<Room>()
     val recommendedRoommates = mutableListOf<User>()
     for (i in 0..5) {
-        recommendedRooms.add(
-            Room()
-        )
         recommendedRoommates.add(
             User(
                 i,
@@ -58,6 +58,9 @@ fun HomeScreen(
                 "",
                 "",
             )
+        )
+        recommendedRooms.add(
+            Room(id = i, host = recommendedRoommates[i], fileContent = listOf(Room.Photo(photo = "")))
         )
     }
     Column(
@@ -135,9 +138,7 @@ fun HomeScreen(
                     items(recommendedRoommates.size - 2) { index ->
                         UserCard(recommendedRoommate = recommendedRoommates[index])
                     }
-                    items(recommendedRooms.size - 2) { index ->
-                        RoomCard(recommendedRoom = recommendedRooms[index], true)
-                    }
+
                 }
             }
             Column(modifier = Modifier.fillMaxWidth()) {
@@ -157,8 +158,14 @@ fun HomeScreen(
                         dimensionResource(id = R.dimen.list_elements_margin)
                     ),
                 ) {
-                    items(recommendedRooms.size) { index ->
-                        RoomCard(recommendedRoom = recommendedRooms[index], true)
+                    items(homeScreenViewModel.testRooms.size - 2) { index ->
+                        RoomCard(
+                            recommendedRoom = recommendedRooms[index],
+                            true
+                        ) { isLiked ->
+                            if (isLiked) homeScreenViewModel.addToFavourites(recommendedRooms[index])
+                            else homeScreenViewModel.removeLocalFavourite(recommendedRooms[index])
+                        }
                     }
                 }
             }

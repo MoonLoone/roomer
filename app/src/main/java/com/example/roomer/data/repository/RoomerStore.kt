@@ -5,6 +5,9 @@ import com.example.roomer.domain.model.entities.User
 import com.example.roomer.local.RoomerDatabase
 import com.example.roomer.local.entities.LocalRoom
 import com.example.roomer.local.entities.RoomWithHost
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.map
 
 class RoomerStore(
     database: RoomerDatabase
@@ -12,7 +15,8 @@ class RoomerStore(
     private val favourites = database.favourites
     private val users = database.users
 
-    override fun getFavourites(): List<Room> = favourites.queryAll().map { it.toRoom() }
+    override suspend fun getFavourites(): Flow<List<Room>> = favourites.queryAll()
+        .map { localRoomList -> localRoomList.map { localRoom -> localRoom.toRoom() } }
 
     override suspend fun addFavourite(room: Room) {
         favourites.save(listOf(room.toLocalRoom()))

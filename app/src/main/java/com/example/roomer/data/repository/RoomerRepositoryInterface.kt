@@ -3,6 +3,7 @@ package com.example.roomer.data.repository
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
+import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 
 interface RoomerRepositoryInterface {
@@ -33,7 +34,7 @@ interface RoomerRepositoryInterface {
         housingType: String
     ): Response<List<Room>>
 
-    fun getLocalFavourites(): List<Room>
+    suspend fun getLocalFavourites(): Flow<List<Room>>
 
     suspend fun addLocalFavourite(room: Room)
 

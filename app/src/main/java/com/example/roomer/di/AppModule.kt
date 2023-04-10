@@ -52,7 +52,7 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideRoomerRepository(roomerApi: RoomerApi, roomerStore: RoomerStore): RoomerRepositoryInterface {
+    fun provideRoomerRepository(roomerApi: RoomerApi, roomerStore: RoomerStoreInterface): RoomerRepositoryInterface {
         return RoomerRepository(roomerApi, roomerStore)
     }
 }

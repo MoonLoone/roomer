@@ -2,9 +2,10 @@ package com.example.roomer.data.repository
 
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
+import kotlinx.coroutines.flow.Flow
 
 interface RoomerStoreInterface {
-    fun getFavourites(): List<Room>
+    suspend fun getFavourites(): Flow<List<Room>>
     suspend fun addFavourite(room: Room)
     suspend fun insertFavourites(favouriteRooms: List<Room>)
     suspend fun isFavouritesEmpty(): Boolean

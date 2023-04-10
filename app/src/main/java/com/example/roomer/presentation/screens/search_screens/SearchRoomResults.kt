@@ -99,7 +99,7 @@ fun SearchRoomResults(
                         RoomCard(
                             recommendedRoom = Room(),
                             isMiniVersion = false
-                        )
+                        ) {}
                     }
                 }
             }
