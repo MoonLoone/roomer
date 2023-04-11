@@ -63,7 +63,7 @@ class RoomerStore(
     private fun Room.toLocalRoom() = LocalRoom(
         id,
         monthPrice,
-        host?.userId?.toLong() ?: 0,
+        host?.userId ?: 0,
         description,
         fileContent[0].photo,
         bathroomsCount,

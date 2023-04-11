@@ -20,7 +20,7 @@ interface UserDao {
     @Insert(entity = User::class, onConflict = OnConflictStrategy.REPLACE)
     suspend fun addMany(users: List<User>)
 
-    @Query("SELECT * FROM user WHERE isCurrentUser=1")
+    @Query("SELECT * FROM user WHERE isCurrentUser=1 LIMIT 1")
     suspend fun getCurrentUser(): User
 
     @Query("DELETE FROM user WHERE isCurrentUser=1")

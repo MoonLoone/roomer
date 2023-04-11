@@ -32,9 +32,6 @@ class SplashScreenViewModel @Inject constructor(
     private val _state = MutableStateFlow(UsualScreenState())
     val state: StateFlow<UsualScreenState> = _state.asStateFlow()
 
-    private val _currentUser: MutableStateFlow<User?> = MutableStateFlow(null)
-    val currentUser: StateFlow<User?> = _currentUser.asStateFlow()
-
     private val splashScreenUseCase = SplashScreenUseCase(roomerRepository)
 
     init {
@@ -51,11 +48,10 @@ class SplashScreenViewModel @Inject constructor(
         }
     }
 
-    fun readCurrentUser() {
+    private fun clearCurrentUser() {
         viewModelScope.launch {
-            _currentUser.value = roomerRepository.getLocalCurrentUser()
+            roomerRepository.deleteLocalCurrentUser()
         }
-        Log.d("CURRENT_USER", currentUser.value.toString())
     }
 
     fun verifyToken() {
@@ -87,6 +83,7 @@ class SplashScreenViewModel @Inject constructor(
                     }
                     is Resource.Error -> {
                         eraseSharedPreferences()
+                        clearCurrentUser()
                         _state.update { currentState ->
                             currentState.copy(
                                 isLoading = false,

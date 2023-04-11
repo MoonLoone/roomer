@@ -8,7 +8,7 @@ data class LocalRoom(
     @PrimaryKey
     val roomId: Int,
     val monthPrice: Int,
-    val hostId: Long,
+    val hostId: Int,
     val description: String,
     val photo: String,
     val bathroomsCount: Int,

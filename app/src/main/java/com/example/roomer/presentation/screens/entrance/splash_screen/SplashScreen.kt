@@ -55,7 +55,6 @@ fun SplashScreen(
         navigator.navigate(GreetingsScreenDestination)
     }
     if (state.isSuccess) {
-        splashScreenViewModel.readCurrentUser()
         navigator.navigate(HomeScreenDestination)
     }
 }

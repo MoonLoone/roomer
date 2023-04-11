@@ -1,5 +1,6 @@
 package com.example.roomer.presentation.screens.navbar_screens.favourite_screen
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding

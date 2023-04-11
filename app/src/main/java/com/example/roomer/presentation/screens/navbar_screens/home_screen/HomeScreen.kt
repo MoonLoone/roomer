@@ -1,4 +1,4 @@
-package com.example.roomer.presentation.screens.navbar_screens
+package com.example.roomer.presentation.screens.navbar_screens.home_screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.Orientation
