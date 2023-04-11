@@ -1,8 +1,6 @@
 package com.example.roomer.presentation.screens.entrance.splash_screen
 
 import android.app.Application
-import android.os.SystemClock.sleep
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
@@ -44,7 +42,7 @@ class SplashScreenViewModel @Inject constructor(
 
     private fun storeCurrentUser(user: User) {
         viewModelScope.launch {
-            roomerRepository.addLocalUser(user)
+            roomerRepository.addLocalCurrentUser(user)
         }
     }
 
@@ -64,7 +62,7 @@ class SplashScreenViewModel @Inject constructor(
                         }
                     }
                     is Resource.Success -> {
-                        val currentUser = result.data?.copy(isCurrentUser = true)
+                        val currentUser = result.data
                         currentUser?.let {
                             storeCurrentUser(currentUser)
                         }

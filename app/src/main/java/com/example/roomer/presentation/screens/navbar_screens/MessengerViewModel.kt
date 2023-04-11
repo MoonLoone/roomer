@@ -5,13 +5,13 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.roomer.utils.converters.convertTimeDateFromBackend
 import com.example.roomer.data.repository.roomer_repository.RoomerRepository
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.usecase.navbar_screens.MessengerUseCase
 import com.example.roomer.presentation.screens.entrance.login.LoginScreenViewModel
 import com.example.roomer.utils.Resource
 import com.example.roomer.utils.SpManager
+import com.example.roomer.utils.converters.convertTimeDateFromBackend
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -41,9 +41,7 @@ class MessengerViewModel @Inject constructor(
             messengerUseCase.loadChats(currentUser?.userId ?: 0).collect {
                 when (it) {
                     is Resource.Internet -> {
-                        _state.value = MessengerScreenState(
-
-                        )
+                        _state.value = MessengerScreenState()
                     }
                     is Resource.Loading -> {
                         _state.value = MessengerScreenState(

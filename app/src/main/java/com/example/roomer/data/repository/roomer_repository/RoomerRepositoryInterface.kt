@@ -44,11 +44,15 @@ interface RoomerRepositoryInterface {
 
     suspend fun getLocalCurrentUser(): User
 
+    suspend fun addLocalCurrentUser(user: User)
+
+    suspend fun updateLocalCurrentUser(user: User)
+
     suspend fun deleteLocalCurrentUser()
 
     suspend fun updateLocalUser(user: User)
 
-    fun getAllLocalUsers(): Flow<List<User>>
+    suspend fun getAllLocalUsers(): Flow<List<User>>
 
     suspend fun deleteLocalUser(user: User)
 
@@ -56,5 +60,5 @@ interface RoomerRepositoryInterface {
 
     suspend fun addManyLocalUsers(users: List<User>)
 
-    suspend fun getUserById(userId: Int): User
+    suspend fun getLocalUserById(userId: Int): User
 }

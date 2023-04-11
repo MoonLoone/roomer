@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.example.roomer.data.local.RoomerStore
 import com.example.roomer.data.local.RoomerStoreInterface
-import com.example.roomer.room.RoomerDatabase
+import com.example.roomer.data.room.RoomerDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,6 +20,7 @@ object DatabaseModule {
     fun provideRoomerDatabase(@ApplicationContext context: Context): RoomerDatabase {
         return Room
             .databaseBuilder(context, RoomerDatabase::class.java, "database.db")
+            .fallbackToDestructiveMigration()
             .build()
     }
     @Singleton

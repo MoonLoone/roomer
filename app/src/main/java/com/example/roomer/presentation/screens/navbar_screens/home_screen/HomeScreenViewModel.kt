@@ -5,15 +5,20 @@ import androidx.lifecycle.viewModelScope
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
 import com.example.roomer.domain.model.entities.Room
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor(
     private val roomerRepository: RoomerRepositoryInterface
-): ViewModel() {
+) : ViewModel() {
     val testRooms = listOf(
-        Room(id=1), Room(id=2), Room(id=3), Room(id=4), Room(id=5), Room(id=6)
+        Room(id = 1),
+        Room(id = 2),
+        Room(id = 3),
+        Room(id = 4),
+        Room(id = 5),
+        Room(id = 6)
     )
     fun addToFavourites(room: Room) {
         viewModelScope.launch {

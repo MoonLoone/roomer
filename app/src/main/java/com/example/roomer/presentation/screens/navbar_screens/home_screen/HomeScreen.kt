@@ -33,7 +33,6 @@ import com.example.roomer.R
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.presentation.screens.destinations.SearchRoomScreenDestination
-import com.example.roomer.presentation.screens.navbar_screens.home_screen.HomeScreenViewModel
 import com.example.roomer.presentation.ui_components.RoomCard
 import com.example.roomer.presentation.ui_components.SearchField
 import com.example.roomer.presentation.ui_components.UserCard
@@ -60,7 +59,11 @@ fun HomeScreen(
             )
         )
         recommendedRooms.add(
-            Room(id = i, host = recommendedRoommates[i], fileContent = listOf(Room.Photo(photo = "")))
+            Room(
+                id = i,
+                host = recommendedRoommates[i],
+                fileContent = listOf(Room.Photo(photo = ""))
+            )
         )
     }
     Column(
@@ -138,7 +141,6 @@ fun HomeScreen(
                     items(recommendedRoommates.size - 2) { index ->
                         UserCard(recommendedRoommate = recommendedRoommates[index])
                     }
-
                 }
             }
             Column(modifier = Modifier.fillMaxWidth()) {
@@ -163,7 +165,9 @@ fun HomeScreen(
                             recommendedRoom = recommendedRooms[index],
                             true
                         ) { isLiked ->
-                            if (isLiked) homeScreenViewModel.addToFavourites(recommendedRooms[index])
+                            if (isLiked) homeScreenViewModel.addToFavourites(
+                                recommendedRooms[index]
+                            )
                             else homeScreenViewModel.removeLocalFavourite(recommendedRooms[index])
                         }
                     }

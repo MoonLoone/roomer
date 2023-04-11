@@ -27,5 +27,4 @@ data class User(
     @SerializedName("clean_habits")
     val cleanHabits: String = "",
     var rating: Double = 0.0,
-    val isCurrentUser: Boolean = false
 )

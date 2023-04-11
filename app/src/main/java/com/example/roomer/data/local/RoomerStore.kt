@@ -1,10 +1,11 @@
 package com.example.roomer.data.local
 
+import com.example.roomer.data.room.RoomerDatabase
+import com.example.roomer.data.room.entities.LocalCurrentUser
+import com.example.roomer.data.room.entities.LocalRoom
+import com.example.roomer.data.room.entities.RoomWithHost
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
-import com.example.roomer.room.RoomerDatabase
-import com.example.roomer.room.entities.LocalRoom
-import com.example.roomer.room.entities.RoomWithHost
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -13,6 +14,7 @@ class RoomerStore(
 ) : RoomerStoreInterface {
     private val favourites = database.favourites
     private val users = database.users
+    private val currentUser = database.currentUser
 
     override suspend fun getFavourites(): Flow<List<Room>> = favourites.queryAll()
         .map { localRoomList -> localRoomList.map { localRoom -> localRoom.toRoom() } }
@@ -21,7 +23,7 @@ class RoomerStore(
         favourites.save(listOf(room.toLocalRoom()))
     }
 
-    override suspend fun insertFavourites(favouriteRooms: List<Room>) {
+    override suspend fun addManyFavourites(favouriteRooms: List<Room>) {
         favourites.save(favouriteRooms.map { it.toLocalRoom() })
     }
 
@@ -30,15 +32,17 @@ class RoomerStore(
         favourites.delete(room.toLocalRoom())
     }
 
-    override suspend fun getCurrentUser(): User {
-        return users.getCurrentUser()
-    }
+    override suspend fun getCurrentUser() = currentUser.read().toUser()
 
-    override suspend fun deleteCurrentUser() {
-        users.deleteCurrentUser()
-    }
+    override suspend fun addCurrentUser(user: User) = currentUser.create(user.toLocalCurrentUser())
 
-    override fun getAllUsers(): Flow<List<User>> = users.queryAll()
+    override suspend fun updateCurrentUser(user: User) = currentUser.update(
+        user.toLocalCurrentUser()
+    )
+
+    override suspend fun deleteCurrentUser() = currentUser.delete()
+
+    override suspend fun getAllUsers(): Flow<List<User>> = users.queryAll()
 
     override suspend fun deleteUser(user: User) {
         users.delete(user)
@@ -56,9 +60,7 @@ class RoomerStore(
         return this.users.addMany(users)
     }
 
-    override suspend fun updateUser(user: User) {
-        users.updateOneUser(user)
-    }
+    override suspend fun updateUser(user: User) = users.updateOne(user)
 
     private fun Room.toLocalRoom() = LocalRoom(
         id,
@@ -88,5 +90,35 @@ class RoomerStore(
         room.location,
         room.title,
         room.isLiked
+    )
+
+    private fun LocalCurrentUser.toUser() = User(
+        userId,
+        firstName,
+        lastName,
+        avatar,
+        employment,
+        sex,
+        alcoholAttitude,
+        smokingAttitude,
+        sleepTime,
+        personalityType,
+        cleanHabits,
+        rating
+    )
+
+    private fun User.toLocalCurrentUser() = LocalCurrentUser(
+        userId,
+        firstName,
+        lastName,
+        avatar,
+        employment,
+        sex,
+        alcoholAttitude,
+        smokingAttitude,
+        sleepTime,
+        personalityType,
+        cleanHabits,
+        rating
     )
 }

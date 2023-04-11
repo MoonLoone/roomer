@@ -1,4 +1,4 @@
-package com.example.roomer.room.dao
+package com.example.roomer.data.room.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
@@ -20,12 +20,6 @@ interface UserDao {
     @Insert(entity = User::class, onConflict = OnConflictStrategy.REPLACE)
     suspend fun addMany(users: List<User>)
 
-    @Query("SELECT * FROM user WHERE isCurrentUser=1 LIMIT 1")
-    suspend fun getCurrentUser(): User
-
-    @Query("DELETE FROM user WHERE isCurrentUser=1")
-    suspend fun deleteCurrentUser()
-
     @Query("SELECT * FROM user WHERE userId=:userId")
     suspend fun getUserById(userId: Int): User
 
@@ -33,8 +27,8 @@ interface UserDao {
     suspend fun delete(user: User)
 
     @Update(entity = User::class)
-    suspend fun updateOneUser(user: User)
+    suspend fun updateOne(user: User)
 
     @Query("DELETE FROM user")
-    suspend fun clearAll()
+    suspend fun deleteAll()
 }

@@ -1,4 +1,4 @@
-package com.example.roomer.room.entities
+package com.example.roomer.data.room.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

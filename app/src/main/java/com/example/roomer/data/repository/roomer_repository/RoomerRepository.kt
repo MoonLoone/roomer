@@ -1,12 +1,12 @@
 package com.example.roomer.data.repository.roomer_repository
 
-import com.example.roomer.data.remote.RoomerApi
 import com.example.roomer.data.local.RoomerStoreInterface
+import com.example.roomer.data.remote.RoomerApi
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
+import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 
 class RoomerRepository @Inject constructor(
@@ -64,45 +64,29 @@ class RoomerRepository @Inject constructor(
 
     override suspend fun getLocalFavourites(): Flow<List<Room>> = roomerStore.getFavourites()
 
-    override suspend fun addLocalFavourite(room: Room) {
-        roomerStore.addFavourite(room)
-    }
+    override suspend fun addLocalFavourite(room: Room) = roomerStore.addFavourite(room)
 
-    override suspend fun deleteLocalFavourite(room: Room) {
-        roomerStore.deleteFavourite(room)
-    }
+    override suspend fun deleteLocalFavourite(room: Room) = roomerStore.deleteFavourite(room)
 
-    override suspend fun isLocalFavouritesEmpty(): Boolean {
-        return roomerStore.isFavouritesEmpty()
-    }
+    override suspend fun isLocalFavouritesEmpty(): Boolean = roomerStore.isFavouritesEmpty()
 
-    override suspend fun getLocalCurrentUser(): User {
-        return roomerStore.getCurrentUser()
-    }
+    override suspend fun getLocalCurrentUser() = roomerStore.getCurrentUser()
 
-    override suspend fun deleteLocalCurrentUser() {
-        roomerStore.deleteCurrentUser()
-    }
+    override suspend fun addLocalCurrentUser(user: User) = roomerStore.addCurrentUser(user)
 
-    override suspend fun updateLocalUser(user: User) {
-        roomerStore.updateUser(user)
-    }
+    override suspend fun updateLocalCurrentUser(user: User) = roomerStore.updateCurrentUser(user)
 
-    override fun getAllLocalUsers(): Flow<List<User>> {
-        return roomerStore.getAllUsers()
-    }
+    override suspend fun deleteLocalCurrentUser() = roomerStore.deleteCurrentUser()
 
-    override suspend fun deleteLocalUser(user: User) {
-        roomerStore.deleteUser(user)
-    }
+    override suspend fun updateLocalUser(user: User) = roomerStore.updateUser(user)
 
-    override suspend fun addLocalUser(user: User) {
-        roomerStore.addUser(user)
-    }
+    override suspend fun getAllLocalUsers(): Flow<List<User>> = roomerStore.getAllUsers()
 
-    override suspend fun addManyLocalUsers(users: List<User>) {
-        roomerStore.addManyUsers(users)
-    }
+    override suspend fun deleteLocalUser(user: User) = roomerStore.deleteUser(user)
 
-    override suspend fun getUserById(userId: Int) = roomerStore.getUserById(userId)
+    override suspend fun addLocalUser(user: User) = roomerStore.addUser(user)
+
+    override suspend fun addManyLocalUsers(users: List<User>) = roomerStore.addManyUsers(users)
+
+    override suspend fun getLocalUserById(userId: Int): User = roomerStore.getUserById(userId)
 }

@@ -6,14 +6,14 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.roomer.utils.converters.createJson
-import com.example.roomer.utils.converters.getFromJson
 import com.example.roomer.data.remote.ChatClientWebSocket
 import com.example.roomer.data.repository.roomer_repository.RoomerRepository
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.presentation.screens.entrance.login.LoginScreenViewModel
 import com.example.roomer.utils.SpManager
+import com.example.roomer.utils.converters.createJson
+import com.example.roomer.utils.converters.getFromJson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -47,12 +47,13 @@ class ChatScreenViewModel @Inject constructor(
                 SpManager.Sp.TOKEN,
                 LoginScreenViewModel.FIELD_DEFAULT_VALUE
             )
-            currentUserId = roomerRepository.getCurrentUserInfo(token.toString()).body()?.userId ?: 0
+            currentUserId =
+                roomerRepository.getCurrentUserInfo(token.toString()).body()?.userId ?: 0
             recipientUserId = recipientId
             chatClientWebSocket.open(currentUserId, recipientUserId)
             _messages.value =
                 roomerRepository.getMessagesForChat(userId = currentUserId, chatId = chatId).body()
-                ?.toMutableList() ?: mutableListOf()
+                    ?.toMutableList() ?: mutableListOf()
             _socketConnectionState.value = true
         }
     }

@@ -7,12 +7,14 @@ import kotlinx.coroutines.flow.Flow
 interface RoomerStoreInterface {
     suspend fun getFavourites(): Flow<List<Room>>
     suspend fun addFavourite(room: Room)
-    suspend fun insertFavourites(favouriteRooms: List<Room>)
+    suspend fun addManyFavourites(favouriteRooms: List<Room>)
     suspend fun isFavouritesEmpty(): Boolean
     suspend fun deleteFavourite(room: Room)
     suspend fun getCurrentUser(): User
+    suspend fun addCurrentUser(user: User)
+    suspend fun updateCurrentUser(user: User)
     suspend fun deleteCurrentUser()
-    fun getAllUsers(): Flow<List<User>>
+    suspend fun getAllUsers(): Flow<List<User>>
     suspend fun deleteUser(user: User)
     suspend fun getUserById(userId: Int): User
     suspend fun addUser(user: User)
