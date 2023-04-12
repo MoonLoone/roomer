@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -30,8 +31,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.roomer.R
 import com.example.roomer.presentation.screens.destinations.ProfileScreenDestination
+import com.example.roomer.presentation.ui_components.AccountScreenTextField
 import com.example.roomer.presentation.ui_components.BackBtn
-import com.example.roomer.presentation.ui_components.ScreenTextField
 import com.example.roomer.presentation.ui_components.SelectAddressField
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -46,9 +47,9 @@ fun AccountScreen(
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
             .padding(
-                top = 24.dp,
-                start = 40.dp,
-                end = 40.dp
+                top = dimensionResource(id = R.dimen.screen_top_margin),
+                start = dimensionResource(id = R.dimen.screen_start_margin),
+                end = dimensionResource(id = R.dimen.screen_end_margin),
             ),
     ) {
         Row(
@@ -60,7 +61,7 @@ fun AccountScreen(
             Text(
                 text = stringResource(R.string.account_title),
                 fontSize = integerResource(
-                    id = R.integer.label_text_size
+                    id = R.integer.label_text
                 ).sp,
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
@@ -72,15 +73,12 @@ fun AccountScreen(
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            ScreenTextField(label = stringResource(R.string.first_name), textHint = "Vasya")
-            ScreenTextField(label = stringResource(R.string.last_name), textHint = "Pupkin")
-//                DateField(label = stringResource(R.string.date_of_birth))
-//                SexField()
-//                DropdownTextField(listOfItems = Choices.employment, label = stringResource(R.string.employment))
-            ScreenTextField(
+            AccountScreenTextField(label = stringResource(R.string.first_name), textHint = "Vasya")
+            AccountScreenTextField(label = stringResource(R.string.last_name), textHint = "Pupkin")
+            AccountScreenTextField(
                 textHint = stringResource(R.string.hint_about_you),
                 label = stringResource(R.string.about_me),
-                textFieldHeight = 112
+                textFieldHeight = 112.dp
             )
             SelectAddressField(
                 label = stringResource(R.string.select_addr_title),
@@ -97,9 +95,11 @@ fun AccountScreen(
                         .height(40.dp)
                         .width(146.dp)
                         .border(
-                            width = 1.dp,
+                            width = dimensionResource(id = R.dimen.ordinary_border),
                             color = Color.Black,
-                            shape = RoundedCornerShape(100.dp)
+                            shape = RoundedCornerShape(
+                                dimensionResource(id = R.dimen.rounded_corner_full)
+                            )
                         )
                         .clickable {
                         },
@@ -110,14 +110,14 @@ fun AccountScreen(
                         contentDescription = stringResource(R.string.habits_icon_description),
                         modifier = Modifier
                             .padding(start = 16.dp)
-                            .width(18.dp)
-                            .height(18.dp),
+                            .width(dimensionResource(id = R.dimen.small_icon))
+                            .height(dimensionResource(id = R.dimen.small_icon)),
                     )
                     Text(
                         text = stringResource(id = R.string.habits_button),
                         style = TextStyle(
                             color = colorResource(id = R.color.primary_dark),
-                            fontSize = 14.sp,
+                            fontSize = integerResource(id = R.integer.primary_text).sp,
                             fontWeight = FontWeight.Bold,
                         ),
                     )
@@ -127,9 +127,11 @@ fun AccountScreen(
                         .height(40.dp)
                         .width(146.dp)
                         .border(
-                            width = 1.dp,
+                            width = dimensionResource(id = R.dimen.ordinary_border),
                             color = Color.Black,
-                            shape = RoundedCornerShape(100.dp)
+                            shape = RoundedCornerShape(
+                                dimensionResource(id = R.dimen.rounded_corner_full)
+                            )
                         )
                         .clickable {
                         },
@@ -142,14 +144,14 @@ fun AccountScreen(
                         ),
                         modifier = Modifier
                             .padding(start = 16.dp)
-                            .width(18.dp)
-                            .height(18.dp),
+                            .width(dimensionResource(id = R.dimen.small_icon))
+                            .height(dimensionResource(id = R.dimen.small_icon)),
                     )
                     Text(
                         text = stringResource(id = R.string.interests_button),
                         style = TextStyle(
                             color = colorResource(id = R.color.primary_dark),
-                            fontSize = 14.sp,
+                            fontSize = integerResource(id = R.integer.primary_text).sp,
                             fontWeight = FontWeight.Bold,
                         ),
                     )

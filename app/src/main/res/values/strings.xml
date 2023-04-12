@@ -51,4 +51,9 @@
     <string name="roommate">Roommate</string>
     <string name="status">Status:</string>
     <string name="logo_content_description">Roomer application logo</string>
+    <string name="navbar_home_name">Home</string>
+    <string name="navbar_favourite_name">Favourite</string>
+    <string name="navbar_post_name">Post</string>
+    <string name="navbar_chat_name">Chat</string>
+    <string name="navbar_profile_name">Profile</string>
 </resources>
