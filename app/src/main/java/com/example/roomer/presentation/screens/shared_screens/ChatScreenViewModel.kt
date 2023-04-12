@@ -53,7 +53,7 @@ class ChatScreenViewModel @Inject constructor(
             chatClientWebSocket.open(currentUserId, recipientUserId)
             _messages.value =
                 roomerRepository.getMessagesForChat(userId = currentUserId, chatId = chatId).body()
-                    ?.toMutableList() ?: mutableListOf()
+                ?.toMutableList() ?: mutableListOf()
             _socketConnectionState.value = true
         }
     }

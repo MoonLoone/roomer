@@ -67,7 +67,7 @@ class RoomerStore(
         monthPrice,
         host?.userId ?: 0,
         description,
-        fileContent[0].photo,
+        fileContent.first().photo,
         bathroomsCount,
         bedroomsCount,
         housingType,

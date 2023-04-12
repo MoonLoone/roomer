@@ -62,9 +62,8 @@ class SplashScreenViewModel @Inject constructor(
                         }
                     }
                     is Resource.Success -> {
-                        val currentUser = result.data
-                        currentUser?.let {
-                            storeCurrentUser(currentUser)
+                        result.data?.let {
+                            storeCurrentUser(it)
                         }
                         _state.update { currentState ->
                             currentState.copy(isLoading = false, isSuccess = true)
