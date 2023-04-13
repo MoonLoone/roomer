@@ -371,7 +371,7 @@ fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean, onLikeClick: (Boolea
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(recommendedRoom.fileContent[0].photo)
+                    .data(recommendedRoom.fileContent.first().photo)
                     .crossfade(true)
                     .build(),
                 placeholder = painterResource(id = R.drawable.ordinnary_room),
