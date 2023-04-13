@@ -62,6 +62,7 @@ android {
 
 dependencies {
     def retrofit_version = '2.9.0'
+    def okhttp_version = '4.10.0'
     def gson_version = '2.10'
     def gson_converter_version = '2.9.0'
     def room_version = "2.4.3"
@@ -80,6 +81,9 @@ dependencies {
     //Room
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    ksp "androidx.room:room-compiler:$room_version"
+
     //Room x Paging3
     implementation "androidx.room:room-paging:$room_version"
 
@@ -110,7 +114,7 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$gson_converter_version"
 
     //OkHttp Logging Interceptor
-    implementation "com.squareup.okhttp3:logging-interceptor:4.10.0"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
 
     //GSON
     implementation "com.google.code.gson:gson:$gson_version"
@@ -130,7 +134,6 @@ dependencies {
 
 }
 
-// Allow references to generated code
 kapt {
     correctErrorTypes true
 }

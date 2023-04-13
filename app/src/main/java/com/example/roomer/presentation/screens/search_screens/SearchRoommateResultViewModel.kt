@@ -2,7 +2,7 @@ package com.example.roomer.presentation.screens.search_screens
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.roomer.data.repository.RoomerRepositoryInterface
+import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.utils.LoadingStates
 import dagger.hilt.android.lifecycle.HiltViewModel

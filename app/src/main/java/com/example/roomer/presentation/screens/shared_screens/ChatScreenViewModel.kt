@@ -6,14 +6,14 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.roomer.converters.createJson
-import com.example.roomer.converters.getFromJson
 import com.example.roomer.data.remote.ChatClientWebSocket
-import com.example.roomer.data.repository.RoomerRepository
+import com.example.roomer.data.repository.roomer_repository.RoomerRepository
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.presentation.screens.entrance.login.LoginScreenViewModel
 import com.example.roomer.utils.SpManager
+import com.example.roomer.utils.converters.createJson
+import com.example.roomer.utils.converters.getFromJson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -47,7 +47,8 @@ class ChatScreenViewModel @Inject constructor(
                 SpManager.Sp.TOKEN,
                 LoginScreenViewModel.FIELD_DEFAULT_VALUE
             )
-            currentUserId = roomerRepository.getCurrentUserInfo(token.toString()).body()?.id ?: 0
+            currentUserId =
+                roomerRepository.getCurrentUserInfo(token.toString()).body()?.userId ?: 0
             recipientUserId = recipientId
             chatClientWebSocket.open(currentUserId, recipientUserId)
             _messages.value =
@@ -75,8 +76,8 @@ class ChatScreenViewModel @Inject constructor(
             chatId = getFromJson(json, "chat_id").toInt(),
             dateTime = "",
             text = getFromJson(json, "text"),
-            donor = User(id = getFromJson(json, "donor").toInt()),
-            recipient = User(id = getFromJson(json, "recipient").toInt()),
+            donor = User(userId = getFromJson(json, "donor").toInt()),
+            recipient = User(userId = getFromJson(json, "recipient").toInt()),
             isChecked = getFromJson(json, "isChecked").toBoolean(),
         )
         _messages.value = messages.value + message

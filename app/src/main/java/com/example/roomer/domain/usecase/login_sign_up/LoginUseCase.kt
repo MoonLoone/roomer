@@ -1,6 +1,6 @@
 package com.example.roomer.domain.usecase.login_sign_up
 
-import com.example.roomer.data.repository.AuthRepositoryInterface
+import com.example.roomer.data.repository.auth_repository.AuthRepositoryInterface
 import com.example.roomer.utils.Constants
 import com.example.roomer.utils.Resource
 import java.io.IOException
