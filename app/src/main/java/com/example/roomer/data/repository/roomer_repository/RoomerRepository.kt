@@ -1,15 +1,19 @@
-package com.example.roomer.data.repository
+package com.example.roomer.data.repository.roomer_repository
 
+import com.example.roomer.data.local.RoomerStoreInterface
 import com.example.roomer.data.remote.RoomerApi
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.MessageNotification
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
 import javax.inject.Inject
+import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 
-class RoomerRepository @Inject constructor(private val roomerApi: RoomerApi) :
-    RoomerRepositoryInterface {
+class RoomerRepository @Inject constructor(
+    private val roomerApi: RoomerApi,
+    private val roomerStore: RoomerStoreInterface
+) : RoomerRepositoryInterface {
     override suspend fun getChats(userId: Int): Response<List<Message>> {
         return roomerApi.getChatsForUser(userId)
     }
@@ -58,6 +62,34 @@ class RoomerRepository @Inject constructor(private val roomerApi: RoomerApi) :
             cleanHabits,
         )
     }
+
+    override suspend fun getLocalFavourites(): Flow<List<Room>> = roomerStore.getFavourites()
+
+    override suspend fun addLocalFavourite(room: Room) = roomerStore.addFavourite(room)
+
+    override suspend fun deleteLocalFavourite(room: Room) = roomerStore.deleteFavourite(room)
+
+    override suspend fun isLocalFavouritesEmpty(): Boolean = roomerStore.isFavouritesEmpty()
+
+    override suspend fun getLocalCurrentUser() = roomerStore.getCurrentUser()
+
+    override suspend fun addLocalCurrentUser(user: User) = roomerStore.addCurrentUser(user)
+
+    override suspend fun updateLocalCurrentUser(user: User) = roomerStore.updateCurrentUser(user)
+
+    override suspend fun deleteLocalCurrentUser() = roomerStore.deleteCurrentUser()
+
+    override suspend fun updateLocalUser(user: User) = roomerStore.updateUser(user)
+
+    override suspend fun getAllLocalUsers(): Flow<List<User>> = roomerStore.getAllUsers()
+
+    override suspend fun deleteLocalUser(user: User) = roomerStore.deleteUser(user)
+
+    override suspend fun addLocalUser(user: User) = roomerStore.addUser(user)
+
+    override suspend fun addManyLocalUsers(users: List<User>) = roomerStore.addManyUsers(users)
+
+    override suspend fun getLocalUserById(userId: Int): User = roomerStore.getUserById(userId)
 
     override suspend fun messageChecked(messageId: Int, token: String): Response<Message> {
         val refToken = "Token ".plus(token)

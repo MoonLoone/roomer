@@ -1,4 +1,4 @@
-package com.example.roomer.data.repository
+package com.example.roomer.data.repository.auth_repository
 
 import android.graphics.Bitmap
 import com.example.roomer.data.remote.RoomerApi

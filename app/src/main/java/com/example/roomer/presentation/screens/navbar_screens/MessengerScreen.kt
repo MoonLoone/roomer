@@ -94,7 +94,7 @@ private fun ChatsListScreen(listOfChats: List<Message>, navigator: DestinationsN
                 navigateTo = {
                     navigator.navigate(
                         ChatScreenDestination(
-                            listOfChats[index].recipient.id,
+                            listOfChats[index].recipient.userId,
                             chatId = listOfChats[index].chatId
                         )
                     )

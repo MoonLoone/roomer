@@ -1,19 +1,20 @@
 package com.example.roomer.domain.model.entities
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
+@Entity(tableName = "user")
 data class User(
+    @PrimaryKey
     @SerializedName("id")
-    val id: Int = -1,
+    val userId: Int = -1,
     @SerializedName("first_name")
     val firstName: String = "",
     @SerializedName("last_name")
     val lastName: String = "",
-    @SerializedName("avatar")
     val avatar: String = "",
-    @SerializedName("employment")
     val employment: String = "",
-    @SerializedName("sex")
     val sex: String = "",
     @SerializedName("alcohol_attitude")
     val alcoholAttitude: String = "",

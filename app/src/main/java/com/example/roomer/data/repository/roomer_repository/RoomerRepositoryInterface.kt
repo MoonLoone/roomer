@@ -1,9 +1,10 @@
-package com.example.roomer.data.repository
+package com.example.roomer.data.repository.roomer_repository
 
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.MessageNotification
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
+import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 
 interface RoomerRepositoryInterface {
@@ -33,6 +34,34 @@ interface RoomerRepositoryInterface {
         bathroomsCount: String,
         housingType: String
     ): Response<List<Room>>
+
+    suspend fun getLocalFavourites(): Flow<List<Room>>
+
+    suspend fun addLocalFavourite(room: Room)
+
+    suspend fun deleteLocalFavourite(room: Room)
+
+    suspend fun isLocalFavouritesEmpty(): Boolean
+
+    suspend fun getLocalCurrentUser(): User
+
+    suspend fun addLocalCurrentUser(user: User)
+
+    suspend fun updateLocalCurrentUser(user: User)
+
+    suspend fun deleteLocalCurrentUser()
+
+    suspend fun updateLocalUser(user: User)
+
+    suspend fun getAllLocalUsers(): Flow<List<User>>
+
+    suspend fun deleteLocalUser(user: User)
+
+    suspend fun addLocalUser(user: User)
+
+    suspend fun addManyLocalUsers(users: List<User>)
+
+    suspend fun getLocalUserById(userId: Int): User
 
     suspend fun messageChecked(messageId:Int, token: String): Response<Message>
 
