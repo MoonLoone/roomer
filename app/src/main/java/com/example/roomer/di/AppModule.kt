@@ -62,4 +62,5 @@ object AppModule {
     ): RoomerRepositoryInterface {
         return RoomerRepository(roomerApi, roomerStore)
     }
+
 }

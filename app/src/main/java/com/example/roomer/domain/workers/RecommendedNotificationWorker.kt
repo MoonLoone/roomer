@@ -16,11 +16,13 @@ import androidx.work.WorkerParameters
 import com.example.roomer.MainActivity
 import com.example.roomer.R
 import com.example.roomer.utils.Constants
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 import kotlin.random.Random
 
-class RecommendedNotificationWorker(
-    context: Context,
-    workerParameters: WorkerParameters,
+class RecommendedNotificationWorker @AssistedInject constructor(
+    @Assisted context: Context,
+    @Assisted workerParameters: WorkerParameters,
 ) : CoroutineWorker(context, workerParameters) {
 
 

@@ -5,6 +5,7 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.OneTimeWorkRequest
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequest
+import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.example.roomer.domain.workers.ChatNotificationWorker
 import com.example.roomer.domain.workers.RecommendedNotificationWorker
@@ -22,7 +23,7 @@ object NotificationManager {
 
     private fun registerMessengerWork(context: Context) {
         val request =
-            PeriodicWorkRequest.Builder(ChatNotificationWorker::class.java, 15, TimeUnit.MINUTES)
+            PeriodicWorkRequestBuilder<ChatNotificationWorker>(15, TimeUnit.MINUTES)
                 .addTag(NOTIFICATION_TAG)
                 .build()
         WorkManager.getInstance(context)

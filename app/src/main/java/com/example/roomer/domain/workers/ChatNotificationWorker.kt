@@ -14,6 +14,7 @@ import androidx.work.ForegroundInfo
 import androidx.work.WorkerParameters
 import com.example.roomer.R
 import com.example.roomer.data.repository.roomer_repository.RoomerRepository
+import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
 import com.example.roomer.domain.model.entities.MessageNotification
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -24,7 +25,7 @@ import javax.inject.Inject
 class ChatNotificationWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted workerParameters: WorkerParameters,
-    private val roomerRepositoryInterface:RoomerRepository
+    private val roomerRepository: RoomerRepository
 ) : CoroutineWorker(context, workerParameters) {
 
     override suspend fun doWork(): Result {
@@ -33,7 +34,7 @@ class ChatNotificationWorker @AssistedInject constructor(
                 Manifest.permission.POST_NOTIFICATIONS
             ) == PackageManager.PERMISSION_GRANTED
         ) {
-            val messages = roomerRepositoryInterface.getMessageNotifications(302).body()
+            val messages = roomerRepository.getMessageNotifications(302).body()
             setForeground(createForegroundInfo(messages ?: emptyList()))
             return Result.success()
         }
