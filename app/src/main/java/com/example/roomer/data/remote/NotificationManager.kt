@@ -30,12 +30,10 @@ object NotificationManager {
     }
 
     private fun registerRecommendationWork(context: Context) {
-        /*val request =
+        val request =
             PeriodicWorkRequest.Builder(RecommendedNotificationWorker::class.java, 3, TimeUnit.DAYS, 2, TimeUnit.DAYS)
-                .build()*/
-        val request = OneTimeWorkRequest.Builder(RecommendedNotificationWorker::class.java).build()
-        WorkManager.getInstance(context).enqueue(request)
-        //WorkManager.getInstance(context).enqueueUniquePeriodicWork(RECOMMENDATION_TAG, ExistingPeriodicWorkPolicy.KEEP, request)
+                .build()
+        WorkManager.getInstance(context).enqueueUniquePeriodicWork(RECOMMENDATION_TAG, ExistingPeriodicWorkPolicy.KEEP, request)
     }
 
     fun stopAllWorks(context: Context) {

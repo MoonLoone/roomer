@@ -8,30 +8,24 @@ import android.content.Context
 import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
+import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.ForegroundInfo
 import androidx.work.WorkerParameters
 import com.example.roomer.R
-import com.example.roomer.data.remote.RoomerApi
-import com.example.roomer.data.repository.RoomerRepository
+import com.example.roomer.data.repository.roomer_repository.RoomerRepository
 import com.example.roomer.domain.model.entities.MessageNotification
-import com.example.roomer.utils.Constants
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 import java.util.*
+import javax.inject.Inject
 
-class ChatNotificationWorker(
-    context: Context,
-    workerParameters: WorkerParameters,
+@HiltWorker
+class ChatNotificationWorker @AssistedInject constructor(
+    @Assisted context: Context,
+    @Assisted workerParameters: WorkerParameters,
+    private val roomerRepositoryInterface:RoomerRepository
 ) : CoroutineWorker(context, workerParameters) {
-
-    private val roomerRepositoryInterface = RoomerRepository(
-        Retrofit.Builder()
-            .baseUrl(Constants.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(RoomerApi::class.java)
-    )
 
     override suspend fun doWork(): Result {
         if (ActivityCompat.checkSelfPermission(
@@ -40,7 +34,7 @@ class ChatNotificationWorker(
             ) == PackageManager.PERMISSION_GRANTED
         ) {
             val messages = roomerRepositoryInterface.getMessageNotifications(302).body()
-            setForeground(createForegroundInfo(messages ?: emptyList<MessageNotification>()))
+            setForeground(createForegroundInfo(messages ?: emptyList()))
             return Result.success()
         }
         return Result.failure()
@@ -71,7 +65,7 @@ class ChatNotificationWorker(
             .setChannelId(CHANNEL_ID)
             .build()
         val manager =
-            applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as android.app.NotificationManager
+            applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         manager.createNotificationChannel(channel)
         manager.notify(NOTIFICATION_ID, notificationChat)
         return notificationChat
