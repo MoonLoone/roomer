@@ -130,7 +130,7 @@ private fun MessagesList(messages: List<Message>, modifier: Modifier, checkMessa
     val scope = rememberCoroutineScope()
     LazyColumn(modifier = modifier, state = lazyListState) {
         items(messages.size) { index ->
-            if (!messages[index].isChecked && messages[index].donor != User()){
+            if (!messages[index].isChecked && messages[index].recipient == User()){
                 messages[index].isChecked = true
                 checkMessage.invoke(index+1)
             }

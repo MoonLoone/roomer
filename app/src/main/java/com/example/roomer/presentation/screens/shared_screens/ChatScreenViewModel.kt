@@ -63,7 +63,7 @@ class ChatScreenViewModel @Inject constructor(
             val messageJson = createJson(
                 Pair("message", message),
                 Pair("donor_id", currentUserId),
-                Pair("recipient_id", recipientUserId)
+                Pair("recipient_id", recipientUserId),
             )
             chatClientWebSocket.sendMessage(messageJson)
         }
@@ -85,11 +85,11 @@ class ChatScreenViewModel @Inject constructor(
         val message = Message(
             id = getFromJson(json, "id").toInt(),
             chatId = getFromJson(json, "chat_id").toInt(),
-            dateTime = "",
+            dateTime ="",
             text = getFromJson(json, "text"),
             donor = User(userId = getFromJson(json, "donor").toInt()),
             recipient = User(userId = getFromJson(json, "recipient").toInt()),
-            isChecked = getFromJson(json, "isChecked").toBoolean(),
+            isChecked = getFromJson(json, "is_checked").toBoolean(),
         )
         _messages.value = messages.value + message
     }
