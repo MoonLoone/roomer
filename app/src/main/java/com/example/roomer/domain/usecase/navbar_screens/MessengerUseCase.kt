@@ -1,6 +1,6 @@
 package com.example.roomer.domain.usecase.navbar_screens
 
-import com.example.roomer.data.repository.RoomerRepository
+import com.example.roomer.data.repository.roomer_repository.RoomerRepository
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.utils.Constants
 import com.example.roomer.utils.Resource

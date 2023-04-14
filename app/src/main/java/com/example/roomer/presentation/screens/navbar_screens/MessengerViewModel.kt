@@ -5,13 +5,13 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.roomer.converters.convertTimeDateFromBackend
-import com.example.roomer.data.repository.RoomerRepository
+import com.example.roomer.data.repository.roomer_repository.RoomerRepository
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.usecase.navbar_screens.MessengerUseCase
 import com.example.roomer.presentation.screens.entrance.login.LoginScreenViewModel
 import com.example.roomer.utils.Resource
 import com.example.roomer.utils.SpManager
+import com.example.roomer.utils.converters.convertTimeDateFromBackend
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,7 +24,7 @@ class MessengerViewModel @Inject constructor(
     private val roomerRepository: RoomerRepository,
 ) : AndroidViewModel(application) {
 
-    private val _state = mutableStateOf(MessengerScreenState())
+    private val _state = mutableStateOf(MessengerScreenState(false))
     val state: State<MessengerScreenState> = _state
     private val messengerUseCase = MessengerUseCase(roomerRepository)
     private val _chats = MutableStateFlow(emptyList<Message>())
@@ -37,14 +37,11 @@ class MessengerViewModel @Inject constructor(
                 SpManager.Sp.TOKEN,
                 LoginScreenViewModel.FIELD_DEFAULT_VALUE
             )
-            val currentUser = roomerRepository.getCurrentUserInfo("Token $token").body()
-            messengerUseCase.loadChats(currentUser?.id ?: 0).collect {
+            val currentUser = roomerRepository.getCurrentUserInfo(token.toString()).body()
+            messengerUseCase.loadChats(currentUser?.userId ?: 0).collect {
                 when (it) {
                     is Resource.Internet -> {
-                        _state.value = MessengerScreenState(
-                            isLoading = false,
-                            internetProblem = true
-                        )
+                        _state.value = MessengerScreenState()
                     }
                     is Resource.Loading -> {
                         _state.value = MessengerScreenState(

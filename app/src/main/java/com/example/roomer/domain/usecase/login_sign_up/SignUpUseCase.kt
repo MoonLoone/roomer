@@ -1,7 +1,7 @@
 package com.example.roomer.domain.usecase.login_sign_up
 
 import android.graphics.Bitmap
-import com.example.roomer.data.repository.AuthRepositoryInterface
+import com.example.roomer.data.repository.auth_repository.AuthRepositoryInterface
 import com.example.roomer.domain.model.login_sign_up.interests.InterestModel
 import com.example.roomer.utils.Constants
 import com.example.roomer.utils.Resource

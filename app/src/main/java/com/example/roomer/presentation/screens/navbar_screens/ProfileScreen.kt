@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -37,15 +38,15 @@ fun ProfileScreen(
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
             .padding(
-                top = 24.dp,
-                start = 40.dp,
-                end = 40.dp
+                top = dimensionResource(id = R.dimen.screen_top_margin),
+                start = dimensionResource(id = R.dimen.screen_start_margin),
+                end = dimensionResource(id = R.dimen.screen_end_margin)
             )
     ) {
         Text(
             text = stringResource(R.string.profile_title),
             textAlign = TextAlign.Start,
-            fontSize = integerResource(id = R.integer.label_text_size).sp,
+            fontSize = integerResource(id = R.integer.label_text).sp,
         )
         Image(
             painter = painterResource(id = R.drawable.ordinary_client),

@@ -1,4 +1,4 @@
-package com.example.roomer.presentation.screens.navbar_screens
+package com.example.roomer.presentation.screens.navbar_screens.home_screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.Orientation
@@ -21,11 +21,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.roomer.R
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
@@ -41,14 +44,12 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 fun HomeScreen(
     navigator: DestinationsNavigator,
+    homeScreenViewModel: HomeScreenViewModel = hiltViewModel()
 ) {
     NavbarManagement.showNavbar()
     val recommendedRooms = mutableListOf<Room>()
     val recommendedRoommates = mutableListOf<User>()
     for (i in 0..5) {
-        recommendedRooms.add(
-            Room()
-        )
         recommendedRoommates.add(
             User(
                 i,
@@ -57,15 +58,22 @@ fun HomeScreen(
                 "",
             )
         )
+        recommendedRooms.add(
+            Room(
+                id = i,
+                host = recommendedRoommates[i],
+                fileContent = listOf(Room.Photo(photo = ""))
+            )
+        )
     }
     Column(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
             .padding(
-                top = 18.dp,
-                start = 40.dp,
-                end = 40.dp
+                top = dimensionResource(id = R.dimen.screen_top_margin),
+                start = dimensionResource(id = R.dimen.screen_start_margin),
+                end = dimensionResource(id = R.dimen.screen_end_margin)
             )
     ) {
         Row(
@@ -79,14 +87,14 @@ fun HomeScreen(
                     text = "Welcome back!",
                     style = TextStyle(
                         color = colorResource(id = R.color.text_secondary),
-                        fontSize = 18.sp,
+                        fontSize = integerResource(id = R.integer.primary_text).sp,
                     )
                 )
                 Text(
                     text = "Client name here",
                     style = TextStyle(
                         color = colorResource(id = R.color.text_secondary),
-                        fontSize = 24.sp,
+                        fontSize = integerResource(id = R.integer.label_text).sp,
                         fontWeight = FontWeight.Bold
                     )
                 )
@@ -95,8 +103,8 @@ fun HomeScreen(
                 painter = painterResource(id = R.drawable.ordinary_client),
                 contentDescription = "Client avatar",
                 modifier = Modifier
-                    .height(56.dp)
-                    .width(56.dp),
+                    .height(dimensionResource(id = R.dimen.small_avatar_image))
+                    .width(dimensionResource(id = R.dimen.small_avatar_image)),
                 alignment = Alignment.Center,
             )
         }
@@ -109,7 +117,9 @@ fun HomeScreen(
                 )
                 .fillMaxSize()
                 .padding(top = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+            verticalArrangement = Arrangement.spacedBy(
+                dimensionResource(id = R.dimen.list_elements_margin)
+            ),
         ) {
             Column(modifier = Modifier.fillMaxWidth()) {
                 Text(
@@ -124,13 +134,12 @@ fun HomeScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(148.dp),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(
+                        dimensionResource(id = R.dimen.list_elements_margin)
+                    ),
                 ) {
                     items(recommendedRoommates.size - 2) { index ->
                         UserCard(recommendedRoommate = recommendedRoommates[index])
-                    }
-                    items(recommendedRooms.size - 2) { index ->
-                        RoomCard(recommendedRoom = recommendedRooms[index], true)
                     }
                 }
             }
@@ -147,10 +156,20 @@ fun HomeScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(148.dp),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(
+                        dimensionResource(id = R.dimen.list_elements_margin)
+                    ),
                 ) {
-                    items(recommendedRooms.size) { index ->
-                        RoomCard(recommendedRoom = recommendedRooms[index], true)
+                    items(homeScreenViewModel.testRooms.size - 2) { index ->
+                        RoomCard(
+                            recommendedRoom = recommendedRooms[index],
+                            true
+                        ) { isLiked ->
+                            if (isLiked) homeScreenViewModel.addToFavourites(
+                                recommendedRooms[index]
+                            )
+                            else homeScreenViewModel.removeLocalFavourite(recommendedRooms[index])
+                        }
                     }
                 }
             }
@@ -167,7 +186,9 @@ fun HomeScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(148.dp),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(
+                        dimensionResource(id = R.dimen.list_elements_margin)
+                    ),
                 ) {
                     items(recommendedRoommates.size) { index ->
                         UserCard(recommendedRoommate = recommendedRoommates[index])

@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
@@ -71,7 +72,11 @@ fun SearchRoomScreen(
     }
     val context = LocalContext.current
     Scaffold(
-        modifier = Modifier.padding(start = 40.dp, end = 40.dp, top = 16.dp),
+        modifier = Modifier.padding(
+            top = dimensionResource(id = R.dimen.screen_top_margin),
+            start = dimensionResource(id = R.dimen.screen_start_margin),
+            end = dimensionResource(id = R.dimen.screen_end_margin)
+        ),
         floatingActionButton = {
             GreenButtonOutline(
                 modifier = Modifier
@@ -96,7 +101,9 @@ fun SearchRoomScreen(
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
                 .padding(it),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(
+                dimensionResource(id = R.dimen.list_elements_margin)
+            )
         ) {
             Row(horizontalArrangement = Arrangement.SpaceBetween) {
                 BackBtn(
@@ -109,7 +116,7 @@ fun SearchRoomScreen(
                     modifier = Modifier.fillMaxWidth(),
                     style = TextStyle(
                         fontSize = integerResource(
-                            id = R.integer.label_text_size
+                            id = R.integer.label_text
                         ).sp,
                         color = Color.Black
                     ),
@@ -123,14 +130,14 @@ fun SearchRoomScreen(
             Text(
                 "Choose room parameters",
                 style = TextStyle(
-                    fontSize = 20.sp,
+                    fontSize = integerResource(id = R.integer.big_text).sp,
                     color = Color.Black
                 ),
             )
             Text(
                 "Month price",
                 style = TextStyle(
-                    fontSize = 16.sp,
+                    fontSize = integerResource(id = R.integer.primary_text).sp,
                     color = Color.Black
                 ),
             )
@@ -142,7 +149,7 @@ fun SearchRoomScreen(
                     Text(
                         "From",
                         style = TextStyle(
-                            fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                            fontSize = integerResource(id = R.integer.primary_text).sp,
                             color = colorResource(
                                 id = R.color.text_secondary
                             )
@@ -169,7 +176,7 @@ fun SearchRoomScreen(
                     Text(
                         "To",
                         style = TextStyle(
-                            fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                            fontSize = integerResource(id = R.integer.primary_text).sp,
                             color = colorResource(id = R.color.text_secondary)
                         )
                     )
