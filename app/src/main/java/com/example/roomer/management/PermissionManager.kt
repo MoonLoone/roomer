@@ -1,5 +1,6 @@
 package com.example.roomer.management
 
+import android.app.Application
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
@@ -9,37 +10,19 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import javax.inject.Inject
 
-class PermissionManager(activity: ActivityResultCaller, private val context: Context) {
-
-    private var requestPermissionLauncher:ActivityResultLauncher<String>
-
-    init {
-        requestPermissionLauncher = activity.registerForActivityResult(
-            ActivityResultContracts.RequestPermission()
-        ) { isGranted: Boolean ->
-            if (isGranted) {
-                // FCM SDK (and your app) can post notifications.
-            } else {
-                // TODO: Inform user that that your app will not show notifications.
-            }
-        }
-    }
+class PermissionManager @Inject constructor(
+    private val application: Application
+) {
 
     fun askNotificationPermission() {
-            if (ContextCompat.checkSelfPermission(
-                    context,
-                    android.Manifest.permission.POST_NOTIFICATIONS
-                ) ==
-                PackageManager.PERMISSION_GRANTED
-            ) {
-
-            } else {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    requestPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
-                }
-            }
+        if ((ContextCompat.checkSelfPermission(
+                application.applicationContext,
+                android.Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED) && (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+        )
+            ActivityResultContracts.RequestPermission()
     }
-
 
 }

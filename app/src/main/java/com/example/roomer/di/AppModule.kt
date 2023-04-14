@@ -1,11 +1,14 @@
 package com.example.roomer.di
 
+import android.app.Application
+import androidx.activity.result.ActivityResultCaller
 import com.example.roomer.data.local.RoomerStoreInterface
 import com.example.roomer.data.remote.RoomerApi
 import com.example.roomer.data.repository.auth_repository.AuthRepository
 import com.example.roomer.data.repository.auth_repository.AuthRepositoryInterface
 import com.example.roomer.data.repository.roomer_repository.RoomerRepository
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
+import com.example.roomer.management.PermissionManager
 import com.example.roomer.utils.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides
@@ -63,4 +66,11 @@ object AppModule {
         return RoomerRepository(roomerApi, roomerStore)
     }
 
+    @Singleton
+    @Provides
+    fun providePermissionManager(
+        application: Application
+    ): PermissionManager{
+        return PermissionManager(application)
+    }
 }

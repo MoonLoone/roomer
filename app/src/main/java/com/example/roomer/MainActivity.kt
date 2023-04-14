@@ -7,25 +7,25 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.remember
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
-import com.example.roomer.data.remote.NotificationManager
+import com.example.roomer.management.NotificationManager
 import com.example.roomer.management.PermissionManager
 import com.example.roomer.presentation.screens.NavGraphs
 import com.example.roomer.presentation.screens.destinations.SearchRoomResultsDestination
-import com.example.roomer.presentation.screens.destinations.SearchRoomScreenDestination
 import com.example.roomer.presentation.screens.destinations.SearchRoommateResultsDestination
 import com.example.roomer.presentation.screens.entrance.signup.SignUpViewModel
-import com.example.roomer.presentation.screens.search_screens.SearchRoommateResults
 import com.example.roomer.presentation.ui_components.Navbar
 import com.example.roomer.utils.Constants
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.navigation.dependency
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    val permissionManager: PermissionManager by lazy { PermissionManager(this, this) }
+    @Inject
+    lateinit var permissionManager: PermissionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
