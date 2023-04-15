@@ -7,14 +7,13 @@
     <string name="login_screen_sign_up_text">Sign Up</string>
     <string name="sign_up_button_label">Sign Up</string>
     <string name="login_alert_dialog_text">An error occurred!</string>
+    <string name="login_button_text">Login</string>
     <string name="error_icon_description">error</string>
     <string name="icon_description">Description</string>
-    <string name="username_placeholder">Enter username here</string>
     <string name="email_placeholder">Enter email here</string>
     <string name="email_label">Email</string>
     <string name="password_placeholder">Enter password here</string>
     <string name="password_label">Password</string>
-    <string name="username_label">Username</string>
     <string name="conf_pass_label">Confirm password</string>
     <string name="conf_pass_placeholder">Confirm password here</string>
     <string name="username_here">Username here</string>
@@ -37,7 +36,6 @@
     <string name="male_icon">Male icon</string>
     <string name="male">Male</string>
     <string name="female_icon">Female icon</string>
-    <string name="female">Female</string>
     <string name="date_title">Date field</string>
     <string name="positive_button_label">OK</string>
     <string name="negative_button_label">Cancel</string>
@@ -157,4 +155,7 @@
     <string name="chaos">Chaos</string>
     <string name="no_chats_here">No chats here</string>
     <string name="want_to_start_new_chat">Do you want to start new chat?</string>
+    <string name="username_label">Username</string>
+    <string name="username_placeholder">Username</string>
+    <string name="female">Female</string>
 </resources>

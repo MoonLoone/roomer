@@ -158,4 +158,5 @@
     <string name="chaos">Хаос</string>
     <string name="no_chats_here">Здесь нет чатов</string>
     <string name="want_to_start_new_chat">Хотите начать новый чат?</string>
+    <string name="login_button_text">Войти</string>
 </resources>
