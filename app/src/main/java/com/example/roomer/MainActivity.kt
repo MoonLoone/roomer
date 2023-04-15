@@ -10,6 +10,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.roomer.management.NotificationManager
 import com.example.roomer.management.PermissionManager
 import com.example.roomer.presentation.screens.NavGraphs
+import com.example.roomer.presentation.screens.destinations.ChatScreenDestination
 import com.example.roomer.presentation.screens.destinations.SearchRoomResultsDestination
 import com.example.roomer.presentation.screens.destinations.SearchRoommateResultsDestination
 import com.example.roomer.presentation.screens.entrance.signup.SignUpViewModel
@@ -47,11 +48,21 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                 )
-                when (intent.action){
+                when (intent.action) {
                     Constants.ACTION_NOTIFICATION_MATES -> navController.navigate(
-                        SearchRoommateResultsDestination.route)
+                        SearchRoommateResultsDestination.route
+                    )
                     Constants.ACTION_NOTIFICATION_ROOMS -> navController.navigate(
-                        SearchRoomResultsDestination.route)
+                        SearchRoomResultsDestination.route
+                    )
+                    Constants.ACTION_NOTIFICATION_CHAT -> {
+                        val chatId = intent.getIntExtra(Constants.EXTRA_NOTIFICATION_CHAT, 0)
+                        val recipientId =
+                            intent.getIntExtra(Constants.EXTRA_NOTIFICATION_RECIPIENT, 0)
+                        if (chatId > 0 && recipientId > 0) navController.navigate(
+                            ChatScreenDestination(recipientId, chatId).route
+                        )
+                    }
                 }
             }
         }
@@ -61,5 +72,4 @@ class MainActivity : AppCompatActivity() {
         super.onPause()
         NotificationManager.registerAllWorks(context = this)
     }
-
 }

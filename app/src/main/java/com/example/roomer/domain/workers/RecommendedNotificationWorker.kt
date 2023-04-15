@@ -25,8 +25,6 @@ class RecommendedNotificationWorker @AssistedInject constructor(
     @Assisted workerParameters: WorkerParameters,
 ) : CoroutineWorker(context, workerParameters) {
 
-
-
     override suspend fun doWork(): Result {
         if (ActivityCompat.checkSelfPermission(
                 applicationContext,
@@ -43,7 +41,11 @@ class RecommendedNotificationWorker @AssistedInject constructor(
         val random = LIST_OF_RECOMMENDED.random()
         return ForegroundInfo(
             NOTIFICATION_ID,
-            if (random == "Room") notificationRooms() else notificationMates()
+            when(random){
+                "Room" -> notificationRooms()
+                "Mate" -> notificationMates()
+                else -> notificationMates()
+            }
         )
     }
 

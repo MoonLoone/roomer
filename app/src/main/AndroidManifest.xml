@@ -29,6 +29,7 @@
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="com.example.roomer.SHOW_ROOMS"/>
                 <action android:name="com.example.roomer.SHOW_MATES"/>
+                <action android:name="com.example.roomer.SHOW_CHAT"/>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <meta-data
