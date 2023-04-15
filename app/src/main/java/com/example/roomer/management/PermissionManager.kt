@@ -18,7 +18,6 @@ class PermissionManager @Inject constructor(
                     android.Manifest.permission.POST_NOTIFICATIONS
                 ) != PackageManager.PERMISSION_GRANTED
             ) && (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-        )
-            ActivityResultContracts.RequestPermission()
+        ) ActivityResultContracts.RequestPermission()
     }
 }
