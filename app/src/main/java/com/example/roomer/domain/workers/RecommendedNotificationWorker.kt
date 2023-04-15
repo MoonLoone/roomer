@@ -18,7 +18,6 @@ import com.example.roomer.R
 import com.example.roomer.utils.Constants
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import kotlin.random.Random
 
 class RecommendedNotificationWorker @AssistedInject constructor(
     @Assisted context: Context,
@@ -31,61 +30,47 @@ class RecommendedNotificationWorker @AssistedInject constructor(
                 Manifest.permission.POST_NOTIFICATIONS
             ) == PackageManager.PERMISSION_GRANTED
         ) {
-            setForeground(createForegroundInfo())
+            val manager =
+                applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as android.app.NotificationManager
+            val channel = NotificationChannel(
+                CHANNEL_ID,
+                applicationContext.resources.getString(R.string.recommended_notification_title),
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+            manager.createNotificationChannel(channel)
+            manager.notify(
+                NOTIFICATION_ID,
+                getRecommendation()
+            )
             return Result.success()
         }
         return Result.failure()
     }
 
-    private fun createForegroundInfo(): ForegroundInfo {
-        val random = LIST_OF_RECOMMENDED.random()
-        return ForegroundInfo(
-            NOTIFICATION_ID,
-            when(random){
-                "Room" -> notificationRooms()
-                "Mate" -> notificationMates()
-                else -> notificationMates()
-            }
-        )
-    }
-
     private fun notificationRooms(): Notification {
         val intent = Intent(applicationContext, MainActivity::class.java)
         intent.action = Constants.ACTION_NOTIFICATION_ROOMS
-        val pendingIntent = PendingIntent.getActivity(applicationContext, 0, intent, PendingIntent.FLAG_IMMUTABLE)
-        val channel = NotificationChannel(
-            CHANNEL_ID,
-            applicationContext.resources.getString(R.string.messenger_notification_title),
-            NotificationManager.IMPORTANCE_DEFAULT
-        )
-        val notificationRecommended = NotificationCompat.Builder(
+        val pendingIntent =
+            PendingIntent.getActivity(applicationContext, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+        return NotificationCompat.Builder(
             applicationContext,
             CHANNEL_ID
         )
             .setSmallIcon(R.drawable.account_icon)
             .setContentText(applicationContext.resources.getString(R.string.recommended_room_notification_text))
-            .setContentTitle(applicationContext.resources.getString(R.string.messenger_notification_title))
+            .setContentTitle(applicationContext.resources.getString(R.string.recommended_notification_title))
             .setChannelId(CHANNEL_ID)
-            .setAutoCancel(false)
+            .setAutoCancel(true)
             .setContentIntent(pendingIntent)
             .build()
-        val manager =
-            applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as android.app.NotificationManager
-        manager.createNotificationChannel(channel)
-        manager.notify(NOTIFICATION_ID, notificationRecommended)
-        return notificationRecommended
     }
 
     private fun notificationMates(): Notification {
         val intent = Intent(applicationContext, MainActivity::class.java)
         intent.action = Constants.ACTION_NOTIFICATION_MATES
-        val pendingIntent = PendingIntent.getActivity(applicationContext, 0, intent, PendingIntent.FLAG_IMMUTABLE)
-        val channel = NotificationChannel(
-            CHANNEL_ID,
-            applicationContext.resources.getString(R.string.messenger_notification_title),
-            NotificationManager.IMPORTANCE_DEFAULT
-        )
-        val notificationRecommended = NotificationCompat.Builder(
+        val pendingIntent =
+            PendingIntent.getActivity(applicationContext, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+        return NotificationCompat.Builder(
             applicationContext,
             CHANNEL_ID
         )
@@ -93,18 +78,17 @@ class RecommendedNotificationWorker @AssistedInject constructor(
             .setContentTitle(applicationContext.resources.getString(R.string.messenger_notification_title))
             .setChannelId(CHANNEL_ID)
             .setContentIntent(pendingIntent)
-            .setAutoCancel(false)
+            .setAutoCancel(true)
             .setContentText(applicationContext.resources.getString(R.string.recommended_mate_notification_text))
             .build()
-        val manager =
-            applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as android.app.NotificationManager
-        manager.createNotificationChannel(channel)
-        manager.notify(NOTIFICATION_ID, notificationRecommended)
-        return notificationRecommended
     }
 
-    override suspend fun getForegroundInfo(): ForegroundInfo {
-        return super.getForegroundInfo()
+    private fun getRecommendation(): Notification {
+        return when (LIST_OF_RECOMMENDED.random()) {
+            "Room" -> notificationRooms()
+            "Mate" -> notificationMates()
+            else -> notificationMates()
+        }
     }
 
     private companion object {

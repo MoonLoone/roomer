@@ -2,8 +2,6 @@ package com.example.roomer.management
 
 import android.content.Context
 import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.PeriodicWorkRequest
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.example.roomer.domain.workers.ChatNotificationWorker
@@ -21,7 +19,7 @@ object NotificationManager {
     }
 
     private fun registerMessengerWork(context: Context) {
-        /*val request =
+        val request =
             PeriodicWorkRequestBuilder<ChatNotificationWorker>(
                 15,
                 TimeUnit.MINUTES,
@@ -29,11 +27,9 @@ object NotificationManager {
                 TimeUnit.MINUTES
             )
                 .addTag(NOTIFICATION_TAG)
-                .build()*/
-        val request = OneTimeWorkRequestBuilder<ChatNotificationWorker>().build()
-        WorkManager.getInstance(context).enqueue(request)
-        /*WorkManager.getInstance(context)
-            .enqueueUniquePeriodicWork(NOTIFICATION_TAG, ExistingPeriodicWorkPolicy.KEEP, request)*/
+                .build()
+        WorkManager.getInstance(context)
+            .enqueueUniquePeriodicWork(NOTIFICATION_TAG, ExistingPeriodicWorkPolicy.KEEP, request)
     }
 
     private fun registerRecommendationWork(context: Context) {
