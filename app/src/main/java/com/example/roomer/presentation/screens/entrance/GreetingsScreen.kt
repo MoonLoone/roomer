@@ -37,7 +37,7 @@ fun GreetingsScreen(
             .background(Color.White)
             .padding(
                 start = dimensionResource(id = R.dimen.screen_start_margin),
-                end = dimensionResource(id = R.dimen.screen_end_margin)
+                end = dimensionResource(id = R.dimen.screen_end_margin),
             ),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -46,14 +46,14 @@ fun GreetingsScreen(
             text = "Welcome to Roomer",
             fontSize = 30.sp,
             fontWeight = FontWeight.Medium,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
         Text(
             text = "Get started with us",
             fontSize = 20.sp,
             fontWeight = FontWeight.Normal,
             textAlign = TextAlign.Center,
-            color = colorResource(id = R.color.text_secondary)
+            color = colorResource(id = R.color.text_secondary),
         )
         GreenButtonPrimary(
             text = "Login",
@@ -63,8 +63,8 @@ fun GreetingsScreen(
         ) {
             navigator.navigate(
                 LoginScreenDestination(
-                    Constants.ScreensId.greetingScreenId
-                )
+                    Constants.ScreensId.greetingScreenId,
+                ),
             )
         }
         GreenButtonOutline(

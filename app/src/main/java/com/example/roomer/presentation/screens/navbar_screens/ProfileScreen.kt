@@ -40,8 +40,8 @@ fun ProfileScreen(
             .padding(
                 top = dimensionResource(id = R.dimen.screen_top_margin),
                 start = dimensionResource(id = R.dimen.screen_start_margin),
-                end = dimensionResource(id = R.dimen.screen_end_margin)
-            )
+                end = dimensionResource(id = R.dimen.screen_end_margin),
+            ),
     ) {
         Text(
             text = stringResource(R.string.profile_title),
@@ -64,7 +64,7 @@ fun ProfileScreen(
             R.drawable.account_icon,
             onNavigateToFriends = {
                 navigator.navigate(AccountScreenDestination)
-            }
+            },
         )
         ProfileContentLine(
             "Rating",

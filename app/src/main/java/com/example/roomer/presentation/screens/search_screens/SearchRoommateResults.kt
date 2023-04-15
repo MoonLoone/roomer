@@ -57,7 +57,7 @@ fun SearchRoommateResults(
         smokingAttitude,
         sleepTime,
         personalityType,
-        cleanHabits
+        cleanHabits,
     )
     val roommates by viewModel.roommates.collectAsState()
     val loadingState = viewModel.loadingState.collectAsState()
@@ -67,20 +67,20 @@ fun SearchRoommateResults(
                 modifier = Modifier.padding(
                     top = dimensionResource(id = R.dimen.screen_top_margin),
                     start = dimensionResource(id = R.dimen.screen_start_margin),
-                    end = dimensionResource(id = R.dimen.screen_end_margin)
+                    end = dimensionResource(id = R.dimen.screen_end_margin),
                 ),
                 verticalArrangement = Arrangement.spacedBy(24.dp),
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
+                    horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
                     BackBtn(onBackNavigation = { navigator.navigate(HomeScreenDestination) })
                     Text(
                         text = "Roommate Results",
                         fontSize = integerResource(
-                            id = R.integer.label_text
+                            id = R.integer.label_text,
                         ).sp,
                         textAlign = TextAlign.Center,
                         fontWeight = FontWeight.Bold,
@@ -96,9 +96,9 @@ fun SearchRoommateResults(
                                 text = "Sorry, nothing here",
                                 style = TextStyle(
                                     fontSize = integerResource(
-                                        id = R.integer.label_text
+                                        id = R.integer.label_text,
                                     ).sp,
-                                )
+                                ),
                             )
                         }
                     }
@@ -111,16 +111,16 @@ fun SearchRoommateResults(
         LoadingStates.Error -> {
             Column(
                 modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
                 Text(
                     text = "Sorry, something went wrong. You should to retry",
                     style = TextStyle(
                         fontSize = integerResource(
-                            id = R.integer.primary_text
+                            id = R.integer.primary_text,
                         ).sp,
                         color = Color.Black,
-                    )
+                    ),
                 )
                 GreenButtonOutline(text = "Retry") {
                     viewModel.loadRoommates(
@@ -130,7 +130,7 @@ fun SearchRoommateResults(
                         smokingAttitude,
                         sleepTime,
                         personalityType,
-                        cleanHabits
+                        cleanHabits,
                     )
                 }
             }

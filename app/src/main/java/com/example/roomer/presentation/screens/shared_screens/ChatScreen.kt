@@ -66,8 +66,8 @@ fun ChatScreen(
                 top = dimensionResource(id = R.dimen.screen_top_margin),
                 start = dimensionResource(id = R.dimen.screen_start_margin),
                 end = dimensionResource(id = R.dimen.screen_end_margin),
-                bottom = dimensionResource(id = R.dimen.screen_bottom_margin)
-            )
+                bottom = dimensionResource(id = R.dimen.screen_bottom_margin),
+            ),
     ) {
         TopLine { navigator.navigate(MessengerScreenDestination) }
         val messageText = remember {
@@ -78,11 +78,11 @@ fun ChatScreen(
             messages = messages.value,
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f)
+                .weight(1f),
         ) { id -> viewModel.messageRead(id) }
         EnterMessage(
             editMessageText = messageText,
-            onSend = { message -> viewModel.sendMessage(message) }
+            onSend = { message -> viewModel.sendMessage(message) },
         )
     }
 }
@@ -109,17 +109,17 @@ private fun TopLine(onNavigateTo: () -> Unit) {
             style = TextStyle(
                 color = Color.Black,
                 fontSize = integerResource(
-                    id = R.integer.primary_text
+                    id = R.integer.primary_text,
                 ).sp,
                 fontWeight = FontWeight.Bold,
-            )
+            ),
         )
     }
     Divider(
         color = colorResource(id = R.color.black),
         modifier = Modifier
             .padding(top = 8.dp)
-            .fillMaxWidth()
+            .fillMaxWidth(),
     )
 }
 
@@ -136,7 +136,7 @@ private fun MessagesList(messages: List<Message>, modifier: Modifier, checkMessa
             Message(
                 isUserMessage = messages[index].donor == User(),
                 text = messages[index].text,
-                data = messages[index].dateTime
+                data = messages[index].dateTime,
             )
         }
         scope.launch { lazyListState.scrollToItem(messages.size) }
@@ -146,7 +146,7 @@ private fun MessagesList(messages: List<Message>, modifier: Modifier, checkMessa
 @Composable
 private fun EnterMessage(
     editMessageText: MutableState<TextFieldValue>,
-    onSend: (message: String) -> Unit
+    onSend: (message: String) -> Unit,
 ) {
     Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.Bottom) {
         TextField(
@@ -158,10 +158,10 @@ private fun EnterMessage(
                     text = "Type your message",
                     style = TextStyle(
                         color = colorResource(
-                            id = R.color.text_secondary
+                            id = R.color.text_secondary,
                         ),
                         fontSize = integerResource(id = R.integer.primary_text).sp,
-                    )
+                    ),
                 )
             },
             onValueChange = { editMessageText.value = it },
@@ -172,7 +172,7 @@ private fun EnterMessage(
                         contentDescription = "Add icon",
                         modifier = Modifier
                             .width(dimensionResource(id = R.dimen.big_icon))
-                            .height(dimensionResource(id = R.dimen.big_icon))
+                            .height(dimensionResource(id = R.dimen.big_icon)),
                     )
                     Box(
                         modifier = Modifier
@@ -182,8 +182,8 @@ private fun EnterMessage(
                             .background(
                                 color = colorResource(id = R.color.secondary_color),
                                 RoundedCornerShape(
-                                    dimensionResource(id = R.dimen.rounded_corner_full)
-                                )
+                                    dimensionResource(id = R.dimen.rounded_corner_full),
+                                ),
                             )
                             .clickable {
                             },
@@ -198,14 +198,14 @@ private fun EnterMessage(
                                 .height(dimensionResource(id = R.dimen.ordinary_icon))
                                 .clickable {
                                     onSend(editMessageText.value.text)
-                                }
+                                },
                         )
                     }
                 }
             },
             colors = TextFieldDefaults.textFieldColors(
-                backgroundColor = colorResource(id = R.color.primary)
-            )
+                backgroundColor = colorResource(id = R.color.primary),
+            ),
         )
     }
 }

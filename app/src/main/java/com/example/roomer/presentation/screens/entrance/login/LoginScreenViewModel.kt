@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class LoginScreenViewModel @Inject constructor(
     application: Application,
-    authRepository: AuthRepositoryInterface
+    authRepository: AuthRepositoryInterface,
 ) : AndroidViewModel(application) {
 
     private val _state = mutableStateOf(LoginScreenState())
@@ -27,12 +27,12 @@ class LoginScreenViewModel @Inject constructor(
         val email = SpManager().getSharedPreference(
             getApplication<Application>().applicationContext,
             SpManager.Sp.EMAIL,
-            FIELD_DEFAULT_VALUE
+            FIELD_DEFAULT_VALUE,
         )
         val password = SpManager().getSharedPreference(
             getApplication<Application>().applicationContext,
             SpManager.Sp.PASSWORD,
-            FIELD_DEFAULT_VALUE
+            FIELD_DEFAULT_VALUE,
         )
         if (email != FIELD_DEFAULT_VALUE && password != FIELD_DEFAULT_VALUE) {
             getUserLogin(email!!, password!!)
@@ -40,7 +40,6 @@ class LoginScreenViewModel @Inject constructor(
     }
 
     fun getUserLogin(email: String, password: String) {
-
         if (email.trim().isEmpty() || password.trim().isEmpty()
         ) {
             _state.value =
@@ -51,18 +50,17 @@ class LoginScreenViewModel @Inject constructor(
         viewModelScope.launch {
             loginUseCase(email, password).collect { result ->
                 when (result) {
-
                     is Resource.Loading -> {
                         _state.value = LoginScreenState(
                             isLoading = true,
-                            internetProblem = false
+                            internetProblem = false,
                         )
                     }
                     is Resource.Success -> {
                         SpManager().setSharedPreference(
                             getApplication<Application>().applicationContext,
                             key = SpManager.Sp.TOKEN,
-                            value = result.data
+                            value = result.data,
                         )
                         _state.value = LoginScreenState(
                             isLoading = false,
@@ -74,14 +72,14 @@ class LoginScreenViewModel @Inject constructor(
                         _state.value = LoginScreenState(
                             internetProblem = true,
                             isLoading = false,
-                            error = result.message!!
+                            error = result.message!!,
                         )
                     }
                     is Resource.Error -> {
                         _state.value = LoginScreenState(
                             error = result.message!!,
                             isLoading = false,
-                            internetProblem = false
+                            internetProblem = false,
                         )
                     }
                 }
@@ -94,7 +92,7 @@ class LoginScreenViewModel @Inject constructor(
             error = "",
             isLoading = false,
             internetProblem = false,
-            success = false
+            success = false,
         )
     }
 

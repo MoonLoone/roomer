@@ -97,16 +97,16 @@ fun SearchRoommateScreen(
                     } else {
                         navigator.navigate(SearchRoommateScreenDestination)
                     }
-                }
+                },
             )
-        }
+        },
     ) {
         Column(
             modifier = Modifier
                 .padding(bottom = it.calculateBottomPadding() + 64.dp)
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(
-                dimensionResource(id = R.dimen.list_elements_margin)
+                dimensionResource(id = R.dimen.list_elements_margin),
             ),
         ) {
             Row(horizontalArrangement = Arrangement.SpaceBetween) {
@@ -116,34 +116,34 @@ fun SearchRoommateScreen(
                     modifier = Modifier.fillMaxWidth(),
                     style = TextStyle(
                         fontSize = integerResource(
-                            id = R.integer.label_text
+                            id = R.integer.label_text,
                         ).sp,
-                        color = Color.Black
+                        color = Color.Black,
                     ),
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
                 )
             }
             FilterSelect(
                 selectItemName = "Roommate",
-                onNavigateToFriends = { navigator.navigate(SearchRoomScreenDestination) }
+                onNavigateToFriends = { navigator.navigate(SearchRoomScreenDestination) },
             )
             Text(
                 "Choose roommate parameters",
                 style = TextStyle(
                     fontSize = 20.sp,
-                    color = Color.Black
+                    color = Color.Black,
                 ),
             )
             Text(
                 "Age",
                 style = TextStyle(
                     fontSize = integerResource(id = R.integer.primary_text).sp,
-                    color = Color.Black
+                    color = Color.Black,
                 ),
             )
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 Column {
                     Text(
@@ -151,9 +151,9 @@ fun SearchRoommateScreen(
                         style = TextStyle(
                             fontSize = integerResource(id = R.integer.primary_text).sp,
                             color = colorResource(
-                                id = R.color.text_secondary
-                            )
-                        )
+                                id = R.color.text_secondary,
+                            ),
+                        ),
                     )
                     TextField(
                         value = fromAge,
@@ -166,8 +166,8 @@ fun SearchRoommateScreen(
                         placeholder = { Text("Start age") },
                         colors = TextFieldDefaults.textFieldColors(
                             backgroundColor = colorResource(
-                                id = R.color.secondary_color
-                            )
+                                id = R.color.secondary_color,
+                            ),
                         ),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     )
@@ -178,9 +178,9 @@ fun SearchRoommateScreen(
                         style = TextStyle(
                             fontSize = integerResource(id = R.integer.primary_text).sp,
                             color = colorResource(
-                                id = R.color.text_secondary
-                            )
-                        )
+                                id = R.color.text_secondary,
+                            ),
+                        ),
                     )
                     TextField(
                         value = toAge,
@@ -193,8 +193,8 @@ fun SearchRoommateScreen(
                         placeholder = { Text("End age") },
                         colors = TextFieldDefaults.textFieldColors(
                             backgroundColor = colorResource(
-                                id = R.color.secondary_color
-                            )
+                                id = R.color.secondary_color,
+                            ),
                         ),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     )
@@ -204,101 +204,101 @@ fun SearchRoommateScreen(
                 mapOfItems = mapOf(
                     Pair("N", "Night"),
                     Pair("D", "Day"),
-                    Pair("O", "Occasionally")
+                    Pair("O", "Occasionally"),
                 ),
                 label = "Sleep time",
                 value = sleepTime.value,
-                onValueChange = { sleepTime.value = it }
+                onValueChange = { sleepTime.value = it },
             )
             DropdownTextFieldMapped(
                 label = "Personality type",
                 mapOfItems = mapOf(
                     Pair("E", "Extraverted"),
                     Pair("I", "Introverted"),
-                    Pair("M", "Mixed")
+                    Pair("M", "Mixed"),
                 ),
                 value = personality.value,
-                onValueChange = { personality.value = it }
+                onValueChange = { personality.value = it },
             )
             DropdownTextFieldMapped(
                 label = "Attitude to smoking",
                 mapOfItems = mapOf(
                     Pair("P", "Positive"),
                     Pair("N", "Negative"),
-                    Pair("I", "Indifferent")
+                    Pair("I", "Indifferent"),
                 ),
                 value = smokingAttitude.value,
-                onValueChange = { smokingAttitude.value = it }
+                onValueChange = { smokingAttitude.value = it },
             )
             DropdownTextFieldMapped(
                 label = "Attitude to alcohol",
                 mapOfItems = mapOf(
                     Pair("P", "Positive"),
                     Pair("N", "Negative"),
-                    Pair("I", "Indifferent")
+                    Pair("I", "Indifferent"),
                 ),
                 value = alcoholAttitude.value,
-                onValueChange = { alcoholAttitude.value = it }
+                onValueChange = { alcoholAttitude.value = it },
             )
             DropdownTextFieldMapped(
                 mapOfItems = mapOf(
                     Pair("N", "Night"),
                     Pair("D", "Day"),
-                    Pair("O", "Occasionally")
+                    Pair("O", "Occasionally"),
                 ),
                 label = "Sleep time",
                 value = sleepTime.value,
-                onValueChange = { sleepTime.value = it }
+                onValueChange = { sleepTime.value = it },
             )
             DropdownTextFieldMapped(
                 mapOfItems = mapOf(
                     Pair("N", "Night"),
                     Pair("D", "Day"),
-                    Pair("O", "Occasionally")
+                    Pair("O", "Occasionally"),
                 ),
                 label = "Sleep time",
                 value = sleepTime.value,
-                onValueChange = { sleepTime.value = it }
+                onValueChange = { sleepTime.value = it },
             )
             DropdownTextFieldMapped(
                 mapOfItems = mapOf(
                     Pair("N", "Night"),
                     Pair("D", "Day"),
-                    Pair("O", "Occasionally")
+                    Pair("O", "Occasionally"),
                 ),
                 label = "Sleep time",
                 value = sleepTime.value,
-                onValueChange = { sleepTime.value = it }
+                onValueChange = { sleepTime.value = it },
             )
             DropdownTextFieldMapped(
                 mapOfItems = mapOf(
                     Pair("N", "Night"),
                     Pair("D", "Day"),
-                    Pair("O", "Occasionally")
+                    Pair("O", "Occasionally"),
                 ),
                 label = "Sleep time",
                 value = sleepTime.value,
-                onValueChange = { sleepTime.value = it }
+                onValueChange = { sleepTime.value = it },
             )
             DropdownTextFieldMapped(
                 mapOfItems = mapOf(
                     Pair("NE", "Not Employed"),
                     Pair("E", "Employed"),
-                    Pair("S", "Searching For Work")
+                    Pair("S", "Searching For Work"),
                 ),
                 label = "What you currently do?",
                 value = employment.value,
-                onValueChange = { employment.value = it }
+                onValueChange = { employment.value = it },
             )
             DropdownTextFieldMapped(
                 mapOfItems = mapOf(
                     Pair("N", "Neat"),
                     Pair("D", "It Depends"),
-                    Pair("C", "Chaos")
+                    Pair("C", "Chaos"),
                 ),
                 label = "Clean habits",
                 value = cleanHabits.value,
-                onValueChange = { cleanHabits.value = it }
+                onValueChange = { cleanHabits.value = it },
             )
             InterestField(paddingValues = it, label = "Interests")
         }

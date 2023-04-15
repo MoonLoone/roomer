@@ -56,7 +56,7 @@ object NavbarManagement {
             R.string.navbar_profile_name,
             R.drawable.profun,
             R.drawable.profin,
-            ProfileScreenDestination
-        )
+            ProfileScreenDestination,
+        ),
     }
 }

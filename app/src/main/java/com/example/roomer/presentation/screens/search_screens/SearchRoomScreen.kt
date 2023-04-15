@@ -75,7 +75,7 @@ fun SearchRoomScreen(
         modifier = Modifier.padding(
             top = dimensionResource(id = R.dimen.screen_top_margin),
             start = dimensionResource(id = R.dimen.screen_start_margin),
-            end = dimensionResource(id = R.dimen.screen_end_margin)
+            end = dimensionResource(id = R.dimen.screen_end_margin),
         ),
         floatingActionButton = {
             GreenButtonOutline(
@@ -92,9 +92,9 @@ fun SearchRoomScreen(
                     } else {
                         navigator.navigate(SearchRoomResultsDestination)
                     }
-                }
+                },
             )
-        }
+        },
     ) {
         Column(
             modifier = Modifier
@@ -102,48 +102,48 @@ fun SearchRoomScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(it),
             verticalArrangement = Arrangement.spacedBy(
-                dimensionResource(id = R.dimen.list_elements_margin)
-            )
+                dimensionResource(id = R.dimen.list_elements_margin),
+            ),
         ) {
             Row(horizontalArrangement = Arrangement.SpaceBetween) {
                 BackBtn(
                     onBackNavigation = {
                         navigator.navigate(HomeScreenDestination)
-                    }
+                    },
                 )
                 Text(
                     text = "Search filter",
                     modifier = Modifier.fillMaxWidth(),
                     style = TextStyle(
                         fontSize = integerResource(
-                            id = R.integer.label_text
+                            id = R.integer.label_text,
                         ).sp,
-                        color = Color.Black
+                        color = Color.Black,
                     ),
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
                 )
             }
             FilterSelect(
                 selectItemName = "Room",
-                onNavigateToFriends = { navigator.navigate(SearchRoommateScreenDestination) }
+                onNavigateToFriends = { navigator.navigate(SearchRoommateScreenDestination) },
             )
             Text(
                 "Choose room parameters",
                 style = TextStyle(
                     fontSize = integerResource(id = R.integer.big_text).sp,
-                    color = Color.Black
+                    color = Color.Black,
                 ),
             )
             Text(
                 "Month price",
                 style = TextStyle(
                     fontSize = integerResource(id = R.integer.primary_text).sp,
-                    color = Color.Black
+                    color = Color.Black,
                 ),
             )
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 Column {
                     Text(
@@ -151,9 +151,9 @@ fun SearchRoomScreen(
                         style = TextStyle(
                             fontSize = integerResource(id = R.integer.primary_text).sp,
                             color = colorResource(
-                                id = R.color.text_secondary
-                            )
-                        )
+                                id = R.color.text_secondary,
+                            ),
+                        ),
                     )
                     TextField(
                         value = fromPrice,
@@ -166,8 +166,8 @@ fun SearchRoomScreen(
                         placeholder = { Text("Start price") },
                         colors = TextFieldDefaults.textFieldColors(
                             backgroundColor = colorResource(
-                                id = R.color.secondary_color
-                            )
+                                id = R.color.secondary_color,
+                            ),
                         ),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     )
@@ -177,8 +177,8 @@ fun SearchRoomScreen(
                         "To",
                         style = TextStyle(
                             fontSize = integerResource(id = R.integer.primary_text).sp,
-                            color = colorResource(id = R.color.text_secondary)
-                        )
+                            color = colorResource(id = R.color.text_secondary),
+                        ),
                     )
                     TextField(
                         value = toPrice,
@@ -191,8 +191,8 @@ fun SearchRoomScreen(
                         placeholder = { Text("End price") },
                         colors = TextFieldDefaults.textFieldColors(
                             backgroundColor = colorResource(
-                                id = R.color.secondary_color
-                            )
+                                id = R.color.secondary_color,
+                            ),
                         ),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     )
@@ -202,19 +202,19 @@ fun SearchRoomScreen(
                 title = "Location",
                 placeholder = "Put some city, street",
                 value = location.value,
-                onValueChange = { newValue -> location.value = newValue }
+                onValueChange = { newValue -> location.value = newValue },
             )
             ButtonsRow(
                 label = "Bedrooms",
                 values = listOf("Any", "1", "2", ">3"),
                 value = bedrooms.value,
-                onValueChange = { bedrooms.value = it }
+                onValueChange = { bedrooms.value = it },
             )
             ButtonsRow(
                 label = "Bathrooms",
                 values = listOf("Any", "1", "2", ">3"),
                 value = bathrooms.value,
-                onValueChange = { bathrooms.value = it }
+                onValueChange = { bathrooms.value = it },
             )
             ButtonsRowMapped(
                 label = "Apartment Type",
@@ -222,10 +222,10 @@ fun SearchRoomScreen(
                     Pair("F", "Flat"),
                     Pair("DU", "Duplex"),
                     Pair("H", "House"),
-                    Pair("DO", "Dorm")
+                    Pair("DO", "Dorm"),
                 ),
                 value = apartmentType.value,
-                onValueChange = { apartmentType.value = it }
+                onValueChange = { apartmentType.value = it },
             )
         }
     }

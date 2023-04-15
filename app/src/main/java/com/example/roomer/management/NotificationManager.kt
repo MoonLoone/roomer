@@ -24,7 +24,7 @@ object NotificationManager {
                 15,
                 TimeUnit.MINUTES,
                 1,
-                TimeUnit.MINUTES
+                TimeUnit.MINUTES,
             )
                 .addTag(NOTIFICATION_TAG)
                 .build()
@@ -38,7 +38,7 @@ object NotificationManager {
                 3,
                 TimeUnit.DAYS,
                 2,
-                TimeUnit.DAYS
+                TimeUnit.DAYS,
             )
                 .build()
         WorkManager.getInstance(context)

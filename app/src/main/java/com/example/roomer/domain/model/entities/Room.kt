@@ -25,6 +25,6 @@ data class Room(
     var isLiked: Boolean = false,
 ) {
     data class Photo(
-        val photo: String
+        val photo: String,
     )
 }

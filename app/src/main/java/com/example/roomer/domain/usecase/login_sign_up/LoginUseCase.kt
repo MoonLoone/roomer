@@ -10,13 +10,11 @@ import kotlinx.coroutines.flow.flow
 import org.json.JSONObject
 
 class LoginUseCase(
-    private val repository: AuthRepositoryInterface
+    private val repository: AuthRepositoryInterface,
 ) {
 
     operator fun invoke(email: String, password: String): Flow<Resource<String>> = flow {
-
         try {
-
             emit(Resource.Loading())
 
             val process = repository.userLogin(email, password)
@@ -32,7 +30,6 @@ class LoginUseCase(
                 emit(Resource.Error.GeneralError(errMsg!!))
             }
         } catch (e: IOException) {
-
             emit(Resource.Internet(Constants.UseCase.internetErrorMessage))
         }
     }

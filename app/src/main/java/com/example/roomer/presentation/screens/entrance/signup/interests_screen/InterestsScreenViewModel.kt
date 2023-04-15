@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class InterestsScreenViewModel @Inject constructor(
     application: Application,
-    roomerRepository: AuthRepositoryInterface
+    roomerRepository: AuthRepositoryInterface,
 ) : AndroidViewModel(application) {
 
     private val _state = MutableStateFlow(InterestsScreenState())
@@ -38,7 +38,7 @@ class InterestsScreenViewModel @Inject constructor(
     private val token = SpManager().getSharedPreference(
         getApplication<Application>().applicationContext,
         key = SpManager.Sp.TOKEN,
-        null
+        null,
     ) ?: ""
 
     init {
@@ -49,7 +49,6 @@ class InterestsScreenViewModel @Inject constructor(
         viewModelScope.launch {
             signUpUseCase.loadInterests().collect { result ->
                 when (result) {
-
                     is Resource.Loading -> {
                         _state.update { currentState ->
                             currentState.copy(isLoading = true)
@@ -66,7 +65,7 @@ class InterestsScreenViewModel @Inject constructor(
                             currentState.copy(
                                 isLoading = false,
                                 internetProblem = true,
-                                error = result.message!!
+                                error = result.message!!,
                             )
                         }
                     }
@@ -93,7 +92,7 @@ class InterestsScreenViewModel @Inject constructor(
         smokingAttitude: String,
         personalityType: String,
         cleanHabits: String,
-        interests: List<InterestModel>
+        interests: List<InterestModel>,
     ) {
         if (interests.isEmpty()) {
             _state.update { currentState ->
@@ -116,32 +115,32 @@ class InterestsScreenViewModel @Inject constructor(
                 smokingAttitude,
                 personalityType,
                 cleanHabits,
-                interests
+                interests,
             ).collect { result ->
                 when (result) {
                     is Resource.Loading -> {
                         _state.value = InterestsScreenState(
                             isLoading = true,
-                            isInterestsLoaded = true
+                            isInterestsLoaded = true,
                         )
                     }
                     is Resource.Success -> {
                         _state.value = InterestsScreenState(
                             isInterestsLoaded = true,
-                            isInterestsSent = true
+                            isInterestsSent = true,
                         )
                     }
                     is Resource.Internet -> {
                         _state.value = InterestsScreenState(
                             internetProblem = true,
                             error = result.message!!,
-                            isInterestsLoaded = true
+                            isInterestsLoaded = true,
                         )
                     }
                     is Resource.Error -> {
                         _state.value = InterestsScreenState(
                             error = result.message!!,
-                            isInterestsLoaded = true
+                            isInterestsLoaded = true,
                         )
                     }
                 }

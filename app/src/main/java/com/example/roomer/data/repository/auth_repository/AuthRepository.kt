@@ -17,11 +17,11 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Response
 
 class AuthRepository(
-    private val roomerApi: RoomerApi
+    private val roomerApi: RoomerApi,
 ) : AuthRepositoryInterface {
     override suspend fun userLogin(
         email: String,
-        password: String
+        password: String,
     ): Response<TokenDto> {
         return roomerApi.login(LoginDto(email, password))
     }
@@ -29,7 +29,7 @@ class AuthRepository(
     override suspend fun userSignUpPrimary(
         username: String,
         email: String,
-        password: String
+        password: String,
     ): Response<IdModel> {
         return roomerApi.signUpPrimary(SignUpModel(username, password, email))
     }
@@ -51,7 +51,7 @@ class AuthRepository(
         smokingAttitude: String,
         personalityType: String,
         cleanHabits: String,
-        interests: List<InterestModel>
+        interests: List<InterestModel>,
     ): Response<IdModel> {
         val refToken = "Token ".plus(token)
         return roomerApi.putSignUpData(
@@ -68,8 +68,8 @@ class AuthRepository(
                 smokingAttitude,
                 personalityType,
                 cleanHabits,
-                interests
-            )
+                interests,
+            ),
         )
     }
 
@@ -81,7 +81,7 @@ class AuthRepository(
         val avatarPart = MultipartBody.Part.createFormData(
             "avatar",
             Random.nextUInt(8000000u).toString().plus(".jpeg"),
-            byteArray.toRequestBody("image/*".toMediaTypeOrNull(), 0, byteArray.size)
+            byteArray.toRequestBody("image/*".toMediaTypeOrNull(), 0, byteArray.size),
         )
         return roomerApi.putSignUpAvatar(refToken, avatarPart)
     }

@@ -33,13 +33,13 @@ import java.util.Date
 class ChatNotificationWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted workerParameters: WorkerParameters,
-    private val roomerRepository: RoomerRepository
+    private val roomerRepository: RoomerRepository,
 ) : CoroutineWorker(context, workerParameters) {
 
     override suspend fun doWork(): Result {
         if (ActivityCompat.checkSelfPermission(
                 applicationContext,
-                Manifest.permission.POST_NOTIFICATIONS
+                Manifest.permission.POST_NOTIFICATIONS,
             ) == PackageManager.PERMISSION_GRANTED
         ) {
             val authUser = roomerRepository.getLocalCurrentUser()
@@ -48,7 +48,7 @@ class ChatNotificationWorker @AssistedInject constructor(
                 val channel = NotificationChannel(
                     CHANNEL_ID,
                     applicationContext.resources.getString(R.string.messenger_notification_title),
-                    NotificationManager.IMPORTANCE_DEFAULT
+                    NotificationManager.IMPORTANCE_DEFAULT,
                 )
                 val manager =
                     applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -67,17 +67,17 @@ class ChatNotificationWorker @AssistedInject constructor(
             intent.action = Constants.ACTION_NOTIFICATION_CHAT
             intent.putExtra(
                 Constants.EXTRA_NOTIFICATION_CHAT,
-                groupNotification.value.first().message?.chatId
+                groupNotification.value.first().message?.chatId,
             )
             intent.putExtra(
                 Constants.EXTRA_NOTIFICATION_RECIPIENT,
-                groupNotification.value.first().message?.recipient?.userId
+                groupNotification.value.first().message?.recipient?.userId,
             )
             val pendingIntent = PendingIntent.getActivity(
                 applicationContext,
                 0,
                 intent,
-                PendingIntent.FLAG_IMMUTABLE
+                PendingIntent.FLAG_IMMUTABLE,
             )
             val userAvatar = getUserImg(messages.first().message?.donor?.avatar ?: "")
             val notificationBuilder = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
@@ -88,7 +88,7 @@ class ChatNotificationWorker @AssistedInject constructor(
                 .setContentIntent(pendingIntent)
             val sender =
                 Person.Builder().setName(
-                    groupNotification.value.first().message?.donor?.firstName ?: "Undefined name"
+                    groupNotification.value.first().message?.donor?.firstName ?: "Undefined name",
                 )
                     .build()
             val notificationChat = NotificationCompat.MessagingStyle(sender)

@@ -45,7 +45,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 fun SignUpScreen(
     navigator: DestinationsNavigator,
-    signUpScreenViewModel: SignUpScreenViewModel = hiltViewModel()
+    signUpScreenViewModel: SignUpScreenViewModel = hiltViewModel(),
 ) {
     var emailValue by rememberSaveable {
         mutableStateOf("")
@@ -69,7 +69,7 @@ fun SignUpScreen(
             .background(Color.White)
             .clickable(
                 indication = null,
-                interactionSource = interactionSource
+                interactionSource = interactionSource,
             ) { focusManager.clearFocus() },
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -79,58 +79,61 @@ fun SignUpScreen(
                 .fillMaxWidth()
                 .padding(
                     start = dimensionResource(id = R.dimen.screen_start_margin),
-                    end = dimensionResource(id = R.dimen.screen_end_margin)
+                    end = dimensionResource(id = R.dimen.screen_end_margin),
                 ),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(
-                dimensionResource(id = R.dimen.list_elements_margin)
+                dimensionResource(id = R.dimen.list_elements_margin),
             ),
         ) {
             Text(
                 text = "Sign Up",
                 fontSize = integerResource(id = R.integer.label_text).sp,
                 fontWeight = FontWeight.Medium,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
             )
             IconedTextField(
                 title = "Username",
                 placeholder = "Enter username here",
                 onValueChange = {
                     usernameValue = it
-                    if (state.isUsernameError)
+                    if (state.isUsernameError) {
                         signUpScreenViewModel.clearState()
+                    }
                 },
                 value = usernameValue,
                 icon = Icons.Filled.VerifiedUser,
                 enabled = !state.isLoading,
                 isError = state.isUsernameError,
-                errorMessage = state.error
+                errorMessage = state.error,
             )
             EmailField(
                 value = emailValue,
                 onValueChange = {
                     emailValue = it
-                    if (state.isEmailError)
+                    if (state.isEmailError) {
                         signUpScreenViewModel.clearState()
+                    }
                 },
                 enabled = !state.isLoading,
                 label = stringResource(id = R.string.email_label),
                 placeholder = stringResource(id = R.string.email_placeholder),
                 errorMessage = state.error,
-                isError = state.isEmailError
+                isError = state.isEmailError,
             )
             PasswordField(
                 value = passwordValue,
                 onValueChange = {
                     passwordValue = it
-                    if (state.isPasswordError)
+                    if (state.isPasswordError) {
                         signUpScreenViewModel.clearState()
+                    }
                 },
                 enabled = !state.isLoading,
                 label = stringResource(id = R.string.password_label),
                 placeholder = stringResource(id = R.string.password_placeholder),
                 isError = state.isPasswordError,
-                errorMessage = state.error
+                errorMessage = state.error,
             )
             PasswordField(
                 value = confirmPasswordValue,
@@ -138,24 +141,25 @@ fun SignUpScreen(
                 placeholder = stringResource(R.string.conf_pass_placeholder),
                 onValueChange = {
                     confirmPasswordValue = it
-                    if (state.isConfPasswordError)
+                    if (state.isConfPasswordError) {
                         signUpScreenViewModel.clearState()
+                    }
                 },
                 enabled = !state.isLoading,
                 isError = state.isConfPasswordError,
-                errorMessage = state.error
+                errorMessage = state.error,
             )
             GreenButtonPrimary(
                 enabled = !state.isLoading,
                 text = "Confirm",
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
             ) {
                 signUpScreenViewModel.signUpUser(
                     emailValue,
                     passwordValue,
                     usernameValue,
-                    confirmPasswordValue
+                    confirmPasswordValue,
                 )
             }
             if (state.success) {
@@ -163,13 +167,13 @@ fun SignUpScreen(
             }
             if (state.isLoading) {
                 CircularProgressIndicator(
-                    color = colorResource(id = R.color.primary_dark)
+                    color = colorResource(id = R.color.primary_dark),
                 )
             }
             if (state.internetProblem) {
                 SimpleAlertDialog(
                     title = stringResource(R.string.login_alert_dialog_title),
-                    text = state.error
+                    text = state.error,
                 ) {
                     signUpScreenViewModel.clearState()
                 }

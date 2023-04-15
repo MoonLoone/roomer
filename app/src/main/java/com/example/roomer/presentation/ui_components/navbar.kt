@@ -39,7 +39,7 @@ fun Navbar(navController: NavHostController) {
             backgroundColor = colorResource(id = R.color.secondary_color),
             modifier = Modifier
                 .fillMaxWidth()
-                .height(dimensionResource(id = R.dimen.navbar_height))
+                .height(dimensionResource(id = R.dimen.navbar_height)),
         ) {
             NavbarManagement.NavbarItem.values().forEach { screen ->
                 BottomNavigationItem(
@@ -63,9 +63,9 @@ fun Navbar(navController: NavHostController) {
                                         .clip(
                                             RoundedCornerShape(
                                                 dimensionResource(
-                                                    id = R.dimen.rounded_corner_ordinary
-                                                )
-                                            )
+                                                    id = R.dimen.rounded_corner_ordinary,
+                                                ),
+                                            ),
                                         )
                                         .background(colorResource(id = R.color.primary)),
                                 ) {
@@ -75,7 +75,7 @@ fun Navbar(navController: NavHostController) {
                                             .width(dimensionResource(id = R.dimen.ordinary_icon))
                                             .height(dimensionResource(id = R.dimen.ordinary_icon)),
                                         painter = painterResource(id = screen.iconSelected),
-                                        contentDescription = screen.name
+                                        contentDescription = screen.name,
                                     )
                                 }
                                 Text(
@@ -86,7 +86,7 @@ fun Navbar(navController: NavHostController) {
                                     color = Color.Black,
                                     modifier = Modifier
                                         .align(Alignment.CenterHorizontally)
-                                        .padding(top = 4.dp)
+                                        .padding(top = 4.dp),
                                 )
                             }
                         } else {
@@ -95,7 +95,7 @@ fun Navbar(navController: NavHostController) {
                                     modifier = Modifier
                                         .width(32.dp)
                                         .height(32.dp)
-                                        .align(Alignment.CenterHorizontally)
+                                        .align(Alignment.CenterHorizontally),
                                 ) {
                                     Image(
                                         modifier = Modifier
@@ -103,7 +103,7 @@ fun Navbar(navController: NavHostController) {
                                             .width(dimensionResource(id = R.dimen.ordinary_icon))
                                             .height(dimensionResource(id = R.dimen.ordinary_icon)),
                                         painter = painterResource(id = screen.iconUnSelected),
-                                        contentDescription = screen.name
+                                        contentDescription = screen.name,
                                     )
                                 }
                                 Text(
@@ -117,7 +117,7 @@ fun Navbar(navController: NavHostController) {
                                 )
                             }
                         }
-                    }
+                    },
                 )
             }
         }

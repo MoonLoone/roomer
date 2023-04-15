@@ -97,7 +97,7 @@ fun ProfileContentLine(text: String, iconId: Int, onNavigateToFriends: () -> Uni
             fontSize = integerResource(id = R.integer.primary_text).sp,
             text = text,
             color = Color.Black,
-            modifier = Modifier.align(Alignment.CenterVertically)
+            modifier = Modifier.align(Alignment.CenterVertically),
         )
     }
     Divider(
@@ -105,9 +105,9 @@ fun ProfileContentLine(text: String, iconId: Int, onNavigateToFriends: () -> Uni
         modifier = Modifier.padding(
             top = dimensionResource(id = R.dimen.divider_top_padding),
             bottom = dimensionResource(
-                id = R.dimen.screen_bottom_margin
-            )
-        )
+                id = R.dimen.screen_bottom_margin,
+            ),
+        ),
     )
 }
 
@@ -121,7 +121,7 @@ fun ChatItem(
         modifier = Modifier
             .clickable { navigateTo.invoke() }
             .fillMaxWidth()
-            .height(dimensionResource(id = R.dimen.chat_row_height))
+            .height(dimensionResource(id = R.dimen.chat_row_height)),
     ) {
         Image(
             painter = painterResource(id = R.drawable.ordinary_client),
@@ -130,7 +130,7 @@ fun ChatItem(
                 .width(dimensionResource(id = R.dimen.small_avatar_image))
                 .height(dimensionResource(id = R.dimen.small_avatar_image))
                 .padding(start = 8.dp, end = 16.dp, bottom = 8.dp, top = 8.dp),
-            alignment = Center
+            alignment = Center,
         )
         Column(modifier = Modifier.fillMaxWidth()) {
             Row(modifier = Modifier.fillMaxWidth()) {
@@ -143,14 +143,21 @@ fun ChatItem(
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                     Image(
                         painter = painterResource(
-                            id = if (message.isChecked) R.drawable.checked_messages_icon
-                            else R.drawable.unchecked_messages_icon
+                            id = if (message.isChecked) {
+                                R.drawable.checked_messages_icon
+                            } else {
+                                R.drawable.unchecked_messages_icon
+                            },
                         ),
-                        contentDescription = if (message.isChecked) stringResource(
-                            R.string.message_checked_description
-                        ) else stringResource(
-                            R.string.message_unchecked_description
-                        ),
+                        contentDescription = if (message.isChecked) {
+                            stringResource(
+                                R.string.message_checked_description,
+                            )
+                        } else {
+                            stringResource(
+                                R.string.message_unchecked_description,
+                            )
+                        },
                         alignment = Center,
                         modifier = Modifier
                             .width(dimensionResource(id = R.dimen.small_icon))
@@ -161,8 +168,8 @@ fun ChatItem(
                         style = TextStyle(
                             color = colorResource(id = R.color.text_secondary),
                             fontSize = integerResource(id = R.integer.primary_text).sp,
-                            textAlign = TextAlign.End
-                        )
+                            textAlign = TextAlign.End,
+                        ),
                     )
                 }
             }
@@ -176,7 +183,7 @@ fun ChatItem(
                     style = TextStyle(
                         color = colorResource(id = R.color.text_secondary),
                         fontSize = integerResource(id = R.integer.primary_text).sp,
-                    )
+                    ),
                 )
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                     if (unreadMessages > 0) {
@@ -191,17 +198,17 @@ fun ChatItem(
                                 .height(20.dp)
                                 .background(
                                     color = colorResource(
-                                        id = R.color.primary
+                                        id = R.color.primary,
                                     ),
                                     shape = RoundedCornerShape(
-                                        dimensionResource(id = R.dimen.rounded_corner_ordinary)
-                                    )
+                                        dimensionResource(id = R.dimen.rounded_corner_ordinary),
+                                    ),
                                 ),
                             style = TextStyle(
                                 color = Color.Black,
                                 fontSize = integerResource(id = R.integer.primary_text).sp,
                                 textAlign = TextAlign.Center,
-                            )
+                            ),
                         )
                     }
                 }
@@ -228,8 +235,8 @@ fun Message(isUserMessage: Boolean, text: String, data: String) {
                         RoundedCornerShape(
                             topEnd = dimensionResource(id = R.dimen.rounded_corner_ordinary),
                             topStart = dimensionResource(id = R.dimen.rounded_corner_ordinary),
-                            bottomEnd = dimensionResource(id = R.dimen.rounded_corner_ordinary)
-                        )
+                            bottomEnd = dimensionResource(id = R.dimen.rounded_corner_ordinary),
+                        ),
                     )
                     .height(IntrinsicSize.Max)
                     .background(
@@ -237,9 +244,9 @@ fun Message(isUserMessage: Boolean, text: String, data: String) {
                         RoundedCornerShape(
                             topEnd = dimensionResource(id = R.dimen.rounded_corner_ordinary),
                             topStart = dimensionResource(id = R.dimen.rounded_corner_ordinary),
-                            bottomEnd = dimensionResource(id = R.dimen.rounded_corner_ordinary)
-                        )
-                    )
+                            bottomEnd = dimensionResource(id = R.dimen.rounded_corner_ordinary),
+                        ),
+                    ),
             ) {
                 Text(text = text, textAlign = TextAlign.Start, modifier = Modifier.padding(16.dp))
                 Text(text = data, textAlign = TextAlign.End, modifier = Modifier.padding(16.dp))
@@ -257,7 +264,7 @@ fun Message(isUserMessage: Boolean, text: String, data: String) {
                             bottomStart = dimensionResource(id = R.dimen.rounded_corner_ordinary),
                             topStart = dimensionResource(id = R.dimen.rounded_corner_ordinary),
                             bottomEnd = dimensionResource(id = R.dimen.rounded_corner_ordinary),
-                        )
+                        ),
                     )
                     .width(214.dp)
                     .height(IntrinsicSize.Max)
@@ -267,14 +274,14 @@ fun Message(isUserMessage: Boolean, text: String, data: String) {
                             bottomStart = dimensionResource(id = R.dimen.rounded_corner_ordinary),
                             topStart = dimensionResource(id = R.dimen.rounded_corner_ordinary),
                             bottomEnd = dimensionResource(id = R.dimen.rounded_corner_ordinary),
-                        )
+                        ),
                     ),
-                horizontalAlignment = Alignment.End
+                horizontalAlignment = Alignment.End,
             ) {
                 Text(text = text)
                 Image(
                     painter = painterResource(id = R.drawable.checked_messages_icon),
-                    contentDescription = stringResource(id = R.string.message_checked_description)
+                    contentDescription = stringResource(id = R.string.message_checked_description),
                 )
                 Text(text = data)
             }
@@ -290,8 +297,8 @@ fun UserCard(recommendedRoommate: User) {
             .width(100.dp)
             .background(
                 color = colorResource(id = R.color.primary),
-                shape = RoundedCornerShape(8.dp)
-            )
+                shape = RoundedCornerShape(8.dp),
+            ),
     ) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
@@ -309,15 +316,15 @@ fun UserCard(recommendedRoommate: User) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(top = 6.dp, start = 10.dp, end = 10.dp, bottom = 7.dp),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
+            verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
             Text(
                 text = recommendedRoommate.firstName + recommendedRoommate.lastName,
                 style = TextStyle(
                     color = Color.Black,
                     fontSize = integerResource(id = R.integer.secondary_text).sp,
-                    fontWeight = FontWeight.Bold
-                )
+                    fontWeight = FontWeight.Bold,
+                ),
             )
             Row {
                 Icon(
@@ -325,15 +332,15 @@ fun UserCard(recommendedRoommate: User) {
                     contentDescription = stringResource(R.string.rate_icon),
                     modifier = Modifier
                         .width(dimensionResource(id = R.dimen.small_icon))
-                        .height(dimensionResource(id = R.dimen.small_icon))
+                        .height(dimensionResource(id = R.dimen.small_icon)),
                 )
                 Text(
                     text = recommendedRoommate.rating.toString(),
                     style = TextStyle(
                         color = Color.Black,
                         fontSize = integerResource(id = R.integer.secondary_text).sp,
-                        fontWeight = FontWeight.Bold
-                    )
+                        fontWeight = FontWeight.Bold,
+                    ),
                 )
             }
         }
@@ -350,7 +357,7 @@ fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean, onLikeClick: (Boolea
     val title = recommendedRoom.title.substring(0, recommendedRoom.title.length.coerceAtMost(16))
     val location = recommendedRoom.location.substring(
         0,
-        recommendedRoom.location.length.coerceAtMost(32)
+        recommendedRoom.location.length.coerceAtMost(32),
     )
     Column(
         modifier = Modifier
@@ -358,8 +365,8 @@ fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean, onLikeClick: (Boolea
             .height(cardHeight)
             .background(
                 color = colorResource(id = R.color.primary_dark),
-                shape = RoundedCornerShape(16.dp)
-            )
+                shape = RoundedCornerShape(16.dp),
+            ),
     ) {
         var isLiked by remember {
             mutableStateOf(recommendedRoom.isLiked)
@@ -381,10 +388,13 @@ fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean, onLikeClick: (Boolea
                 contentScale = ContentScale.FillBounds,
             )
             Image(
-                painter = if (isLiked) painterResource(id = R.drawable.room_like_in_icon)
-                else painterResource(
-                    id = R.drawable.room_like_icon
-                ),
+                painter = if (isLiked) {
+                    painterResource(id = R.drawable.room_like_in_icon)
+                } else {
+                    painterResource(
+                        id = R.drawable.room_like_icon,
+                    )
+                },
                 contentDescription = stringResource(id = R.string.like_icon),
                 modifier = Modifier
                     .align(Alignment.TopEnd)
@@ -396,7 +406,7 @@ fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean, onLikeClick: (Boolea
                         isLiked = !isLiked
                         recommendedRoom.isLiked = isLiked
                         onLikeClick(isLiked)
-                    }
+                    },
             )
         }
         Text(
@@ -404,15 +414,15 @@ fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean, onLikeClick: (Boolea
             modifier = Modifier.padding(start = 10.dp, top = if (isMiniVersion) 4.dp else 10.dp),
             style = TextStyle(
                 color = colorResource(
-                    id = R.color.secondary_color
+                    id = R.color.secondary_color,
                 ),
                 fontSize = nameTextSize,
                 fontWeight = FontWeight.Bold,
-            )
+            ),
         )
         Row(
             modifier = Modifier.padding(start = 10.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Image(
                 painter = painterResource(id = R.drawable.location_icon),
@@ -420,14 +430,14 @@ fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean, onLikeClick: (Boolea
                 modifier = Modifier
                     .width(dimensionResource(id = R.dimen.tine_icon))
                     .height(dimensionResource(id = R.dimen.tine_icon)),
-                colorFilter = ColorFilter.tint(color = colorResource(id = R.color.secondary_color))
+                colorFilter = ColorFilter.tint(color = colorResource(id = R.color.secondary_color)),
             )
             Text(
                 text = location,
                 style = TextStyle(
                     color = colorResource(id = R.color.secondary_color),
                     fontSize = locationTextSize,
-                )
+                ),
             )
         }
     }
@@ -489,7 +499,7 @@ fun SearchField(onNavigateToFriends: () -> Unit) {
                     },
             )
         },
-        colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.White)
+        colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.White),
     )
 }
 
@@ -504,7 +514,7 @@ fun BackBtn(onBackNavigation: () -> Unit) {
             .clickable {
                 onBackNavigation.invoke()
             },
-        contentDescription = stringResource(id = R.string.back_button)
+        contentDescription = stringResource(id = R.string.back_button),
     )
 }
 
@@ -522,7 +532,7 @@ fun GreenButtonPrimary(
         shape = CircleShape,
         colors = ButtonDefaults.buttonColors(
             backgroundColor = colorResource(id = R.color.primary_dark),
-            contentColor = colorResource(id = R.color.secondary_color)
+            contentColor = colorResource(id = R.color.secondary_color),
         ),
 //        interactionSource = NoRippleInteractionSource()
     ) {
@@ -547,9 +557,9 @@ fun GreenButtonPrimaryIconed(
         shape = CircleShape,
         colors = ButtonDefaults.buttonColors(
             backgroundColor = colorResource(id = R.color.primary_dark),
-            contentColor = colorResource(id = R.color.secondary_color)
+            contentColor = colorResource(id = R.color.secondary_color),
         ),
-        interactionSource = NoRippleInteractionSource()
+        interactionSource = NoRippleInteractionSource(),
     ) {
         Icon(trailingIcon, "None", tint = colorResource(id = R.color.secondary_color))
         androidx.compose.material.Text(
@@ -564,7 +574,7 @@ fun GreenButtonOutlineIconed(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
     trailingIcon: ImageVector,
-    enabled: Boolean = true
+    enabled: Boolean = true,
 ) {
     Button(
         onClick = onClick,
@@ -572,14 +582,14 @@ fun GreenButtonOutlineIconed(
         shape = CircleShape,
         colors = ButtonDefaults.outlinedButtonColors(
             backgroundColor = Color.White,
-            contentColor = colorResource(id = R.color.primary_dark)
+            contentColor = colorResource(id = R.color.primary_dark),
         ),
         border = BorderStroke(
             dimensionResource(id = R.dimen.ordinary_border),
-            color = colorResource(id = R.color.text_secondary)
+            color = colorResource(id = R.color.text_secondary),
         ),
         enabled = enabled,
-        interactionSource = NoRippleInteractionSource()
+        interactionSource = NoRippleInteractionSource(),
     ) {
         Icon(trailingIcon, "None", tint = colorResource(id = R.color.primary_dark))
         androidx.compose.material.Text(
@@ -593,7 +603,7 @@ fun GreenButtonOutline(
     text: String,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Button(
         enabled = enabled,
@@ -602,13 +612,13 @@ fun GreenButtonOutline(
         shape = CircleShape,
         colors = ButtonDefaults.outlinedButtonColors(
             backgroundColor = Color.White,
-            contentColor = colorResource(id = R.color.primary_dark)
+            contentColor = colorResource(id = R.color.primary_dark),
         ),
         border = BorderStroke(
             dimensionResource(id = R.dimen.ordinary_border),
-            color = colorResource(id = R.color.text_secondary)
+            color = colorResource(id = R.color.text_secondary),
         ),
-        interactionSource = NoRippleInteractionSource()
+        interactionSource = NoRippleInteractionSource(),
     ) {
         androidx.compose.material.Text(
             text = text,
@@ -622,27 +632,27 @@ fun ButtonsRow(
     values: List<String>,
     value: String,
     onValueChange: (String) -> Unit,
-    enabled: Boolean = true
+    enabled: Boolean = true,
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(
-            dimensionResource(id = R.dimen.column_elements_small_margin)
-        )
+            dimensionResource(id = R.dimen.column_elements_small_margin),
+        ),
     ) {
         androidx.compose.material.Text(
             text = label,
             fontSize = integerResource(id = R.integer.primary_text).sp,
             color = Color.Black,
             textAlign = TextAlign.End,
-            fontWeight = FontWeight.Medium
+            fontWeight = FontWeight.Medium,
         )
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             for (item in values) {
                 if (item == value) {
@@ -663,27 +673,27 @@ fun ButtonsRowMapped(
     values: Map<String, String>,
     value: String, // There gonna be keys
     onValueChange: (String) -> Unit,
-    enabled: Boolean = true
+    enabled: Boolean = true,
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(
-            dimensionResource(id = R.dimen.column_elements_small_margin)
-        )
+            dimensionResource(id = R.dimen.column_elements_small_margin),
+        ),
     ) {
         androidx.compose.material.Text(
             text = label,
             fontSize = integerResource(id = R.integer.primary_text).sp,
             color = Color.Black,
             textAlign = TextAlign.End,
-            fontWeight = FontWeight.Medium
+            fontWeight = FontWeight.Medium,
         )
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             for (item in values) {
                 if (item.key == value) {
@@ -702,21 +712,21 @@ fun ButtonsRowMapped(
 fun ProfilePicture(
     enabled: Boolean = true,
     bitmapValue: Bitmap?,
-    onBitmapValueChange: (Bitmap?) -> Unit
+    onBitmapValueChange: (Bitmap?) -> Unit,
 ) {
     val imageUri = rememberSaveable {
         mutableStateOf<Uri?>(null)
     }
     val context = LocalContext.current
     val launcher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent()
+        contract = ActivityResultContracts.GetContent(),
     ) { uri: Uri? ->
         imageUri.value = uri
     }
     Column(
         modifier = Modifier
             .fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         val imageModifier = Modifier
             .align(Alignment.CenterHorizontally)
@@ -726,7 +736,7 @@ fun ProfilePicture(
             .border(
                 dimensionResource(id = R.dimen.ordinary_border),
                 colorResource(id = R.color.primary_dark),
-                CircleShape
+                CircleShape,
             )
             .clickable {
                 if (enabled) {
@@ -734,7 +744,7 @@ fun ProfilePicture(
                     imageUri.value?.let {
                         if (Build.VERSION.SDK_INT < 28) {
                             onBitmapValueChange(
-                                MediaStore.Images.Media.getBitmap(context.contentResolver, it)
+                                MediaStore.Images.Media.getBitmap(context.contentResolver, it),
                             )
                         } else {
                             val source = ImageDecoder.createSource(context.contentResolver, it)
@@ -749,14 +759,14 @@ fun ProfilePicture(
                 contentDescription = "Your avatar",
                 modifier = imageModifier,
                 contentScale = ContentScale.Crop,
-                alignment = Alignment.Center
+                alignment = Alignment.Center,
             )
         } ?: Image(
             modifier = imageModifier,
             painter = painterResource(id = R.drawable.usual_client),
             contentDescription = "Your avatar",
             contentScale = ContentScale.Crop,
-            alignment = Alignment.Center
+            alignment = Alignment.Center,
         )
         Icon(
             Icons.Filled.PhotoCamera,
@@ -765,7 +775,7 @@ fun ProfilePicture(
                 .height(dimensionResource(id = R.dimen.ordinary_icon))
                 .width(dimensionResource(id = R.dimen.ordinary_icon))
                 .offset(50.dp, (-25).dp)
-                .background(Color.White, shape = CircleShape)
+                .background(Color.White, shape = CircleShape),
         )
     }
 }
@@ -788,47 +798,57 @@ fun FilterSelect(selectItemName: String, onNavigateToFriends: () -> Unit) {
                     RoundedCornerShape(
                         topStart = dimensionResource(id = R.dimen.rounded_corner_full),
                         bottomStart = dimensionResource(id = R.dimen.rounded_corner_full),
-                    )
+                    ),
                 )
                 .background(
-                    color = if (selectItemName == stringResource(id = R.string.room)) colorResource(
-                        id = R.color.primary_dark
-                    ) else Color.White,
+                    color = if (selectItemName == stringResource(id = R.string.room)) {
+                        colorResource(
+                            id = R.color.primary_dark,
+                        )
+                    } else {
+                        Color.White
+                    },
                     RoundedCornerShape(
                         topStart = dimensionResource(id = R.dimen.rounded_corner_full),
-                        bottomStart = dimensionResource(id = R.dimen.rounded_corner_full)
+                        bottomStart = dimensionResource(id = R.dimen.rounded_corner_full),
                     ),
                 )
                 .clip(
                     RoundedCornerShape(
                         topStart = dimensionResource(id = R.dimen.rounded_corner_full),
                         bottomStart = dimensionResource(id = R.dimen.rounded_corner_full),
-                    )
+                    ),
                 )
                 .clickable { if (selectItemName == "Roommate") onNavigateToFriends.invoke() },
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            if (selectItemName == stringResource(id = R.string.room)) Image(
-                painter = painterResource(id = R.drawable.unchecked_messages_icon),
-                contentDescription = stringResource(id = R.string.room),
-                modifier = Modifier
-                    .height(dimensionResource(id = R.dimen.small_icon))
-                    .width(dimensionResource(id = R.dimen.small_icon)),
-                colorFilter = ColorFilter.tint(
-                    colorResource(id = R.color.primary)
+            if (selectItemName == stringResource(id = R.string.room)) {
+                Image(
+                    painter = painterResource(id = R.drawable.unchecked_messages_icon),
+                    contentDescription = stringResource(id = R.string.room),
+                    modifier = Modifier
+                        .height(dimensionResource(id = R.dimen.small_icon))
+                        .width(dimensionResource(id = R.dimen.small_icon)),
+                    colorFilter = ColorFilter.tint(
+                        colorResource(id = R.color.primary),
+                    ),
                 )
-            )
+            }
             Text(
                 text = stringResource(id = R.string.room),
                 style = TextStyle(
                     fontSize = integerResource(id = R.integer.primary_text).sp,
-                    color = if (selectItemName == stringResource(id = R.string.room)) colorResource(
-                        id = R.color.primary
-                    ) else colorResource(
-                        id = R.color.text_secondary
-                    )
-                )
+                    color = if (selectItemName == stringResource(id = R.string.room)) {
+                        colorResource(
+                            id = R.color.primary,
+                        )
+                    } else {
+                        colorResource(
+                            id = R.color.text_secondary,
+                        )
+                    },
+                ),
             )
         }
         Row(
@@ -841,14 +861,16 @@ fun FilterSelect(selectItemName: String, onNavigateToFriends: () -> Unit) {
                     RoundedCornerShape(
                         topEnd = dimensionResource(id = R.dimen.rounded_corner_full),
                         bottomEnd = dimensionResource(id = R.dimen.rounded_corner_full),
-                    )
+                    ),
                 )
                 .background(
-                    color = if (selectItemName == stringResource(id = R.string.roommate))
+                    color = if (selectItemName == stringResource(id = R.string.roommate)) {
                         colorResource(
-                            id = R.color.primary_dark
+                            id = R.color.primary_dark,
                         )
-                    else Color.White,
+                    } else {
+                        Color.White
+                    },
                     RoundedCornerShape(
                         topEnd = dimensionResource(id = R.dimen.rounded_corner_full),
                         bottomEnd = dimensionResource(id = R.dimen.rounded_corner_full),
@@ -858,34 +880,40 @@ fun FilterSelect(selectItemName: String, onNavigateToFriends: () -> Unit) {
                     RoundedCornerShape(
                         topEnd = dimensionResource(id = R.dimen.rounded_corner_full),
                         bottomEnd = dimensionResource(id = R.dimen.rounded_corner_full),
-                    )
+                    ),
                 )
                 .clickable { if (selectItemName == "Room") onNavigateToFriends.invoke() },
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            val color = if (selectItemName == stringResource(id = R.string.roommate)) colorResource(
-                id = R.color.primary
-            ) else colorResource(
-                id = R.color.text_secondary
-            )
+            val color = if (selectItemName == stringResource(id = R.string.roommate)) {
+                colorResource(
+                    id = R.color.primary,
+                )
+            } else {
+                colorResource(
+                    id = R.color.text_secondary,
+                )
+            }
             Text(
                 text = stringResource(id = R.string.roommate),
                 style = TextStyle(
                     fontSize = integerResource(id = R.integer.primary_text).sp,
-                    color = color
-                )
+                    color = color,
+                ),
             )
-            if (selectItemName == stringResource(id = R.string.roommate)) Image(
-                painter = painterResource(id = R.drawable.unchecked_messages_icon),
-                contentDescription = stringResource(id = R.string.roommate),
-                modifier = Modifier
-                    .height(dimensionResource(id = R.dimen.small_icon))
-                    .width(dimensionResource(id = R.dimen.small_icon)),
-                colorFilter = ColorFilter.tint(
-                    colorResource(id = R.color.primary)
+            if (selectItemName == stringResource(id = R.string.roommate)) {
+                Image(
+                    painter = painterResource(id = R.drawable.unchecked_messages_icon),
+                    contentDescription = stringResource(id = R.string.roommate),
+                    modifier = Modifier
+                        .height(dimensionResource(id = R.dimen.small_icon))
+                        .width(dimensionResource(id = R.dimen.small_icon)),
+                    colorFilter = ColorFilter.tint(
+                        colorResource(id = R.color.primary),
+                    ),
                 )
-            )
+            }
         }
     }
 }
@@ -899,7 +927,7 @@ fun UserCardResult(searchUser: User) {
             .background(
                 color = colorResource(id = R.color.primary),
                 shape = RoundedCornerShape(20.dp),
-            )
+            ),
     ) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
@@ -919,7 +947,7 @@ fun UserCardResult(searchUser: User) {
                 .fillMaxSize()
                 .padding(start = 12.dp, top = 8.dp, end = 12.dp, bottom = 8.dp),
             verticalArrangement = Arrangement.spacedBy(
-                dimensionResource(id = R.dimen.column_elements_small_margin)
+                dimensionResource(id = R.dimen.column_elements_small_margin),
             ),
         ) {
             Text(
@@ -928,7 +956,7 @@ fun UserCardResult(searchUser: User) {
                     fontSize = integerResource(id = R.integer.label_text).sp,
                     color = Color.Black,
                     fontWeight = FontWeight.Bold,
-                )
+                ),
             )
             Row(
                 modifier = Modifier
@@ -947,14 +975,14 @@ fun UserCardResult(searchUser: User) {
                     text = "Moscow",
                     style = TextStyle(
                         fontSize = integerResource(id = R.integer.primary_text).sp,
-                        color = Color.Black
-                    )
+                        color = Color.Black,
+                    ),
                 )
             }
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(20.dp)
+                    .height(20.dp),
             ) {
                 Text(
                     text = stringResource(id = R.string.status),
@@ -962,7 +990,7 @@ fun UserCardResult(searchUser: User) {
                         fontSize = integerResource(id = R.integer.primary_text).sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black,
-                    )
+                    ),
                 )
                 Text(
                     "Occasionally",
@@ -976,7 +1004,7 @@ fun UserCardResult(searchUser: User) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(20.dp)
+                    .height(20.dp),
             ) {
                 Text(
                     text = "Rating:",
@@ -984,7 +1012,7 @@ fun UserCardResult(searchUser: User) {
                         fontSize = integerResource(id = R.integer.primary_text).sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black,
-                    )
+                    ),
                 )
                 Text(
                     text = "7",
@@ -1013,41 +1041,43 @@ fun InterestsButtons(
     values: List<InterestModel>,
     selectedItems: List<InterestModel>,
     onSelectedChange: (List<InterestModel>) -> Unit,
-    chooseLimit: Int = 10
+    chooseLimit: Int = 10,
 ) {
     val chunkedValues = values.chunked(3)
     Column(
         modifier = Modifier
             .fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(
-            dimensionResource(id = R.dimen.list_elements_margin)
+            dimensionResource(id = R.dimen.list_elements_margin),
         ),
-        horizontalAlignment = Alignment.Start
+        horizontalAlignment = Alignment.Start,
     ) {
         androidx.compose.material.Text(
             text = label,
             fontSize = integerResource(id = R.integer.primary_text).sp,
             color = Color.Black,
             textAlign = TextAlign.Start,
-            fontWeight = FontWeight.Medium
+            fontWeight = FontWeight.Medium,
         )
         for (row in chunkedValues) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 for (value in row) {
-                    if (value in selectedItems)
+                    if (value in selectedItems) {
                         GreenButtonPrimary(text = value.interest) {
                             selectedItems.minus(value).let(onSelectedChange)
                         }
-                    else
+                    } else {
                         GreenButtonOutline(text = value.interest) {
-                            if (selectedItems.size < chooseLimit)
+                            if (selectedItems.size < chooseLimit) {
                                 selectedItems.plus(value).let(onSelectedChange)
+                            }
                         }
+                    }
                 }
             }
         }
@@ -1076,9 +1106,9 @@ fun SimpleAlertDialog(
                 text = buttonText,
                 modifier = Modifier
                     .fillMaxWidth(),
-                onClick = confirmDismissOnClick
+                onClick = confirmDismissOnClick,
             )
-        }
+        },
     )
 }
 

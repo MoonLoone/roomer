@@ -25,7 +25,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 fun SplashScreen(
     navigator: DestinationsNavigator,
-    splashScreenViewModel: SplashScreenViewModel = hiltViewModel()
+    splashScreenViewModel: SplashScreenViewModel = hiltViewModel(),
 ) {
     val state by splashScreenViewModel.state.collectAsState()
 
@@ -33,19 +33,19 @@ fun SplashScreen(
         modifier = Modifier
             .fillMaxSize(),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Image(
             painter = painterResource(id = R.drawable.roomer_logo),
             contentDescription = stringResource(
-                R.string.logo_content_description
-            )
+                R.string.logo_content_description,
+            ),
         )
     }
     if (state.isInternetProblem) {
         SimpleAlertDialog(
             title = stringResource(R.string.login_alert_dialog_title),
-            text = state.errorMessage
+            text = state.errorMessage,
         ) {
             splashScreenViewModel.clearState()
             splashScreenViewModel.verifyToken()

@@ -20,12 +20,12 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class SplashScreenViewModel @Inject constructor(
     application: Application,
-    private val roomerRepository: RoomerRepositoryInterface
+    private val roomerRepository: RoomerRepositoryInterface,
 ) : AndroidViewModel(application) {
     private val userToken = SpManager().getSharedPreference(
         getApplication<Application>().applicationContext,
         SpManager.Sp.TOKEN,
-        null
+        null,
     )
     private val _state = MutableStateFlow(UsualScreenState())
     val state: StateFlow<UsualScreenState> = _state.asStateFlow()
@@ -33,11 +33,13 @@ class SplashScreenViewModel @Inject constructor(
     private val splashScreenUseCase = SplashScreenUseCase(roomerRepository)
 
     init {
-        if (userToken == null)
+        if (userToken == null) {
             _state.update { currentState ->
                 currentState.copy(isError = true)
             }
-        else verifyToken()
+        } else {
+            verifyToken()
+        }
     }
 
     private fun storeCurrentUser(user: User) {
@@ -74,7 +76,7 @@ class SplashScreenViewModel @Inject constructor(
                             currentState.copy(
                                 isLoading = false,
                                 isInternetProblem = true,
-                                errorMessage = result.message!!
+                                errorMessage = result.message!!,
                             )
                         }
                     }
@@ -84,7 +86,7 @@ class SplashScreenViewModel @Inject constructor(
                         _state.update { currentState ->
                             currentState.copy(
                                 isLoading = false,
-                                isError = true
+                                isError = true,
                             )
                         }
                     }

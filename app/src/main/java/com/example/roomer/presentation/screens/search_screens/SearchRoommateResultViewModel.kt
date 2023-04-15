@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class SearchRoommateResultViewModel @Inject constructor(
-    private val roomerRepository: RoomerRepositoryInterface
+    private val roomerRepository: RoomerRepositoryInterface,
 ) : ViewModel() {
     private val _roommates = MutableStateFlow(emptyList<User>())
     val roommates: StateFlow<List<User>> = _roommates
@@ -42,7 +42,7 @@ class SearchRoommateResultViewModel @Inject constructor(
                 smokingAttitude,
                 sleepTime,
                 personalityType,
-                cleanHabits
+                cleanHabits,
             )
             if (response.isSuccessful) {
                 _roommates.value = response.body() ?: listOf()

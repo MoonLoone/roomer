@@ -44,7 +44,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 fun AboutMeAvatarScreen(
     navigator: DestinationsNavigator,
-    signUpViewModel: SignUpViewModel
+    signUpViewModel: SignUpViewModel,
 ) {
     val uiState by signUpViewModel.uiState.collectAsState()
     val focusManager = LocalFocusManager.current
@@ -56,7 +56,7 @@ fun AboutMeAvatarScreen(
             .background(Color.White)
             .clickable(
                 indication = null,
-                interactionSource = interactionSource
+                interactionSource = interactionSource,
             ) { focusManager.clearFocus() },
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -66,36 +66,36 @@ fun AboutMeAvatarScreen(
                 .fillMaxWidth()
                 .padding(
                     start = dimensionResource(id = R.dimen.screen_start_margin),
-                    end = dimensionResource(id = R.dimen.screen_end_margin)
+                    end = dimensionResource(id = R.dimen.screen_end_margin),
                 ),
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.spacedBy(
-                dimensionResource(id = R.dimen.list_elements_margin)
+                dimensionResource(id = R.dimen.list_elements_margin),
             ),
         ) {
             LinearProgressIndicator(
                 modifier = Modifier
                     .fillMaxWidth(),
                 color = colorResource(id = R.color.primary_dark),
-                progress = 0.4f
+                progress = 0.4f,
             )
             Text(
                 text = "Just basic profile info",
                 fontSize = integerResource(id = R.integer.label_text).sp,
                 fontWeight = FontWeight.Medium,
-                textAlign = TextAlign.Start
+                textAlign = TextAlign.Start,
             )
             Text(
                 text = "Add profile picture",
                 fontSize = integerResource(id = R.integer.primary_text).sp,
                 fontWeight = FontWeight.Medium,
-                textAlign = TextAlign.Start
+                textAlign = TextAlign.Start,
             )
             ProfilePicture(
                 bitmapValue = signUpViewModel.avatar,
                 onBitmapValueChange = {
                     signUpViewModel.avatar = it
-                }
+                },
             )
             UsualTextField(
                 title = "Write something about you",
@@ -103,25 +103,25 @@ fun AboutMeAvatarScreen(
                 value = signUpViewModel.personDescription,
                 onValueChange = {
                     signUpViewModel.personDescription = it
-                }
+                },
             )
             DropdownTextFieldMapped(
                 mapOfItems = mapOf(
                     Pair("NE", "Not Employed"),
                     Pair("E", "Employed"),
-                    Pair("S", "Searching For Work")
+                    Pair("S", "Searching For Work"),
                 ),
                 label = "What you currently do?",
                 value = signUpViewModel.employment,
                 onValueChange = {
                     signUpViewModel.employment = it
-                }
+                },
             )
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 GreenButtonPrimary(
                     text = "Go Back",
@@ -141,7 +141,7 @@ fun AboutMeAvatarScreen(
             if (uiState.isError) {
                 SimpleAlertDialog(
                     title = stringResource(R.string.login_alert_dialog_title),
-                    text = uiState.errorMessage
+                    text = uiState.errorMessage,
                 ) { signUpViewModel.clearError() }
             }
         }

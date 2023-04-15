@@ -50,7 +50,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 fun LoginScreen(
     id: Int,
     navigator: DestinationsNavigator,
-    loginScreenViewModel: LoginScreenViewModel = hiltViewModel()
+    loginScreenViewModel: LoginScreenViewModel = hiltViewModel(),
 ) {
     NavbarManagement.hideNavbar()
     val state = loginScreenViewModel.state.value
@@ -69,12 +69,11 @@ fun LoginScreen(
             .background(Color.White)
             .clickable(
                 indication = null,
-                interactionSource = interactionSource
+                interactionSource = interactionSource,
             ) { focusManager.clearFocus() },
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -84,28 +83,28 @@ fun LoginScreen(
                 ),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(
-                dimensionResource(id = R.dimen.list_elements_margin)
+                dimensionResource(id = R.dimen.list_elements_margin),
             ),
         ) {
             Text(
                 text = stringResource(R.string.login_screen_title),
                 fontSize = integerResource(id = R.integer.label_text).sp,
                 fontWeight = FontWeight.Medium,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
             )
             EmailField(
                 value = emailValue,
                 onValueChange = { emailValue = it },
                 enabled = !state.isLoading,
                 label = stringResource(R.string.email_label),
-                placeholder = stringResource(R.string.email_placeholder)
+                placeholder = stringResource(R.string.email_placeholder),
             )
             PasswordField(
                 value = passwordValue,
                 onValueChange = { passwordValue = it },
                 enabled = !state.isLoading,
                 placeholder = stringResource(R.string.password_placeholder),
-                label = stringResource(R.string.password_label)
+                label = stringResource(R.string.password_label),
             )
             GreenButtonPrimary(
                 modifier = Modifier
@@ -119,43 +118,43 @@ fun LoginScreen(
                 modifier = Modifier
                     .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
+                horizontalArrangement = Arrangement.Center,
             ) {
                 Text(
                     text = stringResource(R.string.login_screen_supported_text),
                     fontSize = integerResource(id = R.integer.primary_text).sp,
                     fontWeight = FontWeight.Medium,
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
                 )
                 ClickableText(
                     text = AnnotatedString(stringResource(R.string.login_screen_sign_up_text)),
                     modifier = Modifier
                         .padding(
-                            start = dimensionResource(id = R.dimen.column_elements_small_margin)
+                            start = dimensionResource(id = R.dimen.column_elements_small_margin),
                         ),
                     style = TextStyle(
                         fontSize = integerResource(id = R.integer.primary_text).sp,
                         fontWeight = FontWeight.Medium,
                         color = colorResource(id = R.color.primary_dark),
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
 
                     ),
                     onClick = {
                         navigator.navigate(
-                            SignUpScreenDestination
+                            SignUpScreenDestination,
                         )
-                    }
+                    },
                 )
             }
             if (state.isLoading) {
                 CircularProgressIndicator(
-                    color = colorResource(id = R.color.primary_dark)
+                    color = colorResource(id = R.color.primary_dark),
                 )
             }
             if (state.error.isNotEmpty()) {
                 SimpleAlertDialog(
                     title = stringResource(R.string.login_alert_dialog_title),
-                    text = state.error
+                    text = state.error,
                 ) {
                     loginScreenViewModel.clearViewModel()
                 }

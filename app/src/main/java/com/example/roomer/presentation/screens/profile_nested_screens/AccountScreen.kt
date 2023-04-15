@@ -55,13 +55,13 @@ fun AccountScreen(
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             BackBtn(onBackNavigation = { navigator.navigate(ProfileScreenDestination) })
             Text(
                 text = stringResource(R.string.account_title),
                 fontSize = integerResource(
-                    id = R.integer.label_text
+                    id = R.integer.label_text,
                 ).sp,
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
@@ -78,17 +78,17 @@ fun AccountScreen(
             AccountScreenTextField(
                 textHint = stringResource(R.string.hint_about_you),
                 label = stringResource(R.string.about_me),
-                textFieldHeight = 112.dp
+                textFieldHeight = 112.dp,
             )
             SelectAddressField(
                 label = stringResource(R.string.select_addr_title),
-                placeholder = stringResource(R.string.addr_placeholder)
+                placeholder = stringResource(R.string.addr_placeholder),
             )
             Row(
                 modifier = Modifier
                     .padding(top = 16.dp)
                     .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 Row(
                     modifier = Modifier
@@ -98,12 +98,12 @@ fun AccountScreen(
                             width = dimensionResource(id = R.dimen.ordinary_border),
                             color = Color.Black,
                             shape = RoundedCornerShape(
-                                dimensionResource(id = R.dimen.rounded_corner_full)
-                            )
+                                dimensionResource(id = R.dimen.rounded_corner_full),
+                            ),
                         )
                         .clickable {
                         },
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.habits_icon),
@@ -130,17 +130,17 @@ fun AccountScreen(
                             width = dimensionResource(id = R.dimen.ordinary_border),
                             color = Color.Black,
                             shape = RoundedCornerShape(
-                                dimensionResource(id = R.dimen.rounded_corner_full)
-                            )
+                                dimensionResource(id = R.dimen.rounded_corner_full),
+                            ),
                         )
                         .clickable {
                         },
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.interests_icon),
                         contentDescription = stringResource(
-                            id = R.string.habits_icon_description
+                            id = R.string.habits_icon_description,
                         ),
                         modifier = Modifier
                             .padding(start = 16.dp)
