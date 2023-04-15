@@ -125,7 +125,7 @@ fun ChatItem(
     ) {
         Image(
             painter = painterResource(id = R.drawable.ordinary_client),
-            contentDescription = stringResource(R.string.user_avatar_description),
+            contentDescription = stringResource(R.string.user_avatar_content_description),
             modifier = Modifier
                 .width(dimensionResource(id = R.dimen.small_avatar_image))
                 .height(dimensionResource(id = R.dimen.small_avatar_image))
@@ -504,7 +504,7 @@ fun BackBtn(onBackNavigation: () -> Unit) {
             .clickable {
                 onBackNavigation.invoke()
             },
-        contentDescription = stringResource(id = R.string.back_button)
+        contentDescription = stringResource(id = R.string.back_button_label)
     )
 }
 

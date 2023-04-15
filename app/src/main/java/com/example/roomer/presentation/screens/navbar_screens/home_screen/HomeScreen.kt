@@ -20,10 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.integerResource
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.*
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -84,7 +81,7 @@ fun HomeScreen(
         ) {
             Column(modifier = Modifier.fillMaxHeight()) {
                 Text(
-                    text = "Welcome back!",
+                    text = stringResource(R.string.home_screen_title),
                     style = TextStyle(
                         color = colorResource(id = R.color.text_secondary),
                         fontSize = integerResource(id = R.integer.primary_text).sp,
@@ -101,7 +98,7 @@ fun HomeScreen(
             }
             Image(
                 painter = painterResource(id = R.drawable.ordinary_client),
-                contentDescription = "Client avatar",
+                contentDescription = stringResource(R.string.user_avatar_content_description),
                 modifier = Modifier
                     .height(dimensionResource(id = R.dimen.small_avatar_image))
                     .width(dimensionResource(id = R.dimen.small_avatar_image)),
@@ -123,7 +120,7 @@ fun HomeScreen(
         ) {
             Column(modifier = Modifier.fillMaxWidth()) {
                 Text(
-                    "Recently watched",
+                    stringResource(R.string.recently_watched_label),
                     style = TextStyle(
                         color = Color.Black,
                         fontSize = 20.sp,
@@ -145,7 +142,7 @@ fun HomeScreen(
             }
             Column(modifier = Modifier.fillMaxWidth()) {
                 Text(
-                    "Recommended rooms",
+                    stringResource(R.string.recommended_rooms_label),
                     style = TextStyle(
                         color = Color.Black,
                         fontSize = 20.sp,
@@ -175,7 +172,7 @@ fun HomeScreen(
             }
             Column(modifier = Modifier.fillMaxWidth()) {
                 Text(
-                    "Recommended roommates",
+                    stringResource(R.string.recommended_roommates_label),
                     style = TextStyle(
                         color = Color.Black,
                         fontSize = 20.sp,

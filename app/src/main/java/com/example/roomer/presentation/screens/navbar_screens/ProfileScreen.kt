@@ -50,7 +50,7 @@ fun ProfileScreen(
         )
         Image(
             painter = painterResource(id = R.drawable.ordinary_client),
-            contentDescription = "Client avatar",
+            contentDescription = stringResource(R.string.user_avatar_content_description),
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(top = 24.dp, bottom = 16.dp)
@@ -60,26 +60,26 @@ fun ProfileScreen(
                 },
         )
         ProfileContentLine(
-            "Account",
+            stringResource(R.string.account_label),
             R.drawable.account_icon,
             onNavigateToFriends = {
                 navigator.navigate(AccountScreenDestination)
             }
         )
         ProfileContentLine(
-            "Rating",
+            stringResource(R.string.rating_label),
             R.drawable.rating_icon,
             onNavigateToFriends = {
             },
         )
         ProfileContentLine(
-            "Settings",
+            stringResource(R.string.settings_label),
             R.drawable.settings_icon,
             onNavigateToFriends = {
             },
         )
         ProfileContentLine(
-            "Logout",
+            stringResource(R.string.logout_label),
             R.drawable.logout_icon,
             onNavigateToFriends = {
             },

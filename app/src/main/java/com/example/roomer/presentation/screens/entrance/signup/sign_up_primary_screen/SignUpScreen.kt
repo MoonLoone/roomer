@@ -87,14 +87,14 @@ fun SignUpScreen(
             ),
         ) {
             Text(
-                text = "Sign Up",
+                text = stringResource(R.string.sign_up_screen_title),
                 fontSize = integerResource(id = R.integer.label_text).sp,
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Center
             )
             IconedTextField(
-                title = "Username",
-                placeholder = "Enter username here",
+                title = stringResource(R.string.username_label),
+                placeholder = stringResource(R.string.username_placeholder),
                 onValueChange = {
                     usernameValue = it
                     if (state.isUsernameError)
@@ -147,7 +147,7 @@ fun SignUpScreen(
             )
             GreenButtonPrimary(
                 enabled = !state.isLoading,
-                text = "Confirm",
+                text = stringResource(R.string.confirm_button_label),
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
@@ -168,7 +168,7 @@ fun SignUpScreen(
             }
             if (state.internetProblem) {
                 SimpleAlertDialog(
-                    title = stringResource(R.string.login_alert_dialog_title),
+                    title = stringResource(R.string.login_alert_dialog_text),
                     text = state.error
                 ) {
                     signUpScreenViewModel.clearState()

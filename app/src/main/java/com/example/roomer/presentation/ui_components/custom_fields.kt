@@ -153,7 +153,7 @@ fun DropdownTextFieldMapped(
 fun SexField(
     value: String,
     onValueChange: (String) -> Unit,
-    title: String = stringResource(R.string.select_sex_title),
+    title: String = stringResource(R.string.select_sex_label),
     enabled: Boolean = true
 ) {
     Column(
@@ -263,8 +263,8 @@ fun DateField(
     MaterialDialog(
         dialogState = dialogState,
         buttons = {
-            positiveButton(stringResource(R.string.positive_button))
-            negativeButton(stringResource(R.string.negative_button))
+            positiveButton(stringResource(R.string.positive_button_label))
+            negativeButton(stringResource(R.string.negative_button_label))
         }
     ) {
         datepicker { date ->
@@ -355,7 +355,7 @@ fun SelectAddressField(
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.select_adr_icon),
-                    contentDescription = stringResource(id = R.string.select_addr_title),
+                    contentDescription = stringResource(id = R.string.select_addr_label),
                     modifier = Modifier
                         .width(dimensionResource(id = R.dimen.big_icon))
                         .height(dimensionResource(id = R.dimen.big_icon)),

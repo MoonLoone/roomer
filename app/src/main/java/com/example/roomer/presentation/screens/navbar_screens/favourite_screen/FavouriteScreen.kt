@@ -10,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.integerResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -39,7 +40,7 @@ fun FavouriteScreen(
     ) {
         item {
             Text(
-                text = "Favourite",
+                text = stringResource(R.string.favourite_screen_title),
                 style = TextStyle(
                     fontSize = integerResource(id = R.integer.label_text).sp,
                     fontWeight = FontWeight.Bold,

@@ -140,7 +140,7 @@ fun AboutMeAvatarScreen(
             }
             if (uiState.isError) {
                 SimpleAlertDialog(
-                    title = stringResource(R.string.login_alert_dialog_title),
+                    title = stringResource(R.string.login_alert_dialog_text),
                     text = uiState.errorMessage
                 ) { signUpViewModel.clearError() }
             }
