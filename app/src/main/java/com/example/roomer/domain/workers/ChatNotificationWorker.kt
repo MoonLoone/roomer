@@ -43,8 +43,7 @@ class ChatNotificationWorker @AssistedInject constructor(
             ) == PackageManager.PERMISSION_GRANTED
         ) {
             val authUser = roomerRepository.getLocalCurrentUser()
-            //val messages = roomerRepository.getMessageNotifications(authUser.userId).body()
-            val messages = roomerRepository.getMessageNotifications(302).body()
+            val messages = roomerRepository.getMessageNotifications(authUser.userId).body()
             if (!messages.isNullOrEmpty()) {
                 val channel = NotificationChannel(
                     CHANNEL_ID,
@@ -115,10 +114,8 @@ class ChatNotificationWorker @AssistedInject constructor(
         return bitmap
     }
 
-
     private companion object {
         const val NOTIFICATION_BASE_ID = 15
         const val CHANNEL_ID = "Messenger channel"
     }
-
 }

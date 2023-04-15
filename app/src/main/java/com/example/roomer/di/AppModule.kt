@@ -1,7 +1,6 @@
 package com.example.roomer.di
 
 import android.app.Application
-import androidx.activity.result.ActivityResultCaller
 import com.example.roomer.data.local.RoomerStoreInterface
 import com.example.roomer.data.remote.RoomerApi
 import com.example.roomer.data.repository.auth_repository.AuthRepository
@@ -70,7 +69,7 @@ object AppModule {
     @Provides
     fun providePermissionManager(
         application: Application
-    ): PermissionManager{
+    ): PermissionManager {
         return PermissionManager(application)
     }
 }

@@ -69,13 +69,13 @@ class ChatScreenViewModel @Inject constructor(
         }
     }
 
-    fun messageRead(messageId: Int){
+    fun messageRead(messageId: Int) {
         viewModelScope.launch {
             val token = SpManager().getSharedPreference(
                 getApplication<Application>().applicationContext,
                 SpManager.Sp.TOKEN,
                 LoginScreenViewModel.FIELD_DEFAULT_VALUE
-            )?:""
+            ) ?: ""
             roomerRepository.messageChecked(messageId, token)
         }
     }
@@ -85,7 +85,7 @@ class ChatScreenViewModel @Inject constructor(
         val message = Message(
             id = getFromJson(json, "id").toInt(),
             chatId = getFromJson(json, "chat_id").toInt(),
-            dateTime ="",
+            dateTime = "",
             text = getFromJson(json, "text"),
             donor = User(userId = getFromJson(json, "donor").toInt()),
             recipient = User(userId = getFromJson(json, "recipient").toInt()),

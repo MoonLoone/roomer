@@ -1,6 +1,5 @@
 package com.example.roomer.presentation.screens.shared_screens
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -130,9 +129,9 @@ private fun MessagesList(messages: List<Message>, modifier: Modifier, checkMessa
     val scope = rememberCoroutineScope()
     LazyColumn(modifier = modifier, state = lazyListState) {
         items(messages.size) { index ->
-            if (!messages[index].isChecked && messages[index].recipient == User()){
+            if (!messages[index].isChecked && messages[index].recipient == User()) {
                 messages[index].isChecked = true
-                checkMessage.invoke(index+1)
+                checkMessage.invoke(index + 1)
             }
             Message(
                 isUserMessage = messages[index].donor == User(),

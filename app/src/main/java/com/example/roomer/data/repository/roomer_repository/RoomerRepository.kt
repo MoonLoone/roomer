@@ -93,7 +93,7 @@ class RoomerRepository @Inject constructor(
 
     override suspend fun messageChecked(messageId: Int, token: String): Response<Message> {
         val refToken = "Token ".plus(token)
-        return roomerApi.messageChecked(messageId,refToken)
+        return roomerApi.messageChecked(messageId, refToken)
     }
 
     override suspend fun getMessageNotifications(userId: Int): Response<List<MessageNotification>> {

@@ -1,14 +1,9 @@
 package com.example.roomer.management
 
 import android.app.Application
-import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
-import android.util.Log
-import androidx.activity.result.ActivityResultCaller
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import javax.inject.Inject
 
@@ -17,12 +12,13 @@ class PermissionManager @Inject constructor(
 ) {
 
     fun askNotificationPermission() {
-        if ((ContextCompat.checkSelfPermission(
-                application.applicationContext,
-                android.Manifest.permission.POST_NOTIFICATIONS
-            ) != PackageManager.PERMISSION_GRANTED) && (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+        if ((
+            ContextCompat.checkSelfPermission(
+                    application.applicationContext,
+                    android.Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED
+            ) && (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
         )
             ActivityResultContracts.RequestPermission()
     }
-
 }

@@ -63,7 +63,7 @@ interface RoomerRepositoryInterface {
 
     suspend fun getLocalUserById(userId: Int): User
 
-    suspend fun messageChecked(messageId:Int, token: String): Response<Message>
+    suspend fun messageChecked(messageId: Int, token: String): Response<Message>
 
     suspend fun getMessageNotifications(userId: Int): Response<List<MessageNotification>>
 }
