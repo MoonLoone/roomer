@@ -25,7 +25,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 fun FavouriteScreen(
     navigator: DestinationsNavigator,
-    favouriteViewModel: FavouriteViewModel = hiltViewModel()
+    favouriteViewModel: FavouriteViewModel = hiltViewModel(),
 ) {
     NavbarManagement.showNavbar()
     val listOfFavourites = favouriteViewModel.favourites.value
@@ -33,7 +33,7 @@ fun FavouriteScreen(
         modifier = Modifier
             .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(
-            dimensionResource(id = R.dimen.list_elements_margin)
+            dimensionResource(id = R.dimen.list_elements_margin),
         ),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -44,13 +44,16 @@ fun FavouriteScreen(
                     fontSize = integerResource(id = R.integer.label_text).sp,
                     fontWeight = FontWeight.Bold,
                 ),
-                modifier = Modifier.padding(top = 8.dp)
+                modifier = Modifier.padding(top = 8.dp),
             )
         }
         items(listOfFavourites.size) { index ->
             RoomCard(recommendedRoom = listOfFavourites[index], isMiniVersion = false) { isLiked ->
-                if (isLiked) favouriteViewModel.addToFavourites(listOfFavourites[index])
-                else favouriteViewModel.removeLocalFavourite(listOfFavourites[index])
+                if (isLiked) {
+                    favouriteViewModel.addToFavourites(listOfFavourites[index])
+                } else {
+                    favouriteViewModel.removeLocalFavourite(listOfFavourites[index])
+                }
             }
         }
     }

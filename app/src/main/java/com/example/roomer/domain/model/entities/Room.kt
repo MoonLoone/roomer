@@ -1,7 +1,5 @@
 package com.example.roomer.domain.model.entities
 
-import android.os.Parcel
-import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 
 data class Room(
@@ -27,6 +25,6 @@ data class Room(
     var isLiked: Boolean = false,
 ) {
     data class Photo(
-        val photo: String
+        val photo: String,
     )
 }

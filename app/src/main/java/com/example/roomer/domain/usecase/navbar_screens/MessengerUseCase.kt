@@ -4,10 +4,10 @@ import com.example.roomer.data.repository.roomer_repository.RoomerRepository
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.utils.Constants
 import com.example.roomer.utils.Resource
-import java.io.IOException
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import java.io.IOException
 
 class MessengerUseCase(
     private val roomerRepository: RoomerRepository,

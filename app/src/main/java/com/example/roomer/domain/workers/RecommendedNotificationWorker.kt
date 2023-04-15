@@ -11,7 +11,6 @@ import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.work.CoroutineWorker
-import androidx.work.ForegroundInfo
 import androidx.work.WorkerParameters
 import com.example.roomer.MainActivity
 import com.example.roomer.R
@@ -27,7 +26,7 @@ class RecommendedNotificationWorker @AssistedInject constructor(
     override suspend fun doWork(): Result {
         if (ActivityCompat.checkSelfPermission(
                 applicationContext,
-                Manifest.permission.POST_NOTIFICATIONS
+                Manifest.permission.POST_NOTIFICATIONS,
             ) == PackageManager.PERMISSION_GRANTED
         ) {
             val manager =
@@ -35,12 +34,12 @@ class RecommendedNotificationWorker @AssistedInject constructor(
             val channel = NotificationChannel(
                 CHANNEL_ID,
                 applicationContext.resources.getString(R.string.recommended_notification_title),
-                NotificationManager.IMPORTANCE_DEFAULT
+                NotificationManager.IMPORTANCE_DEFAULT,
             )
             manager.createNotificationChannel(channel)
             manager.notify(
                 NOTIFICATION_ID,
-                getRecommendation()
+                getRecommendation(),
             )
             return Result.success()
         }
@@ -54,7 +53,7 @@ class RecommendedNotificationWorker @AssistedInject constructor(
             PendingIntent.getActivity(applicationContext, 0, intent, PendingIntent.FLAG_IMMUTABLE)
         return NotificationCompat.Builder(
             applicationContext,
-            CHANNEL_ID
+            CHANNEL_ID,
         )
             .setSmallIcon(R.drawable.account_icon)
             .setContentText(applicationContext.resources.getString(R.string.recommended_room_notification_text))
@@ -72,7 +71,7 @@ class RecommendedNotificationWorker @AssistedInject constructor(
             PendingIntent.getActivity(applicationContext, 0, intent, PendingIntent.FLAG_IMMUTABLE)
         return NotificationCompat.Builder(
             applicationContext,
-            CHANNEL_ID
+            CHANNEL_ID,
         )
             .setSmallIcon(R.drawable.account_icon)
             .setContentTitle(applicationContext.resources.getString(R.string.messenger_notification_title))
@@ -96,5 +95,4 @@ class RecommendedNotificationWorker @AssistedInject constructor(
         const val CHANNEL_ID = "Recommended channel"
         val LIST_OF_RECOMMENDED = listOf("Room", "Mate")
     }
-
 }

@@ -44,7 +44,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 fun HomeScreen(
     navigator: DestinationsNavigator,
-    homeScreenViewModel: HomeScreenViewModel = hiltViewModel()
+    homeScreenViewModel: HomeScreenViewModel = hiltViewModel(),
 ) {
     NavbarManagement.showNavbar()
     val recommendedRooms = mutableListOf<Room>()
@@ -56,14 +56,14 @@ fun HomeScreen(
                 "Andrey $i",
                 "",
                 "",
-            )
+            ),
         )
         recommendedRooms.add(
             Room(
                 id = i,
                 host = recommendedRoommates[i],
-                fileContent = listOf(Room.Photo(photo = ""))
-            )
+                fileContent = listOf(Room.Photo(photo = "")),
+            ),
         )
     }
     Column(
@@ -73,8 +73,8 @@ fun HomeScreen(
             .padding(
                 top = dimensionResource(id = R.dimen.screen_top_margin),
                 start = dimensionResource(id = R.dimen.screen_start_margin),
-                end = dimensionResource(id = R.dimen.screen_end_margin)
-            )
+                end = dimensionResource(id = R.dimen.screen_end_margin),
+            ),
     ) {
         Row(
             modifier = Modifier
@@ -88,15 +88,15 @@ fun HomeScreen(
                     style = TextStyle(
                         color = colorResource(id = R.color.text_secondary),
                         fontSize = integerResource(id = R.integer.primary_text).sp,
-                    )
+                    ),
                 )
                 Text(
                     text = "Client name here",
                     style = TextStyle(
                         color = colorResource(id = R.color.text_secondary),
                         fontSize = integerResource(id = R.integer.label_text).sp,
-                        fontWeight = FontWeight.Bold
-                    )
+                        fontWeight = FontWeight.Bold,
+                    ),
                 )
             }
             Image(
@@ -118,7 +118,7 @@ fun HomeScreen(
                 .fillMaxSize()
                 .padding(top = 16.dp),
             verticalArrangement = Arrangement.spacedBy(
-                dimensionResource(id = R.dimen.list_elements_margin)
+                dimensionResource(id = R.dimen.list_elements_margin),
             ),
         ) {
             Column(modifier = Modifier.fillMaxWidth()) {
@@ -135,7 +135,7 @@ fun HomeScreen(
                         .fillMaxWidth()
                         .height(148.dp),
                     horizontalArrangement = Arrangement.spacedBy(
-                        dimensionResource(id = R.dimen.list_elements_margin)
+                        dimensionResource(id = R.dimen.list_elements_margin),
                     ),
                 ) {
                     items(recommendedRoommates.size - 2) { index ->
@@ -157,18 +157,21 @@ fun HomeScreen(
                         .fillMaxWidth()
                         .height(148.dp),
                     horizontalArrangement = Arrangement.spacedBy(
-                        dimensionResource(id = R.dimen.list_elements_margin)
+                        dimensionResource(id = R.dimen.list_elements_margin),
                     ),
                 ) {
                     items(homeScreenViewModel.testRooms.size - 2) { index ->
                         RoomCard(
                             recommendedRoom = recommendedRooms[index],
-                            true
+                            true,
                         ) { isLiked ->
-                            if (isLiked) homeScreenViewModel.addToFavourites(
-                                recommendedRooms[index]
-                            )
-                            else homeScreenViewModel.removeLocalFavourite(recommendedRooms[index])
+                            if (isLiked) {
+                                homeScreenViewModel.addToFavourites(
+                                    recommendedRooms[index],
+                                )
+                            } else {
+                                homeScreenViewModel.removeLocalFavourite(recommendedRooms[index])
+                            }
                         }
                     }
                 }
@@ -187,7 +190,7 @@ fun HomeScreen(
                         .fillMaxWidth()
                         .height(148.dp),
                     horizontalArrangement = Arrangement.spacedBy(
-                        dimensionResource(id = R.dimen.list_elements_margin)
+                        dimensionResource(id = R.dimen.list_elements_margin),
                     ),
                 ) {
                     items(recommendedRoommates.size) { index ->

@@ -8,7 +8,7 @@ data class RoomWithHost(
     @Embedded val room: LocalRoom,
     @Relation(
         parentColumn = "hostId",
-        entityColumn = "userId"
+        entityColumn = "userId",
     )
-    val host: User?
+    val host: User?,
 )

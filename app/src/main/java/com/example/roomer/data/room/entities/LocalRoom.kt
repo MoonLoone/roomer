@@ -17,5 +17,5 @@ data class LocalRoom(
     val sharingType: String,
     val location: String,
     val title: String,
-    val isLiked: Boolean
+    val isLiked: Boolean,
 )

@@ -42,7 +42,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 fun PrimaryUserInfoScreen(
     navigator: DestinationsNavigator,
-    signUpViewModel: SignUpViewModel
+    signUpViewModel: SignUpViewModel,
 ) {
     val uiState by signUpViewModel.uiState.collectAsState()
     val focusManager = LocalFocusManager.current
@@ -54,7 +54,7 @@ fun PrimaryUserInfoScreen(
             .background(Color.White)
             .clickable(
                 indication = null,
-                interactionSource = interactionSource
+                interactionSource = interactionSource,
             ) { focusManager.clearFocus() },
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -64,23 +64,23 @@ fun PrimaryUserInfoScreen(
                 .fillMaxWidth()
                 .padding(
                     start = dimensionResource(id = R.dimen.screen_start_margin),
-                    end = dimensionResource(id = R.dimen.screen_end_margin)
+                    end = dimensionResource(id = R.dimen.screen_end_margin),
                 ),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(
-                dimensionResource(id = R.dimen.list_elements_margin)
+                dimensionResource(id = R.dimen.list_elements_margin),
             ),
         ) {
             LinearProgressIndicator(
                 modifier = Modifier.fillMaxWidth(),
                 color = colorResource(id = R.color.primary_dark),
-                progress = 0.2f
+                progress = 0.2f,
             )
             Text(
                 text = "Tell us more about you",
                 fontSize = integerResource(id = R.integer.label_text).sp,
                 fontWeight = FontWeight.Medium,
-                textAlign = TextAlign.Start
+                textAlign = TextAlign.Start,
             )
             UsualTextField(
                 title = "First Name",
@@ -113,7 +113,7 @@ fun PrimaryUserInfoScreen(
             )
             GreenButtonPrimary(
                 text = "Continue",
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             ) {
                 signUpViewModel.primaryUserInfoPageValidate()
             }
@@ -124,7 +124,7 @@ fun PrimaryUserInfoScreen(
             if (uiState.isError) {
                 SimpleAlertDialog(
                     title = stringResource(R.string.login_alert_dialog_title),
-                    text = uiState.errorMessage
+                    text = uiState.errorMessage,
                 ) { signUpViewModel.clearError() }
             }
         }

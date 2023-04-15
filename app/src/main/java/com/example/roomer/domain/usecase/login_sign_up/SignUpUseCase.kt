@@ -5,13 +5,13 @@ import com.example.roomer.data.repository.auth_repository.AuthRepositoryInterfac
 import com.example.roomer.domain.model.login_sign_up.interests.InterestModel
 import com.example.roomer.utils.Constants
 import com.example.roomer.utils.Resource
-import java.io.IOException
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import java.io.IOException
 
 class SignUpUseCase(
-    private val repository: AuthRepositoryInterface
+    private val repository: AuthRepositoryInterface,
 ) {
     fun loadInterests(): Flow<Resource<List<InterestModel>>> = flow {
         try {
@@ -41,7 +41,7 @@ class SignUpUseCase(
         smokingAttitude: String,
         personalityType: String,
         cleanHabits: String,
-        interests: List<InterestModel>
+        interests: List<InterestModel>,
     ): Flow<Resource<String>> = flow {
         try {
             emit(Resource.Loading())
@@ -61,7 +61,7 @@ class SignUpUseCase(
                 smokingAttitude,
                 personalityType,
                 cleanHabits,
-                interests
+                interests,
             )
 
             if (processAvatar.isSuccessful && processData.isSuccessful) {

@@ -8,12 +8,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
 import com.example.roomer.domain.model.entities.Room
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class FavouriteViewModel @Inject constructor(
-    private val roomerRepository: RoomerRepositoryInterface
+    private val roomerRepository: RoomerRepositoryInterface,
 ) : ViewModel() {
 
     private val _favourites: MutableState<List<Room>> =

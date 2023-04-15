@@ -36,7 +36,7 @@ interface RoomerApi {
     @PUT("/auth/users/me/")
     suspend fun putSignUpData(
         @Header("Authorization") token: String,
-        @Body signUpDataModel: SignUpDataModel
+        @Body signUpDataModel: SignUpDataModel,
     ): Response<IdModel>
 
     @Multipart
@@ -81,7 +81,7 @@ interface RoomerApi {
     suspend fun messageChecked(
         @Path("id") id: Int,
         @Header("Authorization") token: String,
-        @Body isChecked: Boolean = true
+        @Body isChecked: Boolean = true,
     ): Response<Message>
 
     @GET("/notifications/")

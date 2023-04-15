@@ -24,7 +24,7 @@ interface RoomerRepositoryInterface {
         smokingAttitude: String,
         sleepTime: String,
         personalityType: String,
-        cleanHabits: String
+        cleanHabits: String,
     ): Response<List<User>>
 
     suspend fun getFilterRooms(
@@ -32,7 +32,7 @@ interface RoomerRepositoryInterface {
         monthPriceTo: String,
         bedroomsCount: String,
         bathroomsCount: String,
-        housingType: String
+        housingType: String,
     ): Response<List<Room>>
 
     suspend fun getLocalFavourites(): Flow<List<Room>>
@@ -63,7 +63,7 @@ interface RoomerRepositoryInterface {
 
     suspend fun getLocalUserById(userId: Int): User
 
-    suspend fun messageChecked(messageId:Int, token: String): Response<Message>
+    suspend fun messageChecked(messageId: Int, token: String): Response<Message>
 
     suspend fun getMessageNotifications(userId: Int): Response<List<MessageNotification>>
 }

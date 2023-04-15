@@ -7,5 +7,5 @@ import androidx.room.PrimaryKey
 data class LocalInterest(
     @PrimaryKey
     val interestId: Int,
-    val interest: String
+    val interest: String,
 )

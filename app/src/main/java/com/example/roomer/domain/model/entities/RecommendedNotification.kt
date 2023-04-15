@@ -6,5 +6,5 @@ import java.util.*
 data class RecommendedNotification(
     val text: String = "",
     val iconId: Int = R.drawable.homein,
-    val time: Long = Date().time
+    val time: Long = Date().time,
 )

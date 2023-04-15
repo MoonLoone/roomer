@@ -37,7 +37,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 fun HabitsScreen(
     navigator: DestinationsNavigator,
-    signUpViewModel: SignUpViewModel
+    signUpViewModel: SignUpViewModel,
 ) {
     Column(
         modifier = Modifier
@@ -51,90 +51,90 @@ fun HabitsScreen(
                 .fillMaxWidth()
                 .padding(
                     start = dimensionResource(id = R.dimen.screen_start_margin),
-                    end = dimensionResource(id = R.dimen.screen_end_margin)
+                    end = dimensionResource(id = R.dimen.screen_end_margin),
                 ),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(
-                dimensionResource(id = R.dimen.list_elements_margin)
+                dimensionResource(id = R.dimen.list_elements_margin),
             ),
         ) {
             LinearProgressIndicator(
                 modifier = Modifier
                     .fillMaxWidth(),
                 color = colorResource(id = R.color.primary_dark),
-                progress = 0.6f
+                progress = 0.6f,
             )
             Text(
                 text = "Tell us about your living habits",
                 fontSize = integerResource(id = R.integer.label_text).sp,
                 fontWeight = FontWeight.Medium,
-                textAlign = TextAlign.Start
+                textAlign = TextAlign.Start,
             )
             ButtonsRowMapped(
                 label = "Your usual sleep time",
                 values = mapOf(
                     Pair("N", "Night"),
                     Pair("D", "Day"),
-                    Pair("O", "Occasionally")
+                    Pair("O", "Occasionally"),
                 ),
                 value = signUpViewModel.sleepTime,
                 onValueChange = {
                     signUpViewModel.sleepTime = it
-                }
+                },
             )
             ButtonsRowMapped(
                 label = "Attitude to alcohol",
                 values = mapOf(
                     Pair("P", "Positive"),
                     Pair("N", "Negative"),
-                    Pair("I", "Indifferent")
+                    Pair("I", "Indifferent"),
                 ),
                 value = signUpViewModel.alcoholAttitude,
                 onValueChange = {
                     signUpViewModel.alcoholAttitude = it
-                }
+                },
             )
             ButtonsRowMapped(
                 label = "Attitude to smoking",
                 values = mapOf(
                     Pair("P", "Positive"),
                     Pair("N", "Negative"),
-                    Pair("I", "Indifferent")
+                    Pair("I", "Indifferent"),
                 ),
                 value = signUpViewModel.smokingAttitude,
                 onValueChange = {
                     signUpViewModel.smokingAttitude = it
-                }
+                },
             )
             ButtonsRowMapped(
                 label = "Personality type",
                 values = mapOf(
                     Pair("E", "Extraverted"),
                     Pair("I", "Introverted"),
-                    Pair("M", "Mixed")
+                    Pair("M", "Mixed"),
                 ),
                 value = signUpViewModel.personalityType,
                 onValueChange = {
                     signUpViewModel.personalityType = it
-                }
+                },
             )
             DropdownTextFieldMapped(
                 mapOfItems = mapOf(
                     Pair("N", "Neat"),
                     Pair("D", "It Depends"),
-                    Pair("C", "Chaos")
+                    Pair("C", "Chaos"),
                 ),
                 label = "Clean habits",
                 value = signUpViewModel.cleanHabits,
                 onValueChange = {
                     signUpViewModel.cleanHabits = it
-                }
+                },
             )
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 GreenButtonPrimary(
                     text = "Go Back",

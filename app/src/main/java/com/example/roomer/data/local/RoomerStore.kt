@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class RoomerStore(
-    database: RoomerDatabase
+    database: RoomerDatabase,
 ) : RoomerStoreInterface {
     private val favourites = database.favourites
     private val users = database.users
@@ -37,7 +37,7 @@ class RoomerStore(
     override suspend fun addCurrentUser(user: User) = currentUser.create(user.toLocalCurrentUser())
 
     override suspend fun updateCurrentUser(user: User) = currentUser.update(
-        user.toLocalCurrentUser()
+        user.toLocalCurrentUser(),
     )
 
     override suspend fun deleteCurrentUser() = currentUser.delete()
@@ -74,7 +74,7 @@ class RoomerStore(
         sharingType,
         location,
         title,
-        isLiked
+        isLiked,
     )
 
     private fun RoomWithHost.toRoom() = Room(
@@ -89,7 +89,7 @@ class RoomerStore(
         room.sharingType,
         room.location,
         room.title,
-        room.isLiked
+        room.isLiked,
     )
 
     private fun LocalCurrentUser.toUser() = User(
@@ -104,7 +104,7 @@ class RoomerStore(
         sleepTime,
         personalityType,
         cleanHabits,
-        rating
+        rating,
     )
 
     private fun User.toLocalCurrentUser() = LocalCurrentUser(
@@ -119,6 +119,6 @@ class RoomerStore(
         sleepTime,
         personalityType,
         cleanHabits,
-        rating
+        rating,
     )
 }

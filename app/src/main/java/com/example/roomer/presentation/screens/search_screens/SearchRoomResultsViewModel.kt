@@ -6,7 +6,6 @@ import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInte
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.utils.LoadingStates
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
@@ -14,10 +13,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class SearchRoomResultsViewModel @Inject constructor(
-    private val roomerRepository: RoomerRepositoryInterface
+    private val roomerRepository: RoomerRepositoryInterface,
 ) : ViewModel() {
     private val _rooms = MutableStateFlow(emptyList<Room>())
     val rooms: StateFlow<List<Room>> = _rooms

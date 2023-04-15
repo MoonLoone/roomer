@@ -15,11 +15,11 @@ import com.example.roomer.utils.SpManager
 import com.example.roomer.utils.converters.createJson
 import com.example.roomer.utils.converters.getFromJson
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import org.json.JSONObject
+import javax.inject.Inject
 
 @HiltViewModel
 class ChatScreenViewModel @Inject constructor(
@@ -45,7 +45,7 @@ class ChatScreenViewModel @Inject constructor(
             val token = SpManager().getSharedPreference(
                 getApplication<Application>().applicationContext,
                 SpManager.Sp.TOKEN,
-                LoginScreenViewModel.FIELD_DEFAULT_VALUE
+                LoginScreenViewModel.FIELD_DEFAULT_VALUE,
             )
             currentUserId =
                 roomerRepository.getCurrentUserInfo(token.toString()).body()?.userId ?: 0
@@ -53,7 +53,7 @@ class ChatScreenViewModel @Inject constructor(
             chatClientWebSocket.open(currentUserId, recipientUserId)
             _messages.value =
                 roomerRepository.getMessagesForChat(userId = currentUserId, chatId = chatId).body()
-                ?.toMutableList() ?: mutableListOf()
+                    ?.toMutableList() ?: mutableListOf()
             _socketConnectionState.value = true
         }
     }
@@ -69,13 +69,13 @@ class ChatScreenViewModel @Inject constructor(
         }
     }
 
-    fun messageRead(messageId: Int){
+    fun messageRead(messageId: Int) {
         viewModelScope.launch {
             val token = SpManager().getSharedPreference(
                 getApplication<Application>().applicationContext,
                 SpManager.Sp.TOKEN,
-                LoginScreenViewModel.FIELD_DEFAULT_VALUE
-            )?:""
+                LoginScreenViewModel.FIELD_DEFAULT_VALUE,
+            ) ?: ""
             roomerRepository.messageChecked(messageId, token)
         }
     }
@@ -85,7 +85,7 @@ class ChatScreenViewModel @Inject constructor(
         val message = Message(
             id = getFromJson(json, "id").toInt(),
             chatId = getFromJson(json, "chat_id").toInt(),
-            dateTime ="",
+            dateTime = "",
             text = getFromJson(json, "text"),
             donor = User(userId = getFromJson(json, "donor").toInt()),
             recipient = User(userId = getFromJson(json, "recipient").toInt()),

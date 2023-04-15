@@ -67,13 +67,13 @@ fun SearchRoomResults(
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
+                    horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
                     BackBtn(onBackNavigation = { navigator.navigate(HomeScreenDestination) })
                     Text(
                         text = "Housing Results",
                         fontSize = integerResource(
-                            id = R.integer.label_text
+                            id = R.integer.label_text,
                         ).sp,
                         textAlign = TextAlign.Center,
                         fontWeight = FontWeight.Bold,
@@ -82,7 +82,7 @@ fun SearchRoomResults(
                 }
                 LazyColumn(
                     verticalArrangement = Arrangement.spacedBy(
-                        dimensionResource(id = R.dimen.list_elements_margin)
+                        dimensionResource(id = R.dimen.list_elements_margin),
                     ),
                 ) {
                     item {
@@ -91,14 +91,14 @@ fun SearchRoomResults(
                                 text = "Sorry, nothing here",
                                 style = TextStyle(
                                     fontSize = integerResource(id = R.integer.label_text).sp,
-                                )
+                                ),
                             )
                         }
                     }
                     items(rooms.size) { index ->
                         RoomCard(
                             recommendedRoom = Room(),
-                            isMiniVersion = false
+                            isMiniVersion = false,
                         ) {}
                     }
                 }
@@ -107,16 +107,16 @@ fun SearchRoomResults(
         LoadingStates.Error -> {
             Column(
                 modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
                 Text(
                     text = "Sorry, something went wrong. You should to retry",
                     style = TextStyle(
                         fontSize = integerResource(
-                            id = R.integer.primary_text
+                            id = R.integer.primary_text,
                         ).sp,
                         color = Color.Black,
-                    )
+                    ),
                 )
                 GreenButtonOutline(text = "Retry") {
                     viewModel.loadRooms(from, to, bedrooms, bathrooms, apartmentType)

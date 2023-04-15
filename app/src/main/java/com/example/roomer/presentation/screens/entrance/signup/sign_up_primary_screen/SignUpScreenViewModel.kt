@@ -10,13 +10,13 @@ import com.example.roomer.domain.usecase.login_sign_up.PrimarySignUpUseCase
 import com.example.roomer.utils.Resource
 import com.example.roomer.utils.SpManager
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class SignUpScreenViewModel @Inject constructor(
     application: Application,
-    roomerRepository: AuthRepositoryInterface
+    roomerRepository: AuthRepositoryInterface,
 ) : AndroidViewModel(application) {
 
     private val _state = mutableStateOf(SignUpScreenState())
@@ -25,7 +25,6 @@ class SignUpScreenViewModel @Inject constructor(
     val signUpUseCase = PrimarySignUpUseCase(roomerRepository)
 
     fun signUpUser(email: String, password: String, username: String, confPassword: String) {
-
         if (
             email.trim().isEmpty() ||
             password.trim().isEmpty() ||
@@ -39,7 +38,7 @@ class SignUpScreenViewModel @Inject constructor(
             _state.value =
                 SignUpScreenState(
                     error = CONF_PASS_ERR_MSG,
-                    isConfPasswordError = true
+                    isConfPasswordError = true,
                 )
             return
         }
@@ -47,7 +46,6 @@ class SignUpScreenViewModel @Inject constructor(
         viewModelScope.launch {
             signUpUseCase(username, email, password).collect { result ->
                 when (result) {
-
                     is Resource.Loading -> {
                         _state.value = SignUpScreenState(
                             isLoading = true,
@@ -57,12 +55,12 @@ class SignUpScreenViewModel @Inject constructor(
                         SpManager().setSharedPreference(
                             getApplication<Application>().applicationContext,
                             key = SpManager.Sp.EMAIL,
-                            value = email
+                            value = email,
                         )
                         SpManager().setSharedPreference(
                             getApplication<Application>().applicationContext,
                             key = SpManager.Sp.PASSWORD,
-                            value = password
+                            value = password,
                         )
 
                         _state.value = SignUpScreenState(
@@ -72,7 +70,7 @@ class SignUpScreenViewModel @Inject constructor(
                     is Resource.Internet -> {
                         _state.value = SignUpScreenState(
                             internetProblem = true,
-                            error = result.message!!
+                            error = result.message!!,
                         )
                     }
                     is Resource.Error -> {
@@ -80,24 +78,24 @@ class SignUpScreenViewModel @Inject constructor(
                             is Resource.Error.EmailError -> {
                                 _state.value = SignUpScreenState(
                                     error = result.message!!,
-                                    isEmailError = true
+                                    isEmailError = true,
                                 )
                             }
                             is Resource.Error.UsernameError -> {
                                 _state.value = SignUpScreenState(
                                     error = result.message!!,
-                                    isUsernameError = true
+                                    isUsernameError = true,
                                 )
                             }
                             is Resource.Error.PasswordError -> {
                                 _state.value = SignUpScreenState(
                                     error = result.message!!,
-                                    isPasswordError = true
+                                    isPasswordError = true,
                                 )
                             }
                             else -> {
                                 _state.value = SignUpScreenState(
-                                    error = result.message!!
+                                    error = result.message!!,
                                 )
                             }
                         }

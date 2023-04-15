@@ -1,7 +1,6 @@
 package com.example.roomer.di
 
 import android.app.Application
-import androidx.activity.result.ActivityResultCaller
 import com.example.roomer.data.local.RoomerStoreInterface
 import com.example.roomer.data.remote.RoomerApi
 import com.example.roomer.data.repository.auth_repository.AuthRepository
@@ -14,11 +13,11 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -61,7 +60,7 @@ object AppModule {
     @Provides
     fun provideRoomerRepository(
         roomerApi: RoomerApi,
-        roomerStore: RoomerStoreInterface
+        roomerStore: RoomerStoreInterface,
     ): RoomerRepositoryInterface {
         return RoomerRepository(roomerApi, roomerStore)
     }
@@ -69,8 +68,8 @@ object AppModule {
     @Singleton
     @Provides
     fun providePermissionManager(
-        application: Application
-    ): PermissionManager{
+        application: Application,
+    ): PermissionManager {
         return PermissionManager(application)
     }
 }

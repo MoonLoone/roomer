@@ -57,8 +57,8 @@ fun MessengerScreen(
             .padding(
                 top = dimensionResource(id = R.dimen.screen_top_margin),
                 start = dimensionResource(id = R.dimen.screen_start_margin),
-                end = dimensionResource(id = R.dimen.screen_end_margin)
-            )
+                end = dimensionResource(id = R.dimen.screen_end_margin),
+            ),
     ) {
         Searcher()
         ChatsListScreen(listOfChats = listOfChats, navigator = navigator)
@@ -77,9 +77,9 @@ private fun ChatsListScreen(listOfChats: List<Message>, navigator: DestinationsN
             .padding(
                 top = dimensionResource(id = R.dimen.screen_top_margin),
                 start = dimensionResource(id = R.dimen.screen_start_margin),
-                end = dimensionResource(id = R.dimen.screen_end_margin)
+                end = dimensionResource(id = R.dimen.screen_end_margin),
             ),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         if (listOfChats.isEmpty()) {
             item {
@@ -95,10 +95,10 @@ private fun ChatsListScreen(listOfChats: List<Message>, navigator: DestinationsN
                     navigator.navigate(
                         ChatScreenDestination(
                             listOfChats[index].recipient.userId,
-                            chatId = listOfChats[index].chatId
-                        )
+                            chatId = listOfChats[index].chatId,
+                        ),
                     )
-                }
+                },
             )
         }
     }
@@ -117,7 +117,7 @@ private fun Searcher() {
                     color = colorResource(id = R.color.primary_dark),
                     fontSize = integerResource(id = R.integer.secondary_text).sp,
                 ),
-                modifier = Modifier.padding(bottom = 8.dp)
+                modifier = Modifier.padding(bottom = 8.dp),
             )
         },
         textStyle = TextStyle(
@@ -136,10 +136,10 @@ private fun Searcher() {
                 contentDescription = "search_icon",
                 modifier = Modifier
                     .height(
-                        dimensionResource(id = R.dimen.small_icon)
+                        dimensionResource(id = R.dimen.small_icon),
                     )
                     .width(
-                        dimensionResource(id = R.dimen.small_icon)
+                        dimensionResource(id = R.dimen.small_icon),
                     ),
             )
         },
@@ -149,10 +149,10 @@ private fun Searcher() {
                 contentDescription = "clear_text",
                 modifier = Modifier
                     .height(
-                        dimensionResource(id = R.dimen.ordinary_icon)
+                        dimensionResource(id = R.dimen.ordinary_icon),
                     )
                     .width(
-                        dimensionResource(id = R.dimen.ordinary_icon)
+                        dimensionResource(id = R.dimen.ordinary_icon),
                     )
                     .clickable { searchText = TextFieldValue("") },
             )
@@ -164,14 +164,14 @@ private fun Searcher() {
                 BorderStroke(
                     dimensionResource(id = R.dimen.ordinary_border),
                     colorResource(
-                        id = R.color.primary_dark
-                    )
+                        id = R.color.primary_dark,
+                    ),
                 ),
-                RoundedCornerShape(4.dp)
+                RoundedCornerShape(4.dp),
             ),
         colors = TextFieldDefaults.textFieldColors(
-            backgroundColor = colorResource(id = R.color.white)
-        )
+            backgroundColor = colorResource(id = R.color.white),
+        ),
     )
 }
 
@@ -183,7 +183,7 @@ private fun EmptyChatListNotification(onNavigate: () -> Unit) {
             text = "Do you want to start new chat?",
             modifier = Modifier.clickable {
                 onNavigate.invoke()
-            }
+            },
         )
     }
 }

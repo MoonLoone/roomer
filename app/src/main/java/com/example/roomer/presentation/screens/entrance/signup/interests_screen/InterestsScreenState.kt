@@ -6,5 +6,5 @@ data class InterestsScreenState(
     val error: String = "",
     val internetProblem: Boolean = false,
     val isInterestsSent: Boolean = false,
-    val isInterestsLoaded: Boolean = false
+    val isInterestsLoaded: Boolean = false,
 )

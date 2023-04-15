@@ -6,13 +6,13 @@ import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.MessageNotification
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
-import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
+import javax.inject.Inject
 
 class RoomerRepository @Inject constructor(
     private val roomerApi: RoomerApi,
-    private val roomerStore: RoomerStoreInterface
+    private val roomerStore: RoomerStoreInterface,
 ) : RoomerRepositoryInterface {
     override suspend fun getChats(userId: Int): Response<List<Message>> {
         return roomerApi.getChatsForUser(userId)
@@ -32,7 +32,7 @@ class RoomerRepository @Inject constructor(
         monthPriceTo: String,
         bedroomsCount: String,
         bathroomsCount: String,
-        housingType: String
+        housingType: String,
     ): Response<List<Room>> {
         return roomerApi.filterRooms(
             monthPriceFrom,
@@ -50,7 +50,7 @@ class RoomerRepository @Inject constructor(
         smokingAttitude: String,
         sleepTime: String,
         personalityType: String,
-        cleanHabits: String
+        cleanHabits: String,
     ): Response<List<User>> {
         return roomerApi.filterRoommates(
             sex,
@@ -93,7 +93,7 @@ class RoomerRepository @Inject constructor(
 
     override suspend fun messageChecked(messageId: Int, token: String): Response<Message> {
         val refToken = "Token ".plus(token)
-        return roomerApi.messageChecked(messageId,refToken)
+        return roomerApi.messageChecked(messageId, refToken)
     }
 
     override suspend fun getMessageNotifications(userId: Int): Response<List<MessageNotification>> {
