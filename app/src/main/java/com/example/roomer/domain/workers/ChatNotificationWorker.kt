@@ -38,8 +38,8 @@ class ChatNotificationWorker @AssistedInject constructor(
 
     override suspend fun doWork(): Result {
         if (ActivityCompat.checkSelfPermission(
-                applicationContext,
-                Manifest.permission.POST_NOTIFICATIONS
+            applicationContext,
+            Manifest.permission.POST_NOTIFICATIONS
             ) == PackageManager.PERMISSION_GRANTED
         ) {
             val authUser = roomerRepository.getLocalCurrentUser()
@@ -51,7 +51,8 @@ class ChatNotificationWorker @AssistedInject constructor(
                     NotificationManager.IMPORTANCE_DEFAULT,
                 )
                 val manager =
-                    applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                    applicationContext
+                        .getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
                 manager.createNotificationChannel(channel)
                 manager.notify(NOTIFICATION_BASE_ID, notification(messages))
             }

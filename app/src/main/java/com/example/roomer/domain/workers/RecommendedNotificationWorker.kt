@@ -25,11 +25,13 @@ class RecommendedNotificationWorker @AssistedInject constructor(
 
     override suspend fun doWork(): Result {
         if (ActivityCompat.checkSelfPermission(
-                applicationContext,
-                Manifest.permission.POST_NOTIFICATIONS,
-            ) == PackageManager.PERMISSION_GRANTED
+            applicationContext,
+            Manifest.permission.POST_NOTIFICATIONS,
+        ) == PackageManager.PERMISSION_GRANTED
         ) {
-            val manager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as android.app.NotificationManager
+            val manager =
+                applicationContext
+                    .getSystemService(Context.NOTIFICATION_SERVICE) as android.app.NotificationManager
             val channel = NotificationChannel(
                 CHANNEL_ID,
                 applicationContext.resources.getString(R.string.recommended_notification_title),
