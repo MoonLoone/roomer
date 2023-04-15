@@ -57,6 +57,6 @@ object NavbarManagement {
             R.drawable.profun,
             R.drawable.profin,
             ProfileScreenDestination,
-            ),
+        ),
     }
 }

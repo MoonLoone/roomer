@@ -15,11 +15,11 @@ import com.example.roomer.utils.SpManager
 import com.example.roomer.utils.converters.createJson
 import com.example.roomer.utils.converters.getFromJson
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import org.json.JSONObject
-import javax.inject.Inject
 
 @HiltViewModel
 class ChatScreenViewModel @Inject constructor(
@@ -53,7 +53,7 @@ class ChatScreenViewModel @Inject constructor(
             chatClientWebSocket.open(currentUserId, recipientUserId)
             _messages.value =
                 roomerRepository.getMessagesForChat(userId = currentUserId, chatId = chatId).body()
-                    ?.toMutableList() ?: mutableListOf()
+                ?.toMutableList() ?: mutableListOf()
             _socketConnectionState.value = true
         }
     }

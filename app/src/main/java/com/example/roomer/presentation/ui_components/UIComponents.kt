@@ -189,10 +189,10 @@ fun ChatItem(
                     if (unreadMessages > 0) {
                         Text(
                             text =
-                            when (unreadMessages) {
-                                in 1..999 -> unreadMessages.toString()
-                                else -> "999+"
-                            },
+                                when (unreadMessages) {
+                                    in 1..999 -> unreadMessages.toString()
+                                    else -> "999+"
+                                },
                             modifier = Modifier
                                 .width(48.dp)
                                 .height(20.dp)

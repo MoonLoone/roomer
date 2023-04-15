@@ -6,9 +6,9 @@ import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.MessageNotification
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
-import javax.inject.Inject
 
 class RoomerRepository @Inject constructor(
     private val roomerApi: RoomerApi,

@@ -56,8 +56,12 @@ class RecommendedNotificationWorker @AssistedInject constructor(
             CHANNEL_ID,
         )
             .setSmallIcon(R.drawable.account_icon)
-            .setContentText(applicationContext.resources.getString(R.string.recommended_room_notification_text))
-            .setContentTitle(applicationContext.resources.getString(R.string.recommended_notification_title))
+            .setContentText(
+                applicationContext.resources.getString(R.string.recommended_room_notification_text)
+            )
+            .setContentTitle(
+                applicationContext.resources.getString(R.string.recommended_notification_title)
+            )
             .setChannelId(CHANNEL_ID)
             .setAutoCancel(true)
             .setContentIntent(pendingIntent)
@@ -74,11 +78,15 @@ class RecommendedNotificationWorker @AssistedInject constructor(
             CHANNEL_ID,
         )
             .setSmallIcon(R.drawable.account_icon)
-            .setContentTitle(applicationContext.resources.getString(R.string.messenger_notification_title))
+            .setContentTitle(
+                applicationContext.resources.getString(R.string.messenger_notification_title)
+            )
             .setChannelId(CHANNEL_ID)
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
-            .setContentText(applicationContext.resources.getString(R.string.recommended_mate_notification_text))
+            .setContentText(
+                applicationContext.resources.getString(R.string.recommended_mate_notification_text)
+            )
             .build()
     }
 
