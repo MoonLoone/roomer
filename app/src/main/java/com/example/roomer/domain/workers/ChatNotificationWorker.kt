@@ -65,13 +65,13 @@ class ChatNotificationWorker @AssistedInject constructor(
         val notificationsByChats = messages.groupBy { it.message?.chatId }
         for (groupNotification in notificationsByChats) {
             val intent = Intent(applicationContext, MainActivity::class.java)
-            intent.action = Constants.ACTION_NOTIFICATION_CHAT
+            intent.action = Constants.Notification.ACTION_NOTIFICATION_CHAT
             intent.putExtra(
-                Constants.EXTRA_NOTIFICATION_CHAT,
+                Constants.Notification.EXTRA_NOTIFICATION_CHAT,
                 groupNotification.value.first().message?.chatId,
             )
             intent.putExtra(
-                Constants.EXTRA_NOTIFICATION_RECIPIENT,
+                Constants.Notification.EXTRA_NOTIFICATION_RECIPIENT,
                 groupNotification.value.first().message?.recipient?.userId,
             )
             val pendingIntent = PendingIntent.getActivity(

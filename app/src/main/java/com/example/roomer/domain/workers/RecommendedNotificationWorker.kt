@@ -31,7 +31,7 @@ class RecommendedNotificationWorker @AssistedInject constructor(
         ) {
             val manager =
                 applicationContext
-                    .getSystemService(Context.NOTIFICATION_SERVICE) as android.app.NotificationManager
+                    .getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             val channel = NotificationChannel(
                 CHANNEL_ID,
                 applicationContext.resources.getString(R.string.recommended_notification_title),
@@ -49,7 +49,7 @@ class RecommendedNotificationWorker @AssistedInject constructor(
 
     private fun notificationRooms(): Notification {
         val intent = Intent(applicationContext, MainActivity::class.java)
-        intent.action = Constants.ACTION_NOTIFICATION_ROOMS
+        intent.action = Constants.Notification.ACTION_NOTIFICATION_ROOMS
         val pendingIntent =
             PendingIntent.getActivity(applicationContext, 0, intent, PendingIntent.FLAG_IMMUTABLE)
         return NotificationCompat.Builder(
@@ -71,7 +71,7 @@ class RecommendedNotificationWorker @AssistedInject constructor(
 
     private fun notificationMates(): Notification {
         val intent = Intent(applicationContext, MainActivity::class.java)
-        intent.action = Constants.ACTION_NOTIFICATION_MATES
+        intent.action = Constants.Notification.ACTION_NOTIFICATION_MATES
         val pendingIntent =
             PendingIntent.getActivity(applicationContext, 0, intent, PendingIntent.FLAG_IMMUTABLE)
         return NotificationCompat.Builder(

@@ -6,6 +6,7 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.example.roomer.domain.workers.ChatNotificationWorker
 import com.example.roomer.domain.workers.RecommendedNotificationWorker
+import com.example.roomer.utils.Constants
 import java.util.concurrent.TimeUnit
 
 object NotificationManager {
@@ -21,9 +22,9 @@ object NotificationManager {
     private fun registerMessengerWork(context: Context) {
         val request =
             PeriodicWorkRequestBuilder<ChatNotificationWorker>(
-                15,
+                Constants.Notification.MESSENGER_WORK_REPEAT,
                 TimeUnit.MINUTES,
-                1,
+                Constants.Notification.MESSENGER_WORK_FLEX,
                 TimeUnit.MINUTES,
             )
                 .addTag(NOTIFICATION_TAG)
@@ -35,9 +36,9 @@ object NotificationManager {
     private fun registerRecommendationWork(context: Context) {
         val request =
             PeriodicWorkRequestBuilder<RecommendedNotificationWorker>(
-                3,
+                Constants.Notification.RECOMMENDATION_WORK_REPEAT,
                 TimeUnit.DAYS,
-                2,
+                Constants.Notification.RECOMMENDATION_WORK_FLEX,
                 TimeUnit.DAYS,
             )
                 .build()
