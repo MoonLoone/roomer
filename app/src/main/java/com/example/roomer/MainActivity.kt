@@ -48,16 +48,16 @@ class MainActivity : AppCompatActivity() {
                     },
                 )
                 when (intent.action) {
-                    Constants.ACTION_NOTIFICATION_MATES -> navController.navigate(
+                    Constants.Notification.ACTION_NOTIFICATION_MATES -> navController.navigate(
                         SearchRoommateResultsDestination.route,
                     )
-                    Constants.ACTION_NOTIFICATION_ROOMS -> navController.navigate(
+                    Constants.Notification.ACTION_NOTIFICATION_ROOMS -> navController.navigate(
                         SearchRoomResultsDestination.route,
                     )
-                    Constants.ACTION_NOTIFICATION_CHAT -> {
-                        val chatId = intent.getIntExtra(Constants.EXTRA_NOTIFICATION_CHAT, 0)
+                    Constants.Notification.ACTION_NOTIFICATION_CHAT -> {
+                        val chatId = intent.getIntExtra(Constants.Notification.EXTRA_NOTIFICATION_CHAT, 0)
                         val recipientId =
-                            intent.getIntExtra(Constants.EXTRA_NOTIFICATION_RECIPIENT, 0)
+                            intent.getIntExtra(Constants.Notification.EXTRA_NOTIFICATION_RECIPIENT, 0)
                         if (chatId > 0 && recipientId > 0) {
                             navController.navigate(
                                 ChatScreenDestination(recipientId, chatId).route,
