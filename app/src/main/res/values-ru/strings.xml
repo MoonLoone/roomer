@@ -53,7 +53,7 @@
     <string name="location_icon">Локация</string>
     <string name="search_placeholder">Поиск сожителя или жилья</string>
     <string name="search_icon_description">Поиск</string>
-    <string name="back_button_label">Кнопка назад</string>
+    <string name="back_button_label">Назад</string>
     <string name="room">Жилье</string>
     <string name="roommate">Сожитель</string>
     <string name="status">Статус:</string>
@@ -62,7 +62,7 @@
     <string name="apply_button_label">Применить</string>
     <string name="none_content_description">Нет описания</string>
     <string name="rating_star_content_description">Звезда рейтинга</string>
-    <string name="occasionally">Изредка</string>
+    <string name="occasionally">По-разному</string>
     <string name="rating_and_colon">Рейтинг:</string>
     <string name="your_avatar_content_description">Твой аватар</string>
     <string name="upload_photo_content_description">Загрузить фото</string>
@@ -146,13 +146,13 @@
     <string name="day">День</string>
     <string name="extraverted">Экстраверт</string>
     <string name="introverted">Интроверт</string>
-    <string name="mixed">Смешанно</string>
-    <string name="positive">Положительно</string>
-    <string name="negative">Отрицательно</string>
-    <string name="indifferent">Безразлично</string>
+    <string name="mixed">Смешанный</string>
+    <string name="positive">Положительное</string>
+    <string name="negative">Отрицательное</string>
+    <string name="indifferent">Безразличное</string>
     <string name="not_employed">Безработный</string>
     <string name="employed">Есть работа</string>
-    <string name="searching_for_work">Поиск работы</string>
+    <string name="searching_for_work">В поиске работы</string>
     <string name="neat">Аккуратный</string>
     <string name="it_depends">Зависит</string>
     <string name="chaos">Хаос</string>
