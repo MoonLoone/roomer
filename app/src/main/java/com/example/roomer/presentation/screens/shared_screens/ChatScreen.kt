@@ -28,7 +28,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.*
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.integerResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
@@ -183,7 +187,9 @@ private fun EnterMessage(
                     ) {
                         Image(
                             painter = painterResource(id = R.drawable.send_icon),
-                            contentDescription = stringResource(R.string.enter_message_content_description),
+                            contentDescription = stringResource(
+                                R.string.enter_message_content_description
+                            ),
                             alignment = Alignment.Center,
                             modifier = Modifier
                                 .width(dimensionResource(id = R.dimen.ordinary_icon))

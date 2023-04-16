@@ -73,8 +73,14 @@ fun AccountScreen(
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            AccountScreenTextField(label = stringResource(R.string.first_name), textHint = stringResource(R.string.first_name_hint))
-            AccountScreenTextField(label = stringResource(R.string.last_name), textHint = stringResource(R.string.last_name_hint))
+            AccountScreenTextField(
+                label = stringResource(R.string.first_name),
+                textHint = stringResource(R.string.first_name_hint)
+            )
+            AccountScreenTextField(
+                label = stringResource(R.string.last_name),
+                textHint = stringResource(R.string.last_name_hint)
+            )
             AccountScreenTextField(
                 textHint = stringResource(R.string.hint_about_you),
                 label = stringResource(R.string.about_me),

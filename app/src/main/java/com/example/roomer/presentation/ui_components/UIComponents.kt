@@ -551,7 +551,11 @@ fun GreenButtonPrimaryIconed(
         ),
         interactionSource = NoRippleInteractionSource()
     ) {
-        Icon(trailingIcon, stringResource(R.string.none_content_description), tint = colorResource(id = R.color.secondary_color))
+        Icon(
+            trailingIcon,
+            stringResource(R.string.none_content_description),
+            tint = colorResource(id = R.color.secondary_color)
+        )
         androidx.compose.material.Text(
             text = text,
         )
@@ -581,7 +585,11 @@ fun GreenButtonOutlineIconed(
         enabled = enabled,
         interactionSource = NoRippleInteractionSource()
     ) {
-        Icon(trailingIcon, stringResource(R.string.none_content_description), tint = colorResource(id = R.color.primary_dark))
+        Icon(
+            trailingIcon,
+            stringResource(R.string.none_content_description),
+            tint = colorResource(id = R.color.primary_dark)
+        )
         androidx.compose.material.Text(
             text = text,
         )
