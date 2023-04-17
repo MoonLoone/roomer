@@ -42,7 +42,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 fun PrimaryUserInfoScreen(
     navigator: DestinationsNavigator,
-    signUpViewModel: SignUpViewModel,
+    signUpViewModel: SignUpViewModel
 ) {
     val uiState by signUpViewModel.uiState.collectAsState()
     val focusManager = LocalFocusManager.current
@@ -54,33 +54,33 @@ fun PrimaryUserInfoScreen(
             .background(Color.White)
             .clickable(
                 indication = null,
-                interactionSource = interactionSource,
+                interactionSource = interactionSource
             ) { focusManager.clearFocus() },
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Center
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
                     start = dimensionResource(id = R.dimen.screen_start_margin),
-                    end = dimensionResource(id = R.dimen.screen_end_margin),
+                    end = dimensionResource(id = R.dimen.screen_end_margin)
                 ),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(
-                dimensionResource(id = R.dimen.list_elements_margin),
-            ),
+                dimensionResource(id = R.dimen.list_elements_margin)
+            )
         ) {
             LinearProgressIndicator(
                 modifier = Modifier.fillMaxWidth(),
                 color = colorResource(id = R.color.primary_dark),
-                progress = 0.2f,
+                progress = 0.2f
             )
             Text(
                 text = stringResource(R.string.tell_us_more_about_you),
                 fontSize = integerResource(id = R.integer.label_text).sp,
                 fontWeight = FontWeight.Medium,
-                textAlign = TextAlign.Start,
+                textAlign = TextAlign.Start
             )
             UsualTextField(
                 title = stringResource(R.string.first_name),
@@ -88,7 +88,7 @@ fun PrimaryUserInfoScreen(
                 value = signUpViewModel.firstName,
                 onValueChange = {
                     signUpViewModel.firstName = it
-                },
+                }
             )
             UsualTextField(
                 title = stringResource(R.string.last_name),
@@ -96,20 +96,20 @@ fun PrimaryUserInfoScreen(
                 value = signUpViewModel.lastName,
                 onValueChange = {
                     signUpViewModel.lastName = it
-                },
+                }
             )
             DateField(
                 label = stringResource(R.string.date_of_birth),
                 value = signUpViewModel.birthDate,
                 onValueChange = {
                     signUpViewModel.birthDate = it
-                },
+                }
             )
             SexField(
                 value = signUpViewModel.sex,
                 onValueChange = {
                     signUpViewModel.sex = it
-                },
+                }
             )
             GreenButtonPrimary(
                 text = stringResource(R.string.continue_button_label),

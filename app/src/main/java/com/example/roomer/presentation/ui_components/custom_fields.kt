@@ -77,7 +77,7 @@ fun DropdownTextFieldMapped(
     label: String,
     value: String, // There gonna be keys
     onValueChange: (String) -> Unit,
-    enabled: Boolean = true,
+    enabled: Boolean = true
 ) {
     val interactionSource = remember { MutableInteractionSource() }
 
@@ -94,16 +94,16 @@ fun DropdownTextFieldMapped(
     }
     Column(
         verticalArrangement = Arrangement.spacedBy(
-            dimensionResource(id = R.dimen.column_elements_small_margin),
-        ),
+            dimensionResource(id = R.dimen.column_elements_small_margin)
+        )
     ) {
         Text(
             text = label,
             style = TextStyle(
                 fontSize = integerResource(id = R.integer.primary_text).sp,
                 color = Color.Black,
-                fontWeight = FontWeight.Medium,
-            ),
+                fontWeight = FontWeight.Medium
+            )
         )
         TextField(
             value = mapOfItems.getValue(value),
@@ -115,7 +115,7 @@ fun DropdownTextFieldMapped(
                 }
                 .clickable(
                     interactionSource = interactionSource,
-                    indication = null,
+                    indication = null
                 ) {
                     if (enabled) {
                         isExpanded = !isExpanded
@@ -126,25 +126,25 @@ fun DropdownTextFieldMapped(
                 Icon(icon, stringResource(R.string.dropdown_icon))
             },
             colors = TextFieldDefaults.textFieldColors(
-                backgroundColor = colorResource(id = R.color.secondary_color),
+                backgroundColor = colorResource(id = R.color.secondary_color)
             ),
             textStyle = TextStyle(
                 fontSize = integerResource(id = R.integer.primary_text).sp,
-                color = Color.Black,
-            ),
+                color = Color.Black
+            )
         )
 
         DropdownMenu(
             expanded = isExpanded,
             onDismissRequest = { isExpanded = false },
-            modifier = Modifier.width(with(LocalDensity.current) { textFieldSize.width.toDp() }),
+            modifier = Modifier.width(with(LocalDensity.current) { textFieldSize.width.toDp() })
         ) {
             mapOfItems.forEach { entry ->
                 DropdownMenuItem(
                     onClick = {
                         onValueChange(entry.key)
                         isExpanded = false
-                    },
+                    }
                 ) { Text(text = entry.value) }
             }
         }
@@ -162,45 +162,45 @@ fun SexField(
         modifier = Modifier
             .fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(
-            dimensionResource(id = R.dimen.column_elements_small_margin),
-        ),
+            dimensionResource(id = R.dimen.column_elements_small_margin)
+        )
     ) {
         Text(
             text = title,
             fontSize = integerResource(id = R.integer.primary_text).sp,
             fontWeight = FontWeight.Medium,
-            color = Color.Black,
+            color = Color.Black
         )
         Row(
             horizontalArrangement = Arrangement.spacedBy(
-                dimensionResource(id = R.dimen.row_ordinal_padding),
-            ),
+                dimensionResource(id = R.dimen.row_ordinal_padding)
+            )
         ) {
             if (value == "M") {
                 GreenButtonPrimaryIconed(
                     text = stringResource(R.string.male),
                     onClick = {},
                     trailingIcon = Icons.Filled.Male,
-                    enabled = enabled,
+                    enabled = enabled
                 )
                 GreenButtonOutlineIconed(
                     text = stringResource(R.string.female),
                     onClick = { onValueChange("F") },
                     trailingIcon = Icons.Filled.Female,
-                    enabled = enabled,
+                    enabled = enabled
                 )
             } else {
                 GreenButtonOutlineIconed(
                     text = stringResource(R.string.male),
                     onClick = { onValueChange("M") },
                     trailingIcon = Icons.Filled.Male,
-                    enabled = enabled,
+                    enabled = enabled
                 )
                 GreenButtonPrimaryIconed(
                     text = stringResource(R.string.female),
                     onClick = {},
                     trailingIcon = Icons.Filled.Female,
-                    enabled = enabled,
+                    enabled = enabled
                 )
             }
         }
@@ -213,30 +213,30 @@ fun AccountScreenTextField(
     label: String = "",
     paddingValues: PaddingValues = PaddingValues(),
     textFieldHeight: Dp = dimensionResource(id = R.dimen.ordinal_text_field_height),
-    text: MutableState<TextFieldValue> = mutableStateOf(TextFieldValue("")),
+    text: MutableState<TextFieldValue> = mutableStateOf(TextFieldValue(""))
 ) {
     Column(
         modifier = Modifier.padding(paddingValues),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Text(
             text = label,
             fontSize = integerResource(id = R.integer.primary_text).sp,
             fontWeight = FontWeight.Medium,
-            color = Color.Black,
+            color = Color.Black
         )
         TextField(
             value = text.value,
             textStyle = TextStyle(
                 color = Color.Black,
                 fontSize = integerResource(id = R.integer.primary_text).sp,
-                textAlign = TextAlign.Start,
+                textAlign = TextAlign.Start
             ),
             placeholder = {
                 Text(
                     text = textHint,
                     fontSize = integerResource(id = R.integer.primary_text).sp,
-                    color = colorResource(id = R.color.text_secondary),
+                    color = colorResource(id = R.color.text_secondary)
                 )
             },
             onValueChange = { text.value = it },
@@ -245,8 +245,8 @@ fun AccountScreenTextField(
                 .height(textFieldHeight)
                 .background(colorResource(id = R.color.secondary_color)),
             colors = TextFieldDefaults.textFieldColors(
-                backgroundColor = colorResource(id = R.color.secondary_color),
-            ),
+                backgroundColor = colorResource(id = R.color.secondary_color)
+            )
         )
     }
 }
@@ -256,7 +256,7 @@ fun DateField(
     label: String = "Date field",
     value: String,
     onValueChange: (String) -> Unit,
-    enabled: Boolean = true,
+    enabled: Boolean = true
 ) {
     val dialogState = rememberMaterialDialogState()
     var textState by remember {
@@ -271,7 +271,7 @@ fun DateField(
     ) {
         datepicker { date ->
             val formattedDate = date.format(
-                DateTimeFormatter.ofPattern("yyyy-MM-dd"),
+                DateTimeFormatter.ofPattern("yyyy-MM-dd")
             )
             onValueChange(formattedDate)
         }
@@ -279,13 +279,13 @@ fun DateField(
     Column(
         modifier = Modifier
             .fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Text(
             text = label,
             fontSize = integerResource(id = R.integer.primary_text).sp,
             color = Color.Black,
-            fontWeight = FontWeight.Medium,
+            fontWeight = FontWeight.Medium
         )
         TextField(
             value = value,
@@ -296,13 +296,13 @@ fun DateField(
                     contentDescription = stringResource(R.string.calendar_icon),
                     modifier = Modifier
                         .width(dimensionResource(id = R.dimen.ordinary_icon))
-                        .height(dimensionResource(id = R.dimen.ordinary_icon)),
+                        .height(dimensionResource(id = R.dimen.ordinary_icon))
                 )
             },
             textStyle = TextStyle(
                 color = Color.Black,
                 fontSize = integerResource(id = R.integer.primary_text).sp,
-                textAlign = TextAlign.Start,
+                textAlign = TextAlign.Start
             ),
             modifier = Modifier
                 .clickable {
@@ -312,9 +312,9 @@ fun DateField(
                 }
                 .fillMaxWidth(),
             colors = TextFieldDefaults.textFieldColors(
-                backgroundColor = colorResource(id = R.color.secondary_color),
+                backgroundColor = colorResource(id = R.color.secondary_color)
             ),
-            enabled = false,
+            enabled = false
         )
     }
 }
@@ -323,26 +323,26 @@ fun DateField(
 fun SelectAddressField(
     paddingValues: PaddingValues = PaddingValues(),
     label: String,
-    placeholder: String,
+    placeholder: String
 ) {
     Column(
         modifier = Modifier.padding(paddingValues),
         verticalArrangement = Arrangement.spacedBy(
-            dimensionResource(id = R.dimen.column_elements_small_margin),
-        ),
+            dimensionResource(id = R.dimen.column_elements_small_margin)
+        )
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
                 text = label,
                 style = TextStyle(
                     fontSize = integerResource(id = R.integer.primary_text).sp,
                     color = Color.Black,
-                    fontWeight = FontWeight.Medium,
-                ),
+                    fontWeight = FontWeight.Medium
+                )
             )
             Box(
                 modifier = Modifier
@@ -350,18 +350,18 @@ fun SelectAddressField(
                     .height(dimensionResource(id = R.dimen.select_address_box))
                     .background(
                         color = colorResource(id = R.color.primary_dark),
-                        RoundedCornerShape(dimensionResource(id = R.dimen.rounded_corner_full)),
+                        RoundedCornerShape(dimensionResource(id = R.dimen.rounded_corner_full))
                     )
                     .clickable {
                     },
-                contentAlignment = Alignment.Center,
+                contentAlignment = Alignment.Center
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.select_adr_icon),
                     contentDescription = stringResource(id = R.string.select_addr_label),
                     modifier = Modifier
                         .width(dimensionResource(id = R.dimen.big_icon))
-                        .height(dimensionResource(id = R.dimen.big_icon)),
+                        .height(dimensionResource(id = R.dimen.big_icon))
                 )
             }
         }
@@ -378,10 +378,10 @@ fun SelectAddressField(
                 },
             textStyle = TextStyle(
                 fontSize = integerResource(id = R.integer.primary_text).sp,
-                color = Color.Gray,
+                color = Color.Gray
             ),
             enabled = false,
-            colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.LightGray),
+            colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.LightGray)
         )
     }
 }
@@ -395,7 +395,7 @@ fun PasswordField(
     onValueChange: (String) -> Unit,
     enabled: Boolean = true,
     isError: Boolean = false,
-    errorMessage: String = "",
+    errorMessage: String = ""
 ) {
     var visibility by rememberSaveable {
         mutableStateOf(false)
@@ -411,15 +411,15 @@ fun PasswordField(
         modifier = modifier
             .fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(
-            dimensionResource(id = R.dimen.column_elements_small_margin),
-        ),
+            dimensionResource(id = R.dimen.column_elements_small_margin)
+        )
     ) {
         Text(
             text = label,
             fontSize = integerResource(id = R.integer.primary_text).sp,
             color = Color.Black,
             textAlign = TextAlign.Start,
-            fontWeight = FontWeight.Medium,
+            fontWeight = FontWeight.Medium
         )
         TextField(
             singleLine = true,
@@ -430,23 +430,23 @@ fun PasswordField(
             leadingIcon = {
                 Icon(
                     Icons.Outlined.Password,
-                    stringResource(R.string.icon_description),
+                    stringResource(R.string.icon_description)
                 )
             },
             trailingIcon = {
                 IconButton(
                     onClick = {
                         visibility = !visibility
-                    },
+                    }
                 ) {
                     Icon(
                         imageVector = icon,
-                        stringResource(R.string.icon_description),
+                        stringResource(R.string.icon_description)
                     )
                 }
             },
             keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Password,
+                keyboardType = KeyboardType.Password
             ),
             visualTransformation = if (visibility) {
                 VisualTransformation.None
@@ -458,14 +458,14 @@ fun PasswordField(
                 .background(colorResource(id = R.color.secondary_color)),
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = colorResource(id = R.color.secondary_color),
-                focusedIndicatorColor = colorResource(id = R.color.primary_dark),
+                focusedIndicatorColor = colorResource(id = R.color.primary_dark)
             ),
-            isError = isError,
+            isError = isError
         )
         if (isError) {
             Text(
                 color = Color.Red,
-                text = errorMessage,
+                text = errorMessage
             )
         }
     }
@@ -480,21 +480,21 @@ fun EmailField(
     onValueChange: (String) -> Unit,
     enabled: Boolean = true,
     isError: Boolean = false,
-    errorMessage: String = "",
+    errorMessage: String = ""
 ) {
     Column(
         modifier = modifier
             .fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(
-            dimensionResource(id = R.dimen.column_elements_small_margin),
-        ),
+            dimensionResource(id = R.dimen.column_elements_small_margin)
+        )
     ) {
         Text(
             text = label,
             fontSize = integerResource(id = R.integer.primary_text).sp,
             color = Color.Black,
             textAlign = TextAlign.Start,
-            fontWeight = FontWeight.Medium,
+            fontWeight = FontWeight.Medium
         )
         TextField(
             singleLine = true,
@@ -508,26 +508,26 @@ fun EmailField(
                     Icon(
                         Icons.Filled.Error,
                         stringResource(R.string.error_icon_description),
-                        tint = MaterialTheme.colors.error,
+                        tint = MaterialTheme.colors.error
                     )
                 }
             },
             keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Email,
+                keyboardType = KeyboardType.Email
             ),
             modifier = modifier
                 .fillMaxWidth()
                 .background(colorResource(id = R.color.secondary_color)),
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = colorResource(id = R.color.secondary_color),
-                focusedIndicatorColor = colorResource(id = R.color.primary_dark),
+                focusedIndicatorColor = colorResource(id = R.color.primary_dark)
             ),
-            isError = isError,
+            isError = isError
         )
         if (isError) {
             Text(
                 color = Color.Red,
-                text = errorMessage,
+                text = errorMessage
             )
         }
     }
@@ -544,21 +544,21 @@ fun UsualTextField(
     enabled: Boolean = true,
     singleLine: Boolean = true,
     maxLines: Int = 5,
-    isNumbersInput: Boolean = false,
+    isNumbersInput: Boolean = false
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(
-            dimensionResource(id = R.dimen.column_elements_small_margin),
-        ),
+            dimensionResource(id = R.dimen.column_elements_small_margin)
+        )
     ) {
         Text(
             text = title,
             fontSize = integerResource(id = R.integer.primary_text).sp,
             color = Color.Black,
             textAlign = TextAlign.Start,
-            fontWeight = FontWeight.Medium,
+            fontWeight = FontWeight.Medium
         )
         TextField(
             maxLines = maxLines,
@@ -567,14 +567,14 @@ fun UsualTextField(
             textStyle = TextStyle(
                 color = Color.Black,
                 fontSize = integerResource(id = R.integer.primary_text).sp,
-                textAlign = TextAlign.Start,
+                textAlign = TextAlign.Start
             ),
             enabled = enabled,
             placeholder = {
                 Text(
                     text = placeholder,
                     fontSize = integerResource(id = R.integer.primary_text).sp,
-                    color = colorResource(id = R.color.text_secondary),
+                    color = colorResource(id = R.color.text_secondary)
                 )
             },
             onValueChange = onValueChange,
@@ -583,21 +583,21 @@ fun UsualTextField(
                 .background(colorResource(id = R.color.secondary_color)),
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = colorResource(id = R.color.secondary_color),
-                focusedIndicatorColor = colorResource(id = R.color.primary_dark),
+                focusedIndicatorColor = colorResource(id = R.color.primary_dark)
             ),
             isError = isError,
             keyboardOptions = if (isNumbersInput) {
                 KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
+                    keyboardType = KeyboardType.Number
                 )
             } else {
                 KeyboardOptions(keyboardType = KeyboardType.Ascii)
-            },
+            }
         )
         if (isError) {
             Text(
                 color = Color.Red,
-                text = errorMessage,
+                text = errorMessage
             )
         }
     }
@@ -614,21 +614,21 @@ fun IconedTextField(
     isError: Boolean = false,
     errorMessage: String = "",
     singleLine: Boolean = true,
-    maxLines: Int = 5,
+    maxLines: Int = 5
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(
-            dimensionResource(id = R.dimen.column_elements_small_margin),
-        ),
+            dimensionResource(id = R.dimen.column_elements_small_margin)
+        )
     ) {
         Text(
             text = title,
             fontSize = integerResource(id = R.integer.primary_text).sp,
             color = Color.Black,
             textAlign = TextAlign.Start,
-            fontWeight = FontWeight.Medium,
+            fontWeight = FontWeight.Medium
         )
         TextField(
             maxLines = maxLines,
@@ -639,14 +639,14 @@ fun IconedTextField(
             textStyle = TextStyle(
                 color = Color.Black,
                 fontSize = integerResource(id = R.integer.primary_text).sp,
-                textAlign = TextAlign.Start,
+                textAlign = TextAlign.Start
             ),
             trailingIcon = {
                 if (isError) {
                     Icon(
                         Icons.Filled.Error,
                         stringResource(R.string.error_icon_description),
-                        tint = MaterialTheme.colors.error,
+                        tint = MaterialTheme.colors.error
                     )
                 }
             },
@@ -655,7 +655,7 @@ fun IconedTextField(
                 Text(
                     text = placeholder,
                     fontSize = integerResource(id = R.integer.primary_text).sp,
-                    color = colorResource(id = R.color.text_secondary),
+                    color = colorResource(id = R.color.text_secondary)
                 )
             },
             onValueChange = onValueChange,
@@ -664,14 +664,14 @@ fun IconedTextField(
                 .background(colorResource(id = R.color.secondary_color)),
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = colorResource(id = R.color.secondary_color),
-                focusedIndicatorColor = colorResource(id = R.color.primary_dark),
+                focusedIndicatorColor = colorResource(id = R.color.primary_dark)
             ),
-            isError = isError,
+            isError = isError
         )
         if (isError) {
             Text(
                 color = Color.Red,
-                text = errorMessage,
+                text = errorMessage
             )
         }
     }
@@ -694,15 +694,15 @@ fun InterestField(paddingValues: PaddingValues, label: String) {
         Column(
             modifier = Modifier.padding(paddingValues),
             verticalArrangement = Arrangement.spacedBy(
-                dimensionResource(id = R.dimen.column_elements_small_margin),
-            ),
+                dimensionResource(id = R.dimen.column_elements_small_margin)
+            )
         ) {
             Text(
                 text = label,
                 style = TextStyle(
                     fontSize = integerResource(id = R.integer.primary_text).sp,
-                    color = Color.Black,
-                ),
+                    color = Color.Black
+                )
             )
             TextField(
                 value = interestsList.text,
@@ -716,12 +716,12 @@ fun InterestField(paddingValues: PaddingValues, label: String) {
                     Icon(icon, stringResource(R.string.dropdown_icon))
                 },
                 colors = TextFieldDefaults.textFieldColors(
-                    backgroundColor = colorResource(id = R.color.secondary_color),
+                    backgroundColor = colorResource(id = R.color.secondary_color)
                 ),
                 textStyle = TextStyle(
                     fontSize = integerResource(id = R.integer.primary_text).sp,
-                    color = Color.Black,
-                ),
+                    color = Color.Black
+                )
             )
         }
         if (openDialog) {
@@ -734,7 +734,7 @@ fun InterestField(paddingValues: PaddingValues, label: String) {
                     Button(modifier = Modifier.fillMaxWidth(), onClick = { openDialog = false }) {
                         Text(stringResource(R.string.dismiss))
                     }
-                },
+                }
             )
         }
     }

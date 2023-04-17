@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class SignUpScreenViewModel @Inject constructor(
     application: Application,
-    roomerRepository: AuthRepositoryInterface,
+    roomerRepository: AuthRepositoryInterface
 ) : AndroidViewModel(application) {
 
     private val _state = mutableStateOf(SignUpScreenState())
@@ -38,7 +38,7 @@ class SignUpScreenViewModel @Inject constructor(
             _state.value =
                 SignUpScreenState(
                     error = CONF_PASS_ERR_MSG,
-                    isConfPasswordError = true,
+                    isConfPasswordError = true
                 )
             return
         }
@@ -48,29 +48,29 @@ class SignUpScreenViewModel @Inject constructor(
                 when (result) {
                     is Resource.Loading -> {
                         _state.value = SignUpScreenState(
-                            isLoading = true,
+                            isLoading = true
                         )
                     }
                     is Resource.Success -> {
                         SpManager().setSharedPreference(
                             getApplication<Application>().applicationContext,
                             key = SpManager.Sp.EMAIL,
-                            value = email,
+                            value = email
                         )
                         SpManager().setSharedPreference(
                             getApplication<Application>().applicationContext,
                             key = SpManager.Sp.PASSWORD,
-                            value = password,
+                            value = password
                         )
 
                         _state.value = SignUpScreenState(
-                            success = true,
+                            success = true
                         )
                     }
                     is Resource.Internet -> {
                         _state.value = SignUpScreenState(
                             internetProblem = true,
-                            error = result.message!!,
+                            error = result.message!!
                         )
                     }
                     is Resource.Error -> {
@@ -78,24 +78,24 @@ class SignUpScreenViewModel @Inject constructor(
                             is Resource.Error.EmailError -> {
                                 _state.value = SignUpScreenState(
                                     error = result.message!!,
-                                    isEmailError = true,
+                                    isEmailError = true
                                 )
                             }
                             is Resource.Error.UsernameError -> {
                                 _state.value = SignUpScreenState(
                                     error = result.message!!,
-                                    isUsernameError = true,
+                                    isUsernameError = true
                                 )
                             }
                             is Resource.Error.PasswordError -> {
                                 _state.value = SignUpScreenState(
                                     error = result.message!!,
-                                    isPasswordError = true,
+                                    isPasswordError = true
                                 )
                             }
                             else -> {
                                 _state.value = SignUpScreenState(
-                                    error = result.message!!,
+                                    error = result.message!!
                                 )
                             }
                         }

@@ -36,14 +36,14 @@ interface RoomerApi {
     @PUT("/auth/users/me/")
     suspend fun putSignUpData(
         @Header("Authorization") token: String,
-        @Body signUpDataModel: SignUpDataModel,
+        @Body signUpDataModel: SignUpDataModel
     ): Response<IdModel>
 
     @Multipart
     @PUT("/auth/users/me/")
     suspend fun putSignUpAvatar(
         @Header("Authorization") token: String,
-        @Part avatar: MultipartBody.Part,
+        @Part avatar: MultipartBody.Part
     ): Response<IdModel>
 
     @GET("/housing/")
@@ -52,7 +52,7 @@ interface RoomerApi {
         @Query("month_price_to") monthPriceTo: String,
         @Query(" bedrooms_count") bedroomsCount: String,
         @Query("bathrooms_count") bathroomsCount: String,
-        @Query("housing_type") housingType: String,
+        @Query("housing_type") housingType: String
     ): Response<List<Room>>
 
     @GET("/profile/")
@@ -63,29 +63,29 @@ interface RoomerApi {
         @Query("smoking_attitude") smokingAttitude: String,
         @Query("sleep_time") sleepTime: String,
         @Query("personality_type") personalityType: String,
-        @Query("clean_habits") cleanHabits: String,
+        @Query("clean_habits") cleanHabits: String
     ): Response<List<User>>
 
     @GET("/auth/users/me/")
     suspend fun getCurrentUserInfo(
-        @Header("Authorization") token: String,
+        @Header("Authorization") token: String
     ): Response<User>
 
     @GET("/chats/")
     suspend fun getChatsForUser(
         @Query("user_id") userId: Int,
-        @Query("chat_id") chatId: String = "",
+        @Query("chat_id") chatId: String = ""
     ): Response<List<Message>>
 
     @PUT("/chats/{id}/mark_checked/")
     suspend fun messageChecked(
         @Path("id") id: Int,
         @Header("Authorization") token: String,
-        @Body isChecked: Boolean = true,
+        @Body isChecked: Boolean = true
     ): Response<Message>
 
     @GET("/notifications/")
     suspend fun getNotifications(
-        @Query("user_id") userId: Int,
+        @Query("user_id") userId: Int
     ): Response<List<MessageNotification>>
 }

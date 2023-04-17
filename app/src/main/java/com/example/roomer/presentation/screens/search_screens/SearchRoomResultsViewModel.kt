@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class SearchRoomResultsViewModel @Inject constructor(
-    private val roomerRepository: RoomerRepositoryInterface,
+    private val roomerRepository: RoomerRepositoryInterface
 ) : ViewModel() {
     private val _rooms = MutableStateFlow(emptyList<Room>())
     val rooms: StateFlow<List<Room>> = _rooms
@@ -29,7 +29,7 @@ class SearchRoomResultsViewModel @Inject constructor(
         monthPriceTo: String,
         bedroomsCount: String,
         bathroomsCount: String,
-        housingType: String,
+        housingType: String
     ) = effect {
         delay(2000)
         _loadingStates.value = LoadingStates.Loading
@@ -39,7 +39,7 @@ class SearchRoomResultsViewModel @Inject constructor(
                 monthPriceTo,
                 bedroomsCount,
                 bathroomsCount,
-                housingType,
+                housingType
             )
             if (response.isSuccessful) {
                 _rooms.value = response.body() ?: listOf()

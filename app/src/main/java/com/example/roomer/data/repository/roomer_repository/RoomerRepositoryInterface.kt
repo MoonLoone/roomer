@@ -12,7 +12,7 @@ interface RoomerRepositoryInterface {
     suspend fun getChats(userId: Int): Response<List<Message>>
 
     suspend fun getCurrentUserInfo(
-        token: String,
+        token: String
     ): Response<User>
 
     suspend fun getMessagesForChat(userId: Int, chatId: Int): Response<List<Message>>
@@ -24,7 +24,7 @@ interface RoomerRepositoryInterface {
         smokingAttitude: String,
         sleepTime: String,
         personalityType: String,
-        cleanHabits: String,
+        cleanHabits: String
     ): Response<List<User>>
 
     suspend fun getFilterRooms(
@@ -32,7 +32,7 @@ interface RoomerRepositoryInterface {
         monthPriceTo: String,
         bedroomsCount: String,
         bathroomsCount: String,
-        housingType: String,
+        housingType: String
     ): Response<List<Room>>
 
     suspend fun getLocalFavourites(): Flow<List<Room>>

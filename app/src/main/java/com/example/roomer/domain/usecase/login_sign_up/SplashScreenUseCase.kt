@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class SplashScreenUseCase(
-    private val repository: RoomerRepositoryInterface,
+    private val repository: RoomerRepositoryInterface
 ) {
 
     operator fun invoke(token: String): Flow<Resource<User>> = flow {

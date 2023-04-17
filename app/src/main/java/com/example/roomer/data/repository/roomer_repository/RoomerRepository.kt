@@ -12,7 +12,7 @@ import retrofit2.Response
 
 class RoomerRepository @Inject constructor(
     private val roomerApi: RoomerApi,
-    private val roomerStore: RoomerStoreInterface,
+    private val roomerStore: RoomerStoreInterface
 ) : RoomerRepositoryInterface {
     override suspend fun getChats(userId: Int): Response<List<Message>> {
         return roomerApi.getChatsForUser(userId)
@@ -32,14 +32,14 @@ class RoomerRepository @Inject constructor(
         monthPriceTo: String,
         bedroomsCount: String,
         bathroomsCount: String,
-        housingType: String,
+        housingType: String
     ): Response<List<Room>> {
         return roomerApi.filterRooms(
             monthPriceFrom,
             monthPriceTo,
             bedroomsCount,
             bathroomsCount,
-            housingType,
+            housingType
         )
     }
 
@@ -50,7 +50,7 @@ class RoomerRepository @Inject constructor(
         smokingAttitude: String,
         sleepTime: String,
         personalityType: String,
-        cleanHabits: String,
+        cleanHabits: String
     ): Response<List<User>> {
         return roomerApi.filterRoommates(
             sex,
@@ -59,7 +59,7 @@ class RoomerRepository @Inject constructor(
             smokingAttitude,
             sleepTime,
             personalityType,
-            cleanHabits,
+            cleanHabits
         )
     }
 

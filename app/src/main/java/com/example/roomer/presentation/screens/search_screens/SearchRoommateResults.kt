@@ -36,7 +36,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Destination
 @Composable
 fun SearchRoommateResults(
-    navigator: DestinationsNavigator,
+    navigator: DestinationsNavigator
 ) {
     var sex = ""
     var employment = ""
@@ -58,7 +58,7 @@ fun SearchRoommateResults(
         smokingAttitude,
         sleepTime,
         personalityType,
-        cleanHabits,
+        cleanHabits
     )
     val roommates by viewModel.roommates.collectAsState()
     val loadingState = viewModel.loadingState.collectAsState()
@@ -68,28 +68,28 @@ fun SearchRoommateResults(
                 modifier = Modifier.padding(
                     top = dimensionResource(id = R.dimen.screen_top_margin),
                     start = dimensionResource(id = R.dimen.screen_start_margin),
-                    end = dimensionResource(id = R.dimen.screen_end_margin),
+                    end = dimensionResource(id = R.dimen.screen_end_margin)
                 ),
-                verticalArrangement = Arrangement.spacedBy(24.dp),
+                verticalArrangement = Arrangement.spacedBy(24.dp)
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     BackBtn(onBackNavigation = { navigator.navigate(HomeScreenDestination) })
                     Text(
                         text = stringResource(R.string.roommate_results),
                         fontSize = integerResource(
-                            id = R.integer.label_text,
+                            id = R.integer.label_text
                         ).sp,
                         textAlign = TextAlign.Center,
                         fontWeight = FontWeight.Bold,
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth()
                     )
                 }
                 LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     item {
                         if (roommates.isEmpty()) {
@@ -97,9 +97,9 @@ fun SearchRoommateResults(
                                 text = stringResource(R.string.sorry_nothing_here),
                                 style = TextStyle(
                                     fontSize = integerResource(
-                                        id = R.integer.label_text,
-                                    ).sp,
-                                ),
+                                        id = R.integer.label_text
+                                    ).sp
+                                )
                             )
                         }
                     }
@@ -112,16 +112,16 @@ fun SearchRoommateResults(
         LoadingStates.Error -> {
             Column(
                 modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Text(
                     text = stringResource(R.string.something_went_wrong),
                     style = TextStyle(
                         fontSize = integerResource(
-                            id = R.integer.primary_text,
+                            id = R.integer.primary_text
                         ).sp,
-                        color = Color.Black,
-                    ),
+                        color = Color.Black
+                    )
                 )
                 GreenButtonOutline(text = stringResource(R.string.retry)) {
                     viewModel.loadRoommates(
@@ -131,7 +131,7 @@ fun SearchRoommateResults(
                         smokingAttitude,
                         sleepTime,
                         personalityType,
-                        cleanHabits,
+                        cleanHabits
                     )
                 }
             }

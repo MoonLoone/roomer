@@ -47,7 +47,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 fun MessengerScreen(
     navigator: DestinationsNavigator,
-    viewModel: MessengerViewModel = hiltViewModel(),
+    viewModel: MessengerViewModel = hiltViewModel()
 ) {
     NavbarManagement.showNavbar()
     val loadingState = viewModel.state
@@ -58,8 +58,8 @@ fun MessengerScreen(
             .padding(
                 top = dimensionResource(id = R.dimen.screen_top_margin),
                 start = dimensionResource(id = R.dimen.screen_start_margin),
-                end = dimensionResource(id = R.dimen.screen_end_margin),
-            ),
+                end = dimensionResource(id = R.dimen.screen_end_margin)
+            )
     ) {
         Searcher()
         ChatsListScreen(listOfChats = listOfChats, navigator = navigator)
@@ -78,9 +78,9 @@ private fun ChatsListScreen(listOfChats: List<Message>, navigator: DestinationsN
             .padding(
                 top = dimensionResource(id = R.dimen.screen_top_margin),
                 start = dimensionResource(id = R.dimen.screen_start_margin),
-                end = dimensionResource(id = R.dimen.screen_end_margin),
+                end = dimensionResource(id = R.dimen.screen_end_margin)
             ),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         if (listOfChats.isEmpty()) {
             item {
@@ -96,10 +96,10 @@ private fun ChatsListScreen(listOfChats: List<Message>, navigator: DestinationsN
                     navigator.navigate(
                         ChatScreenDestination(
                             listOfChats[index].recipient.userId,
-                            chatId = listOfChats[index].chatId,
-                        ),
+                            chatId = listOfChats[index].chatId
+                        )
                     )
-                },
+                }
             )
         }
     }
@@ -116,14 +116,14 @@ private fun Searcher() {
                 text = stringResource(R.string.search_in_messages),
                 style = TextStyle(
                     color = colorResource(id = R.color.primary_dark),
-                    fontSize = integerResource(id = R.integer.secondary_text).sp,
+                    fontSize = integerResource(id = R.integer.secondary_text).sp
                 ),
-                modifier = Modifier.padding(bottom = 8.dp),
+                modifier = Modifier.padding(bottom = 8.dp)
             )
         },
         textStyle = TextStyle(
             color = Color.Black,
-            fontSize = integerResource(id = R.integer.primary_text).sp,
+            fontSize = integerResource(id = R.integer.primary_text).sp
         ),
         value = searchText,
         onValueChange = { value ->
@@ -137,11 +137,11 @@ private fun Searcher() {
                 contentDescription = stringResource(R.string.search_icon_content_description),
                 modifier = Modifier
                     .height(
-                        dimensionResource(id = R.dimen.small_icon),
+                        dimensionResource(id = R.dimen.small_icon)
                     )
                     .width(
-                        dimensionResource(id = R.dimen.small_icon),
-                    ),
+                        dimensionResource(id = R.dimen.small_icon)
+                    )
             )
         },
         trailingIcon = {
@@ -150,12 +150,12 @@ private fun Searcher() {
                 contentDescription = stringResource(R.string.clear_text_content_description),
                 modifier = Modifier
                     .height(
-                        dimensionResource(id = R.dimen.ordinary_icon),
+                        dimensionResource(id = R.dimen.ordinary_icon)
                     )
                     .width(
-                        dimensionResource(id = R.dimen.ordinary_icon),
+                        dimensionResource(id = R.dimen.ordinary_icon)
                     )
-                    .clickable { searchText = TextFieldValue("") },
+                    .clickable { searchText = TextFieldValue("") }
             )
         },
         modifier = Modifier
@@ -165,14 +165,14 @@ private fun Searcher() {
                 BorderStroke(
                     dimensionResource(id = R.dimen.ordinary_border),
                     colorResource(
-                        id = R.color.primary_dark,
-                    ),
+                        id = R.color.primary_dark
+                    )
                 ),
-                RoundedCornerShape(4.dp),
+                RoundedCornerShape(4.dp)
             ),
         colors = TextFieldDefaults.textFieldColors(
-            backgroundColor = colorResource(id = R.color.white),
-        ),
+            backgroundColor = colorResource(id = R.color.white)
+        )
     )
 }
 
@@ -184,7 +184,7 @@ private fun EmptyChatListNotification(onNavigate: () -> Unit) {
             text = stringResource(R.string.want_to_start_new_chat),
             modifier = Modifier.clickable {
                 onNavigate.invoke()
-            },
+            }
         )
     }
 }

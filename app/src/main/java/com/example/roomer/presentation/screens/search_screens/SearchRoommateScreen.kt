@@ -47,7 +47,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Destination
 @Composable
 fun SearchRoommateScreen(
-    navigator: DestinationsNavigator,
+    navigator: DestinationsNavigator
 ) {
     var fromAge by remember {
         mutableStateOf("0")
@@ -82,7 +82,7 @@ fun SearchRoommateScreen(
             top = dimensionResource(id = R.dimen.screen_top_margin),
             start = dimensionResource(id = R.dimen.screen_start_margin),
             end = dimensionResource(id = R.dimen.screen_end_margin),
-            bottom = dimensionResource(id = R.dimen.screen_bottom_margin),
+            bottom = dimensionResource(id = R.dimen.screen_bottom_margin)
         ),
         floatingActionButton = {
             GreenButtonOutline(
@@ -98,17 +98,17 @@ fun SearchRoommateScreen(
                     } else {
                         navigator.navigate(SearchRoommateScreenDestination)
                     }
-                },
+                }
             )
-        },
+        }
     ) {
         Column(
             modifier = Modifier
                 .padding(bottom = it.calculateBottomPadding() + 64.dp)
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(
-                dimensionResource(id = R.dimen.list_elements_margin),
-            ),
+                dimensionResource(id = R.dimen.list_elements_margin)
+            )
         ) {
             Row(horizontalArrangement = Arrangement.SpaceBetween) {
                 BackBtn(onBackNavigation = { navigator.navigate(HomeScreenDestination) })
@@ -117,34 +117,34 @@ fun SearchRoommateScreen(
                     modifier = Modifier.fillMaxWidth(),
                     style = TextStyle(
                         fontSize = integerResource(
-                            id = R.integer.label_text,
+                            id = R.integer.label_text
                         ).sp,
-                        color = Color.Black,
+                        color = Color.Black
                     ),
-                    textAlign = TextAlign.Center,
+                    textAlign = TextAlign.Center
                 )
             }
             FilterSelect(
                 selectItemName = "Roommate",
-                onNavigateToFriends = { navigator.navigate(SearchRoomScreenDestination) },
+                onNavigateToFriends = { navigator.navigate(SearchRoomScreenDestination) }
             )
             Text(
                 stringResource(R.string.choose_roommate_parameters),
                 style = TextStyle(
                     fontSize = 20.sp,
-                    color = Color.Black,
-                ),
+                    color = Color.Black
+                )
             )
             Text(
                 stringResource(R.string.age_label),
                 style = TextStyle(
                     fontSize = integerResource(id = R.integer.primary_text).sp,
-                    color = Color.Black,
-                ),
+                    color = Color.Black
+                )
             )
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Column {
                     Text(
@@ -152,9 +152,9 @@ fun SearchRoommateScreen(
                         style = TextStyle(
                             fontSize = integerResource(id = R.integer.primary_text).sp,
                             color = colorResource(
-                                id = R.color.text_secondary,
-                            ),
-                        ),
+                                id = R.color.text_secondary
+                            )
+                        )
                     )
                     TextField(
                         value = fromAge,
@@ -167,10 +167,10 @@ fun SearchRoommateScreen(
                         placeholder = { Text(stringResource(R.string.start_age_placeholder)) },
                         colors = TextFieldDefaults.textFieldColors(
                             backgroundColor = colorResource(
-                                id = R.color.secondary_color,
-                            ),
+                                id = R.color.secondary_color
+                            )
                         ),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                     )
                 }
                 Column {
@@ -179,9 +179,9 @@ fun SearchRoommateScreen(
                         style = TextStyle(
                             fontSize = integerResource(id = R.integer.primary_text).sp,
                             color = colorResource(
-                                id = R.color.text_secondary,
-                            ),
-                        ),
+                                id = R.color.text_secondary
+                            )
+                        )
                     )
                     TextField(
                         value = toAge,
@@ -194,10 +194,10 @@ fun SearchRoommateScreen(
                         placeholder = { Text(stringResource(R.string.end_age_placeholder)) },
                         colors = TextFieldDefaults.textFieldColors(
                             backgroundColor = colorResource(
-                                id = R.color.secondary_color,
-                            ),
+                                id = R.color.secondary_color
+                            )
                         ),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                     )
                 }
             }
@@ -209,7 +209,7 @@ fun SearchRoommateScreen(
                 ),
                 label = stringResource(R.string.sleep_time_label),
                 value = sleepTime.value,
-                onValueChange = { sleepTime.value = it },
+                onValueChange = { sleepTime.value = it }
             )
             DropdownTextFieldMapped(
                 label = stringResource(R.string.personality_type_label),
@@ -219,7 +219,7 @@ fun SearchRoommateScreen(
                     Pair("M", stringResource(R.string.mixed))
                 ),
                 value = personality.value,
-                onValueChange = { personality.value = it },
+                onValueChange = { personality.value = it }
             )
             DropdownTextFieldMapped(
                 label = stringResource(R.string.attitude_to_smoking_label),
@@ -229,7 +229,7 @@ fun SearchRoommateScreen(
                     Pair("I", stringResource(R.string.indifferent))
                 ),
                 value = smokingAttitude.value,
-                onValueChange = { smokingAttitude.value = it },
+                onValueChange = { smokingAttitude.value = it }
             )
             DropdownTextFieldMapped(
                 label = stringResource(R.string.attitude_to_alcohol_label),
@@ -239,7 +239,7 @@ fun SearchRoommateScreen(
                     Pair("I", stringResource(R.string.indifferent))
                 ),
                 value = alcoholAttitude.value,
-                onValueChange = { alcoholAttitude.value = it },
+                onValueChange = { alcoholAttitude.value = it }
             )
             DropdownTextFieldMapped(
                 mapOfItems = mapOf(
@@ -249,7 +249,7 @@ fun SearchRoommateScreen(
                 ),
                 label = stringResource(R.string.sleep_time_label),
                 value = sleepTime.value,
-                onValueChange = { sleepTime.value = it },
+                onValueChange = { sleepTime.value = it }
             )
             DropdownTextFieldMapped(
                 mapOfItems = mapOf(
@@ -259,7 +259,7 @@ fun SearchRoommateScreen(
                 ),
                 label = stringResource(R.string.sleep_time_label),
                 value = sleepTime.value,
-                onValueChange = { sleepTime.value = it },
+                onValueChange = { sleepTime.value = it }
             )
             DropdownTextFieldMapped(
                 mapOfItems = mapOf(
@@ -269,7 +269,7 @@ fun SearchRoommateScreen(
                 ),
                 label = stringResource(R.string.sleep_time_label),
                 value = sleepTime.value,
-                onValueChange = { sleepTime.value = it },
+                onValueChange = { sleepTime.value = it }
             )
             DropdownTextFieldMapped(
                 mapOfItems = mapOf(
@@ -279,7 +279,7 @@ fun SearchRoommateScreen(
                 ),
                 label = stringResource(R.string.sleep_time_label),
                 value = sleepTime.value,
-                onValueChange = { sleepTime.value = it },
+                onValueChange = { sleepTime.value = it }
             )
             DropdownTextFieldMapped(
                 mapOfItems = mapOf(
@@ -289,7 +289,7 @@ fun SearchRoommateScreen(
                 ),
                 label = stringResource(R.string.what_you_currently_do_lable),
                 value = employment.value,
-                onValueChange = { employment.value = it },
+                onValueChange = { employment.value = it }
             )
             DropdownTextFieldMapped(
                 mapOfItems = mapOf(
@@ -299,7 +299,7 @@ fun SearchRoommateScreen(
                 ),
                 label = stringResource(R.string.clean_habits_label),
                 value = cleanHabits.value,
-                onValueChange = { cleanHabits.value = it },
+                onValueChange = { cleanHabits.value = it }
             )
             InterestField(paddingValues = it, label = stringResource(R.string.interests))
         }

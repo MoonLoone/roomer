@@ -30,7 +30,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Destination
 @Composable
 fun GreetingsScreen(
-    navigator: DestinationsNavigator,
+    navigator: DestinationsNavigator
 ) {
     Column(
         modifier = Modifier
@@ -38,41 +38,41 @@ fun GreetingsScreen(
             .background(Color.White)
             .padding(
                 start = dimensionResource(id = R.dimen.screen_start_margin),
-                end = dimensionResource(id = R.dimen.screen_end_margin),
+                end = dimensionResource(id = R.dimen.screen_end_margin)
             ),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Center
     ) {
         Text(
             text = stringResource(R.string.greetings_screen_header_1),
             fontSize = 30.sp,
             fontWeight = FontWeight.Medium,
-            textAlign = TextAlign.Center,
+            textAlign = TextAlign.Center
         )
         Text(
             text = stringResource(R.string.greetings_screen_header_2),
             fontSize = 20.sp,
             fontWeight = FontWeight.Normal,
             textAlign = TextAlign.Center,
-            color = colorResource(id = R.color.text_secondary),
+            color = colorResource(id = R.color.text_secondary)
         )
         GreenButtonPrimary(
             text = stringResource(R.string.login_button_label),
             modifier = Modifier
                 .padding(top = 16.dp)
-                .fillMaxWidth(),
+                .fillMaxWidth()
         ) {
             navigator.navigate(
                 LoginScreenDestination(
-                    Constants.ScreensId.greetingScreenId,
-                ),
+                    Constants.ScreensId.greetingScreenId
+                )
             )
         }
         GreenButtonOutline(
             text = stringResource(R.string.sign_up_button_label),
             modifier = Modifier
                 .padding(top = 8.dp)
-                .fillMaxWidth(),
+                .fillMaxWidth()
         ) {
             navigator.navigate(SignUpScreenDestination)
         }

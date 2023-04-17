@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class FavouriteViewModel @Inject constructor(
-    private val roomerRepository: RoomerRepositoryInterface,
+    private val roomerRepository: RoomerRepositoryInterface
 ) : ViewModel() {
 
     private val _favourites: MutableState<List<Room>> =

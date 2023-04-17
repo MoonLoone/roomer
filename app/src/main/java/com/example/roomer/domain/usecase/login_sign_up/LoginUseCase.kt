@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.flow
 import org.json.JSONObject
 
 class LoginUseCase(
-    private val repository: AuthRepositoryInterface,
+    private val repository: AuthRepositoryInterface
 ) {
 
     operator fun invoke(email: String, password: String): Flow<Resource<String>> = flow {

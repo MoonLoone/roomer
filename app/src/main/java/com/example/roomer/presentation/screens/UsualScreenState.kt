@@ -5,5 +5,5 @@ data class UsualScreenState(
     val isError: Boolean = false,
     val errorMessage: String = "",
     val isLoading: Boolean = false,
-    val isInternetProblem: Boolean = false,
+    val isInternetProblem: Boolean = false
 )

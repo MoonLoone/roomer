@@ -17,5 +17,5 @@ data class LocalCurrentUser(
     val sleepTime: String,
     val personalityType: String,
     val cleanHabits: String,
-    var rating: Double,
+    var rating: Double
 )

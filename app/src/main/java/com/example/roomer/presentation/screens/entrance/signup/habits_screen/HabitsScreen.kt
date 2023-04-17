@@ -38,38 +38,38 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 fun HabitsScreen(
     navigator: DestinationsNavigator,
-    signUpViewModel: SignUpViewModel,
+    signUpViewModel: SignUpViewModel
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Center
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
                     start = dimensionResource(id = R.dimen.screen_start_margin),
-                    end = dimensionResource(id = R.dimen.screen_end_margin),
+                    end = dimensionResource(id = R.dimen.screen_end_margin)
                 ),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(
-                dimensionResource(id = R.dimen.list_elements_margin),
-            ),
+                dimensionResource(id = R.dimen.list_elements_margin)
+            )
         ) {
             LinearProgressIndicator(
                 modifier = Modifier
                     .fillMaxWidth(),
                 color = colorResource(id = R.color.primary_dark),
-                progress = 0.6f,
+                progress = 0.6f
             )
             Text(
                 text = stringResource(R.string.tell_us_about_your_living_habits),
                 fontSize = integerResource(id = R.integer.label_text).sp,
                 fontWeight = FontWeight.Medium,
-                textAlign = TextAlign.Start,
+                textAlign = TextAlign.Start
             )
             ButtonsRowMapped(
                 label = stringResource(R.string.your_usual_sleep_time),
@@ -81,7 +81,7 @@ fun HabitsScreen(
                 value = signUpViewModel.sleepTime,
                 onValueChange = {
                     signUpViewModel.sleepTime = it
-                },
+                }
             )
             ButtonsRowMapped(
                 label = stringResource(R.string.attitude_to_alcohol_label),
@@ -93,7 +93,7 @@ fun HabitsScreen(
                 value = signUpViewModel.alcoholAttitude,
                 onValueChange = {
                     signUpViewModel.alcoholAttitude = it
-                },
+                }
             )
             ButtonsRowMapped(
                 label = stringResource(R.string.attitude_to_smoking_label),
@@ -105,7 +105,7 @@ fun HabitsScreen(
                 value = signUpViewModel.smokingAttitude,
                 onValueChange = {
                     signUpViewModel.smokingAttitude = it
-                },
+                }
             )
             ButtonsRowMapped(
                 label = stringResource(R.string.personality_type_label),
@@ -117,7 +117,7 @@ fun HabitsScreen(
                 value = signUpViewModel.personalityType,
                 onValueChange = {
                     signUpViewModel.personalityType = it
-                },
+                }
             )
             DropdownTextFieldMapped(
                 mapOfItems = mapOf(
@@ -129,19 +129,19 @@ fun HabitsScreen(
                 value = signUpViewModel.cleanHabits,
                 onValueChange = {
                     signUpViewModel.cleanHabits = it
-                },
+                }
             )
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 GreenButtonPrimary(
-                    text = stringResource(R.string.back_button_label),
+                    text = stringResource(R.string.back_button_label)
                 ) { navigator.navigate(AboutMeAvatarScreenDestination) }
                 GreenButtonPrimary(
-                    text = stringResource(R.string.continue_button_label),
+                    text = stringResource(R.string.continue_button_label)
                 ) { navigator.navigate(InterestsScreenDestination) }
             }
         }

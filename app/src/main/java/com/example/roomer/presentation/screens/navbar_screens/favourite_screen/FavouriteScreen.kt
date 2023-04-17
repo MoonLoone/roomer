@@ -26,7 +26,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 fun FavouriteScreen(
     navigator: DestinationsNavigator,
-    favouriteViewModel: FavouriteViewModel = hiltViewModel(),
+    favouriteViewModel: FavouriteViewModel = hiltViewModel()
 ) {
     NavbarManagement.showNavbar()
     val listOfFavourites = favouriteViewModel.favourites.value
@@ -34,18 +34,18 @@ fun FavouriteScreen(
         modifier = Modifier
             .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(
-            dimensionResource(id = R.dimen.list_elements_margin),
+            dimensionResource(id = R.dimen.list_elements_margin)
         ),
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         item {
             Text(
                 text = stringResource(R.string.favourite_screen_title),
                 style = TextStyle(
                     fontSize = integerResource(id = R.integer.label_text).sp,
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = FontWeight.Bold
                 ),
-                modifier = Modifier.padding(top = 8.dp),
+                modifier = Modifier.padding(top = 8.dp)
             )
         }
         items(listOfFavourites.size) { index ->

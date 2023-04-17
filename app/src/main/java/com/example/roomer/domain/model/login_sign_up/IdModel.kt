@@ -3,5 +3,5 @@ package com.example.roomer.domain.model.login_sign_up
 import com.google.gson.annotations.SerializedName
 
 data class IdModel(
-    @SerializedName("id") val id: String,
+    @SerializedName("id") val id: String
 )

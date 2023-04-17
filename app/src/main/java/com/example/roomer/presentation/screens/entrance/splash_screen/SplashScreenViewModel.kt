@@ -20,12 +20,12 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class SplashScreenViewModel @Inject constructor(
     application: Application,
-    private val roomerRepository: RoomerRepositoryInterface,
+    private val roomerRepository: RoomerRepositoryInterface
 ) : AndroidViewModel(application) {
     private val userToken = SpManager().getSharedPreference(
         getApplication<Application>().applicationContext,
         SpManager.Sp.TOKEN,
-        null,
+        null
     )
     private val _state = MutableStateFlow(UsualScreenState())
     val state: StateFlow<UsualScreenState> = _state.asStateFlow()
@@ -76,7 +76,7 @@ class SplashScreenViewModel @Inject constructor(
                             currentState.copy(
                                 isLoading = false,
                                 isInternetProblem = true,
-                                errorMessage = result.message!!,
+                                errorMessage = result.message!!
                             )
                         }
                     }
@@ -86,7 +86,7 @@ class SplashScreenViewModel @Inject constructor(
                         _state.update { currentState ->
                             currentState.copy(
                                 isLoading = false,
-                                isError = true,
+                                isError = true
                             )
                         }
                     }
@@ -97,15 +97,15 @@ class SplashScreenViewModel @Inject constructor(
     private fun eraseSharedPreferences() {
         SpManager().removeSharedPreference(
             getApplication<Application>().applicationContext,
-            SpManager.Sp.TOKEN,
+            SpManager.Sp.TOKEN
         )
         SpManager().removeSharedPreference(
             getApplication<Application>().applicationContext,
-            SpManager.Sp.EMAIL,
+            SpManager.Sp.EMAIL
         )
         SpManager().removeSharedPreference(
             getApplication<Application>().applicationContext,
-            SpManager.Sp.PASSWORD,
+            SpManager.Sp.PASSWORD
         )
     }
 

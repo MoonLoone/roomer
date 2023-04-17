@@ -25,7 +25,7 @@ object NotificationManager {
                 Constants.Notification.MESSENGER_WORK_REPEAT,
                 TimeUnit.MINUTES,
                 Constants.Notification.MESSENGER_WORK_FLEX,
-                TimeUnit.MINUTES,
+                TimeUnit.MINUTES
             )
                 .addTag(NOTIFICATION_TAG)
                 .build()
@@ -39,7 +39,7 @@ object NotificationManager {
                 Constants.Notification.RECOMMENDATION_WORK_REPEAT,
                 TimeUnit.DAYS,
                 Constants.Notification.RECOMMENDATION_WORK_FLEX,
-                TimeUnit.DAYS,
+                TimeUnit.DAYS
             )
                 .build()
         WorkManager.getInstance(context)

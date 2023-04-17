@@ -24,7 +24,7 @@ import org.json.JSONObject
 @HiltViewModel
 class ChatScreenViewModel @Inject constructor(
     application: Application,
-    private val roomerRepository: RoomerRepository,
+    private val roomerRepository: RoomerRepository
 ) : AndroidViewModel(application) {
 
     private val _messages = MutableStateFlow(listOf<Message>())
@@ -53,7 +53,7 @@ class ChatScreenViewModel @Inject constructor(
             chatClientWebSocket.open(currentUserId, recipientUserId)
             _messages.value =
                 roomerRepository.getMessagesForChat(userId = currentUserId, chatId = chatId).body()
-                ?.toMutableList() ?: mutableListOf()
+                    ?.toMutableList() ?: mutableListOf()
             _socketConnectionState.value = true
         }
     }
@@ -63,7 +63,7 @@ class ChatScreenViewModel @Inject constructor(
             val messageJson = createJson(
                 Pair("message", message),
                 Pair("donor_id", currentUserId),
-                Pair("recipient_id", recipientUserId),
+                Pair("recipient_id", recipientUserId)
             )
             chatClientWebSocket.sendMessage(messageJson)
         }
@@ -89,7 +89,7 @@ class ChatScreenViewModel @Inject constructor(
             text = getFromJson(json, "text"),
             donor = User(userId = getFromJson(json, "donor").toInt()),
             recipient = User(userId = getFromJson(json, "recipient").toInt()),
-            isChecked = getFromJson(json, "is_checked").toBoolean(),
+            isChecked = getFromJson(json, "is_checked").toBoolean()
         )
         _messages.value = messages.value + message
     }

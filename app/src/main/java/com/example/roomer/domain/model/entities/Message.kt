@@ -16,5 +16,5 @@ data class Message(
     @SerializedName("recipient")
     val recipient: User,
     @SerializedName("is_checked")
-    var isChecked: Boolean,
+    var isChecked: Boolean
 )

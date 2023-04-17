@@ -6,5 +6,5 @@ data class MessageNotification(
     @SerializedName("id")
     val id: Int = 0,
     @SerializedName("message")
-    val message: Message? = null,
+    val message: Message? = null
 )

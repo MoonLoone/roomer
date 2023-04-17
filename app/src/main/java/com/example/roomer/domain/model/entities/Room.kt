@@ -22,9 +22,9 @@ data class Room(
     val sharingType: String = "",
     val location: String = "Ordinary location",
     val title: String = "Ordinary location",
-    var isLiked: Boolean = false,
+    var isLiked: Boolean = false
 ) {
     data class Photo(
-        val photo: String,
+        val photo: String
     )
 }

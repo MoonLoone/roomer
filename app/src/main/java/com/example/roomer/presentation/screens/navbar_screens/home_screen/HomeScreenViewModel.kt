@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor(
-    private val roomerRepository: RoomerRepositoryInterface,
+    private val roomerRepository: RoomerRepositoryInterface
 ) : ViewModel() {
     val testRooms = listOf(
         Room(id = 1),
@@ -18,7 +18,7 @@ class HomeScreenViewModel @Inject constructor(
         Room(id = 3),
         Room(id = 4),
         Room(id = 5),
-        Room(id = 6),
+        Room(id = 6)
     )
     fun addToFavourites(room: Room) {
         viewModelScope.launch {

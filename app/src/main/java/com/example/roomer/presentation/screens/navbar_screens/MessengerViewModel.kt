@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class MessengerViewModel @Inject constructor(
     application: Application,
-    private val roomerRepository: RoomerRepository,
+    private val roomerRepository: RoomerRepository
 ) : AndroidViewModel(application) {
 
     private val _state = mutableStateOf(MessengerScreenState(false))
@@ -35,7 +35,7 @@ class MessengerViewModel @Inject constructor(
             val token = SpManager().getSharedPreference(
                 getApplication<Application>().applicationContext,
                 SpManager.Sp.TOKEN,
-                LoginScreenViewModel.FIELD_DEFAULT_VALUE,
+                LoginScreenViewModel.FIELD_DEFAULT_VALUE
             )
             val currentUser = roomerRepository.getCurrentUserInfo(token.toString()).body()
             messengerUseCase.loadChats(currentUser?.userId ?: 0).collect {
@@ -46,12 +46,12 @@ class MessengerViewModel @Inject constructor(
                     is Resource.Loading -> {
                         _state.value = MessengerScreenState(
                             isLoading = true,
-                            internetProblem = false,
+                            internetProblem = false
                         )
                     }
                     is Resource.Success -> {
                         _state.value = MessengerScreenState(
-                            isLoading = true,
+                            isLoading = true
                         )
                         _chats.value = it.data?.map { message ->
                             message.dateTime = convertTimeDateFromBackend(message.dateTime)
@@ -60,13 +60,13 @@ class MessengerViewModel @Inject constructor(
                         _state.value = MessengerScreenState(
                             success = true,
                             isLoading = false,
-                            error = "Unrecognized error",
+                            error = "Unrecognized error"
                         )
                     }
                     else -> {
                         _state.value = MessengerScreenState(
                             isLoading = false,
-                            error = "Unrecognized error",
+                            error = "Unrecognized error"
                         )
                     }
                 }

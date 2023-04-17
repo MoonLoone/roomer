@@ -41,7 +41,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 fun InterestsScreen(
     navigator: DestinationsNavigator,
     interestsScreenViewModel: InterestsScreenViewModel = hiltViewModel(),
-    signUpViewModel: SignUpViewModel,
+    signUpViewModel: SignUpViewModel
 ) {
     val state by interestsScreenViewModel.state.collectAsState()
     val interests = interestsScreenViewModel.interests.value
@@ -50,38 +50,38 @@ fun InterestsScreen(
             .fillMaxSize()
             .background(Color.White),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Center
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
                     start = dimensionResource(id = R.dimen.screen_start_margin),
-                    end = dimensionResource(id = R.dimen.screen_end_margin),
+                    end = dimensionResource(id = R.dimen.screen_end_margin)
                 ),
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.spacedBy(
-                dimensionResource(id = R.dimen.list_elements_margin),
-            ),
+                dimensionResource(id = R.dimen.list_elements_margin)
+            )
         ) {
             LinearProgressIndicator(
                 modifier = Modifier
                     .fillMaxWidth(),
                 color = colorResource(id = R.color.primary_dark),
-                progress = 0.8f,
+                progress = 0.8f
             )
             Text(
                 text = stringResource(R.string.tell_us_about_interests),
                 fontSize = integerResource(id = R.integer.label_text).sp,
                 fontWeight = FontWeight.Medium,
-                textAlign = TextAlign.Start,
+                textAlign = TextAlign.Start
             )
             if (state.isInterestsLoaded) {
                 InterestsButtons(
                     label = stringResource(R.string.choose_10_maximum),
                     values = interests,
                     selectedItems = signUpViewModel.interests,
-                    onSelectedChange = { signUpViewModel.interests = it },
+                    onSelectedChange = { signUpViewModel.interests = it }
                 )
             }
             if (state.isInterestsSent) {
@@ -89,46 +89,47 @@ fun InterestsScreen(
             }
             if (state.isLoading) {
                 CircularProgressIndicator(
-                    color = colorResource(id = R.color.primary_dark),
+                    color = colorResource(id = R.color.primary_dark)
                 )
             }
             if (state.internetProblem) {
-                if (!state.isInterestsLoaded)
+                if (!state.isInterestsLoaded) {
                     GreenButtonOutline(text = stringResource(R.string.retry)) {
                         interestsScreenViewModel.getInterests()
                     }
                 }
             }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            GreenButtonPrimary(
+                text = stringResource(R.string.back_button_label)
             ) {
-                GreenButtonPrimary(
-                    text = stringResource(R.string.back_button_label),
-                ) {
-                    navigator.navigate(HabitsScreenDestination())
-                }
-                GreenButtonPrimary(
-                    text = stringResource(R.string.finish_button_label),
-                ) {
-                    interestsScreenViewModel.putSignUpData(
-                        signUpViewModel.firstName,
-                        signUpViewModel.lastName,
-                        signUpViewModel.sex,
-                        signUpViewModel.birthDate,
-                        signUpViewModel.avatar!!,
-                        signUpViewModel.personDescription,
-                        signUpViewModel.employment,
-                        signUpViewModel.sleepTime,
-                        signUpViewModel.alcoholAttitude,
-                        signUpViewModel.smokingAttitude,
-                        signUpViewModel.personalityType,
-                        signUpViewModel.cleanHabits,
-                        signUpViewModel.interests,
-                    )
-                }
+                navigator.navigate(HabitsScreenDestination())
+            }
+            GreenButtonPrimary(
+                text = stringResource(R.string.finish_button_label)
+            ) {
+                interestsScreenViewModel.putSignUpData(
+                    signUpViewModel.firstName,
+                    signUpViewModel.lastName,
+                    signUpViewModel.sex,
+                    signUpViewModel.birthDate,
+                    signUpViewModel.avatar!!,
+                    signUpViewModel.personDescription,
+                    signUpViewModel.employment,
+                    signUpViewModel.sleepTime,
+                    signUpViewModel.alcoholAttitude,
+                    signUpViewModel.smokingAttitude,
+                    signUpViewModel.personalityType,
+                    signUpViewModel.cleanHabits,
+                    signUpViewModel.interests
+                )
             }
         }
     }
+}

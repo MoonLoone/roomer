@@ -44,7 +44,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 fun AboutMeAvatarScreen(
     navigator: DestinationsNavigator,
-    signUpViewModel: SignUpViewModel,
+    signUpViewModel: SignUpViewModel
 ) {
     val uiState by signUpViewModel.uiState.collectAsState()
     val focusManager = LocalFocusManager.current
@@ -56,46 +56,46 @@ fun AboutMeAvatarScreen(
             .background(Color.White)
             .clickable(
                 indication = null,
-                interactionSource = interactionSource,
+                interactionSource = interactionSource
             ) { focusManager.clearFocus() },
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Center
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
                     start = dimensionResource(id = R.dimen.screen_start_margin),
-                    end = dimensionResource(id = R.dimen.screen_end_margin),
+                    end = dimensionResource(id = R.dimen.screen_end_margin)
                 ),
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.spacedBy(
-                dimensionResource(id = R.dimen.list_elements_margin),
-            ),
+                dimensionResource(id = R.dimen.list_elements_margin)
+            )
         ) {
             LinearProgressIndicator(
                 modifier = Modifier
                     .fillMaxWidth(),
                 color = colorResource(id = R.color.primary_dark),
-                progress = 0.4f,
+                progress = 0.4f
             )
             Text(
                 text = stringResource(R.string.just_basic_profile_info),
                 fontSize = integerResource(id = R.integer.label_text).sp,
                 fontWeight = FontWeight.Medium,
-                textAlign = TextAlign.Start,
+                textAlign = TextAlign.Start
             )
             Text(
                 text = stringResource(R.string.add_profile_picture),
                 fontSize = integerResource(id = R.integer.primary_text).sp,
                 fontWeight = FontWeight.Medium,
-                textAlign = TextAlign.Start,
+                textAlign = TextAlign.Start
             )
             ProfilePicture(
                 bitmapValue = signUpViewModel.avatar,
                 onBitmapValueChange = {
                     signUpViewModel.avatar = it
-                },
+                }
             )
             UsualTextField(
                 title = stringResource(R.string.write_something_about_you),
@@ -103,7 +103,7 @@ fun AboutMeAvatarScreen(
                 value = signUpViewModel.personDescription,
                 onValueChange = {
                     signUpViewModel.personDescription = it
-                },
+                }
             )
             DropdownTextFieldMapped(
                 mapOfItems = mapOf(
@@ -115,21 +115,21 @@ fun AboutMeAvatarScreen(
                 value = signUpViewModel.employment,
                 onValueChange = {
                     signUpViewModel.employment = it
-                },
+                }
             )
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 GreenButtonPrimary(
-                    text = stringResource(R.string.back_button_label),
+                    text = stringResource(R.string.back_button_label)
                 ) {
                     navigator.navigate(PrimaryUserInfoScreenDestination)
                 }
                 GreenButtonPrimary(
-                    text = stringResource(R.string.continue_button_label),
+                    text = stringResource(R.string.continue_button_label)
                 ) {
                     signUpViewModel.aboutMeAvatarScreenValidate()
                 }

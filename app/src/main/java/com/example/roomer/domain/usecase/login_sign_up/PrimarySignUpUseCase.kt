@@ -10,13 +10,13 @@ import kotlinx.coroutines.flow.flow
 import org.json.JSONObject
 
 class PrimarySignUpUseCase(
-    private val repository: AuthRepositoryInterface,
+    private val repository: AuthRepositoryInterface
 ) {
 
     operator fun invoke(
         username: String,
         email: String,
-        password: String,
+        password: String
     ): Flow<Resource<String>> = flow {
         try {
             emit(Resource.Loading())

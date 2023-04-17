@@ -45,14 +45,14 @@ class MainActivity : AppCompatActivity() {
                             }
                             viewModel<SignUpViewModel>(parentEntry)
                         }
-                    },
+                    }
                 )
                 when (intent.action) {
                     Constants.Notification.ACTION_NOTIFICATION_MATES -> navController.navigate(
-                        SearchRoommateResultsDestination.route,
+                        SearchRoommateResultsDestination.route
                     )
                     Constants.Notification.ACTION_NOTIFICATION_ROOMS -> navController.navigate(
-                        SearchRoomResultsDestination.route,
+                        SearchRoomResultsDestination.route
                     )
                     Constants.Notification.ACTION_NOTIFICATION_CHAT -> {
                         val chatId = intent.getIntExtra(
@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity() {
                         )
                         if (chatId > 0 && recipientId > 0) {
                             navController.navigate(
-                                ChatScreenDestination(recipientId, chatId).route,
+                                ChatScreenDestination(recipientId, chatId).route
                             )
                         }
                     }

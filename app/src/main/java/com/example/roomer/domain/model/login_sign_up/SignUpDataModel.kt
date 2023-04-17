@@ -15,5 +15,5 @@ data class SignUpDataModel(
     @SerializedName("smoking_attitude") val smokingAttitude: String,
     @SerializedName("personality_type") val personalityType: String,
     @SerializedName("clean_habits") val cleanHabits: String,
-    @SerializedName("interests") val interests: List<InterestModel>,
+    @SerializedName("interests") val interests: List<InterestModel>
 )

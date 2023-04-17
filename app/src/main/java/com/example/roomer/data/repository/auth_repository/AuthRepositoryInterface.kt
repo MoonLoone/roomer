@@ -12,7 +12,7 @@ interface AuthRepositoryInterface {
     suspend fun userSignUpPrimary(
         username: String,
         email: String,
-        password: String,
+        password: String
     ): Response<IdModel>
 
     suspend fun getInterests(): List<InterestModel>
@@ -30,11 +30,11 @@ interface AuthRepositoryInterface {
         smokingAttitude: String,
         personalityType: String,
         cleanHabits: String,
-        interests: List<InterestModel>,
+        interests: List<InterestModel>
     ): Response<IdModel>
 
     suspend fun putSignUpAvatar(
         token: String,
-        avatar: Bitmap,
+        avatar: Bitmap
     ): Response<IdModel>
 }
