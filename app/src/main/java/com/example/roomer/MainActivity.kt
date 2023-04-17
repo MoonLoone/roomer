@@ -55,9 +55,14 @@ class MainActivity : AppCompatActivity() {
                         SearchRoomResultsDestination.route,
                     )
                     Constants.Notification.ACTION_NOTIFICATION_CHAT -> {
-                        val chatId = intent.getIntExtra(Constants.Notification.EXTRA_NOTIFICATION_CHAT, 0)
-                        val recipientId =
-                            intent.getIntExtra(Constants.Notification.EXTRA_NOTIFICATION_RECIPIENT, 0)
+                        val chatId = intent.getIntExtra(
+                            Constants.Notification.EXTRA_NOTIFICATION_CHAT,
+                            0
+                        )
+                        val recipientId = intent.getIntExtra(
+                            Constants.Notification.EXTRA_NOTIFICATION_RECIPIENT,
+                            0
+                        )
                         if (chatId > 0 && recipientId > 0) {
                             navController.navigate(
                                 ChatScreenDestination(recipientId, chatId).route,
