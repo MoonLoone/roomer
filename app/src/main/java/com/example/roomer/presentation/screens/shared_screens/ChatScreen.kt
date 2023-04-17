@@ -1,5 +1,6 @@
 package com.example.roomer.presentation.screens.shared_screens
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -39,6 +40,10 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.paging.PagingData
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.items
 import com.example.roomer.R
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.User
@@ -74,9 +79,9 @@ fun ChatScreen(
         val messageText = remember {
             mutableStateOf(TextFieldValue(""))
         }
-        val messages = viewModel.messages.collectAsState()
+        val messages = viewModel.messagesPager.collectAsLazyPagingItems()
         MessagesList(
-            messages = messages.value,
+            messages = messages,
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
@@ -125,24 +130,31 @@ private fun TopLine(onNavigateTo: () -> Unit) {
 }
 
 @Composable
-private fun MessagesList(messages: List<Message>, modifier: Modifier, checkMessage: (Int) -> Unit) {
+private fun MessagesList(
+    messages: LazyPagingItems<Message>,
+    modifier: Modifier,
+    checkMessage: (Int) -> Unit
+) {
     val lazyListState: LazyListState = rememberLazyListState()
-    val scope = rememberCoroutineScope()
-    LazyColumn(modifier = modifier, state = lazyListState) {
-        items(messages.size) { index ->
-            if (!messages[index].isChecked && messages[index].recipient == User()) {
-                messages[index].isChecked = true
-                checkMessage.invoke(index + 1)
+    //val scope = rememberCoroutineScope()
+    LazyColumn(modifier = modifier, state = lazyListState, reverseLayout = true) {
+        items(messages) { item ->
+            item?.let { message ->
+                if (!message.isChecked && message.recipient == User()) {
+                    message.isChecked = true
+                    checkMessage.invoke(message.id + 1)
+                }
+                Message(
+                    isUserMessage = message.donor == User(),
+                    text = message.text,
+                    data = message.dateTime
+                )
             }
-            Message(
-                isUserMessage = messages[index].donor == User(),
-                text = messages[index].text,
-                data = messages[index].dateTime
-            )
         }
-        scope.launch { lazyListState.scrollToItem(messages.size) }
+        //scope.launch { lazyListState.scrollToItem(messages.itemCount) }
     }
 }
+
 
 @Composable
 private fun EnterMessage(

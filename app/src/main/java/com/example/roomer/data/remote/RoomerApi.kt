@@ -1,5 +1,6 @@
 package com.example.roomer.data.remote
 
+import androidx.compose.ui.geometry.Offset
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.MessageNotification
 import com.example.roomer.domain.model.entities.Room
@@ -74,7 +75,9 @@ interface RoomerApi {
     @GET("/chats/")
     suspend fun getChatsForUser(
         @Query("user_id") userId: Int,
-        @Query("chat_id") chatId: String = ""
+        @Query("chat_id") chatId: String,
+        @Query("offset") offset: Int = 0,
+        @Query("limit") limit: Int = 10,
     ): Response<List<Message>>
 
     @PUT("/chats/{id}/mark_checked/")
