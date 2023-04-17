@@ -121,7 +121,7 @@ fun DropdownTextFieldMapped(
                 },
             enabled = false,
             trailingIcon = {
-                Icon(icon, "Dropdown icon")
+                Icon(icon, stringResource(R.string.dropdown_icon))
             },
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = colorResource(id = R.color.secondary_color)
@@ -153,7 +153,7 @@ fun DropdownTextFieldMapped(
 fun SexField(
     value: String,
     onValueChange: (String) -> Unit,
-    title: String = "Select sex",
+    title: String = stringResource(R.string.select_sex_label),
     enabled: Boolean = true
 ) {
     Column(
@@ -176,26 +176,26 @@ fun SexField(
         ) {
             if (value == "M") {
                 GreenButtonPrimaryIconed(
-                    text = "Male",
+                    text = stringResource(R.string.male),
                     onClick = {},
                     trailingIcon = Icons.Filled.Male,
                     enabled = enabled
                 )
                 GreenButtonOutlineIconed(
-                    text = "Female",
+                    text = stringResource(R.string.female),
                     onClick = { onValueChange("F") },
                     trailingIcon = Icons.Filled.Female,
                     enabled = enabled
                 )
             } else {
                 GreenButtonOutlineIconed(
-                    text = "Male",
+                    text = stringResource(R.string.male),
                     onClick = { onValueChange("M") },
                     trailingIcon = Icons.Filled.Male,
                     enabled = enabled
                 )
                 GreenButtonPrimaryIconed(
-                    text = "Female",
+                    text = stringResource(R.string.female),
                     onClick = {},
                     trailingIcon = Icons.Filled.Female,
                     enabled = enabled
@@ -263,8 +263,8 @@ fun DateField(
     MaterialDialog(
         dialogState = dialogState,
         buttons = {
-            positiveButton(stringResource(R.string.positive_button))
-            negativeButton(stringResource(R.string.negative_button))
+            positiveButton(stringResource(R.string.positive_button_label))
+            negativeButton(stringResource(R.string.negative_button_label))
         }
     ) {
         datepicker { date ->
@@ -355,7 +355,7 @@ fun SelectAddressField(
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.select_adr_icon),
-                    contentDescription = stringResource(id = R.string.select_addr_title),
+                    contentDescription = stringResource(id = R.string.select_addr_label),
                     modifier = Modifier
                         .width(dimensionResource(id = R.dimen.big_icon))
                         .height(dimensionResource(id = R.dimen.big_icon)),
@@ -699,7 +699,7 @@ fun InterestField(paddingValues: PaddingValues, label: String) {
                     .clickable { openDialog = !openDialog },
                 enabled = false,
                 trailingIcon = {
-                    Icon(icon, "Dropdown icon")
+                    Icon(icon, stringResource(R.string.dropdown_icon))
                 },
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = colorResource(id = R.color.secondary_color)
@@ -713,12 +713,12 @@ fun InterestField(paddingValues: PaddingValues, label: String) {
         if (openDialog) {
             AlertDialog(
                 onDismissRequest = { openDialog = false },
-                title = { Text("Change interests") },
+                title = { Text(stringResource(R.string.change_interests)) },
                 text = {
                 },
                 buttons = {
                     Button(modifier = Modifier.fillMaxWidth(), onClick = { openDialog = false }) {
-                        Text("Dismiss")
+                        Text(stringResource(R.string.dismiss))
                     }
                 }
             )

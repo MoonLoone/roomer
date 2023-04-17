@@ -29,6 +29,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
@@ -112,7 +113,7 @@ private fun Searcher() {
     TextField(
         label = {
             Text(
-                text = "Search in messages",
+                text = stringResource(R.string.search_in_messages),
                 style = TextStyle(
                     color = colorResource(id = R.color.primary_dark),
                     fontSize = integerResource(id = R.integer.secondary_text).sp,
@@ -133,7 +134,7 @@ private fun Searcher() {
         leadingIcon = {
             Icon(
                 painter = painterResource(id = R.drawable.loupe_icon),
-                contentDescription = "search_icon",
+                contentDescription = stringResource(R.string.search_icon_content_description),
                 modifier = Modifier
                     .height(
                         dimensionResource(id = R.dimen.small_icon)
@@ -146,7 +147,7 @@ private fun Searcher() {
         trailingIcon = {
             Icon(
                 painter = painterResource(id = R.drawable.clear_icon),
-                contentDescription = "clear_text",
+                contentDescription = stringResource(R.string.clear_text_content_description),
                 modifier = Modifier
                     .height(
                         dimensionResource(id = R.dimen.ordinary_icon)
@@ -178,9 +179,9 @@ private fun Searcher() {
 @Composable
 private fun EmptyChatListNotification(onNavigate: () -> Unit) {
     Column(modifier = Modifier.fillMaxWidth()) {
-        Text(text = "No chats here")
+        Text(text = stringResource(R.string.no_chats_here))
         Text(
-            text = "Do you want to start new chat?",
+            text = stringResource(R.string.want_to_start_new_chat),
             modifier = Modifier.clickable {
                 onNavigate.invoke()
             }

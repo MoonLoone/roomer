@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -43,20 +44,20 @@ fun GreetingsScreen(
         verticalArrangement = Arrangement.Center,
     ) {
         Text(
-            text = "Welcome to Roomer",
+            text = stringResource(R.string.greetings_screen_header_1),
             fontSize = 30.sp,
             fontWeight = FontWeight.Medium,
             textAlign = TextAlign.Center
         )
         Text(
-            text = "Get started with us",
+            text = stringResource(R.string.greetings_screen_header_2),
             fontSize = 20.sp,
             fontWeight = FontWeight.Normal,
             textAlign = TextAlign.Center,
             color = colorResource(id = R.color.text_secondary)
         )
         GreenButtonPrimary(
-            text = "Login",
+            text = stringResource(R.string.login_button_label),
             modifier = Modifier
                 .padding(top = 16.dp)
                 .fillMaxWidth(),
@@ -68,7 +69,7 @@ fun GreetingsScreen(
             )
         }
         GreenButtonOutline(
-            text = "Sign Up",
+            text = stringResource(R.string.sign_up_button_label),
             modifier = Modifier
                 .padding(top = 8.dp)
                 .fillMaxWidth(),

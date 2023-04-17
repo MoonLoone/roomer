@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.integerResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
@@ -65,17 +66,17 @@ fun HabitsScreen(
                 progress = 0.6f
             )
             Text(
-                text = "Tell us about your living habits",
+                text = stringResource(R.string.tell_us_about_your_living_habits),
                 fontSize = integerResource(id = R.integer.label_text).sp,
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Start
             )
             ButtonsRowMapped(
-                label = "Your usual sleep time",
+                label = stringResource(R.string.your_usual_sleep_time),
                 values = mapOf(
-                    Pair("N", "Night"),
-                    Pair("D", "Day"),
-                    Pair("O", "Occasionally")
+                    Pair("N", stringResource(R.string.night)),
+                    Pair("D", stringResource(R.string.day)),
+                    Pair("O", stringResource(R.string.occasionally))
                 ),
                 value = signUpViewModel.sleepTime,
                 onValueChange = {
@@ -83,11 +84,11 @@ fun HabitsScreen(
                 }
             )
             ButtonsRowMapped(
-                label = "Attitude to alcohol",
+                label = stringResource(R.string.attitude_to_alcohol_label),
                 values = mapOf(
-                    Pair("P", "Positive"),
-                    Pair("N", "Negative"),
-                    Pair("I", "Indifferent")
+                    Pair("P", stringResource(R.string.positive)),
+                    Pair("N", stringResource(R.string.negative)),
+                    Pair("I", stringResource(R.string.indifferent))
                 ),
                 value = signUpViewModel.alcoholAttitude,
                 onValueChange = {
@@ -95,11 +96,11 @@ fun HabitsScreen(
                 }
             )
             ButtonsRowMapped(
-                label = "Attitude to smoking",
+                label = stringResource(R.string.attitude_to_smoking_label),
                 values = mapOf(
-                    Pair("P", "Positive"),
-                    Pair("N", "Negative"),
-                    Pair("I", "Indifferent")
+                    Pair("P", stringResource(R.string.positive)),
+                    Pair("N", stringResource(R.string.negative)),
+                    Pair("I", stringResource(R.string.indifferent))
                 ),
                 value = signUpViewModel.smokingAttitude,
                 onValueChange = {
@@ -107,11 +108,11 @@ fun HabitsScreen(
                 }
             )
             ButtonsRowMapped(
-                label = "Personality type",
+                label = stringResource(R.string.personality_type_label),
                 values = mapOf(
-                    Pair("E", "Extraverted"),
-                    Pair("I", "Introverted"),
-                    Pair("M", "Mixed")
+                    Pair("E", stringResource(R.string.extraverted)),
+                    Pair("I", stringResource(R.string.introverted)),
+                    Pair("M", stringResource(R.string.mixed))
                 ),
                 value = signUpViewModel.personalityType,
                 onValueChange = {
@@ -120,11 +121,11 @@ fun HabitsScreen(
             )
             DropdownTextFieldMapped(
                 mapOfItems = mapOf(
-                    Pair("N", "Neat"),
-                    Pair("D", "It Depends"),
-                    Pair("C", "Chaos")
+                    Pair("N", stringResource(R.string.neat)),
+                    Pair("D", stringResource(R.string.it_depends)),
+                    Pair("C", stringResource(R.string.chaos))
                 ),
-                label = "Clean habits",
+                label = stringResource(R.string.clean_habits_label),
                 value = signUpViewModel.cleanHabits,
                 onValueChange = {
                     signUpViewModel.cleanHabits = it
@@ -137,10 +138,10 @@ fun HabitsScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 GreenButtonPrimary(
-                    text = "Go Back",
+                    text = stringResource(R.string.back_button_label),
                 ) { navigator.navigate(AboutMeAvatarScreenDestination) }
                 GreenButtonPrimary(
-                    text = "Continue",
+                    text = stringResource(R.string.continue_button_label),
                 ) { navigator.navigate(InterestsScreenDestination) }
             }
         }

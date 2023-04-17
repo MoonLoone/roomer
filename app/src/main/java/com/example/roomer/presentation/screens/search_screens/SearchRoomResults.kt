@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.integerResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -45,9 +46,9 @@ fun SearchRoomResults(
     val bathrooms = ""
     var apartmentType = ""
     apartmentType = when (apartmentType) {
-        "Flat" -> "F"
-        "Duplex" -> "DU"
-        "House" -> "H"
+        stringResource(R.string.flat) -> "F"
+        stringResource(R.string.duplex) -> "DU"
+        stringResource(R.string.house) -> "H"
         else -> "DO"
     }
     val viewModel: SearchRoomResultsViewModel = hiltViewModel()
@@ -71,7 +72,7 @@ fun SearchRoomResults(
                 ) {
                     BackBtn(onBackNavigation = { navigator.navigate(HomeScreenDestination) })
                     Text(
-                        text = "Housing Results",
+                        text = stringResource(R.string.housing_results),
                         fontSize = integerResource(
                             id = R.integer.label_text
                         ).sp,
@@ -88,7 +89,7 @@ fun SearchRoomResults(
                     item {
                         if (rooms.isEmpty()) {
                             Text(
-                                text = "Sorry, nothing here",
+                                text = stringResource(R.string.sorry_nothing_here),
                                 style = TextStyle(
                                     fontSize = integerResource(id = R.integer.label_text).sp,
                                 )
@@ -110,7 +111,7 @@ fun SearchRoomResults(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Text(
-                    text = "Sorry, something went wrong. You should to retry",
+                    text = stringResource(R.string.something_went_wrong),
                     style = TextStyle(
                         fontSize = integerResource(
                             id = R.integer.primary_text
@@ -118,7 +119,7 @@ fun SearchRoomResults(
                         color = Color.Black,
                     )
                 )
-                GreenButtonOutline(text = "Retry") {
+                GreenButtonOutline(text = stringResource(R.string.retry)) {
                     viewModel.loadRooms(from, to, bedrooms, bathrooms, apartmentType)
                 }
             }

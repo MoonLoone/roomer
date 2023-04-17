@@ -125,7 +125,7 @@ fun ChatItem(
     ) {
         Image(
             painter = painterResource(id = R.drawable.ordinary_client),
-            contentDescription = stringResource(R.string.user_avatar_description),
+            contentDescription = stringResource(R.string.user_avatar_content_description),
             modifier = Modifier
                 .width(dimensionResource(id = R.dimen.small_avatar_image))
                 .height(dimensionResource(id = R.dimen.small_avatar_image))
@@ -504,7 +504,7 @@ fun BackBtn(onBackNavigation: () -> Unit) {
             .clickable {
                 onBackNavigation.invoke()
             },
-        contentDescription = stringResource(id = R.string.back_button)
+        contentDescription = stringResource(id = R.string.back_button_label)
     )
 }
 
@@ -551,7 +551,11 @@ fun GreenButtonPrimaryIconed(
         ),
         interactionSource = NoRippleInteractionSource()
     ) {
-        Icon(trailingIcon, "None", tint = colorResource(id = R.color.secondary_color))
+        Icon(
+            trailingIcon,
+            stringResource(R.string.none_content_description),
+            tint = colorResource(id = R.color.secondary_color)
+        )
         androidx.compose.material.Text(
             text = text,
         )
@@ -581,7 +585,11 @@ fun GreenButtonOutlineIconed(
         enabled = enabled,
         interactionSource = NoRippleInteractionSource()
     ) {
-        Icon(trailingIcon, "None", tint = colorResource(id = R.color.primary_dark))
+        Icon(
+            trailingIcon,
+            stringResource(R.string.none_content_description),
+            tint = colorResource(id = R.color.primary_dark)
+        )
         androidx.compose.material.Text(
             text = text,
         )
@@ -746,7 +754,7 @@ fun ProfilePicture(
         bitmapValue?.let {
             Image(
                 bitmap = it.asImageBitmap(),
-                contentDescription = "Your avatar",
+                contentDescription = stringResource(R.string.email_placeholder),
                 modifier = imageModifier,
                 contentScale = ContentScale.Crop,
                 alignment = Alignment.Center
@@ -754,13 +762,13 @@ fun ProfilePicture(
         } ?: Image(
             modifier = imageModifier,
             painter = painterResource(id = R.drawable.usual_client),
-            contentDescription = "Your avatar",
+            contentDescription = stringResource(R.string.email_placeholder),
             contentScale = ContentScale.Crop,
             alignment = Alignment.Center
         )
         Icon(
             Icons.Filled.PhotoCamera,
-            contentDescription = "Upload photo",
+            contentDescription = stringResource(R.string.upload_photo_content_description),
             modifier = Modifier
                 .height(dimensionResource(id = R.dimen.ordinary_icon))
                 .width(dimensionResource(id = R.dimen.ordinary_icon))
@@ -965,7 +973,7 @@ fun UserCardResult(searchUser: User) {
                     )
                 )
                 Text(
-                    "Occasionally",
+                    stringResource(R.string.occasionally),
                     style = TextStyle(
                         fontSize = integerResource(id = R.integer.primary_text).sp,
                         color = Color.Black,
@@ -979,7 +987,7 @@ fun UserCardResult(searchUser: User) {
                     .height(20.dp)
             ) {
                 Text(
-                    text = "Rating:",
+                    text = stringResource(R.string.rating_and_colon),
                     style = TextStyle(
                         fontSize = integerResource(id = R.integer.primary_text).sp,
                         fontWeight = FontWeight.Bold,
@@ -997,7 +1005,7 @@ fun UserCardResult(searchUser: User) {
                 )
                 Icon(
                     painter = painterResource(id = R.drawable.rating_icon),
-                    contentDescription = "Rating star",
+                    contentDescription = stringResource(R.string.rating_star_content_description),
                     modifier = Modifier
                         .height(dimensionResource(id = R.dimen.small_icon))
                         .width(dimensionResource(id = R.dimen.small_icon)),
@@ -1058,7 +1066,7 @@ fun InterestsButtons(
 fun SimpleAlertDialog(
     title: String,
     text: String,
-    buttonText: String = "Got you!",
+    buttonText: String = stringResource(R.string.got_you),
     confirmDismissOnClick: () -> Unit,
 ) {
     AlertDialog(

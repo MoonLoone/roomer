@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.integerResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
@@ -70,14 +71,14 @@ fun InterestsScreen(
                 progress = 0.8f
             )
             Text(
-                text = "Tell us about your interests",
+                text = stringResource(R.string.tell_us_about_interests),
                 fontSize = integerResource(id = R.integer.label_text).sp,
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Start
             )
             if (state.isInterestsLoaded) {
                 InterestsButtons(
-                    label = "Choose 10 maximum",
+                    label = stringResource(R.string.choose_10_maximum),
                     values = interests,
                     selectedItems = signUpViewModel.interests,
                     onSelectedChange = { signUpViewModel.interests = it }
@@ -93,7 +94,7 @@ fun InterestsScreen(
             }
             if (state.internetProblem) {
                 if (!state.isInterestsLoaded)
-                    GreenButtonOutline(text = "Retry") {
+                    GreenButtonOutline(text = stringResource(R.string.retry)) {
                         interestsScreenViewModel.getInterests()
                     }
             }
@@ -104,12 +105,12 @@ fun InterestsScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 GreenButtonPrimary(
-                    text = "Go Back",
+                    text = stringResource(R.string.back_button_label),
                 ) {
                     navigator.navigate(HabitsScreenDestination())
                 }
                 GreenButtonPrimary(
-                    text = "Finish",
+                    text = stringResource(R.string.finish_button_label),
                 ) {
                     interestsScreenViewModel.putSignUpData(
                         signUpViewModel.firstName,
