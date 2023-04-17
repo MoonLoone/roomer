@@ -80,13 +80,13 @@ fun AboutMeAvatarScreen(
                 progress = 0.4f,
             )
             Text(
-                text = "Just basic profile info",
+                text = stringResource(R.string.just_basic_profile_info),
                 fontSize = integerResource(id = R.integer.label_text).sp,
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Start,
             )
             Text(
-                text = "Add profile picture",
+                text = stringResource(R.string.add_profile_picture),
                 fontSize = integerResource(id = R.integer.primary_text).sp,
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Start,
@@ -98,8 +98,8 @@ fun AboutMeAvatarScreen(
                 },
             )
             UsualTextField(
-                title = "Write something about you",
-                placeholder = "About Me",
+                title = stringResource(R.string.write_something_about_you),
+                placeholder = stringResource(R.string.about_me),
                 value = signUpViewModel.personDescription,
                 onValueChange = {
                     signUpViewModel.personDescription = it
@@ -107,11 +107,11 @@ fun AboutMeAvatarScreen(
             )
             DropdownTextFieldMapped(
                 mapOfItems = mapOf(
-                    Pair("NE", "Not Employed"),
-                    Pair("E", "Employed"),
-                    Pair("S", "Searching For Work"),
+                    Pair("NE", stringResource(R.string.not_employed)),
+                    Pair("E", stringResource(R.string.employed)),
+                    Pair("S", stringResource(R.string.searching_for_work))
                 ),
-                label = "What you currently do?",
+                label = stringResource(R.string.what_you_currently_do_lable),
                 value = signUpViewModel.employment,
                 onValueChange = {
                     signUpViewModel.employment = it
@@ -124,12 +124,12 @@ fun AboutMeAvatarScreen(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 GreenButtonPrimary(
-                    text = "Go Back",
+                    text = stringResource(R.string.back_button_label),
                 ) {
                     navigator.navigate(PrimaryUserInfoScreenDestination)
                 }
                 GreenButtonPrimary(
-                    text = "Continue",
+                    text = stringResource(R.string.continue_button_label),
                 ) {
                     signUpViewModel.aboutMeAvatarScreenValidate()
                 }
@@ -140,8 +140,8 @@ fun AboutMeAvatarScreen(
             }
             if (uiState.isError) {
                 SimpleAlertDialog(
-                    title = stringResource(R.string.login_alert_dialog_title),
-                    text = uiState.errorMessage,
+                    title = stringResource(R.string.login_alert_dialog_text),
+                    text = uiState.errorMessage
                 ) { signUpViewModel.clearError() }
             }
         }

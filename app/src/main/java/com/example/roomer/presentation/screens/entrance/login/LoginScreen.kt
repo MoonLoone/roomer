@@ -109,7 +109,7 @@ fun LoginScreen(
             GreenButtonPrimary(
                 modifier = Modifier
                     .fillMaxWidth(),
-                text = stringResource(R.string.login_button_text),
+                text = stringResource(R.string.login_button_label),
                 enabled = !state.isLoading,
             ) {
                 loginScreenViewModel.getUserLogin(emailValue, passwordValue)
@@ -153,8 +153,8 @@ fun LoginScreen(
             }
             if (state.error.isNotEmpty()) {
                 SimpleAlertDialog(
-                    title = stringResource(R.string.login_alert_dialog_title),
-                    text = state.error,
+                    title = stringResource(R.string.login_alert_dialog_text),
+                    text = state.error
                 ) {
                     loginScreenViewModel.clearViewModel()
                 }

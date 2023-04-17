@@ -44,8 +44,8 @@ fun SplashScreen(
     }
     if (state.isInternetProblem) {
         SimpleAlertDialog(
-            title = stringResource(R.string.login_alert_dialog_title),
-            text = state.errorMessage,
+            title = stringResource(R.string.login_alert_dialog_text),
+            text = state.errorMessage
         ) {
             splashScreenViewModel.clearState()
             splashScreenViewModel.verifyToken()

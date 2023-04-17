@@ -32,6 +32,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
@@ -100,11 +101,11 @@ private fun TopLine(onNavigateTo: () -> Unit) {
                 .height(56.dp)
                 .padding(start = 16.dp),
             painter = painterResource(id = R.drawable.ordinary_client),
-            contentDescription = "Client avatar",
+            contentDescription = stringResource(R.string.user_avatar_content_description),
             alignment = Alignment.Center,
         )
         Text(
-            text = "Username here",
+            text = stringResource(R.string.username_here),
             modifier = Modifier.padding(start = 8.dp),
             style = TextStyle(
                 color = Color.Black,
@@ -155,7 +156,7 @@ private fun EnterMessage(
             value = editMessageText.value,
             placeholder = {
                 Text(
-                    text = "Type your message",
+                    text = stringResource(R.string.type_your_message),
                     style = TextStyle(
                         color = colorResource(
                             id = R.color.text_secondary,
@@ -169,7 +170,7 @@ private fun EnterMessage(
                 Row {
                     Image(
                         painter = painterResource(id = R.drawable.add_icon),
-                        contentDescription = "Add icon",
+                        contentDescription = stringResource(R.string.add_icon_placeholder),
                         modifier = Modifier
                             .width(dimensionResource(id = R.dimen.big_icon))
                             .height(dimensionResource(id = R.dimen.big_icon)),
@@ -191,7 +192,9 @@ private fun EnterMessage(
                     ) {
                         Image(
                             painter = painterResource(id = R.drawable.send_icon),
-                            contentDescription = "Enter message",
+                            contentDescription = stringResource(
+                                R.string.enter_message_content_description
+                            ),
                             alignment = Alignment.Center,
                             modifier = Modifier
                                 .width(dimensionResource(id = R.dimen.ordinary_icon))
