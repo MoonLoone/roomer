@@ -3,7 +3,8 @@ package com.example.roomer.presentation.screens.entrance.splash_screen
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.roomer.data.repository.RoomerRepositoryInterface
+import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
+import com.example.roomer.domain.model.entities.User
 import com.example.roomer.domain.usecase.login_sign_up.SplashScreenUseCase
 import com.example.roomer.presentation.screens.UsualScreenState
 import com.example.roomer.utils.Resource
@@ -19,7 +20,7 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class SplashScreenViewModel @Inject constructor(
     application: Application,
-    roomerRepository: RoomerRepositoryInterface
+    private val roomerRepository: RoomerRepositoryInterface
 ) : AndroidViewModel(application) {
     private val userToken = SpManager().getSharedPreference(
         getApplication<Application>().applicationContext,
@@ -32,11 +33,25 @@ class SplashScreenViewModel @Inject constructor(
     private val splashScreenUseCase = SplashScreenUseCase(roomerRepository)
 
     init {
-        if (userToken == null)
+        if (userToken == null) {
             _state.update { currentState ->
                 currentState.copy(isError = true)
             }
-        else verifyToken()
+        } else {
+            verifyToken()
+        }
+    }
+
+    private fun storeCurrentUser(user: User) {
+        viewModelScope.launch {
+            roomerRepository.addLocalCurrentUser(user)
+        }
+    }
+
+    private fun clearCurrentUser() {
+        viewModelScope.launch {
+            roomerRepository.deleteLocalCurrentUser()
+        }
     }
 
     fun verifyToken() {
@@ -49,6 +64,9 @@ class SplashScreenViewModel @Inject constructor(
                         }
                     }
                     is Resource.Success -> {
+                        result.data?.let {
+                            storeCurrentUser(it)
+                        }
                         _state.update { currentState ->
                             currentState.copy(isLoading = false, isSuccess = true)
                         }
@@ -64,6 +82,7 @@ class SplashScreenViewModel @Inject constructor(
                     }
                     is Resource.Error -> {
                         eraseSharedPreferences()
+                        clearCurrentUser()
                         _state.update { currentState ->
                             currentState.copy(
                                 isLoading = false,
@@ -78,15 +97,15 @@ class SplashScreenViewModel @Inject constructor(
     private fun eraseSharedPreferences() {
         SpManager().removeSharedPreference(
             getApplication<Application>().applicationContext,
-            SpManager.Sp.TOKEN,
+            SpManager.Sp.TOKEN
         )
         SpManager().removeSharedPreference(
             getApplication<Application>().applicationContext,
-            SpManager.Sp.EMAIL,
+            SpManager.Sp.EMAIL
         )
         SpManager().removeSharedPreference(
             getApplication<Application>().applicationContext,
-            SpManager.Sp.PASSWORD,
+            SpManager.Sp.PASSWORD
         )
     }
 

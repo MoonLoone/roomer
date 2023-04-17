@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.integerResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -42,7 +43,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Destination
 @Composable
 fun SearchRoomScreen(
-    navigator: DestinationsNavigator,
+    navigator: DestinationsNavigator
 ) {
     var fromPrice by remember {
         mutableStateOf("0")
@@ -72,7 +73,7 @@ fun SearchRoomScreen(
                     .padding(start = 20.dp, bottom = 40.dp)
                     .background(color = Color.White, shape = RoundedCornerShape(100.dp))
                     .height(40.dp),
-                text = "Show results",
+                text = stringResource(R.string.show_results),
                 onClick = {
                     if (fromPrice.toInt() > toPrice.toInt()) {
                         Toast.makeText(context, "To price less than from price", Toast.LENGTH_SHORT)
@@ -100,7 +101,7 @@ fun SearchRoomScreen(
                     }
                 )
                 Text(
-                    text = "Search filter",
+                    text = stringResource(R.string.search_filter),
                     modifier = Modifier.fillMaxWidth(),
                     style = TextStyle(
                         fontSize = integerResource(
@@ -116,18 +117,18 @@ fun SearchRoomScreen(
                 onNavigateToFriends = { navigator.navigate(SearchRoommateScreenDestination) }
             )
             Text(
-                "Choose room parameters",
+                stringResource(R.string.choose_room_parameters),
                 style = TextStyle(
                     fontSize = 20.sp,
                     color = Color.Black
-                ),
+                )
             )
             Text(
-                "Month price",
+                stringResource(R.string.month_price),
                 style = TextStyle(
                     fontSize = 16.sp,
                     color = Color.Black
-                ),
+                )
             )
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -135,7 +136,7 @@ fun SearchRoomScreen(
             ) {
                 Column {
                     Text(
-                        "From",
+                        stringResource(R.string.from_price_label),
                         style = TextStyle(
                             fontSize = integerResource(id = R.integer.primary_text_size).sp,
                             color = colorResource(
@@ -155,18 +156,18 @@ fun SearchRoomScreen(
                         modifier = Modifier
                             .width(120.dp)
                             .height(56.dp),
-                        placeholder = { Text("Start price") },
+                        placeholder = { Text(stringResource(R.string.start_price_placeholder)) },
                         colors = TextFieldDefaults.textFieldColors(
                             backgroundColor = colorResource(
                                 id = R.color.secondary_color
                             )
                         ),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                     )
                 }
                 Column {
                     Text(
-                        "To",
+                        stringResource(R.string.to_price_label),
                         style = TextStyle(
                             fontSize = integerResource(id = R.integer.primary_text_size).sp,
                             color = colorResource(id = R.color.text_secondary)
@@ -184,41 +185,41 @@ fun SearchRoomScreen(
                         modifier = Modifier
                             .width(120.dp)
                             .height(56.dp),
-                        placeholder = { Text("End price") },
+                        placeholder = { Text(stringResource(R.string.end_price_placeholder)) },
                         colors = TextFieldDefaults.textFieldColors(
                             backgroundColor = colorResource(
                                 id = R.color.secondary_color
                             )
                         ),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                     )
                 }
             }
             UsualTextField(
-                title = "Location",
-                placeholder = "Put some city, street",
+                title = stringResource(R.string.location_label),
+                placeholder = stringResource(R.string.put_some_city_placeholder),
                 value = location.value,
                 onValueChange = { location.value = it }
             )
             ButtonsRow(
-                label = "Bedrooms",
-                values = listOf("Any", "1", "2", ">3"),
+                label = stringResource(R.string.bedrooms_label),
+                values = listOf(stringResource(R.string.any), "1", "2", ">3"),
                 value = bedrooms.value,
                 onValueChange = { bedrooms.value = it }
             )
             ButtonsRow(
-                label = "Bathrooms",
-                values = listOf("Any", "1", "2", ">3"),
+                label = stringResource(R.string.bathrooms_label),
+                values = listOf(stringResource(R.string.any), "1", "2", ">3"),
                 value = bathrooms.value,
                 onValueChange = { bathrooms.value = it }
             )
             ButtonsRowMapped(
-                label = "Apartment Type",
+                label = stringResource(R.string.apartment_type_label),
                 values = mapOf(
-                    Pair("F", "Flat"),
-                    Pair("DU", "Duplex"),
-                    Pair("H", "House"),
-                    Pair("DO", "Dorm")
+                    Pair("F", stringResource(R.string.flat)),
+                    Pair("DU", stringResource(R.string.duplex)),
+                    Pair("H", stringResource(R.string.house)),
+                    Pair("DO", stringResource(R.string.dorm))
                 ),
                 value = apartmentType.value,
                 onValueChange = { apartmentType.value = it }

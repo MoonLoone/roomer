@@ -30,29 +30,31 @@ class SignUpViewModel : ViewModel() {
     var interests by mutableStateOf<List<InterestModel>>(emptyList())
 
     fun aboutMeAvatarScreenValidate() {
-        if (avatar == null)
+        if (avatar == null) {
             _uiState.update { currentState ->
                 currentState.copy(isError = true, errorMessage = EMPTY_AVATAR_ERROR_MESSAGE)
             }
-        else if (personDescription.isEmpty())
+        } else if (personDescription.isEmpty()) {
             _uiState.update { currentState ->
                 currentState.copy(isError = true, errorMessage = EMPTY_FIELDS_ERROR_MESSAGE)
             }
-        else
+        } else {
             _uiState.update { currentState ->
                 currentState.copy(isValid = true)
             }
+        }
     }
 
     fun primaryUserInfoPageValidate() {
-        if (firstName.isEmpty() || lastName.isEmpty())
+        if (firstName.isEmpty() || lastName.isEmpty()) {
             _uiState.update { currentState ->
                 currentState.copy(isError = true, errorMessage = EMPTY_FIELDS_ERROR_MESSAGE)
             }
-        else
+        } else {
             _uiState.update { currentState ->
                 currentState.copy(isValid = true)
             }
+        }
     }
 
     fun clearState() {

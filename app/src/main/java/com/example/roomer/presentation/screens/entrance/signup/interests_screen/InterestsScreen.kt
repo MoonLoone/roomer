@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.integerResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
@@ -49,7 +50,7 @@ fun InterestsScreen(
             .fillMaxSize()
             .background(Color.White),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Center
     ) {
         Column(
             modifier = Modifier
@@ -61,7 +62,7 @@ fun InterestsScreen(
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.spacedBy(
                 dimensionResource(id = R.dimen.list_elements_margin)
-            ),
+            )
         ) {
             LinearProgressIndicator(
                 modifier = Modifier
@@ -70,14 +71,14 @@ fun InterestsScreen(
                 progress = 0.8f
             )
             Text(
-                text = "Tell us about your interests",
+                text = stringResource(R.string.tell_us_about_interests),
                 fontSize = integerResource(id = R.integer.label_text).sp,
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Start
             )
             if (state.isInterestsLoaded) {
                 InterestsButtons(
-                    label = "Choose 10 maximum",
+                    label = stringResource(R.string.choose_10_maximum),
                     values = interests,
                     selectedItems = signUpViewModel.interests,
                     onSelectedChange = { signUpViewModel.interests = it }
@@ -92,41 +93,42 @@ fun InterestsScreen(
                 )
             }
             if (state.internetProblem) {
-                if (!state.isInterestsLoaded)
-                    GreenButtonOutline(text = "Retry") {
+                if (!state.isInterestsLoaded) {
+                    GreenButtonOutline(text = stringResource(R.string.retry)) {
                         interestsScreenViewModel.getInterests()
                     }
+                }
             }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            GreenButtonPrimary(
+                text = stringResource(R.string.back_button_label)
             ) {
-                GreenButtonPrimary(
-                    text = "Go Back",
-                ) {
-                    navigator.navigate(HabitsScreenDestination())
-                }
-                GreenButtonPrimary(
-                    text = "Finish",
-                ) {
-                    interestsScreenViewModel.putSignUpData(
-                        signUpViewModel.firstName,
-                        signUpViewModel.lastName,
-                        signUpViewModel.sex,
-                        signUpViewModel.birthDate,
-                        signUpViewModel.avatar!!,
-                        signUpViewModel.personDescription,
-                        signUpViewModel.employment,
-                        signUpViewModel.sleepTime,
-                        signUpViewModel.alcoholAttitude,
-                        signUpViewModel.smokingAttitude,
-                        signUpViewModel.personalityType,
-                        signUpViewModel.cleanHabits,
-                        signUpViewModel.interests,
-                    )
-                }
+                navigator.navigate(HabitsScreenDestination())
+            }
+            GreenButtonPrimary(
+                text = stringResource(R.string.finish_button_label)
+            ) {
+                interestsScreenViewModel.putSignUpData(
+                    signUpViewModel.firstName,
+                    signUpViewModel.lastName,
+                    signUpViewModel.sex,
+                    signUpViewModel.birthDate,
+                    signUpViewModel.avatar!!,
+                    signUpViewModel.personDescription,
+                    signUpViewModel.employment,
+                    signUpViewModel.sleepTime,
+                    signUpViewModel.alcoholAttitude,
+                    signUpViewModel.smokingAttitude,
+                    signUpViewModel.personalityType,
+                    signUpViewModel.cleanHabits,
+                    signUpViewModel.interests
+                )
             }
         }
     }

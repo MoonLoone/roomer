@@ -5,7 +5,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.roomer.data.repository.AuthRepositoryInterface
+import com.example.roomer.data.repository.auth_repository.AuthRepositoryInterface
 import com.example.roomer.domain.usecase.login_sign_up.LoginUseCase
 import com.example.roomer.utils.Resource
 import com.example.roomer.utils.SpManager
@@ -40,7 +40,6 @@ class LoginScreenViewModel @Inject constructor(
     }
 
     fun getUserLogin(email: String, password: String) {
-
         if (email.trim().isEmpty() || password.trim().isEmpty()
         ) {
             _state.value =
@@ -51,7 +50,6 @@ class LoginScreenViewModel @Inject constructor(
         viewModelScope.launch {
             loginUseCase(email, password).collect { result ->
                 when (result) {
-
                     is Resource.Loading -> {
                         _state.value = LoginScreenState(
                             isLoading = true,
@@ -67,7 +65,7 @@ class LoginScreenViewModel @Inject constructor(
                         _state.value = LoginScreenState(
                             isLoading = false,
                             internetProblem = false,
-                            success = true,
+                            success = true
                         )
                     }
                     is Resource.Internet -> {

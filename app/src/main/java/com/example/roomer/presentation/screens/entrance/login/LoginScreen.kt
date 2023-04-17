@@ -72,20 +72,19 @@ fun LoginScreen(
                 interactionSource = interactionSource
             ) { focusManager.clearFocus() },
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Center
     ) {
-
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
                     start = dimensionResource(id = R.dimen.screen_start_margin),
-                    end = dimensionResource(id = R.dimen.screen_end_margin),
+                    end = dimensionResource(id = R.dimen.screen_end_margin)
                 ),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(
                 dimensionResource(id = R.dimen.list_elements_margin)
-            ),
+            )
         ) {
             Text(
                 text = stringResource(R.string.login_screen_title),
@@ -110,8 +109,8 @@ fun LoginScreen(
             GreenButtonPrimary(
                 modifier = Modifier
                     .fillMaxWidth(),
-                text = stringResource(R.string.login_button_text),
-                enabled = !state.isLoading,
+                text = stringResource(R.string.login_button_label),
+                enabled = !state.isLoading
             ) {
                 loginScreenViewModel.getUserLogin(emailValue, passwordValue)
             }
@@ -154,7 +153,7 @@ fun LoginScreen(
             }
             if (state.error.isNotEmpty()) {
                 SimpleAlertDialog(
-                    title = stringResource(R.string.login_alert_dialog_title),
+                    title = stringResource(R.string.login_alert_dialog_text),
                     text = state.error
                 ) {
                     loginScreenViewModel.clearViewModel()

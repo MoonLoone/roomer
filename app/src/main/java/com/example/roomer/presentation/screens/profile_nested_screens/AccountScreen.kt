@@ -40,7 +40,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Destination
 @Composable
 fun AccountScreen(
-    navigator: DestinationsNavigator,
+    navigator: DestinationsNavigator
 ) {
     Column(
         modifier = Modifier
@@ -49,8 +49,8 @@ fun AccountScreen(
             .padding(
                 top = dimensionResource(id = R.dimen.screen_top_margin),
                 start = dimensionResource(id = R.dimen.screen_start_margin),
-                end = dimensionResource(id = R.dimen.screen_end_margin),
-            ),
+                end = dimensionResource(id = R.dimen.screen_end_margin)
+            )
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -59,29 +59,35 @@ fun AccountScreen(
         ) {
             BackBtn(onBackNavigation = { navigator.navigate(ProfileScreenDestination) })
             Text(
-                text = stringResource(R.string.account_title),
+                text = stringResource(R.string.account_label),
                 fontSize = integerResource(
                     id = R.integer.label_text
                 ).sp,
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth()
             )
         }
         Column(
             modifier = Modifier
                 .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            AccountScreenTextField(label = stringResource(R.string.first_name), textHint = "Vasya")
-            AccountScreenTextField(label = stringResource(R.string.last_name), textHint = "Pupkin")
+            AccountScreenTextField(
+                label = stringResource(R.string.first_name),
+                textHint = stringResource(R.string.first_name_hint)
+            )
+            AccountScreenTextField(
+                label = stringResource(R.string.last_name),
+                textHint = stringResource(R.string.last_name_hint)
+            )
             AccountScreenTextField(
                 textHint = stringResource(R.string.hint_about_you),
                 label = stringResource(R.string.about_me),
                 textFieldHeight = 112.dp
             )
             SelectAddressField(
-                label = stringResource(R.string.select_addr_title),
+                label = stringResource(R.string.select_addr_label),
                 placeholder = stringResource(R.string.addr_placeholder)
             )
             Row(
@@ -111,15 +117,15 @@ fun AccountScreen(
                         modifier = Modifier
                             .padding(start = 16.dp)
                             .width(dimensionResource(id = R.dimen.small_icon))
-                            .height(dimensionResource(id = R.dimen.small_icon)),
+                            .height(dimensionResource(id = R.dimen.small_icon))
                     )
                     Text(
-                        text = stringResource(id = R.string.habits_button),
+                        text = stringResource(id = R.string.habits_button_label),
                         style = TextStyle(
                             color = colorResource(id = R.color.primary_dark),
                             fontSize = integerResource(id = R.integer.primary_text).sp,
-                            fontWeight = FontWeight.Bold,
-                        ),
+                            fontWeight = FontWeight.Bold
+                        )
                     )
                 }
                 Row(
@@ -145,15 +151,15 @@ fun AccountScreen(
                         modifier = Modifier
                             .padding(start = 16.dp)
                             .width(dimensionResource(id = R.dimen.small_icon))
-                            .height(dimensionResource(id = R.dimen.small_icon)),
+                            .height(dimensionResource(id = R.dimen.small_icon))
                     )
                     Text(
-                        text = stringResource(id = R.string.interests_button),
+                        text = stringResource(id = R.string.interests_button_label),
                         style = TextStyle(
                             color = colorResource(id = R.color.primary_dark),
                             fontSize = integerResource(id = R.integer.primary_text).sp,
-                            fontWeight = FontWeight.Bold,
-                        ),
+                            fontWeight = FontWeight.Bold
+                        )
                     )
                 }
             }

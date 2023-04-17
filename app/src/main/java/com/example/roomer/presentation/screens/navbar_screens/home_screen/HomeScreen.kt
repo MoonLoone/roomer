@@ -1,4 +1,4 @@
-package com.example.roomer.presentation.screens.navbar_screens
+package com.example.roomer.presentation.screens.navbar_screens.home_screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.Orientation
@@ -24,10 +24,12 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.roomer.R
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
@@ -43,20 +45,25 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 fun HomeScreen(
     navigator: DestinationsNavigator,
+    homeScreenViewModel: HomeScreenViewModel = hiltViewModel()
 ) {
     NavbarManagement.showNavbar()
     val recommendedRooms = mutableListOf<Room>()
     val recommendedRoommates = mutableListOf<User>()
     for (i in 0..5) {
-        recommendedRooms.add(
-            Room()
-        )
         recommendedRoommates.add(
             User(
                 i,
                 "Andrey $i",
                 "",
-                "",
+                ""
+            )
+        )
+        recommendedRooms.add(
+            Room(
+                id = i,
+                host = recommendedRoommates[i],
+                fileContent = listOf(Room.Photo(photo = ""))
             )
         )
     }
@@ -74,14 +81,14 @@ fun HomeScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(56.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Column(modifier = Modifier.fillMaxHeight()) {
                 Text(
-                    text = "Welcome back!",
+                    text = stringResource(R.string.home_screen_title),
                     style = TextStyle(
                         color = colorResource(id = R.color.text_secondary),
-                        fontSize = integerResource(id = R.integer.primary_text).sp,
+                        fontSize = integerResource(id = R.integer.primary_text).sp
                     )
                 )
                 Text(
@@ -95,11 +102,11 @@ fun HomeScreen(
             }
             Image(
                 painter = painterResource(id = R.drawable.ordinary_client),
-                contentDescription = "Client avatar",
+                contentDescription = stringResource(R.string.user_avatar_content_description),
                 modifier = Modifier
                     .height(dimensionResource(id = R.dimen.small_avatar_image))
                     .width(dimensionResource(id = R.dimen.small_avatar_image)),
-                alignment = Alignment.Center,
+                alignment = Alignment.Center
             )
         }
         SearchField(onNavigateToFriends = { navigator.navigate(SearchRoomScreenDestination) })
@@ -107,22 +114,22 @@ fun HomeScreen(
             modifier = Modifier
                 .scrollable(
                     rememberScrollState(),
-                    orientation = Orientation.Vertical,
+                    orientation = Orientation.Vertical
                 )
                 .fillMaxSize()
                 .padding(top = 16.dp),
             verticalArrangement = Arrangement.spacedBy(
                 dimensionResource(id = R.dimen.list_elements_margin)
-            ),
+            )
         ) {
             Column(modifier = Modifier.fillMaxWidth()) {
                 Text(
-                    "Recently watched",
+                    stringResource(R.string.recently_watched_label),
                     style = TextStyle(
                         color = Color.Black,
                         fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold,
-                    ),
+                        fontWeight = FontWeight.Bold
+                    )
                 )
                 LazyRow(
                     modifier = Modifier
@@ -130,24 +137,21 @@ fun HomeScreen(
                         .height(148.dp),
                     horizontalArrangement = Arrangement.spacedBy(
                         dimensionResource(id = R.dimen.list_elements_margin)
-                    ),
+                    )
                 ) {
                     items(recommendedRoommates.size - 2) { index ->
                         UserCard(recommendedRoommate = recommendedRoommates[index])
                     }
-                    items(recommendedRooms.size - 2) { index ->
-                        RoomCard(recommendedRoom = recommendedRooms[index], true)
-                    }
                 }
             }
             Column(modifier = Modifier.fillMaxWidth()) {
                 Text(
-                    "Recommended rooms",
+                    stringResource(R.string.recommended_rooms_label),
                     style = TextStyle(
                         color = Color.Black,
                         fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold,
-                    ),
+                        fontWeight = FontWeight.Bold
+                    )
                 )
                 LazyRow(
                     modifier = Modifier
@@ -155,21 +159,32 @@ fun HomeScreen(
                         .height(148.dp),
                     horizontalArrangement = Arrangement.spacedBy(
                         dimensionResource(id = R.dimen.list_elements_margin)
-                    ),
+                    )
                 ) {
-                    items(recommendedRooms.size) { index ->
-                        RoomCard(recommendedRoom = recommendedRooms[index], true)
+                    items(homeScreenViewModel.testRooms.size - 2) { index ->
+                        RoomCard(
+                            recommendedRoom = recommendedRooms[index],
+                            true
+                        ) { isLiked ->
+                            if (isLiked) {
+                                homeScreenViewModel.addToFavourites(
+                                    recommendedRooms[index]
+                                )
+                            } else {
+                                homeScreenViewModel.removeLocalFavourite(recommendedRooms[index])
+                            }
+                        }
                     }
                 }
             }
             Column(modifier = Modifier.fillMaxWidth()) {
                 Text(
-                    "Recommended roommates",
+                    stringResource(R.string.recommended_roommates_label),
                     style = TextStyle(
                         color = Color.Black,
                         fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold,
-                    ),
+                        fontWeight = FontWeight.Bold
+                    )
                 )
                 LazyRow(
                     modifier = Modifier
@@ -177,7 +192,7 @@ fun HomeScreen(
                         .height(148.dp),
                     horizontalArrangement = Arrangement.spacedBy(
                         dimensionResource(id = R.dimen.list_elements_margin)
-                    ),
+                    )
                 ) {
                     items(recommendedRoommates.size) { index ->
                         UserCard(recommendedRoommate = recommendedRoommates[index])

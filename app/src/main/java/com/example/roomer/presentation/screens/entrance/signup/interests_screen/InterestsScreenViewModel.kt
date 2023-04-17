@@ -7,7 +7,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.roomer.data.repository.AuthRepositoryInterface
+import com.example.roomer.data.repository.auth_repository.AuthRepositoryInterface
 import com.example.roomer.domain.model.login_sign_up.interests.InterestModel
 import com.example.roomer.domain.usecase.login_sign_up.SignUpUseCase
 import com.example.roomer.utils.Resource
@@ -49,7 +49,6 @@ class InterestsScreenViewModel @Inject constructor(
         viewModelScope.launch {
             signUpUseCase.loadInterests().collect { result ->
                 when (result) {
-
                     is Resource.Loading -> {
                         _state.update { currentState ->
                             currentState.copy(isLoading = true)

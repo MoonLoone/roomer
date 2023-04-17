@@ -5,13 +5,13 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.roomer.converters.convertTimeDateFromBackend
-import com.example.roomer.data.repository.RoomerRepository
+import com.example.roomer.data.repository.roomer_repository.RoomerRepository
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.usecase.navbar_screens.MessengerUseCase
 import com.example.roomer.presentation.screens.entrance.login.LoginScreenViewModel
 import com.example.roomer.utils.Resource
 import com.example.roomer.utils.SpManager
+import com.example.roomer.utils.converters.convertTimeDateFromBackend
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class MessengerViewModel @Inject constructor(
     application: Application,
-    private val roomerRepository: RoomerRepository,
+    private val roomerRepository: RoomerRepository
 ) : AndroidViewModel(application) {
 
     private val _state = mutableStateOf(MessengerScreenState(false))
@@ -38,12 +38,10 @@ class MessengerViewModel @Inject constructor(
                 LoginScreenViewModel.FIELD_DEFAULT_VALUE
             )
             val currentUser = roomerRepository.getCurrentUserInfo(token.toString()).body()
-            messengerUseCase.loadChats(currentUser?.id ?: 0).collect {
+            messengerUseCase.loadChats(currentUser?.userId ?: 0).collect {
                 when (it) {
                     is Resource.Internet -> {
-                        _state.value = MessengerScreenState(
-
-                        )
+                        _state.value = MessengerScreenState()
                     }
                     is Resource.Loading -> {
                         _state.value = MessengerScreenState(
@@ -53,7 +51,7 @@ class MessengerViewModel @Inject constructor(
                     }
                     is Resource.Success -> {
                         _state.value = MessengerScreenState(
-                            isLoading = true,
+                            isLoading = true
                         )
                         _chats.value = it.data?.map { message ->
                             message.dateTime = convertTimeDateFromBackend(message.dateTime)

@@ -1,6 +1,6 @@
 package com.example.roomer.domain.usecase.navbar_screens
 
-import com.example.roomer.data.repository.RoomerRepository
+import com.example.roomer.data.repository.roomer_repository.RoomerRepository
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.utils.Constants
 import com.example.roomer.utils.Resource
@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class MessengerUseCase(
-    private val roomerRepository: RoomerRepository,
+    private val roomerRepository: RoomerRepository
 ) {
 
     fun loadChats(userId: Int): Flow<Resource<List<Message>>> = flow {

@@ -5,7 +5,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.roomer.data.repository.AuthRepositoryInterface
+import com.example.roomer.data.repository.auth_repository.AuthRepositoryInterface
 import com.example.roomer.domain.usecase.login_sign_up.PrimarySignUpUseCase
 import com.example.roomer.utils.Resource
 import com.example.roomer.utils.SpManager
@@ -25,7 +25,6 @@ class SignUpScreenViewModel @Inject constructor(
     val signUpUseCase = PrimarySignUpUseCase(roomerRepository)
 
     fun signUpUser(email: String, password: String, username: String, confPassword: String) {
-
         if (
             email.trim().isEmpty() ||
             password.trim().isEmpty() ||
@@ -47,10 +46,9 @@ class SignUpScreenViewModel @Inject constructor(
         viewModelScope.launch {
             signUpUseCase(username, email, password).collect { result ->
                 when (result) {
-
                     is Resource.Loading -> {
                         _state.value = SignUpScreenState(
-                            isLoading = true,
+                            isLoading = true
                         )
                     }
                     is Resource.Success -> {
@@ -66,7 +64,7 @@ class SignUpScreenViewModel @Inject constructor(
                         )
 
                         _state.value = SignUpScreenState(
-                            success = true,
+                            success = true
                         )
                     }
                     is Resource.Internet -> {
