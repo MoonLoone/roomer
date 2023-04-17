@@ -40,7 +40,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Destination
 @Composable
 fun AccountScreen(
-    navigator: DestinationsNavigator,
+    navigator: DestinationsNavigator
 ) {
     Column(
         modifier = Modifier
@@ -49,8 +49,8 @@ fun AccountScreen(
             .padding(
                 top = dimensionResource(id = R.dimen.screen_top_margin),
                 start = dimensionResource(id = R.dimen.screen_start_margin),
-                end = dimensionResource(id = R.dimen.screen_end_margin),
-            ),
+                end = dimensionResource(id = R.dimen.screen_end_margin)
+            )
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -65,13 +65,13 @@ fun AccountScreen(
                 ).sp,
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth()
             )
         }
         Column(
             modifier = Modifier
                 .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             AccountScreenTextField(
                 label = stringResource(R.string.first_name),
@@ -117,15 +117,15 @@ fun AccountScreen(
                         modifier = Modifier
                             .padding(start = 16.dp)
                             .width(dimensionResource(id = R.dimen.small_icon))
-                            .height(dimensionResource(id = R.dimen.small_icon)),
+                            .height(dimensionResource(id = R.dimen.small_icon))
                     )
                     Text(
                         text = stringResource(id = R.string.habits_button_label),
                         style = TextStyle(
                             color = colorResource(id = R.color.primary_dark),
                             fontSize = integerResource(id = R.integer.primary_text).sp,
-                            fontWeight = FontWeight.Bold,
-                        ),
+                            fontWeight = FontWeight.Bold
+                        )
                     )
                 }
                 Row(
@@ -151,15 +151,15 @@ fun AccountScreen(
                         modifier = Modifier
                             .padding(start = 16.dp)
                             .width(dimensionResource(id = R.dimen.small_icon))
-                            .height(dimensionResource(id = R.dimen.small_icon)),
+                            .height(dimensionResource(id = R.dimen.small_icon))
                     )
                     Text(
                         text = stringResource(id = R.string.interests_button_label),
                         style = TextStyle(
                             color = colorResource(id = R.color.primary_dark),
                             fontSize = integerResource(id = R.integer.primary_text).sp,
-                            fontWeight = FontWeight.Bold,
-                        ),
+                            fontWeight = FontWeight.Bold
+                        )
                     )
                 }
             }

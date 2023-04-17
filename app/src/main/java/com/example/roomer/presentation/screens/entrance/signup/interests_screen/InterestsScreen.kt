@@ -50,7 +50,7 @@ fun InterestsScreen(
             .fillMaxSize()
             .background(Color.White),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Center
     ) {
         Column(
             modifier = Modifier
@@ -62,7 +62,7 @@ fun InterestsScreen(
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.spacedBy(
                 dimensionResource(id = R.dimen.list_elements_margin)
-            ),
+            )
         ) {
             LinearProgressIndicator(
                 modifier = Modifier
@@ -93,41 +93,42 @@ fun InterestsScreen(
                 )
             }
             if (state.internetProblem) {
-                if (!state.isInterestsLoaded)
+                if (!state.isInterestsLoaded) {
                     GreenButtonOutline(text = stringResource(R.string.retry)) {
                         interestsScreenViewModel.getInterests()
                     }
+                }
             }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            GreenButtonPrimary(
+                text = stringResource(R.string.back_button_label)
             ) {
-                GreenButtonPrimary(
-                    text = stringResource(R.string.back_button_label),
-                ) {
-                    navigator.navigate(HabitsScreenDestination())
-                }
-                GreenButtonPrimary(
-                    text = stringResource(R.string.finish_button_label),
-                ) {
-                    interestsScreenViewModel.putSignUpData(
-                        signUpViewModel.firstName,
-                        signUpViewModel.lastName,
-                        signUpViewModel.sex,
-                        signUpViewModel.birthDate,
-                        signUpViewModel.avatar!!,
-                        signUpViewModel.personDescription,
-                        signUpViewModel.employment,
-                        signUpViewModel.sleepTime,
-                        signUpViewModel.alcoholAttitude,
-                        signUpViewModel.smokingAttitude,
-                        signUpViewModel.personalityType,
-                        signUpViewModel.cleanHabits,
-                        signUpViewModel.interests,
-                    )
-                }
+                navigator.navigate(HabitsScreenDestination())
+            }
+            GreenButtonPrimary(
+                text = stringResource(R.string.finish_button_label)
+            ) {
+                interestsScreenViewModel.putSignUpData(
+                    signUpViewModel.firstName,
+                    signUpViewModel.lastName,
+                    signUpViewModel.sex,
+                    signUpViewModel.birthDate,
+                    signUpViewModel.avatar!!,
+                    signUpViewModel.personDescription,
+                    signUpViewModel.employment,
+                    signUpViewModel.sleepTime,
+                    signUpViewModel.alcoholAttitude,
+                    signUpViewModel.smokingAttitude,
+                    signUpViewModel.personalityType,
+                    signUpViewModel.cleanHabits,
+                    signUpViewModel.interests
+                )
             }
         }
     }

@@ -24,7 +24,7 @@ import org.json.JSONObject
 @HiltViewModel
 class ChatScreenViewModel @Inject constructor(
     application: Application,
-    private val roomerRepository: RoomerRepository,
+    private val roomerRepository: RoomerRepository
 ) : AndroidViewModel(application) {
 
     private val _messages = MutableStateFlow(listOf<Message>())
@@ -53,7 +53,7 @@ class ChatScreenViewModel @Inject constructor(
             chatClientWebSocket.open(currentUserId, recipientUserId)
             _messages.value =
                 roomerRepository.getMessagesForChat(userId = currentUserId, chatId = chatId).body()
-                ?.toMutableList() ?: mutableListOf()
+                    ?.toMutableList() ?: mutableListOf()
             _socketConnectionState.value = true
         }
     }
@@ -69,6 +69,17 @@ class ChatScreenViewModel @Inject constructor(
         }
     }
 
+    fun messageRead(messageId: Int) {
+        viewModelScope.launch {
+            val token = SpManager().getSharedPreference(
+                getApplication<Application>().applicationContext,
+                SpManager.Sp.TOKEN,
+                LoginScreenViewModel.FIELD_DEFAULT_VALUE
+            ) ?: ""
+            roomerRepository.messageChecked(messageId, token)
+        }
+    }
+
     private fun decodeJSON(jsonString: String) {
         val json = JSONObject(jsonString)
         val message = Message(
@@ -78,7 +89,7 @@ class ChatScreenViewModel @Inject constructor(
             text = getFromJson(json, "text"),
             donor = User(userId = getFromJson(json, "donor").toInt()),
             recipient = User(userId = getFromJson(json, "recipient").toInt()),
-            isChecked = getFromJson(json, "isChecked").toBoolean(),
+            isChecked = getFromJson(json, "is_checked").toBoolean()
         )
         _messages.value = messages.value + message
     }

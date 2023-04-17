@@ -158,4 +158,8 @@
     <string name="username_label">Username</string>
     <string name="username_placeholder">Username</string>
     <string name="female">Female</string>
+    <string name="messenger_notification_title">Roomer messenger</string>
+    <string name="recommended_notification_title">Roomer</string>
+    <string name="recommended_room_notification_text">We find some rooms for you</string>
+    <string name="recommended_mate_notification_text">We can be friends</string>
 </resources>

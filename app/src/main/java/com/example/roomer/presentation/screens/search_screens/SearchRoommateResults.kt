@@ -36,7 +36,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Destination
 @Composable
 fun SearchRoommateResults(
-    navigator: DestinationsNavigator,
+    navigator: DestinationsNavigator
 ) {
     var sex = ""
     var employment = ""
@@ -70,7 +70,7 @@ fun SearchRoommateResults(
                     start = dimensionResource(id = R.dimen.screen_start_margin),
                     end = dimensionResource(id = R.dimen.screen_end_margin)
                 ),
-                verticalArrangement = Arrangement.spacedBy(24.dp),
+                verticalArrangement = Arrangement.spacedBy(24.dp)
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -85,11 +85,11 @@ fun SearchRoommateResults(
                         ).sp,
                         textAlign = TextAlign.Center,
                         fontWeight = FontWeight.Bold,
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth()
                     )
                 }
                 LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     item {
                         if (roommates.isEmpty()) {
@@ -98,7 +98,7 @@ fun SearchRoommateResults(
                                 style = TextStyle(
                                     fontSize = integerResource(
                                         id = R.integer.label_text
-                                    ).sp,
+                                    ).sp
                                 )
                             )
                         }
@@ -120,7 +120,7 @@ fun SearchRoommateResults(
                         fontSize = integerResource(
                             id = R.integer.primary_text
                         ).sp,
-                        color = Color.Black,
+                        color = Color.Black
                     )
                 )
                 GreenButtonOutline(text = stringResource(R.string.retry)) {

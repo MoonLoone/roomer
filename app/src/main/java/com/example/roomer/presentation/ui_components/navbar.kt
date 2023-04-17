@@ -48,7 +48,7 @@ fun Navbar(navController: NavHostController) {
                         .width(80.dp)
                         .padding(
                             start = 4.dp,
-                            end = 4.dp,
+                            end = 4.dp
                         ),
                     onClick = {
                         navController.navigate(screen.direction.route)
@@ -67,7 +67,7 @@ fun Navbar(navController: NavHostController) {
                                                 )
                                             )
                                         )
-                                        .background(colorResource(id = R.color.primary)),
+                                        .background(colorResource(id = R.color.primary))
                                 ) {
                                     Image(
                                         modifier = Modifier
@@ -81,7 +81,7 @@ fun Navbar(navController: NavHostController) {
                                 Text(
                                     text = stringResource(id = screen.nameResId),
                                     fontSize =
-                                        integerResource(id = R.integer.secondary_text).sp,
+                                    integerResource(id = R.integer.secondary_text).sp,
 
                                     color = Color.Black,
                                     modifier = Modifier
@@ -109,11 +109,11 @@ fun Navbar(navController: NavHostController) {
                                 Text(
                                     text = stringResource(id = screen.nameResId),
                                     fontSize =
-                                        integerResource(id = R.integer.secondary_text).sp,
+                                    integerResource(id = R.integer.secondary_text).sp,
                                     color = colorResource(id = R.color.text_secondary),
                                     modifier = Modifier
                                         .align(Alignment.CenterHorizontally)
-                                        .padding(top = 4.dp),
+                                        .padding(top = 4.dp)
                                 )
                             }
                         }

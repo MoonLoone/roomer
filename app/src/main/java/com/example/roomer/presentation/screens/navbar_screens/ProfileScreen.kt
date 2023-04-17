@@ -30,7 +30,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Destination
 @Composable
 fun ProfileScreen(
-    navigator: DestinationsNavigator,
+    navigator: DestinationsNavigator
 ) {
     NavbarManagement.showNavbar()
     Column(
@@ -46,7 +46,7 @@ fun ProfileScreen(
         Text(
             text = stringResource(R.string.profile_title),
             textAlign = TextAlign.Start,
-            fontSize = integerResource(id = R.integer.label_text).sp,
+            fontSize = integerResource(id = R.integer.label_text).sp
         )
         Image(
             painter = painterResource(id = R.drawable.ordinary_client),
@@ -57,7 +57,7 @@ fun ProfileScreen(
                 .width(152.dp)
                 .height(152.dp)
                 .clickable {
-                },
+                }
         )
         ProfileContentLine(
             stringResource(R.string.account_label),
@@ -70,19 +70,19 @@ fun ProfileScreen(
             stringResource(R.string.rating_label),
             R.drawable.rating_icon,
             onNavigateToFriends = {
-            },
+            }
         )
         ProfileContentLine(
             stringResource(R.string.settings_label),
             R.drawable.settings_icon,
             onNavigateToFriends = {
-            },
+            }
         )
         ProfileContentLine(
             stringResource(R.string.logout_label),
             R.drawable.logout_icon,
             onNavigateToFriends = {
-            },
+            }
         )
     }
 }

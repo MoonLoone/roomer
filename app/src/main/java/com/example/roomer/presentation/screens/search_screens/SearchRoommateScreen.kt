@@ -47,7 +47,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Destination
 @Composable
 fun SearchRoommateScreen(
-    navigator: DestinationsNavigator,
+    navigator: DestinationsNavigator
 ) {
     var fromAge by remember {
         mutableStateOf("0")
@@ -82,7 +82,7 @@ fun SearchRoommateScreen(
             top = dimensionResource(id = R.dimen.screen_top_margin),
             start = dimensionResource(id = R.dimen.screen_start_margin),
             end = dimensionResource(id = R.dimen.screen_end_margin),
-            bottom = dimensionResource(id = R.dimen.screen_bottom_margin),
+            bottom = dimensionResource(id = R.dimen.screen_bottom_margin)
         ),
         floatingActionButton = {
             GreenButtonOutline(
@@ -108,7 +108,7 @@ fun SearchRoommateScreen(
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(
                 dimensionResource(id = R.dimen.list_elements_margin)
-            ),
+            )
         ) {
             Row(horizontalArrangement = Arrangement.SpaceBetween) {
                 BackBtn(onBackNavigation = { navigator.navigate(HomeScreenDestination) })
@@ -133,14 +133,14 @@ fun SearchRoommateScreen(
                 style = TextStyle(
                     fontSize = 20.sp,
                     color = Color.Black
-                ),
+                )
             )
             Text(
                 stringResource(R.string.age_label),
                 style = TextStyle(
                     fontSize = integerResource(id = R.integer.primary_text).sp,
                     color = Color.Black
-                ),
+                )
             )
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -170,7 +170,7 @@ fun SearchRoommateScreen(
                                 id = R.color.secondary_color
                             )
                         ),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                     )
                 }
                 Column {
@@ -197,7 +197,7 @@ fun SearchRoommateScreen(
                                 id = R.color.secondary_color
                             )
                         ),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                     )
                 }
             }

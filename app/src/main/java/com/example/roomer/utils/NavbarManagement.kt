@@ -26,31 +26,31 @@ object NavbarManagement {
         val nameResId: Int,
         val iconUnSelected: Int,
         val iconSelected: Int,
-        val direction: DirectionDestinationSpec,
+        val direction: DirectionDestinationSpec
     ) {
         Home(
             R.string.navbar_home_name,
             R.drawable.homeun,
             R.drawable.homein,
-            HomeScreenDestination,
+            HomeScreenDestination
         ),
         Favourite(
             R.string.navbar_favourite_name,
             R.drawable.favun,
             R.drawable.favin,
-            FavouriteScreenDestination,
+            FavouriteScreenDestination
         ),
         Post(
             R.string.navbar_post_name,
             R.drawable.postun,
             R.drawable.postin,
-            PostScreenDestination,
+            PostScreenDestination
         ),
         Chat(
             R.string.navbar_chat_name,
             R.drawable.chatun,
             R.drawable.chatin,
-            MessengerScreenDestination,
+            MessengerScreenDestination
         ),
         Profile(
             R.string.navbar_profile_name,

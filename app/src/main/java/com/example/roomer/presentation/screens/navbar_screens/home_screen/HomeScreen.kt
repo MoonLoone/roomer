@@ -56,7 +56,7 @@ fun HomeScreen(
                 i,
                 "Andrey $i",
                 "",
-                "",
+                ""
             )
         )
         recommendedRooms.add(
@@ -81,14 +81,14 @@ fun HomeScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(56.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Column(modifier = Modifier.fillMaxHeight()) {
                 Text(
                     text = stringResource(R.string.home_screen_title),
                     style = TextStyle(
                         color = colorResource(id = R.color.text_secondary),
-                        fontSize = integerResource(id = R.integer.primary_text).sp,
+                        fontSize = integerResource(id = R.integer.primary_text).sp
                     )
                 )
                 Text(
@@ -106,7 +106,7 @@ fun HomeScreen(
                 modifier = Modifier
                     .height(dimensionResource(id = R.dimen.small_avatar_image))
                     .width(dimensionResource(id = R.dimen.small_avatar_image)),
-                alignment = Alignment.Center,
+                alignment = Alignment.Center
             )
         }
         SearchField(onNavigateToFriends = { navigator.navigate(SearchRoomScreenDestination) })
@@ -114,13 +114,13 @@ fun HomeScreen(
             modifier = Modifier
                 .scrollable(
                     rememberScrollState(),
-                    orientation = Orientation.Vertical,
+                    orientation = Orientation.Vertical
                 )
                 .fillMaxSize()
                 .padding(top = 16.dp),
             verticalArrangement = Arrangement.spacedBy(
                 dimensionResource(id = R.dimen.list_elements_margin)
-            ),
+            )
         ) {
             Column(modifier = Modifier.fillMaxWidth()) {
                 Text(
@@ -128,8 +128,8 @@ fun HomeScreen(
                     style = TextStyle(
                         color = Color.Black,
                         fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold,
-                    ),
+                        fontWeight = FontWeight.Bold
+                    )
                 )
                 LazyRow(
                     modifier = Modifier
@@ -137,7 +137,7 @@ fun HomeScreen(
                         .height(148.dp),
                     horizontalArrangement = Arrangement.spacedBy(
                         dimensionResource(id = R.dimen.list_elements_margin)
-                    ),
+                    )
                 ) {
                     items(recommendedRoommates.size - 2) { index ->
                         UserCard(recommendedRoommate = recommendedRoommates[index])
@@ -150,8 +150,8 @@ fun HomeScreen(
                     style = TextStyle(
                         color = Color.Black,
                         fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold,
-                    ),
+                        fontWeight = FontWeight.Bold
+                    )
                 )
                 LazyRow(
                     modifier = Modifier
@@ -159,17 +159,20 @@ fun HomeScreen(
                         .height(148.dp),
                     horizontalArrangement = Arrangement.spacedBy(
                         dimensionResource(id = R.dimen.list_elements_margin)
-                    ),
+                    )
                 ) {
                     items(homeScreenViewModel.testRooms.size - 2) { index ->
                         RoomCard(
                             recommendedRoom = recommendedRooms[index],
                             true
                         ) { isLiked ->
-                            if (isLiked) homeScreenViewModel.addToFavourites(
-                                recommendedRooms[index]
-                            )
-                            else homeScreenViewModel.removeLocalFavourite(recommendedRooms[index])
+                            if (isLiked) {
+                                homeScreenViewModel.addToFavourites(
+                                    recommendedRooms[index]
+                                )
+                            } else {
+                                homeScreenViewModel.removeLocalFavourite(recommendedRooms[index])
+                            }
                         }
                     }
                 }
@@ -180,8 +183,8 @@ fun HomeScreen(
                     style = TextStyle(
                         color = Color.Black,
                         fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold,
-                    ),
+                        fontWeight = FontWeight.Bold
+                    )
                 )
                 LazyRow(
                     modifier = Modifier
@@ -189,7 +192,7 @@ fun HomeScreen(
                         .height(148.dp),
                     horizontalArrangement = Arrangement.spacedBy(
                         dimensionResource(id = R.dimen.list_elements_margin)
-                    ),
+                    )
                 ) {
                     items(recommendedRoommates.size) { index ->
                         UserCard(recommendedRoommate = recommendedRoommates[index])

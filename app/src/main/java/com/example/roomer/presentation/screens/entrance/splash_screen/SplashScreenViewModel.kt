@@ -33,11 +33,13 @@ class SplashScreenViewModel @Inject constructor(
     private val splashScreenUseCase = SplashScreenUseCase(roomerRepository)
 
     init {
-        if (userToken == null)
+        if (userToken == null) {
             _state.update { currentState ->
                 currentState.copy(isError = true)
             }
-        else verifyToken()
+        } else {
+            verifyToken()
+        }
     }
 
     private fun storeCurrentUser(user: User) {
@@ -95,15 +97,15 @@ class SplashScreenViewModel @Inject constructor(
     private fun eraseSharedPreferences() {
         SpManager().removeSharedPreference(
             getApplication<Application>().applicationContext,
-            SpManager.Sp.TOKEN,
+            SpManager.Sp.TOKEN
         )
         SpManager().removeSharedPreference(
             getApplication<Application>().applicationContext,
-            SpManager.Sp.EMAIL,
+            SpManager.Sp.EMAIL
         )
         SpManager().removeSharedPreference(
             getApplication<Application>().applicationContext,
-            SpManager.Sp.PASSWORD,
+            SpManager.Sp.PASSWORD
         )
     }
 

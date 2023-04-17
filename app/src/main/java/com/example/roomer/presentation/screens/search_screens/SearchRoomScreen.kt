@@ -51,7 +51,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Destination
 @Composable
 fun SearchRoomScreen(
-    navigator: DestinationsNavigator,
+    navigator: DestinationsNavigator
 ) {
     var fromPrice by remember {
         mutableStateOf("0")
@@ -133,14 +133,14 @@ fun SearchRoomScreen(
                 style = TextStyle(
                     fontSize = integerResource(id = R.integer.big_text).sp,
                     color = Color.Black
-                ),
+                )
             )
             Text(
                 stringResource(R.string.month_price),
                 style = TextStyle(
                     fontSize = integerResource(id = R.integer.primary_text).sp,
                     color = Color.Black
-                ),
+                )
             )
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -170,7 +170,7 @@ fun SearchRoomScreen(
                                 id = R.color.secondary_color
                             )
                         ),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                     )
                 }
                 Column {
@@ -195,7 +195,7 @@ fun SearchRoomScreen(
                                 id = R.color.secondary_color
                             )
                         ),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                     )
                 }
             }

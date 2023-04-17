@@ -18,9 +18,7 @@ class PrimarySignUpUseCase(
         email: String,
         password: String
     ): Flow<Resource<String>> = flow {
-
         try {
-
             emit(Resource.Loading())
             val process = repository.userSignUpPrimary(username, email, password)
 

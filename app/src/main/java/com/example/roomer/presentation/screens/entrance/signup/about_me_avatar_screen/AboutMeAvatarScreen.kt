@@ -59,7 +59,7 @@ fun AboutMeAvatarScreen(
                 interactionSource = interactionSource
             ) { focusManager.clearFocus() },
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Center
     ) {
         Column(
             modifier = Modifier
@@ -71,7 +71,7 @@ fun AboutMeAvatarScreen(
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.spacedBy(
                 dimensionResource(id = R.dimen.list_elements_margin)
-            ),
+            )
         ) {
             LinearProgressIndicator(
                 modifier = Modifier
@@ -124,12 +124,12 @@ fun AboutMeAvatarScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 GreenButtonPrimary(
-                    text = stringResource(R.string.back_button_label),
+                    text = stringResource(R.string.back_button_label)
                 ) {
                     navigator.navigate(PrimaryUserInfoScreenDestination)
                 }
                 GreenButtonPrimary(
-                    text = stringResource(R.string.continue_button_label),
+                    text = stringResource(R.string.continue_button_label)
                 ) {
                     signUpViewModel.aboutMeAvatarScreenValidate()
                 }

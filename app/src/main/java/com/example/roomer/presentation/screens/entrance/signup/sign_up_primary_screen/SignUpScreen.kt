@@ -72,7 +72,7 @@ fun SignUpScreen(
                 interactionSource = interactionSource
             ) { focusManager.clearFocus() },
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Center
     ) {
         Column(
             modifier = Modifier
@@ -84,7 +84,7 @@ fun SignUpScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(
                 dimensionResource(id = R.dimen.list_elements_margin)
-            ),
+            )
         ) {
             Text(
                 text = stringResource(R.string.sign_up_screen_title),
@@ -97,8 +97,9 @@ fun SignUpScreen(
                 placeholder = stringResource(R.string.username_placeholder),
                 onValueChange = {
                     usernameValue = it
-                    if (state.isUsernameError)
+                    if (state.isUsernameError) {
                         signUpScreenViewModel.clearState()
+                    }
                 },
                 value = usernameValue,
                 icon = Icons.Filled.VerifiedUser,
@@ -110,8 +111,9 @@ fun SignUpScreen(
                 value = emailValue,
                 onValueChange = {
                     emailValue = it
-                    if (state.isEmailError)
+                    if (state.isEmailError) {
                         signUpScreenViewModel.clearState()
+                    }
                 },
                 enabled = !state.isLoading,
                 label = stringResource(id = R.string.email_label),
@@ -123,8 +125,9 @@ fun SignUpScreen(
                 value = passwordValue,
                 onValueChange = {
                     passwordValue = it
-                    if (state.isPasswordError)
+                    if (state.isPasswordError) {
                         signUpScreenViewModel.clearState()
+                    }
                 },
                 enabled = !state.isLoading,
                 label = stringResource(id = R.string.password_label),
@@ -138,8 +141,9 @@ fun SignUpScreen(
                 placeholder = stringResource(R.string.conf_pass_placeholder),
                 onValueChange = {
                     confirmPasswordValue = it
-                    if (state.isConfPasswordError)
+                    if (state.isConfPasswordError) {
                         signUpScreenViewModel.clearState()
+                    }
                 },
                 enabled = !state.isLoading,
                 isError = state.isConfPasswordError,

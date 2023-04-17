@@ -1,6 +1,7 @@
 package com.example.roomer.data.remote
 
 import com.example.roomer.domain.model.entities.Message
+import com.example.roomer.domain.model.entities.MessageNotification
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.domain.model.login_sign_up.IdModel
@@ -18,6 +19,7 @@ import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Part
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface RoomerApi {
@@ -41,7 +43,7 @@ interface RoomerApi {
     @PUT("/auth/users/me/")
     suspend fun putSignUpAvatar(
         @Header("Authorization") token: String,
-        @Part avatar: MultipartBody.Part,
+        @Part avatar: MultipartBody.Part
     ): Response<IdModel>
 
     @GET("/housing/")
@@ -50,7 +52,7 @@ interface RoomerApi {
         @Query("month_price_to") monthPriceTo: String,
         @Query(" bedrooms_count") bedroomsCount: String,
         @Query("bathrooms_count") bathroomsCount: String,
-        @Query("housing_type") housingType: String,
+        @Query("housing_type") housingType: String
     ): Response<List<Room>>
 
     @GET("/profile/")
@@ -61,17 +63,29 @@ interface RoomerApi {
         @Query("smoking_attitude") smokingAttitude: String,
         @Query("sleep_time") sleepTime: String,
         @Query("personality_type") personalityType: String,
-        @Query("clean_habits") cleanHabits: String,
+        @Query("clean_habits") cleanHabits: String
     ): Response<List<User>>
 
     @GET("/auth/users/me/")
     suspend fun getCurrentUserInfo(
-        @Header("Authorization") token: String,
+        @Header("Authorization") token: String
     ): Response<User>
 
     @GET("/chats/")
     suspend fun getChatsForUser(
         @Query("user_id") userId: Int,
-        @Query("chat_id") chatId: String = "",
+        @Query("chat_id") chatId: String = ""
     ): Response<List<Message>>
+
+    @PUT("/chats/{id}/mark_checked/")
+    suspend fun messageChecked(
+        @Path("id") id: Int,
+        @Header("Authorization") token: String,
+        @Body isChecked: Boolean = true
+    ): Response<Message>
+
+    @GET("/notifications/")
+    suspend fun getNotifications(
+        @Query("user_id") userId: Int
+    ): Response<List<MessageNotification>>
 }

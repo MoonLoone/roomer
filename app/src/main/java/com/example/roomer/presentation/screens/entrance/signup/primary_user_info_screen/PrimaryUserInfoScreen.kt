@@ -57,7 +57,7 @@ fun PrimaryUserInfoScreen(
                 interactionSource = interactionSource
             ) { focusManager.clearFocus() },
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Center
     ) {
         Column(
             modifier = Modifier
@@ -69,7 +69,7 @@ fun PrimaryUserInfoScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(
                 dimensionResource(id = R.dimen.list_elements_margin)
-            ),
+            )
         ) {
             LinearProgressIndicator(
                 modifier = Modifier.fillMaxWidth(),
@@ -88,7 +88,7 @@ fun PrimaryUserInfoScreen(
                 value = signUpViewModel.firstName,
                 onValueChange = {
                     signUpViewModel.firstName = it
-                },
+                }
             )
             UsualTextField(
                 title = stringResource(R.string.last_name),
@@ -96,20 +96,20 @@ fun PrimaryUserInfoScreen(
                 value = signUpViewModel.lastName,
                 onValueChange = {
                     signUpViewModel.lastName = it
-                },
+                }
             )
             DateField(
                 label = stringResource(R.string.date_of_birth),
                 value = signUpViewModel.birthDate,
                 onValueChange = {
                     signUpViewModel.birthDate = it
-                },
+                }
             )
             SexField(
                 value = signUpViewModel.sex,
                 onValueChange = {
                     signUpViewModel.sex = it
-                },
+                }
             )
             GreenButtonPrimary(
                 text = stringResource(R.string.continue_button_label),

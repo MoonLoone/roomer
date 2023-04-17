@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class MessengerUseCase(
-    private val roomerRepository: RoomerRepository,
+    private val roomerRepository: RoomerRepository
 ) {
 
     fun loadChats(userId: Int): Flow<Resource<List<Message>>> = flow {

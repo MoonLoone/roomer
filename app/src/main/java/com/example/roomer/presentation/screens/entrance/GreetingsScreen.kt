@@ -30,7 +30,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Destination
 @Composable
 fun GreetingsScreen(
-    navigator: DestinationsNavigator,
+    navigator: DestinationsNavigator
 ) {
     Column(
         modifier = Modifier
@@ -41,7 +41,7 @@ fun GreetingsScreen(
                 end = dimensionResource(id = R.dimen.screen_end_margin)
             ),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Center
     ) {
         Text(
             text = stringResource(R.string.greetings_screen_header_1),
@@ -60,7 +60,7 @@ fun GreetingsScreen(
             text = stringResource(R.string.login_button_label),
             modifier = Modifier
                 .padding(top = 16.dp)
-                .fillMaxWidth(),
+                .fillMaxWidth()
         ) {
             navigator.navigate(
                 LoginScreenDestination(
@@ -72,7 +72,7 @@ fun GreetingsScreen(
             text = stringResource(R.string.sign_up_button_label),
             modifier = Modifier
                 .padding(top = 8.dp)
-                .fillMaxWidth(),
+                .fillMaxWidth()
         ) {
             navigator.navigate(SignUpScreenDestination)
         }

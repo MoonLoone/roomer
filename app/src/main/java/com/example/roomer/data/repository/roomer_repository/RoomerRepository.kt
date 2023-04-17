@@ -3,6 +3,7 @@ package com.example.roomer.data.repository.roomer_repository
 import com.example.roomer.data.local.RoomerStoreInterface
 import com.example.roomer.data.remote.RoomerApi
 import com.example.roomer.domain.model.entities.Message
+import com.example.roomer.domain.model.entities.MessageNotification
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
 import javax.inject.Inject
@@ -38,7 +39,7 @@ class RoomerRepository @Inject constructor(
             monthPriceTo,
             bedroomsCount,
             bathroomsCount,
-            housingType,
+            housingType
         )
     }
 
@@ -58,7 +59,7 @@ class RoomerRepository @Inject constructor(
             smokingAttitude,
             sleepTime,
             personalityType,
-            cleanHabits,
+            cleanHabits
         )
     }
 
@@ -89,4 +90,13 @@ class RoomerRepository @Inject constructor(
     override suspend fun addManyLocalUsers(users: List<User>) = roomerStore.addManyUsers(users)
 
     override suspend fun getLocalUserById(userId: Int): User = roomerStore.getUserById(userId)
+
+    override suspend fun messageChecked(messageId: Int, token: String): Response<Message> {
+        val refToken = "Token ".plus(token)
+        return roomerApi.messageChecked(messageId, refToken)
+    }
+
+    override suspend fun getMessageNotifications(userId: Int): Response<List<MessageNotification>> {
+        return roomerApi.getNotifications(userId)
+    }
 }

@@ -4,5 +4,5 @@ data class SignUpOneState(
     val success: Boolean = false,
     val isLoading: Boolean = false,
     val error: String = "",
-    val internetProblem: Boolean = false,
+    val internetProblem: Boolean = false
 )

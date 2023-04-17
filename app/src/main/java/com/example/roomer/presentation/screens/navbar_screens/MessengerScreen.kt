@@ -47,7 +47,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 fun MessengerScreen(
     navigator: DestinationsNavigator,
-    viewModel: MessengerViewModel = hiltViewModel(),
+    viewModel: MessengerViewModel = hiltViewModel()
 ) {
     NavbarManagement.showNavbar()
     val loadingState = viewModel.state
@@ -116,14 +116,14 @@ private fun Searcher() {
                 text = stringResource(R.string.search_in_messages),
                 style = TextStyle(
                     color = colorResource(id = R.color.primary_dark),
-                    fontSize = integerResource(id = R.integer.secondary_text).sp,
+                    fontSize = integerResource(id = R.integer.secondary_text).sp
                 ),
                 modifier = Modifier.padding(bottom = 8.dp)
             )
         },
         textStyle = TextStyle(
             color = Color.Black,
-            fontSize = integerResource(id = R.integer.primary_text).sp,
+            fontSize = integerResource(id = R.integer.primary_text).sp
         ),
         value = searchText,
         onValueChange = { value ->
@@ -141,7 +141,7 @@ private fun Searcher() {
                     )
                     .width(
                         dimensionResource(id = R.dimen.small_icon)
-                    ),
+                    )
             )
         },
         trailingIcon = {
@@ -155,7 +155,7 @@ private fun Searcher() {
                     .width(
                         dimensionResource(id = R.dimen.ordinary_icon)
                     )
-                    .clickable { searchText = TextFieldValue("") },
+                    .clickable { searchText = TextFieldValue("") }
             )
         },
         modifier = Modifier

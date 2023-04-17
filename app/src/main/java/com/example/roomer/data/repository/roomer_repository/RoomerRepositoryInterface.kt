@@ -1,6 +1,7 @@
 package com.example.roomer.data.repository.roomer_repository
 
 import com.example.roomer.domain.model.entities.Message
+import com.example.roomer.domain.model.entities.MessageNotification
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
 import kotlinx.coroutines.flow.Flow
@@ -11,7 +12,7 @@ interface RoomerRepositoryInterface {
     suspend fun getChats(userId: Int): Response<List<Message>>
 
     suspend fun getCurrentUserInfo(
-        token: String,
+        token: String
     ): Response<User>
 
     suspend fun getMessagesForChat(userId: Int, chatId: Int): Response<List<Message>>
@@ -61,4 +62,8 @@ interface RoomerRepositoryInterface {
     suspend fun addManyLocalUsers(users: List<User>)
 
     suspend fun getLocalUserById(userId: Int): User
+
+    suspend fun messageChecked(messageId: Int, token: String): Response<Message>
+
+    suspend fun getMessageNotifications(userId: Int): Response<List<MessageNotification>>
 }
