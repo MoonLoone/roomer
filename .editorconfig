@@ -1,3 +1,4 @@
 [*.{kt,kts}]
 disabled_rules = parameter-list-wrapping
-disabled_rules=experimental:argument-list-wrapping
+disabled_rules = experimental:argument-list-wrapping
+disabled_rules = package-name
