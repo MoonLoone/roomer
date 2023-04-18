@@ -27,7 +27,7 @@ class RoomerRepository @Inject constructor(
         userId: Int,
         chatId: Int,
         offset: Int,
-        limit: Int,
+        limit: Int
     ): Response<List<Message>> {
         return roomerApi.getChatsForUser(userId, chatId.toString(), offset, limit)
     }
