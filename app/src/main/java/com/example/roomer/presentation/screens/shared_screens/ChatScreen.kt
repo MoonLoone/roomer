@@ -1,6 +1,5 @@
 package com.example.roomer.presentation.screens.shared_screens
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -22,10 +21,8 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -53,7 +50,7 @@ import com.example.roomer.presentation.ui_components.Message
 import com.example.roomer.utils.NavbarManagement
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.flowOf
 
 @Destination
 @Composable
@@ -79,7 +76,10 @@ fun ChatScreen(
         val messageText = remember {
             mutableStateOf(TextFieldValue(""))
         }
-        val messages = viewModel.messagesPager.collectAsLazyPagingItems()
+        val messages = if (viewModel.socketConnectionState.value) {
+            viewModel.messagesPager.collectAsLazyPagingItems()
+        }
+        else flowOf<PagingData<Message>>(PagingData.empty()).collectAsLazyPagingItems()
         MessagesList(
             messages = messages,
             modifier = Modifier
@@ -136,7 +136,6 @@ private fun MessagesList(
     checkMessage: (Int) -> Unit
 ) {
     val lazyListState: LazyListState = rememberLazyListState()
-    //val scope = rememberCoroutineScope()
     LazyColumn(modifier = modifier, state = lazyListState, reverseLayout = true) {
         items(messages) { item ->
             item?.let { message ->
@@ -151,7 +150,6 @@ private fun MessagesList(
                 )
             }
         }
-        //scope.launch { lazyListState.scrollToItem(messages.itemCount) }
     }
 }
 
