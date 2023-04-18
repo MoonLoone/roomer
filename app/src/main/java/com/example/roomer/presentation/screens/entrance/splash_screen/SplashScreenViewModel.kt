@@ -1,14 +1,10 @@
 package com.example.roomer.presentation.screens.entrance.splash_screen
 
 import android.app.Application
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
 import com.example.roomer.domain.model.entities.User
-import com.example.roomer.domain.model.login_sign_up.InterestModel
 import com.example.roomer.domain.usecase.login_sign_up.SplashScreenUseCase
 import com.example.roomer.presentation.screens.UsualScreenState
 import com.example.roomer.utils.Resource

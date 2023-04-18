@@ -1,6 +1,5 @@
 package com.example.roomer.presentation.screens.entrance.splash_screen
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
