@@ -13,7 +13,7 @@ interface CurrentUserDao {
     suspend fun create(user: LocalCurrentUser)
 
     @Query("SELECT * FROM currentUser LIMIT 1")
-    suspend fun read(): LocalCurrentUser?
+    suspend fun read(): LocalCurrentUser
 
     @Update
     suspend fun update(user: LocalCurrentUser)

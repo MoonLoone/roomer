@@ -10,7 +10,7 @@ interface RoomerStoreInterface {
     suspend fun addManyFavourites(favouriteRooms: List<Room>)
     suspend fun isFavouritesEmpty(): Boolean
     suspend fun deleteFavourite(room: Room)
-    suspend fun getCurrentUser(): User?
+    suspend fun getCurrentUser(): User
     suspend fun addCurrentUser(user: User)
     suspend fun updateCurrentUser(user: User)
     suspend fun deleteCurrentUser()

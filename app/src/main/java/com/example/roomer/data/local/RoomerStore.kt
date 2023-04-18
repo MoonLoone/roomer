@@ -32,7 +32,7 @@ class RoomerStore(
         favourites.delete(room.toLocalRoom())
     }
 
-    override suspend fun getCurrentUser() = currentUser.read()?.toUser()
+    override suspend fun getCurrentUser() = currentUser.read().toUser()
 
     override suspend fun addCurrentUser(user: User) = currentUser.create(user.toLocalCurrentUser())
 
