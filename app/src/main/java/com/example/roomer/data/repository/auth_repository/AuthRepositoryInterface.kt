@@ -3,7 +3,7 @@ package com.example.roomer.data.repository.auth_repository
 import android.graphics.Bitmap
 import com.example.roomer.domain.model.login_sign_up.IdModel
 import com.example.roomer.domain.model.login_sign_up.TokenDto
-import com.example.roomer.domain.model.login_sign_up.interests.InterestModel
+import com.example.roomer.domain.model.login_sign_up.InterestModel
 import retrofit2.Response
 
 interface AuthRepositoryInterface {

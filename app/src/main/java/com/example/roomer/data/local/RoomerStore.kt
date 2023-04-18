@@ -32,7 +32,7 @@ class RoomerStore(
         favourites.delete(room.toLocalRoom())
     }
 
-    override suspend fun getCurrentUser() = currentUser.read().toUser()
+    override suspend fun getCurrentUser() = currentUser.read()?.toUser()
 
     override suspend fun addCurrentUser(user: User) = currentUser.create(user.toLocalCurrentUser())
 
@@ -67,7 +67,7 @@ class RoomerStore(
         monthPrice,
         host?.userId ?: 0,
         description,
-        fileContent.first().photo,
+        fileContent,
         bathroomsCount,
         bedroomsCount,
         housingType,
@@ -82,7 +82,7 @@ class RoomerStore(
         room.monthPrice,
         host,
         room.description,
-        listOf(Room.Photo(room.photo)),
+        room.fileContent,
         room.bathroomsCount,
         room.bedroomsCount,
         room.housingType,
@@ -104,7 +104,9 @@ class RoomerStore(
         sleepTime,
         personalityType,
         cleanHabits,
-        rating
+        rating,
+        interests,
+        city
     )
 
     private fun User.toLocalCurrentUser() = LocalCurrentUser(
@@ -119,6 +121,8 @@ class RoomerStore(
         sleepTime,
         personalityType,
         cleanHabits,
-        rating
+        rating,
+        interests,
+        city
     )
 }

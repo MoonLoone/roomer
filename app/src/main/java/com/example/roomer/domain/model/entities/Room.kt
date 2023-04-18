@@ -11,7 +11,7 @@ data class Room(
     @SerializedName("description")
     val description: String = "",
     @SerializedName("file_content")
-    val fileContent: List<Photo> = emptyList(),
+    val fileContent: List<Photo>? = emptyList(),
     @SerializedName("bathrooms_count")
     val bathroomsCount: Int = 0,
     @SerializedName("bedrooms_count")

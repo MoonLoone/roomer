@@ -2,6 +2,7 @@ package com.example.roomer.data.room.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.roomer.domain.model.login_sign_up.InterestModel
 
 @Entity(tableName = "currentUser")
 data class LocalCurrentUser(
@@ -18,4 +19,6 @@ data class LocalCurrentUser(
     val personalityType: String,
     val cleanHabits: String,
     var rating: Double,
+    val interests: List<InterestModel>?,
+    val city: String?
 )
