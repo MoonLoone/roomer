@@ -15,7 +15,7 @@ class RoomerRepository @Inject constructor(
     private val roomerStore: RoomerStoreInterface
 ) : RoomerRepositoryInterface {
     override suspend fun getChats(userId: Int): Response<List<Message>> {
-        return roomerApi.getChatsForUser(userId)
+        return roomerApi.getChatsForUser(userId, "")
     }
 
     override suspend fun getCurrentUserInfo(token: String): Response<User> {
@@ -23,8 +23,13 @@ class RoomerRepository @Inject constructor(
         return roomerApi.getCurrentUserInfo(refToken)
     }
 
-    override suspend fun getMessagesForChat(userId: Int, chatId: Int): Response<List<Message>> {
-        return roomerApi.getChatsForUser(userId, chatId.toString())
+    override suspend fun getMessagesForChat(
+        userId: Int,
+        chatId: Int,
+        offset: Int,
+        limit: Int
+    ): Response<List<Message>> {
+        return roomerApi.getChatsForUser(userId, chatId.toString(), offset, limit)
     }
 
     override suspend fun getFilterRooms(

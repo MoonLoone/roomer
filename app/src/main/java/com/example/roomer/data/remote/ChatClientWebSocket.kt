@@ -11,14 +11,16 @@ class ChatClientWebSocket(private val onMessageReceived: (String) -> Unit) : Web
 
     var socket: WebSocket? = null
 
-    fun open(currentUserId: Int, recipientUserId: Int) {
+    fun open(currentUserId: Int, recipientUserId: Int): Boolean {
         socket?.let {
-            return
+            return true
         }
         val client = OkHttpClient()
         val request =
             Request.Builder().url("$BASE_URL/$currentUserId/$recipientUserId/").build()
         socket = client.newWebSocket(request, this)
+        socket?.let { return true }
+        return false
     }
 
     fun sendMessage(messageJson: JSONObject) {

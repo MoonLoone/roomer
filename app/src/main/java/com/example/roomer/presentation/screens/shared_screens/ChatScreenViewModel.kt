@@ -6,20 +6,23 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.example.roomer.data.remote.ChatClientWebSocket
 import com.example.roomer.data.repository.roomer_repository.RoomerRepository
 import com.example.roomer.domain.model.entities.Message
-import com.example.roomer.domain.model.entities.User
 import com.example.roomer.presentation.screens.entrance.login.LoginScreenViewModel
+import com.example.roomer.utils.Constants
+import com.example.roomer.utils.RoomerPagingSource
 import com.example.roomer.utils.SpManager
 import com.example.roomer.utils.converters.createJson
-import com.example.roomer.utils.converters.getFromJson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
-import org.json.JSONObject
 
 @HiltViewModel
 class ChatScreenViewModel @Inject constructor(
@@ -27,13 +30,12 @@ class ChatScreenViewModel @Inject constructor(
     private val roomerRepository: RoomerRepository
 ) : AndroidViewModel(application) {
 
-    private val _messages = MutableStateFlow(listOf<Message>())
-    val messages: StateFlow<List<Message>> = _messages
     private val chatClientWebSocket: ChatClientWebSocket = ChatClientWebSocket { decodeJSON(it) }
     private val _socketConnectionState: MutableState<Boolean> = mutableStateOf(false)
-    private val socketConnectionState: State<Boolean> = _socketConnectionState
-    private var currentUserId: Int = 0
+    val socketConnectionState: State<Boolean> = _socketConnectionState
     private var recipientUserId: Int = 0
+    private var currentUserId: Int = 0
+    var messagesPager: Flow<PagingData<Message>> = flowOf(PagingData.empty())
 
     fun startChat(recipientId: Int, chatId: Int) {
         viewModelScope.launch {
@@ -42,18 +44,20 @@ class ChatScreenViewModel @Inject constructor(
                 _socketConnectionState.value = true
                 return@launch
             }
-            val token = SpManager().getSharedPreference(
-                getApplication<Application>().applicationContext,
-                SpManager.Sp.TOKEN,
-                LoginScreenViewModel.FIELD_DEFAULT_VALUE
-            )
-            currentUserId =
-                roomerRepository.getCurrentUserInfo(token.toString()).body()?.userId ?: 0
+            currentUserId = roomerRepository.getLocalCurrentUser().userId
             recipientUserId = recipientId
+            messagesPager = Pager(
+                PagingConfig(
+                    pageSize = Constants.Chat.PAGE_SIZE,
+                    maxSize = Constants.Chat.CASH_SIZE,
+                    initialLoadSize = Constants.Chat.INITIAL_SIZE
+                )
+            ) {
+                RoomerPagingSource { offset: Int, limit: Int ->
+                    roomerRepository.getMessagesForChat(currentUserId, chatId, offset, limit)
+                }
+            }.flow.cachedIn(viewModelScope)
             chatClientWebSocket.open(currentUserId, recipientUserId)
-            _messages.value =
-                roomerRepository.getMessagesForChat(userId = currentUserId, chatId = chatId).body()
-                    ?.toMutableList() ?: mutableListOf()
             _socketConnectionState.value = true
         }
     }
@@ -75,22 +79,13 @@ class ChatScreenViewModel @Inject constructor(
                 getApplication<Application>().applicationContext,
                 SpManager.Sp.TOKEN,
                 LoginScreenViewModel.FIELD_DEFAULT_VALUE
-            ) ?: ""
-            roomerRepository.messageChecked(messageId, token)
+            )
+            if (token != null) {
+                roomerRepository.messageChecked(messageId, token)
+            }
         }
     }
 
     private fun decodeJSON(jsonString: String) {
-        val json = JSONObject(jsonString)
-        val message = Message(
-            id = getFromJson(json, "id").toInt(),
-            chatId = getFromJson(json, "chat_id").toInt(),
-            dateTime = "",
-            text = getFromJson(json, "text"),
-            donor = User(userId = getFromJson(json, "donor").toInt()),
-            recipient = User(userId = getFromJson(json, "recipient").toInt()),
-            isChecked = getFromJson(json, "is_checked").toBoolean()
-        )
-        _messages.value = messages.value + message
     }
 }
