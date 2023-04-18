@@ -23,7 +23,12 @@ class RoomerRepository @Inject constructor(
         return roomerApi.getCurrentUserInfo(refToken)
     }
 
-    override suspend fun getMessagesForChat(userId: Int, chatId: Int, offset: Int, limit: Int): Response<List<Message>> {
+    override suspend fun getMessagesForChat(
+        userId: Int,
+        chatId: Int,
+        offset: Int,
+        limit: Int,
+    ): Response<List<Message>> {
         return roomerApi.getChatsForUser(userId, chatId.toString(), offset, limit)
     }
 
