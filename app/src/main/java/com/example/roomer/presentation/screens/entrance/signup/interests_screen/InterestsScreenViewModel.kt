@@ -49,7 +49,6 @@ class InterestsScreenViewModel @Inject constructor(
         viewModelScope.launch {
             signUpUseCase.loadInterests().collect { result ->
                 when (result) {
-
                     is Resource.Loading -> {
                         _state.update { currentState ->
                             currentState.copy(isLoading = true)

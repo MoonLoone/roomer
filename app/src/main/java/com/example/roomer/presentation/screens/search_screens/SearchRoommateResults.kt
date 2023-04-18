@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.integerResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -35,7 +36,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Destination
 @Composable
 fun SearchRoommateResults(
-    navigator: DestinationsNavigator,
+    navigator: DestinationsNavigator
 ) {
     var sex = ""
     var employment = ""
@@ -69,7 +70,7 @@ fun SearchRoommateResults(
                     start = dimensionResource(id = R.dimen.screen_start_margin),
                     end = dimensionResource(id = R.dimen.screen_end_margin)
                 ),
-                verticalArrangement = Arrangement.spacedBy(24.dp),
+                verticalArrangement = Arrangement.spacedBy(24.dp)
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -78,26 +79,26 @@ fun SearchRoommateResults(
                 ) {
                     BackBtn(onBackNavigation = { navigator.navigate(HomeScreenDestination) })
                     Text(
-                        text = "Roommate Results",
+                        text = stringResource(R.string.roommate_results),
                         fontSize = integerResource(
                             id = R.integer.label_text
                         ).sp,
                         textAlign = TextAlign.Center,
                         fontWeight = FontWeight.Bold,
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth()
                     )
                 }
                 LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     item {
                         if (roommates.isEmpty()) {
                             Text(
-                                text = "Sorry, nothing here",
+                                text = stringResource(R.string.sorry_nothing_here),
                                 style = TextStyle(
                                     fontSize = integerResource(
                                         id = R.integer.label_text
-                                    ).sp,
+                                    ).sp
                                 )
                             )
                         }
@@ -114,15 +115,15 @@ fun SearchRoommateResults(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Text(
-                    text = "Sorry, something went wrong. You should to retry",
+                    text = stringResource(R.string.something_went_wrong),
                     style = TextStyle(
                         fontSize = integerResource(
                             id = R.integer.primary_text
                         ).sp,
-                        color = Color.Black,
+                        color = Color.Black
                     )
                 )
-                GreenButtonOutline(text = "Retry") {
+                GreenButtonOutline(text = stringResource(R.string.retry)) {
                     viewModel.loadRoommates(
                         sex,
                         employment,

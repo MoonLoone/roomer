@@ -30,7 +30,7 @@ class SearchRoommateResultViewModel @Inject constructor(
         smokingAttitude: String,
         sleepTime: String,
         personalityType: String,
-        cleanHabits: String,
+        cleanHabits: String
     ) = effect {
         delay(2000)
         _loadingStates.value = LoadingStates.Loading

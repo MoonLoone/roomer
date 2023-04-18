@@ -21,10 +21,8 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,21 +30,27 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.paging.PagingData
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.items
 import com.example.roomer.R
 import com.example.roomer.domain.model.entities.Message
+import com.example.roomer.domain.model.entities.User
 import com.example.roomer.presentation.screens.destinations.MessengerScreenDestination
 import com.example.roomer.presentation.ui_components.BackBtn
 import com.example.roomer.presentation.ui_components.Message
 import com.example.roomer.utils.NavbarManagement
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.flowOf
 
 @Destination
 @Composable
@@ -54,7 +58,7 @@ fun ChatScreen(
     navigator: DestinationsNavigator,
     viewModel: ChatScreenViewModel = hiltViewModel(),
     recipientId: Int,
-    chatId: Int,
+    chatId: Int
 ) {
     NavbarManagement.hideNavbar()
     viewModel.startChat(recipientId, chatId)
@@ -72,13 +76,17 @@ fun ChatScreen(
         val messageText = remember {
             mutableStateOf(TextFieldValue(""))
         }
-        val messages = viewModel.messages.collectAsState()
+        val messages = if (viewModel.socketConnectionState.value) {
+            viewModel.messagesPager.collectAsLazyPagingItems()
+        } else {
+            flowOf<PagingData<Message>>(PagingData.empty()).collectAsLazyPagingItems()
+        }
         MessagesList(
-            messages = messages.value,
+            messages = messages,
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
-        )
+        ) { id -> viewModel.messageRead(id) }
         EnterMessage(
             editMessageText = messageText,
             onSend = { message -> viewModel.sendMessage(message) }
@@ -90,7 +98,7 @@ fun ChatScreen(
 private fun TopLine(onNavigateTo: () -> Unit) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth()
     ) {
         BackBtn(onBackNavigation = { onNavigateTo.invoke() })
         Image(
@@ -99,18 +107,18 @@ private fun TopLine(onNavigateTo: () -> Unit) {
                 .height(56.dp)
                 .padding(start = 16.dp),
             painter = painterResource(id = R.drawable.ordinary_client),
-            contentDescription = "Client avatar",
-            alignment = Alignment.Center,
+            contentDescription = stringResource(R.string.user_avatar_content_description),
+            alignment = Alignment.Center
         )
         Text(
-            text = "Username here",
+            text = stringResource(R.string.username_here),
             modifier = Modifier.padding(start = 8.dp),
             style = TextStyle(
                 color = Color.Black,
                 fontSize = integerResource(
                     id = R.integer.primary_text
                 ).sp,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.Bold
             )
         )
     }
@@ -123,18 +131,26 @@ private fun TopLine(onNavigateTo: () -> Unit) {
 }
 
 @Composable
-private fun MessagesList(messages: List<Message>, modifier: Modifier) {
+private fun MessagesList(
+    messages: LazyPagingItems<Message>,
+    modifier: Modifier,
+    checkMessage: (Int) -> Unit
+) {
     val lazyListState: LazyListState = rememberLazyListState()
-    val scope = rememberCoroutineScope()
-    LazyColumn(modifier = modifier, state = lazyListState) {
-        items(messages.size) { index ->
-            Message(
-                isUserMessage = false,
-                text = messages[index].text,
-                data = messages[index].dateTime
-            )
+    LazyColumn(modifier = modifier, state = lazyListState, reverseLayout = true) {
+        items(messages) { item ->
+            item?.let { message ->
+                if (!message.isChecked && message.recipient == User()) {
+                    message.isChecked = true
+                    checkMessage.invoke(message.id + 1)
+                }
+                Message(
+                    isUserMessage = message.donor == User(),
+                    text = message.text,
+                    data = message.dateTime
+                )
+            }
         }
-        scope.launch { lazyListState.scrollToItem(messages.size) }
     }
 }
 
@@ -150,12 +166,12 @@ private fun EnterMessage(
             value = editMessageText.value,
             placeholder = {
                 Text(
-                    text = "Type your message",
+                    text = stringResource(R.string.type_your_message),
                     style = TextStyle(
                         color = colorResource(
                             id = R.color.text_secondary
                         ),
-                        fontSize = integerResource(id = R.integer.primary_text).sp,
+                        fontSize = integerResource(id = R.integer.primary_text).sp
                     )
                 )
             },
@@ -164,7 +180,7 @@ private fun EnterMessage(
                 Row {
                     Image(
                         painter = painterResource(id = R.drawable.add_icon),
-                        contentDescription = "Add icon",
+                        contentDescription = stringResource(R.string.add_icon_placeholder),
                         modifier = Modifier
                             .width(dimensionResource(id = R.dimen.big_icon))
                             .height(dimensionResource(id = R.dimen.big_icon))
@@ -182,11 +198,13 @@ private fun EnterMessage(
                             )
                             .clickable {
                             },
-                        contentAlignment = Alignment.Center,
+                        contentAlignment = Alignment.Center
                     ) {
                         Image(
                             painter = painterResource(id = R.drawable.send_icon),
-                            contentDescription = "Enter message",
+                            contentDescription = stringResource(
+                                R.string.enter_message_content_description
+                            ),
                             alignment = Alignment.Center,
                             modifier = Modifier
                                 .width(dimensionResource(id = R.dimen.ordinary_icon))

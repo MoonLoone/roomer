@@ -23,6 +23,7 @@ object DatabaseModule {
             .fallbackToDestructiveMigration()
             .build()
     }
+
     @Singleton
     @Provides
     fun provideRoomerStore(database: RoomerDatabase): RoomerStoreInterface {

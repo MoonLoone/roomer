@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.integerResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -36,7 +37,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Destination
 @Composable
 fun SearchRoomResults(
-    navigator: DestinationsNavigator,
+    navigator: DestinationsNavigator
 ) {
     val from = ""
     val to = ""
@@ -45,9 +46,9 @@ fun SearchRoomResults(
     val bathrooms = ""
     var apartmentType = ""
     apartmentType = when (apartmentType) {
-        "Flat" -> "F"
-        "Duplex" -> "DU"
-        "House" -> "H"
+        stringResource(R.string.flat) -> "F"
+        stringResource(R.string.duplex) -> "DU"
+        stringResource(R.string.house) -> "H"
         else -> "DO"
     }
     val viewModel: SearchRoomResultsViewModel = hiltViewModel()
@@ -60,9 +61,9 @@ fun SearchRoomResults(
                 modifier = Modifier.padding(
                     top = dimensionResource(id = R.dimen.screen_top_margin),
                     start = dimensionResource(id = R.dimen.screen_start_margin),
-                    end = dimensionResource(id = R.dimen.screen_end_margin),
+                    end = dimensionResource(id = R.dimen.screen_end_margin)
                 ),
-                verticalArrangement = Arrangement.spacedBy(24.dp),
+                verticalArrangement = Arrangement.spacedBy(24.dp)
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -71,26 +72,26 @@ fun SearchRoomResults(
                 ) {
                     BackBtn(onBackNavigation = { navigator.navigate(HomeScreenDestination) })
                     Text(
-                        text = "Housing Results",
+                        text = stringResource(R.string.housing_results),
                         fontSize = integerResource(
                             id = R.integer.label_text
                         ).sp,
                         textAlign = TextAlign.Center,
                         fontWeight = FontWeight.Bold,
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth()
                     )
                 }
                 LazyColumn(
                     verticalArrangement = Arrangement.spacedBy(
                         dimensionResource(id = R.dimen.list_elements_margin)
-                    ),
+                    )
                 ) {
                     item {
                         if (rooms.isEmpty()) {
                             Text(
-                                text = "Sorry, nothing here",
+                                text = stringResource(R.string.sorry_nothing_here),
                                 style = TextStyle(
-                                    fontSize = integerResource(id = R.integer.label_text).sp,
+                                    fontSize = integerResource(id = R.integer.label_text).sp
                                 )
                             )
                         }
@@ -110,15 +111,15 @@ fun SearchRoomResults(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Text(
-                    text = "Sorry, something went wrong. You should to retry",
+                    text = stringResource(R.string.something_went_wrong),
                     style = TextStyle(
                         fontSize = integerResource(
                             id = R.integer.primary_text
                         ).sp,
-                        color = Color.Black,
+                        color = Color.Black
                     )
                 )
-                GreenButtonOutline(text = "Retry") {
+                GreenButtonOutline(text = stringResource(R.string.retry)) {
                     viewModel.loadRooms(from, to, bedrooms, bathrooms, apartmentType)
                 }
             }

@@ -8,7 +8,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Destination
 @Composable
 fun PostScreen(
-    navigator: DestinationsNavigator,
+    navigator: DestinationsNavigator
 ) {
     NavbarManagement.showNavbar()
 }

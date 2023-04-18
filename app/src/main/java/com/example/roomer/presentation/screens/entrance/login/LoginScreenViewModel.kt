@@ -40,7 +40,6 @@ class LoginScreenViewModel @Inject constructor(
     }
 
     fun getUserLogin(email: String, password: String) {
-
         if (email.trim().isEmpty() || password.trim().isEmpty()
         ) {
             _state.value =
@@ -51,7 +50,6 @@ class LoginScreenViewModel @Inject constructor(
         viewModelScope.launch {
             loginUseCase(email, password).collect { result ->
                 when (result) {
-
                     is Resource.Loading -> {
                         _state.value = LoginScreenState(
                             isLoading = true,
@@ -67,7 +65,7 @@ class LoginScreenViewModel @Inject constructor(
                         _state.value = LoginScreenState(
                             isLoading = false,
                             internetProblem = false,
-                            success = true,
+                            success = true
                         )
                     }
                     is Resource.Internet -> {

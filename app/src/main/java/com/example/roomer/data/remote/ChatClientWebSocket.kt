@@ -1,6 +1,5 @@
 package com.example.roomer.data.remote
 
-import android.util.Log
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
@@ -12,14 +11,16 @@ class ChatClientWebSocket(private val onMessageReceived: (String) -> Unit) : Web
 
     var socket: WebSocket? = null
 
-    fun open(currentUserId: Int, recipientUserId: Int) {
+    fun open(currentUserId: Int, recipientUserId: Int): Boolean {
         socket?.let {
-            return
+            return true
         }
         val client = OkHttpClient()
         val request =
             Request.Builder().url("$BASE_URL/$currentUserId/$recipientUserId/").build()
         socket = client.newWebSocket(request, this)
+        socket?.let { return true }
+        return false
     }
 
     fun sendMessage(messageJson: JSONObject) {
@@ -28,7 +29,6 @@ class ChatClientWebSocket(private val onMessageReceived: (String) -> Unit) : Web
 
     override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
         super.onClosed(webSocket, code, reason)
-        Log.e("!!!", "With $code, reason $reason")
     }
 
     override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {

@@ -13,13 +13,13 @@ class SplashScreenUseCase(
 ) {
 
     operator fun invoke(token: String): Flow<Resource<User>> = flow {
-
         try {
             emit(Resource.Loading())
             val process = repository.getCurrentUserInfo(token)
 
-            if (process.isSuccessful) emit(Resource.Success(process.body()))
-            else {
+            if (process.isSuccessful) {
+                emit(Resource.Success(process.body()))
+            } else {
                 val errMsg = process.errorBody()?.string()
                 emit(Resource.Error.GeneralError(errMsg!!))
             }

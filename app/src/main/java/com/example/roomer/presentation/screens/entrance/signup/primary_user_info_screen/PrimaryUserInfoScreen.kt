@@ -57,7 +57,7 @@ fun PrimaryUserInfoScreen(
                 interactionSource = interactionSource
             ) { focusManager.clearFocus() },
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Center
     ) {
         Column(
             modifier = Modifier
@@ -69,7 +69,7 @@ fun PrimaryUserInfoScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(
                 dimensionResource(id = R.dimen.list_elements_margin)
-            ),
+            )
         ) {
             LinearProgressIndicator(
                 modifier = Modifier.fillMaxWidth(),
@@ -77,42 +77,42 @@ fun PrimaryUserInfoScreen(
                 progress = 0.2f
             )
             Text(
-                text = "Tell us more about you",
+                text = stringResource(R.string.tell_us_more_about_you),
                 fontSize = integerResource(id = R.integer.label_text).sp,
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Start
             )
             UsualTextField(
-                title = "First Name",
-                placeholder = "Your first name here",
+                title = stringResource(R.string.first_name),
+                placeholder = stringResource(R.string.first_name_placeholder),
                 value = signUpViewModel.firstName,
                 onValueChange = {
                     signUpViewModel.firstName = it
-                },
+                }
             )
             UsualTextField(
-                title = "Last Name",
-                placeholder = "Your last name here",
+                title = stringResource(R.string.last_name),
+                placeholder = stringResource(R.string.last_name_placeholder),
                 value = signUpViewModel.lastName,
                 onValueChange = {
                     signUpViewModel.lastName = it
-                },
+                }
             )
             DateField(
-                label = "Date Of Birth",
+                label = stringResource(R.string.date_of_birth),
                 value = signUpViewModel.birthDate,
                 onValueChange = {
                     signUpViewModel.birthDate = it
-                },
+                }
             )
             SexField(
                 value = signUpViewModel.sex,
                 onValueChange = {
                     signUpViewModel.sex = it
-                },
+                }
             )
             GreenButtonPrimary(
-                text = "Continue",
+                text = stringResource(R.string.continue_button_label),
                 modifier = Modifier.fillMaxWidth()
             ) {
                 signUpViewModel.primaryUserInfoPageValidate()
@@ -123,7 +123,7 @@ fun PrimaryUserInfoScreen(
             }
             if (uiState.isError) {
                 SimpleAlertDialog(
-                    title = stringResource(R.string.login_alert_dialog_title),
+                    title = stringResource(R.string.login_alert_dialog_text),
                     text = uiState.errorMessage
                 ) { signUpViewModel.clearError() }
             }
