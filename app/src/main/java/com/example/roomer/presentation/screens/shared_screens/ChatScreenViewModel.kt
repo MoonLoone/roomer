@@ -19,15 +19,15 @@ import com.example.roomer.utils.RoomerPagingSource
 import com.example.roomer.utils.SpManager
 import com.example.roomer.utils.converters.createJson
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class ChatScreenViewModel @Inject constructor(
     application: Application,
-    private val roomerRepository: RoomerRepository,
+    private val roomerRepository: RoomerRepository
 ) : AndroidViewModel(application) {
 
     private val chatClientWebSocket: ChatClientWebSocket = ChatClientWebSocket { decodeJSON(it) }
@@ -50,7 +50,7 @@ class ChatScreenViewModel @Inject constructor(
                 PagingConfig(
                     pageSize = Constants.Chat.PAGE_SIZE,
                     maxSize = Constants.Chat.CASH_SIZE,
-                    initialLoadSize = Constants.Chat.INITIAL_SIZE,
+                    initialLoadSize = Constants.Chat.INITIAL_SIZE
                 )
             ) {
                 RoomerPagingSource { offset: Int, limit: Int ->
@@ -87,6 +87,5 @@ class ChatScreenViewModel @Inject constructor(
     }
 
     private fun decodeJSON(jsonString: String) {
-
     }
 }

@@ -27,10 +27,9 @@ object Constants {
         const val RECOMMENDATION_WORK_FLEX = 2L
     }
 
-    object Chat{
+    object Chat {
         const val PAGE_SIZE = 10
         const val CASH_SIZE = 30
         const val INITIAL_SIZE = 10
     }
-
 }

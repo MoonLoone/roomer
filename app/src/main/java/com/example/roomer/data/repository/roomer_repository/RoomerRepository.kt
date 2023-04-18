@@ -1,6 +1,5 @@
 package com.example.roomer.data.repository.roomer_repository
 
-import android.util.Log
 import com.example.roomer.data.local.RoomerStoreInterface
 import com.example.roomer.data.remote.RoomerApi
 import com.example.roomer.domain.model.entities.Message

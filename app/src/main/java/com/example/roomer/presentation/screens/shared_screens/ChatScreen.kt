@@ -78,8 +78,9 @@ fun ChatScreen(
         }
         val messages = if (viewModel.socketConnectionState.value) {
             viewModel.messagesPager.collectAsLazyPagingItems()
+        } else {
+            flowOf<PagingData<Message>>(PagingData.empty()).collectAsLazyPagingItems()
         }
-        else flowOf<PagingData<Message>>(PagingData.empty()).collectAsLazyPagingItems()
         MessagesList(
             messages = messages,
             modifier = Modifier
@@ -152,7 +153,6 @@ private fun MessagesList(
         }
     }
 }
-
 
 @Composable
 private fun EnterMessage(
