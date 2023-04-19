@@ -2,6 +2,7 @@ package com.example.roomer.domain.model.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.roomer.domain.model.login_sign_up.InterestModel
 import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "user")
@@ -26,5 +27,7 @@ data class User(
     val personalityType: String = "",
     @SerializedName("clean_habits")
     val cleanHabits: String = "",
-    var rating: Double = 0.0
+    var rating: Double = 0.0,
+    val interests: List<InterestModel>? = null,
+    val city: String? = null
 )

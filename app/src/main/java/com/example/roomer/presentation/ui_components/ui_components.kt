@@ -71,7 +71,7 @@ import com.example.roomer.R
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
-import com.example.roomer.domain.model.login_sign_up.interests.InterestModel
+import com.example.roomer.domain.model.login_sign_up.InterestModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
@@ -378,7 +378,9 @@ fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean, onLikeClick: (Boolea
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(recommendedRoom.fileContent.first().photo)
+                    .data(
+                        recommendedRoom.fileContent?.first()?.photo ?: ""
+                    )
                     .crossfade(true)
                     .build(),
                 placeholder = painterResource(id = R.drawable.ordinary_room),
