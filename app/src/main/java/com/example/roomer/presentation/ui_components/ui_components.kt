@@ -305,7 +305,7 @@ fun UserCard(recommendedRoommate: User) {
                 .data(recommendedRoommate.avatar)
                 .crossfade(true)
                 .build(),
-            placeholder = painterResource(R.drawable.ordinnary_user),
+            placeholder = painterResource(R.drawable.ordinary_user),
             contentDescription = recommendedRoommate.firstName + recommendedRoommate.lastName,
             modifier = Modifier
                 .fillMaxWidth()
@@ -381,7 +381,7 @@ fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean, onLikeClick: (Boolea
                     .data(recommendedRoom.fileContent.first().photo)
                     .crossfade(true)
                     .build(),
-                placeholder = painterResource(id = R.drawable.ordinnary_room),
+                placeholder = painterResource(id = R.drawable.ordinary_room),
                 contentDescription = stringResource(id = R.string.room_image_description),
                 modifier = Modifier
                     .fillMaxSize(),
@@ -942,7 +942,7 @@ fun UserCardResult(searchUser: User) {
                 .data(searchUser.avatar)
                 .crossfade(true)
                 .build(),
-            placeholder = painterResource(id = R.drawable.ordinnary_user),
+            placeholder = painterResource(id = R.drawable.ordinary_user),
             contentDescription = searchUser.firstName,
             modifier = Modifier
                 .fillMaxHeight()

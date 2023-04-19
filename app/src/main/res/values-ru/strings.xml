@@ -159,4 +159,7 @@
     <string name="no_chats_here">Здесь нет чатов</string>
     <string name="want_to_start_new_chat">Хотите начать новый чат?</string>
     <string name="login_button_text">Войти</string>
+    <string name="recommended_room_notification_text">Предложения комнат для вас</string>
+    <string name="recommended_mate_notification_text">Возможные друзья</string>
+    <string name="details_header">Детали</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.example.roomer.presentation.screens.shared_screens
+package com.example.roomer.presentation.screens.shared_screens.chat_screen
 
 import com.example.roomer.utils.ScreenState
 

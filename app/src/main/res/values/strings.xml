@@ -160,6 +160,7 @@
     <string name="female">Female</string>
     <string name="messenger_notification_title">Roomer messenger</string>
     <string name="recommended_notification_title">Roomer</string>
-    <string name="recommended_room_notification_text">We find some rooms for you</string>
+    <string name="recommended_room_notification_text">We found some rooms for you</string>
     <string name="recommended_mate_notification_text">We can be friends</string>
+    <string name="details_header">Details</string>
 </resources>
