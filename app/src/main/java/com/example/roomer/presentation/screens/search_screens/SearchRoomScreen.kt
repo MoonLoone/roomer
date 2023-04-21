@@ -20,9 +20,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -37,6 +39,13 @@ import com.example.roomer.presentation.ui_components.ButtonsRowMapped
 import com.example.roomer.presentation.ui_components.FilterSelect
 import com.example.roomer.presentation.ui_components.GreenButtonOutline
 import com.example.roomer.presentation.ui_components.UsualTextField
+import com.example.roomer.utils.Constants.Options.apartmentOptions
+import com.example.roomer.utils.Constants.Options.roomsCountOptions
+/*
+import com.example.roomer.utils.Constants.Options.apartmentChoice
+import com.example.roomer.utils.Constants.Choices.bathroomsChoice
+import com.example.roomer.utils.Constants.Choices.bedroomsChoice
+ */
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
@@ -45,43 +54,66 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 fun SearchRoomScreen(
     navigator: DestinationsNavigator
 ) {
+    val context = LocalContext.current
     var fromPrice by remember {
-        mutableStateOf("0")
+        mutableStateOf(context.getString(R.string.default_from_price))
     }
     var toPrice by remember {
-        mutableStateOf("0")
+        mutableStateOf(context.getString(R.string.default_to_price))
     }
     val location = remember {
         mutableStateOf("")
     }
     val bedrooms = remember {
-        mutableStateOf("1")
+        mutableStateOf(context.getString(R.string.default_bedrooms))
     }
     val bathrooms = remember {
-        mutableStateOf("1")
+        mutableStateOf(context.getString(R.string.default_bathrooms))
     }
     val apartmentType = remember {
-        mutableStateOf("F")
+        mutableStateOf(context.getString(R.string.default_apartment))
     }
-    val context = LocalContext.current
+
     Scaffold(
-        modifier = Modifier.padding(start = 40.dp, end = 40.dp, top = 16.dp, bottom = 40.dp),
+        modifier = Modifier.padding(
+            start = dimensionResource(id = R.dimen.screen_start_margin),
+            end = dimensionResource(id = R.dimen.screen_end_margin),
+            top = dimensionResource(id = R.dimen.screen_top_margin),
+            bottom = dimensionResource(id = R.dimen.screen_nav_bottom_margin)
+        ),
         floatingActionButton = {
             GreenButtonOutline(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 20.dp, bottom = 40.dp)
-                    .background(color = Color.White, shape = RoundedCornerShape(100.dp))
+                    .padding(
+                        start = dimensionResource(id = R.dimen.result_button_start_margin),
+                        bottom = dimensionResource(id = R.dimen.result_button_bottom_margin),
+                    )
+                    .background(
+                        color = Color.White,
+                        shape = RoundedCornerShape(dimensionResource(id = R.dimen.rounded_corner_full))
+                    )
                     .height(40.dp),
-                text = stringResource(R.string.show_results),
-                onClick = {
+                    text = stringResource(R.string.show_results),
+                    onClick = {
                     if (fromPrice.toInt() > toPrice.toInt()) {
-                        Toast.makeText(context, "To price less than from price", Toast.LENGTH_SHORT)
-                            .show()
+                        Toast.makeText(
+                            context,
+                            context.getString(R.string.to_price_less_than_from_price),
+                            Toast.LENGTH_SHORT
+                        ).show()
                     } else {
-                        navigator.navigate(SearchRoomResultsDestination(fromPrice,
-                            toPrice, location.value, bedrooms.value,
-                            bathrooms.value, apartmentType.value))
+
+                        navigator.navigate(
+                            SearchRoomResultsDestination(
+                                fromPrice,
+                                toPrice,
+                                location.value,
+                                bedrooms.value,
+                                bathrooms.value,
+                                apartmentType.value
+                            )
+                        )
                     }
                 }
             )
@@ -92,7 +124,8 @@ fun SearchRoomScreen(
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
                 .padding(it),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(
+                dimensionResource(R.dimen.list_elements_margin))
         ) {
             Row(horizontalArrangement = Arrangement.SpaceBetween) {
                 BackBtn(
@@ -105,7 +138,7 @@ fun SearchRoomScreen(
                     modifier = Modifier.fillMaxWidth(),
                     style = TextStyle(
                         fontSize = integerResource(
-                            id = R.integer.label_text_size
+                            id = R.integer.label_text
                         ).sp,
                         color = Color.Black
                     ),
@@ -113,21 +146,22 @@ fun SearchRoomScreen(
                 )
             }
             FilterSelect(
-                selectItemName = "Room",
+                selectItemName = stringResource(R.string.room),
                 onNavigateToFriends = { navigator.navigate(SearchRoommateScreenDestination) }
             )
             Text(
                 stringResource(R.string.choose_room_parameters),
                 style = TextStyle(
-                    fontSize = 20.sp,
+                    fontSize = integerResource(id = R.integer.big_text).sp,
                     color = Color.Black
                 )
             )
             Text(
                 stringResource(R.string.month_price),
                 style = TextStyle(
-                    fontSize = 16.sp,
-                    color = Color.Black
+                    fontSize = integerResource(id = R.integer.primary_text).sp,
+                    color = Color.Black,
+                    fontWeight = FontWeight.Medium
                 )
             )
             Row(
@@ -138,7 +172,7 @@ fun SearchRoomScreen(
                     Text(
                         stringResource(R.string.from_price_label),
                         style = TextStyle(
-                            fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                            fontSize = integerResource(id = R.integer.primary_text).sp,
                             color = colorResource(
                                 id = R.color.text_secondary
                             )
@@ -150,12 +184,13 @@ fun SearchRoomScreen(
                             if (changedPrice.toIntOrNull() != null)
                                 fromPrice = changedPrice
                             else
-                                Toast.makeText(context, "Not numeric value", Toast.LENGTH_SHORT)
-                                    .show()
+                                Toast.makeText(
+                                    context, context.getString(R.string.not_integer), Toast.LENGTH_SHORT
+                                ).show()
                         },
                         modifier = Modifier
-                            .width(120.dp)
-                            .height(56.dp),
+                            .width(dimensionResource(id = R.dimen.num_field_width))
+                            .height(dimensionResource(id = R.dimen.num_field_height)),
                         placeholder = { Text(stringResource(R.string.start_price_placeholder)) },
                         colors = TextFieldDefaults.textFieldColors(
                             backgroundColor = colorResource(
@@ -169,7 +204,7 @@ fun SearchRoomScreen(
                     Text(
                         stringResource(R.string.to_price_label),
                         style = TextStyle(
-                            fontSize = integerResource(id = R.integer.primary_text_size).sp,
+                            fontSize = integerResource(id = R.integer.primary_text).sp,
                             color = colorResource(id = R.color.text_secondary)
                         )
                     )
@@ -179,12 +214,13 @@ fun SearchRoomScreen(
                             if (changedPrice.toIntOrNull() != null)
                                 toPrice = changedPrice
                             else
-                                Toast.makeText(context, "Not numeric value", Toast.LENGTH_SHORT)
-                                    .show()
+                                Toast.makeText(
+                                    context, context.getString(R.string.not_integer), Toast.LENGTH_SHORT
+                                ).show()
                         },
                         modifier = Modifier
-                            .width(120.dp)
-                            .height(56.dp),
+                            .width(dimensionResource(id = R.dimen.num_field_width))
+                            .height(dimensionResource(id = R.dimen.num_field_height)),
                         placeholder = { Text(stringResource(R.string.end_price_placeholder)) },
                         colors = TextFieldDefaults.textFieldColors(
                             backgroundColor = colorResource(
@@ -203,28 +239,24 @@ fun SearchRoomScreen(
             )
             ButtonsRow(
                 label = stringResource(R.string.bedrooms_label),
-                values = listOf(stringResource(R.string.any), "1", "2", ">3"),
+                values = roomsCountOptions.map {value -> stringResource(id = value)},
                 value = bedrooms.value,
                 onValueChange = { bedrooms.value = it }
             )
             ButtonsRow(
                 label = stringResource(R.string.bathrooms_label),
-                values = listOf(stringResource(R.string.any), "1", "2", ">3"),
+                values = roomsCountOptions.map {value -> stringResource(id = value)},
                 value = bathrooms.value,
                 onValueChange = { bathrooms.value = it }
             )
             ButtonsRowMapped(
                 label = stringResource(R.string.apartment_type_label),
-                values = mapOf(
-                    Pair("F", stringResource(R.string.flat)),
-                    Pair("DU", stringResource(R.string.duplex)),
-                    Pair("H", stringResource(R.string.house)),
-                    Pair("DO", stringResource(R.string.dorm))
-                ),
+                values = apartmentOptions.mapValues { (_, value) ->
+                    stringResource(id = value) },
                 value = apartmentType.value,
                 onValueChange = { apartmentType.value = it }
             )
-            Spacer(modifier = Modifier.height(100.dp))
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.spacer)))
         }
     }
 }

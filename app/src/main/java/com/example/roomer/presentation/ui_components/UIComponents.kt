@@ -371,6 +371,9 @@ fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean, onLikeClick: (Boolea
         var isLiked by remember {
             mutableStateOf(recommendedRoom.isLiked)
         }
+        val photo = if (recommendedRoom.fileContent.isNotEmpty())
+            recommendedRoom.fileContent.first().photo
+        else null
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -378,7 +381,7 @@ fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean, onLikeClick: (Boolea
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(recommendedRoom.fileContent.first().photo)
+                    .data(photo)
                     .crossfade(true)
                     .build(),
                 placeholder = painterResource(id = R.drawable.ordinnary_room),
@@ -790,6 +793,7 @@ fun ProfilePicture(
 
 @Composable
 fun FilterSelect(selectItemName: String, onNavigateToFriends: () -> Unit) {
+    val context = LocalContext.current
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -827,7 +831,10 @@ fun FilterSelect(selectItemName: String, onNavigateToFriends: () -> Unit) {
                         bottomStart = dimensionResource(id = R.dimen.rounded_corner_full)
                     )
                 )
-                .clickable { if (selectItemName == "Roommate") onNavigateToFriends.invoke() },
+                .clickable {
+                    if (selectItemName == context.getString(R.string.roommate))
+                        onNavigateToFriends.invoke()
+                },
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -890,7 +897,10 @@ fun FilterSelect(selectItemName: String, onNavigateToFriends: () -> Unit) {
                         bottomEnd = dimensionResource(id = R.dimen.rounded_corner_full)
                     )
                 )
-                .clickable { if (selectItemName == "Room") onNavigateToFriends.invoke() },
+                .clickable {
+                    if (selectItemName == context.getString(R.string.room))
+                        onNavigateToFriends.invoke()
+                },
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {

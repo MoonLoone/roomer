@@ -15,8 +15,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.Button
+import androidx.compose.material.Checkbox
+import androidx.compose.material.CheckboxDefaults
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.IconButton
@@ -33,6 +33,7 @@ import androidx.compose.material.icons.filled.Male
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material.icons.outlined.Password
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -66,6 +67,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import com.example.roomer.R
+import com.example.roomer.domain.model.login_sign_up.interests.InterestModel
 import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
@@ -365,7 +367,7 @@ fun SelectAddressField(
                 )
             }
         }
-        var location by remember {
+        val location by remember {
             mutableStateOf(TextFieldValue(placeholder))
         }
         TextField(
@@ -591,7 +593,7 @@ fun UsualTextField(
                     keyboardType = KeyboardType.Number
                 )
             } else {
-                KeyboardOptions(keyboardType = KeyboardType.Ascii)
+                KeyboardOptions(keyboardType = KeyboardType.Text)
             }
         )
         if (isError) {
@@ -678,64 +680,113 @@ fun IconedTextField(
 }
 
 @Composable
-fun InterestField(paddingValues: PaddingValues, label: String) {
-    var interestsList by remember {
-        mutableStateOf(TextFieldValue(""))
-    }
-    var openDialog by remember {
+fun InterestField(
+    paddingValues: PaddingValues,
+    label: String,
+    values: List<InterestModel>,
+    selectedItems: List<InterestModel>,
+    onSelectedChange: (List<InterestModel>) -> Unit
+) {
+    var isExpanded by remember {
         mutableStateOf(false)
     }
-    val icon = if (openDialog) {
+    val icon = if (isExpanded) {
         Icons.Filled.KeyboardArrowUp
     } else {
         Icons.Filled.KeyboardArrowDown
     }
-    Column() {
-        Column(
-            modifier = Modifier.padding(paddingValues),
-            verticalArrangement = Arrangement.spacedBy(
-                dimensionResource(id = R.dimen.column_elements_small_margin)
-            )
-        ) {
-            Text(
-                text = label,
-                style = TextStyle(
-                    fontSize = integerResource(id = R.integer.primary_text).sp,
-                    color = Color.Black
-                )
-            )
-            TextField(
-                value = interestsList.text,
-                onValueChange = {
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { openDialog = !openDialog },
-                enabled = false,
-                trailingIcon = {
-                    Icon(icon, stringResource(R.string.dropdown_icon))
-                },
-                colors = TextFieldDefaults.textFieldColors(
-                    backgroundColor = colorResource(id = R.color.secondary_color)
-                ),
-                textStyle = TextStyle(
-                    fontSize = integerResource(id = R.integer.primary_text).sp,
-                    color = Color.Black
-                )
-            )
-        }
-        if (openDialog) {
-            AlertDialog(
-                onDismissRequest = { openDialog = false },
-                title = { Text(stringResource(R.string.change_interests)) },
-                text = {
-                },
-                buttons = {
-                    Button(modifier = Modifier.fillMaxWidth(), onClick = { openDialog = false }) {
-                        Text(stringResource(R.string.dismiss))
-                    }
+
+    val interactionSource = remember { MutableInteractionSource() }
+    var textFieldSize by remember {
+        mutableStateOf(Size.Zero)
+    }
+    val enabled = true
+    Column {
+        Text(
+            text = label,
+            style = TextStyle(
+                fontSize = integerResource(id = R.integer.primary_text).sp,
+                color = Color.Black,
+                fontWeight = FontWeight.Medium
+            ),
+            modifier = Modifier.padding(5.dp)
+        )
+        TextField(
+            value = "...",
+            onValueChange = { },
+            modifier = Modifier
+                .fillMaxWidth()
+                .onGloballyPositioned { coordinates ->
+                    textFieldSize = coordinates.size.toSize()
                 }
+                .clickable(
+                    interactionSource = interactionSource,
+                    indication = null
+                ) {
+                    if (enabled) {
+                        isExpanded = !isExpanded
+                    }
+                },
+            enabled = false,
+            trailingIcon = {
+                Icon(icon, stringResource(R.string.dropdown_icon))
+            },
+            colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = colorResource(id = R.color.secondary_color)
+            ),
+            textStyle = TextStyle(
+                fontSize = integerResource(id = R.integer.primary_text).sp,
+                color = Color.Black
             )
+        )
+        if (isExpanded) {
+            Column(
+                modifier = Modifier
+                    .padding(paddingValues)
+                    .background(colorResource(id = R.color.secondary_color)),
+                verticalArrangement = Arrangement.spacedBy(
+                    dimensionResource(id = R.dimen.column_elements_small_margin)
+                )
+            ) {
+                for (item in values) {
+                    var checkedState by remember {
+                        mutableStateOf(false)
+                    }
+                    Row {
+                        Checkbox(
+                            checked = checkedState,
+                            onCheckedChange = {
+                                checkedState = it
+                                if (checkedState) {
+                                    selectedItems.plus(item).let(onSelectedChange)
+                                } else {
+                                    selectedItems.minus(item).let(onSelectedChange)
+                                }
+                            },
+                            colors = CheckboxDefaults.colors(
+                                checkedColor = colorResource(id = R.color.primary_dark)
+                            )
+                        )
+                        Text(
+                            item.interest,
+                            style = TextStyle(
+                                fontSize = integerResource(id = R.integer.primary_text).sp,
+                                color = colorResource(id = R.color.text_secondary)
+                            ),
+                            modifier = Modifier.padding(top = 10.dp)
+                        )
+                    }
+                    Divider(
+                        color = Color.Black,
+                        modifier = Modifier.padding(
+                            top = dimensionResource(id = R.dimen.divider_top_padding),
+                            bottom = dimensionResource(
+                                id = R.dimen.screen_bottom_margin
+                            )
+                        )
+                    )
+                }
+            }
         }
     }
 }

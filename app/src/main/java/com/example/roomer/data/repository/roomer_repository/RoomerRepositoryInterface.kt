@@ -1,5 +1,6 @@
 package com.example.roomer.data.repository.roomer_repository
 
+
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.MessageNotification
 import com.example.roomer.domain.model.entities.Room
@@ -17,23 +18,28 @@ interface RoomerRepositoryInterface {
 
     suspend fun getMessagesForChat(userId: Int, chatId: Int): Response<List<Message>>
 
-    suspend fun getFilterRoommates(
-        sex: String,
-        employment: String,
-        alcoholAttitude: String,
-        smokingAttitude: String,
-        sleepTime: String,
-        personalityType: String,
-        cleanHabits: String
-    ): Response<List<User>>
-
     suspend fun getFilterRooms(
-        monthPriceFrom: String,
-        monthPriceTo: String,
-        bedroomsCount: String,
-        bathroomsCount: String,
-        housingType: String
+        monthPriceFrom: String?,
+        monthPriceTo: String?,
+        location: String?,
+        bedroomsCount: String?,
+        bathroomsCount: String?,
+        housingType: String?,
     ): Response<List<Room>>
+
+    suspend fun getFilterRoommates(
+        sex: String?,
+        location: String?,
+        ageFrom: String?,
+        ageTo: String?,
+        employment: String?,
+        alcoholAttitude: String?,
+        smokingAttitude: String?,
+        sleepTime: String?,
+        personalityType: String?,
+        cleanHabits: String?,
+        interests: Map<String, String>
+    ): Response<List<User>>
 
     suspend fun getLocalFavourites(): Flow<List<Room>>
 

@@ -21,6 +21,7 @@ import retrofit2.http.PUT
 import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
+import retrofit2.http.QueryMap
 
 interface RoomerApi {
 
@@ -48,22 +49,27 @@ interface RoomerApi {
 
     @GET("/housing/")
     suspend fun filterRooms(
-        @Query("month_price_from") monthPriceFrom: String,
-        @Query("month_price_to") monthPriceTo: String,
-        @Query(" bedrooms_count") bedroomsCount: String,
-        @Query("bathrooms_count") bathroomsCount: String,
-        @Query("housing_type") housingType: String
+        @Query("month_price_from") monthPriceFrom: String?,
+        @Query("month_price_to") monthPriceTo: String?,
+        @Query("city") location: String?,
+        @Query("bedrooms_count") bedroomsCount: String?,
+        @Query("bathrooms_count") bathroomsCount: String?,
+        @Query("housing_type") housingType: String?,
     ): Response<List<Room>>
 
     @GET("/profile/")
     suspend fun filterRoommates(
-        @Query("sex") sex: String,
-        @Query("employment") employment: String,
-        @Query("alcohol_attitude") alcoholAttitude: String,
-        @Query("smoking_attitude") smokingAttitude: String,
-        @Query("sleep_time") sleepTime: String,
-        @Query("personality_type") personalityType: String,
-        @Query("clean_habits") cleanHabits: String
+        @Query("sex") sex: String?,
+        @Query("city") location: String?,
+        @Query("age_from") ageFrom: String?,
+        @Query("age_to") ageTo: String?,
+        @Query("employment") employment: String?,
+        @Query("alcohol_attitude") alcoholAttitude: String?,
+        @Query("smoking_attitude") smokingAttitude: String?,
+        @Query("sleep_time") sleepTime: String?,
+        @Query("personality_type") personalityType: String?,
+        @Query("clean_habits") cleanHabits: String?,
+        @QueryMap interests: Map<String, String>
     ): Response<List<User>>
 
     @GET("/auth/users/me/")

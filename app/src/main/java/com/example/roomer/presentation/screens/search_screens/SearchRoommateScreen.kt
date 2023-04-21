@@ -1,9 +1,11 @@
 package com.example.roomer.presentation.screens.search_screens
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -28,83 +30,123 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.roomer.R
+import com.example.roomer.domain.model.login_sign_up.interests.InterestModel
 import com.example.roomer.presentation.screens.destinations.HomeScreenDestination
 import com.example.roomer.presentation.screens.destinations.SearchRoomScreenDestination
-import com.example.roomer.presentation.screens.destinations.SearchRoommateScreenDestination
+import com.example.roomer.presentation.screens.destinations.SearchRoommateResultsDestination
 import com.example.roomer.presentation.ui_components.BackBtn
 import com.example.roomer.presentation.ui_components.DropdownTextFieldMapped
 import com.example.roomer.presentation.ui_components.FilterSelect
 import com.example.roomer.presentation.ui_components.GreenButtonOutline
 import com.example.roomer.presentation.ui_components.InterestField
+import com.example.roomer.presentation.screens.entrance.signup.interests_screen.InterestsScreenViewModel
+import com.example.roomer.presentation.ui_components.ButtonsRowMapped
+import com.example.roomer.presentation.ui_components.UsualTextField
+import com.example.roomer.utils.Constants.Options.attitudeOptions
+import com.example.roomer.utils.Constants.Options.cleanOptions
+import com.example.roomer.utils.Constants.Options.employmentOptions
+import com.example.roomer.utils.Constants.Options.personalityOptions
+import com.example.roomer.utils.Constants.Options.sexOptions
+import com.example.roomer.utils.Constants.Options.sleepOptions
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Destination
 @Composable
 fun SearchRoommateScreen(
-    navigator: DestinationsNavigator
+    navigator: DestinationsNavigator,
+    interestsScreenViewModel: InterestsScreenViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
+    val sex = remember {
+        mutableStateOf(context.getString(R.string.default_sex))
+    }
     var fromAge by remember {
-        mutableStateOf("0")
+        mutableStateOf(context.getString(R.string.default_from_age))
     }
     var toAge by remember {
-        mutableStateOf("0")
+        mutableStateOf(context.getString(R.string.default_to_age))
     }
     val sleepTime = remember {
-        mutableStateOf("N")
+        mutableStateOf(context.getString(R.string.default_sleep_time))
     }
     val personality = remember {
-        mutableStateOf("E")
+        mutableStateOf(context.getString(R.string.default_personality))
     }
     val smokingAttitude = remember {
-        mutableStateOf("I")
+        mutableStateOf(context.getString(R.string.default_smoking_attitude))
     }
     val alcoholAttitude = remember {
-        mutableStateOf("I")
+        mutableStateOf(context.getString(R.string.default_alcohol_attitude))
     }
     val location = remember {
         mutableStateOf("")
     }
     val employment = remember {
-        mutableStateOf("E")
+        mutableStateOf(context.getString(R.string.default_employment))
     }
     val cleanHabits = remember {
-        mutableStateOf("N")
+        mutableStateOf(context.getString(R.string.default_clean_habits))
     }
-    val context = LocalContext.current
+    var interests: List<InterestModel> = listOf()
+
     Scaffold(
         modifier = Modifier.padding(
-            top = dimensionResource(id = R.dimen.screen_top_margin),
             start = dimensionResource(id = R.dimen.screen_start_margin),
             end = dimensionResource(id = R.dimen.screen_end_margin),
-            bottom = dimensionResource(id = R.dimen.screen_bottom_margin)
+            top = dimensionResource(id = R.dimen.screen_top_margin),
+            bottom = dimensionResource(id = R.dimen.screen_nav_bottom_margin)
         ),
         floatingActionButton = {
             GreenButtonOutline(
                 modifier = Modifier
-                    .padding(start = 20.dp)
+                    .padding(
+                        start = dimensionResource(id = R.dimen.result_button_start_margin),
+                        bottom = dimensionResource(id = R.dimen.result_button_bottom_margin)
+                    )
                     .fillMaxWidth()
-                    .height(40.dp),
-                text = stringResource(R.string.show_results),
-                onClick = {
-                    if (fromAge > toAge) {
-                        Toast.makeText(context, "To age less than from age", Toast.LENGTH_SHORT)
-                            .show()
-                    } else {
-                        navigator.navigate(SearchRoommateScreenDestination)
-                    }
+                    .height(dimensionResource(id = R.dimen.result_button_height)),
+                text = stringResource(R.string.show_results)
+            ) {
+                if (fromAge.toInt() > toAge.toInt()) {
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.to_age_less_than_from_age),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    Log.d("", interests.toString())
+                    navigator.navigate(
+                        SearchRoommateResultsDestination(
+                            sex.value,
+                            location.value,
+                            fromAge,
+                            toAge,
+                            employment.value,
+                            alcoholAttitude.value,
+                            smokingAttitude.value,
+                            sleepTime.value,
+                            personality.value,
+                            cleanHabits.value,
+                            interests.joinToString("\n") { it.id }
+                        )
+                    )
                 }
-            )
+            }
         }
     ) {
         Column(
             modifier = Modifier
-                .padding(bottom = it.calculateBottomPadding() + 64.dp)
+                .padding(
+                    bottom = it.calculateBottomPadding() +
+                            dimensionResource(R.dimen.column_bottom_margin)
+                )
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(
                 dimensionResource(id = R.dimen.list_elements_margin)
@@ -125,21 +167,30 @@ fun SearchRoommateScreen(
                 )
             }
             FilterSelect(
-                selectItemName = "Roommate",
+                selectItemName = stringResource(R.string.roommate),
                 onNavigateToFriends = { navigator.navigate(SearchRoomScreenDestination) }
             )
             Text(
                 stringResource(R.string.choose_roommate_parameters),
                 style = TextStyle(
-                    fontSize = 20.sp,
+                    fontSize = integerResource(id = R.integer.big_text).sp,
                     color = Color.Black
                 )
+            )
+            ButtonsRowMapped(
+                label = stringResource(R.string.sex),
+                values = sexOptions.mapValues { (_, value) ->
+                    stringResource(id = value)
+                },
+                value = sex.value,
+                onValueChange = { if (it != "") sex.value = it }
             )
             Text(
                 stringResource(R.string.age_label),
                 style = TextStyle(
                     fontSize = integerResource(id = R.integer.primary_text).sp,
-                    color = Color.Black
+                    color = Color.Black,
+                    fontWeight = FontWeight.Medium
                 )
             )
             Row(
@@ -159,11 +210,19 @@ fun SearchRoommateScreen(
                     TextField(
                         value = fromAge,
                         onValueChange = { changedText ->
-                            fromAge = changedText
+                            if (changedText.toIntOrNull() != null) {
+                                fromAge = changedText
+                            } else {
+                                Toast.makeText(
+                                    context,
+                                    context.getString(R.string.not_integer),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         },
                         modifier = Modifier
-                            .width(120.dp)
-                            .height(56.dp),
+                            .width(dimensionResource(id = R.dimen.num_field_width))
+                            .height(dimensionResource(id = R.dimen.num_field_height)),
                         placeholder = { Text(stringResource(R.string.start_age_placeholder)) },
                         colors = TextFieldDefaults.textFieldColors(
                             backgroundColor = colorResource(
@@ -186,11 +245,19 @@ fun SearchRoommateScreen(
                     TextField(
                         value = toAge,
                         onValueChange = { changedText ->
-                            toAge = changedText
+                            if (changedText.toIntOrNull() != null) {
+                                toAge = changedText
+                            } else {
+                                Toast.makeText(
+                                    context,
+                                    context.getString(R.string.not_integer),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         },
                         modifier = Modifier
-                            .width(120.dp)
-                            .height(56.dp),
+                            .width(dimensionResource(id = R.dimen.num_field_width))
+                            .height(dimensionResource(id = R.dimen.num_field_height)),
                         placeholder = { Text(stringResource(R.string.end_age_placeholder)) },
                         colors = TextFieldDefaults.textFieldColors(
                             backgroundColor = colorResource(
@@ -201,107 +268,70 @@ fun SearchRoommateScreen(
                     )
                 }
             }
+            UsualTextField(
+                title = stringResource(R.string.location_label),
+                placeholder = stringResource(R.string.put_some_city_placeholder),
+                value = location.value,
+                onValueChange = { location.value = it }
+            )
             DropdownTextFieldMapped(
-                mapOfItems = mapOf(
-                    Pair("N", stringResource(R.string.night)),
-                    Pair("D", stringResource(R.string.day)),
-                    Pair("O", stringResource(R.string.occasionally))
-                ),
+                mapOfItems = sleepOptions.mapValues { (_, value) ->
+                    stringResource(id = value)
+                },
                 label = stringResource(R.string.sleep_time_label),
                 value = sleepTime.value,
                 onValueChange = { sleepTime.value = it }
             )
             DropdownTextFieldMapped(
                 label = stringResource(R.string.personality_type_label),
-                mapOfItems = mapOf(
-                    Pair("E", stringResource(R.string.extraverted)),
-                    Pair("I", stringResource(R.string.introverted)),
-                    Pair("M", stringResource(R.string.mixed))
-                ),
+                mapOfItems = personalityOptions.mapValues { (_, value) ->
+                    stringResource(id = value)
+                },
                 value = personality.value,
                 onValueChange = { personality.value = it }
             )
             DropdownTextFieldMapped(
                 label = stringResource(R.string.attitude_to_smoking_label),
-                mapOfItems = mapOf(
-                    Pair("P", stringResource(R.string.positive)),
-                    Pair("N", stringResource(R.string.negative)),
-                    Pair("I", stringResource(R.string.indifferent))
-                ),
+                mapOfItems = attitudeOptions.mapValues { (_, value) ->
+                    stringResource(id = value)
+                },
                 value = smokingAttitude.value,
                 onValueChange = { smokingAttitude.value = it }
             )
             DropdownTextFieldMapped(
                 label = stringResource(R.string.attitude_to_alcohol_label),
-                mapOfItems = mapOf(
-                    Pair("P", stringResource(R.string.positive)),
-                    Pair("N", stringResource(R.string.negative)),
-                    Pair("I", stringResource(R.string.indifferent))
-                ),
+                mapOfItems = attitudeOptions.mapValues { (_, value) ->
+                    stringResource(id = value)
+                },
                 value = alcoholAttitude.value,
                 onValueChange = { alcoholAttitude.value = it }
             )
             DropdownTextFieldMapped(
-                mapOfItems = mapOf(
-                    Pair("N", stringResource(R.string.night)),
-                    Pair("D", stringResource(R.string.day)),
-                    Pair("O", stringResource(R.string.occasionally))
-                ),
-                label = stringResource(R.string.sleep_time_label),
-                value = sleepTime.value,
-                onValueChange = { sleepTime.value = it }
-            )
-            DropdownTextFieldMapped(
-                mapOfItems = mapOf(
-                    Pair("N", stringResource(R.string.night)),
-                    Pair("D", stringResource(R.string.day)),
-                    Pair("O", stringResource(R.string.occasionally))
-                ),
-                label = stringResource(R.string.sleep_time_label),
-                value = sleepTime.value,
-                onValueChange = { sleepTime.value = it }
-            )
-            DropdownTextFieldMapped(
-                mapOfItems = mapOf(
-                    Pair("N", stringResource(R.string.night)),
-                    Pair("D", stringResource(R.string.day)),
-                    Pair("O", stringResource(R.string.occasionally))
-                ),
-                label = stringResource(R.string.sleep_time_label),
-                value = sleepTime.value,
-                onValueChange = { sleepTime.value = it }
-            )
-            DropdownTextFieldMapped(
-                mapOfItems = mapOf(
-                    Pair("N", stringResource(R.string.night)),
-                    Pair("D", stringResource(R.string.day)),
-                    Pair("O", stringResource(R.string.occasionally))
-                ),
-                label = stringResource(R.string.sleep_time_label),
-                value = sleepTime.value,
-                onValueChange = { sleepTime.value = it }
-            )
-            DropdownTextFieldMapped(
-                mapOfItems = mapOf(
-                    Pair("NE", stringResource(R.string.not_employed)),
-                    Pair("E", stringResource(R.string.employed)),
-                    Pair("S", stringResource(R.string.searching_for_work))
-                ),
+                mapOfItems = employmentOptions.mapValues { (_, value) ->
+                    stringResource(id = value)
+                },
                 label = stringResource(R.string.what_you_currently_do_lable),
                 value = employment.value,
                 onValueChange = { employment.value = it }
             )
             DropdownTextFieldMapped(
-                mapOfItems = mapOf(
-                    Pair("N", stringResource(R.string.neat)),
-                    Pair("D", stringResource(R.string.it_depends)),
-                    Pair("C", stringResource(R.string.chaos))
-                ),
+                mapOfItems = cleanOptions.mapValues { (_, value) ->
+                    stringResource(id = value)
+                },
                 label = stringResource(R.string.clean_habits_label),
                 value = cleanHabits.value,
                 onValueChange = { cleanHabits.value = it }
             )
-            InterestField(paddingValues = it, label = stringResource(R.string.interests))
+
+            val interestsList = interestsScreenViewModel.interests.value
+            InterestField(
+                paddingValues = it,
+                label = stringResource(R.string.interests),
+                values = interestsList,
+                selectedItems = interests,
+                onSelectedChange = { interests = it }
+            )
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.spacer)))
         }
     }
 }

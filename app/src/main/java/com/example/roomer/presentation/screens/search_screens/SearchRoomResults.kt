@@ -1,10 +1,13 @@
 package com.example.roomer.presentation.screens.search_screens
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.CircularProgressIndicator
@@ -25,7 +28,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.roomer.R
-import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.presentation.screens.destinations.HomeScreenDestination
 import com.example.roomer.presentation.ui_components.BackBtn
 import com.example.roomer.presentation.ui_components.GreenButtonOutline
@@ -37,31 +39,30 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Destination
 @Composable
 fun SearchRoomResults(
-    navigator: DestinationsNavigator
+    navigator: DestinationsNavigator,
+    viewModel: SearchRoomResultsViewModel = hiltViewModel(),
+    from: String = "",
+    to: String = "",
+    location: String = "",
+    _bedrooms: String = "",
+    _bathrooms: String = "",
+    apartmentType: String = "DO"
 ) {
-    val from = ""
-    val to = ""
-    val location = ""
-    val bedrooms = ""
-    val bathrooms = ""
-    var apartmentType = ""
-    apartmentType = when (apartmentType) {
-        stringResource(R.string.flat) -> "F"
-        stringResource(R.string.duplex) -> "DU"
-        stringResource(R.string.house) -> "H"
-        else -> "DO"
-    }
-    val viewModel: SearchRoomResultsViewModel = hiltViewModel()
+    val bedrooms = if (_bedrooms == stringResource(id = R.string.any)) null else _bedrooms
+    val bathrooms = if (_bathrooms == stringResource(id = R.string.any)) null else _bathrooms
     val rooms by viewModel.rooms.collectAsState()
-    viewModel.loadRooms(from, to, bedrooms, bathrooms, apartmentType)
+    Log.d("catching", rooms.toString())
+
+    viewModel.loadRooms(from, to, location, bedrooms, bathrooms, apartmentType)
     val loadingState = viewModel.loadingState.collectAsState()
     when (loadingState.value) {
         LoadingStates.Success ->
             Column(
                 modifier = Modifier.padding(
-                    top = dimensionResource(id = R.dimen.screen_top_margin),
                     start = dimensionResource(id = R.dimen.screen_start_margin),
-                    end = dimensionResource(id = R.dimen.screen_end_margin)
+                    end = dimensionResource(id = R.dimen.screen_end_margin),
+                    top = dimensionResource(id = R.dimen.screen_top_margin),
+                    bottom = dimensionResource(id = R.dimen.screen_nav_bottom_margin)
                 ),
                 verticalArrangement = Arrangement.spacedBy(24.dp)
             ) {
@@ -98,12 +99,14 @@ fun SearchRoomResults(
                     }
                     items(rooms.size) { index ->
                         RoomCard(
-                            recommendedRoom = Room(),
+                            recommendedRoom = rooms[index],
                             isMiniVersion = false
                         ) {}
                     }
                 }
+                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.spacer)))
             }
+
         LoadingStates.Loading -> CircularProgressIndicator(modifier = Modifier.fillMaxSize())
         LoadingStates.Error -> {
             Column(
@@ -120,7 +123,7 @@ fun SearchRoomResults(
                     )
                 )
                 GreenButtonOutline(text = stringResource(R.string.retry)) {
-                    viewModel.loadRooms(from, to, bedrooms, bathrooms, apartmentType)
+                    viewModel.loadRooms(from, to, location, bedrooms, bathrooms, apartmentType)
                 }
             }
         }
