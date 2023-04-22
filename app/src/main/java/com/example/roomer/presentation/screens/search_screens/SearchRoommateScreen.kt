@@ -36,7 +36,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.roomer.R
-import com.example.roomer.domain.model.login_sign_up.interests.InterestModel
+import com.example.roomer.domain.model.login_sign_up.InterestModel
 import com.example.roomer.presentation.screens.destinations.HomeScreenDestination
 import com.example.roomer.presentation.screens.destinations.SearchRoomScreenDestination
 import com.example.roomer.presentation.screens.destinations.SearchRoommateResultsDestination
@@ -134,7 +134,7 @@ fun SearchRoommateScreen(
                             sleepTime.value,
                             personality.value,
                             cleanHabits.value,
-                            interests.joinToString("\n") { it.id }
+                            interests.joinToString("\n") { it.id.toString() }
                         )
                     )
                 }
