@@ -71,7 +71,7 @@ import com.example.roomer.R
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
-import com.example.roomer.domain.model.login_sign_up.interests.InterestModel
+import com.example.roomer.domain.model.login_sign_up.InterestModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 

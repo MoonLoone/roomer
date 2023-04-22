@@ -21,10 +21,8 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -39,6 +37,10 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.paging.PagingData
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.items
 import com.example.roomer.R
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.User
@@ -48,7 +50,7 @@ import com.example.roomer.presentation.ui_components.Message
 import com.example.roomer.utils.NavbarManagement
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.flowOf
 
 @Destination
 @Composable
@@ -74,9 +76,13 @@ fun ChatScreen(
         val messageText = remember {
             mutableStateOf(TextFieldValue(""))
         }
-        val messages = viewModel.messages.collectAsState()
+        val messages = if (viewModel.socketConnectionState.value) {
+            viewModel.messagesPager.collectAsLazyPagingItems()
+        } else {
+            flowOf<PagingData<Message>>(PagingData.empty()).collectAsLazyPagingItems()
+        }
         MessagesList(
-            messages = messages.value,
+            messages = messages,
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
@@ -125,22 +131,26 @@ private fun TopLine(onNavigateTo: () -> Unit) {
 }
 
 @Composable
-private fun MessagesList(messages: List<Message>, modifier: Modifier, checkMessage: (Int) -> Unit) {
+private fun MessagesList(
+    messages: LazyPagingItems<Message>,
+    modifier: Modifier,
+    checkMessage: (Int) -> Unit
+) {
     val lazyListState: LazyListState = rememberLazyListState()
-    val scope = rememberCoroutineScope()
-    LazyColumn(modifier = modifier, state = lazyListState) {
-        items(messages.size) { index ->
-            if (!messages[index].isChecked && messages[index].recipient == User()) {
-                messages[index].isChecked = true
-                checkMessage.invoke(index + 1)
+    LazyColumn(modifier = modifier, state = lazyListState, reverseLayout = true) {
+        items(messages) { item ->
+            item?.let { message ->
+                if (!message.isChecked && message.recipient == User()) {
+                    message.isChecked = true
+                    checkMessage.invoke(message.id + 1)
+                }
+                Message(
+                    isUserMessage = message.donor == User(),
+                    text = message.text,
+                    data = message.dateTime
+                )
             }
-            Message(
-                isUserMessage = messages[index].donor == User(),
-                text = messages[index].text,
-                data = messages[index].dateTime
-            )
         }
-        scope.launch { lazyListState.scrollToItem(messages.size) }
     }
 }
 

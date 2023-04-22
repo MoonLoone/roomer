@@ -2,6 +2,7 @@ package com.example.roomer.data.room.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.roomer.domain.model.entities.Room
 
 @Entity(tableName = "favourite")
 data class LocalRoom(
@@ -10,7 +11,7 @@ data class LocalRoom(
     val monthPrice: Int,
     val hostId: Int,
     val description: String,
-    val photo: String,
+    val fileContent: List<Room.Photo>?,
     val bathroomsCount: Int,
     val bedroomsCount: Int,
     val housingType: String,

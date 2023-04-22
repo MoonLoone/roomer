@@ -5,11 +5,11 @@ import com.example.roomer.domain.model.entities.MessageNotification
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.domain.model.login_sign_up.IdModel
+import com.example.roomer.domain.model.login_sign_up.InterestModel
 import com.example.roomer.domain.model.login_sign_up.LoginDto
 import com.example.roomer.domain.model.login_sign_up.SignUpDataModel
 import com.example.roomer.domain.model.login_sign_up.SignUpModel
 import com.example.roomer.domain.model.login_sign_up.TokenDto
-import com.example.roomer.domain.model.login_sign_up.interests.InterestModel
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
@@ -80,7 +80,9 @@ interface RoomerApi {
     @GET("/chats/")
     suspend fun getChatsForUser(
         @Query("user_id") userId: Int,
-        @Query("chat_id") chatId: String = ""
+        @Query("chat_id") chatId: String,
+        @Query("offset") offset: Int = 0,
+        @Query("limit") limit: Int = 10
     ): Response<List<Message>>
 
     @PUT("/chats/{id}/mark_checked/")

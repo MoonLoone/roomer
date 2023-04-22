@@ -31,10 +31,11 @@ class PrimarySignUpUseCase(
                 val errorOn = JSONObject(errMsg).names()!![0].toString()
                 errMsg = JSONObject(errMsg).getJSONArray(errorOn)[0].toString()
 
-                if (errorOn == "email") {
-                    emit(Resource.Error.EmailError(message = errMsg))
-                } else {
-                    emit(Resource.Error.GeneralError(message = errMsg))
+                when (errorOn) {
+                    "email" -> emit(Resource.Error.EmailError(message = errMsg))
+                    "username" -> emit(Resource.Error.UsernameError(message = errMsg))
+                    "password" -> emit(Resource.Error.PasswordError(message = errMsg))
+                    else -> emit(Resource.Error.GeneralError(message = errMsg))
                 }
             }
         } catch (e: IOException) {
