@@ -371,9 +371,11 @@ fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean, onLikeClick: (Boolea
         var isLiked by remember {
             mutableStateOf(recommendedRoom.isLiked)
         }
-        val photo = if (recommendedRoom.fileContent?.isNotEmpty() == true)
+        val photo = if (recommendedRoom.fileContent?.isNotEmpty() == true) {
             recommendedRoom.fileContent.first().photo
-        else null
+        } else {
+            null
+        }
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -832,8 +834,9 @@ fun FilterSelect(selectItemName: String, onNavigateToFriends: () -> Unit) {
                     )
                 )
                 .clickable {
-                    if (selectItemName == context.getString(R.string.roommate))
+                    if (selectItemName == context.getString(R.string.roommate)) {
                         onNavigateToFriends.invoke()
+                    }
                 },
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
@@ -898,8 +901,9 @@ fun FilterSelect(selectItemName: String, onNavigateToFriends: () -> Unit) {
                     )
                 )
                 .clickable {
-                    if (selectItemName == context.getString(R.string.room))
+                    if (selectItemName == context.getString(R.string.room)) {
                         onNavigateToFriends.invoke()
+                    }
                 },
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically

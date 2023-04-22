@@ -1,6 +1,5 @@
 package com.example.roomer.presentation.screens.search_screens
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -40,13 +39,13 @@ import com.example.roomer.domain.model.login_sign_up.InterestModel
 import com.example.roomer.presentation.screens.destinations.HomeScreenDestination
 import com.example.roomer.presentation.screens.destinations.SearchRoomScreenDestination
 import com.example.roomer.presentation.screens.destinations.SearchRoommateResultsDestination
+import com.example.roomer.presentation.screens.entrance.signup.interests_screen.InterestsScreenViewModel
 import com.example.roomer.presentation.ui_components.BackBtn
+import com.example.roomer.presentation.ui_components.ButtonsRowMapped
 import com.example.roomer.presentation.ui_components.DropdownTextFieldMapped
 import com.example.roomer.presentation.ui_components.FilterSelect
 import com.example.roomer.presentation.ui_components.GreenButtonOutline
 import com.example.roomer.presentation.ui_components.InterestField
-import com.example.roomer.presentation.screens.entrance.signup.interests_screen.InterestsScreenViewModel
-import com.example.roomer.presentation.ui_components.ButtonsRowMapped
 import com.example.roomer.presentation.ui_components.UsualTextField
 import com.example.roomer.utils.Constants.Options.attitudeOptions
 import com.example.roomer.utils.Constants.Options.cleanOptions
@@ -121,7 +120,6 @@ fun SearchRoommateScreen(
                         Toast.LENGTH_SHORT
                     ).show()
                 } else {
-                    Log.d("", interests.toString())
                     navigator.navigate(
                         SearchRoommateResultsDestination(
                             sex.value,
@@ -145,7 +143,7 @@ fun SearchRoommateScreen(
             modifier = Modifier
                 .padding(
                     bottom = it.calculateBottomPadding() +
-                            dimensionResource(R.dimen.column_bottom_margin)
+                        dimensionResource(R.dimen.column_bottom_margin)
                 )
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(

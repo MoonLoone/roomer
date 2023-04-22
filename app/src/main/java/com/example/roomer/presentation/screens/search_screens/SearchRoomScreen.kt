@@ -2,7 +2,15 @@ package com.example.roomer.presentation.screens.search_screens
 
 import android.widget.Toast
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -27,7 +35,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.roomer.R
 import com.example.roomer.presentation.screens.destinations.HomeScreenDestination
@@ -41,11 +48,6 @@ import com.example.roomer.presentation.ui_components.GreenButtonOutline
 import com.example.roomer.presentation.ui_components.UsualTextField
 import com.example.roomer.utils.Constants.Options.apartmentOptions
 import com.example.roomer.utils.Constants.Options.roomsCountOptions
-/*
-import com.example.roomer.utils.Constants.Options.apartmentChoice
-import com.example.roomer.utils.Constants.Choices.bathroomsChoice
-import com.example.roomer.utils.Constants.Choices.bedroomsChoice
- */
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
@@ -87,15 +89,19 @@ fun SearchRoomScreen(
                     .fillMaxWidth()
                     .padding(
                         start = dimensionResource(id = R.dimen.result_button_start_margin),
-                        bottom = dimensionResource(id = R.dimen.result_button_bottom_margin),
+                        bottom = dimensionResource(id = R.dimen.result_button_bottom_margin)
                     )
                     .background(
                         color = Color.White,
-                        shape = RoundedCornerShape(dimensionResource(id = R.dimen.rounded_corner_full))
+                        shape = RoundedCornerShape(
+                            dimensionResource(id = R.dimen.rounded_corner_full)
+                        )
                     )
-                    .height(40.dp),
-                    text = stringResource(R.string.show_results),
-                    onClick = {
+                    .height(
+                        dimensionResource(id = R.dimen.screen_nav_bottom_margin)
+                    ),
+                text = stringResource(R.string.show_results),
+                onClick = {
                     if (fromPrice.toInt() > toPrice.toInt()) {
                         Toast.makeText(
                             context,
@@ -103,7 +109,6 @@ fun SearchRoomScreen(
                             Toast.LENGTH_SHORT
                         ).show()
                     } else {
-
                         navigator.navigate(
                             SearchRoomResultsDestination(
                                 fromPrice,
@@ -125,14 +130,13 @@ fun SearchRoomScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(it),
             verticalArrangement = Arrangement.spacedBy(
-                dimensionResource(R.dimen.list_elements_margin))
+                dimensionResource(R.dimen.list_elements_margin)
+            )
         ) {
             Row(horizontalArrangement = Arrangement.SpaceBetween) {
-                BackBtn(
-                    onBackNavigation = {
-                        navigator.navigate(HomeScreenDestination)
-                    }
-                )
+                BackBtn(onBackNavigation = {
+                    navigator.navigate(HomeScreenDestination)
+                })
                 Text(
                     text = stringResource(R.string.search_filter),
                     modifier = Modifier.fillMaxWidth(),
@@ -181,12 +185,15 @@ fun SearchRoomScreen(
                     TextField(
                         value = fromPrice,
                         onValueChange = { changedPrice ->
-                            if (changedPrice.toIntOrNull() != null)
+                            if (changedPrice.toIntOrNull() != null) {
                                 fromPrice = changedPrice
-                            else
+                            } else {
                                 Toast.makeText(
-                                    context, context.getString(R.string.not_integer), Toast.LENGTH_SHORT
+                                    context,
+                                    context.getString(R.string.not_integer),
+                                    Toast.LENGTH_SHORT
                                 ).show()
+                            }
                         },
                         modifier = Modifier
                             .width(dimensionResource(id = R.dimen.num_field_width))
@@ -211,12 +218,15 @@ fun SearchRoomScreen(
                     TextField(
                         value = toPrice,
                         onValueChange = { changedPrice ->
-                            if (changedPrice.toIntOrNull() != null)
+                            if (changedPrice.toIntOrNull() != null) {
                                 toPrice = changedPrice
-                            else
+                            } else {
                                 Toast.makeText(
-                                    context, context.getString(R.string.not_integer), Toast.LENGTH_SHORT
+                                    context,
+                                    context.getString(R.string.not_integer),
+                                    Toast.LENGTH_SHORT
                                 ).show()
+                            }
                         },
                         modifier = Modifier
                             .width(dimensionResource(id = R.dimen.num_field_width))
@@ -239,20 +249,21 @@ fun SearchRoomScreen(
             )
             ButtonsRow(
                 label = stringResource(R.string.bedrooms_label),
-                values = roomsCountOptions.map {value -> stringResource(id = value)},
+                values = roomsCountOptions.map { value -> stringResource(id = value) },
                 value = bedrooms.value,
                 onValueChange = { bedrooms.value = it }
             )
             ButtonsRow(
                 label = stringResource(R.string.bathrooms_label),
-                values = roomsCountOptions.map {value -> stringResource(id = value)},
+                values = roomsCountOptions.map { value -> stringResource(id = value) },
                 value = bathrooms.value,
                 onValueChange = { bathrooms.value = it }
             )
             ButtonsRowMapped(
                 label = stringResource(R.string.apartment_type_label),
                 values = apartmentOptions.mapValues { (_, value) ->
-                    stringResource(id = value) },
+                    stringResource(id = value)
+                },
                 value = apartmentType.value,
                 onValueChange = { apartmentType.value = it }
             )

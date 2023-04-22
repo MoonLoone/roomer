@@ -83,7 +83,7 @@ class RoomerRepository @Inject constructor(
             location,
             bedroomsCount,
             bathroomsCount,
-            housingType,
+            housingType
         )
     }
 

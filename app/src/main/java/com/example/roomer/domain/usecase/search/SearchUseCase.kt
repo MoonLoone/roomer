@@ -19,7 +19,7 @@ class SearchUseCase(
         location: String?,
         bedroomsCount: String?,
         bathroomsCount: String?,
-        housingType: String?,
+        housingType: String?
     ): Flow<Resource<List<Room>>> = flow {
         try {
             emit(Resource.Loading())
@@ -41,12 +41,10 @@ class SearchUseCase(
                 val errMsg = process.errorBody()?.string()
                 emit(Resource.Error.GeneralError(errMsg!!))
             }
-
         } catch (e: IOException) {
             emit(Resource.Internet(Constants.UseCase.internetErrorMessage))
         }
     }
-
 
     fun loadRoommates(
         sex: String?,
@@ -87,7 +85,6 @@ class SearchUseCase(
                 val errMsg = process.errorBody()?.string()
                 emit(Resource.Error.GeneralError(errMsg!!))
             }
-
         } catch (e: IOException) {
             emit(Resource.Internet(Constants.UseCase.internetErrorMessage))
         }

@@ -1,6 +1,5 @@
 package com.example.roomer.data.repository.roomer_repository
 
-
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.MessageNotification
 import com.example.roomer.domain.model.entities.Room
@@ -29,7 +28,7 @@ interface RoomerRepositoryInterface {
         location: String?,
         bedroomsCount: String?,
         bathroomsCount: String?,
-        housingType: String?,
+        housingType: String?
     ): Response<List<Room>>
 
     suspend fun getFilterRoommates(

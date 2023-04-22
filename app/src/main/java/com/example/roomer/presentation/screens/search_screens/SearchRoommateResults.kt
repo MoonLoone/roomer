@@ -49,7 +49,7 @@ fun SearchRoommateResults(
     sleepTime: String?,
     personalityType: String?,
     cleanHabits: String?,
-    _interests: String?,
+    _interests: String?
 ) {
     val viewModel: SearchRoommateResultViewModel = hiltViewModel()
     val location = if (_location == "") null else _location
@@ -77,7 +77,8 @@ fun SearchRoommateResults(
                 start = dimensionResource(id = R.dimen.screen_start_margin),
                 end = dimensionResource(id = R.dimen.screen_end_margin),
                 bottom = dimensionResource(id = R.dimen.screen_nav_bottom_margin)
-            ), verticalArrangement = Arrangement.spacedBy(24.dp)
+            ),
+            verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -103,7 +104,8 @@ fun SearchRoommateResults(
                 item {
                     if (roommates.isEmpty()) {
                         Text(
-                            text = stringResource(R.string.sorry_nothing_here), style = TextStyle(
+                            text = stringResource(R.string.sorry_nothing_here),
+                            style = TextStyle(
                                 fontSize = integerResource(
                                     id = R.integer.label_text
                                 ).sp
@@ -121,15 +123,18 @@ fun SearchRoommateResults(
         LoadingStates.Loading -> CircularProgressIndicator(modifier = Modifier.fillMaxSize())
         LoadingStates.Error -> {
             Column(
-                modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(
                     dimensionResource(id = R.dimen.list_elements_margin)
                 )
             ) {
                 Text(
-                    text = stringResource(R.string.something_went_wrong), style = TextStyle(
+                    text = stringResource(R.string.something_went_wrong),
+                    style = TextStyle(
                         fontSize = integerResource(
                             id = R.integer.primary_text
-                        ).sp, color = Color.Black
+                        ).sp,
+                        color = Color.Black
                     )
                 )
                 GreenButtonOutline(text = stringResource(R.string.retry)) {

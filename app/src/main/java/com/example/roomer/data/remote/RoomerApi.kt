@@ -54,7 +54,7 @@ interface RoomerApi {
         @Query("city") location: String?,
         @Query("bedrooms_count") bedroomsCount: String?,
         @Query("bathrooms_count") bathroomsCount: String?,
-        @Query("housing_type") housingType: String?,
+        @Query("housing_type") housingType: String?
     ): Response<List<Room>>
 
     @GET("/profile/")

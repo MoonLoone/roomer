@@ -8,8 +8,8 @@ import com.example.roomer.domain.usecase.search.SearchUseCase
 import com.example.roomer.utils.LoadingStates
 import com.example.roomer.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineExceptionHandler
 import javax.inject.Inject
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -26,14 +26,13 @@ class SearchRoomResultsViewModel @Inject constructor(
     val loadingState = _loadingStates.asStateFlow()
     private val searchUseCase = SearchUseCase(roomerRepository)
 
-
     fun loadRooms(
         monthPriceFrom: String?,
         monthPriceTo: String?,
         location: String?,
         bedroomsCount: String?,
         bathroomsCount: String?,
-        housingType: String?,
+        housingType: String?
     ) = effect {
         _loadingStates.value = LoadingStates.Loading
         searchUseCase.loadRooms(
