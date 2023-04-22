@@ -44,7 +44,11 @@ fun FavouriteScreen(
     val listOfFavourites = favouriteViewModel.pagingData?.collectAsLazyPagingItems() ?: flowOf(
         PagingData.empty<Room>()
     ).collectAsLazyPagingItems()
-    Column(verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.list_elements_margin))) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(
+            dimensionResource(id = R.dimen.list_elements_margin)
+        )
+    ) {
         TopLine()
         FavouritesList(
             state,
@@ -59,7 +63,7 @@ private fun FavouritesList(
     state: FavouriteScreenState,
     listOfFavourites: LazyPagingItems<Room>,
     deleteRooms: List<Int>,
-    onDislikeRoom: (Int) -> Unit,
+    onDislikeRoom: (Int) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier
@@ -85,10 +89,12 @@ private fun FavouritesList(
         if (state.emptyList) {
             item {
                 Text(
-                    text = stringResource(id = R.string.sorry_nothing_here), style = TextStyle(
+                    text = stringResource(id = R.string.sorry_nothing_here),
+                    style = TextStyle(
                         color = colorResource(
-                            id = R.color.black,
-                        ), fontSize = integerResource(id = R.integer.primary_text).sp
+                            id = R.color.black
+                        ),
+                        fontSize = integerResource(id = R.integer.primary_text).sp
                     )
                 )
             }
@@ -110,6 +116,6 @@ private fun TopLine() {
             fontWeight = FontWeight.Bold
         ),
         modifier = Modifier.fillMaxWidth(),
-        textAlign = TextAlign.Center,
+        textAlign = TextAlign.Center
     )
 }

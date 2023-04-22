@@ -94,21 +94,20 @@ interface RoomerApi {
 
     @POST("/favourites/")
     suspend fun addToFavourite(
-        @Query("user_id") userId:Int,
-        @Query("housing_id") housingId: Int,
+        @Query("user_id") userId: Int,
+        @Query("housing_id") housingId: Int
     ): Response<String>
 
     @DELETE("/favourites/")
     suspend fun deleteFavourite(
-        @Query("user_id") userId:Int,
-        @Query("housing_id") housingId: Int,
+        @Query("user_id") userId: Int,
+        @Query("housing_id") housingId: Int
     ): Response<String>
 
     @GET("/favourites/")
     suspend fun getFavourites(
-        @Query("user_id") userId:Int,
+        @Query("user_id") userId: Int,
         @Query("offset") offset: Int,
         @Query("limit") limit: Int
     ): Response<List<Room>>
-
 }

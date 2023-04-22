@@ -1,26 +1,23 @@
 package com.example.roomer.domain.usecase.navbar_screens
 
-import androidx.paging.PagingData
-import com.example.roomer.data.repository.roomer_repository.RoomerRepository
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.utils.Constants
 import com.example.roomer.utils.Resource
-import com.example.roomer.utils.RoomerPagingSource
+import java.io.IOException
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import org.json.JSONObject
-import java.io.IOException
 
 class FavouriteUseCase(
-    private val repository: RoomerRepositoryInterface,
+    private val repository: RoomerRepositoryInterface
 ) {
 
     operator fun invoke(
-        userId:Int,
+        userId: Int,
         offset: Int,
-        limit: Int,
+        limit: Int
     ): Flow<Resource<List<Room>>> = flow {
         try {
             emit(Resource.Loading())

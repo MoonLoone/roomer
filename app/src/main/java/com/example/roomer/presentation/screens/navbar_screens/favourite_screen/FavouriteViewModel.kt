@@ -13,19 +13,21 @@ import com.example.roomer.utils.Constants
 import com.example.roomer.utils.Resource
 import com.example.roomer.utils.RoomerPagingSource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class FavouriteViewModel @Inject constructor(
     private val roomerRepository: RoomerRepositoryInterface,
-    private val housingLike: HousingLike,
+    private val housingLike: HousingLike
 ) : ViewModel() {
 
-    private val _state: MutableStateFlow<FavouriteScreenState> = MutableStateFlow(FavouriteScreenState())
+    private val _state: MutableStateFlow<FavouriteScreenState> = MutableStateFlow(
+        FavouriteScreenState()
+    )
     val state: StateFlow<FavouriteScreenState> = _state
     var pagingData: Flow<PagingData<Room>>? = null
     private val favouritesUseCase = FavouriteUseCase(roomerRepository)
@@ -47,12 +49,14 @@ class FavouriteViewModel @Inject constructor(
                         favouritesUseCase(currentUser.userId, offset, limit).collect { resource ->
                             when (resource) {
                                 is Resource.Success -> {
-                                    if ((resource.data?.size?:0) > 0){
+                                    if ((resource.data?.size ?: 0) > 0) {
                                         _state.value = FavouriteScreenState(success = true)
                                         items = resource.data!!
-                                    }
-                                    else{
-                                        _state.value = FavouriteScreenState(emptyList = true, success = true)
+                                    } else {
+                                        _state.value = FavouriteScreenState(
+                                            emptyList = true,
+                                            success = true
+                                        )
                                         items = emptyList()
                                     }
                                 }
@@ -85,5 +89,4 @@ class FavouriteViewModel @Inject constructor(
             _state.value = FavouriteScreenState(success = true)
         }
     }
-
 }

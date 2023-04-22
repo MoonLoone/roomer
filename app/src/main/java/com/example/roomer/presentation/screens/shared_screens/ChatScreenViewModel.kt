@@ -6,16 +6,11 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import androidx.paging.cachedIn
 import com.example.roomer.data.remote.ChatClientWebSocket
 import com.example.roomer.data.repository.roomer_repository.RoomerRepository
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.presentation.screens.entrance.login.LoginScreenViewModel
-import com.example.roomer.utils.Constants
-import com.example.roomer.utils.RoomerPagingSource
 import com.example.roomer.utils.SpManager
 import com.example.roomer.utils.converters.createJson
 import dagger.hilt.android.lifecycle.HiltViewModel

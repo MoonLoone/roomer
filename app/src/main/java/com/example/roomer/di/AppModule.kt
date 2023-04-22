@@ -77,7 +77,7 @@ object AppModule {
     @Provides
     fun provideHousingLike(
         roomerRepository: RoomerRepository
-    ): HousingLike{
+    ): HousingLike {
         return HousingLike(roomerRepository)
     }
 }

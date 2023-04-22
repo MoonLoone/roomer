@@ -14,7 +14,7 @@ interface RoomerRepositoryInterface {
     suspend fun getFavourites(
         userId: Int,
         offset: Int = 0,
-        limit: Int = 10,
+        limit: Int = 10
     ): Response<List<Room>>
 
     suspend fun likeHousing(housingId: Int, userId: Int): Response<String>

@@ -8,4 +8,4 @@ data class FavouriteScreenState(
     override var error: String = "",
     override var internetProblem: Boolean = false,
     var emptyList: Boolean = false
-): ScreenState
+) : ScreenState

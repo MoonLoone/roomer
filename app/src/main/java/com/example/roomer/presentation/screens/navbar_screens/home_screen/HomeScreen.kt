@@ -166,7 +166,6 @@ fun HomeScreen(
                             recommendedRoom = recommendedRooms[index],
                             true
                         ) {
-
                         }
                     }
                 }

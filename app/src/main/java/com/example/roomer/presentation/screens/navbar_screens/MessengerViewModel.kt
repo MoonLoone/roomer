@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class MessengerViewModel @Inject constructor(
     application: Application,
-    private val roomerRepository: RoomerRepository,
+    private val roomerRepository: RoomerRepository
 ) : AndroidViewModel(application) {
 
     private val _state = mutableStateOf(MessengerScreenState(false))
