@@ -11,6 +11,16 @@ interface RoomerRepositoryInterface {
 
     suspend fun getChats(userId: Int): Response<List<Message>>
 
+    suspend fun getFavourites(
+        userId: Int,
+        offset: Int = 0,
+        limit: Int = 10,
+    ): Response<List<Room>>
+
+    suspend fun likeHousing(housingId: Int, userId: Int): Response<String>
+
+    suspend fun dislikeHousing(housingId: Int, userId: Int): Response<String>
+
     suspend fun getCurrentUserInfo(
         token: String
     ): Response<User>
@@ -19,7 +29,7 @@ interface RoomerRepositoryInterface {
         userId: Int,
         chatId: Int,
         offset: Int = 0,
-        limit: Int = 0
+        limit: Int = 10
     ): Response<List<Message>>
 
     suspend fun getFilterRoommates(

@@ -46,7 +46,7 @@ class ChatScreenViewModel @Inject constructor(
             }
             currentUserId = roomerRepository.getLocalCurrentUser().userId
             recipientUserId = recipientId
-            messagesPager = Pager(
+            /*messagesPager = Pager(
                 PagingConfig(
                     pageSize = Constants.Chat.PAGE_SIZE,
                     maxSize = Constants.Chat.CASH_SIZE,
@@ -56,7 +56,7 @@ class ChatScreenViewModel @Inject constructor(
                 RoomerPagingSource { offset: Int, limit: Int ->
                     roomerRepository.getMessagesForChat(currentUserId, chatId, offset, limit)
                 }
-            }.flow.cachedIn(viewModelScope)
+            }.flow.cachedIn(viewModelScope)*/
             chatClientWebSocket.open(currentUserId, recipientUserId)
             _socketConnectionState.value = true
         }

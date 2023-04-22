@@ -165,14 +165,8 @@ fun HomeScreen(
                         RoomCard(
                             recommendedRoom = recommendedRooms[index],
                             true
-                        ) { isLiked ->
-                            if (isLiked) {
-                                homeScreenViewModel.addToFavourites(
-                                    recommendedRooms[index]
-                                )
-                            } else {
-                                homeScreenViewModel.removeLocalFavourite(recommendedRooms[index])
-                            }
+                        ) {
+
                         }
                     }
                 }

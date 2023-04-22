@@ -18,6 +18,20 @@ class RoomerRepository @Inject constructor(
         return roomerApi.getChatsForUser(userId, "")
     }
 
+    override suspend fun getFavourites(userId: Int, offset: Int, limit: Int): Response<List<Room>> {
+        val favourites = roomerApi.getFavourites(userId, offset, limit)
+        favourites.body()?.forEach { it.isLiked = true }
+        return favourites
+    }
+
+    override suspend fun likeHousing(housingId: Int, userId: Int): Response<String> {
+        return roomerApi.addToFavourite(userId, housingId)
+    }
+
+    override suspend fun dislikeHousing(housingId: Int, userId: Int): Response<String> {
+        return roomerApi.deleteFavourite(userId, housingId)
+    }
+
     override suspend fun getCurrentUserInfo(token: String): Response<User> {
         val refToken = "Token ".plus(token)
         return roomerApi.getCurrentUserInfo(refToken)

@@ -1,11 +1,13 @@
 package com.example.roomer.presentation.screens.navbar_screens.favourite_screen
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -16,11 +18,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.paging.PagingData
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.items
 import com.example.roomer.R
+import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.presentation.ui_components.RoomCard
 import com.example.roomer.utils.NavbarManagement
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import kotlinx.coroutines.flow.flowOf
 
 @Destination
 @Composable
@@ -29,7 +36,17 @@ fun FavouriteScreen(
     favouriteViewModel: FavouriteViewModel = hiltViewModel()
 ) {
     NavbarManagement.showNavbar()
-    val listOfFavourites = favouriteViewModel.favourites.value
+    favouriteViewModel.getFavourites()
+    val state = favouriteViewModel.state.collectAsState().value
+    val listOfFavourites = favouriteViewModel.pagingData?.collectAsLazyPagingItems()
+    Text(
+        text = stringResource(R.string.favourite_screen_title),
+        style = TextStyle(
+            fontSize = integerResource(id = R.integer.label_text).sp,
+            fontWeight = FontWeight.Bold
+        ),
+        modifier = Modifier.padding(top = 8.dp)
+    )
     LazyColumn(
         modifier = Modifier
             .fillMaxSize(),
@@ -38,22 +55,16 @@ fun FavouriteScreen(
         ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        item {
-            Text(
-                text = stringResource(R.string.favourite_screen_title),
-                style = TextStyle(
-                    fontSize = integerResource(id = R.integer.label_text).sp,
-                    fontWeight = FontWeight.Bold
-                ),
-                modifier = Modifier.padding(top = 8.dp)
-            )
-        }
-        items(listOfFavourites.size) { index ->
-            RoomCard(recommendedRoom = listOfFavourites[index], isMiniVersion = false) { isLiked ->
-                if (isLiked) {
-                    favouriteViewModel.addToFavourites(listOfFavourites[index])
-                } else {
-                    favouriteViewModel.removeLocalFavourite(listOfFavourites[index])
+        listOfFavourites?.let {
+            items(listOfFavourites) { room ->
+                room?.let {
+                    RoomCard(recommendedRoom = room, isMiniVersion = false) { isLiked ->
+                        if (!room.isLiked) {
+                            favouriteViewModel.dislikeHousing(room.id)
+                        } else {
+                            favouriteViewModel.likeHousing(room.id)
+                        }
+                    }
                 }
             }
         }
