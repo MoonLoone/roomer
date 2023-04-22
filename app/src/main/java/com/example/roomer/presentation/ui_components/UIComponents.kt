@@ -371,7 +371,7 @@ fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean, onLikeClick: (Boolea
         var isLiked by remember {
             mutableStateOf(recommendedRoom.isLiked)
         }
-        val photo = if (recommendedRoom.fileContent.isNotEmpty())
+        val photo = if (recommendedRoom.fileContent?.isNotEmpty() == true)
             recommendedRoom.fileContent.first().photo
         else null
         Box(
