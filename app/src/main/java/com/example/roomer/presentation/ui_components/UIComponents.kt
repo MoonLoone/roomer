@@ -348,7 +348,7 @@ fun UserCard(recommendedRoommate: User) {
 }
 
 @Composable
-fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean, onLikeClick: (Int) -> Unit) {
+fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean, onLikeClick: () -> Unit) {
     val cardWidth = if (isMiniVersion) 240.dp else 332.dp
     val cardHeight = if (isMiniVersion) 148.dp else 222.dp
     val imageHeight = if (isMiniVersion) 92.dp else 140.dp
@@ -407,7 +407,7 @@ fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean, onLikeClick: (Int) -
                     .clickable {
                         isLiked = !isLiked
                         recommendedRoom.isLiked = isLiked
-                        onLikeClick.invoke(recommendedRoom.id)
+                        onLikeClick.invoke()
                     }
             )
         }

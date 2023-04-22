@@ -1,6 +1,5 @@
 package com.example.roomer.presentation.screens.navbar_screens.favourite_screen
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
@@ -30,6 +29,7 @@ class FavouriteViewModel @Inject constructor(
     val state: StateFlow<FavouriteScreenState> = _state
     var pagingData: Flow<PagingData<Room>>? = null
     private val favouritesUseCase = FavouriteUseCase(roomerRepository)
+    val deleteRooms = mutableListOf<Int>()
 
     fun getFavourites() {
         viewModelScope.launch {
@@ -47,8 +47,14 @@ class FavouriteViewModel @Inject constructor(
                         favouritesUseCase(currentUser.userId, offset, limit).collect { resource ->
                             when (resource) {
                                 is Resource.Success -> {
-                                    _state.value = FavouriteScreenState(success = true)
-                                    items = resource.data ?: emptyList()
+                                    if ((resource.data?.size?:0) > 0){
+                                        _state.value = FavouriteScreenState(success = true)
+                                        items = resource.data!!
+                                    }
+                                    else{
+                                        _state.value = FavouriteScreenState(emptyList = true, success = true)
+                                        items = emptyList()
+                                    }
                                 }
                                 is Resource.Loading -> {
                                     _state.value = FavouriteScreenState(isLoading = true)
@@ -70,17 +76,13 @@ class FavouriteViewModel @Inject constructor(
         }
     }
 
-    fun likeHousing(housingId: Int) {
-        viewModelScope.launch {
-            val currentUser = roomerRepository.getLocalCurrentUser()
-            housingLike.likeHousing(housingId, currentUser.userId)
-        }
-    }
-
     fun dislikeHousing(housingId: Int) {
         viewModelScope.launch {
+            _state.value = FavouriteScreenState(isLoading = true)
+            deleteRooms.add(housingId)
             val currentUser = roomerRepository.getLocalCurrentUser()
             housingLike.dislikeHousing(housingId, currentUser.userId)
+            _state.value = FavouriteScreenState(success = true)
         }
     }
 

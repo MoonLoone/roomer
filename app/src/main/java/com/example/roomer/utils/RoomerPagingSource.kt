@@ -1,9 +1,7 @@
 package com.example.roomer.utils
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import retrofit2.Response
 
 class RoomerPagingSource<T : Any>(
     private val request: suspend (Int, Int) -> List<T>
@@ -23,7 +21,7 @@ class RoomerPagingSource<T : Any>(
             val response = request.invoke(page * pageSize, pageSize)
             LoadResult.Page(
                 data = response,
-                prevKey = if (page == 1) null else page - 1,
+                prevKey = if (page == 0) null else page - 1,
                 nextKey = if ((response.size) >= pageSize) page + 1 else null
             )
         } catch (e: Exception) {
