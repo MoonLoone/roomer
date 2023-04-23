@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class Room(
     @SerializedName("id")
-    val id: Int,
+    override val id: Int,
     @SerializedName("month_price")
     val monthPrice: Int = 0,
     @SerializedName("host")
@@ -25,7 +25,7 @@ data class Room(
     val location: String = "Ordinary location",
     val title: String = "Ordinary location",
     var isLiked: Boolean = false
-) {
+): BaseEntity {
     data class Photo(
         val photo: String
     )

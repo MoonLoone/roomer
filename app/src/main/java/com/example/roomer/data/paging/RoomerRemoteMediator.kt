@@ -12,7 +12,7 @@ import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 @OptIn(ExperimentalPagingApi::class)
-class RoomerRemoteMediator<T: Any>(
+class RoomerRemoteMediator<T: BaseEntity>(
     private val database: RoomerDatabase,
     private val useCaseFunction: suspend () -> List<T>,
     private val saveToDb: suspend (Any) -> Unit,
@@ -27,6 +27,7 @@ class RoomerRemoteMediator<T: Any>(
                 LoadType.APPEND -> {
                     val lastItem = state.lastItemOrNull()
                         ?: return MediatorResult.Success(endOfPaginationReached = true)
+                    lastItem.id
                 }
             }
             val response = useCaseFunction()
