@@ -1,5 +1,6 @@
 package com.example.roomer.data.paging
 
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -14,7 +15,7 @@ import java.util.concurrent.TimeUnit
 @OptIn(ExperimentalPagingApi::class)
 class RoomerRemoteMediator<T: BaseEntity>(
     private val database: RoomerDatabase,
-    private val useCaseFunction: suspend () -> List<T>,
+    private val useCaseFunction: suspend (Int) -> List<T>,
     private val saveToDb: suspend (Any) -> Unit,
     private val deleteFromDb: suspend () -> Unit,
 ): RemoteMediator<Int, T>() {
@@ -30,14 +31,14 @@ class RoomerRemoteMediator<T: BaseEntity>(
                     lastItem.id
                 }
             }
-            val response = useCaseFunction()
+            val response = useCaseFunction(loadKey?:0)
             database.withTransaction {
                 if (loadType == LoadType.REFRESH){
                     deleteFromDb()
                 }
                 saveToDb(response)
             }
-            MediatorResult.Success(endOfPaginationReached = true)
+            MediatorResult.Success(endOfPaginationReached = loadKey == null)
         }
         catch (e: IOException){
             MediatorResult.Error(e)
@@ -49,7 +50,8 @@ class RoomerRemoteMediator<T: BaseEntity>(
 
     override suspend fun initialize(): InitializeAction {
         val cacheTimeout = TimeUnit.MILLISECONDS.convert(1, TimeUnit.HOURS)
-        return if (System.currentTimeMillis() <= cacheTimeout){
+        //return if (System.currentTimeMillis() <= cacheTimeout){
+        return if (true){
             InitializeAction.SKIP_INITIAL_REFRESH
         }
         else{

@@ -27,8 +27,8 @@ interface FavouriteDao {
     @Query("SELECT * FROM favourite")
     fun queryAll(): Flow<List<RoomWithHost>>
 
-    @Query("SELECT * FROM favourite")
-    suspend fun getAll(): List<RoomWithHost>
+    @Query("SELECT * FROM favourite LIMIT :limit OFFSET :offset")
+    suspend fun getAll(limit: Int, offset: Int): List<RoomWithHost>
 
     @Query("SELECT COUNT(*) FROM favourite")
     suspend fun count(): Long

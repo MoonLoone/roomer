@@ -42,9 +42,7 @@ fun FavouriteScreen(
     NavbarManagement.showNavbar()
     favouriteViewModel.getFavourites()
     val state = favouriteViewModel.state.collectAsState().value
-    val listOfFavourites = favouriteViewModel.pagingData?.collectAsLazyPagingItems() ?: flowOf(
-        PagingData.empty<Room>()
-    ).collectAsLazyPagingItems()
+    val listOfFavourites = favouriteViewModel.pagingData?.collectAsLazyPagingItems()
     Column(
         verticalArrangement = Arrangement.spacedBy(
             dimensionResource(id = R.dimen.list_elements_margin)
@@ -61,7 +59,7 @@ fun FavouriteScreen(
 @Composable
 private fun FavouritesList(
     state: FavouriteScreenState,
-    listOfFavourites: LazyPagingItems<Room>,
+    listOfFavourites: LazyPagingItems<Room>?,
     onDislikeRoom: (Int) -> Unit
 ) {
     LazyColumn(
@@ -72,7 +70,7 @@ private fun FavouritesList(
         ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if (state.success) {
+        listOfFavourites?.let {
             items(listOfFavourites) { room ->
                 room?.let {
                     RoomCard(recommendedRoom = room, isMiniVersion = false) {
@@ -83,25 +81,25 @@ private fun FavouritesList(
                 }
             }
         }
-        if (state.emptyList) {
-            item {
-                Text(
-                    text = stringResource(id = R.string.sorry_nothing_here),
-                    style = TextStyle(
-                        color = colorResource(
-                            id = R.color.black
-                        ),
-                        fontSize = integerResource(id = R.integer.primary_text).sp
-                    )
+    if (state.emptyList) {
+        item {
+            Text(
+                text = stringResource(id = R.string.sorry_nothing_here),
+                style = TextStyle(
+                    color = colorResource(
+                        id = R.color.black
+                    ),
+                    fontSize = integerResource(id = R.integer.primary_text).sp
                 )
-            }
-        }
-        if (state.isLoading) {
-            item {
-                CircularProgressIndicator()
-            }
+            )
         }
     }
+    if (state.isLoading) {
+        item {
+            CircularProgressIndicator()
+        }
+    }
+}
 }
 
 @Composable

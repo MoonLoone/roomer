@@ -1,5 +1,6 @@
 package com.example.roomer.presentation.screens.navbar_screens.favourite_screen
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.ExperimentalPagingApi
@@ -53,18 +54,18 @@ class FavouriteViewModel @Inject constructor(
                     ),
                     remoteMediator = RoomerRemoteMediator(
                         roomerDatabase,
-                        useCaseFunction = {
+                        useCaseFunction = { offset ->
                             var items = listOf<Room>()
-                            favouritesUseCase(currentUser.userId, 0, 10).collect { resource ->
+                            favouritesUseCase(currentUser.userId, offset, 10).collect { resource ->
                                 when (resource) {
                                     is Resource.Success -> {
                                         if ((resource.data?.size ?: 0) > 0) {
-                                            _state.value = FavouriteScreenState(success = true)
                                             items = resource.data!!
+                                            _state.value = FavouriteScreenState(success = true)
                                         } else {
                                             _state.value = FavouriteScreenState(
+                                                success = true,
                                                 emptyList = true,
-                                                success = true
                                             )
                                             items = emptyList()
                                         }
@@ -86,13 +87,16 @@ class FavouriteViewModel @Inject constructor(
                             }
                             items
                         },
-                        saveToDb = {response -> favouriteDao.save((response as List<Room>).map { it.toLocalRoom() })},
-                        deleteFromDb = {favouriteDao.deleteAll()}
+                        saveToDb = { response -> favouriteDao.save((response as List<Room>).map { it.toLocalRoom() }) },
+                        deleteFromDb = { favouriteDao.deleteAll() }
                     )
                 ) {
                     RoomerPagingSource { offset: Int, limit: Int ->
-                        val favourites = favouriteDao.getAll()
-                        _state.value = FavouriteScreenState(success = true)
+                        _state.value = FavouriteScreenState(isLoading = true)
+                        val favourites = favouriteDao.getAll(limit, offset)
+                        if (favourites.isEmpty()) _state.value =
+                            FavouriteScreenState(emptyList = true)
+                        else _state.value = FavouriteScreenState(success = true)
                         favourites.map { it.room.toRoom() }
                     }
                 }.flow
