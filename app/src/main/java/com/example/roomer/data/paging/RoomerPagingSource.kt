@@ -1,4 +1,4 @@
-package com.example.roomer.utils
+package com.example.roomer.data.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState

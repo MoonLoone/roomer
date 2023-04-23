@@ -1,5 +1,6 @@
 package com.example.roomer.presentation.screens.navbar_screens.favourite_screen
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -53,7 +54,6 @@ fun FavouriteScreen(
         FavouritesList(
             state,
             listOfFavourites,
-            favouriteViewModel.deleteRooms
         ) { roomId -> favouriteViewModel.dislikeHousing(roomId) }
     }
 }
@@ -62,7 +62,6 @@ fun FavouriteScreen(
 private fun FavouritesList(
     state: FavouriteScreenState,
     listOfFavourites: LazyPagingItems<Room>,
-    deleteRooms: List<Int>,
     onDislikeRoom: (Int) -> Unit
 ) {
     LazyColumn(
@@ -76,11 +75,9 @@ private fun FavouritesList(
         if (state.success) {
             items(listOfFavourites) { room ->
                 room?.let {
-                    if (!deleteRooms.contains(room.id)) {
-                        RoomCard(recommendedRoom = room, isMiniVersion = false) {
-                            if (!room.isLiked) {
-                                onDislikeRoom.invoke(room.id)
-                            }
+                    RoomCard(recommendedRoom = room, isMiniVersion = false) {
+                        if (!room.isLiked) {
+                            onDislikeRoom.invoke(room.id)
                         }
                     }
                 }

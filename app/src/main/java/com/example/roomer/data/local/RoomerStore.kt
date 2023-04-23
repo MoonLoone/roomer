@@ -4,8 +4,10 @@ import com.example.roomer.data.room.RoomerDatabase
 import com.example.roomer.data.room.entities.LocalCurrentUser
 import com.example.roomer.data.room.entities.LocalRoom
 import com.example.roomer.data.room.entities.RoomWithHost
+import com.example.roomer.data.room.entities.toRoom
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
+import com.example.roomer.domain.model.entities.toLocalRoom
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -61,36 +63,6 @@ class RoomerStore(
     }
 
     override suspend fun updateUser(user: User) = users.updateOne(user)
-
-    private fun Room.toLocalRoom() = LocalRoom(
-        id,
-        monthPrice,
-        host?.userId ?: 0,
-        description,
-        fileContent,
-        bathroomsCount,
-        bedroomsCount,
-        housingType,
-        sharingType,
-        location,
-        title,
-        isLiked
-    )
-
-    private fun RoomWithHost.toRoom() = Room(
-        room.roomId,
-        room.monthPrice,
-        host,
-        room.description,
-        room.fileContent,
-        room.bathroomsCount,
-        room.bedroomsCount,
-        room.housingType,
-        room.sharingType,
-        room.location,
-        room.title,
-        room.isLiked
-    )
 
     private fun LocalCurrentUser.toUser() = User(
         userId,

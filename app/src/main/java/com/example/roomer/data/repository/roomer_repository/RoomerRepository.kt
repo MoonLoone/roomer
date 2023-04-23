@@ -1,14 +1,15 @@
 package com.example.roomer.data.repository.roomer_repository
 
+import android.util.Log
 import com.example.roomer.data.local.RoomerStoreInterface
 import com.example.roomer.data.remote.RoomerApi
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.MessageNotification
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
-import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
+import javax.inject.Inject
 
 class RoomerRepository @Inject constructor(
     private val roomerApi: RoomerApi,
@@ -20,8 +21,8 @@ class RoomerRepository @Inject constructor(
 
     override suspend fun getFavourites(userId: Int, offset: Int, limit: Int): Response<List<Room>> {
         val favourites = roomerApi.getFavourites(userId, offset, limit)
-        favourites.body()?.forEach { it.isLiked = true }
-        return favourites
+        return if (favourites.isSuccessful) Response.success(favourites.body()?.map { it.housing?: Room() })
+        else Response.error(favourites.code(),favourites.errorBody())
     }
 
     override suspend fun likeHousing(housingId: Int, userId: Int): Response<String> {

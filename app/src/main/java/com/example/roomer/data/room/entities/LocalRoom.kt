@@ -20,3 +20,7 @@ data class LocalRoom(
     val title: String,
     val isLiked: Boolean
 )
+
+fun LocalRoom.toRoom() = Room(
+
+)
