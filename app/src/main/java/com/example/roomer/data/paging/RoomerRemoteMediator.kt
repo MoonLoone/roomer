@@ -1,18 +1,12 @@
 package com.example.roomer.data.paging
 
-import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
-import androidx.room.Dao
 import androidx.room.withTransaction
-import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
 import com.example.roomer.data.room.RoomerDatabase
-import com.example.roomer.data.room.entities.LocalRoom
-import com.example.roomer.domain.model.entities.Room
-import com.example.roomer.domain.model.entities.toLocalRoom
-import com.example.roomer.utils.ScreenState
+import com.example.roomer.domain.model.entities.BaseEntity
 import retrofit2.HttpException
 import java.io.IOException
 import java.util.concurrent.TimeUnit
@@ -21,9 +15,9 @@ import java.util.concurrent.TimeUnit
 class RoomerRemoteMediator<T: Any>(
     private val database: RoomerDatabase,
     private val useCaseFunction: suspend () -> List<T>,
+    private val saveToDb: suspend (Any) -> Unit,
+    private val deleteFromDb: suspend () -> Unit,
 ): RemoteMediator<Int, T>() {
-
-    private val favouriteDao = database.favourites
 
     override suspend fun load(loadType: LoadType, state: PagingState<Int, T>): MediatorResult {
         return try{
@@ -33,15 +27,14 @@ class RoomerRemoteMediator<T: Any>(
                 LoadType.APPEND -> {
                     val lastItem = state.lastItemOrNull()
                         ?: return MediatorResult.Success(endOfPaginationReached = true)
-                    lastItem.hashCode()
                 }
             }
-            val response = (useCaseFunction.invoke() as List<Room>).map { it.toLocalRoom() }
+            val response = useCaseFunction()
             database.withTransaction {
                 if (loadType == LoadType.REFRESH){
-                    favouriteDao.deleteAll()
+                    deleteFromDb()
                 }
-                favouriteDao.save(response)
+                saveToDb(response)
             }
             MediatorResult.Success(endOfPaginationReached = true)
         }
@@ -55,7 +48,7 @@ class RoomerRemoteMediator<T: Any>(
 
     override suspend fun initialize(): InitializeAction {
         val cacheTimeout = TimeUnit.MILLISECONDS.convert(1, TimeUnit.HOURS)
-        return if (true){
+        return if (System.currentTimeMillis() <= cacheTimeout){
             InitializeAction.SKIP_INITIAL_REFRESH
         }
         else{

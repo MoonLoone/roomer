@@ -22,5 +22,16 @@ data class LocalRoom(
 )
 
 fun LocalRoom.toRoom() = Room(
-
+    roomId,
+    monthPrice,
+    null,
+    description,
+    fileContent,
+    bathroomsCount,
+    bedroomsCount,
+    housingType,
+    sharingType,
+    location,
+    title,
+    isLiked
 )

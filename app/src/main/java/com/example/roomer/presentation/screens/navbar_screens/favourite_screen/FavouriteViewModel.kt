@@ -1,31 +1,29 @@
 package com.example.roomer.presentation.screens.navbar_screens.favourite_screen
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.example.roomer.data.paging.RoomerPagingSource
+import com.example.roomer.data.paging.RoomerRemoteMediator
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
+import com.example.roomer.data.room.RoomerDatabase
+import com.example.roomer.data.room.entities.LocalRoom
+import com.example.roomer.data.room.entities.toRoom
 import com.example.roomer.domain.model.entities.Room
+import com.example.roomer.domain.model.entities.toLocalRoom
 import com.example.roomer.domain.usecase.navbar_screens.FavouriteUseCase
 import com.example.roomer.presentation.ui_components.shared.HousingLike
 import com.example.roomer.utils.Constants
 import com.example.roomer.utils.Resource
-import com.example.roomer.data.paging.RoomerPagingSource
-import com.example.roomer.data.paging.RoomerRemoteMediator
-import com.example.roomer.data.room.RoomerDatabase
-import com.example.roomer.data.room.entities.toRoom
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class FavouriteViewModel @Inject constructor(
@@ -71,12 +69,15 @@ class FavouriteViewModel @Inject constructor(
                                             items = emptyList()
                                         }
                                     }
+
                                     is Resource.Loading -> {
                                         _state.value = FavouriteScreenState(isLoading = true)
                                     }
+
                                     is Resource.Internet -> {
                                         _state.value = FavouriteScreenState(internetProblem = true)
                                     }
+
                                     else -> {
                                         _state.value =
                                             FavouriteScreenState(error = resource.message ?: "")
@@ -84,7 +85,9 @@ class FavouriteViewModel @Inject constructor(
                                 }
                             }
                             items
-                        }
+                        },
+                        saveToDb = {response -> favouriteDao.save((response as List<Room>).map { it.toLocalRoom() })},
+                        deleteFromDb = {favouriteDao.deleteAll()}
                     )
                 ) {
                     RoomerPagingSource { offset: Int, limit: Int ->

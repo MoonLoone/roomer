@@ -61,7 +61,7 @@ fun HomeScreen(
         )
         recommendedRooms.add(
             Room(
-                id = i,
+                0,
                 host = recommendedRoommates[i],
                 fileContent = listOf(Room.Photo(photo = ""))
             )

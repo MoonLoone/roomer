@@ -13,12 +13,12 @@ class HomeScreenViewModel @Inject constructor(
     private val roomerRepository: RoomerRepositoryInterface
 ) : ViewModel() {
     val testRooms = listOf(
-        Room(id = 1),
-        Room(id = 2),
-        Room(id = 3),
-        Room(id = 4),
-        Room(id = 5),
-        Room(id = 6)
+        Room(0),
+        Room(1),
+        Room(2),
+        Room(3),
+        Room(4),
+        Room(5)
     )
     fun addToFavourites(room: Room) {
         viewModelScope.launch {

@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class Room(
     @SerializedName("id")
-    val id: Int = 0,
+    val id: Int,
     @SerializedName("month_price")
     val monthPrice: Int = 0,
     @SerializedName("host")

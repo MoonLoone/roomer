@@ -21,7 +21,11 @@ class RoomerRepository @Inject constructor(
 
     override suspend fun getFavourites(userId: Int, offset: Int, limit: Int): Response<List<Room>> {
         val favourites = roomerApi.getFavourites(userId, offset, limit)
-        return if (favourites.isSuccessful) Response.success(favourites.body()?.map { it.housing?: Room() })
+        return if (favourites.isSuccessful) Response.success(favourites.body()?.map {
+            val housing = it.housing?: Room(0)
+            housing.isLiked = true
+            housing
+        })
         else Response.error(favourites.code(),favourites.errorBody())
     }
 

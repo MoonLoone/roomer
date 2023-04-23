@@ -98,7 +98,7 @@ fun SearchRoomResults(
                     }
                     items(rooms.size) { index ->
                         RoomCard(
-                            recommendedRoom = Room(),
+                            recommendedRoom = Room(index),
                             isMiniVersion = false
                         ) {}
                     }
