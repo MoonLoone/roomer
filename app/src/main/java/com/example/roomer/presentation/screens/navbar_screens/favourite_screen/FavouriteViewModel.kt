@@ -7,7 +7,6 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import androidx.paging.PagingSource
 import com.example.roomer.data.paging.RoomerPagingSource
 import com.example.roomer.data.paging.RoomerRemoteMediator
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
@@ -24,7 +23,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.reduce
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -60,7 +58,7 @@ class FavouriteViewModel @Inject constructor(
                         pagingSource = createPagingSource(favouriteDao)
                         pagingSource!!
                     }
-                ) .flow
+                ).flow
                 _state.value = FavouriteScreenState(isLoading = true)
             }
         }
@@ -72,7 +70,7 @@ class FavouriteViewModel @Inject constructor(
             housingLike.dislikeHousing(housingId, currentUser.userId)
             roomerDatabase.favourites.deleteById(housingId)
             pagingSource?.invalidate()
-            _state.value = FavouriteScreenState(isLoading = true)
+            _state.value = FavouriteScreenState(success = true)
         }
     }
 
@@ -88,26 +86,18 @@ class FavouriteViewModel @Inject constructor(
                 favouritesUseCase(userId, offset, 10).collect { resource ->
                     when (resource) {
                         is Resource.Success -> {
-                            if ((resource.data?.size ?: 0) > 0) {
-                                items = resource.data!!
-                                _state.value = FavouriteScreenState(success = true)
+                            items = if ((resource.data?.size ?: 0) > 0) {
+                                resource.data!!
                             } else {
-                                _state.value = FavouriteScreenState(
-                                    success = true,
-                                    endOfData = true,
-                                )
-                                items = emptyList()
+                                emptyList()
                             }
                         }
-
                         is Resource.Loading -> {
                             _state.value = FavouriteScreenState(isLoading = true)
                         }
-
                         is Resource.Internet -> {
                             _state.value = FavouriteScreenState(internetProblem = true)
                         }
-
                         else -> {
                             _state.value =
                                 FavouriteScreenState(error = resource.message ?: "")
@@ -116,17 +106,21 @@ class FavouriteViewModel @Inject constructor(
                 }
                 items
             },
-            saveToDb = { response -> favouriteDao.save((response as List<Room>).map { it.toLocalRoom() }) },
-            deleteFromDb = { favouriteDao.deleteAll() }
+            saveToDb = { response ->
+                favouriteDao.save((response as List<Room>).map { it.toLocalRoom() })
+                _state.value = FavouriteScreenState(success = true)
+            },
+            deleteFromDb = {
+                favouriteDao.deleteAll()
+            }
         )
     }
 
-    private fun createPagingSource(favouriteDao: FavouriteDao): RoomerPagingSource<Room>{
+    private fun createPagingSource(favouriteDao: FavouriteDao): RoomerPagingSource<Room> {
         return RoomerPagingSource { offset: Int, limit: Int ->
-            _state.value = FavouriteScreenState(isLoading = true)
             val favourites = favouriteDao.getAll(limit, offset)
             if (favourites.isEmpty()) _state.value =
-                FavouriteScreenState(endOfData = true)
+                FavouriteScreenState(success = true, endOfData = true)
             else _state.value = FavouriteScreenState(success = true)
             favourites.map { it.room.toRoom() }
         }
