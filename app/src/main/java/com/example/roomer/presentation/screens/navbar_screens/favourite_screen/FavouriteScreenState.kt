@@ -7,5 +7,5 @@ data class FavouriteScreenState(
     override var isLoading: Boolean = false,
     override var error: String = "",
     override var internetProblem: Boolean = false,
-    var emptyList: Boolean = false
+    var endOfData: Boolean = false
 ) : ScreenState

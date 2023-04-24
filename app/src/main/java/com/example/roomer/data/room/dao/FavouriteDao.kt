@@ -20,6 +20,9 @@ interface FavouriteDao {
     @Delete
     suspend fun delete(room: LocalRoom)
 
+    @Query("DELETE FROM favourite WHERE roomId=:id")
+    suspend fun deleteById(id:Int)
+
     @Query("DELETE FROM favourite")
     suspend fun deleteAll()
 

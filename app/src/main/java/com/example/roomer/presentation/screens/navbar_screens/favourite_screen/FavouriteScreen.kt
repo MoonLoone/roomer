@@ -1,6 +1,5 @@
 package com.example.roomer.presentation.screens.navbar_screens.favourite_screen
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,7 +20,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
@@ -31,7 +29,6 @@ import com.example.roomer.presentation.ui_components.RoomCard
 import com.example.roomer.utils.NavbarManagement
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import kotlinx.coroutines.flow.flowOf
 
 @Destination
 @Composable
@@ -75,13 +72,14 @@ private fun FavouritesList(
                 room?.let {
                     RoomCard(recommendedRoom = room, isMiniVersion = false) {
                         if (!room.isLiked) {
+                            listOfFavourites
                             onDislikeRoom.invoke(room.id)
                         }
                     }
                 }
             }
         }
-    if (state.emptyList) {
+    if (state.endOfData) {
         item {
             Text(
                 text = stringResource(id = R.string.sorry_nothing_here),

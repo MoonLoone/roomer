@@ -7,11 +7,12 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import androidx.paging.PagingSource
 import com.example.roomer.data.paging.RoomerPagingSource
 import com.example.roomer.data.paging.RoomerRemoteMediator
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
 import com.example.roomer.data.room.RoomerDatabase
-import com.example.roomer.data.room.entities.LocalRoom
+import com.example.roomer.data.room.dao.FavouriteDao
 import com.example.roomer.data.room.entities.toRoom
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.toLocalRoom
@@ -23,6 +24,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.reduce
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -36,9 +38,9 @@ class FavouriteViewModel @Inject constructor(
     private val _state: MutableStateFlow<FavouriteScreenState> = MutableStateFlow(
         FavouriteScreenState()
     )
+    private var pagingSource: RoomerPagingSource<Room>? = null
     val state: StateFlow<FavouriteScreenState> = _state
     var pagingData: Flow<PagingData<Room>>? = null
-    private val favouritesUseCase = FavouriteUseCase(roomerRepository)
 
     @OptIn(ExperimentalPagingApi::class)
     fun getFavourites() {
@@ -46,60 +48,19 @@ class FavouriteViewModel @Inject constructor(
             if (pagingData == null) {
                 val currentUser = roomerRepository.getLocalCurrentUser()
                 val favouriteDao = roomerDatabase.favourites
+                val mediator = createRemoteMediator(currentUser.userId, favouriteDao)
                 pagingData = Pager(
                     PagingConfig(
                         pageSize = Constants.Chat.PAGE_SIZE,
                         maxSize = Constants.Chat.CASH_SIZE,
                         initialLoadSize = Constants.Chat.INITIAL_SIZE
                     ),
-                    remoteMediator = RoomerRemoteMediator(
-                        roomerDatabase,
-                        useCaseFunction = { offset ->
-                            var items = listOf<Room>()
-                            favouritesUseCase(currentUser.userId, offset, 10).collect { resource ->
-                                when (resource) {
-                                    is Resource.Success -> {
-                                        if ((resource.data?.size ?: 0) > 0) {
-                                            items = resource.data!!
-                                            _state.value = FavouriteScreenState(success = true)
-                                        } else {
-                                            _state.value = FavouriteScreenState(
-                                                success = true,
-                                                emptyList = true,
-                                            )
-                                            items = emptyList()
-                                        }
-                                    }
-
-                                    is Resource.Loading -> {
-                                        _state.value = FavouriteScreenState(isLoading = true)
-                                    }
-
-                                    is Resource.Internet -> {
-                                        _state.value = FavouriteScreenState(internetProblem = true)
-                                    }
-
-                                    else -> {
-                                        _state.value =
-                                            FavouriteScreenState(error = resource.message ?: "")
-                                    }
-                                }
-                            }
-                            items
-                        },
-                        saveToDb = { response -> favouriteDao.save((response as List<Room>).map { it.toLocalRoom() }) },
-                        deleteFromDb = { favouriteDao.deleteAll() }
-                    )
-                ) {
-                    RoomerPagingSource { offset: Int, limit: Int ->
-                        _state.value = FavouriteScreenState(isLoading = true)
-                        val favourites = favouriteDao.getAll(limit, offset)
-                        if (favourites.isEmpty()) _state.value =
-                            FavouriteScreenState(emptyList = true)
-                        else _state.value = FavouriteScreenState(success = true)
-                        favourites.map { it.room.toRoom() }
+                    remoteMediator = mediator,
+                    pagingSourceFactory = {
+                        pagingSource = createPagingSource(favouriteDao)
+                        pagingSource!!
                     }
-                }.flow
+                ) .flow
                 _state.value = FavouriteScreenState(isLoading = true)
             }
         }
@@ -109,6 +70,65 @@ class FavouriteViewModel @Inject constructor(
         viewModelScope.launch {
             val currentUser = roomerRepository.getLocalCurrentUser()
             housingLike.dislikeHousing(housingId, currentUser.userId)
+            roomerDatabase.favourites.deleteById(housingId)
+            pagingSource?.invalidate()
+            _state.value = FavouriteScreenState(isLoading = true)
+        }
+    }
+
+    private fun createRemoteMediator(
+        userId: Int,
+        favouriteDao: FavouriteDao,
+    ): RoomerRemoteMediator<Room> {
+        val favouritesUseCase = FavouriteUseCase(roomerRepository)
+        return RoomerRemoteMediator(
+            roomerDatabase,
+            useCaseFunction = { offset ->
+                var items = listOf<Room>()
+                favouritesUseCase(userId, offset, 10).collect { resource ->
+                    when (resource) {
+                        is Resource.Success -> {
+                            if ((resource.data?.size ?: 0) > 0) {
+                                items = resource.data!!
+                                _state.value = FavouriteScreenState(success = true)
+                            } else {
+                                _state.value = FavouriteScreenState(
+                                    success = true,
+                                    endOfData = true,
+                                )
+                                items = emptyList()
+                            }
+                        }
+
+                        is Resource.Loading -> {
+                            _state.value = FavouriteScreenState(isLoading = true)
+                        }
+
+                        is Resource.Internet -> {
+                            _state.value = FavouriteScreenState(internetProblem = true)
+                        }
+
+                        else -> {
+                            _state.value =
+                                FavouriteScreenState(error = resource.message ?: "")
+                        }
+                    }
+                }
+                items
+            },
+            saveToDb = { response -> favouriteDao.save((response as List<Room>).map { it.toLocalRoom() }) },
+            deleteFromDb = { favouriteDao.deleteAll() }
+        )
+    }
+
+    private fun createPagingSource(favouriteDao: FavouriteDao): RoomerPagingSource<Room>{
+        return RoomerPagingSource { offset: Int, limit: Int ->
+            _state.value = FavouriteScreenState(isLoading = true)
+            val favourites = favouriteDao.getAll(limit, offset)
+            if (favourites.isEmpty()) _state.value =
+                FavouriteScreenState(endOfData = true)
+            else _state.value = FavouriteScreenState(success = true)
+            favourites.map { it.room.toRoom() }
         }
     }
 }

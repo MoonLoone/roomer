@@ -20,10 +20,12 @@ class RoomerRemoteMediator<T: BaseEntity>(
     private val deleteFromDb: suspend () -> Unit,
 ): RemoteMediator<Int, T>() {
 
+    private var refreshFlag = false
+
     override suspend fun load(loadType: LoadType, state: PagingState<Int, T>): MediatorResult {
         return try{
             val loadKey = when(loadType){
-                LoadType.REFRESH -> null
+                LoadType.REFRESH -> 0
                 LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
                 LoadType.APPEND -> {
                     val lastItem = state.lastItemOrNull()
@@ -57,6 +59,10 @@ class RoomerRemoteMediator<T: BaseEntity>(
         else{
             InitializeAction.LAUNCH_INITIAL_REFRESH
         }
+    }
+
+    fun reloadLastPage(){
+
     }
 
 }

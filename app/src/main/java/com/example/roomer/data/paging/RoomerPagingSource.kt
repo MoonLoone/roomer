@@ -23,7 +23,7 @@ class RoomerPagingSource<T : Any>(
             LoadResult.Page(
                 data = response,
                 prevKey = if (page == 0) null else page - 1,
-                nextKey = if ((response.size) >= pageSize) page + 1 else null
+                nextKey = if (response.isNotEmpty()) page + 1 else null
             )
         } catch (e: Exception) {
             LoadResult.Error(e)
