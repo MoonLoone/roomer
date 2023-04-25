@@ -24,7 +24,7 @@ class RoomerRepository @Inject constructor(
     private val roomerStore: RoomerStoreInterface,
 ) : RoomerRepositoryInterface {
 
-    private var pagingSource: RoomerPagingSource<Room>? = null
+    override var pagingSource: RoomerPagingSource<Room>? = null
 
     override suspend fun getChats(userId: Int): Response<List<Message>> {
         return roomerApi.getChatsForUser(userId, "")
@@ -34,7 +34,7 @@ class RoomerRepository @Inject constructor(
     override fun getFavourites(
         userId: Int,
         limit: Int
-    ):Flow<PagingData<Room>> {
+    ): Flow<PagingData<Room>> {
         val pager = Pager(
             PagingConfig(
                 pageSize = Constants.Chat.PAGE_SIZE,
@@ -49,8 +49,14 @@ class RoomerRepository @Inject constructor(
                         housing
                     }
                 },
-                saveFunction = { response -> roomerStore.addManyFavourites(response as List<Room>) },
-                deleteFunction = { roomerStore.clearFavourites() },
+                saveFunction = { response ->
+                    roomerStore.addManyFavourites(response as List<Room>)
+                    pagingSource?.invalidate()
+                },
+                deleteFunction = {
+                    roomerStore.clearFavourites()
+
+                },
             ),
             pagingSourceFactory = {
                 pagingSource = PagingFactories.createFavouritesPagingSource { offset, limit ->
@@ -68,7 +74,6 @@ class RoomerRepository @Inject constructor(
     }
 
     override suspend fun dislikeHousing(housingId: Int, userId: Int): Response<String> {
-        pagingSource?.invalidate()
         return roomerApi.deleteFavourite(userId, housingId)
     }
 

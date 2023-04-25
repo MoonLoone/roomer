@@ -43,6 +43,7 @@ class FavouriteViewModel @Inject constructor(
             val currentUser = roomerRepository.getLocalCurrentUser()
             roomerDatabase.favourites.deleteById(housingId)
             housingLike.dislikeHousing(housingId, currentUser.userId)
+            roomerRepository.pagingSource?.invalidate()
             _state.value = FavouriteScreenState(success = true)
         }
     }
