@@ -12,6 +12,7 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.launch
 
 @HiltViewModel
@@ -25,15 +26,15 @@ class FavouriteViewModel @Inject constructor(
         FavouriteScreenState()
     )
     val state: StateFlow<FavouriteScreenState> = _state
-    val pagingData: Flow<PagingData<Room>> = roomerRepository.getFavourites(301)
+    val pagingData:MutableStateFlow<Flow<PagingData<Room>>> = MutableStateFlow(emptyFlow())
 
-   /* init {
+   init {
         viewModelScope.launch {
             val currentUser = roomerRepository.getLocalCurrentUser()
             val response = roomerRepository.getFavourites(currentUser.userId)
-            pagingData.value = response.first
+            pagingData.value = response
         }
-    }*/
+    }
 
     fun dislikeHousing(housingId: Int) {
         viewModelScope.launch {

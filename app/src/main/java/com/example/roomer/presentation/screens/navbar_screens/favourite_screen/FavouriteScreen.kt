@@ -43,7 +43,7 @@ fun FavouriteScreen(
             dimensionResource(id = R.dimen.list_elements_margin)
         )
     ) {
-        val listOfFavourites = favouriteViewModel.pagingData.collectAsLazyPagingItems()
+        val listOfFavourites = favouriteViewModel.pagingData.collectAsState().value.collectAsLazyPagingItems()
         TopLine()
         FavouritesList(
             state.collectAsState().value,
