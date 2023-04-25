@@ -1,9 +1,11 @@
 package com.example.roomer.data.repository.roomer_repository
 
+import androidx.paging.PagingData
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.MessageNotification
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
+import com.example.roomer.presentation.screens.navbar_screens.favourite_screen.FavouriteScreenState
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 
@@ -11,11 +13,10 @@ interface RoomerRepositoryInterface {
 
     suspend fun getChats(userId: Int): Response<List<Message>>
 
-    suspend fun getFavourites(
+    fun getFavourites(
         userId: Int,
-        offset: Int = 0,
         limit: Int = 10
-    ): Response<List<Room>>
+    ): Flow<PagingData<Room>>
 
     suspend fun likeHousing(housingId: Int, userId: Int): Response<String>
 
@@ -50,7 +51,7 @@ interface RoomerRepositoryInterface {
         housingType: String
     ): Response<List<Room>>
 
-    suspend fun getLocalFavourites(): Flow<List<Room>>
+    suspend fun getLocalFavourites(): List<Room>
 
     suspend fun addLocalFavourite(room: Room)
 

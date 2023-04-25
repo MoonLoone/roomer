@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import org.json.JSONObject
 
+/*
 class FavouriteUseCase(
     private val repository: RoomerRepositoryInterface
 ) {
@@ -38,3 +39,4 @@ class FavouriteUseCase(
         }
     }
 }
+*/

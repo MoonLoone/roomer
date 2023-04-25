@@ -18,8 +18,7 @@ class RoomerStore(
     private val users = database.users
     private val currentUser = database.currentUser
 
-    override suspend fun getFavourites(): Flow<List<Room>> = favourites.queryAll()
-        .map { localRoomList -> localRoomList.map { localRoom -> localRoom.toRoom() } }
+    override suspend fun getFavourites(limit: Int, offset: Int): List<Room> = favourites.getAll(limit, offset).map { it.room.toRoom() }
 
     override suspend fun addFavourite(room: Room) {
         favourites.save(listOf(room.toLocalRoom()))
@@ -63,6 +62,9 @@ class RoomerStore(
     }
 
     override suspend fun updateUser(user: User) = users.updateOne(user)
+    override suspend fun clearFavourites() {
+        favourites.deleteAll()
+    }
 
     private fun LocalCurrentUser.toUser() = User(
         userId,

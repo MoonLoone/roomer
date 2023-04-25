@@ -1,32 +1,66 @@
 package com.example.roomer.data.repository.roomer_repository
 
 import android.util.Log
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.example.roomer.data.local.RoomerStoreInterface
+import com.example.roomer.data.paging.RoomerPagingSource
 import com.example.roomer.data.remote.RoomerApi
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.MessageNotification
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
+import com.example.roomer.presentation.screens.navbar_screens.favourite_screen.FavouriteScreenState
+import com.example.roomer.utils.Constants
+import com.example.roomer.utils.PagingFactories
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 import javax.inject.Inject
 
 class RoomerRepository @Inject constructor(
     private val roomerApi: RoomerApi,
-    private val roomerStore: RoomerStoreInterface
+    private val roomerStore: RoomerStoreInterface,
 ) : RoomerRepositoryInterface {
+
+    private var pagingSource: RoomerPagingSource<Room>? = null
+
     override suspend fun getChats(userId: Int): Response<List<Message>> {
         return roomerApi.getChatsForUser(userId, "")
     }
 
-    override suspend fun getFavourites(userId: Int, offset: Int, limit: Int): Response<List<Room>> {
-        val favourites = roomerApi.getFavourites(userId, offset, limit)
-        return if (favourites.isSuccessful) Response.success(favourites.body()?.map {
-            val housing = it.housing?: Room(0)
-            housing.isLiked = true
-            housing
-        })
-        else Response.error(favourites.code(),favourites.errorBody())
+    @OptIn(ExperimentalPagingApi::class)
+    override fun getFavourites(
+        userId: Int,
+        limit: Int
+    ):Flow<PagingData<Room>> {
+        val pager = Pager(
+            PagingConfig(
+                pageSize = Constants.Chat.PAGE_SIZE,
+                maxSize = Constants.Chat.CASH_SIZE,
+                initialLoadSize = Constants.Chat.INITIAL_SIZE
+            ),
+            remoteMediator = PagingFactories.createFavouritesMediator(
+                apiFunction = { offset ->
+                    roomerApi.getFavourites(userId, offset, limit).body()?.map {
+                        val housing = it.housing ?: Room(0)
+                        housing.isLiked = true
+                        housing
+                    }
+                },
+                saveFunction = { response -> roomerStore.addManyFavourites(response as List<Room>) },
+                deleteFunction = { roomerStore.clearFavourites() },
+            ),
+            pagingSourceFactory = {
+                pagingSource = PagingFactories.createFavouritesPagingSource { offset, limit ->
+                    val source = roomerStore.getFavourites(limit, offset)
+                    source
+                }
+                pagingSource!!
+            }
+        )
+        return pager.flow
     }
 
     override suspend fun likeHousing(housingId: Int, userId: Int): Response<String> {
@@ -34,6 +68,7 @@ class RoomerRepository @Inject constructor(
     }
 
     override suspend fun dislikeHousing(housingId: Int, userId: Int): Response<String> {
+        pagingSource?.invalidate()
         return roomerApi.deleteFavourite(userId, housingId)
     }
 
@@ -87,7 +122,7 @@ class RoomerRepository @Inject constructor(
         )
     }
 
-    override suspend fun getLocalFavourites(): Flow<List<Room>> = roomerStore.getFavourites()
+    override suspend fun getLocalFavourites(): List<Room> = roomerStore.getFavourites()
 
     override suspend fun addLocalFavourite(room: Room) = roomerStore.addFavourite(room)
 
