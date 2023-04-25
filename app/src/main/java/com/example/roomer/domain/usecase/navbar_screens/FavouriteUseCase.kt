@@ -1,16 +1,5 @@
 package com.example.roomer.domain.usecase.navbar_screens
 
-import android.util.Log
-import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
-import com.example.roomer.domain.model.entities.Room
-import com.example.roomer.utils.Constants
-import com.example.roomer.utils.Resource
-import java.io.IOException
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import org.json.JSONObject
-
 /*
 class FavouriteUseCase(
     private val repository: RoomerRepositoryInterface

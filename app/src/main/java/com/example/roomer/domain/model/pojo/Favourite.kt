@@ -7,5 +7,5 @@ data class Favourite(
     @SerializedName("id")
     val id: Int = 0,
     @SerializedName("housing")
-    val housing: Room? = null,
+    val housing: Room? = null
 )

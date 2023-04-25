@@ -9,7 +9,7 @@ object PagingFactories {
     fun createFavouritesMediator(
         apiFunction: suspend (Int) -> List<Room>?,
         saveFunction: suspend (Any) -> Unit,
-        deleteFunction: suspend () -> Unit,
+        deleteFunction: suspend () -> Unit
     ): RoomerRemoteMediator<Room> {
         return RoomerRemoteMediator(
             apiFunction,
@@ -21,5 +21,4 @@ object PagingFactories {
     fun createFavouritesPagingSource(getAllFavourites: suspend (Int, Int) -> List<Room>): RoomerPagingSource<Room> {
         return RoomerPagingSource(getAllFavourites)
     }
-
 }

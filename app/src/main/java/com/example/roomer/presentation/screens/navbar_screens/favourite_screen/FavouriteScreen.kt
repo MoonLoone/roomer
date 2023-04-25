@@ -47,7 +47,7 @@ fun FavouriteScreen(
         TopLine()
         FavouritesList(
             state.collectAsState().value,
-            listOfFavourites,
+            listOfFavourites
         ) { roomId -> favouriteViewModel.dislikeHousing(roomId) }
     }
 }
@@ -77,12 +77,12 @@ private fun FavouritesList(
                 }
             }
         }
-    if (listOfFavourites?.loadState?.append is LoadState.Loading) {
-        item {
-            CircularProgressIndicator()
+        if (listOfFavourites?.loadState?.append is LoadState.Loading) {
+            item {
+                CircularProgressIndicator()
+            }
         }
     }
-}
 }
 
 @Composable

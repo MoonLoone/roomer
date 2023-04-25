@@ -22,5 +22,4 @@ interface RoomerStoreInterface {
     suspend fun updateUser(user: User)
 
     suspend fun clearFavourites()
-
 }

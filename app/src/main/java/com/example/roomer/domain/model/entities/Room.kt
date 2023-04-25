@@ -25,7 +25,7 @@ data class Room(
     val location: String = "Ordinary location",
     val title: String = "Ordinary location",
     var isLiked: Boolean = false
-): BaseEntity {
+) : BaseEntity {
     data class Photo(
         val photo: String
     )

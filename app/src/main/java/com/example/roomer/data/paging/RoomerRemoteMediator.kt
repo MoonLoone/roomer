@@ -1,26 +1,22 @@
 package com.example.roomer.data.paging
 
-import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
-import androidx.room.withTransaction
-import com.example.roomer.data.local.RoomerStore
-import com.example.roomer.data.room.RoomerDatabase
 import com.example.roomer.domain.model.entities.BaseEntity
+import java.io.IOException
+import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
-import java.io.IOException
-import java.util.concurrent.TimeUnit
 
 @OptIn(ExperimentalPagingApi::class)
 class RoomerRemoteMediator<T : BaseEntity>(
     private val useCaseFunction: suspend (Int) -> List<T>?,
     private val saveToDb: suspend (Any) -> Unit,
-    private val deleteFromDb: suspend () -> Unit,
+    private val deleteFromDb: suspend () -> Unit
 ) : RemoteMediator<Int, T>() {
 
     override suspend fun load(loadType: LoadType, state: PagingState<Int, T>): MediatorResult {
@@ -42,7 +38,7 @@ class RoomerRemoteMediator<T : BaseEntity>(
                     saveToDb(response)
                 }
             }
-            MediatorResult.Success(endOfPaginationReached = response?.isEmpty()?:true)
+            MediatorResult.Success(endOfPaginationReached = response?.isEmpty() ?: true)
         } catch (e: IOException) {
             MediatorResult.Error(e)
         } catch (e: HttpException) {
@@ -52,7 +48,7 @@ class RoomerRemoteMediator<T : BaseEntity>(
 
     override suspend fun initialize(): InitializeAction {
         val cacheTimeout = TimeUnit.MILLISECONDS.convert(1, TimeUnit.HOURS)
-        //return if (System.currentTimeMillis() <= cacheTimeout){
+        // return if (System.currentTimeMillis() <= cacheTimeout){
         return if (false) {
             InitializeAction.SKIP_INITIAL_REFRESH
         } else {

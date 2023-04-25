@@ -6,7 +6,6 @@ import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.MessageNotification
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
-import com.example.roomer.presentation.screens.navbar_screens.favourite_screen.FavouriteScreenState
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 

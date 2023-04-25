@@ -1,6 +1,5 @@
 package com.example.roomer.data.repository.roomer_repository
 
-import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -12,16 +11,15 @@ import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.MessageNotification
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
-import com.example.roomer.presentation.screens.navbar_screens.favourite_screen.FavouriteScreenState
 import com.example.roomer.utils.Constants
 import com.example.roomer.utils.PagingFactories
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
-import javax.inject.Inject
 
 class RoomerRepository @Inject constructor(
     private val roomerApi: RoomerApi,
-    private val roomerStore: RoomerStoreInterface,
+    private val roomerStore: RoomerStoreInterface
 ) : RoomerRepositoryInterface {
 
     override var pagingSource: RoomerPagingSource<Room>? = null
@@ -55,8 +53,7 @@ class RoomerRepository @Inject constructor(
                 },
                 deleteFunction = {
                     roomerStore.clearFavourites()
-
-                },
+                }
             ),
             pagingSourceFactory = {
                 pagingSource = PagingFactories.createFavouritesPagingSource { offset, limit ->

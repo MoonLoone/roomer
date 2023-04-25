@@ -3,24 +3,22 @@ package com.example.roomer.presentation.screens.navbar_screens.favourite_screen
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
-import com.example.roomer.data.paging.RoomerPagingSource
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
 import com.example.roomer.data.room.RoomerDatabase
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.presentation.ui_components.shared.HousingLike
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class FavouriteViewModel @Inject constructor(
     private val roomerRepository: RoomerRepositoryInterface,
     private val housingLike: HousingLike,
-    private val roomerDatabase: RoomerDatabase,
+    private val roomerDatabase: RoomerDatabase
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<FavouriteScreenState> = MutableStateFlow(
@@ -47,5 +45,4 @@ class FavouriteViewModel @Inject constructor(
             _state.value = FavouriteScreenState(success = true)
         }
     }
-
 }
