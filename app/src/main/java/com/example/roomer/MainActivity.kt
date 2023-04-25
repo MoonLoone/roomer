@@ -36,8 +36,9 @@ class MainActivity : AppCompatActivity() {
         setContent {
             val navController = rememberNavController()
             Scaffold(bottomBar = { Navbar(navController = navController) }) {
+                val padding = it
                 DestinationsNavHost(
-                    modifier = Modifier.padding(bottom = it.calculateBottomPadding()),
+                    //modifier = Modifier.padding(bottom = it.calculateBottomPadding()),
                     navGraph = NavGraphs.root,
                     navController = navController,
                     dependenciesContainerBuilder = {

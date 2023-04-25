@@ -381,7 +381,7 @@ fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean, onLikeClick: () -> U
                 .fillMaxWidth()
                 .height(imageHeight)
         ) {
-            /*AsyncImage(
+            AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(photo)
                     .crossfade(true)
@@ -391,7 +391,7 @@ fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean, onLikeClick: () -> U
                 modifier = Modifier
                     .fillMaxSize(),
                 contentScale = ContentScale.FillBounds
-            )*/
+            )
             Image(
                 painter = if (isLiked) {
                     painterResource(id = R.drawable.room_like_in_icon)

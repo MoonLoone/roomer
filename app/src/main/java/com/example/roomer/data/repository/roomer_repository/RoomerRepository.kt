@@ -88,43 +88,7 @@ class RoomerRepository @Inject constructor(
         return roomerApi.getChatsForUser(userId, chatId.toString(), offset, limit)
     }
 
-    override suspend fun getFilterRooms(
-        monthPriceFrom: String,
-        monthPriceTo: String,
-        bedroomsCount: String,
-        bathroomsCount: String,
-        housingType: String
-    ): Response<List<Room>> {
-        return roomerApi.filterRooms(
-            monthPriceFrom,
-            monthPriceTo,
-            bedroomsCount,
-            bathroomsCount,
-            housingType
-        )
-    }
-
-    override suspend fun getFilterRoommates(
-        sex: String,
-        employment: String,
-        alcoholAttitude: String,
-        smokingAttitude: String,
-        sleepTime: String,
-        personalityType: String,
-        cleanHabits: String
-    ): Response<List<User>> {
-        return roomerApi.filterRoommates(
-            sex,
-            employment,
-            alcoholAttitude,
-            smokingAttitude,
-            sleepTime,
-            personalityType,
-            cleanHabits
-        )
-    }
-
-    override suspend fun getLocalFavourites(): Flow<List<Room>> = roomerStore.getFavourites()
+    override suspend fun getLocalFavourites(): List<Room> = roomerStore.getFavourites()
 
     override suspend fun addLocalFavourite(room: Room) = roomerStore.addFavourite(room)
 
