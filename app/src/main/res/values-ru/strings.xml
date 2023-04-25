@@ -71,7 +71,7 @@
     <string name="sign_up_screen_title">Регистрация</string>
     <string name="home_screen_title">Добро пожаловать!</string>
     <string name="favourite_screen_title">Избранное</string>
-    <string name="post_screen_title">Мои посты</string>
+    <string name="post_screen_title">Мои Посты</string>
     <string name="recommended_roommates_label">Рекомендованные сожители</string>
     <string name="recommended_rooms_label">Рекомендованное жилье</string>
     <string name="recently_watched_label">Недавно просмотренное</string>
@@ -159,4 +159,12 @@
     <string name="no_chats_here">Здесь нет чатов</string>
     <string name="want_to_start_new_chat">Хотите начать новый чат?</string>
     <string name="login_button_text">Войти</string>
+    <string name="add_post_button_label">Добавить</string>
+    <string name="no_posts_label">Нет объявлений</string>
+    <string name="edit_label">Изменить</string>
+    <string name="remove_label">Удалить</string>
+    <string name="add_photos_button_label">Добавить</string>
+    <string name="remove_all_photos_button_label">Удалить все</string>
+    <string name="housing_photos">Фото жилья</string>
+    <string name="post_advertisement_title">Пост объявления</string>
 </resources>

@@ -68,7 +68,7 @@
     <string name="sign_up_screen_title">Registration</string>
     <string name="home_screen_title">Welcome back!</string>
     <string name="favourite_screen_title">Favourite</string>
-    <string name="post_screen_title">My posts</string>
+    <string name="post_screen_title">My Posts</string>
     <string name="recommended_roommates_label">Recommended roommates</string>
     <string name="recommended_rooms_label">Recommended rooms</string>
     <string name="recently_watched_label">Recently watched</string>
@@ -162,4 +162,12 @@
     <string name="recommended_notification_title">Roomer</string>
     <string name="recommended_room_notification_text">We find some rooms for you</string>
     <string name="recommended_mate_notification_text">We can be friends</string>
+    <string name="add_post_button_label">Add post</string>
+    <string name="no_posts_label">No Posts</string>
+    <string name="edit_label">Edit</string>
+    <string name="remove_label">Remove</string>
+    <string name="add_photos_button_label">Add photo</string>
+    <string name="remove_all_photos_button_label">Delete all photos</string>
+    <string name="housing_photos">Housing photos</string>
+    <string name="post_advertisement_title">Post your advertisement</string>
 </resources>
