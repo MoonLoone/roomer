@@ -164,7 +164,7 @@ fun SearchRoomScreen(
                 stringResource(R.string.month_price),
                 style = TextStyle(
                     fontSize = integerResource(id = R.integer.primary_text).sp,
-                    color = Color.Black,
+                    color = colorResource(id = R.color.black),
                     fontWeight = FontWeight.Medium
                 )
             )

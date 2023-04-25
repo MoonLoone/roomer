@@ -1,6 +1,5 @@
 package com.example.roomer.presentation.screens.search_screens
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -44,15 +43,13 @@ fun SearchRoomResults(
     from: String = "",
     to: String = "",
     location: String = "",
-    _bedrooms: String = "",
-    _bathrooms: String = "",
+    bedrooms: String = "",
+    bathrooms: String = "",
     apartmentType: String = "DO"
 ) {
-    val bedrooms = if (_bedrooms == stringResource(id = R.string.any)) null else _bedrooms
-    val bathrooms = if (_bathrooms == stringResource(id = R.string.any)) null else _bathrooms
+    val bedrooms = if (bedrooms == stringResource(id = R.string.any)) null else bedrooms
+    val bathrooms = if (bathrooms == stringResource(id = R.string.any)) null else bathrooms
     val rooms by viewModel.rooms.collectAsState()
-    Log.d("catching", rooms.toString())
-
     viewModel.loadRooms(from, to, location, bedrooms, bathrooms, apartmentType)
     val loadingState = viewModel.loadingState.collectAsState()
     when (loadingState.value) {

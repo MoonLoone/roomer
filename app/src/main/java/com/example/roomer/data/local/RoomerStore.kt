@@ -65,7 +65,7 @@ class RoomerStore(
     private fun Room.toLocalRoom() = LocalRoom(
         id,
         monthPrice,
-        host.userId,
+        host?.userId ?: -1,
         description,
         fileContent,
         bathroomsCount,
@@ -80,7 +80,7 @@ class RoomerStore(
     private fun RoomWithHost.toRoom() = Room(
         room.roomId,
         room.monthPrice,
-        host ?: User(),
+        host,
         room.description,
         room.fileContent,
         room.bathroomsCount,

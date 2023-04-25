@@ -7,7 +7,7 @@ data class Room(
     @SerializedName("month_price")
     val monthPrice: Int = 0,
     @SerializedName("host")
-    val host: User = User(),
+    val host: User? = null,
     @SerializedName("description")
     val description: String = "",
     @SerializedName("file_content")

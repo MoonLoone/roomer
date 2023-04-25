@@ -64,34 +64,34 @@ fun SearchRoommateScreen(
 ) {
     val context = LocalContext.current
     val sex = remember {
-        mutableStateOf(context.getString(R.string.default_sex))
+        mutableStateOf("A`")
     }
     var fromAge by remember {
-        mutableStateOf(context.getString(R.string.default_from_age))
+        mutableStateOf("0")
     }
     var toAge by remember {
-        mutableStateOf(context.getString(R.string.default_to_age))
+        mutableStateOf("100")
     }
     val sleepTime = remember {
-        mutableStateOf(context.getString(R.string.default_sleep_time))
+        mutableStateOf("N")
     }
     val personality = remember {
-        mutableStateOf(context.getString(R.string.default_personality))
+        mutableStateOf("E")
     }
     val smokingAttitude = remember {
-        mutableStateOf(context.getString(R.string.default_smoking_attitude))
+        mutableStateOf("I")
     }
     val alcoholAttitude = remember {
-        mutableStateOf(context.getString(R.string.default_alcohol_attitude))
+        mutableStateOf("I")
     }
     val location = remember {
         mutableStateOf("")
     }
     val employment = remember {
-        mutableStateOf(context.getString(R.string.default_employment))
+        mutableStateOf("E")
     }
     val cleanHabits = remember {
-        mutableStateOf(context.getString(R.string.default_clean_habits))
+        mutableStateOf("N")
     }
     var interests: List<InterestModel> = listOf()
 

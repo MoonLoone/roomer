@@ -34,9 +34,7 @@ class SearchUseCase(
             )
 
             if (process.isSuccessful) {
-                coroutineScope {
-                    emit(Resource.Success(process.body()))
-                }
+                emit(Resource.Success(process.body()))
             } else {
                 val errMsg = process.errorBody()?.string()
                 emit(Resource.Error.GeneralError(errMsg!!))

@@ -39,8 +39,8 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 fun SearchRoommateResults(
     navigator: DestinationsNavigator,
-    _sex: String?,
-    _location: String?,
+    sex: String?,
+    location: String?,
     ageFrom: String?,
     ageTo: String?,
     employment: String?,
@@ -49,12 +49,12 @@ fun SearchRoommateResults(
     sleepTime: String?,
     personalityType: String?,
     cleanHabits: String?,
-    _interests: String?
+    interests: String?
 ) {
     val viewModel: SearchRoommateResultViewModel = hiltViewModel()
-    val location = if (_location == "") null else _location
-    val sex = if (_sex == "A") null else _sex
-    val interests = if (_interests != "") _interests?.split("\n") else null
+    val location = if (location == "") null else location
+    val sex = if (sex == "A") null else sex
+    val interests = if (interests != "") interests?.split("\n") else null
     viewModel.loadRoommates(
         sex,
         location,
