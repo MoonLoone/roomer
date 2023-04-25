@@ -88,7 +88,7 @@ class RoomerRepository @Inject constructor(
         return roomerApi.getChatsForUser(userId, chatId.toString(), offset, limit)
     }
 
-    override suspend fun getLocalFavourites(): Flow<List<Room>> = roomerStore.getFavourites()
+    override suspend fun getLocalFavourites(): List<Room> = roomerStore.getFavourites()
 
     override suspend fun addLocalFavourite(room: Room) = roomerStore.addFavourite(room)
 

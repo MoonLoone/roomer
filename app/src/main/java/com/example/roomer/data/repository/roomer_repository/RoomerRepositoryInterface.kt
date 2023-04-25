@@ -58,7 +58,7 @@ interface RoomerRepositoryInterface {
         interests: Map<String, String>
     ): Response<List<User>>
 
-    suspend fun getLocalFavourites(): Flow<List<Room>>
+    suspend fun getLocalFavourites(): List<Room>
 
     suspend fun addLocalFavourite(room: Room)
 
