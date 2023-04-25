@@ -2,12 +2,11 @@ package com.example.roomer.data.local
 
 import com.example.roomer.data.room.RoomerDatabase
 import com.example.roomer.data.room.entities.LocalCurrentUser
+import com.example.roomer.data.room.entities.LocalRoom
 import com.example.roomer.data.room.entities.toRoom
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
-import com.example.roomer.domain.model.entities.toLocalRoom
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 
 class RoomerStore(
     database: RoomerDatabase
@@ -65,6 +64,21 @@ class RoomerStore(
     }
 
     override suspend fun updateUser(user: User) = users.updateOne(user)
+
+    private fun Room.toLocalRoom() = LocalRoom(
+        id,
+        monthPrice,
+        host?.userId ?: -1,
+        description,
+        fileContent,
+        bathroomsCount,
+        bedroomsCount,
+        housingType,
+        sharingType,
+        location,
+        title,
+        isLiked
+    )
     override suspend fun clearFavourites() {
         favourites.deleteAll()
     }
