@@ -32,42 +32,6 @@ class RoomerRepository @Inject constructor(
         return roomerApi.getChatsForUser(userId, chatId.toString(), offset, limit)
     }
 
-    override suspend fun getFilterRooms(
-        monthPriceFrom: String,
-        monthPriceTo: String,
-        bedroomsCount: String,
-        bathroomsCount: String,
-        housingType: String
-    ): Response<List<Room>> {
-        return roomerApi.filterRooms(
-            monthPriceFrom,
-            monthPriceTo,
-            bedroomsCount,
-            bathroomsCount,
-            housingType
-        )
-    }
-
-    override suspend fun getFilterRoommates(
-        sex: String,
-        employment: String,
-        alcoholAttitude: String,
-        smokingAttitude: String,
-        sleepTime: String,
-        personalityType: String,
-        cleanHabits: String
-    ): Response<List<User>> {
-        return roomerApi.filterRoommates(
-            sex,
-            employment,
-            alcoholAttitude,
-            smokingAttitude,
-            sleepTime,
-            personalityType,
-            cleanHabits
-        )
-    }
-
     override suspend fun getLocalFavourites(): Flow<List<Room>> = roomerStore.getFavourites()
 
     override suspend fun addLocalFavourite(room: Room) = roomerStore.addFavourite(room)
@@ -103,5 +67,51 @@ class RoomerRepository @Inject constructor(
 
     override suspend fun getMessageNotifications(userId: Int): Response<List<MessageNotification>> {
         return roomerApi.getNotifications(userId)
+    }
+
+    override suspend fun getFilterRooms(
+        monthPriceFrom: String?,
+        monthPriceTo: String?,
+        location: String?,
+        bedroomsCount: String?,
+        bathroomsCount: String?,
+        housingType: String?
+    ): Response<List<Room>> {
+        return roomerApi.filterRooms(
+            monthPriceFrom,
+            monthPriceTo,
+            location,
+            bedroomsCount,
+            bathroomsCount,
+            housingType
+        )
+    }
+
+    override suspend fun getFilterRoommates(
+        sex: String?,
+        location: String?,
+        ageFrom: String?,
+        ageTo: String?,
+        employment: String?,
+        alcoholAttitude: String?,
+        smokingAttitude: String?,
+        sleepTime: String?,
+        personalityType: String?,
+        cleanHabits: String?,
+        interests: Map<String, String>
+    ): Response<List<User>> {
+        return roomerApi.filterRoommates(
+            sex,
+            location,
+            ageFrom,
+            ageTo,
+            employment,
+            alcoholAttitude,
+            smokingAttitude,
+            sleepTime,
+            personalityType,
+            cleanHabits,
+            interests
+        )
     }
 }
