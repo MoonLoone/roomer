@@ -65,6 +65,36 @@ class RoomerStore(
     }
 
     override suspend fun updateUser(user: User) = users.updateOne(user)
+
+    private fun Room.toLocalRoom() = LocalRoom(
+        id,
+        monthPrice,
+        host?.userId ?: -1,
+        description,
+        fileContent,
+        bathroomsCount,
+        bedroomsCount,
+        housingType,
+        sharingType,
+        location,
+        title,
+        isLiked
+    )
+
+    private fun RoomWithHost.toRoom() = Room(
+        room.roomId,
+        room.monthPrice,
+        host,
+        room.description,
+        room.fileContent,
+        room.bathroomsCount,
+        room.bedroomsCount,
+        room.housingType,
+        room.sharingType,
+        room.location,
+        room.title,
+        room.isLiked
+    )
     override suspend fun clearFavourites() {
         favourites.deleteAll()
     }

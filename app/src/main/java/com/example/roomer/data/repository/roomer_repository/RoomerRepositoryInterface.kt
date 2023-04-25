@@ -35,25 +35,30 @@ interface RoomerRepositoryInterface {
         limit: Int = 10
     ): Response<List<Message>>
 
-    suspend fun getFilterRoommates(
-        sex: String,
-        employment: String,
-        alcoholAttitude: String,
-        smokingAttitude: String,
-        sleepTime: String,
-        personalityType: String,
-        cleanHabits: String
-    ): Response<List<User>>
-
     suspend fun getFilterRooms(
-        monthPriceFrom: String,
-        monthPriceTo: String,
-        bedroomsCount: String,
-        bathroomsCount: String,
-        housingType: String
+        monthPriceFrom: String?,
+        monthPriceTo: String?,
+        location: String?,
+        bedroomsCount: String?,
+        bathroomsCount: String?,
+        housingType: String?
     ): Response<List<Room>>
 
-    suspend fun getLocalFavourites(): List<Room>
+    suspend fun getFilterRoommates(
+        sex: String?,
+        location: String?,
+        ageFrom: String?,
+        ageTo: String?,
+        employment: String?,
+        alcoholAttitude: String?,
+        smokingAttitude: String?,
+        sleepTime: String?,
+        personalityType: String?,
+        cleanHabits: String?,
+        interests: Map<String, String>
+    ): Response<List<User>>
+
+    suspend fun getLocalFavourites(): Flow<List<Room>>
 
     suspend fun addLocalFavourite(room: Room)
 
