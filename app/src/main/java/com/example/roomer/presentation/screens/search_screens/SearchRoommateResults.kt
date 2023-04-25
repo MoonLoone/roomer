@@ -3,8 +3,10 @@ package com.example.roomer.presentation.screens.search_screens
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.CircularProgressIndicator
@@ -36,83 +38,95 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Destination
 @Composable
 fun SearchRoommateResults(
-    navigator: DestinationsNavigator
+    navigator: DestinationsNavigator,
+    sex: String?,
+    location: String?,
+    ageFrom: String?,
+    ageTo: String?,
+    employment: String?,
+    alcoholAttitude: String?,
+    smokingAttitude: String?,
+    sleepTime: String?,
+    personalityType: String?,
+    cleanHabits: String?,
+    interests: String?
 ) {
-    var sex = ""
-    var employment = ""
-    var alcoholAttitude = ""
-    var smokingAttitude = ""
-    var sleepTime = ""
-    var personalityType = ""
-    var cleanHabits = ""
-    cleanHabits = when (cleanHabits) {
-        "Neat" -> "N"
-        "It Depends" -> "D"
-        else -> "C"
-    }
     val viewModel: SearchRoommateResultViewModel = hiltViewModel()
+    val location = if (location == "") null else location
+    val sex = if (sex == "A") null else sex
+    val interests = if (interests != "") interests?.split("\n") else null
     viewModel.loadRoommates(
         sex,
+        location,
+        ageFrom,
+        ageTo,
         employment,
         alcoholAttitude,
         smokingAttitude,
         sleepTime,
         personalityType,
-        cleanHabits
+        cleanHabits,
+        interests
     )
     val roommates by viewModel.roommates.collectAsState()
     val loadingState = viewModel.loadingState.collectAsState()
     when (loadingState.value) {
-        LoadingStates.Success ->
-            Column(
-                modifier = Modifier.padding(
-                    top = dimensionResource(id = R.dimen.screen_top_margin),
-                    start = dimensionResource(id = R.dimen.screen_start_margin),
-                    end = dimensionResource(id = R.dimen.screen_end_margin)
-                ),
-                verticalArrangement = Arrangement.spacedBy(24.dp)
+        LoadingStates.Success -> Column(
+            modifier = Modifier.padding(
+                top = dimensionResource(id = R.dimen.screen_top_margin),
+                start = dimensionResource(id = R.dimen.screen_start_margin),
+                end = dimensionResource(id = R.dimen.screen_end_margin),
+                bottom = dimensionResource(id = R.dimen.screen_nav_bottom_margin)
+            ),
+            verticalArrangement = Arrangement.spacedBy(24.dp)
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    BackBtn(onBackNavigation = { navigator.navigate(HomeScreenDestination) })
-                    Text(
-                        text = stringResource(R.string.roommate_results),
-                        fontSize = integerResource(
-                            id = R.integer.label_text
-                        ).sp,
-                        textAlign = TextAlign.Center,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                }
-                LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-                    item {
-                        if (roommates.isEmpty()) {
-                            Text(
-                                text = stringResource(R.string.sorry_nothing_here),
-                                style = TextStyle(
-                                    fontSize = integerResource(
-                                        id = R.integer.label_text
-                                    ).sp
-                                )
+                BackBtn(onBackNavigation = { navigator.navigate(HomeScreenDestination) })
+                Text(
+                    text = stringResource(R.string.roommate_results),
+                    fontSize = integerResource(
+                        id = R.integer.label_text
+                    ).sp,
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(
+                    dimensionResource(id = R.dimen.list_elements_margin)
+                )
+            ) {
+                item {
+                    if (roommates.isEmpty()) {
+                        Text(
+                            text = stringResource(R.string.sorry_nothing_here),
+                            style = TextStyle(
+                                fontSize = integerResource(
+                                    id = R.integer.label_text
+                                ).sp
                             )
-                        }
+                        )
                     }
-                    items(roommates.size) { index ->
-                        UserCardResult(roommates[index])
-                    }
+                }
+                items(roommates.size) { index ->
+                    UserCardResult(roommates[index])
                 }
             }
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.spacer)))
+        }
+
         LoadingStates.Loading -> CircularProgressIndicator(modifier = Modifier.fillMaxSize())
         LoadingStates.Error -> {
             Column(
                 modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                verticalArrangement = Arrangement.spacedBy(
+                    dimensionResource(id = R.dimen.list_elements_margin)
+                )
             ) {
                 Text(
                     text = stringResource(R.string.something_went_wrong),
@@ -126,12 +140,16 @@ fun SearchRoommateResults(
                 GreenButtonOutline(text = stringResource(R.string.retry)) {
                     viewModel.loadRoommates(
                         sex,
+                        location,
+                        ageFrom,
+                        ageTo,
                         employment,
                         alcoholAttitude,
                         smokingAttitude,
                         sleepTime,
                         personalityType,
-                        cleanHabits
+                        cleanHabits,
+                        interests
                     )
                 }
             }
