@@ -28,4 +28,15 @@
     <dimen name="small_avatar_image">56.dp</dimen>
     <dimen name="ordinary_border">1.dp</dimen>
     <dimen name="icon_text_medium_margin">12.dp</dimen>
+    <dimen name="info_about_me_field">112.dp</dimen>
+
+    <!--Filters screens-->
+    <dimen name="screen_nav_bottom_margin">40.dp</dimen>
+    <dimen name="result_button_start_margin">20.dp</dimen>
+    <dimen name="result_button_bottom_margin">40.dp</dimen>
+    <dimen name="result_button_height">40.dp</dimen>
+    <dimen name="column_bottom_margin">64.dp</dimen>
+    <dimen name="spacer">100.dp</dimen>
+    <dimen name="num_field_width">120.dp</dimen>
+    <dimen name="num_field_height">56.dp</dimen>
 </resources>

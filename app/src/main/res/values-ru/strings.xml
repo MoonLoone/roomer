@@ -110,10 +110,11 @@
     <string name="personality_type_label">Тип личности</string>
     <string name="attitude_to_smoking_label">Отношение к курению</string>
     <string name="attitude_to_alcohol_label">Отношение к алкоголю</string>
-    <string name="what_you_currently_do_lable">Чем вы сейчас занимаетесь?</string>
-    <string name="clean_habits_label">Чистые привычки</string>
+    <string name="what_you_currently_do_lable">Занятость</string>
+    <string name="clean_habits_label">Чистоплотность</string>
     <string name="show_results">Показать результаты</string>
     <string name="to_age_less_than_from_age">Неправильно указан диапазон возраста</string>
+    <string name="to_price_less_than_from_price">Неправильно указан диапазон цены</string>
     <string name="add_icon_placeholder">Иконка добавления</string>
     <string name="choose_10_maximum">Выберите максимум 10</string>
     <string name="tell_us_about_interests">Расскажите нам о своих интересах</string>
@@ -153,8 +154,8 @@
     <string name="not_employed">Безработный</string>
     <string name="employed">Есть работа</string>
     <string name="searching_for_work">В поиске работы</string>
-    <string name="neat">Аккуратный</string>
-    <string name="it_depends">Зависит</string>
+    <string name="neat">Порядок</string>
+    <string name="it_depends">По-разному</string>
     <string name="chaos">Хаос</string>
     <string name="no_chats_here">Здесь нет чатов</string>
     <string name="want_to_start_new_chat">Хотите начать новый чат?</string>
@@ -162,4 +163,5 @@
     <string name="recommended_room_notification_text">Предложения комнат для вас</string>
     <string name="recommended_mate_notification_text">Возможные друзья</string>
     <string name="details_header">Детали</string>
+    <string name="not_integer">Не число</string>
 </resources>

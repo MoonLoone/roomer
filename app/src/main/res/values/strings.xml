@@ -78,7 +78,7 @@
     <string name="roommate_results">Roommate Results</string>
     <string name="sorry_nothing_here">Sorry, nothing here</string>
     <string name="interests">Interests</string>
-    <string name="something_went_wrong">Sorry, something went wrong. You should to retry</string>
+    <string name="something_went_wrong">Sorry, something went wrong. You should retry</string>
     <string name="retry">Retry</string>
     <string name="search_filter">Search filter</string>
     <string name="enter_message_content_description">Enter message</string>
@@ -110,8 +110,8 @@
     <string name="attitude_to_alcohol_label">Attitude to alcohol</string>
     <string name="what_you_currently_do_lable">What you currently do?</string>
     <string name="clean_habits_label">Clean habits</string>
-    <string name="show_results">Show results</string>
     <string name="to_age_less_than_from_age">To age less than from age</string>
+    <string name="to_price_less_than_from_price">To price less than from price</string>
     <string name="add_icon_placeholder">Add icon</string>
     <string name="choose_10_maximum">Choose 10 maximum</string>
     <string name="tell_us_about_interests">Tell us about your interests</string>
@@ -170,5 +170,23 @@
     <string name="habits_title">Habits</string>
     <string name="alcohol_icon_description">small icon shaped like glass of wine with wine inside</string>
     <string name="rate_button_text">Rate</string>
-
+    <string name="default_sex" translatable="false">A</string>
+    <string name="default_from_age" translatable="false">0</string>
+    <string name="default_to_age" translatable="false">100</string>
+    <string name="default_sleep_time" translatable="false">N</string>
+    <string name="default_personality" translatable="false">E</string>
+    <string name="default_smoking_attitude" translatable="false">I</string>
+    <string name="default_alcohol_attitude" translatable="false">I</string>
+    <string name="default_employment" translatable="false">E</string>
+    <string name="default_clean_habits" translatable="false">N</string>
+    <string name="not_integer">Not integer</string>
+    <string name="show_results">Show results</string>
+    <string name="default_from_price" translatable="false">0</string>
+    <string name="default_to_price" translatable="false">1000000</string>
+    <string name="default_bedrooms" translatable="false">1</string>
+    <string name="default_bathrooms" translatable="false">1</string>
+    <string name="default_apartment" translatable="false">F</string>
+    <string name="_1" translatable="false">1</string>
+    <string name="_2" translatable="false">2</string>
+    <string name="_3" translatable="false"><![CDATA[>3]]></string>
 </resources>
