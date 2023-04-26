@@ -10,8 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,7 +27,7 @@ import com.example.roomer.presentation.screens.entrance.signup.SignUpViewModel
 import com.example.roomer.presentation.ui_components.ButtonsRowMapped
 import com.example.roomer.presentation.ui_components.DropdownTextFieldMapped
 import com.example.roomer.presentation.ui_components.GreenButtonPrimary
-import com.example.roomer.utils.SignUpNavGraph
+import com.example.roomer.utils.navigation.SignUpNavGraph
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 

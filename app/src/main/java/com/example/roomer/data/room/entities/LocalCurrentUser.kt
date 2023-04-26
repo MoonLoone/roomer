@@ -20,5 +20,7 @@ data class LocalCurrentUser(
     val cleanHabits: String,
     var rating: Double,
     val interests: List<InterestModel>?,
-    val city: String?
+    val city: String?,
+    val birthDate: String?,
+    val aboutMe: String?
 )

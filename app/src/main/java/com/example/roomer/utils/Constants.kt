@@ -5,6 +5,20 @@ import com.example.roomer.BuildConfig
 object Constants {
     const val BASE_URL = BuildConfig.BASE_URL
 
+    object Maps {
+        val sexMap = mapOf(Pair("M", "Male"), Pair("F", "Female"))
+        val employmentMap = mapOf(
+            Pair("NE", "Not Employed"),
+            Pair("E", "Employed"),
+            Pair("S", "Searching for work")
+        )
+        val personalityMap = mapOf(
+            Pair("E", "Extraverted"),
+            Pair("I", "Introverted"),
+            Pair("M", "Mixed")
+        )
+    }
+
     object ScreensId {
         const val greetingScreenId = 0
         const val signUpScreenId = 7

@@ -25,6 +25,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -72,6 +73,7 @@ import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.domain.model.login_sign_up.InterestModel
+import com.example.roomer.presentation.screens.entrance.signup.habits_screen.HabitTileModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
@@ -1120,6 +1122,57 @@ fun SimpleAlertDialog(
             )
         }
     )
+}
+
+@Composable
+fun HabitsTable(habitsList: List<HabitTileModel>) {
+    val chunkSize = if (habitsList.size % 2 == 0) habitsList.size else habitsList.size.inc()
+    val habitsChunked = habitsList.chunked(chunkSize)
+    Row(
+        modifier = Modifier
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        habitsChunked.forEach {
+            Column(verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.column_medium_margin))) {
+                it.forEach { HabitTile(habit = it) }
+            }
+        }
+    }
+}
+
+@Composable
+fun HabitTile(habit: HabitTileModel) {
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.column_elements_small_margin)),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            modifier = Modifier
+                .size(dimensionResource(id = R.dimen.ordinary_icon)),
+            painter = painterResource(habit.painterId),
+            contentDescription = stringResource(id = habit.iconDescriptionId),
+            tint = colorResource(id = R.color.black)
+        )
+        Column {
+            Text(
+                text = stringResource(habit.habitKey),
+                color = colorResource(id = R.color.primary_dark),
+                fontSize = integerResource(
+                    id = R.integer.medium_text
+                ).sp,
+                fontWeight = FontWeight.Medium
+            )
+            Text(
+                text = habit.habitValue,
+                color = colorResource(id = R.color.black),
+                fontSize = integerResource(
+                    id = R.integer.medium_text
+                ).sp,
+                fontWeight = FontWeight.Normal
+            )
+        }
+    }
 }
 
 class NoRippleInteractionSource : MutableInteractionSource {

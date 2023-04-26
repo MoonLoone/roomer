@@ -29,5 +29,9 @@ data class User(
     val cleanHabits: String = "",
     var rating: Double = 0.0,
     val interests: List<InterestModel>? = null,
-    val city: String? = null
+    val city: String? = null,
+    @SerializedName("birth_date")
+    val birthDate: String? = null,
+    @SerializedName("about_me")
+    val aboutMe: String? = null
 )

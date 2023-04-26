@@ -5,6 +5,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import com.example.roomer.domain.model.entities.User
 import com.example.roomer.domain.model.login_sign_up.InterestModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -44,7 +45,6 @@ class SignUpViewModel : ViewModel() {
             }
         }
     }
-
     fun primaryUserInfoPageValidate() {
         if (firstName.isEmpty() || lastName.isEmpty()) {
             _uiState.update { currentState ->
@@ -56,19 +56,16 @@ class SignUpViewModel : ViewModel() {
             }
         }
     }
-
     fun clearState() {
         _uiState.update {
             SignUpState()
         }
     }
-
     fun clearError() {
         _uiState.update { currentState ->
             currentState.copy(isError = false, errorMessage = "")
         }
     }
-
     companion object {
         const val EMPTY_AVATAR_ERROR_MESSAGE = "Can't proceed with no avatar!"
         const val EMPTY_FIELDS_ERROR_MESSAGE = "Can't proceed with one or more fields being empty!"
