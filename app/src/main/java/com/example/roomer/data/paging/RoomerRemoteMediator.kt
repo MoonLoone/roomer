@@ -15,20 +15,20 @@ import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
 @OptIn(ExperimentalPagingApi::class)
-class RoomerRemoteMediator<T : RoomWithHost>(
+class RoomerRemoteMediator<in T : BaseEntity>(
     private val useCaseFunction: suspend (Int) -> List<T>?,
     private val saveToDb: suspend (Any) -> Unit,
-    private val deleteFromDb: suspend () -> Unit
-) : RemoteMediator<Int, T>() {
+    private val deleteFromDb: suspend () -> Unit,
+) : RemoteMediator<Int, @UnsafeVariance T>() {
 
-    override suspend fun load(loadType: LoadType, state: PagingState<Int, T>): MediatorResult {
+    override suspend fun load(loadType: LoadType, state: PagingState<Int, @UnsafeVariance T>): MediatorResult {
         return try {
             val loadKey = when (loadType) {
                 LoadType.REFRESH -> null
                 LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
                 LoadType.APPEND -> {
                     val lastItem = state.lastItemOrNull()
-                    lastItem?.room?.roomId
+                    lastItem?.id
                 }
             }
             val response = useCaseFunction(loadKey ?: 0)
@@ -37,7 +37,7 @@ class RoomerRemoteMediator<T : RoomWithHost>(
                     if (loadType == LoadType.REFRESH) {
                         deleteFromDb()
                     }
-                    saveToDb(response.map { it.room.toRoom() })
+                    saveToDb(response)
                 }
             }
             MediatorResult.Success(endOfPaginationReached = response?.isEmpty() ?: true)

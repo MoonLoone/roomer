@@ -15,7 +15,6 @@ data class RoomWithHost(
 )
 
 fun RoomWithHost.toRoom() = Room(
-    room.roomId,
     room.monthPrice,
     host,
     room.description,

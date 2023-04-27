@@ -31,7 +31,7 @@ interface FavouriteDao {
 
     @Transaction
     @Query("SELECT * FROM favourite")
-    fun getPagingFavourites(): PagingSource<Int, RoomWithHost>
+    fun getPagingFavourites(): PagingSource<Int, LocalRoom>
 
     @Query("SELECT * FROM favourite LIMIT :limit OFFSET :offset")
     suspend fun getAll(limit: Int, offset: Int): List<RoomWithHost>

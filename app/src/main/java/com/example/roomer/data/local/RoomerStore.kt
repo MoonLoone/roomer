@@ -67,7 +67,7 @@ class RoomerStore(
 
     override suspend fun updateUser(user: User) = users.updateOne(user)
 
-    override fun getPagingFavourites(): PagingSource<Int, RoomWithHost> {
+    override fun getPagingFavourites(): PagingSource<Int, LocalRoom> {
         return favourites.getPagingFavourites()
     }
 

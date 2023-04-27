@@ -1,6 +1,5 @@
 package com.example.roomer.data.repository.roomer_repository
 
-import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -8,12 +7,12 @@ import androidx.paging.PagingData
 import com.example.roomer.data.local.RoomerStoreInterface
 import com.example.roomer.data.paging.RoomerPagingSource
 import com.example.roomer.data.remote.RoomerApi
-import com.example.roomer.data.room.entities.RoomWithHost
+import com.example.roomer.data.room.entities.LocalRoom
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.MessageNotification
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
-import com.example.roomer.domain.model.entities.toRoomWithHost
+import com.example.roomer.domain.model.entities.toLocalRoom
 import com.example.roomer.utils.Constants
 import com.example.roomer.utils.PagingFactories
 import javax.inject.Inject
@@ -35,7 +34,7 @@ class RoomerRepository @Inject constructor(
     override fun getFavourites(
         userId: Int,
         limit: Int
-    ): Flow<PagingData<RoomWithHost>> {
+    ): Flow<PagingData<LocalRoom>> {
         val pager = Pager(
             PagingConfig(
                 pageSize = Constants.Chat.PAGE_SIZE,
@@ -45,19 +44,16 @@ class RoomerRepository @Inject constructor(
             remoteMediator = PagingFactories.createFavouritesMediator(
                 apiFunction = { offset ->
                     roomerApi.getFavourites(userId, offset, limit).body()?.map {
-                        val housing = it.housing ?: Room(0)
-                        housing.isLiked = true
-                        housing.toRoomWithHost()
+                        it.housing?: Room(0).toLocalRoom()
                     }
                 },
                 saveFunction = { response ->
                     roomerStore.addManyFavourites(response as List<Room>)
                     pagingSource?.invalidate()
-                },
-                deleteFunction = {
-                    roomerStore.clearFavourites()
                 }
-            ),
+            ) {
+                roomerStore.clearFavourites()
+            },
             pagingSourceFactory = { roomerStore.getPagingFavourites() }
                 /*pagingSource = PagingFactories.createFavouritesPagingSource { offset, limit ->
                     val source = roomerStore.getFavourites(limit, offset)
