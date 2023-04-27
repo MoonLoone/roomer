@@ -44,23 +44,21 @@ class RoomerRepository @Inject constructor(
             remoteMediator = PagingFactories.createFavouritesMediator(
                 apiFunction = { offset ->
                     roomerApi.getFavourites(userId, offset, limit).body()?.map {
-                        it.housing?: Room(0).toLocalRoom()
+                        it.housing ?: Room(0).toLocalRoom()
                     }
                 },
                 saveFunction = { response ->
-                    roomerStore.addManyFavourites(response as List<Room>)
+                    try {
+                        roomerStore.addManyFavourites(response as List<Room>)
+                    } catch (e: Exception) {
+                        throw e
+                    }
                     pagingSource?.invalidate()
                 }
             ) {
                 roomerStore.clearFavourites()
             },
             pagingSourceFactory = { roomerStore.getPagingFavourites() }
-                /*pagingSource = PagingFactories.createFavouritesPagingSource { offset, limit ->
-                    val source = roomerStore.getFavourites(limit, offset)
-                    source
-                }
-                pagingSource!!*/
-
         )
         return pager.flow
     }

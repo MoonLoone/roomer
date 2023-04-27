@@ -4,8 +4,6 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
-import com.example.roomer.data.room.entities.RoomWithHost
-import com.example.roomer.data.room.entities.toRoom
 import com.example.roomer.domain.model.entities.BaseEntity
 import java.io.IOException
 import java.util.concurrent.TimeUnit
@@ -18,7 +16,7 @@ import retrofit2.HttpException
 class RoomerRemoteMediator<in T : BaseEntity>(
     private val useCaseFunction: suspend (Int) -> List<T>?,
     private val saveToDb: suspend (Any) -> Unit,
-    private val deleteFromDb: suspend () -> Unit,
+    private val deleteFromDb: suspend () -> Unit
 ) : RemoteMediator<Int, @UnsafeVariance T>() {
 
     override suspend fun load(loadType: LoadType, state: PagingState<Int, @UnsafeVariance T>): MediatorResult {

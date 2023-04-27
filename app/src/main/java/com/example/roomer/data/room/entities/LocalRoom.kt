@@ -1,7 +1,6 @@
 package com.example.roomer.data.room.entities
 
 import androidx.room.Entity
-import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.example.roomer.domain.model.entities.BaseEntity
 import com.example.roomer.domain.model.entities.Room
@@ -21,7 +20,7 @@ data class LocalRoom(
     val location: String,
     val title: String,
     val isLiked: Boolean
-): BaseEntity()
+) : BaseEntity()
 
 fun LocalRoom.toRoom(): Room {
     val room = Room(

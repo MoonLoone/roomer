@@ -47,5 +47,5 @@ fun Room.toLocalRoom() = LocalRoom(
 
 fun Room.toRoomWithHost() = RoomWithHost(
     room = this.toLocalRoom(),
-    host = null,
+    host = null
 )

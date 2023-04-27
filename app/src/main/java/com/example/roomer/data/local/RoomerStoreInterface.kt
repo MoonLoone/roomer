@@ -2,7 +2,6 @@ package com.example.roomer.data.local
 
 import androidx.paging.PagingSource
 import com.example.roomer.data.room.entities.LocalRoom
-import com.example.roomer.data.room.entities.RoomWithHost
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
 import kotlinx.coroutines.flow.Flow

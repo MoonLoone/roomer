@@ -3,7 +3,6 @@ package com.example.roomer.data.repository.roomer_repository
 import androidx.paging.PagingData
 import com.example.roomer.data.paging.RoomerPagingSource
 import com.example.roomer.data.room.entities.LocalRoom
-import com.example.roomer.data.room.entities.RoomWithHost
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.MessageNotification
 import com.example.roomer.domain.model.entities.Room

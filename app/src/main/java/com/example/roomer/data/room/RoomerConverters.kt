@@ -28,7 +28,7 @@ class RoomerConverters {
     }
 
     @TypeConverter
-    fun toRoom(roomWithHost: RoomWithHost): Room{
+    fun toRoom(roomWithHost: RoomWithHost): Room {
         return roomWithHost.room.toRoom()
     }
 }

@@ -29,9 +29,9 @@ class FavouriteViewModel @Inject constructor(
         FavouriteScreenState()
     )
     val state: StateFlow<FavouriteScreenState> = _state
-    val pagingData:MutableStateFlow<Flow<PagingData<Room>>> = MutableStateFlow(emptyFlow())
+    val pagingData: MutableStateFlow<Flow<PagingData<Room>>> = MutableStateFlow(emptyFlow())
 
-   init {
+    init {
         viewModelScope.launch {
             val currentUser = roomerRepository.getLocalCurrentUser()
             val response = roomerRepository.getFavourites(currentUser.userId)
