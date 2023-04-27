@@ -14,7 +14,7 @@ import retrofit2.HttpException
 
 @OptIn(ExperimentalPagingApi::class)
 class RoomerRemoteMediator<in T : BaseEntity>(
-    private val useCaseFunction: suspend (Int) -> List<T>?,
+    private val apiFunction: suspend (Int) -> List<T>?,
     private val saveToDb: suspend (Any) -> Unit,
     private val deleteFromDb: suspend () -> Unit
 ) : RemoteMediator<Int, @UnsafeVariance T>() {
@@ -29,7 +29,7 @@ class RoomerRemoteMediator<in T : BaseEntity>(
                     lastItem?.id
                 }
             }
-            val response = useCaseFunction(loadKey ?: 0)
+            val response = apiFunction(loadKey ?: 0)
             response?.let {
                 CoroutineScope(Dispatchers.IO).launch {
                     if (loadType == LoadType.REFRESH) {
@@ -49,7 +49,7 @@ class RoomerRemoteMediator<in T : BaseEntity>(
     override suspend fun initialize(): InitializeAction {
         val cacheTimeout = TimeUnit.MILLISECONDS.convert(1, TimeUnit.HOURS)
         // return if (System.currentTimeMillis() <= cacheTimeout){
-        return if (false) {
+        return if (true) {
             InitializeAction.SKIP_INITIAL_REFRESH
         } else {
             InitializeAction.LAUNCH_INITIAL_REFRESH

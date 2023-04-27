@@ -20,7 +20,7 @@ data class LocalRoom(
     val location: String,
     val title: String,
     val isLiked: Boolean
-) : BaseEntity()
+) : BaseEntity(roomId)
 
 fun LocalRoom.toRoom(): Room {
     val room = Room(

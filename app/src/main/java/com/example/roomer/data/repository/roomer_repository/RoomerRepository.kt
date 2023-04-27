@@ -8,6 +8,7 @@ import com.example.roomer.data.local.RoomerStoreInterface
 import com.example.roomer.data.paging.RoomerPagingSource
 import com.example.roomer.data.remote.RoomerApi
 import com.example.roomer.data.room.entities.LocalRoom
+import com.example.roomer.data.room.entities.toRoom
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.MessageNotification
 import com.example.roomer.domain.model.entities.Room
@@ -44,20 +45,17 @@ class RoomerRepository @Inject constructor(
             remoteMediator = PagingFactories.createFavouritesMediator(
                 apiFunction = { offset ->
                     roomerApi.getFavourites(userId, offset, limit).body()?.map {
-                        it.housing ?: Room(0).toLocalRoom()
+                        (it.housing ?: Room(0)).toLocalRoom()
                     }
                 },
                 saveFunction = { response ->
-                    try {
-                        roomerStore.addManyFavourites(response as List<Room>)
-                    } catch (e: Exception) {
-                        throw e
-                    }
-                    pagingSource?.invalidate()
+                    roomerStore.addManyFavourites((response as List<LocalRoom>).map { it.toRoom() })
+                    //pagingSource?.invalidate()
+                },
+                deleteFunction = {
+                    roomerStore.clearFavourites()
                 }
-            ) {
-                roomerStore.clearFavourites()
-            },
+            ),
             pagingSourceFactory = { roomerStore.getPagingFavourites() }
         )
         return pager.flow
