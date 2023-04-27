@@ -1,5 +1,6 @@
 package com.example.roomer.data.repository.roomer_repository
 
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -7,6 +8,7 @@ import androidx.paging.PagingData
 import com.example.roomer.data.local.RoomerStoreInterface
 import com.example.roomer.data.paging.RoomerPagingSource
 import com.example.roomer.data.remote.RoomerApi
+import com.example.roomer.data.room.entities.RoomWithHost
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.MessageNotification
 import com.example.roomer.domain.model.entities.Room
@@ -33,6 +35,7 @@ class RoomerRepository @Inject constructor(
         userId: Int,
         limit: Int
     ): Flow<PagingData<Room>> {
+        val pagingFavourites = roomerStore.getPagingFavourites()
         val pager = Pager(
             PagingConfig(
                 pageSize = Constants.Chat.PAGE_SIZE,

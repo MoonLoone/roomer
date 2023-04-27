@@ -1,5 +1,6 @@
 package com.example.roomer.data.room.dao
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -27,6 +28,10 @@ interface FavouriteDao {
     @Transaction
     @Query("SELECT * FROM favourite")
     fun queryAll(): Flow<List<RoomWithHost>>
+
+    @Transaction
+    @Query("SELECT * FROM favourite")
+    fun getPagingFavourites(): PagingSource<Int, RoomWithHost>
 
     @Query("SELECT * FROM favourite LIMIT :limit OFFSET :offset")
     suspend fun getAll(limit: Int, offset: Int): List<RoomWithHost>

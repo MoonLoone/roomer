@@ -1,8 +1,10 @@
 package com.example.roomer.data.local
 
+import androidx.paging.PagingSource
 import com.example.roomer.data.room.RoomerDatabase
 import com.example.roomer.data.room.entities.LocalCurrentUser
 import com.example.roomer.data.room.entities.LocalRoom
+import com.example.roomer.data.room.entities.RoomWithHost
 import com.example.roomer.data.room.entities.toRoom
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
@@ -64,6 +66,10 @@ class RoomerStore(
     }
 
     override suspend fun updateUser(user: User) = users.updateOne(user)
+
+    override fun getPagingFavourites(): PagingSource<Int, RoomWithHost> {
+        return favourites.getPagingFavourites()
+    }
 
     private fun Room.toLocalRoom() = LocalRoom(
         id,
