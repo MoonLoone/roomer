@@ -13,6 +13,7 @@ import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.MessageNotification
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
+import com.example.roomer.domain.model.entities.toRoomWithHost
 import com.example.roomer.utils.Constants
 import com.example.roomer.utils.PagingFactories
 import javax.inject.Inject
@@ -34,8 +35,7 @@ class RoomerRepository @Inject constructor(
     override fun getFavourites(
         userId: Int,
         limit: Int
-    ): Flow<PagingData<Room>> {
-        val pagingFavourites = roomerStore.getPagingFavourites()
+    ): Flow<PagingData<RoomWithHost>> {
         val pager = Pager(
             PagingConfig(
                 pageSize = Constants.Chat.PAGE_SIZE,
@@ -47,7 +47,7 @@ class RoomerRepository @Inject constructor(
                     roomerApi.getFavourites(userId, offset, limit).body()?.map {
                         val housing = it.housing ?: Room(0)
                         housing.isLiked = true
-                        housing
+                        housing.toRoomWithHost()
                     }
                 },
                 saveFunction = { response ->
@@ -58,13 +58,13 @@ class RoomerRepository @Inject constructor(
                     roomerStore.clearFavourites()
                 }
             ),
-            pagingSourceFactory = {
-                pagingSource = PagingFactories.createFavouritesPagingSource { offset, limit ->
+            pagingSourceFactory = { roomerStore.getPagingFavourites() }
+                /*pagingSource = PagingFactories.createFavouritesPagingSource { offset, limit ->
                     val source = roomerStore.getFavourites(limit, offset)
                     source
                 }
-                pagingSource!!
-            }
+                pagingSource!!*/
+
         )
         return pager.flow
     }

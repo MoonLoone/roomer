@@ -2,6 +2,7 @@ package com.example.roomer.data.repository.roomer_repository
 
 import androidx.paging.PagingData
 import com.example.roomer.data.paging.RoomerPagingSource
+import com.example.roomer.data.room.entities.RoomWithHost
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.MessageNotification
 import com.example.roomer.domain.model.entities.Room
@@ -18,7 +19,7 @@ interface RoomerRepositoryInterface {
     fun getFavourites(
         userId: Int,
         limit: Int = 10
-    ): Flow<PagingData<Room>>
+    ): Flow<PagingData<RoomWithHost>>
 
     suspend fun likeHousing(housingId: Int, userId: Int): Response<String>
 

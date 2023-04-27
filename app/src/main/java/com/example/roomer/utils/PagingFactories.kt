@@ -2,15 +2,16 @@ package com.example.roomer.utils
 
 import com.example.roomer.data.paging.RoomerPagingSource
 import com.example.roomer.data.paging.RoomerRemoteMediator
+import com.example.roomer.data.room.entities.RoomWithHost
 import com.example.roomer.domain.model.entities.Room
 
 object PagingFactories {
 
     fun createFavouritesMediator(
-        apiFunction: suspend (Int) -> List<Room>?,
+        apiFunction: suspend (Int) -> List<RoomWithHost>?,
         saveFunction: suspend (Any) -> Unit,
         deleteFunction: suspend () -> Unit
-    ): RoomerRemoteMediator<Room> {
+    ): RoomerRemoteMediator<RoomWithHost> {
         return RoomerRemoteMediator(
             apiFunction,
             saveFunction,

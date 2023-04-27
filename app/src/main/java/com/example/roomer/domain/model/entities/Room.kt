@@ -1,6 +1,7 @@
 package com.example.roomer.domain.model.entities
 
 import com.example.roomer.data.room.entities.LocalRoom
+import com.example.roomer.data.room.entities.RoomWithHost
 import com.google.gson.annotations.SerializedName
 
 data class Room(
@@ -44,4 +45,9 @@ fun Room.toLocalRoom() = LocalRoom(
     location,
     title,
     isLiked
+)
+
+fun Room.toRoomWithHost() = RoomWithHost(
+    room = this.toLocalRoom(),
+    host = null,
 )
