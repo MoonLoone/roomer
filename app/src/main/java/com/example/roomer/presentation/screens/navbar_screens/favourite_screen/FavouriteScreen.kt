@@ -36,7 +36,6 @@ fun FavouriteScreen(
     navigator: DestinationsNavigator,
     favouriteViewModel: FavouriteViewModel = hiltViewModel()
 ) {
-    val state = favouriteViewModel.state
     NavbarManagement.showNavbar()
     Column(
         verticalArrangement = Arrangement.spacedBy(
@@ -46,7 +45,6 @@ fun FavouriteScreen(
         val listOfFavourites = favouriteViewModel.pagingData.collectAsState().value.collectAsLazyPagingItems()
         TopLine()
         FavouritesList(
-            state.collectAsState().value,
             listOfFavourites
         ) { roomId -> favouriteViewModel.dislikeHousing(roomId) }
     }
@@ -54,7 +52,6 @@ fun FavouriteScreen(
 
 @Composable
 private fun FavouritesList(
-    state: FavouriteScreenState,
     listOfFavourites: LazyPagingItems<Room>?,
     onDislikeRoom: (Int) -> Unit
 ) {

@@ -25,10 +25,6 @@ class FavouriteViewModel @Inject constructor(
     private val roomerDatabase: RoomerDatabase
 ) : ViewModel() {
 
-    private val _state: MutableStateFlow<FavouriteScreenState> = MutableStateFlow(
-        FavouriteScreenState()
-    )
-    val state: StateFlow<FavouriteScreenState> = _state
     val pagingData: MutableStateFlow<Flow<PagingData<Room>>> = MutableStateFlow(emptyFlow())
 
     init {
@@ -41,12 +37,9 @@ class FavouriteViewModel @Inject constructor(
 
     fun dislikeHousing(housingId: Int) {
         viewModelScope.launch {
-            _state.value = FavouriteScreenState(isLoading = true)
             val currentUser = roomerRepository.getLocalCurrentUser()
             roomerDatabase.favourites.deleteById(housingId)
             housingLike.dislikeHousing(housingId, currentUser.userId)
-            roomerRepository.pagingSource?.invalidate()
-            _state.value = FavouriteScreenState(success = true)
         }
     }
 }

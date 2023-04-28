@@ -3,8 +3,10 @@ package com.example.roomer
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.roomer.management.NotificationManager
@@ -34,9 +36,8 @@ class MainActivity : AppCompatActivity() {
         setContent {
             val navController = rememberNavController()
             Scaffold(bottomBar = { Navbar(navController = navController) }) {
-                val padding = it
                 DestinationsNavHost(
-                    // modifier = Modifier.padding(bottom = it.calculateBottomPadding()),
+                    modifier = Modifier.padding(bottom = it.calculateBottomPadding()),
                     navGraph = NavGraphs.root,
                     navController = navController,
                     dependenciesContainerBuilder = {

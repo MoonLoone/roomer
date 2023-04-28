@@ -12,8 +12,6 @@ import retrofit2.Response
 
 interface RoomerRepositoryInterface {
 
-    var pagingSource: RoomerPagingSource<Room>?
-
     suspend fun getChats(userId: Int): Response<List<Message>>
 
     fun getFavourites(

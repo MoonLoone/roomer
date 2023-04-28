@@ -49,7 +49,7 @@ class RoomerRemoteMediator<in T : BaseEntity>(
     override suspend fun initialize(): InitializeAction {
         val cacheTimeout = TimeUnit.MILLISECONDS.convert(1, TimeUnit.HOURS)
         // return if (System.currentTimeMillis() <= cacheTimeout){
-        return if (true) {
+        return if (false) {
             InitializeAction.SKIP_INITIAL_REFRESH
         } else {
             InitializeAction.LAUNCH_INITIAL_REFRESH

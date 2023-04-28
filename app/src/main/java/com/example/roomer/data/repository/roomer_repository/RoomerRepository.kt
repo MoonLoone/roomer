@@ -25,8 +25,6 @@ class RoomerRepository @Inject constructor(
     private val roomerStore: RoomerStoreInterface
 ) : RoomerRepositoryInterface {
 
-    override var pagingSource: RoomerPagingSource<Room>? = null
-
     override suspend fun getChats(userId: Int): Response<List<Message>> {
         return roomerApi.getChatsForUser(userId, "")
     }
@@ -45,7 +43,7 @@ class RoomerRepository @Inject constructor(
             remoteMediator = PagingFactories.createFavouritesMediator(
                 apiFunction = { offset ->
                     roomerApi.getFavourites(userId, offset, limit).body()?.map {
-                        (it.housing ?: Room(0)).toLocalRoom()
+                        (it.housing ?: Room()).toLocalRoom()
                     }
                 },
                 saveFunction = { response ->
