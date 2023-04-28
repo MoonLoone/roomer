@@ -5,8 +5,10 @@ import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -38,6 +40,7 @@ import androidx.compose.material.icons.filled.PhotoCamera
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -60,10 +63,14 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -292,7 +299,7 @@ fun Message(isUserMessage: Boolean, text: String, data: String) {
 }
 
 @Composable
-fun UserCard(recommendedRoommate: User) {
+fun UserCard(recommendedRoommate: User, onClick: () -> Unit) {
     Column(
         modifier = Modifier
             .height(148.dp)
@@ -301,6 +308,7 @@ fun UserCard(recommendedRoommate: User) {
                 color = colorResource(id = R.color.primary),
                 shape = RoundedCornerShape(8.dp)
             )
+            .clickable { onClick() }
     ) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
@@ -583,9 +591,10 @@ fun GreenButtonPrimaryIconed(
 fun GreenButtonOutlineIconed(
     text: String,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit,
-    trailingIcon: ImageVector,
-    enabled: Boolean = true
+    trailingIconPainterId: Int,
+    trailingIconDescriptionId: Int,
+    enabled: Boolean = true,
+    onClick: () -> Unit
 ) {
     Button(
         onClick = onClick,
@@ -602,14 +611,21 @@ fun GreenButtonOutlineIconed(
         enabled = enabled,
         interactionSource = NoRippleInteractionSource()
     ) {
-        Icon(
-            trailingIcon,
-            stringResource(R.string.none_content_description),
-            tint = colorResource(id = R.color.primary_dark)
-        )
-        androidx.compose.material.Text(
-            text = text
-        )
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                painterResource(id = trailingIconPainterId),
+                stringResource(id = trailingIconDescriptionId),
+                tint = colorResource(id = R.color.primary_dark),
+                modifier = Modifier.size(dimensionResource(id = R.dimen.small_icon))
+            )
+            androidx.compose.material.Text(
+                text = text,
+                fontSize = integerResource(id = R.integer.button_outline_font_size).sp
+            )
+        }
     }
 }
 
@@ -636,7 +652,8 @@ fun GreenButtonOutline(
         interactionSource = NoRippleInteractionSource()
     ) {
         androidx.compose.material.Text(
-            text = text
+            text = text,
+            fontSize = integerResource(id = R.integer.button_outline_font_size).sp
         )
     }
 }
@@ -943,7 +960,7 @@ fun FilterSelect(selectItemName: String, onNavigateToFriends: () -> Unit) {
 }
 
 @Composable
-fun UserCardResult(searchUser: User) {
+fun UserCardResult(searchUser: User, onClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -952,6 +969,7 @@ fun UserCardResult(searchUser: User) {
                 color = colorResource(id = R.color.primary),
                 shape = RoundedCornerShape(20.dp)
             )
+            .clickable { onClick() }
     ) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
@@ -996,7 +1014,7 @@ fun UserCardResult(searchUser: User) {
                         .align(Alignment.CenterVertically)
                 )
                 Text(
-                    text = "Moscow",
+                    text = searchUser.city ?: "",
                     style = TextStyle(
                         fontSize = integerResource(id = R.integer.primary_text).sp,
                         color = Color.Black
@@ -1138,7 +1156,7 @@ fun SimpleAlertDialog(
 
 @Composable
 fun HabitsTable(habitsList: List<HabitTileModel>) {
-    val chunkSize = if (habitsList.size % 2 == 0) habitsList.size else habitsList.size.inc()
+    val chunkSize = if (habitsList.size % 2 == 0) habitsList.size / 2 else habitsList.size / 2 + 1
     val habitsChunked = habitsList.chunked(chunkSize)
     Row(
         modifier = Modifier
@@ -1146,7 +1164,12 @@ fun HabitsTable(habitsList: List<HabitTileModel>) {
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         habitsChunked.forEach {
-            Column(verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.column_medium_margin))) {
+            Log.d("TABLE_LIST", it.toString())
+            Column(
+                verticalArrangement = Arrangement.spacedBy(
+                    dimensionResource(id = R.dimen.column_medium_margin)
+                )
+            ) {
                 it.forEach { HabitTile(habit = it) }
             }
         }
@@ -1156,7 +1179,9 @@ fun HabitsTable(habitsList: List<HabitTileModel>) {
 @Composable
 fun HabitTile(habit: HabitTileModel) {
     Row(
-        horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.column_elements_small_margin)),
+        horizontalArrangement = Arrangement.spacedBy(
+            dimensionResource(id = R.dimen.column_elements_small_margin)
+        ),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
@@ -1176,7 +1201,7 @@ fun HabitTile(habit: HabitTileModel) {
                 fontWeight = FontWeight.Medium
             )
             Text(
-                text = habit.habitValue,
+                text = stringResource(habit.habitValue),
                 color = colorResource(id = R.color.black),
                 fontSize = integerResource(
                     id = R.integer.medium_text
@@ -1184,6 +1209,66 @@ fun HabitTile(habit: HabitTileModel) {
                 fontWeight = FontWeight.Normal
             )
         }
+    }
+}
+
+const val DEFAULT_MINIMUM_TEXT_LINE = 3
+
+@Composable
+fun ExpandableText(
+    modifier: Modifier = Modifier,
+    textModifier: Modifier = Modifier,
+    style: TextStyle = LocalTextStyle.current,
+    fontStyle: FontStyle? = null,
+    text: String,
+    collapsedMaxLine: Int = DEFAULT_MINIMUM_TEXT_LINE,
+    showMoreText: String = "... Show More",
+    showMoreStyle: SpanStyle = SpanStyle(fontWeight = FontWeight.W500),
+    showLessText: String = " Show Less",
+    showLessStyle: SpanStyle = showMoreStyle,
+    textAlign: TextAlign? = null
+) {
+    var isExpanded by remember { mutableStateOf(false) }
+    var clickable by remember { mutableStateOf(false) }
+    var lastCharIndex by remember { mutableStateOf(0) }
+    Box(
+        modifier = Modifier
+            .clickable(clickable) {
+                isExpanded = !isExpanded
+            }
+            .then(modifier)
+    ) {
+        Text(
+            modifier = textModifier
+                .fillMaxWidth()
+                .animateContentSize(),
+            text = buildAnnotatedString {
+                if (clickable) {
+                    if (isExpanded) {
+                        append(text)
+                        withStyle(style = showLessStyle) { append(showLessText) }
+                    } else {
+                        val adjustText = text.substring(startIndex = 0, endIndex = lastCharIndex)
+                            .dropLast(showMoreText.length)
+                            .dropLastWhile { Character.isWhitespace(it) || it == '.' }
+                        append(adjustText)
+                        withStyle(style = showMoreStyle) { append(showMoreText) }
+                    }
+                } else {
+                    append(text)
+                }
+            },
+            maxLines = if (isExpanded) Int.MAX_VALUE else collapsedMaxLine,
+            fontStyle = fontStyle,
+            onTextLayout = { textLayoutResult ->
+                if (!isExpanded && textLayoutResult.hasVisualOverflow) {
+                    clickable = true
+                    lastCharIndex = textLayoutResult.getLineEnd(collapsedMaxLine - 1)
+                }
+            },
+            style = style,
+            textAlign = textAlign
+        )
     }
 }
 

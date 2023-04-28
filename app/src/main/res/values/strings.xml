@@ -105,7 +105,7 @@
     <string name="end_age_placeholder">End age</string>
     <string name="sleep_time_label">Sleep time</string>
     <string name="personality_type_label">Personality type</string>
-    <string name="personality_type_label_colon">Personality type</string>
+    <string name="personality_type_label_colon">Personality \ntype:</string>
     <string name="attitude_to_smoking_label">Attitude to smoking</string>
     <string name="attitude_to_alcohol_label">Attitude to alcohol</string>
     <string name="what_you_currently_do_lable">What you currently do?</string>
@@ -150,7 +150,7 @@
     <string name="indifferent">Indifferent</string>
     <string name="not_employed">Not Employed</string>
     <string name="employed">Employed</string>
-    <string name="searching_for_work">Searching For Work</string>
+    <string name="searching_for_work">Searching \nFor Work</string>
     <string name="neat">Neat</string>
     <string name="it_depends">It Depends</string>
     <string name="chaos">Chaos</string>
@@ -189,4 +189,10 @@
     <string name="_1" translatable="false">1</string>
     <string name="_2" translatable="false">2</string>
     <string name="_3" translatable="false"><![CDATA[>3]]></string>
+    <string name="smoking_icon_description">cigarette with smoke icon</string>
+    <string name="sleep_time_icon_description">sleep schedule icon</string>
+    <string name="clean_habits_icon_description">broom icon</string>
+    <string name="personality_icon">personality type icon</string>
+    <string name="envelope_icon_description">An envelope icon</string>
+    <string name="double_arrow_icon_description">Two arrows pointing to one direction icon</string>
 </resources>

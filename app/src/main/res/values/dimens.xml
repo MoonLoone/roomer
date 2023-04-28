@@ -29,6 +29,8 @@
     <dimen name="ordinary_border">1.dp</dimen>
     <dimen name="icon_text_medium_margin">12.dp</dimen>
     <dimen name="info_about_me_field">112.dp</dimen>
+    <dimen name="user_details_avatar">192.dp</dimen>
+    <integer name="button_outline_font_size">12</integer>
 
     <!--Filters screens-->
     <dimen name="screen_nav_bottom_margin">40.dp</dimen>

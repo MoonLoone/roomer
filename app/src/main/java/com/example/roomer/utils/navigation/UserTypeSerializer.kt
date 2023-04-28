@@ -6,7 +6,7 @@ import com.ramcosta.composedestinations.navargs.DestinationsNavTypeSerializer
 import com.ramcosta.composedestinations.navargs.NavTypeSerializer
 
 @NavTypeSerializer
-class UserTypeSerializer: DestinationsNavTypeSerializer<User> {
+class UserTypeSerializer : DestinationsNavTypeSerializer<User> {
     override fun fromRouteString(routeStr: String): User {
         return Gson().fromJson(routeStr, User::class.java)
     }
