@@ -33,9 +33,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.roomer.R
-import com.example.roomer.presentation.screens.destinations.HomeScreenDestination
 import com.example.roomer.presentation.screens.destinations.PrimaryUserInfoScreenDestination
 import com.example.roomer.presentation.screens.destinations.SignUpScreenDestination
+import com.example.roomer.presentation.screens.destinations.SplashScreenDestination
 import com.example.roomer.presentation.ui_components.EmailField
 import com.example.roomer.presentation.ui_components.GreenButtonPrimary
 import com.example.roomer.presentation.ui_components.PasswordField
@@ -140,9 +140,7 @@ fun LoginScreen(
 
                     ),
                     onClick = {
-                        navigator.navigate(
-                            SignUpScreenDestination
-                        )
+                        navigator.navigate(SignUpScreenDestination)
                     }
                 )
             }
@@ -162,7 +160,7 @@ fun LoginScreen(
             }
             if (state.success) {
                 if (id == Constants.ScreensId.greetingScreenId) {
-                    navigator.navigate(HomeScreenDestination)
+                    navigator.navigate(SplashScreenDestination)
                 } else {
                     navigator.navigate(PrimaryUserInfoScreenDestination)
                 }

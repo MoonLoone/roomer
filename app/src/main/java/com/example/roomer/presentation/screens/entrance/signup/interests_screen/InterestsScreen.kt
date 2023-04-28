@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.roomer.R
 import com.example.roomer.presentation.screens.destinations.HabitsScreenDestination
-import com.example.roomer.presentation.screens.destinations.HomeScreenDestination
+import com.example.roomer.presentation.screens.destinations.SplashScreenDestination
 import com.example.roomer.presentation.screens.entrance.signup.SignUpViewModel
 import com.example.roomer.presentation.ui_components.GreenButtonOutline
 import com.example.roomer.presentation.ui_components.GreenButtonPrimary
@@ -85,7 +85,7 @@ fun InterestsScreen(
                 )
             }
             if (state.isInterestsSent) {
-                navigator.navigate(HomeScreenDestination())
+                navigator.navigate(SplashScreenDestination)
             }
             if (state.isLoading) {
                 CircularProgressIndicator(
