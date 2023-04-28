@@ -16,5 +16,4 @@ object PagingFactories {
             deleteFunction
         )
     }
-
 }

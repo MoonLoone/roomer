@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,7 +35,6 @@ import com.example.roomer.presentation.ui_components.RoomCard
 import com.example.roomer.utils.NavbarManagement
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import kotlinx.coroutines.launch
 
 @Destination
 @Composable
@@ -52,7 +50,7 @@ fun FavouriteScreen(
     ) {
         val listOfFavourites =
             favouriteViewModel.pagingData.collectAsState().value.collectAsLazyPagingItems()
-        val scrollPosition = remember{
+        val scrollPosition = remember {
             mutableStateOf(0)
         }
         TopLine()
@@ -78,7 +76,7 @@ private fun FavouritesList(
         verticalArrangement = Arrangement.spacedBy(
             dimensionResource(id = R.dimen.list_elements_margin)
         ),
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         listOfFavourites?.let {
             if (it.loadState.append is LoadState.NotLoading) {
@@ -91,7 +89,7 @@ private fun FavouritesList(
                         }
                         scrollPosition.value = state.firstVisibleItemIndex
                     }
-                    LaunchedEffect(coroutineScope){
+                    LaunchedEffect(coroutineScope) {
                         state.animateScrollToItem(scrollPosition.value)
                     }
                 }
@@ -101,13 +99,14 @@ private fun FavouritesList(
                     CircularProgressIndicator()
                 }
             }
-            if (it.loadState.append is LoadState.Error) item {
-                Text(text = "Error")
+            if (it.loadState.append is LoadState.Error) {
+                item {
+                    Text(text = "Error")
+                }
             }
         }
     }
 }
-
 
 @Composable
 private fun TopLine() {

@@ -8,8 +8,6 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import com.example.roomer.data.room.entities.LocalRoom
-import com.example.roomer.data.room.entities.RoomWithHost
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface FavouriteDao {
