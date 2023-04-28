@@ -5,7 +5,6 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.roomer.data.local.RoomerStoreInterface
-import com.example.roomer.data.paging.RoomerPagingSource
 import com.example.roomer.data.remote.RoomerApi
 import com.example.roomer.data.room.entities.LocalRoom
 import com.example.roomer.data.room.entities.toRoom
@@ -48,7 +47,6 @@ class RoomerRepository @Inject constructor(
                 },
                 saveFunction = { response ->
                     roomerStore.addManyFavourites((response as List<LocalRoom>).map { it.toRoom() })
-                    //pagingSource?.invalidate()
                 },
                 deleteFunction = {
                     roomerStore.clearFavourites()

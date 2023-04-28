@@ -27,14 +27,7 @@ interface FavouriteDao {
 
     @Transaction
     @Query("SELECT * FROM favourite")
-    fun queryAll(): Flow<List<RoomWithHost>>
-
-    @Transaction
-    @Query("SELECT * FROM favourite")
     fun getPagingFavourites(): PagingSource<Int, LocalRoom>
-
-    @Query("SELECT * FROM favourite LIMIT :limit OFFSET :offset")
-    suspend fun getAll(limit: Int, offset: Int): List<RoomWithHost>
 
     @Query("SELECT COUNT(*) FROM favourite")
     suspend fun count(): Long
