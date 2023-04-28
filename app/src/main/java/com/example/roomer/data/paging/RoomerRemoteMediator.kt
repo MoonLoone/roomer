@@ -19,7 +19,10 @@ class RoomerRemoteMediator<in T : BaseEntity>(
     private val deleteFromDb: suspend () -> Unit
 ) : RemoteMediator<Int, @UnsafeVariance T>() {
 
-    override suspend fun load(loadType: LoadType, state: PagingState<Int, @UnsafeVariance T>): MediatorResult {
+    override suspend fun load(
+        loadType: LoadType,
+        state: PagingState<Int, @UnsafeVariance T>
+    ): MediatorResult {
         return try {
             val loadKey = when (loadType) {
                 LoadType.REFRESH -> null
