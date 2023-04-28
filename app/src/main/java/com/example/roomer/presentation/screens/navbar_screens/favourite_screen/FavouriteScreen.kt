@@ -17,6 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.stringResource
@@ -101,11 +102,24 @@ private fun FavouritesList(
             }
             if (it.loadState.append is LoadState.Error) {
                 item {
-                    Text(text = "Error")
+                    ErrorText()
                 }
             }
         }
     }
+}
+
+@Composable
+private fun ErrorText(){
+    Text(
+        text = stringResource(id = androidx.compose.ui.R.string.default_error_message),
+        style = TextStyle(
+            color = colorResource(
+                id = R.color.black
+            ),
+            fontSize = integerResource(id = R.integer.primary_text).sp,
+        )
+    )
 }
 
 @Composable
