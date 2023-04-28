@@ -5,10 +5,17 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -29,6 +36,7 @@ import com.example.roomer.presentation.ui_components.RoomCard
 import com.example.roomer.utils.NavbarManagement
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import kotlinx.coroutines.launch
 
 @Destination
 @Composable
@@ -42,9 +50,14 @@ fun FavouriteScreen(
             dimensionResource(id = R.dimen.list_elements_margin)
         )
     ) {
-        val listOfFavourites = favouriteViewModel.pagingData.collectAsState().value.collectAsLazyPagingItems()
+        val listOfFavourites =
+            favouriteViewModel.pagingData.collectAsState().value.collectAsLazyPagingItems()
+        val scrollPosition = remember{
+            mutableStateOf(0)
+        }
         TopLine()
         FavouritesList(
+            scrollPosition,
             listOfFavourites
         ) { roomId -> favouriteViewModel.dislikeHousing(roomId) }
     }
@@ -52,35 +65,49 @@ fun FavouriteScreen(
 
 @Composable
 private fun FavouritesList(
+    scrollPosition: MutableState<Int>,
     listOfFavourites: LazyPagingItems<Room>?,
     onDislikeRoom: (Int) -> Unit
 ) {
+    val state = rememberLazyListState()
+    val coroutineScope = rememberCoroutineScope()
     LazyColumn(
         modifier = Modifier
             .fillMaxSize(),
+        state = state,
         verticalArrangement = Arrangement.spacedBy(
             dimensionResource(id = R.dimen.list_elements_margin)
         ),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         listOfFavourites?.let {
-            items(listOfFavourites) { room ->
-                room?.let {
-                    RoomCard(recommendedRoom = room, isMiniVersion = false) {
-                        if (!room.isLiked) {
-                            onDislikeRoom.invoke(room.id)
+            if (it.loadState.append is LoadState.NotLoading) {
+                items(listOfFavourites) { room ->
+                    room?.let {
+                        RoomCard(recommendedRoom = room, isMiniVersion = false) {
+                            if (!room.isLiked) {
+                                onDislikeRoom.invoke(room.id)
+                            }
                         }
+                        scrollPosition.value = state.firstVisibleItemIndex
+                    }
+                    LaunchedEffect(coroutineScope){
+                        state.animateScrollToItem(scrollPosition.value)
                     }
                 }
             }
-        }
-        if (listOfFavourites?.loadState?.append is LoadState.Loading) {
-            item {
-                CircularProgressIndicator()
+            if (it.loadState.append is LoadState.Loading) {
+                item {
+                    CircularProgressIndicator()
+                }
+            }
+            if (it.loadState.append is LoadState.Error) item {
+                Text(text = "Error")
             }
         }
     }
 }
+
 
 @Composable
 private fun TopLine() {

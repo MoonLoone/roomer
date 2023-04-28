@@ -16,13 +16,6 @@ class RoomerStore(
     private val users = database.users
     private val currentUser = database.currentUser
 
-    override suspend fun getFavourites(limit: Int, offset: Int): List<Room> = favourites.getAll(
-        limit,
-        offset
-    ).map {
-        it.room.toRoom()
-    }
-
     override suspend fun addFavourite(room: Room) {
         favourites.save(listOf(room.toLocalRoom()))
     }
