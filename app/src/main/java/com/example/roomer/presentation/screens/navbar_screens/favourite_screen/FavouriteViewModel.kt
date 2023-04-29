@@ -3,6 +3,7 @@ package com.example.roomer.presentation.screens.navbar_screens.favourite_screen
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import androidx.paging.map
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
 import com.example.roomer.data.room.entities.toRoom
@@ -31,7 +32,7 @@ class FavouriteViewModel @Inject constructor(
                 pagingData.map { localRoom ->
                     localRoom.toRoom()
                 }
-            }
+            }.cachedIn(viewModelScope)
         }
     }
 }
