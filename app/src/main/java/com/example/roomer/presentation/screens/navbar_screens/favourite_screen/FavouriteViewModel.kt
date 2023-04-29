@@ -5,12 +5,9 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
-import com.example.roomer.data.room.RoomerDatabase
 import com.example.roomer.data.room.entities.toRoom
-import com.example.roomer.data.shared.HousingLike
 import com.example.roomer.data.shared.HousingLikeInterface
 import com.example.roomer.domain.model.entities.Room
-import com.example.roomer.domain.model.entities.toLocalRoom
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow

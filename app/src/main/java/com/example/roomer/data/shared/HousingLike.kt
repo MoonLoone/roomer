@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class HousingLike @Inject constructor(
     private val roomerRepositoryInterface: RoomerRepositoryInterface,
-    private val roomerDatabase: RoomerDatabase,
+    private val roomerDatabase: RoomerDatabase
 ) : HousingLikeInterface {
 
     override suspend fun likeHousing(housing: Room) {
