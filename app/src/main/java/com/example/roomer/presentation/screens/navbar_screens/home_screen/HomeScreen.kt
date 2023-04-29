@@ -164,9 +164,9 @@ fun HomeScreen(
                     items(homeScreenViewModel.testRooms.size - 2) { index ->
                         RoomCard(
                             recommendedRoom = recommendedRooms[index],
-                            true
-                        ) {
-                        }
+                            true,
+                            homeScreenViewModel
+                        )
                     }
                 }
             }

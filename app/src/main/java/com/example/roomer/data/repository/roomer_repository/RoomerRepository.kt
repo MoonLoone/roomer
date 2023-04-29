@@ -7,12 +7,10 @@ import androidx.paging.PagingData
 import com.example.roomer.data.local.RoomerStoreInterface
 import com.example.roomer.data.remote.RoomerApi
 import com.example.roomer.data.room.entities.LocalRoom
-import com.example.roomer.data.room.entities.toRoom
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.MessageNotification
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
-import com.example.roomer.domain.model.entities.toLocalRoom
 import com.example.roomer.utils.Constants
 import com.example.roomer.utils.PagingFactories
 import javax.inject.Inject
@@ -29,10 +27,10 @@ class RoomerRepository @Inject constructor(
     }
 
     @OptIn(ExperimentalPagingApi::class)
-    override fun getFavourites(
-        userId: Int,
+    override suspend fun getFavouritesForUser(
         limit: Int
     ): Flow<PagingData<LocalRoom>> {
+        val user = getLocalCurrentUser()
         val pager = Pager(
             PagingConfig(
                 pageSize = Constants.Chat.PAGE_SIZE,
@@ -40,29 +38,24 @@ class RoomerRepository @Inject constructor(
                 initialLoadSize = Constants.Chat.INITIAL_SIZE
             ),
             remoteMediator = PagingFactories.createFavouritesMediator(
-                apiFunction = { offset ->
-                    roomerApi.getFavourites(userId, offset, limit).body()?.map {
-                        (it.housing ?: Room()).toLocalRoom()
-                    }
-                },
-                saveFunction = { response ->
-                    roomerStore.addManyFavourites((response as List<LocalRoom>).map { it.toRoom() })
-                },
-                deleteFunction = {
-                    roomerStore.clearFavourites()
-                }
+                roomerApi,
+                roomerStore,
+                user.userId,
+                limit
             ),
             pagingSourceFactory = { roomerStore.getPagingFavourites() }
         )
         return pager.flow
     }
 
-    override suspend fun likeHousing(housingId: Int, userId: Int): Response<String> {
-        return roomerApi.addToFavourite(userId, housingId)
+    override suspend fun likeHousing(housingId: Int): Response<String> {
+        val user = getLocalCurrentUser()
+        return roomerApi.addToFavourite(user.userId, housingId)
     }
 
-    override suspend fun dislikeHousing(housingId: Int, userId: Int): Response<String> {
-        return roomerApi.deleteFavourite(userId, housingId)
+    override suspend fun dislikeHousing(housingId: Int): Response<String> {
+        val user = getLocalCurrentUser()
+        return roomerApi.deleteFavourite(user.userId, housingId)
     }
 
     override suspend fun getCurrentUserInfo(token: String): Response<User> {

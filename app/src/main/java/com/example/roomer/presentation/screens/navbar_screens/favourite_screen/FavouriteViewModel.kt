@@ -7,8 +7,9 @@ import androidx.paging.map
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
 import com.example.roomer.data.room.RoomerDatabase
 import com.example.roomer.data.room.entities.toRoom
+import com.example.roomer.data.shared.HousingLike
 import com.example.roomer.domain.model.entities.Room
-import com.example.roomer.presentation.ui_components.shared.HousingLike
+import com.example.roomer.domain.model.entities.toLocalRoom
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
@@ -20,25 +21,31 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class FavouriteViewModel @Inject constructor(
     private val roomerRepository: RoomerRepositoryInterface,
-    private val housingLike: HousingLike,
     private val roomerDatabase: RoomerDatabase
-) : ViewModel() {
+) : ViewModel(), HousingLike {
 
     val pagingData: MutableStateFlow<Flow<PagingData<Room>>> = MutableStateFlow(emptyFlow())
 
     init {
         viewModelScope.launch {
-            val currentUser = roomerRepository.getLocalCurrentUser()
-            val response = roomerRepository.getFavourites(currentUser.userId)
-            pagingData.value = response.map { it.map { it.toRoom() } }
+            val response = roomerRepository.getFavouritesForUser()
+            pagingData.value = response.map { pagingData ->
+                pagingData.map { localRoom ->
+                    localRoom.toRoom()
+                }
+            }
         }
     }
 
-    fun dislikeHousing(housingId: Int) {
+    override suspend fun dislikeHousing(housing: Room) {
         viewModelScope.launch {
-            val currentUser = roomerRepository.getLocalCurrentUser()
-            roomerDatabase.favourites.deleteById(housingId)
-            housingLike.dislikeHousing(housingId, currentUser.userId)
+            roomerRepository.dislikeHousing(housing.id)
+            roomerDatabase.favourites.deleteById(housing.id)
         }
+    }
+
+    override suspend fun likeHousing(housing: Room) {
+        roomerRepository.likeHousing(housing.id)
+        roomerDatabase.favourites.save(housing.toLocalRoom())
     }
 }

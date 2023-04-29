@@ -13,14 +13,13 @@ interface RoomerRepositoryInterface {
 
     suspend fun getChats(userId: Int): Response<List<Message>>
 
-    fun getFavourites(
-        userId: Int,
+    suspend fun getFavouritesForUser(
         limit: Int = 10
     ): Flow<PagingData<LocalRoom>>
 
-    suspend fun likeHousing(housingId: Int, userId: Int): Response<String>
+    suspend fun likeHousing(housingId: Int): Response<String>
 
-    suspend fun dislikeHousing(housingId: Int, userId: Int): Response<String>
+    suspend fun dislikeHousing(housingId: Int): Response<String>
 
     suspend fun getCurrentUserInfo(
         token: String

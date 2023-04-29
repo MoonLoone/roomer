@@ -3,6 +3,7 @@ package com.example.roomer.presentation.screens.search_screens
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
+import com.example.roomer.data.shared.HousingLike
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.usecase.search.SearchUseCase
 import com.example.roomer.utils.LoadingStates
@@ -19,7 +20,7 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class SearchRoomResultsViewModel @Inject constructor(
     private val roomerRepository: RoomerRepositoryInterface
-) : ViewModel() {
+) : ViewModel(), HousingLike {
     private val _rooms = MutableStateFlow(emptyList<Room>())
     val rooms: StateFlow<List<Room>> = _rooms
     private val _loadingStates = MutableStateFlow(LoadingStates.Loading)
@@ -70,5 +71,13 @@ class SearchRoomResultsViewModel @Inject constructor(
 
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
         throwable.printStackTrace()
+    }
+
+    override suspend fun likeHousing(housing: Room) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun dislikeHousing(housing: Room) {
+        TODO("Not yet implemented")
     }
 }

@@ -31,6 +31,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.example.roomer.R
+import com.example.roomer.data.shared.HousingLike
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.presentation.ui_components.RoomCard
 import com.example.roomer.utils.NavbarManagement
@@ -57,8 +58,9 @@ fun FavouriteScreen(
         TopLine()
         FavouritesList(
             scrollPosition,
-            listOfFavourites
-        ) { roomId -> favouriteViewModel.dislikeHousing(roomId) }
+            listOfFavourites,
+            favouriteViewModel
+        )
     }
 }
 
@@ -66,7 +68,7 @@ fun FavouriteScreen(
 private fun FavouritesList(
     scrollPosition: MutableState<Int>,
     listOfFavourites: LazyPagingItems<Room>?,
-    onDislikeRoom: (Int) -> Unit
+    housingLike: HousingLike
 ) {
     val state = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
@@ -83,11 +85,7 @@ private fun FavouritesList(
             if (it.loadState.append is LoadState.NotLoading) {
                 items(listOfFavourites) { room ->
                     room?.let {
-                        RoomCard(recommendedRoom = room, isMiniVersion = false) {
-                            if (!room.isLiked) {
-                                onDislikeRoom.invoke(room.id)
-                            }
-                        }
+                        RoomCard(recommendedRoom = room, isMiniVersion = false, housingLike)
                         scrollPosition.value = state.firstVisibleItemIndex
                     }
                     LaunchedEffect(coroutineScope) {

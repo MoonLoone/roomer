@@ -11,8 +11,12 @@ import com.example.roomer.data.room.entities.LocalRoom
 
 @Dao
 interface FavouriteDao {
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun save(newFavourites: List<LocalRoom>)
+    suspend fun save(newFavourite: LocalRoom)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun saveManyFavourites(newFavourites: List<LocalRoom>)
 
     @Delete
     suspend fun delete(room: LocalRoom)

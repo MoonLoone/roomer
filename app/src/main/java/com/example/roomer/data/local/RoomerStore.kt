@@ -16,11 +16,11 @@ class RoomerStore(
     private val currentUser = database.currentUser
 
     override suspend fun addFavourite(room: Room) {
-        favourites.save(listOf(room.toLocalRoom()))
+        favourites.saveManyFavourites(listOf(room.toLocalRoom()))
     }
 
     override suspend fun addManyFavourites(favouriteRooms: List<Room>) {
-        favourites.save(favouriteRooms.map { it.toLocalRoom() })
+        favourites.saveManyFavourites(favouriteRooms.map { it.toLocalRoom() })
     }
 
     override suspend fun isFavouritesEmpty(): Boolean = favourites.count() == 0L
