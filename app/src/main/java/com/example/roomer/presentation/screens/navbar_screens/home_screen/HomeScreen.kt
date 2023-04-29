@@ -61,7 +61,7 @@ fun HomeScreen(
         )
         recommendedRooms.add(
             Room(
-                id = i,
+                0,
                 host = recommendedRoommates[i],
                 fileContent = listOf(Room.Photo(photo = ""))
             )
@@ -164,16 +164,9 @@ fun HomeScreen(
                     items(homeScreenViewModel.testRooms.size - 2) { index ->
                         RoomCard(
                             recommendedRoom = recommendedRooms[index],
-                            true
-                        ) { isLiked ->
-                            if (isLiked) {
-                                homeScreenViewModel.addToFavourites(
-                                    recommendedRooms[index]
-                                )
-                            } else {
-                                homeScreenViewModel.removeLocalFavourite(recommendedRooms[index])
-                            }
-                        }
+                            true,
+                            homeScreenViewModel.housingLike
+                        )
                     }
                 }
             }

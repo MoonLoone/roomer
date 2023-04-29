@@ -68,12 +68,16 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.roomer.R
+import com.example.roomer.data.shared.HousingLikeInterface
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.domain.model.login_sign_up.InterestModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.launch
 
 @Composable
 fun ProfileContentLine(text: String, iconId: Int, onNavigateToFriends: () -> Unit = {}) {
@@ -348,7 +352,7 @@ fun UserCard(recommendedRoommate: User) {
 }
 
 @Composable
-fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean, onLikeClick: (Boolean) -> Unit) {
+fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean, likeHousing: HousingLikeInterface) {
     val cardWidth = if (isMiniVersion) 240.dp else 332.dp
     val cardHeight = if (isMiniVersion) 148.dp else 222.dp
     val imageHeight = if (isMiniVersion) 92.dp else 140.dp
@@ -408,9 +412,15 @@ fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean, onLikeClick: (Boolea
                     .height(dimensionResource(id = R.dimen.big_icon))
                     .clip(RoundedCornerShape(dimensionResource(id = R.dimen.rounded_corner_full)))
                     .clickable {
+                        CoroutineScope(Dispatchers.IO).launch {
+                            if (isLiked) {
+                                likeHousing.dislikeHousing(recommendedRoom)
+                            } else {
+                                likeHousing.likeHousing(recommendedRoom)
+                            }
+                        }
                         isLiked = !isLiked
                         recommendedRoom.isLiked = isLiked
-                        onLikeClick(isLiked)
                     }
             )
         }

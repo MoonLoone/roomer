@@ -3,6 +3,7 @@ package com.example.roomer.presentation.screens.search_screens
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
+import com.example.roomer.data.shared.HousingLikeInterface
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.usecase.search.SearchUseCase
 import com.example.roomer.utils.LoadingStates
@@ -18,7 +19,8 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class SearchRoomResultsViewModel @Inject constructor(
-    private val roomerRepository: RoomerRepositoryInterface
+    private val roomerRepository: RoomerRepositoryInterface,
+    val housingLike: HousingLikeInterface
 ) : ViewModel() {
     private val _rooms = MutableStateFlow(emptyList<Room>())
     val rooms: StateFlow<List<Room>> = _rooms

@@ -1,9 +1,10 @@
 package com.example.roomer.domain.model.entities
 
+import com.example.roomer.data.room.entities.LocalRoom
+import com.example.roomer.data.room.entities.RoomWithHost
 import com.google.gson.annotations.SerializedName
 
 data class Room(
-    val id: Int = 0,
     @SerializedName("month_price")
     val monthPrice: Int = 0,
     @SerializedName("host")
@@ -23,8 +24,28 @@ data class Room(
     val location: String = "Ordinary location",
     val title: String = "Ordinary location",
     var isLiked: Boolean = false
-) {
+) : BaseEntity() {
     data class Photo(
         val photo: String
     )
 }
+
+fun Room.toLocalRoom() = LocalRoom(
+    id,
+    monthPrice,
+    host?.userId ?: 0,
+    description,
+    fileContent,
+    bathroomsCount,
+    bedroomsCount,
+    housingType,
+    sharingType,
+    location,
+    title,
+    isLiked
+)
+
+fun Room.toRoomWithHost() = RoomWithHost(
+    room = this.toLocalRoom(),
+    host = null
+)
