@@ -95,7 +95,7 @@ fun UserDetailsScreen(
                 dimensionResource(id = R.dimen.column_elements_small_margin)
             )
         ) {
-            DetailsHeadline { 
+            DetailsHeadline {
                 navigator.popBackStack()
             }
             UserAvatar(avatarUrl = user.avatar)
@@ -114,13 +114,14 @@ fun UserDetailsScreen(
                         R.string.status,
                         Constants.Options.employmentOptions[user.employment]?.let {
                             stringResource(id = it)
-                        } ?: ""),
+                        } ?: ""
+                    ),
                     Pair(
                         R.string.personality_type_label_colon,
                         Constants.Options.personalityOptions[user.personalityType]?.let {
                             stringResource(id = it)
                         } ?: ""
-                    ),
+                    )
                 ),
                 Random.nextInt(1, 10),
                 textStyleHeadlineMedium,
@@ -210,7 +211,7 @@ fun UserTraitsWithCommentsButton(
     traitIdToValue: List<Pair<Int, String>>,
     totalComments: Int,
     traitKeyStyle: TextStyle,
-    traitValueStyle: TextStyle,
+    traitValueStyle: TextStyle
 ) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(
