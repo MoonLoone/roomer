@@ -1,5 +1,6 @@
 package com.example.roomer.presentation.screens.shared_screens
 
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -32,7 +34,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -55,7 +56,10 @@ import kotlin.random.Random
 
 @Destination
 @Composable
-fun UserDetailsScreen(user: User, navigator: DestinationsNavigator) {
+fun UserDetailsScreen(
+    user: User,
+    navigator: DestinationsNavigator
+) {
     NavbarManagement.hideNavbar()
     val textStyleHeadline = TextStyle(
         color = colorResource(id = R.color.black),
@@ -91,36 +95,10 @@ fun UserDetailsScreen(user: User, navigator: DestinationsNavigator) {
                 dimensionResource(id = R.dimen.column_elements_small_margin)
             )
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                BackBtn {
-                    navigator.popBackStack()
-                }
-                Text(
-                    text = stringResource(R.string.details_header),
-                    fontSize = integerResource(
-                        id = R.integer.label_text
-                    ).sp,
-                    textAlign = TextAlign.Center,
-                    fontWeight = FontWeight.Medium,
-                    modifier = Modifier.fillMaxWidth()
-                )
+            DetailsHeadline { 
+                navigator.popBackStack()
             }
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(user.avatar)
-                    .crossfade(true)
-                    .build(),
-                placeholder = painterResource(id = R.drawable.usual_client),
-                contentDescription = stringResource(id = R.string.user_avatar_content_description),
-                modifier = Modifier
-                    .size(dimensionResource(R.dimen.user_details_avatar))
-                    .clip(RoundedCornerShape(8.dp)),
-                contentScale = ContentScale.Crop
-            )
+            UserAvatar(avatarUrl = user.avatar)
             UserHeadline(
                 firstName = user.firstName,
                 lastName = user.lastName,
@@ -128,147 +106,37 @@ fun UserDetailsScreen(user: User, navigator: DestinationsNavigator) {
                 sex = user.sex,
                 textStyleHeadline
             )
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    painter = painterResource(id = R.drawable.location_icon),
-                    contentDescription = stringResource(
-                        R.string.location_icon_description
-                    ),
-                    tint = colorResource(id = R.color.black)
-                )
-                Text(
-                    text = user.city ?: "",
-                    fontSize = integerResource(id = R.integer.medium_text).sp,
-                    fontWeight = FontWeight.Normal
-                )
-            }
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(
-                    dimensionResource(id = R.dimen.column_elements_small_margin)
-                )
-            ) {
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(
-                        dimensionResource(id = R.dimen.column_elements_small_margin)
-                    ),
-                    horizontalAlignment = Alignment.Start
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.rating_and_colon),
-                        style = textStyleHeadlineMedium
-                    )
-                    Text(
-                        text = stringResource(id = R.string.status),
-                        style = textStyleHeadlineMedium
-                    )
-                    Text(
-                        text = stringResource(id = R.string.personality_type_label_colon),
-                        style = textStyleHeadlineMedium
-                    )
-                }
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(
-                        dimensionResource(id = R.dimen.column_elements_small_margin)
-                    ),
-                    horizontalAlignment = Alignment.Start
-                ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(text = user.rating.toString(), style = textStyleSecondary)
-                        Icon(
-                            modifier = Modifier
-                                .size(dimensionResource(id = R.dimen.small_icon)),
-                            painter = painterResource(id = R.drawable.rating_icon),
-                            contentDescription = stringResource(
-                                id = R.string.rating_star_content_description
-                            ),
-                            tint = colorResource(id = R.color.text_secondary)
-                        )
-                    }
-                    Text(
-                        text = Constants.Options.employmentOptions[user.employment]?.let {
+            UserLocation(user.city ?: "")
+            UserTraitsWithCommentsButton(
+                listOf(
+                    Pair(R.string.rating_and_colon, user.rating.toString()),
+                    Pair(
+                        R.string.status,
+                        Constants.Options.employmentOptions[user.employment]?.let {
                             stringResource(id = it)
-                        } ?: "",
-                        style = textStyleSecondary
-                    )
-                    Text(
-                        text = Constants.Options.personalityOptions[user.personalityType]?.let {
+                        } ?: ""),
+                    Pair(
+                        R.string.personality_type_label_colon,
+                        Constants.Options.personalityOptions[user.personalityType]?.let {
                             stringResource(id = it)
-                        } ?: "",
-                        style = textStyleSecondary
-                    )
-                }
-                GreenButtonOutlineIconed(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    text = stringResource(
-                        id = R.string.comments_amount,
-                        Random.nextInt(5, 10)
+                        } ?: ""
                     ),
-                    trailingIconPainterId = R.drawable.double_arrow_icon,
-                    trailingIconDescriptionId = R.string.double_arrow_icon_description
-                ) { }
-            }
+                ),
+                Random.nextInt(1, 10),
+                textStyleHeadlineMedium,
+                textStyleSecondary
+            )
             ChapterHeadline(
                 headline = stringResource(id = R.string.about_me),
                 textStyle = textStyleHeadline
             )
             ExpandableText(text = user.aboutMe ?: "", style = textStyleSecondary)
-//            Text(text = user.aboutMe ?: "", style = textStyleSecondary)
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(
-                    dimensionResource(id = R.dimen.list_elements_margin)
-                ),
-                modifier = Modifier
-                    .horizontalScroll(interestsScroll)
-            ) {
-                user.interests?.let {
-                    it.forEach {
-                        GreenButtonOutline(text = it.interest) {}
-                    }
-                }
-            }
-            ChapterHeadline(
-                headline = stringResource(id = R.string.habits_title),
-                textStyle = textStyleHeadline
-            )
-            HabitsTable(
-                habitsList = listOf(
-                    HabitTileModel(
-                        R.drawable.alcohol_icon,
-                        R.string.alcohol_icon_description,
-                        R.string.attitude_to_alcohol_label,
-                        Constants.Options.attitudeOptions.getOrDefault(user.alcoholAttitude, 0)
-                    ),
-                    HabitTileModel(
-                        R.drawable.smoking_icon,
-                        R.string.smoking_icon_description,
-                        R.string.attitude_to_smoking_label,
-                        Constants.Options.attitudeOptions.getOrDefault(user.smokingAttitude, 0)
-                    ),
-                    HabitTileModel(
-                        R.drawable.sleep_time_icon,
-                        R.string.sleep_time_icon_description,
-                        R.string.sleep_time_label,
-                        Constants.Options.sleepOptions.getOrDefault(user.sleepTime, 0)
-                    ),
-                    HabitTileModel(
-                        R.drawable.clean_habits_icon,
-                        R.string.clean_habits_icon_description,
-                        R.string.clean_habits_label,
-                        Constants.Options.cleanOptions.getOrDefault(user.cleanHabits, 0)
-                    ),
-                    HabitTileModel(
-                        R.drawable.personality_icon,
-                        R.string.personality_icon,
-                        R.string.personality_type_label,
-                        Constants.Options.personalityOptions.getOrDefault(user.personalityType, 0)
-                    )
-                )
-            )
+            InterestsScroll(user.interests, interestsScroll)
+            HabitsSection(headlineStyle = textStyleHeadline, user = user)
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(56.dp)
+                    .height(dimensionResource(id = R.dimen.bottom_padding))
             )
         }
         Row(
@@ -277,49 +145,241 @@ fun UserDetailsScreen(user: User, navigator: DestinationsNavigator) {
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-            FloatingActionButton(
-                onClick = { },
-                backgroundColor = colorResource(id = R.color.primary_dark),
-                shape = RoundedCornerShape(8.dp),
-                contentColor = colorResource(id = R.color.secondary_color)
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(
-                        dimensionResource(id = R.dimen.icon_text_medium_margin)
-                    ),
-                    modifier = Modifier
-                        .padding(16.dp)
-                ) {
-                    Icon(
-                        modifier = Modifier.size(dimensionResource(id = R.dimen.ordinary_icon)),
-                        painter = painterResource(id = R.drawable.rating_icon),
-                        contentDescription = stringResource(
-                            id = R.string.rating_star_content_description
-                        ),
-                        tint = colorResource(id = R.color.secondary_color)
-                    )
-                    Text(text = stringResource(id = R.string.rate_button_text))
-                }
-            }
-            FloatingActionButton(
-                onClick = { },
-                backgroundColor = colorResource(id = R.color.primary_dark),
-                shape = RoundedCornerShape(8.dp),
-                contentColor = colorResource(id = R.color.secondary_color)
-            ) {
-                Icon(
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .size(dimensionResource(id = R.dimen.big_icon)),
-                    painter = painterResource(id = R.drawable.big_envelope_icon),
-                    contentDescription = stringResource(
-                        id = R.string.envelope_icon_description
-                    ),
-                    tint = colorResource(id = R.color.secondary_color)
+            RateFab {}
+            MessageFab {}
+        }
+    }
+}
+
+@Composable
+fun UserAvatar(avatarUrl: String) {
+    AsyncImage(
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(avatarUrl)
+            .crossfade(true)
+            .build(),
+        placeholder = painterResource(id = R.drawable.usual_client),
+        contentDescription = stringResource(id = R.string.user_avatar_content_description),
+        modifier = Modifier
+            .size(dimensionResource(R.dimen.user_avatar_size))
+            .clip(RoundedCornerShape(dimensionResource(id = R.dimen.user_avatar_corner_radius))),
+        contentScale = ContentScale.Crop
+    )
+}
+
+@Composable
+fun UserLocation(city: String) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Icon(
+            painter = painterResource(id = R.drawable.location_icon),
+            contentDescription = stringResource(
+                R.string.location_icon_description
+            ),
+            tint = colorResource(id = R.color.black)
+        )
+        Text(
+            text = city,
+            fontSize = integerResource(id = R.integer.medium_text).sp,
+            fontWeight = FontWeight.Normal
+        )
+    }
+}
+
+@Composable
+fun DetailsHeadline(onBackClick: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        BackBtn {
+            onBackClick()
+        }
+        Text(
+            text = stringResource(R.string.details_header),
+            fontSize = integerResource(id = R.integer.label_text).sp,
+            textAlign = TextAlign.Center,
+            fontWeight = FontWeight.Medium,
+            modifier = Modifier.fillMaxWidth()
+        )
+    }
+}
+
+@Composable
+fun UserTraitsWithCommentsButton(
+    traitIdToValue: List<Pair<Int, String>>,
+    totalComments: Int,
+    traitKeyStyle: TextStyle,
+    traitValueStyle: TextStyle,
+) {
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(
+            dimensionResource(id = R.dimen.column_elements_small_margin)
+        )
+    ) {
+        Column(
+            verticalArrangement = Arrangement.spacedBy(
+                dimensionResource(id = R.dimen.column_elements_small_margin)
+            ),
+            horizontalAlignment = Alignment.Start,
+            modifier = Modifier
+                .width(dimensionResource(id = R.dimen.user_traits_column_width))
+        ) {
+            traitIdToValue.forEach {
+                Text(
+                    text = stringResource(id = it.first),
+                    style = traitKeyStyle
                 )
             }
         }
+        Column(
+            verticalArrangement = Arrangement.spacedBy(
+                dimensionResource(id = R.dimen.column_elements_small_margin)
+            ),
+            horizontalAlignment = Alignment.Start,
+            modifier = Modifier
+                .width(dimensionResource(id = R.dimen.user_traits_column_width))
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(text = traitIdToValue[0].second, style = traitValueStyle)
+                Icon(
+                    modifier = Modifier
+                        .size(dimensionResource(id = R.dimen.small_icon)),
+                    painter = painterResource(id = R.drawable.rating_icon),
+                    contentDescription = stringResource(
+                        id = R.string.rating_star_content_description
+                    ),
+                    tint = colorResource(id = R.color.text_secondary)
+                )
+            }
+            Text(
+                text = traitIdToValue[1].second,
+                style = traitValueStyle
+            )
+            Text(
+                text = traitIdToValue[2].second,
+                style = traitValueStyle
+            )
+        }
+        GreenButtonOutlineIconed(
+            modifier = Modifier
+                .fillMaxWidth(),
+            text = stringResource(
+                id = R.string.comments_amount,
+                totalComments
+            ),
+            trailingIconPainterId = R.drawable.double_arrow_icon,
+            trailingIconDescriptionId = R.string.double_arrow_icon_description
+        ) { }
+    }
+}
+
+@Composable
+fun InterestsScroll(interests: List<InterestModel>?, scrollState: ScrollState) {
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(
+            dimensionResource(id = R.dimen.list_elements_margin)
+        ),
+        modifier = Modifier
+            .horizontalScroll(scrollState)
+    ) {
+        interests?.let {
+            it.forEach {
+                GreenButtonOutline(text = it.interest) {}
+            }
+        }
+    }
+}
+
+@Composable
+fun HabitsSection(headlineStyle: TextStyle, user: User) {
+    ChapterHeadline(
+        headline = stringResource(id = R.string.habits_title),
+        textStyle = headlineStyle
+    )
+    HabitsTable(
+        habitsList = listOf(
+            HabitTileModel(
+                R.drawable.alcohol_icon,
+                R.string.alcohol_icon_description,
+                R.string.attitude_to_alcohol_label,
+                Constants.Options.attitudeOptions.getOrDefault(user.alcoholAttitude, 0)
+            ),
+            HabitTileModel(
+                R.drawable.smoking_icon,
+                R.string.smoking_icon_description,
+                R.string.attitude_to_smoking_label,
+                Constants.Options.attitudeOptions.getOrDefault(user.smokingAttitude, 0)
+            ),
+            HabitTileModel(
+                R.drawable.sleep_time_icon,
+                R.string.sleep_time_icon_description,
+                R.string.sleep_time_label,
+                Constants.Options.sleepOptions.getOrDefault(user.sleepTime, 0)
+            ),
+            HabitTileModel(
+                R.drawable.clean_habits_icon,
+                R.string.clean_habits_icon_description,
+                R.string.clean_habits_label,
+                Constants.Options.cleanOptions.getOrDefault(user.cleanHabits, 0)
+            ),
+            HabitTileModel(
+                R.drawable.personality_icon,
+                R.string.personality_icon,
+                R.string.personality_type_label,
+                Constants.Options.personalityOptions.getOrDefault(user.personalityType, 0)
+            )
+        )
+    )
+}
+
+@Composable
+fun RateFab(onClick: () -> Unit) {
+    FloatingActionButton(
+        onClick = onClick,
+        backgroundColor = colorResource(id = R.color.primary_dark),
+        shape = RoundedCornerShape(dimensionResource(id = R.dimen.fab_corner_radius)),
+        contentColor = colorResource(id = R.color.secondary_color)
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(
+                dimensionResource(id = R.dimen.icon_text_medium_margin)
+            ),
+            modifier = Modifier
+                .padding(dimensionResource(id = R.dimen.fab_padding))
+        ) {
+            Icon(
+                modifier = Modifier.size(dimensionResource(id = R.dimen.ordinary_icon)),
+                painter = painterResource(id = R.drawable.rating_icon),
+                contentDescription = stringResource(
+                    id = R.string.rating_star_content_description
+                ),
+                tint = colorResource(id = R.color.secondary_color)
+            )
+            Text(text = stringResource(id = R.string.rate_button_text))
+        }
+    }
+}
+
+@Composable
+fun MessageFab(onClick: () -> Unit) {
+    FloatingActionButton(
+        onClick = onClick,
+        backgroundColor = colorResource(id = R.color.primary_dark),
+        shape = RoundedCornerShape(dimensionResource(id = R.dimen.fab_corner_radius)),
+        contentColor = colorResource(id = R.color.secondary_color)
+    ) {
+        Icon(
+            modifier = Modifier
+                .padding(dimensionResource(id = R.dimen.fab_padding))
+                .size(dimensionResource(id = R.dimen.big_icon)),
+            painter = painterResource(id = R.drawable.big_envelope_icon),
+            contentDescription = stringResource(
+                id = R.string.envelope_icon_description
+            ),
+            tint = colorResource(id = R.color.secondary_color)
+        )
     }
 }
 

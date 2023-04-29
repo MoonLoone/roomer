@@ -5,6 +5,7 @@ import com.example.roomer.R
 
 object Constants {
     const val BASE_URL = BuildConfig.BASE_URL
+    const val EXP_TEXT_MINIMUM_TEXT_LINE = 3
 
     object ScreensId {
         const val greetingScreenId = 0

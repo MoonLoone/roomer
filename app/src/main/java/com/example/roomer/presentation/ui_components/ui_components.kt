@@ -81,6 +81,7 @@ import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.domain.model.login_sign_up.InterestModel
 import com.example.roomer.presentation.screens.entrance.signup.habits_screen.HabitTileModel
+import com.example.roomer.utils.Constants
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
@@ -1164,7 +1165,6 @@ fun HabitsTable(habitsList: List<HabitTileModel>) {
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         habitsChunked.forEach {
-            Log.d("TABLE_LIST", it.toString())
             Column(
                 verticalArrangement = Arrangement.spacedBy(
                     dimensionResource(id = R.dimen.column_medium_margin)
@@ -1212,7 +1212,6 @@ fun HabitTile(habit: HabitTileModel) {
     }
 }
 
-const val DEFAULT_MINIMUM_TEXT_LINE = 3
 
 @Composable
 fun ExpandableText(
@@ -1221,7 +1220,7 @@ fun ExpandableText(
     style: TextStyle = LocalTextStyle.current,
     fontStyle: FontStyle? = null,
     text: String,
-    collapsedMaxLine: Int = DEFAULT_MINIMUM_TEXT_LINE,
+    collapsedMaxLine: Int = Constants.EXP_TEXT_MINIMUM_TEXT_LINE,
     showMoreText: String = "... Show More",
     showMoreStyle: SpanStyle = SpanStyle(fontWeight = FontWeight.W500),
     showLessText: String = " Show Less",
