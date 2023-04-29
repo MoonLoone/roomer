@@ -68,7 +68,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.roomer.R
-import com.example.roomer.data.shared.HousingLike
+import com.example.roomer.data.shared.HousingLikeInterface
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
@@ -352,7 +352,7 @@ fun UserCard(recommendedRoommate: User) {
 }
 
 @Composable
-fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean, likeHousing: HousingLike) {
+fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean, likeHousing: HousingLikeInterface) {
     val cardWidth = if (isMiniVersion) 240.dp else 332.dp
     val cardHeight = if (isMiniVersion) 148.dp else 222.dp
     val imageHeight = if (isMiniVersion) 92.dp else 140.dp

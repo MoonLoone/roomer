@@ -8,6 +8,7 @@ import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInte
 import com.example.roomer.data.room.RoomerDatabase
 import com.example.roomer.data.room.entities.toRoom
 import com.example.roomer.data.shared.HousingLike
+import com.example.roomer.data.shared.HousingLikeInterface
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.toLocalRoom
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,8 +22,8 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class FavouriteViewModel @Inject constructor(
     private val roomerRepository: RoomerRepositoryInterface,
-    private val roomerDatabase: RoomerDatabase
-) : ViewModel(), HousingLike {
+    val housingLike: HousingLikeInterface
+) : ViewModel() {
 
     val pagingData: MutableStateFlow<Flow<PagingData<Room>>> = MutableStateFlow(emptyFlow())
 
@@ -35,17 +36,5 @@ class FavouriteViewModel @Inject constructor(
                 }
             }
         }
-    }
-
-    override suspend fun dislikeHousing(housing: Room) {
-        viewModelScope.launch {
-            roomerRepository.dislikeHousing(housing.id)
-            roomerDatabase.favourites.deleteById(housing.id)
-        }
-    }
-
-    override suspend fun likeHousing(housing: Room) {
-        roomerRepository.likeHousing(housing.id)
-        roomerDatabase.favourites.save(housing.toLocalRoom())
     }
 }

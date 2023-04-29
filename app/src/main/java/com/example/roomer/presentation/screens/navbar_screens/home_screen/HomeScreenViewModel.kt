@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
 import com.example.roomer.data.shared.HousingLike
+import com.example.roomer.data.shared.HousingLikeInterface
 import com.example.roomer.domain.model.entities.Room
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -11,8 +12,9 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor(
-    private val roomerRepository: RoomerRepositoryInterface
-) : ViewModel(), HousingLike {
+    private val roomerRepository: RoomerRepositoryInterface,
+    val housingLike: HousingLikeInterface,
+) : ViewModel() {
     val testRooms = listOf(
         Room(0),
         Room(1),
@@ -30,13 +32,5 @@ class HomeScreenViewModel @Inject constructor(
         viewModelScope.launch {
             roomerRepository.deleteLocalFavourite(room)
         }
-    }
-
-    override suspend fun likeHousing(housing: Room) {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun dislikeHousing(housing: Room) {
-        TODO("Not yet implemented")
     }
 }

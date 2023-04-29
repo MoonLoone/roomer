@@ -31,7 +31,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.example.roomer.R
-import com.example.roomer.data.shared.HousingLike
+import com.example.roomer.data.shared.HousingLikeInterface
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.presentation.ui_components.RoomCard
 import com.example.roomer.utils.NavbarManagement
@@ -59,7 +59,7 @@ fun FavouriteScreen(
         FavouritesList(
             scrollPosition,
             listOfFavourites,
-            favouriteViewModel
+            favouriteViewModel.housingLike
         )
     }
 }
@@ -68,7 +68,7 @@ fun FavouriteScreen(
 private fun FavouritesList(
     scrollPosition: MutableState<Int>,
     listOfFavourites: LazyPagingItems<Room>?,
-    housingLike: HousingLike
+    housingLike: HousingLikeInterface
 ) {
     val state = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()

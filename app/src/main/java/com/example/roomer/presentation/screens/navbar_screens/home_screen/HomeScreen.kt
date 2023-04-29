@@ -165,7 +165,7 @@ fun HomeScreen(
                         RoomCard(
                             recommendedRoom = recommendedRooms[index],
                             true,
-                            homeScreenViewModel
+                            homeScreenViewModel.housingLike
                         )
                     }
                 }
