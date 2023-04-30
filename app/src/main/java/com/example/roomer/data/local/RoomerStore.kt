@@ -1,13 +1,12 @@
 package com.example.roomer.data.local
 
+import androidx.paging.PagingSource
 import com.example.roomer.data.room.RoomerDatabase
 import com.example.roomer.data.room.entities.LocalCurrentUser
 import com.example.roomer.data.room.entities.LocalRoom
-import com.example.roomer.data.room.entities.RoomWithHost
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 
 class RoomerStore(
     database: RoomerDatabase
@@ -16,15 +15,12 @@ class RoomerStore(
     private val users = database.users
     private val currentUser = database.currentUser
 
-    override suspend fun getFavourites(): Flow<List<Room>> = favourites.queryAll()
-        .map { localRoomList -> localRoomList.map { localRoom -> localRoom.toRoom() } }
-
     override suspend fun addFavourite(room: Room) {
-        favourites.save(listOf(room.toLocalRoom()))
+        favourites.saveManyFavourites(listOf(room.toLocalRoom()))
     }
 
     override suspend fun addManyFavourites(favouriteRooms: List<Room>) {
-        favourites.save(favouriteRooms.map { it.toLocalRoom() })
+        favourites.saveManyFavourites(favouriteRooms.map { it.toLocalRoom() })
     }
 
     override suspend fun isFavouritesEmpty(): Boolean = favourites.count() == 0L
@@ -62,6 +58,10 @@ class RoomerStore(
 
     override suspend fun updateUser(user: User) = users.updateOne(user)
 
+    override fun getPagingFavourites(): PagingSource<Int, LocalRoom> {
+        return favourites.getPagingFavourites()
+    }
+
     private fun Room.toLocalRoom() = LocalRoom(
         id,
         monthPrice,
@@ -76,21 +76,9 @@ class RoomerStore(
         title,
         isLiked
     )
-
-    private fun RoomWithHost.toRoom() = Room(
-        room.roomId,
-        room.monthPrice,
-        host,
-        room.description,
-        room.fileContent,
-        room.bathroomsCount,
-        room.bedroomsCount,
-        room.housingType,
-        room.sharingType,
-        room.location,
-        room.title,
-        room.isLiked
-    )
+    override suspend fun clearFavourites() {
+        favourites.deleteAll()
+    }
 
     private fun LocalCurrentUser.toUser() = User(
         userId,

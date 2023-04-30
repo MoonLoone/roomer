@@ -1,5 +1,7 @@
 package com.example.roomer.data.repository.roomer_repository
 
+import androidx.paging.PagingData
+import com.example.roomer.data.room.entities.LocalRoom
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.MessageNotification
 import com.example.roomer.domain.model.entities.Room
@@ -11,6 +13,14 @@ interface RoomerRepositoryInterface {
 
     suspend fun getChats(userId: Int): Response<List<Message>>
 
+    suspend fun getFavouritesForUser(
+        limit: Int = 10
+    ): Flow<PagingData<LocalRoom>>
+
+    suspend fun likeHousing(housingId: Int): Response<String>
+
+    suspend fun dislikeHousing(housingId: Int): Response<String>
+
     suspend fun getCurrentUserInfo(
         token: String
     ): Response<User>
@@ -19,7 +29,7 @@ interface RoomerRepositoryInterface {
         userId: Int,
         chatId: Int,
         offset: Int = 0,
-        limit: Int = 0
+        limit: Int = 10
     ): Response<List<Message>>
 
     suspend fun getFilterRooms(
@@ -44,8 +54,6 @@ interface RoomerRepositoryInterface {
         cleanHabits: String?,
         interests: Map<String, String>
     ): Response<List<User>>
-
-    suspend fun getLocalFavourites(): Flow<List<Room>>
 
     suspend fun addLocalFavourite(room: Room)
 

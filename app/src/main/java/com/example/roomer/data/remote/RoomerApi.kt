@@ -10,9 +10,11 @@ import com.example.roomer.domain.model.login_sign_up.LoginDto
 import com.example.roomer.domain.model.login_sign_up.SignUpDataModel
 import com.example.roomer.domain.model.login_sign_up.SignUpModel
 import com.example.roomer.domain.model.login_sign_up.TokenDto
+import com.example.roomer.domain.model.pojo.Favourite
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Multipart
@@ -96,4 +98,23 @@ interface RoomerApi {
     suspend fun getNotifications(
         @Query("user_id") userId: Int
     ): Response<List<MessageNotification>>
+
+    @POST("/favourites/")
+    suspend fun addToFavourite(
+        @Query("user_id") userId: Int,
+        @Query("housing_id") housingId: Int
+    ): Response<String>
+
+    @DELETE("/favourites/")
+    suspend fun deleteFavourite(
+        @Query("user_id") userId: Int,
+        @Query("housing_id") housingId: Int
+    ): Response<String>
+
+    @GET("/favourites/")
+    suspend fun getFavourites(
+        @Query("user_id") userId: Int,
+        @Query("offset") offset: Int,
+        @Query("limit") limit: Int
+    ): Response<List<Favourite>>
 }
