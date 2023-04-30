@@ -72,8 +72,12 @@ import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.domain.model.login_sign_up.InterestModel
+import com.example.roomer.presentation.screens.destinations.RoomDetailsScreenDestination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
+
+
 
 @Composable
 fun ProfileContentLine(text: String, iconId: Int, onNavigateToFriends: () -> Unit = {}) {
@@ -348,7 +352,8 @@ fun UserCard(recommendedRoommate: User) {
 }
 
 @Composable
-fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean, onLikeClick: (Boolean) -> Unit) {
+fun RoomCard(navigator: DestinationsNavigator,
+             recommendedRoom: Room, isMiniVersion: Boolean, onLikeClick: (Boolean) -> Unit) {
     val cardWidth = if (isMiniVersion) 240.dp else 332.dp
     val cardHeight = if (isMiniVersion) 148.dp else 222.dp
     val imageHeight = if (isMiniVersion) 92.dp else 140.dp
@@ -367,6 +372,9 @@ fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean, onLikeClick: (Boolea
                 color = colorResource(id = R.color.primary_dark),
                 shape = RoundedCornerShape(16.dp)
             )
+            .clickable {
+                navigator.navigate(RoomDetailsScreenDestination(recommendedRoom))
+            }
     ) {
         var isLiked by remember {
             mutableStateOf(recommendedRoom.isLiked)

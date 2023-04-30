@@ -161,4 +161,5 @@
     <string name="want_to_start_new_chat">Хотите начать новый чат?</string>
     <string name="login_button_text">Войти</string>
     <string name="not_integer">Не число</string>
+    <string name="details">Детали</string>
 </resources>

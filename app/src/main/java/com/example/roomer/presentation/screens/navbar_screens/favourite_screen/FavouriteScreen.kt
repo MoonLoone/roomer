@@ -49,7 +49,8 @@ fun FavouriteScreen(
             )
         }
         items(listOfFavourites.size) { index ->
-            RoomCard(recommendedRoom = listOfFavourites[index], isMiniVersion = false) { isLiked ->
+            RoomCard(navigator=navigator,
+                recommendedRoom = listOfFavourites[index], isMiniVersion = false) { isLiked ->
                 if (isLiked) {
                     favouriteViewModel.addToFavourites(listOfFavourites[index])
                 } else {

@@ -162,7 +162,7 @@ fun HomeScreen(
                     )
                 ) {
                     items(homeScreenViewModel.testRooms.size - 2) { index ->
-                        RoomCard(
+                        RoomCard(navigator=navigator,
                             recommendedRoom = recommendedRooms[index],
                             true
                         ) { isLiked ->
