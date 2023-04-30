@@ -153,7 +153,7 @@ fun UserDetailsScreen(
 }
 
 @Composable
-fun UserAvatar(avatarUrl: String) {
+private fun UserAvatar(avatarUrl: String) {
     AsyncImage(
         model = ImageRequest.Builder(LocalContext.current)
             .data(avatarUrl)
@@ -169,7 +169,7 @@ fun UserAvatar(avatarUrl: String) {
 }
 
 @Composable
-fun UserLocation(city: String) {
+private fun UserLocation(city: String) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Icon(
             painter = painterResource(id = R.drawable.location_icon),
@@ -187,7 +187,7 @@ fun UserLocation(city: String) {
 }
 
 @Composable
-fun DetailsHeadline(onBackClick: () -> Unit) {
+private fun DetailsHeadline(onBackClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth(),
@@ -207,7 +207,7 @@ fun DetailsHeadline(onBackClick: () -> Unit) {
 }
 
 @Composable
-fun UserTraitsWithCommentsButton(
+private fun UserTraitsWithCommentsButton(
     traitIdToValue: List<Pair<Int, String>>,
     totalComments: Int,
     traitKeyStyle: TextStyle,
@@ -276,7 +276,7 @@ fun UserTraitsWithCommentsButton(
 }
 
 @Composable
-fun InterestsScroll(interests: List<InterestModel>?, scrollState: ScrollState) {
+private fun InterestsScroll(interests: List<InterestModel>?, scrollState: ScrollState) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(
             dimensionResource(id = R.dimen.list_elements_margin)
@@ -293,7 +293,7 @@ fun InterestsScroll(interests: List<InterestModel>?, scrollState: ScrollState) {
 }
 
 @Composable
-fun HabitsSection(headlineStyle: TextStyle, user: User) {
+private fun HabitsSection(headlineStyle: TextStyle, user: User) {
     ChapterHeadline(
         headline = stringResource(id = R.string.habits_title),
         textStyle = headlineStyle
@@ -335,7 +335,7 @@ fun HabitsSection(headlineStyle: TextStyle, user: User) {
 }
 
 @Composable
-fun RateFab(onClick: () -> Unit) {
+private fun RateFab(onClick: () -> Unit) {
     FloatingActionButton(
         onClick = onClick,
         backgroundColor = colorResource(id = R.color.primary_dark),
@@ -364,7 +364,7 @@ fun RateFab(onClick: () -> Unit) {
 }
 
 @Composable
-fun MessageFab(onClick: () -> Unit) {
+private fun MessageFab(onClick: () -> Unit) {
     FloatingActionButton(
         onClick = onClick,
         backgroundColor = colorResource(id = R.color.primary_dark),
@@ -385,7 +385,7 @@ fun MessageFab(onClick: () -> Unit) {
 }
 
 @Composable
-fun UserHeadline(
+private fun UserHeadline(
     firstName: String,
     lastName: String,
     birthDate: String,
@@ -412,7 +412,7 @@ fun UserHeadline(
 }
 
 @Composable
-fun ChapterHeadline(headline: String, textStyle: TextStyle) {
+private fun ChapterHeadline(headline: String, textStyle: TextStyle) {
     Column(
         verticalArrangement = Arrangement.spacedBy(
             dimensionResource(id = R.dimen.list_elements_margin)
