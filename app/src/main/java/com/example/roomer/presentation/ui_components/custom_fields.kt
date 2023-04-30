@@ -188,15 +188,17 @@ fun SexField(
                 GreenButtonOutlineIconed(
                     text = stringResource(R.string.female),
                     onClick = { onValueChange("F") },
-                    trailingIcon = Icons.Filled.Female,
-                    enabled = enabled
+                    enabled = enabled,
+                    trailingIconPainterId = R.drawable.sex_female_in_icon,
+                    trailingIconDescriptionId = R.string.female_icon
                 )
             } else {
                 GreenButtonOutlineIconed(
                     text = stringResource(R.string.male),
                     onClick = { onValueChange("M") },
-                    trailingIcon = Icons.Filled.Male,
-                    enabled = enabled
+                    enabled = enabled,
+                    trailingIconPainterId = R.drawable.sex_male_in_icon,
+                    trailingIconDescriptionId = R.string.male_icon
                 )
                 GreenButtonPrimaryIconed(
                     text = stringResource(R.string.female),

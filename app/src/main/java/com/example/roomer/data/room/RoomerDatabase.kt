@@ -10,7 +10,7 @@ import com.example.roomer.data.room.entities.LocalCurrentUser
 import com.example.roomer.data.room.entities.LocalRoom
 import com.example.roomer.domain.model.entities.User
 
-@Database(entities = [LocalRoom::class, User::class, LocalCurrentUser::class], version = 4)
+@Database(entities = [LocalRoom::class, User::class, LocalCurrentUser::class], version = 5)
 @TypeConverters(RoomerConverters::class)
 abstract class RoomerDatabase : RoomDatabase() {
     abstract val favourites: FavouriteDao

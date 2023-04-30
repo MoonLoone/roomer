@@ -94,7 +94,9 @@ class RoomerStore(
         cleanHabits,
         rating,
         interests,
-        city
+        city,
+        birthDate,
+        aboutMe
     )
 
     private fun User.toLocalCurrentUser() = LocalCurrentUser(
@@ -111,6 +113,8 @@ class RoomerStore(
         cleanHabits,
         rating,
         interests,
-        city
+        city,
+        birthDate,
+        aboutMe
     )
 }

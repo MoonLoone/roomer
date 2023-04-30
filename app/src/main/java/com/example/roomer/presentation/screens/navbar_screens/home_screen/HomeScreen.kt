@@ -34,6 +34,7 @@ import com.example.roomer.R
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.presentation.screens.destinations.SearchRoomScreenDestination
+import com.example.roomer.presentation.screens.destinations.UserDetailsScreenDestination
 import com.example.roomer.presentation.ui_components.RoomCard
 import com.example.roomer.presentation.ui_components.SearchField
 import com.example.roomer.presentation.ui_components.UserCard
@@ -140,7 +141,11 @@ fun HomeScreen(
                     )
                 ) {
                     items(recommendedRoommates.size - 2) { index ->
-                        UserCard(recommendedRoommate = recommendedRoommates[index])
+                        UserCard(recommendedRoommate = recommendedRoommates[index]) {
+                            navigator.navigate(
+                                UserDetailsScreenDestination(recommendedRoommates[index])
+                            )
+                        }
                     }
                 }
             }
@@ -188,7 +193,11 @@ fun HomeScreen(
                     )
                 ) {
                     items(recommendedRoommates.size) { index ->
-                        UserCard(recommendedRoommate = recommendedRoommates[index])
+                        UserCard(recommendedRoommate = recommendedRoommates[index]) {
+                            navigator.navigate(
+                                UserDetailsScreenDestination(recommendedRoommates[index])
+                            )
+                        }
                     }
                 }
             }
