@@ -43,7 +43,8 @@ class ChatScreenViewModel @AssistedInject constructor(
     private val _socketConnectionState: MutableState<Boolean> = mutableStateOf(true)
     val socketConnectionState: State<Boolean> = _socketConnectionState
     val pagingData: MutableStateFlow<Flow<PagingData<Message>>> = MutableStateFlow(emptyFlow())
-    private var currentUser = User()
+    private val _currentUser = mutableStateOf(User())
+    val currentUser: State<User> =  _currentUser
 
     @AssistedFactory
     interface Factory {
@@ -52,9 +53,9 @@ class ChatScreenViewModel @AssistedInject constructor(
 
     init {
         viewModelScope.launch {
-            currentUser = roomerRepository.getLocalCurrentUser()
-            val chatId = (currentUser.userId + recipientUser.userId).toString()
-            chatClientWebSocket.open(currentUser.userId, recipientUser.userId)
+            _currentUser.value = roomerRepository.getLocalCurrentUser()
+            val chatId = (_currentUser.value.userId + recipientUser.userId).toString()
+            chatClientWebSocket.open(_currentUser.value.userId, recipientUser.userId)
             val response = roomerRepository.getMessages(chatId = chatId)
             pagingData.value = response
                 .map {
@@ -71,7 +72,7 @@ class ChatScreenViewModel @AssistedInject constructor(
                 if (socketConnectionState.value) {
                     val messageJson = createJson(
                         Pair("message", message),
-                        Pair("donor_id", currentUser.userId),
+                        Pair("donor_id", _currentUser.value.userId),
                         Pair("recipient_id", recipientUser.userId)
                     )
                     chatClientWebSocket.sendMessage(messageJson)

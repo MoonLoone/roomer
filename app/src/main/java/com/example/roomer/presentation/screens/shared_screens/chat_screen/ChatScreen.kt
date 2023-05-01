@@ -99,7 +99,8 @@ fun ChatScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
-                .padding(bottom = 8.dp)
+                .padding(bottom = 8.dp),
+            viewModel.currentUser.value,
         )
         EnterMessage(
             editMessageText = messageText,
@@ -157,20 +158,17 @@ private fun TopLine(
 private fun MessagesList(
     messages: LazyPagingItems<Message>,
     modifier: Modifier = Modifier,
+    currentUser: User,
 ) {
     val lazyListState: LazyListState = rememberLazyListState()
-    val coroutineScope = rememberCoroutineScope()
     LazyColumn(modifier = modifier, state = lazyListState, reverseLayout = true) {
         items(messages) { item ->
             item?.let { message ->
                 Message(
-                    isUserMessage = message.donor == User(),
+                    isUserMessage = message.donor.userId == currentUser.userId,
                     text = message.text,
                     data = message.dateTime
                 )
-                LaunchedEffect(coroutineScope) {
-
-                }
             }
         }
     }
