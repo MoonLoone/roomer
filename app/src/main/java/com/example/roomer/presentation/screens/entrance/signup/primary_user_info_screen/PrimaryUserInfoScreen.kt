@@ -33,7 +33,7 @@ import com.example.roomer.presentation.ui_components.GreenButtonPrimary
 import com.example.roomer.presentation.ui_components.SexField
 import com.example.roomer.presentation.ui_components.SimpleAlertDialog
 import com.example.roomer.presentation.ui_components.UsualTextField
-import com.example.roomer.utils.SignUpNavGraph
+import com.example.roomer.utils.navigation.SignUpNavGraph
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 

@@ -2,12 +2,14 @@
 <resources>
     <dimen name="screen_top_margin">12.dp</dimen>
     <dimen name="screen_bottom_margin">12.dp</dimen>
+    <dimen name="column_medium_margin">14.dp</dimen>
     <dimen name="screen_start_margin">40.dp</dimen>
     <dimen name="screen_end_margin">40.dp</dimen>
     <dimen name="navbar_height">80.dp</dimen>
     <integer name="primary_text">16</integer>
     <integer name="secondary_text">12</integer>
     <integer name="big_text">20</integer>
+    <integer name="medium_text">16</integer>
     <integer name="label_text">24</integer>
     <dimen name="tine_icon">14.dp</dimen>
     <dimen name="small_icon">16.dp</dimen>
@@ -25,7 +27,9 @@
     <dimen name="chat_row_height">64.dp</dimen>
     <dimen name="small_avatar_image">56.dp</dimen>
     <dimen name="ordinary_border">1.dp</dimen>
+    <dimen name="icon_text_medium_margin">12.dp</dimen>
     <dimen name="info_about_me_field">112.dp</dimen>
+    <integer name="button_outline_font_size">12</integer>
 
     <!--Filters screens-->
     <dimen name="screen_nav_bottom_margin">40.dp</dimen>
@@ -36,4 +40,12 @@
     <dimen name="spacer">100.dp</dimen>
     <dimen name="num_field_width">120.dp</dimen>
     <dimen name="num_field_height">56.dp</dimen>
+
+    <!--Details screens-->
+    <dimen name="user_avatar_size">192.dp</dimen>
+    <dimen name="user_avatar_corner_radius">8.dp</dimen>
+    <dimen name="fab_corner_radius">8.dp</dimen>
+    <dimen name="fab_padding">16.dp</dimen>
+    <dimen name="bottom_padding">56.dp</dimen>
+    <dimen name="user_traits_column_width">90.dp</dimen>
 </resources>

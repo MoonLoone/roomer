@@ -7,6 +7,7 @@ import android.os.Build
 import android.provider.MediaStore
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -25,6 +26,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -37,6 +39,7 @@ import androidx.compose.material.icons.filled.PhotoCamera
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -59,10 +62,14 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -73,6 +80,8 @@ import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.domain.model.login_sign_up.InterestModel
+import com.example.roomer.presentation.screens.entrance.signup.habits_screen.HabitTileModel
+import com.example.roomer.utils.Constants
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -294,7 +303,7 @@ fun Message(isUserMessage: Boolean, text: String, data: String) {
 }
 
 @Composable
-fun UserCard(recommendedRoommate: User) {
+fun UserCard(recommendedRoommate: User, onClick: () -> Unit) {
     Column(
         modifier = Modifier
             .height(148.dp)
@@ -303,13 +312,14 @@ fun UserCard(recommendedRoommate: User) {
                 color = colorResource(id = R.color.primary),
                 shape = RoundedCornerShape(8.dp)
             )
+            .clickable { onClick() }
     ) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
                 .data(recommendedRoommate.avatar)
                 .crossfade(true)
                 .build(),
-            placeholder = painterResource(R.drawable.ordinnary_user),
+            placeholder = painterResource(R.drawable.ordinary_user),
             contentDescription = recommendedRoommate.firstName + recommendedRoommate.lastName,
             modifier = Modifier
                 .fillMaxWidth()
@@ -390,7 +400,7 @@ fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean, likeHousing: Housing
                     .data(photo)
                     .crossfade(true)
                     .build(),
-                placeholder = painterResource(id = R.drawable.ordinnary_room),
+                placeholder = painterResource(id = R.drawable.ordinary_room),
                 contentDescription = stringResource(id = R.string.room_image_description),
                 modifier = Modifier
                     .fillMaxSize(),
@@ -591,9 +601,10 @@ fun GreenButtonPrimaryIconed(
 fun GreenButtonOutlineIconed(
     text: String,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit,
-    trailingIcon: ImageVector,
-    enabled: Boolean = true
+    trailingIconPainterId: Int,
+    trailingIconDescriptionId: Int,
+    enabled: Boolean = true,
+    onClick: () -> Unit
 ) {
     Button(
         onClick = onClick,
@@ -610,14 +621,21 @@ fun GreenButtonOutlineIconed(
         enabled = enabled,
         interactionSource = NoRippleInteractionSource()
     ) {
-        Icon(
-            trailingIcon,
-            stringResource(R.string.none_content_description),
-            tint = colorResource(id = R.color.primary_dark)
-        )
-        androidx.compose.material.Text(
-            text = text
-        )
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                painterResource(id = trailingIconPainterId),
+                stringResource(id = trailingIconDescriptionId),
+                tint = colorResource(id = R.color.primary_dark),
+                modifier = Modifier.size(dimensionResource(id = R.dimen.small_icon))
+            )
+            androidx.compose.material.Text(
+                text = text,
+                fontSize = integerResource(id = R.integer.button_outline_font_size).sp
+            )
+        }
     }
 }
 
@@ -644,7 +662,8 @@ fun GreenButtonOutline(
         interactionSource = NoRippleInteractionSource()
     ) {
         androidx.compose.material.Text(
-            text = text
+            text = text,
+            fontSize = integerResource(id = R.integer.button_outline_font_size).sp
         )
     }
 }
@@ -951,7 +970,7 @@ fun FilterSelect(selectItemName: String, onNavigateToFriends: () -> Unit) {
 }
 
 @Composable
-fun UserCardResult(searchUser: User) {
+fun UserCardResult(searchUser: User, onClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -960,13 +979,14 @@ fun UserCardResult(searchUser: User) {
                 color = colorResource(id = R.color.primary),
                 shape = RoundedCornerShape(20.dp)
             )
+            .clickable { onClick() }
     ) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
                 .data(searchUser.avatar)
                 .crossfade(true)
                 .build(),
-            placeholder = painterResource(id = R.drawable.ordinnary_user),
+            placeholder = painterResource(id = R.drawable.ordinary_user),
             contentDescription = searchUser.firstName,
             modifier = Modifier
                 .fillMaxHeight()
@@ -1004,7 +1024,7 @@ fun UserCardResult(searchUser: User) {
                         .align(Alignment.CenterVertically)
                 )
                 Text(
-                    text = "Moscow",
+                    text = searchUser.city ?: "",
                     style = TextStyle(
                         fontSize = integerResource(id = R.integer.primary_text).sp,
                         color = Color.Black
@@ -1142,6 +1162,121 @@ fun SimpleAlertDialog(
             )
         }
     )
+}
+
+@Composable
+fun HabitsTable(habitsList: List<HabitTileModel>) {
+    val chunkSize = if (habitsList.size % 2 == 0) habitsList.size / 2 else habitsList.size / 2 + 1
+    val habitsChunked = habitsList.chunked(chunkSize)
+    Row(
+        modifier = Modifier
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        habitsChunked.forEach {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(
+                    dimensionResource(id = R.dimen.column_medium_margin)
+                )
+            ) {
+                it.forEach { HabitTile(habit = it) }
+            }
+        }
+    }
+}
+
+@Composable
+fun HabitTile(habit: HabitTileModel) {
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(
+            dimensionResource(id = R.dimen.column_elements_small_margin)
+        ),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            modifier = Modifier
+                .size(dimensionResource(id = R.dimen.ordinary_icon)),
+            painter = painterResource(habit.painterId),
+            contentDescription = stringResource(id = habit.iconDescriptionId),
+            tint = colorResource(id = R.color.black)
+        )
+        Column {
+            Text(
+                text = stringResource(habit.habitKey),
+                color = colorResource(id = R.color.primary_dark),
+                fontSize = integerResource(
+                    id = R.integer.medium_text
+                ).sp,
+                fontWeight = FontWeight.Medium
+            )
+            Text(
+                text = stringResource(habit.habitValue),
+                color = colorResource(id = R.color.black),
+                fontSize = integerResource(
+                    id = R.integer.medium_text
+                ).sp,
+                fontWeight = FontWeight.Normal
+            )
+        }
+    }
+}
+
+@Composable
+fun ExpandableText(
+    modifier: Modifier = Modifier,
+    textModifier: Modifier = Modifier,
+    style: TextStyle = LocalTextStyle.current,
+    fontStyle: FontStyle? = null,
+    text: String,
+    collapsedMaxLine: Int = Constants.EXP_TEXT_MINIMUM_TEXT_LINE,
+    showMoreText: String = "... Show More",
+    showMoreStyle: SpanStyle = SpanStyle(fontWeight = FontWeight.W500),
+    showLessText: String = " Show Less",
+    showLessStyle: SpanStyle = showMoreStyle,
+    textAlign: TextAlign? = null
+) {
+    var isExpanded by remember { mutableStateOf(false) }
+    var clickable by remember { mutableStateOf(false) }
+    var lastCharIndex by remember { mutableStateOf(0) }
+    Box(
+        modifier = Modifier
+            .clickable(clickable) {
+                isExpanded = !isExpanded
+            }
+            .then(modifier)
+    ) {
+        Text(
+            modifier = textModifier
+                .fillMaxWidth()
+                .animateContentSize(),
+            text = buildAnnotatedString {
+                if (clickable) {
+                    if (isExpanded) {
+                        append(text)
+                        withStyle(style = showLessStyle) { append(showLessText) }
+                    } else {
+                        val adjustText = text.substring(startIndex = 0, endIndex = lastCharIndex)
+                            .dropLast(showMoreText.length)
+                            .dropLastWhile { Character.isWhitespace(it) || it == '.' }
+                        append(adjustText)
+                        withStyle(style = showMoreStyle) { append(showMoreText) }
+                    }
+                } else {
+                    append(text)
+                }
+            },
+            maxLines = if (isExpanded) Int.MAX_VALUE else collapsedMaxLine,
+            fontStyle = fontStyle,
+            onTextLayout = { textLayoutResult ->
+                if (!isExpanded && textLayoutResult.hasVisualOverflow) {
+                    clickable = true
+                    lastCharIndex = textLayoutResult.getLineEnd(collapsedMaxLine - 1)
+                }
+            },
+            style = style,
+            textAlign = textAlign
+        )
+    }
 }
 
 class NoRippleInteractionSource : MutableInteractionSource {

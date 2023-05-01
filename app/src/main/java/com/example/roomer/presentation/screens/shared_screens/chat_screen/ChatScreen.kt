@@ -54,6 +54,7 @@ import com.example.roomer.R
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.presentation.screens.destinations.MessengerScreenDestination
+import com.example.roomer.presentation.screens.shared_screens.chat_screen.ChatScreenViewModel
 import com.example.roomer.presentation.ui_components.BackBtn
 import com.example.roomer.presentation.ui_components.Message
 import com.example.roomer.utils.NavbarManagement

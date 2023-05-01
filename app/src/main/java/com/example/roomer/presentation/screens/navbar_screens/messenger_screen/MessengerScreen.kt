@@ -39,6 +39,7 @@ import com.example.roomer.R
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.presentation.screens.destinations.ChatScreenDestination
+import com.example.roomer.presentation.screens.navbar_screens.messenger_screen.MessengerViewModel
 import com.example.roomer.presentation.ui_components.ChatItem
 import com.example.roomer.utils.NavbarManagement
 import com.ramcosta.composedestinations.annotation.Destination

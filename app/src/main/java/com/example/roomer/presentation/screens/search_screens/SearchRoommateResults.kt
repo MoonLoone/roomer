@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.roomer.R
 import com.example.roomer.presentation.screens.destinations.HomeScreenDestination
+import com.example.roomer.presentation.screens.destinations.UserDetailsScreenDestination
 import com.example.roomer.presentation.ui_components.BackBtn
 import com.example.roomer.presentation.ui_components.GreenButtonOutline
 import com.example.roomer.presentation.ui_components.UserCardResult
@@ -114,7 +115,9 @@ fun SearchRoommateResults(
                     }
                 }
                 items(roommates.size) { index ->
-                    UserCardResult(roommates[index])
+                    UserCardResult(roommates[index]) {
+                        navigator.navigate(UserDetailsScreenDestination(roommates[index]))
+                    }
                 }
             }
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.spacer)))
