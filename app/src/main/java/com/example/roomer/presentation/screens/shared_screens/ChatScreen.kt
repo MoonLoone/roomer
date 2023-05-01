@@ -1,6 +1,6 @@
 package com.example.roomer.presentation.screens.shared_screens
 
-import android.util.Log
+import android.app.Activity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
@@ -43,13 +42,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.example.roomer.MainActivity
 import com.example.roomer.R
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.User
@@ -59,6 +59,7 @@ import com.example.roomer.presentation.ui_components.Message
 import com.example.roomer.utils.NavbarManagement
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import dagger.hilt.android.EntryPointAccessors
 import kotlinx.coroutines.flow.flowOf
 
 @Destination
@@ -66,7 +67,7 @@ import kotlinx.coroutines.flow.flowOf
 fun ChatScreen(
     navigator: DestinationsNavigator,
     recipientId: Int,
-    viewModel: ChatScreenViewModel = hiltViewModel(),
+    viewModel: ChatScreenViewModel = chatScreenViewModel(recipientId = recipientId),
 ) {
     NavbarManagement.hideNavbar()
     Column(
@@ -239,5 +240,12 @@ private fun EnterMessage(
     }
 }
 
-private fun LazyListState.isScrolledToTheEnd() =
-    layoutInfo.visibleItemsInfo.lastOrNull()?.index == layoutInfo.totalItemsCount - 1
+@Composable
+private fun chatScreenViewModel(recipientId: Int): ChatScreenViewModel {
+    val factory = EntryPointAccessors.fromActivity(
+        LocalContext.current as Activity,
+        MainActivity.ViewModelFactoryProvider::class.java
+    ).chatViewModelFactory()
+
+    return viewModel(factory = ChatScreenViewModel.provideFactory(factory, recipientId))
+}

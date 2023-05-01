@@ -16,11 +16,16 @@ import com.example.roomer.presentation.screens.destinations.ChatScreenDestinatio
 import com.example.roomer.presentation.screens.destinations.SearchRoomResultsDestination
 import com.example.roomer.presentation.screens.destinations.SearchRoommateResultsDestination
 import com.example.roomer.presentation.screens.entrance.signup.SignUpViewModel
+import com.example.roomer.presentation.screens.shared_screens.ChatScreenViewModel
 import com.example.roomer.presentation.ui_components.Navbar
 import com.example.roomer.utils.Constants
 import com.ramcosta.composedestinations.DestinationsNavHost
+import com.ramcosta.composedestinations.manualcomposablecalls.composable
 import com.ramcosta.composedestinations.navigation.dependency
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.components.ActivityComponent
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -28,6 +33,12 @@ class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var permissionManager: PermissionManager
+
+    @EntryPoint
+    @InstallIn(ActivityComponent::class)
+    interface ViewModelFactoryProvider {
+        fun chatViewModelFactory(): ChatScreenViewModel.Factory
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

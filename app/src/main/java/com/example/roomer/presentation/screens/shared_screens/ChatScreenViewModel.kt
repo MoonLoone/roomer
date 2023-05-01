@@ -5,6 +5,8 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
@@ -20,7 +22,9 @@ import com.example.roomer.utils.converters.createJson
 import com.example.roomer.utils.converters.getFromJson
 import com.google.gson.Gson
 import com.google.gson.JsonParser
-import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -28,30 +32,30 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class ChatScreenViewModel @Inject constructor(
+class ChatScreenViewModel @AssistedInject constructor(
+    @Assisted private val recipientId: Int,
     application: Application,
     private val roomerRepository: RoomerRepository,
 ) : AndroidViewModel(application) {
 
     private val chatClientWebSocket: ChatClientWebSocket = ChatClientWebSocket {text -> messageReceived(text) }
-
     private val _socketConnectionState: MutableState<Boolean> = mutableStateOf(true)
     val socketConnectionState: State<Boolean> = _socketConnectionState
-    private var recipientUserId: Int = 302
-    private var currentUserId: Int = 0
     val pagingData: MutableStateFlow<Flow<PagingData<Message>>> = MutableStateFlow(emptyFlow())
-    val recipient = mutableStateOf(User())
+    val recipient = mutableStateOf(User(recipientId))
+    private var currentUser = User()
+
+    @AssistedFactory
+    interface Factory {
+        fun create(recipientId: Int): ChatScreenViewModel
+    }
 
     init {
         viewModelScope.launch {
-            //recipient.value = roomerRepository.getLocalUserById(recipientUserId)
-            val currentUser = roomerRepository.getLocalCurrentUser()
-            currentUserId = currentUser.userId
-            val chatId = (currentUserId + recipientUserId).toString()
-            chatClientWebSocket.open(currentUserId, recipientUserId)
+            currentUser = roomerRepository.getLocalCurrentUser()
+            val chatId = (currentUser.userId + recipient.value.userId).toString()
+            chatClientWebSocket.open(currentUser.userId, recipient.value.userId)
             val response = roomerRepository.getMessages(chatId = chatId)
             pagingData.value = response
                 .map {
@@ -68,8 +72,8 @@ class ChatScreenViewModel @Inject constructor(
                 if (socketConnectionState.value) {
                     val messageJson = createJson(
                         Pair("message", message),
-                        Pair("donor_id", currentUserId),
-                        Pair("recipient_id", recipientUserId)
+                        Pair("donor_id", currentUser.userId),
+                        Pair("recipient_id", recipient.value.userId)
                     )
                     chatClientWebSocket.sendMessage(messageJson)
                 }
@@ -100,6 +104,17 @@ class ChatScreenViewModel @Inject constructor(
 
                 roomerRepository.messageChecked(message.messageId,token)
                 roomerRepository.addLocalMessage(message)
+            }
+        }
+    }
+
+    companion object {
+        fun provideFactory(
+            assistedFactory: Factory,
+            recipientId: Int
+        ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                return assistedFactory.create(recipientId) as T
             }
         }
     }
