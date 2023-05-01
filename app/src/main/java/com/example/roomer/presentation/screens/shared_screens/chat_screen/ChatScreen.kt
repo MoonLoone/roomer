@@ -1,4 +1,4 @@
-package com.example.roomer.presentation.screens.shared_screens
+package com.example.roomer.presentation.screens.shared_screens.chat_screen
 
 import android.app.Activity
 import androidx.compose.foundation.Image
@@ -54,10 +54,10 @@ import com.example.roomer.R
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.presentation.screens.destinations.MessengerScreenDestination
-import com.example.roomer.presentation.screens.shared_screens.chat_screen.ChatScreenViewModel
 import com.example.roomer.presentation.ui_components.BackBtn
 import com.example.roomer.presentation.ui_components.Message
 import com.example.roomer.utils.NavbarManagement
+import com.example.roomer.utils.UtilsFunctions
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import dagger.hilt.android.EntryPointAccessors
@@ -81,7 +81,11 @@ fun ChatScreen(
                 bottom = dimensionResource(id = R.dimen.screen_bottom_margin)
             )
     ) {
-        TopLine("", "") { navigator.navigate(MessengerScreenDestination) }
+        TopLine(
+            UtilsFunctions.trimString(
+                recipientUser.firstName + " " + recipientUser.lastName, 10,
+            ), recipientUser.avatar
+        ) { navigator.navigate(MessengerScreenDestination) }
         val messageText = remember {
             mutableStateOf(TextFieldValue(""))
         }

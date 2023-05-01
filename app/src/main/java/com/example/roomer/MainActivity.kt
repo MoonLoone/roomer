@@ -17,7 +17,7 @@ import com.example.roomer.presentation.screens.destinations.ChatScreenDestinatio
 import com.example.roomer.presentation.screens.destinations.SearchRoomResultsDestination
 import com.example.roomer.presentation.screens.destinations.SearchRoommateResultsDestination
 import com.example.roomer.presentation.screens.entrance.signup.SignUpViewModel
-import com.example.roomer.presentation.screens.shared_screens.ChatScreenViewModel
+import com.example.roomer.presentation.screens.shared_screens.chat_screen.ChatScreenViewModel
 import com.example.roomer.presentation.ui_components.Navbar
 import com.example.roomer.utils.Constants
 import com.ramcosta.composedestinations.DestinationsNavHost
