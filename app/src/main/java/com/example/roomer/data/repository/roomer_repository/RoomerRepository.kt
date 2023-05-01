@@ -1,11 +1,14 @@
 package com.example.roomer.data.repository.roomer_repository
 
+import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import androidx.paging.PagingSource
 import com.example.roomer.data.local.RoomerStoreInterface
 import com.example.roomer.data.remote.RoomerApi
+import com.example.roomer.data.room.entities.LocalMessage
 import com.example.roomer.data.room.entities.LocalRoom
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.MessageNotification
@@ -21,6 +24,10 @@ class RoomerRepository @Inject constructor(
     private val roomerApi: RoomerApi,
     private val roomerStore: RoomerStoreInterface
 ) : RoomerRepositoryInterface {
+
+    override suspend fun addLocalMessage(message: LocalMessage) {
+        roomerStore.addLocalMessage(message)
+    }
 
     override suspend fun getChats(userId: Int): Response<List<Message>> {
         return roomerApi.getChatsForUser(userId, "")
@@ -44,6 +51,29 @@ class RoomerRepository @Inject constructor(
                 limit
             ),
             pagingSourceFactory = { roomerStore.getPagingFavourites() }
+        )
+        return pager.flow
+    }
+
+    @OptIn(ExperimentalPagingApi::class)
+    override suspend fun getMessages(limit: Int, chatId: String): Flow<PagingData<LocalMessage>> {
+        val user = getLocalCurrentUser()
+        val pager = Pager(
+            PagingConfig(
+                pageSize = Constants.Chat.PAGE_SIZE,
+                maxSize = Constants.Chat.CASH_SIZE,
+                initialLoadSize = Constants.Chat.INITIAL_SIZE
+            ),
+            remoteMediator = PagingFactories.createMessagesMediator(
+                roomerApi,
+                roomerStore,
+                user.userId,
+                chatId,
+                limit
+            ),
+            pagingSourceFactory = {
+                roomerStore.getPagingMessages()
+            }
         )
         return pager.flow
     }

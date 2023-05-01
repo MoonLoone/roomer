@@ -1,5 +1,6 @@
 package com.example.roomer.data.remote
 
+import android.util.Log
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
@@ -28,20 +29,24 @@ class ChatClientWebSocket(private val onMessageReceived: (String) -> Unit) : Web
     }
 
     override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
+        Log.d("!!!", "Connection closed by $reason with code $code")
         super.onClosed(webSocket, code, reason)
     }
 
     override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
+        Log.d("!!!", "Connection failure with response $response")
         super.onFailure(webSocket, t, response)
     }
 
     override fun onOpen(webSocket: WebSocket, response: Response) {
+        Log.d("!!!", "Connection opened")
         super.onOpen(webSocket, response)
     }
 
     override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
-        super.onClosing(webSocket, code, reason)
+        Log.d("!!!", "Connection closed $reason")
         socket?.close(code, reason)
+        super.onClosing(webSocket, code, reason)
     }
 
     override fun onMessage(webSocket: WebSocket, text: String) {

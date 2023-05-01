@@ -1,5 +1,6 @@
 package com.example.roomer.presentation.screens.shared_screens
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -14,18 +15,24 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.integerResource
@@ -41,6 +48,8 @@ import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.example.roomer.R
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.User
@@ -56,12 +65,10 @@ import kotlinx.coroutines.flow.flowOf
 @Composable
 fun ChatScreen(
     navigator: DestinationsNavigator,
-    viewModel: ChatScreenViewModel = hiltViewModel(),
     recipientId: Int,
-    chatId: Int
+    viewModel: ChatScreenViewModel = hiltViewModel(),
 ) {
     NavbarManagement.hideNavbar()
-    viewModel.startChat(recipientId, chatId)
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -72,12 +79,12 @@ fun ChatScreen(
                 bottom = dimensionResource(id = R.dimen.screen_bottom_margin)
             )
     ) {
-        TopLine { navigator.navigate(MessengerScreenDestination) }
+        TopLine("", "") { navigator.navigate(MessengerScreenDestination) }
         val messageText = remember {
             mutableStateOf(TextFieldValue(""))
         }
         val messages = if (viewModel.socketConnectionState.value) {
-            viewModel.messagesPager.collectAsLazyPagingItems()
+            viewModel.pagingData.collectAsState().value.collectAsLazyPagingItems()
         } else {
             flowOf<PagingData<Message>>(PagingData.empty()).collectAsLazyPagingItems()
         }
@@ -86,7 +93,8 @@ fun ChatScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
-        ) { id -> viewModel.messageRead(id) }
+                .padding(bottom = 8.dp)
+        )
         EnterMessage(
             editMessageText = messageText,
             onSend = { message -> viewModel.sendMessage(message) }
@@ -95,23 +103,32 @@ fun ChatScreen(
 }
 
 @Composable
-private fun TopLine(onNavigateTo: () -> Unit) {
+private fun TopLine(
+    recipientName: String,
+    recipientAvatarUrl: String,
+    onNavigateTo: () -> Unit,
+) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.fillMaxWidth()
     ) {
         BackBtn(onBackNavigation = { onNavigateTo.invoke() })
-        Image(
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(recipientAvatarUrl)
+                .crossfade(true)
+                .build(),
+            placeholder = painterResource(id = R.drawable.ordinary_client),
+            contentDescription = stringResource(R.string.user_avatar_content_description),
             modifier = Modifier
                 .width(56.dp)
                 .height(56.dp)
                 .padding(start = 16.dp),
-            painter = painterResource(id = R.drawable.ordinary_client),
-            contentDescription = stringResource(R.string.user_avatar_content_description),
+            contentScale = ContentScale.FillBounds,
             alignment = Alignment.Center
         )
         Text(
-            text = stringResource(R.string.username_here),
+            text = recipientName,
             modifier = Modifier.padding(start = 8.dp),
             style = TextStyle(
                 color = Color.Black,
@@ -133,22 +150,21 @@ private fun TopLine(onNavigateTo: () -> Unit) {
 @Composable
 private fun MessagesList(
     messages: LazyPagingItems<Message>,
-    modifier: Modifier,
-    checkMessage: (Int) -> Unit
+    modifier: Modifier = Modifier,
 ) {
     val lazyListState: LazyListState = rememberLazyListState()
+    val coroutineScope = rememberCoroutineScope()
     LazyColumn(modifier = modifier, state = lazyListState, reverseLayout = true) {
         items(messages) { item ->
             item?.let { message ->
-                if (!message.isChecked && message.recipient == User()) {
-                    message.isChecked = true
-                    checkMessage.invoke(message.id + 1)
-                }
                 Message(
                     isUserMessage = message.donor == User(),
                     text = message.text,
                     data = message.dateTime
                 )
+                LaunchedEffect(coroutineScope) {
+
+                }
             }
         }
     }
@@ -222,3 +238,6 @@ private fun EnterMessage(
         )
     }
 }
+
+private fun LazyListState.isScrolledToTheEnd() =
+    layoutInfo.visibleItemsInfo.lastOrNull()?.index == layoutInfo.totalItemsCount - 1

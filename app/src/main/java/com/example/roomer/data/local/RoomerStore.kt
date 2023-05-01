@@ -3,6 +3,7 @@ package com.example.roomer.data.local
 import androidx.paging.PagingSource
 import com.example.roomer.data.room.RoomerDatabase
 import com.example.roomer.data.room.entities.LocalCurrentUser
+import com.example.roomer.data.room.entities.LocalMessage
 import com.example.roomer.data.room.entities.LocalRoom
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
@@ -14,6 +15,7 @@ class RoomerStore(
     private val favourites = database.favourites
     private val users = database.users
     private val currentUser = database.currentUser
+    private val messages = database.messages
 
     override suspend fun addFavourite(room: Room) {
         favourites.saveManyFavourites(listOf(room.toLocalRoom()))
@@ -78,6 +80,22 @@ class RoomerStore(
     )
     override suspend fun clearFavourites() {
         favourites.deleteAll()
+    }
+
+    override suspend fun addLocalMessage(message: LocalMessage) {
+        messages.saveMessage(message)
+    }
+
+    override suspend fun clearLocalMessages() {
+        messages.clear()
+    }
+
+    override suspend fun saveManyLocalMessages(manyMessages: List<LocalMessage>) {
+        messages.saveManyMessages(manyMessages)
+    }
+
+    override fun getPagingMessages(): PagingSource<Int, LocalMessage> {
+        return messages.getPagingMessages()
     }
 
     private fun LocalCurrentUser.toUser() = User(

@@ -1,6 +1,7 @@
 package com.example.roomer.data.repository.roomer_repository
 
 import androidx.paging.PagingData
+import com.example.roomer.data.room.entities.LocalMessage
 import com.example.roomer.data.room.entities.LocalRoom
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.MessageNotification
@@ -10,6 +11,8 @@ import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 
 interface RoomerRepositoryInterface {
+
+    suspend fun addLocalMessage(message: LocalMessage)
 
     suspend fun getChats(userId: Int): Response<List<Message>>
 
@@ -31,6 +34,11 @@ interface RoomerRepositoryInterface {
         offset: Int = 0,
         limit: Int = 10
     ): Response<List<Message>>
+
+    suspend fun getMessages(
+        limit: Int = 10,
+        chatId: String
+    ): Flow<PagingData<LocalMessage>>
 
     suspend fun getFilterRooms(
         monthPriceFrom: String?,

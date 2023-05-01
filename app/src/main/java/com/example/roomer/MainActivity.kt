@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
                         )
                         if (chatId > 0 && recipientId > 0) {
                             navController.navigate(
-                                ChatScreenDestination(recipientId, chatId).route
+                                ChatScreenDestination(recipientId).route
                             )
                         }
                     }

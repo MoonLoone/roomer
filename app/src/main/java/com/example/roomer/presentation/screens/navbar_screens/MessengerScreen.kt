@@ -85,7 +85,7 @@ private fun ChatsListScreen(listOfChats: List<Message>, navigator: DestinationsN
         if (listOfChats.isEmpty()) {
             item {
                 EmptyChatListNotification {
-                    navigator.navigate(ChatScreenDestination(302, 17))
+                    navigator.navigate(ChatScreenDestination(302))
                 }
             }
         }
@@ -96,7 +96,6 @@ private fun ChatsListScreen(listOfChats: List<Message>, navigator: DestinationsN
                     navigator.navigate(
                         ChatScreenDestination(
                             listOfChats[index].recipient.userId,
-                            chatId = listOfChats[index].chatId
                         )
                     )
                 }
