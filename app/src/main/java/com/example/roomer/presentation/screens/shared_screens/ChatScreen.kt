@@ -66,8 +66,8 @@ import kotlinx.coroutines.flow.flowOf
 @Composable
 fun ChatScreen(
     navigator: DestinationsNavigator,
-    recipientId: Int,
-    viewModel: ChatScreenViewModel = chatScreenViewModel(recipientId = recipientId),
+    recipientUser: User,
+    viewModel: ChatScreenViewModel = chatScreenViewModel(recipientUser),
 ) {
     NavbarManagement.hideNavbar()
     Column(
@@ -241,11 +241,11 @@ private fun EnterMessage(
 }
 
 @Composable
-private fun chatScreenViewModel(recipientId: Int): ChatScreenViewModel {
+private fun chatScreenViewModel(recipientUser: User): ChatScreenViewModel {
     val factory = EntryPointAccessors.fromActivity(
         LocalContext.current as Activity,
         MainActivity.ViewModelFactoryProvider::class.java
     ).chatViewModelFactory()
 
-    return viewModel(factory = ChatScreenViewModel.provideFactory(factory, recipientId))
+    return viewModel(factory = ChatScreenViewModel.provideFactory(factory, recipientUser))
 }

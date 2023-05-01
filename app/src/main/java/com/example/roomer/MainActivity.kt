@@ -9,6 +9,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
+import com.example.roomer.domain.model.entities.User
 import com.example.roomer.management.NotificationManager
 import com.example.roomer.management.PermissionManager
 import com.example.roomer.presentation.screens.NavGraphs
@@ -78,7 +79,7 @@ class MainActivity : AppCompatActivity() {
                         )
                         if (chatId > 0 && recipientId > 0) {
                             navController.navigate(
-                                ChatScreenDestination(recipientId).route
+                                ChatScreenDestination(recipientUser = User(recipientId)).route
                             )
                         }
                     }

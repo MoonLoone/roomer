@@ -34,7 +34,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class ChatScreenViewModel @AssistedInject constructor(
-    @Assisted private val recipientId: Int,
+    @Assisted private val recipientUser: User,
     application: Application,
     private val roomerRepository: RoomerRepository,
 ) : AndroidViewModel(application) {
@@ -43,19 +43,18 @@ class ChatScreenViewModel @AssistedInject constructor(
     private val _socketConnectionState: MutableState<Boolean> = mutableStateOf(true)
     val socketConnectionState: State<Boolean> = _socketConnectionState
     val pagingData: MutableStateFlow<Flow<PagingData<Message>>> = MutableStateFlow(emptyFlow())
-    val recipient = mutableStateOf(User(recipientId))
     private var currentUser = User()
 
     @AssistedFactory
     interface Factory {
-        fun create(recipientId: Int): ChatScreenViewModel
+        fun create(recipientUser: User): ChatScreenViewModel
     }
 
     init {
         viewModelScope.launch {
             currentUser = roomerRepository.getLocalCurrentUser()
-            val chatId = (currentUser.userId + recipient.value.userId).toString()
-            chatClientWebSocket.open(currentUser.userId, recipient.value.userId)
+            val chatId = (currentUser.userId + recipientUser.userId).toString()
+            chatClientWebSocket.open(currentUser.userId, recipientUser.userId)
             val response = roomerRepository.getMessages(chatId = chatId)
             pagingData.value = response
                 .map {
@@ -73,7 +72,7 @@ class ChatScreenViewModel @AssistedInject constructor(
                     val messageJson = createJson(
                         Pair("message", message),
                         Pair("donor_id", currentUser.userId),
-                        Pair("recipient_id", recipient.value.userId)
+                        Pair("recipient_id", recipientUser.userId)
                     )
                     chatClientWebSocket.sendMessage(messageJson)
                 }
@@ -111,10 +110,10 @@ class ChatScreenViewModel @AssistedInject constructor(
     companion object {
         fun provideFactory(
             assistedFactory: Factory,
-            recipientId: Int
+            recipientUser: User
         ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return assistedFactory.create(recipientId) as T
+                return assistedFactory.create(recipientUser) as T
             }
         }
     }
