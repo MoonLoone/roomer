@@ -36,6 +36,7 @@ fun LocalRoom.toRoom(): Room {
         title,
         isLiked
     )
+    room.page = page
     room.id = roomId
     return room
 }

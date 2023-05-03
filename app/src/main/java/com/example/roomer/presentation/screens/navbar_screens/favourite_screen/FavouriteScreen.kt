@@ -1,11 +1,13 @@
 package com.example.roomer.presentation.screens.navbar_screens.favourite_screen
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -52,12 +54,8 @@ fun FavouriteScreen(
     ) {
         val listOfFavourites =
             favouriteViewModel.pagingData.collectAsState().value.collectAsLazyPagingItems()
-        val scrollPosition = remember {
-            mutableStateOf(0)
-        }
         TopLine()
         FavouritesList(
-            scrollPosition,
             listOfFavourites,
             favouriteViewModel.housingLike
         )
@@ -66,7 +64,6 @@ fun FavouriteScreen(
 
 @Composable
 private fun FavouritesList(
-    scrollPosition: MutableState<Int>,
     listOfFavourites: LazyPagingItems<Room>?,
     housingLike: HousingLikeInterface
 ) {
@@ -82,14 +79,10 @@ private fun FavouritesList(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         listOfFavourites?.let {
-            if (it.loadState.append is LoadState.NotLoading) {
+            /*if (it.loadState.append is LoadState.NotLoading) {
                 items(listOfFavourites) { room ->
                     room?.let {
                         RoomCard(recommendedRoom = room, isMiniVersion = false, housingLike)
-                        scrollPosition.value = state.firstVisibleItemIndex
-                    }
-                    LaunchedEffect(coroutineScope) {
-                        state.animateScrollToItem(scrollPosition.value)
                     }
                 }
             }
@@ -102,7 +95,7 @@ private fun FavouritesList(
                 item {
                     ErrorText()
                 }
-            }
+            }*/
         }
     }
 }

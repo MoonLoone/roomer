@@ -6,6 +6,7 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import com.example.roomer.domain.model.entities.BaseEntity
+import com.example.roomer.domain.model.pojo.RawData
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.CoroutineScope
@@ -14,9 +15,9 @@ import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
 @OptIn(ExperimentalPagingApi::class)
-class RoomerRemoteMediator<in T : BaseEntity>(
-    private val apiFunction: suspend (Int) -> List<T>?,
-    private val saveToDb: suspend (Any) -> Unit,
+class RoomerRemoteMediator<in T : BaseEntity, in K: RawData>(
+    private val apiFunction: suspend (Int) -> K?,
+    private val saveToDb: suspend (K) -> Unit,
     private val deleteFromDb: suspend () -> Unit
 ) : RemoteMediator<Int, @UnsafeVariance T>() {
 
@@ -30,10 +31,13 @@ class RoomerRemoteMediator<in T : BaseEntity>(
                 LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
                 LoadType.APPEND -> {
                     val lastItem = state.lastItemOrNull()
-                    lastItem?.id
+                        ?: return MediatorResult.Success(
+                            endOfPaginationReached = true
+                        )
+                    lastItem.page+1
                 }
             }
-            val response = apiFunction(loadKey ?: 0)
+            val response = apiFunction(loadKey?:1)
             response?.let {
                 CoroutineScope(Dispatchers.IO).launch {
                     if (loadType == LoadType.REFRESH) {
@@ -42,7 +46,7 @@ class RoomerRemoteMediator<in T : BaseEntity>(
                     saveToDb(response)
                 }
             }
-            MediatorResult.Success(endOfPaginationReached = response?.isEmpty() ?: true)
+            MediatorResult.Success(endOfPaginationReached = response?.next == null)
         } catch (e: IOException) {
             MediatorResult.Error(e)
         } catch (e: HttpException) {

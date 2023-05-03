@@ -21,7 +21,7 @@ class MessengerUseCase(
 
             if (process.isSuccessful) {
                 coroutineScope {
-                    emit(Resource.Success(process.body()))
+                    emit(Resource.Success(process.body()?.results))
                 }
             } else {
                 emit(Resource.Error.GeneralError(message = "Error with chat loads"))

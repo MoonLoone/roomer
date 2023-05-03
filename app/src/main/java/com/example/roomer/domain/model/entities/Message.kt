@@ -4,8 +4,6 @@ import com.example.roomer.data.room.entities.LocalMessage
 import com.google.gson.annotations.SerializedName
 
 data class Message(
-    @SerializedName("id")
-    val id: Int,
     @SerializedName("chat_id")
     val chatId: Int,
     @SerializedName("date_time")
@@ -18,8 +16,13 @@ data class Message(
     val recipient: User,
     @SerializedName("is_checked")
     var isChecked: Boolean
-)
+) : BaseEntity()
 
-fun Message.toLocalMessage() = LocalMessage(
-    id, chatId, dateTime, text, donor.userId, recipient.userId, isChecked
-)
+fun Message.toLocalMessage(): LocalMessage {
+    val local = LocalMessage(
+        id, chatId, dateTime, text, donor.userId, recipient.userId, isChecked
+    )
+    local.page = page
+    local.lastPage = lastPage
+    return local
+}

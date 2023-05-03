@@ -14,6 +14,7 @@ import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.MessageNotification
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
+import com.example.roomer.domain.model.pojo.ChatRawData
 import com.example.roomer.utils.Constants
 import com.example.roomer.utils.PagingFactories
 import javax.inject.Inject
@@ -29,7 +30,7 @@ class RoomerRepository @Inject constructor(
         roomerStore.addLocalMessage(message)
     }
 
-    override suspend fun getChats(userId: Int): Response<List<Message>> {
+    override suspend fun getChats(userId: Int): Response<ChatRawData> {
         return roomerApi.getChatsForUser(userId, "")
     }
 
@@ -48,7 +49,6 @@ class RoomerRepository @Inject constructor(
                 roomerApi,
                 roomerStore,
                 user.userId,
-                limit
             ),
             pagingSourceFactory = { roomerStore.getPagingFavourites() }
         )
@@ -69,7 +69,6 @@ class RoomerRepository @Inject constructor(
                 roomerStore,
                 user.userId,
                 chatId,
-                limit
             ),
             pagingSourceFactory = {
                 roomerStore.getPagingMessages()
@@ -98,8 +97,8 @@ class RoomerRepository @Inject constructor(
         chatId: Int,
         offset: Int,
         limit: Int
-    ): Response<List<Message>> {
-        return roomerApi.getChatsForUser(userId, chatId.toString(), offset, limit)
+    ): Response<ChatRawData> {
+        return roomerApi.getChatsForUser(userId, chatId.toString())
     }
 
     override suspend fun addLocalFavourite(room: Room) = roomerStore.addFavourite(room)

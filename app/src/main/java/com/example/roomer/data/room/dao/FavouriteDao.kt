@@ -28,7 +28,7 @@ interface FavouriteDao {
     suspend fun deleteAll()
 
     @Transaction
-    @Query("SELECT * FROM favourite")
+    @Query("SELECT * FROM favourite ORDER BY id")
     fun getPagingFavourites(): PagingSource<Int, LocalRoom>
 
     @Query("SELECT COUNT(*) FROM favourite")

@@ -6,10 +6,10 @@ import com.example.roomer.data.paging.RoomerRemoteMediator
 import com.example.roomer.data.remote.RoomerApi
 import com.example.roomer.data.room.entities.LocalMessage
 import com.example.roomer.data.room.entities.LocalRoom
-import com.example.roomer.data.room.entities.toRoom
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.toLocalMessage
-import com.example.roomer.domain.model.entities.toLocalRoom
+import com.example.roomer.domain.model.pojo.ChatRawData
+import com.example.roomer.domain.model.pojo.FavouriteRawData
 
 object PagingFactories {
 
@@ -17,16 +17,19 @@ object PagingFactories {
         roomerApi: RoomerApi,
         roomerStore: RoomerStoreInterface,
         userId: Int,
-        limit: Int
-    ): RoomerRemoteMediator<LocalRoom> {
+    ): RoomerRemoteMediator<LocalRoom, FavouriteRawData> {
         return RoomerRemoteMediator(
-            apiFunction = { offset ->
-                roomerApi.getFavourites(userId, offset, limit).body()?.map {
-                    (it.housing ?: Room()).toLocalRoom()
-                }
+            apiFunction = { page ->
+                roomerApi.getFavourites(userId, page).body()
             },
             saveToDb = { response ->
-                roomerStore.addManyFavourites((response as List<LocalRoom>).map { it.toRoom() })
+                response.results?.map {
+                    val room = it.housing?: Room()
+                    room.page = response.page
+                    room
+                }?.let {
+                        roomerStore.addManyFavourites(it)
+                    }
             },
             deleteFromDb = {
                 roomerStore.clearFavourites()
@@ -39,16 +42,18 @@ object PagingFactories {
         roomerStore: RoomerStoreInterface,
         userId: Int,
         chatId: String,
-        limit: Int,
-    ): RoomerRemoteMediator<LocalMessage> {
+    ): RoomerRemoteMediator<LocalMessage, ChatRawData> {
         return RoomerRemoteMediator(
-            apiFunction = { offset ->
-                roomerApi.getChatsForUser(userId, chatId, offset, limit).body()?.map {
-                    it.toLocalMessage()
-                }
+            apiFunction = { page ->
+                roomerApi.getChatsForUser(userId, chatId, page).body()
             },
-            saveToDb = {response ->
-                roomerStore.saveManyLocalMessages((response as List<LocalMessage>))
+            saveToDb = { response ->
+                response.results?.map {
+                    val message = it.toLocalMessage()
+                    message.page = response.page
+                    message
+                }
+                    ?.let { roomerStore.saveManyLocalMessages(it) }
             },
             deleteFromDb = {
                 roomerStore.clearLocalMessages()

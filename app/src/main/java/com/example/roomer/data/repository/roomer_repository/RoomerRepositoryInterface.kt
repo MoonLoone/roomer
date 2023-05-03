@@ -7,6 +7,7 @@ import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.MessageNotification
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
+import com.example.roomer.domain.model.pojo.ChatRawData
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 
@@ -14,7 +15,7 @@ interface RoomerRepositoryInterface {
 
     suspend fun addLocalMessage(message: LocalMessage)
 
-    suspend fun getChats(userId: Int): Response<List<Message>>
+    suspend fun getChats(userId: Int): Response<ChatRawData>
 
     suspend fun getFavouritesForUser(
         limit: Int = 10
@@ -33,7 +34,7 @@ interface RoomerRepositoryInterface {
         chatId: Int,
         offset: Int = 0,
         limit: Int = 10
-    ): Response<List<Message>>
+    ): Response<ChatRawData>
 
     suspend fun getMessages(
         limit: Int = 10,

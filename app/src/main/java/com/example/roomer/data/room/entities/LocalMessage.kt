@@ -20,6 +20,10 @@ data class LocalMessage(
     var isChecked: Boolean = false,
 ) : BaseEntity(messageId)
 
-fun LocalMessage.toMessage() = Message(
-    messageId, chatId, dateTime, text, User(donorId), User(recipientId), isChecked
-)
+fun LocalMessage.toMessage(): Message {
+    val message = Message(
+        chatId, dateTime, text, User(donorId), User(recipientId), isChecked
+    )
+    message.id = messageId
+    return message
+}
