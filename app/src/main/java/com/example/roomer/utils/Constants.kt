@@ -32,4 +32,9 @@ object Constants {
         const val CASH_SIZE = 30
         const val INITIAL_SIZE = 10
     }
+
+    object RoomPost {
+        val ROOMS_COUNT_LIST = listOf("1", "2", "3", "4", "5")
+    }
+
 }

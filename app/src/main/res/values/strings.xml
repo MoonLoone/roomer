@@ -170,4 +170,14 @@
     <string name="remove_all_photos_button_label">Delete all photos</string>
     <string name="housing_photos">Housing photos</string>
     <string name="post_advertisement_title">Post your advertisement</string>
+    <string name="description_label">Description</string>
+    <string name="sharing_type_label">Sharing Type</string>
+    <string name="post_button_label">Post</string>
+    <string name="sharing_type_private">Private</string>
+    <string name="sharing_type_shared">Shared</string>
+    <string name="month_price_placeholder">$$$</string>
+    <string name="no_images_label">No images</string>
+    <string name="dismiss_button_label">Cancel</string>
+    <string name="add_housing_confirm_dialog_text">Are you sure you want to add this advertisement?</string>
+    <string name="error_dialog_text">An error occured!</string>
 </resources>

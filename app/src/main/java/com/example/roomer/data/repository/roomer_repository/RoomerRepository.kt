@@ -1,14 +1,22 @@
 package com.example.roomer.data.repository.roomer_repository
 
+import android.graphics.Bitmap
 import com.example.roomer.data.local.RoomerStoreInterface
 import com.example.roomer.data.remote.RoomerApi
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.MessageNotification
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
+import com.example.roomer.domain.model.room_post.RoomPost
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Response
+import java.io.ByteArrayOutputStream
+import kotlin.random.Random
+import kotlin.random.nextUInt
 
 class RoomerRepository @Inject constructor(
     private val roomerApi: RoomerApi,
@@ -104,4 +112,27 @@ class RoomerRepository @Inject constructor(
     override suspend fun getMessageNotifications(userId: Int): Response<List<MessageNotification>> {
         return roomerApi.getNotifications(userId)
     }
+
+    override suspend fun putRoom(token: String, room: RoomPost) = roomerApi.postAdvertisement(token, room)
+    override suspend fun putRoomPhotos(
+        token: String,
+        filesContent: List<Bitmap>
+    ): Response<Room> {
+        val refToken = "Token ".plus(token)
+        val list = mutableListOf<MultipartBody.Part>()
+        filesContent.forEach {
+            val stream = ByteArrayOutputStream()
+            it.compress(Bitmap.CompressFormat.JPEG, 80, stream)
+            val byteArray = stream.toByteArray()
+            list.add(MultipartBody.Part.createFormData(
+                 "file_content",
+                Random.nextUInt(8000000u).toString().plus(".jpeg"),
+                byteArray.toRequestBody("image/*".toMediaTypeOrNull(), 0, byteArray.size)
+            ))
+        }
+
+       return roomerApi.postAdvertisement(refToken, list)
+    }
+
+    override suspend fun getCurrentUserRooms(token: String, hostId: Int): Response<List<Room>> = roomerApi.getCurrentUserAdvertisements(token, hostId)
 }

@@ -5,6 +5,7 @@ import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
@@ -27,6 +28,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
@@ -47,6 +49,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.TopEnd
@@ -63,6 +66,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
@@ -76,6 +80,7 @@ import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.domain.model.login_sign_up.InterestModel
+import com.example.roomer.presentation.screens.destinations.AddHousingScreenDestination
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
@@ -920,6 +925,112 @@ fun ProfilePicture(
 }
 
 @Composable
+fun HousingPhotosComponent(
+    enabled: Boolean = true,
+    bitmapListValue: MutableList<Bitmap>,
+    onBitmapListValueChange: (MutableList<Bitmap>?) -> Unit
+) {
+    val imageUri = rememberSaveable {
+        mutableStateOf<Uri?>(null)
+    }
+    val context = LocalContext.current
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        imageUri.value = uri
+        imageUri.value?.let {
+            if (Build.VERSION.SDK_INT < 28) {
+                bitmapListValue.add(MediaStore.Images.Media.getBitmap(context.contentResolver, it))
+                onBitmapListValueChange(bitmapListValue)
+            } else {
+                val source = ImageDecoder.createSource(context.contentResolver, it)
+                bitmapListValue.add(ImageDecoder.decodeBitmap(source))
+                onBitmapListValueChange(bitmapListValue)
+            }
+        }
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth(),
+    ) {
+        Column(modifier = Modifier
+            .fillMaxWidth()
+        ) {
+            Text(
+                text = stringResource(R.string.housing_photos),
+                style = TextStyle(
+                    color = Color.Black,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            )
+            if (bitmapListValue.isEmpty()) {
+                Text(
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .padding(20.dp),
+                    text = stringResource(R.string.no_images_label),
+                    style = TextStyle(
+                        color = Color.Black,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                )
+            } else {
+                LazyRow(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(88.dp)
+                        .padding(top = 8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(
+                        8.dp
+                    )
+                ) {
+                    items(bitmapListValue.size) { index ->
+                        Image(
+                            bitmap = bitmapListValue[index].asImageBitmap(),
+                            contentDescription = stringResource(id = R.string.room_image_description),
+                            modifier = Modifier
+                                .width(80.dp)
+                                .height(80.dp)
+                                .clip(RoundedCornerShape(10.dp)),
+                            contentScale = ContentScale.Crop
+                        )
+                    }
+                }
+            }
+        }
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(
+                24.dp
+            )
+        ) {
+            GreenButtonPrimaryIconed(
+                modifier = Modifier.padding(top = 8.dp),
+                text = stringResource(R.string.add_photos_button_label),
+                trailingIcon = ImageVector.vectorResource(id = R.drawable.add_photos_icon),
+                enabled = true,
+                onClick = {
+                    if (enabled) {
+                        launcher.launch("image/*")
+                    }
+                }
+            )
+            RedButtonPrimaryIconed(
+                modifier = Modifier.padding(top = 8.dp),
+                text = stringResource(R.string.remove_all_photos_button_label),
+                trailingIcon = ImageVector.vectorResource(id = R.drawable.remove_icon),
+                enabled = true,
+                onClick = {
+                    bitmapListValue.clear()
+                }
+            )
+        }
+    }
+}
+
+@Composable
 fun FilterSelect(selectItemName: String, onNavigateToFriends: () -> Unit) {
     Row(
         modifier = Modifier
@@ -1246,6 +1357,48 @@ fun SimpleAlertDialog(
                 modifier = Modifier
                     .fillMaxWidth(),
                 onClick = confirmDismissOnClick
+            )
+        }
+    )
+}
+
+/**
+ * The basic confirm dialog.
+ * Asks user to approve requested operation (Confirm / Dismiss).
+ *
+ * @param text the text of the confirm dialog to be displayed.
+ * @param confirmButtonText the text of the confirm button. Default is [R.string.confirm_button_label].
+ * @param dismissButtonText the text of the dismiss button. Default is [R.string.dismiss_button_label].
+ * @param confirmOnClick called when the user tries to confirm the operation.
+ * @param dismissOnClick called when the user tries to dismiss the operation. Default is only to close the dialog.
+ *
+ * @author Andrey Karanik
+ */
+@Composable
+fun BasicConfirmDialog(
+    text: String,
+    confirmButtonText: String = stringResource(R.string.confirm_button_label),
+    dismissButtonText: String = stringResource(R.string.dismiss_button_label),
+    confirmOnClick: () -> Unit,
+    dismissOnClick: () -> Unit = {}
+) {
+    AlertDialog(
+        containerColor = Color.White,
+        titleContentColor = Color.Black,
+        onDismissRequest = dismissOnClick,
+        text = {
+            Text(text = text)
+        },
+        dismissButton = {
+            GreenButtonOutline(
+                text = dismissButtonText,
+                onClick = dismissOnClick
+            )
+        },
+        confirmButton = {
+            GreenButtonPrimary(
+                text = confirmButtonText,
+                onClick = confirmOnClick
             )
         }
     )

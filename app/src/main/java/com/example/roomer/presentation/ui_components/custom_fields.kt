@@ -252,50 +252,6 @@ fun AccountScreenTextField(
 }
 
 @Composable
-fun AddHousingScreenTextField(
-    textHint: String,
-    label: String = "",
-    paddingValues: PaddingValues = PaddingValues(),
-    textFieldHeight: Dp = dimensionResource(id = R.dimen.ordinal_text_field_height),
-    text: MutableState<TextFieldValue> = mutableStateOf(TextFieldValue(""))
-) {
-    Column(
-        modifier = Modifier.padding(paddingValues),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        Text(
-            text = label,
-            fontSize = integerResource(id = R.integer.primary_text).sp,
-            fontWeight = FontWeight.Medium,
-            color = Color.Black
-        )
-        TextField(
-            value = text.value,
-            textStyle = TextStyle(
-                color = Color.Black,
-                fontSize = integerResource(id = R.integer.primary_text).sp,
-                textAlign = TextAlign.Start
-            ),
-            placeholder = {
-                Text(
-                    text = textHint,
-                    fontSize = integerResource(id = R.integer.primary_text).sp,
-                    color = colorResource(id = R.color.text_secondary)
-                )
-            },
-            onValueChange = { text.value = it },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(textFieldHeight)
-                .background(colorResource(id = R.color.secondary_color)),
-            colors = TextFieldDefaults.textFieldColors(
-                backgroundColor = colorResource(id = R.color.secondary_color)
-            )
-        )
-    }
-}
-
-@Composable
 fun DateField(
     label: String = "Date field",
     value: String,

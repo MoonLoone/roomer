@@ -10,6 +10,7 @@ import com.example.roomer.domain.model.login_sign_up.LoginDto
 import com.example.roomer.domain.model.login_sign_up.SignUpDataModel
 import com.example.roomer.domain.model.login_sign_up.SignUpModel
 import com.example.roomer.domain.model.login_sign_up.TokenDto
+import com.example.roomer.domain.model.room_post.RoomPost
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
@@ -90,4 +91,22 @@ interface RoomerApi {
     suspend fun getNotifications(
         @Query("user_id") userId: Int
     ): Response<List<MessageNotification>>
+
+    @POST("/housing/")
+    suspend fun postAdvertisement(
+        @Header("Authorization") token: String,
+        @Body room: RoomPost
+    ): Response<Room>
+    @Multipart
+    @POST("/housing/")
+    suspend fun postAdvertisement(
+        @Header("Authorization") token: String,
+        @Part filesContent: List<MultipartBody.Part>
+    ): Response<Room>
+
+    @GET("/housing/")
+    suspend fun getCurrentUserAdvertisements(
+        @Header("Authorization") token: String,
+        @Query("host_id") hostId: Int
+    ): Response<List<Room>>
 }
