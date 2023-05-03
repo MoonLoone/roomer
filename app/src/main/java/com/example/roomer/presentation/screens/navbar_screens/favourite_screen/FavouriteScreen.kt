@@ -6,8 +6,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -53,11 +55,11 @@ fun FavouriteScreen(
         )
     ) {
         val listOfFavourites =
-            favouriteViewModel.pagingData.collectAsState().value.collectAsLazyPagingItems()
+            favouriteViewModel.pagingData.value.collectAsLazyPagingItems()
         TopLine()
         FavouritesList(
             listOfFavourites,
-            favouriteViewModel.housingLike
+            favouriteViewModel.housingLike,
         )
     }
 }
@@ -65,25 +67,22 @@ fun FavouriteScreen(
 @Composable
 private fun FavouritesList(
     listOfFavourites: LazyPagingItems<Room>?,
-    housingLike: HousingLikeInterface
+    housingLike: HousingLikeInterface,
 ) {
-    val state = rememberLazyListState()
-    val coroutineScope = rememberCoroutineScope()
+    val lazyListState = rememberLazyListState()
     LazyColumn(
         modifier = Modifier
             .fillMaxSize(),
-        state = state,
+        state = lazyListState,
         verticalArrangement = Arrangement.spacedBy(
             dimensionResource(id = R.dimen.list_elements_margin)
         ),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         listOfFavourites?.let {
-            /*if (it.loadState.append is LoadState.NotLoading) {
-                items(listOfFavourites) { room ->
-                    room?.let {
-                        RoomCard(recommendedRoom = room, isMiniVersion = false, housingLike)
-                    }
+            items(listOfFavourites) { room ->
+                room?.let {
+                    RoomCard(recommendedRoom = room, isMiniVersion = false, housingLike)
                 }
             }
             if (it.loadState.append is LoadState.Loading) {
@@ -95,7 +94,7 @@ private fun FavouritesList(
                 item {
                     ErrorText()
                 }
-            }*/
+            }
         }
     }
 }

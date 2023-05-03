@@ -1,5 +1,6 @@
 package com.example.roomer.data.local
 
+import android.util.Log
 import androidx.paging.PagingSource
 import com.example.roomer.data.room.RoomerDatabase
 import com.example.roomer.data.room.entities.LocalCurrentUser
@@ -7,6 +8,7 @@ import com.example.roomer.data.room.entities.LocalMessage
 import com.example.roomer.data.room.entities.LocalRoom
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
+import com.example.roomer.domain.model.entities.toLocalRoom
 import kotlinx.coroutines.flow.Flow
 
 class RoomerStore(
@@ -22,10 +24,13 @@ class RoomerStore(
     }
 
     override suspend fun addManyFavourites(favouriteRooms: List<Room>) {
-        favourites.saveManyFavourites(favouriteRooms.map { it.toLocalRoom() })
+        favourites.saveManyFavourites(favouriteRooms.map {
+            it.toLocalRoom()
+        })
     }
 
     override suspend fun isFavouritesEmpty(): Boolean = favourites.count() == 0L
+
     override suspend fun deleteFavourite(room: Room) {
         favourites.delete(room.toLocalRoom())
     }
@@ -64,20 +69,6 @@ class RoomerStore(
         return favourites.getPagingFavourites()
     }
 
-    private fun Room.toLocalRoom() = LocalRoom(
-        id,
-        monthPrice,
-        host?.userId ?: -1,
-        description,
-        fileContent,
-        bathroomsCount,
-        bedroomsCount,
-        housingType,
-        sharingType,
-        location,
-        title,
-        isLiked
-    )
     override suspend fun clearFavourites() {
         favourites.deleteAll()
     }

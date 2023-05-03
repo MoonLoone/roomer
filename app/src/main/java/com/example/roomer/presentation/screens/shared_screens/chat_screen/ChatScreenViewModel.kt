@@ -3,6 +3,7 @@ package com.example.roomer.presentation.screens.shared_screens.chat_screen
 import android.app.Application
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
@@ -42,7 +43,8 @@ class ChatScreenViewModel @AssistedInject constructor(
     private val chatClientWebSocket: ChatClientWebSocket = ChatClientWebSocket {text -> messageReceived(text) }
     private val _socketConnectionState: MutableState<Boolean> = mutableStateOf(true)
     val socketConnectionState: State<Boolean> = _socketConnectionState
-    val pagingData: MutableStateFlow<Flow<PagingData<Message>>> = MutableStateFlow(emptyFlow())
+    private val _pagingData: MutableState<Flow<PagingData<Message>>> = mutableStateOf(emptyFlow())
+    val pagingData: State<Flow<PagingData<Message>>> = _pagingData
     private val _currentUser = mutableStateOf(User())
     val currentUser: State<User> =  _currentUser
 
@@ -57,7 +59,7 @@ class ChatScreenViewModel @AssistedInject constructor(
             val chatId = (_currentUser.value.userId + recipientUser.userId).toString()
             chatClientWebSocket.open(_currentUser.value.userId, recipientUser.userId)
             val response = roomerRepository.getMessages(chatId = chatId)
-            pagingData.value = response
+            _pagingData.value = response
                 .map {
                     it.map {
                         it.toMessage()

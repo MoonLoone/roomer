@@ -93,7 +93,7 @@ fun ChatScreen(
             mutableStateOf(TextFieldValue(""))
         }
         val messages = if (viewModel.socketConnectionState.value) {
-            viewModel.pagingData.collectAsState().value.collectAsLazyPagingItems()
+            viewModel.pagingData.value.collectAsLazyPagingItems()
         } else {
             flowOf<PagingData<Message>>(PagingData.empty()).collectAsLazyPagingItems()
         }
@@ -168,7 +168,7 @@ private fun MessagesList(
         items(messages) { item ->
             item?.let { message ->
                 Message(
-                    isUserMessage = message.donor.userId == currentUser.userId,
+                    isUserMessage = message.recipient.userId == currentUser.userId,
                     text = message.text,
                     data = convertTimeDateFromBackend(message.dateTime)
                 )

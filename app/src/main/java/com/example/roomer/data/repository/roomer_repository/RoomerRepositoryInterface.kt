@@ -18,7 +18,6 @@ interface RoomerRepositoryInterface {
     suspend fun getChats(userId: Int): Response<ChatRawData>
 
     suspend fun getFavouritesForUser(
-        limit: Int = 10
     ): Flow<PagingData<LocalRoom>>
 
     suspend fun likeHousing(housingId: Int): Response<String>

@@ -1,6 +1,5 @@
 package com.example.roomer.data.repository.roomer_repository
 
-import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -36,7 +35,6 @@ class RoomerRepository @Inject constructor(
 
     @OptIn(ExperimentalPagingApi::class)
     override suspend fun getFavouritesForUser(
-        limit: Int
     ): Flow<PagingData<LocalRoom>> {
         val user = getLocalCurrentUser()
         val pager = Pager(
