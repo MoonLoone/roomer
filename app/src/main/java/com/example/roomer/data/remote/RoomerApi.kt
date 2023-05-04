@@ -127,7 +127,7 @@ interface RoomerApi {
 
     @Multipart
     @PUT("/housing/{roomId}/")
-    suspend fun postAdvertisement(
+    suspend fun putAdvertisement(
         @Header("Authorization") token: String,
         @Path("roomId") roomId: Int,
         @Part filesContent: List<MultipartBody.Part>

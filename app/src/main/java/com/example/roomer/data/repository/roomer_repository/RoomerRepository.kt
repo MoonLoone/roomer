@@ -185,7 +185,7 @@ class RoomerRepository @Inject constructor(
             )
         }
 
-        return roomerApi.postAdvertisement(refToken, roomId, list)
+        return roomerApi.putAdvertisement(refToken, roomId, list)
     }
 
     override suspend fun getCurrentUserRooms(token: String, hostId: Int): Response<List<Room>> {
