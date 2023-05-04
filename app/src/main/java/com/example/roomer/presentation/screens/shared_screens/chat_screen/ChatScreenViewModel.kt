@@ -97,6 +97,8 @@ class ChatScreenViewModel @AssistedInject constructor(
         }
     }
 
+    fun closeChat() = chatClientWebSocket.close()
+
     private fun messageReceived(text: String) {
         viewModelScope.launch {
             CoroutineScope(Dispatchers.IO).launch {

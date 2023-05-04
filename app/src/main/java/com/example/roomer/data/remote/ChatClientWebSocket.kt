@@ -25,7 +25,11 @@ class ChatClientWebSocket(private val onMessageReceived: (String) -> Unit) : Web
     }
 
     fun sendMessage(messageJson: JSONObject) {
-        socket?.let { socket!!.send(messageJson.toString()) }
+        socket?.send(messageJson.toString())
+    }
+
+    fun close(){
+        socket?.close(SOCKET_CLOSE_CODE, SOCKET_CLOSE_REASON)
     }
 
     override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
@@ -54,7 +58,9 @@ class ChatClientWebSocket(private val onMessageReceived: (String) -> Unit) : Web
         onMessageReceived.invoke(text)
     }
 
-    companion object {
-        private const val BASE_URL = "ws://176.113.83.93:8000/ws/chat"
+    private companion object {
+        const val BASE_URL = "ws://176.113.83.93:8000/ws/chat"
+        const val SOCKET_CLOSE_CODE = 1001
+        const val SOCKET_CLOSE_REASON = "End of chat"
     }
 }

@@ -3,6 +3,7 @@ package com.example.roomer.presentation.screens.shared_screens.chat_screen
 import android.app.Activity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,9 +13,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import com.example.roomer.presentation.screens.destinations.UserDetailsScreenDestination
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
@@ -27,6 +31,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -52,9 +58,11 @@ import com.example.roomer.R
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.presentation.screens.destinations.MessengerScreenDestination
+import com.example.roomer.presentation.screens.shared_screens.UserDetailsScreen
 import com.example.roomer.presentation.ui_components.BackBtn
 import com.example.roomer.presentation.ui_components.Message
 import com.example.roomer.utils.NavbarManagement
+import com.example.roomer.utils.UtilsFunctions
 import com.example.roomer.utils.converters.convertTimeDateFromBackend
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -80,11 +88,18 @@ fun ChatScreen(
             )
     ) {
         TopLine(
-            ""
-           /* UtilsFunctions.trimString(
-                recipientUser.firstName + " " + recipientUser.lastName, 5,
-            )*/, recipientUser.avatar
-        ) { navigator.navigate(MessengerScreenDestination) }
+            recipientName = UtilsFunctions.trimString(
+                recipientUser.firstName + " " + recipientUser.lastName, 16,
+            ),
+            recipientAvatarUrl = recipientUser.avatar,
+            onNavigateTo = {
+                viewModel.closeChat()
+                navigator.navigate(MessengerScreenDestination)
+            },
+            navigateToUser = {
+                navigator.navigate(UserDetailsScreenDestination(recipientUser))
+            }
+        )
         val messageText = remember {
             mutableStateOf(TextFieldValue(""))
         }
@@ -113,12 +128,15 @@ private fun TopLine(
     recipientName: String,
     recipientAvatarUrl: String,
     onNavigateTo: () -> Unit,
+    navigateToUser: () -> Unit,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
     ) {
-        BackBtn(onBackNavigation = { onNavigateTo.invoke() })
+        BackBtn(onBackNavigation = {
+            onNavigateTo.invoke()
+        })
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
                 .data(recipientAvatarUrl)
@@ -126,16 +144,24 @@ private fun TopLine(
                 .build(),
             placeholder = painterResource(id = R.drawable.ordinary_client),
             contentDescription = stringResource(R.string.user_avatar_content_description),
+            contentScale = ContentScale.Crop,
             modifier = Modifier
                 .width(56.dp)
                 .height(56.dp)
-                .padding(start = 16.dp),
-            contentScale = ContentScale.FillBounds,
+                .padding(start = 16.dp)
+                .clip(CircleShape)
+                .clickable {
+                    navigateToUser()
+                },
             alignment = Alignment.Center
         )
         Text(
             text = recipientName,
-            modifier = Modifier.padding(start = 8.dp),
+            modifier = Modifier
+                .padding(start = 8.dp)
+                .clickable {
+                    navigateToUser()
+                },
             style = TextStyle(
                 color = Color.Black,
                 fontSize = integerResource(
@@ -144,7 +170,7 @@ private fun TopLine(
                 fontWeight = FontWeight.Bold
             )
         )
-    }
+    }B
     Divider(
         color = colorResource(id = R.color.black),
         modifier = Modifier

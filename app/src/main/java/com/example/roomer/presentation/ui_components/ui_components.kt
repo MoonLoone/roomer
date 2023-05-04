@@ -5,6 +5,7 @@ import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.animateContentSize
@@ -85,6 +86,7 @@ import com.example.roomer.domain.model.entities.User
 import com.example.roomer.domain.model.login_sign_up.InterestModel
 import com.example.roomer.presentation.screens.entrance.signup.habits_screen.HabitTileModel
 import com.example.roomer.utils.Constants
+import com.example.roomer.utils.UtilsFunctions
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -137,96 +139,83 @@ fun ChatItem(
         modifier = Modifier
             .clickable { navigateTo.invoke() }
             .fillMaxWidth()
-            .height(dimensionResource(id = R.dimen.chat_row_height))
+            .height(dimensionResource(id = R.dimen.chat_row_height)),
+        horizontalArrangement = Arrangement.SpaceBetween,
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.ordinary_client),
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(message.recipient.avatar)
+                .crossfade(true)
+                .build(),
+            placeholder = painterResource(id = R.drawable.ordinary_client),
             contentDescription = stringResource(R.string.user_avatar_content_description),
+            contentScale = ContentScale.Crop,
             modifier = Modifier
                 .width(dimensionResource(id = R.dimen.small_avatar_image))
                 .height(dimensionResource(id = R.dimen.small_avatar_image))
-                .padding(start = 8.dp, end = 16.dp, bottom = 8.dp, top = 8.dp),
+                .padding(start = 16.dp)
+                .clip(CircleShape),
             alignment = Center
         )
-        Column(modifier = Modifier.fillMaxWidth()) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp)
+        ) {
             Row(modifier = Modifier.fillMaxWidth()) {
                 Text(
-                    text = message.recipient.firstName + message.recipient.lastName,
+                    text = UtilsFunctions.trimString(
+                        message.recipient.firstName + " " + message.recipient.lastName,
+                        16
+                    ),
                     fontSize = integerResource(id = R.integer.primary_text).sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.Black
                 )
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                    Image(
-                        painter = painterResource(
-                            id = if (message.isChecked) {
-                                R.drawable.checked_messages_icon
-                            } else {
-                                R.drawable.unchecked_messages_icon
-                            }
-                        ),
-                        contentDescription = if (message.isChecked) {
-                            stringResource(
-                                R.string.message_checked_description
-                            )
-                        } else {
-                            stringResource(
-                                R.string.message_unchecked_description
-                            )
-                        },
-                        alignment = Center,
-                        modifier = Modifier
-                            .width(dimensionResource(id = R.dimen.small_icon))
-                            .height(dimensionResource(id = R.dimen.small_icon))
-                    )
-                    Text(
-                        text = message.dateTime,
-                        style = TextStyle(
-                            color = colorResource(id = R.color.text_secondary),
-                            fontSize = integerResource(id = R.integer.primary_text).sp,
-                            textAlign = TextAlign.End
-                        )
-                    )
-                }
-            }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp)
-            ) {
                 Text(
-                    text = message.text,
+                    text = message.dateTime,
+                    modifier = Modifier.padding(start = 8.dp),
                     style = TextStyle(
                         color = colorResource(id = R.color.text_secondary),
-                        fontSize = integerResource(id = R.integer.primary_text).sp
+                        fontSize = integerResource(id = R.integer.primary_text).sp,
+                        textAlign = TextAlign.End
                     )
                 )
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                    if (unreadMessages > 0) {
-                        Text(
-                            text =
-                            when (unreadMessages) {
-                                in 1..999 -> unreadMessages.toString()
-                                else -> "999+"
-                            },
-                            modifier = Modifier
-                                .width(48.dp)
-                                .height(20.dp)
-                                .background(
-                                    color = colorResource(
-                                        id = R.color.primary
-                                    ),
-                                    shape = RoundedCornerShape(
-                                        dimensionResource(id = R.dimen.rounded_corner_ordinary)
-                                    )
+
+            }
+            Text(
+                text = message.text,
+                style = TextStyle(
+                    color = colorResource(id = R.color.text_secondary),
+                    fontSize = integerResource(id = R.integer.primary_text).sp
+                ),
+                maxLines = 1,
+            )
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                if (unreadMessages > 0) {
+                    Text(
+                        text =
+                        when (unreadMessages) {
+                            in 1..999 -> unreadMessages.toString()
+                            else -> "999+"
+                        },
+                        modifier = Modifier
+                            .width(48.dp)
+                            .height(20.dp)
+                            .background(
+                                color = colorResource(
+                                    id = R.color.primary
                                 ),
-                            style = TextStyle(
-                                color = Color.Black,
-                                fontSize = integerResource(id = R.integer.primary_text).sp,
-                                textAlign = TextAlign.Center
-                            )
+                                shape = RoundedCornerShape(
+                                    dimensionResource(id = R.dimen.rounded_corner_ordinary)
+                                )
+                            ),
+                        style = TextStyle(
+                            color = Color.Black,
+                            fontSize = integerResource(id = R.integer.primary_text).sp,
+                            textAlign = TextAlign.Center
                         )
-                    }
+                    )
                 }
             }
         }
