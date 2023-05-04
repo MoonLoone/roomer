@@ -66,7 +66,7 @@ class PostScreenViewModel @Inject constructor(
 
     fun getAdvertisements() {
         viewModelScope.launch {
-            val host = async {roomerRepository.getLocalCurrentUser()}.await().userId
+            val host = async { roomerRepository.getLocalCurrentUser() }.await().userId
             if (userToken != null) {
                 postUseCase.getCurrentUserRoomData(userToken, host).collect {
                     when (it) {
@@ -81,7 +81,7 @@ class PostScreenViewModel @Inject constructor(
                             _state.update { currentState ->
                                 currentState.copy(
                                     isLoading = false,
-                                    isSuccess = true,
+                                    isSuccess = true
                                 )
                             }
                             _advertisements.value = it.data!!

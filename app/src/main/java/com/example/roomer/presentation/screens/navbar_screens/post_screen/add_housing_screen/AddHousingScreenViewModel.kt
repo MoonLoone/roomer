@@ -109,7 +109,7 @@ class AddHousingScreenViewModel @Inject constructor(
                             _state.update { currentState ->
                                 currentState.copy(
                                     isLoading = false,
-                                    isSuccess = true,
+                                    isSuccess = true
                                 )
                             }
                         }
@@ -183,5 +183,4 @@ class AddHousingScreenViewModel @Inject constructor(
         const val ROOM_IMAGES_IS_EMPTY = "Add images to your advertisement"
         const val DESCRIPTION_IS_EMPTY = "Add some description"
     }
-
 }

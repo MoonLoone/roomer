@@ -54,7 +54,6 @@ fun AddHousingScreen(
     navigator: DestinationsNavigator,
     viewModel: AddHousingScreenViewModel = hiltViewModel()
 ) {
-
     val state by viewModel.state.collectAsState()
 
     if (state.isSuccess) {
@@ -94,7 +93,7 @@ fun AddHousingScreen(
             .padding(
                 top = dimensionResource(id = R.dimen.screen_top_margin),
                 start = dimensionResource(id = R.dimen.screen_start_margin),
-                end = dimensionResource(id = R.dimen.screen_end_margin),
+                end = dimensionResource(id = R.dimen.screen_end_margin)
             )
     ) {
         Box(modifier = Modifier.fillMaxSize()) {

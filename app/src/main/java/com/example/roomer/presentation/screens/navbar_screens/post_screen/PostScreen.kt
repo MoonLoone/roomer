@@ -76,8 +76,8 @@ fun PostScreen(
             .padding(
                 top = dimensionResource(id = R.dimen.screen_top_margin),
                 start = dimensionResource(id = R.dimen.screen_start_margin),
-                end = dimensionResource(id = R.dimen.screen_end_margin),
-            ),
+                end = dimensionResource(id = R.dimen.screen_end_margin)
+            )
     ) {
         Text(
             text = stringResource(R.string.post_screen_title),
@@ -85,9 +85,9 @@ fun PostScreen(
                 textAlign = TextAlign.Start,
                 fontSize = integerResource(id = R.integer.label_text).sp,
                 fontWeight = FontWeight.Bold
-            ),
+            )
         )
-        Box (modifier = Modifier.fillMaxSize()) {
+        Box(modifier = Modifier.fillMaxSize()) {
             if (state.isLoading) {
                 CircularProgressIndicator(
                     modifier = Modifier.align(Alignment.Center),
@@ -147,7 +147,7 @@ fun PostScreen(
                                 textAlign = TextAlign.Center,
                                 fontSize = integerResource(id = R.integer.label_text).sp,
                                 fontWeight = FontWeight.Bold
-                            ),
+                            )
                         )
                         GreenButtonPrimaryIconed(
                             text = stringResource(R.string.add_post_button_label),
