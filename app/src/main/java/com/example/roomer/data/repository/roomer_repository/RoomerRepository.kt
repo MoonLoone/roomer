@@ -161,7 +161,7 @@ class RoomerRepository @Inject constructor(
         )
     }
 
-    override suspend fun putRoom(token: String, room: RoomPost) : Response<Room> {
+    override suspend fun putRoom(token: String, room: RoomPost): Response<Room> {
         val refToken = "Token ".plus(token)
         return roomerApi.postAdvertisement(refToken, room)
     }
@@ -176,14 +176,16 @@ class RoomerRepository @Inject constructor(
             val stream = ByteArrayOutputStream()
             it.compress(Bitmap.CompressFormat.JPEG, 80, stream)
             val byteArray = stream.toByteArray()
-            list.add(MultipartBody.Part.createFormData(
-                 "file_content",
-                Random.nextUInt(8000000u).toString().plus(".jpeg"),
-                byteArray.toRequestBody("image/*".toMediaTypeOrNull(), 0, byteArray.size)
-            ))
+            list.add(
+                MultipartBody.Part.createFormData(
+                    "file_content",
+                    Random.nextUInt(8000000u).toString().plus(".jpeg"),
+                    byteArray.toRequestBody("image/*".toMediaTypeOrNull(), 0, byteArray.size)
+                )
+            )
         }
 
-       return roomerApi.postAdvertisement(refToken, roomId, list)
+        return roomerApi.postAdvertisement(refToken, roomId, list)
     }
 
     override suspend fun getCurrentUserRooms(token: String, hostId: Int): Response<List<Room>> {
