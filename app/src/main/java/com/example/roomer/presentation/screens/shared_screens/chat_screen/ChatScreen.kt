@@ -166,7 +166,7 @@ private fun MessagesList(
                 Message(
                     isUserMessage = message.donor.userId == currentUser.userId,
                     text = message.text,
-                    data = convertTimeDateFromBackend(message.dateTime)
+                    date = convertTimeDateFromBackend(message.dateTime)
                 )
             }
         }
