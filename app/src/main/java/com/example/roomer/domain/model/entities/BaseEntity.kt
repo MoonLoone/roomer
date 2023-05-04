@@ -6,5 +6,5 @@ open class BaseEntity(
     @SerializedName("id")
     var id: Int = 0,
     var page: Int = 1,
-    var lastPage: Int = 1,
+    var lastPage: Int = 1
 )

@@ -25,5 +25,4 @@ interface MessageDao {
 
     @Query("SELECT * FROM messages ORDER BY id DESC")
     fun getPagingMessages(): PagingSource<Int, LocalMessage>
-
 }

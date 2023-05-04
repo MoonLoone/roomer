@@ -21,7 +21,6 @@ import com.example.roomer.presentation.screens.shared_screens.chat_screen.ChatSc
 import com.example.roomer.presentation.ui_components.Navbar
 import com.example.roomer.utils.Constants
 import com.ramcosta.composedestinations.DestinationsNavHost
-import com.ramcosta.composedestinations.manualcomposablecalls.composable
 import com.ramcosta.composedestinations.navigation.dependency
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn

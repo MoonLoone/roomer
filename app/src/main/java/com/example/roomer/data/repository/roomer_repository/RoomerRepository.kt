@@ -4,7 +4,6 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import androidx.paging.PagingSource
 import com.example.roomer.data.local.RoomerStoreInterface
 import com.example.roomer.data.remote.RoomerApi
 import com.example.roomer.data.room.entities.LocalMessage
@@ -34,8 +33,7 @@ class RoomerRepository @Inject constructor(
     }
 
     @OptIn(ExperimentalPagingApi::class)
-    override suspend fun getFavouritesForUser(
-    ): Flow<PagingData<LocalRoom>> {
+    override suspend fun getFavouritesForUser(): Flow<PagingData<LocalRoom>> {
         val user = getLocalCurrentUser()
         val pager = Pager(
             PagingConfig(
@@ -46,7 +44,7 @@ class RoomerRepository @Inject constructor(
             remoteMediator = PagingFactories.createFavouritesMediator(
                 roomerApi,
                 roomerStore,
-                user.userId,
+                user.userId
             ),
             pagingSourceFactory = { roomerStore.getPagingFavourites() }
         )
@@ -66,7 +64,7 @@ class RoomerRepository @Inject constructor(
                 roomerApi,
                 roomerStore,
                 user.userId,
-                chatId,
+                chatId
             ),
             pagingSourceFactory = {
                 roomerStore.getPagingMessages()

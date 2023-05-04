@@ -17,8 +17,7 @@ interface RoomerRepositoryInterface {
 
     suspend fun getChats(userId: Int): Response<ChatRawData>
 
-    suspend fun getFavouritesForUser(
-    ): Flow<PagingData<LocalRoom>>
+    suspend fun getFavouritesForUser(): Flow<PagingData<LocalRoom>>
 
     suspend fun likeHousing(housingId: Int): Response<String>
 

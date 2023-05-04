@@ -8,5 +8,5 @@ data class ChatScreenState(
     override var success: Boolean = false,
     override var isLoading: Boolean = false,
     override var error: String = "Undefined error",
-    override var internetProblem: Boolean = false,
+    override var internetProblem: Boolean = false
 ) : ScreenState

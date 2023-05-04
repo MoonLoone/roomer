@@ -1,6 +1,5 @@
 package com.example.roomer.data.paging
 
-import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -15,7 +14,7 @@ import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
 @OptIn(ExperimentalPagingApi::class)
-class RoomerRemoteMediator<in T : BaseEntity, in K: RawData>(
+class RoomerRemoteMediator<in T : BaseEntity, in K : RawData>(
     private val apiFunction: suspend (Int) -> K?,
     private val saveToDb: suspend (K) -> Unit,
     private val deleteFromDb: suspend () -> Unit
@@ -27,7 +26,7 @@ class RoomerRemoteMediator<in T : BaseEntity, in K: RawData>(
     ): MediatorResult {
         return try {
             val loadKey = when (loadType) {
-                LoadType.REFRESH ->{
+                LoadType.REFRESH -> {
                     null
                 }
                 LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
@@ -36,10 +35,10 @@ class RoomerRemoteMediator<in T : BaseEntity, in K: RawData>(
                         ?: return MediatorResult.Success(
                             endOfPaginationReached = true
                         )
-                    lastItem.page+1
+                    lastItem.page + 1
                 }
             }
-            val response = apiFunction(loadKey?:1)
+            val response = apiFunction(loadKey ?: 1)
             response?.let {
                 CoroutineScope(Dispatchers.IO).launch {
                     if (loadType == LoadType.REFRESH) {

@@ -5,23 +5,18 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.PagingData
 import androidx.paging.map
 import com.example.roomer.data.repository.roomer_repository.RoomerRepository
-import com.example.roomer.data.room.entities.toMessage
 import com.example.roomer.domain.model.entities.Message
-import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.usecase.navbar_screens.MessengerUseCase
 import com.example.roomer.presentation.screens.entrance.login.LoginScreenViewModel
 import com.example.roomer.utils.Resource
 import com.example.roomer.utils.SpManager
 import com.example.roomer.utils.converters.convertTimeDateFromBackend
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 

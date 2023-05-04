@@ -1,7 +1,6 @@
 package com.example.roomer.presentation.screens.shared_screens.chat_screen
 
 import android.app.Application
-import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -14,14 +13,12 @@ import androidx.paging.cachedIn
 import androidx.paging.map
 import com.example.roomer.data.remote.ChatClientWebSocket
 import com.example.roomer.data.repository.roomer_repository.RoomerRepository
-import com.example.roomer.data.room.entities.LocalMessage
 import com.example.roomer.data.room.entities.toMessage
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.domain.model.entities.toLocalMessage
 import com.example.roomer.utils.SpManager
 import com.example.roomer.utils.converters.createJson
-import com.example.roomer.utils.converters.getFromJson
 import com.google.gson.Gson
 import com.google.gson.JsonParser
 import dagger.assisted.Assisted
@@ -36,12 +33,11 @@ import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class ChatScreenViewModel @AssistedInject constructor(
     @Assisted private val recipientUser: User,
     application: Application,
-    private val roomerRepository: RoomerRepository,
+    private val roomerRepository: RoomerRepository
 ) : AndroidViewModel(application) {
 
     private val chatClientWebSocket: ChatClientWebSocket =
@@ -109,10 +105,12 @@ class ChatScreenViewModel @AssistedInject constructor(
                 ) ?: ""
                 val jsonObject = JsonParser.parseString(text).asJsonObject
                 val message = Gson().fromJson(jsonObject, Message::class.java).toLocalMessage()
-                if (message.recipientId == currentUser.value.userId) roomerRepository.messageChecked(
-                    message.messageId,
-                    token
-                )
+                if (message.recipientId == currentUser.value.userId) {
+                    roomerRepository.messageChecked(
+                        message.messageId,
+                        token
+                    )
+                }
                 roomerRepository.addLocalMessage(message)
             }
         }
@@ -128,5 +126,4 @@ class ChatScreenViewModel @AssistedInject constructor(
             }
         }
     }
-
 }

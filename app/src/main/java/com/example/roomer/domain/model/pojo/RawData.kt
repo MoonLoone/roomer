@@ -12,5 +12,5 @@ open class RawData(
     @SerializedName("page")
     val page: Int = 0,
     @SerializedName("lastPage")
-    val lastPage: Int = 0,
+    val lastPage: Int = 0
 )

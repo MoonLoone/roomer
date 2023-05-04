@@ -5,5 +5,5 @@ import com.google.gson.annotations.SerializedName
 
 data class ChatRawData(
     @SerializedName("results")
-    val results: List<Message>? = null,
-):RawData()
+    val results: List<Message>? = null
+) : RawData()

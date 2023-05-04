@@ -11,7 +11,6 @@ import com.example.roomer.domain.model.login_sign_up.SignUpDataModel
 import com.example.roomer.domain.model.login_sign_up.SignUpModel
 import com.example.roomer.domain.model.login_sign_up.TokenDto
 import com.example.roomer.domain.model.pojo.ChatRawData
-import com.example.roomer.domain.model.pojo.Favourite
 import com.example.roomer.domain.model.pojo.FavouriteRawData
 import okhttp3.MultipartBody
 import retrofit2.Response
@@ -85,7 +84,7 @@ interface RoomerApi {
     suspend fun getChatsForUser(
         @Query("user_id") userId: Int,
         @Query("chat_id") chatId: String,
-        @Query("page") page: Int = 1,
+        @Query("page") page: Int = 1
     ): Response<ChatRawData>
 
     @PUT("/chats/{id}/mark_checked/")
@@ -103,7 +102,7 @@ interface RoomerApi {
     @POST("/favourites/")
     suspend fun addToFavourite(
         @Query("user_id") userId: Int,
-        @Query("housing_id") housingId: Int,
+        @Query("housing_id") housingId: Int
     ): Response<String>
 
     @DELETE("/favourites/")
@@ -115,6 +114,6 @@ interface RoomerApi {
     @GET("/favourites/")
     suspend fun getFavourites(
         @Query("user_id") userId: Int,
-        @Query("page") page: Int = 1,
+        @Query("page") page: Int = 1
     ): Response<FavouriteRawData>
 }

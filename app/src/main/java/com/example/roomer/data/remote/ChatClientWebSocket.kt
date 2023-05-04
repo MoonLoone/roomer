@@ -28,7 +28,7 @@ class ChatClientWebSocket(private val onMessageReceived: (String) -> Unit) : Web
         socket?.send(messageJson.toString())
     }
 
-    fun close(){
+    fun close() {
         socket?.close(SOCKET_CLOSE_CODE, SOCKET_CLOSE_REASON)
     }
 

@@ -1,6 +1,5 @@
 package com.example.roomer.data.local
 
-import android.util.Log
 import androidx.paging.PagingSource
 import com.example.roomer.data.room.RoomerDatabase
 import com.example.roomer.data.room.entities.LocalCurrentUser
@@ -24,9 +23,11 @@ class RoomerStore(
     }
 
     override suspend fun addManyFavourites(favouriteRooms: List<Room>) {
-        favourites.saveManyFavourites(favouriteRooms.map {
-            it.toLocalRoom()
-        })
+        favourites.saveManyFavourites(
+            favouriteRooms.map {
+                it.toLocalRoom()
+            }
+        )
     }
 
     override suspend fun isFavouritesEmpty(): Boolean = favourites.count() == 0L

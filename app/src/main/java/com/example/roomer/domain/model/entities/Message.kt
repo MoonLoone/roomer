@@ -20,7 +20,13 @@ data class Message(
 
 fun Message.toLocalMessage(): LocalMessage {
     val local = LocalMessage(
-        id, chatId, dateTime, text, donor.userId, recipient.userId, isChecked
+        id,
+        chatId,
+        dateTime,
+        text,
+        donor.userId,
+        recipient.userId,
+        isChecked
     )
     local.page = page
     local.lastPage = lastPage

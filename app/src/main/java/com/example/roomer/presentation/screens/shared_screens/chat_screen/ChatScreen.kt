@@ -3,7 +3,6 @@ package com.example.roomer.presentation.screens.shared_screens.chat_screen
 import android.app.Activity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,8 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import com.example.roomer.presentation.screens.destinations.UserDetailsScreenDestination
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -32,7 +29,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -58,7 +54,7 @@ import com.example.roomer.R
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.presentation.screens.destinations.MessengerScreenDestination
-import com.example.roomer.presentation.screens.shared_screens.UserDetailsScreen
+import com.example.roomer.presentation.screens.destinations.UserDetailsScreenDestination
 import com.example.roomer.presentation.ui_components.BackBtn
 import com.example.roomer.presentation.ui_components.Message
 import com.example.roomer.utils.NavbarManagement
@@ -74,7 +70,7 @@ import kotlinx.coroutines.flow.flowOf
 fun ChatScreen(
     navigator: DestinationsNavigator,
     recipientUser: User,
-    viewModel: ChatScreenViewModel = chatScreenViewModel(recipientUser),
+    viewModel: ChatScreenViewModel = chatScreenViewModel(recipientUser)
 ) {
     NavbarManagement.hideNavbar()
     Column(
@@ -89,7 +85,8 @@ fun ChatScreen(
     ) {
         TopLine(
             recipientName = UtilsFunctions.trimString(
-                recipientUser.firstName + " " + recipientUser.lastName, 16,
+                recipientUser.firstName + " " + recipientUser.lastName,
+                16
             ),
             recipientAvatarUrl = recipientUser.avatar,
             onNavigateTo = {
@@ -114,7 +111,7 @@ fun ChatScreen(
                 .fillMaxWidth()
                 .weight(1f)
                 .padding(bottom = 8.dp),
-            viewModel.currentUser.value,
+            viewModel.currentUser.value
         )
         EnterMessage(
             editMessageText = messageText,
@@ -128,11 +125,11 @@ private fun TopLine(
     recipientName: String,
     recipientAvatarUrl: String,
     onNavigateTo: () -> Unit,
-    navigateToUser: () -> Unit,
+    navigateToUser: () -> Unit
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth()
     ) {
         BackBtn(onBackNavigation = {
             onNavigateTo.invoke()
@@ -183,7 +180,7 @@ private fun TopLine(
 private fun MessagesList(
     messages: LazyPagingItems<Message>,
     modifier: Modifier = Modifier,
-    currentUser: User,
+    currentUser: User
 ) {
     val lazyListState: LazyListState = rememberLazyListState()
     LazyColumn(modifier = modifier, state = lazyListState, reverseLayout = true) {
