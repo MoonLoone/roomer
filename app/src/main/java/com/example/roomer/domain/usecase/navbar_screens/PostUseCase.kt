@@ -9,12 +9,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.io.IOException
 
-class PostUseCase (
+class PostUseCase(
     private val repository: RoomerRepositoryInterface
 ) {
     fun getCurrentUserRoomData(
         token: String,
-        host: Int,
+        host: Int
     ): Flow<Resource<List<Room>>> = flow {
         try {
             emit(Resource.Loading())
