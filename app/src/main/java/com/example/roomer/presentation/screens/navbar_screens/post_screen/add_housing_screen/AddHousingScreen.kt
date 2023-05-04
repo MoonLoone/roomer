@@ -28,7 +28,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.roomer.R
-import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.presentation.screens.destinations.PostScreenDestination
 import com.example.roomer.presentation.ui_components.BackBtn
 import com.example.roomer.presentation.ui_components.BasicConfirmDialog
@@ -96,97 +95,97 @@ fun AddHousingScreen(
                 top = dimensionResource(id = R.dimen.screen_top_margin),
                 start = dimensionResource(id = R.dimen.screen_start_margin),
                 end = dimensionResource(id = R.dimen.screen_end_margin),
-                bottom = dimensionResource(id = R.dimen.navbar_height)
             )
     ) {
-        Box {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState()),
-                verticalArrangement = Arrangement.spacedBy(
-                    dimensionResource(id = R.dimen.list_elements_margin)
-                )
-            ) {
-                Row(horizontalArrangement = Arrangement.SpaceBetween) {
-                    BackBtn(
-                        onBackNavigation = {
-                            navigator.navigate(PostScreenDestination)
-                        }
-                    )
-                    Text(
-                        text = stringResource(R.string.post_advertisement_title),
-                        modifier = Modifier.fillMaxWidth(),
-                        style = TextStyle(
-                            fontSize = integerResource(
-                                id = R.integer.label_text
-                            ).sp,
-                            color = Color.Black
-                        ),
-                        textAlign = TextAlign.Center
-                    )
-                }
-                HousingPhotosComponent(
-                    bitmapListValue = viewModel.roomImages,
-                    onBitmapListValueChange = {}
-                )
-                UsualTextField(
-                    title = stringResource(R.string.month_price),
-                    placeholder = stringResource(R.string.month_price_placeholder),
-                    value = viewModel.monthPrice,
-                    onValueChange = { newValue -> viewModel.monthPrice = newValue }
-                )
-                UsualTextField(
-                    title = stringResource(R.string.description_label),
-                    placeholder = stringResource(R.string.description_label),
-                    singleLine = false,
-                    value = viewModel.description,
-                    onValueChange = { newValue -> viewModel.description = newValue }
-                )
-                ButtonsRow(
-                    label = stringResource(R.string.bedrooms_label),
-                    values = Constants.RoomPost.ROOMS_COUNT_LIST,
-                    value = viewModel.bedroomsCount,
-                    onValueChange = { viewModel.bedroomsCount = it }
-                )
-                ButtonsRow(
-                    label = stringResource(R.string.bathrooms_label),
-                    values = Constants.RoomPost.ROOMS_COUNT_LIST,
-                    value = viewModel.bathroomsCount,
-                    onValueChange = { viewModel.bathroomsCount = it }
-                )
-                ButtonsRowMapped(
-                    label = stringResource(R.string.apartment_type_label),
-                    values = mapOf(
-                        Pair("F", stringResource(R.string.flat)),
-                        Pair("DU", stringResource(R.string.duplex)),
-                        Pair("H", stringResource(R.string.house)),
-                        Pair("DO", stringResource(R.string.dorm))
-                    ),
-                    value = viewModel.apartmentType,
-                    onValueChange = { viewModel.apartmentType = it }
-                )
-                ButtonsRowMapped(
-                    label = stringResource(R.string.sharing_type_label),
-                    values = mapOf(
-                        Pair("P", stringResource(R.string.sharing_type_private)),
-                        Pair("S", stringResource(R.string.sharing_type_shared))
-                    ),
-                    value = viewModel.sharingType,
-                    onValueChange = { viewModel.sharingType = it }
-                )
-                Box(modifier = Modifier
-                    .fillMaxWidth()
-                    .height(48.dp)
-                )
-            }
-
+        Box(modifier = Modifier.fillMaxSize()) {
             if (state.isLoading) {
                 CircularProgressIndicator(
                     modifier = Modifier.align(Alignment.Center),
                     color = colorResource(id = R.color.primary_dark)
                 )
             } else {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState()),
+                    verticalArrangement = Arrangement.spacedBy(
+                        dimensionResource(id = R.dimen.list_elements_margin)
+                    )
+                ) {
+                    Row(horizontalArrangement = Arrangement.SpaceBetween) {
+                        BackBtn(
+                            onBackNavigation = {
+                                navigator.navigate(PostScreenDestination)
+                            }
+                        )
+                        Text(
+                            text = stringResource(R.string.post_advertisement_title),
+                            modifier = Modifier.fillMaxWidth(),
+                            style = TextStyle(
+                                fontSize = integerResource(
+                                    id = R.integer.label_text
+                                ).sp,
+                                color = Color.Black
+                            ),
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                    HousingPhotosComponent(
+                        bitmapListValue = viewModel.roomImages,
+                        onBitmapListValueChange = {}
+                    )
+                    UsualTextField(
+                        title = stringResource(R.string.month_price),
+                        placeholder = stringResource(R.string.month_price_placeholder),
+                        value = viewModel.monthPrice,
+                        onValueChange = { newValue -> viewModel.monthPrice = newValue }
+                    )
+                    UsualTextField(
+                        title = stringResource(R.string.description_label),
+                        placeholder = stringResource(R.string.description_label),
+                        singleLine = false,
+                        value = viewModel.description,
+                        onValueChange = { newValue -> viewModel.description = newValue }
+                    )
+                    ButtonsRow(
+                        label = stringResource(R.string.bedrooms_label),
+                        values = Constants.RoomPost.ROOMS_COUNT_LIST,
+                        value = viewModel.bedroomsCount,
+                        onValueChange = { viewModel.bedroomsCount = it }
+                    )
+                    ButtonsRow(
+                        label = stringResource(R.string.bathrooms_label),
+                        values = Constants.RoomPost.ROOMS_COUNT_LIST,
+                        value = viewModel.bathroomsCount,
+                        onValueChange = { viewModel.bathroomsCount = it }
+                    )
+                    ButtonsRowMapped(
+                        label = stringResource(R.string.apartment_type_label),
+                        values = mapOf(
+                            Pair("F", stringResource(R.string.flat)),
+                            Pair("DU", stringResource(R.string.duplex)),
+                            Pair("H", stringResource(R.string.house)),
+                            Pair("DO", stringResource(R.string.dorm))
+                        ),
+                        value = viewModel.apartmentType,
+                        onValueChange = { viewModel.apartmentType = it }
+                    )
+                    ButtonsRowMapped(
+                        label = stringResource(R.string.sharing_type_label),
+                        values = mapOf(
+                            Pair("P", stringResource(R.string.sharing_type_private)),
+                            Pair("S", stringResource(R.string.sharing_type_shared))
+                        ),
+                        value = viewModel.sharingType,
+                        onValueChange = { viewModel.sharingType = it }
+                    )
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(48.dp)
+                    )
+                }
+
                 GreenButtonPrimary(
                     modifier = Modifier
                         .align(Alignment.BottomCenter)

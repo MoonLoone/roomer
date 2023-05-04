@@ -161,9 +161,13 @@ class RoomerRepository @Inject constructor(
         )
     }
 
-    override suspend fun putRoom(token: String, room: RoomPost) = roomerApi.postAdvertisement(token, room)
+    override suspend fun putRoom(token: String, room: RoomPost) : Response<Room> {
+        val refToken = "Token ".plus(token)
+        return roomerApi.postAdvertisement(refToken, room)
+    }
     override suspend fun putRoomPhotos(
         token: String,
+        roomId: Int,
         filesContent: List<Bitmap>
     ): Response<Room> {
         val refToken = "Token ".plus(token)
@@ -179,8 +183,11 @@ class RoomerRepository @Inject constructor(
             ))
         }
 
-       return roomerApi.postAdvertisement(refToken, list)
+       return roomerApi.postAdvertisement(refToken, roomId, list)
     }
 
-    override suspend fun getCurrentUserRooms(token: String, hostId: Int): Response<List<Room>> = roomerApi.getCurrentUserAdvertisements(token, hostId)
+    override suspend fun getCurrentUserRooms(token: String, hostId: Int): Response<List<Room>> {
+        val refToken = "Token ".plus(token)
+        return roomerApi.getCurrentUserAdvertisements(refToken, hostId)
+    }
 }

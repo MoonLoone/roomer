@@ -32,7 +32,7 @@ class AddHousingUseCase (
                 token,
                 RoomPost(
                     monthPrice,
-                    host.toString(),
+                    host,
                     description,
                     bedroomsCount,
                     bathroomsCount,
@@ -41,7 +41,7 @@ class AddHousingUseCase (
                 )
             )
 
-            val processPhotos = repository.putRoomPhotos(token, roomImages)
+            val processPhotos = repository.putRoomPhotos(token, processData.body()!!.id, roomImages)
 
             if (processData.isSuccessful && processPhotos.isSuccessful) {
                 coroutineScope {

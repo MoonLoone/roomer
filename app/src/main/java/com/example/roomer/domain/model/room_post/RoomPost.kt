@@ -7,7 +7,7 @@ data class RoomPost(
     @SerializedName("month_price")
     val monthPrice: String,
     @SerializedName("host")
-    val host: String,
+    val host: Int,
     @SerializedName("description")
     val description: String,
     @SerializedName("bathrooms_count")

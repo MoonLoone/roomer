@@ -29,11 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.roomer.R
-import com.example.roomer.domain.model.entities.Room
-import com.example.roomer.domain.model.entities.User
 import com.example.roomer.presentation.screens.destinations.AddHousingScreenDestination
-import com.example.roomer.presentation.screens.destinations.PostScreenDestination
-import com.example.roomer.presentation.screens.navbar_screens.post_screen.add_housing_screen.AddHousingScreenViewModel
 import com.example.roomer.presentation.ui_components.GreenButtonOutlineIconed
 import com.example.roomer.presentation.ui_components.GreenButtonPrimaryIconed
 import com.example.roomer.presentation.ui_components.PostCard
@@ -81,7 +77,6 @@ fun PostScreen(
                 top = dimensionResource(id = R.dimen.screen_top_margin),
                 start = dimensionResource(id = R.dimen.screen_start_margin),
                 end = dimensionResource(id = R.dimen.screen_end_margin),
-                bottom = dimensionResource(id = R.dimen.navbar_height)
             ),
     ) {
         Text(
@@ -130,7 +125,8 @@ fun PostScreen(
                                 .fillMaxWidth()
                                 .padding(bottom = 8.dp),
                             text = stringResource(R.string.add_post_button_label),
-                            trailingIcon = ImageVector.vectorResource(id = R.drawable.postin),
+                            trailingIconPainterId = R.drawable.postin,
+                            trailingIconDescriptionId = R.string.icon_description,
                             enabled = true,
                             onClick = {
                                 navigator.navigate(AddHousingScreenDestination)

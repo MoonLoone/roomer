@@ -2,7 +2,6 @@ package com.example.roomer.presentation.screens.navbar_screens.post_screen.add_h
 
 import android.app.Application
 import android.graphics.Bitmap
-import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue
@@ -19,7 +18,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -74,7 +72,9 @@ class AddHousingScreenViewModel @Inject constructor(
     }
 
     fun showConfirmDialog() {
-        postConfirmation = true
+        if (screenValidate()) {
+            postConfirmation = true
+        }
     }
 
     fun hideConfirmDialog() {
@@ -133,7 +133,55 @@ class AddHousingScreenViewModel @Inject constructor(
                         }
                     }
                 }
+            } else {
+                _state.update { currentState ->
+                    currentState.copy(
+                        isLoading = false,
+                        isError = true,
+                        errorMessage = "Token not found"
+                    )
+                }
             }
         }
     }
+
+    fun screenValidate(): Boolean {
+        try {
+            if (monthPrice.toInt() < 0) {
+                _state.update { currentState ->
+                    currentState.copy(isError = true, errorMessage = MONTH_PRICE_IS_NOT_POSITIVE)
+                }
+                return false
+            }
+        } catch (e: NumberFormatException) {
+            _state.update { currentState ->
+                currentState.copy(isError = true, errorMessage = MONTH_PRICE_IS_NOT_INTEGER)
+            }
+            return false
+        }
+
+        if (roomImages.isEmpty()) {
+            _state.update { currentState ->
+                currentState.copy(isError = true, errorMessage = ROOM_IMAGES_IS_EMPTY)
+            }
+            return false
+        }
+
+        if (description.isEmpty()) {
+            _state.update { currentState ->
+                currentState.copy(isError = true, errorMessage = DESCRIPTION_IS_EMPTY)
+            }
+            return false
+        }
+
+        return true
+    }
+
+    companion object {
+        const val MONTH_PRICE_IS_NOT_INTEGER = "Month price must be an integer"
+        const val MONTH_PRICE_IS_NOT_POSITIVE = "Month price must be positive"
+        const val ROOM_IMAGES_IS_EMPTY = "Add images to your advertisement"
+        const val DESCRIPTION_IS_EMPTY = "Add some description"
+    }
+
 }

@@ -1,7 +1,6 @@
 package com.example.roomer.presentation.screens.navbar_screens.post_screen
 
 import android.app.Application
-import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -106,6 +105,14 @@ class PostScreenViewModel @Inject constructor(
                             }
                         }
                     }
+                }
+            } else {
+                _state.update { currentState ->
+                    currentState.copy(
+                        isLoading = false,
+                        isError = true,
+                        errorMessage = "Token not found"
+                    )
                 }
             }
         }

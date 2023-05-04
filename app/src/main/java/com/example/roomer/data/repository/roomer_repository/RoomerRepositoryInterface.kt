@@ -9,7 +9,6 @@ import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.domain.model.room_post.RoomPost
 import kotlinx.coroutines.flow.Flow
-import okhttp3.MultipartBody
 import retrofit2.Response
 
 interface RoomerRepositoryInterface {
@@ -90,7 +89,7 @@ interface RoomerRepositoryInterface {
 
     suspend fun putRoom(token: String, room: RoomPost) : Response<Room>
 
-    suspend fun putRoomPhotos(token: String, filesContent: List<Bitmap>) : Response<Room>
+    suspend fun putRoomPhotos(token: String, roomId: Int, filesContent: List<Bitmap>) : Response<Room>
 
     suspend fun getCurrentUserRooms(token: String, hostId: Int) : Response<List<Room>>
 }

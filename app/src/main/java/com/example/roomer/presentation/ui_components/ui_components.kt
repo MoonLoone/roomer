@@ -88,7 +88,6 @@ import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.domain.model.login_sign_up.InterestModel
-import com.example.roomer.presentation.screens.destinations.AddHousingScreenDestination
 import com.example.roomer.presentation.screens.entrance.signup.habits_screen.HabitTileModel
 import com.example.roomer.utils.Constants
 import kotlinx.coroutines.CoroutineScope
@@ -512,7 +511,7 @@ fun PostCard(room: Room, onOptionsClick: () -> Unit) {
                             )
                             .crossfade(true)
                             .build(),
-                        placeholder = painterResource(id = R.drawable.ordinnary_room),
+                        placeholder = painterResource(id = R.drawable.ordinary_room),
                         contentDescription = stringResource(id = R.string.room_image_description),
                         modifier = Modifier
                             .fillMaxSize(),
