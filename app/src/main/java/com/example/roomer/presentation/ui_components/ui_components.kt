@@ -537,7 +537,11 @@ fun PostCard(room: Room, onOptionsClick: () -> Unit) {
                     modifier = Modifier
                         .width(dimensionResource(id = R.dimen.tine_icon))
                         .height(dimensionResource(id = R.dimen.tine_icon)),
-                    colorFilter = ColorFilter.tint(color = colorResource(id = R.color.secondary_color))
+                    colorFilter = ColorFilter.tint(
+                        color = colorResource(
+                            id = R.color.secondary_color
+                        )
+                    )
                 )
                 Text(
                     text = location,
@@ -978,10 +982,11 @@ fun HousingPhotosComponent(
 
     Column(
         modifier = Modifier
-            .fillMaxWidth(),
-    ) {
-        Column(modifier = Modifier
             .fillMaxWidth()
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
         ) {
             Text(
                 text = stringResource(R.string.housing_photos),
@@ -1016,7 +1021,9 @@ fun HousingPhotosComponent(
                     items(bitmapListValue.size) { index ->
                         Image(
                             bitmap = bitmapListValue[index].asImageBitmap(),
-                            contentDescription = stringResource(id = R.string.room_image_description),
+                            contentDescription = stringResource(
+                                id = R.string.room_image_description
+                            ),
                             modifier = Modifier
                                 .width(80.dp)
                                 .height(80.dp)

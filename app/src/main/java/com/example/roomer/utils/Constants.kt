@@ -85,5 +85,4 @@ object Constants {
     object RoomPost {
         val ROOMS_COUNT_LIST = listOf("1", "2", "3", "4", "5")
     }
-
 }
