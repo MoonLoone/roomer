@@ -42,7 +42,7 @@
     <string name="calendar_icon">Calendar icon</string>
     <string name="password">Password</string>
     <string name="rate_icon">Rating icon</string>
-    <string name="user_avatar_content_description">message_client_avatar</string>
+    <string name="user_avatar_content_description">User avatar picture</string>
     <string name="message_checked_description">Messages checked</string>
     <string name="message_unchecked_description">Messages unchecked</string>
     <string name="room_image_description">Room image</string>
@@ -78,7 +78,7 @@
     <string name="roommate_results">Roommate Results</string>
     <string name="sorry_nothing_here">Sorry, nothing here</string>
     <string name="interests">Interests</string>
-    <string name="something_went_wrong">Sorry, something went wrong. You should to retry</string>
+    <string name="something_went_wrong">Sorry, something went wrong. You should retry</string>
     <string name="retry">Retry</string>
     <string name="search_filter">Search filter</string>
     <string name="enter_message_content_description">Enter message</string>
@@ -105,12 +105,13 @@
     <string name="end_age_placeholder">End age</string>
     <string name="sleep_time_label">Sleep time</string>
     <string name="personality_type_label">Personality type</string>
+    <string name="personality_type_label_colon">Personality type:</string>
     <string name="attitude_to_smoking_label">Attitude to smoking</string>
     <string name="attitude_to_alcohol_label">Attitude to alcohol</string>
     <string name="what_you_currently_do_lable">What you currently do?</string>
     <string name="clean_habits_label">Clean habits</string>
-    <string name="show_results">Show results</string>
     <string name="to_age_less_than_from_age">To age less than from age</string>
+    <string name="to_price_less_than_from_price">To price less than from price</string>
     <string name="add_icon_placeholder">Add icon</string>
     <string name="choose_10_maximum">Choose 10 maximum</string>
     <string name="tell_us_about_interests">Tell us about your interests</string>
@@ -160,8 +161,40 @@
     <string name="female">Female</string>
     <string name="messenger_notification_title">Roomer messenger</string>
     <string name="recommended_notification_title">Roomer</string>
-    <string name="recommended_room_notification_text">We find some rooms for you</string>
+    <string name="recommended_room_notification_text">We found some rooms for you</string>
     <string name="recommended_mate_notification_text">We can be friends</string>
+    <string name="details_header">Details</string>
+    <string name="details_headline_user">%1$s %2$s, %3$d, %4$s</string>
+    <string name="location_icon_description">A map locator icon shaped as upside down drop</string>
+    <string name="comments_amount">%1$d comments</string>
+    <string name="habits_title">Habits</string>
+    <string name="alcohol_icon_description">small icon shaped like glass of wine with wine inside</string>
+    <string name="rate_button_text">Rate</string>
+    <string name="default_sex" translatable="false">A</string>
+    <string name="default_from_age" translatable="false">0</string>
+    <string name="default_to_age" translatable="false">100</string>
+    <string name="default_sleep_time" translatable="false">N</string>
+    <string name="default_personality" translatable="false">E</string>
+    <string name="default_smoking_attitude" translatable="false">I</string>
+    <string name="default_alcohol_attitude" translatable="false">I</string>
+    <string name="default_employment" translatable="false">E</string>
+    <string name="default_clean_habits" translatable="false">N</string>
+    <string name="not_integer">Not integer</string>
+    <string name="show_results">Show results</string>
+    <string name="default_from_price" translatable="false">0</string>
+    <string name="default_to_price" translatable="false">1000000</string>
+    <string name="default_bedrooms" translatable="false">1</string>
+    <string name="default_bathrooms" translatable="false">1</string>
+    <string name="default_apartment" translatable="false">F</string>
+    <string name="_1" translatable="false">1</string>
+    <string name="_2" translatable="false">2</string>
+    <string name="_3" translatable="false"><![CDATA[>3]]></string>
+    <string name="smoking_icon_description">cigarette with smoke icon</string>
+    <string name="sleep_time_icon_description">sleep schedule icon</string>
+    <string name="clean_habits_icon_description">broom icon</string>
+    <string name="personality_icon">personality type icon</string>
+    <string name="envelope_icon_description">An envelope icon</string>
+    <string name="double_arrow_icon_description">Two arrows pointing to one direction icon</string>
     <string name="add_post_button_label">Add post</string>
     <string name="no_posts_label">No Posts</string>
     <string name="edit_label">Edit</string>

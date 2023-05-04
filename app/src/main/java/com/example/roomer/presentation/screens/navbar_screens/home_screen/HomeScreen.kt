@@ -34,6 +34,7 @@ import com.example.roomer.R
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.presentation.screens.destinations.SearchRoomScreenDestination
+import com.example.roomer.presentation.screens.destinations.UserDetailsScreenDestination
 import com.example.roomer.presentation.ui_components.RoomCard
 import com.example.roomer.presentation.ui_components.SearchField
 import com.example.roomer.presentation.ui_components.UserCard
@@ -61,7 +62,7 @@ fun HomeScreen(
         )
         recommendedRooms.add(
             Room(
-                id = i,
+                0,
                 host = recommendedRoommates[i],
                 fileContent = listOf(Room.Photo(photo = ""))
             )
@@ -140,7 +141,11 @@ fun HomeScreen(
                     )
                 ) {
                     items(recommendedRoommates.size - 2) { index ->
-                        UserCard(recommendedRoommate = recommendedRoommates[index])
+                        UserCard(recommendedRoommate = recommendedRoommates[index]) {
+                            navigator.navigate(
+                                UserDetailsScreenDestination(recommendedRoommates[index])
+                            )
+                        }
                     }
                 }
             }
@@ -164,16 +169,9 @@ fun HomeScreen(
                     items(homeScreenViewModel.testRooms.size - 2) { index ->
                         RoomCard(
                             recommendedRoom = recommendedRooms[index],
-                            true
-                        ) { isLiked ->
-                            if (isLiked) {
-                                homeScreenViewModel.addToFavourites(
-                                    recommendedRooms[index]
-                                )
-                            } else {
-                                homeScreenViewModel.removeLocalFavourite(recommendedRooms[index])
-                            }
-                        }
+                            true,
+                            homeScreenViewModel.housingLike
+                        )
                     }
                 }
             }
@@ -195,7 +193,11 @@ fun HomeScreen(
                     )
                 ) {
                     items(recommendedRoommates.size) { index ->
-                        UserCard(recommendedRoommate = recommendedRoommates[index])
+                        UserCard(recommendedRoommate = recommendedRoommates[index]) {
+                            navigator.navigate(
+                                UserDetailsScreenDestination(recommendedRoommates[index])
+                            )
+                        }
                     }
                 }
             }

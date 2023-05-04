@@ -7,6 +7,9 @@ import com.example.roomer.data.repository.auth_repository.AuthRepository
 import com.example.roomer.data.repository.auth_repository.AuthRepositoryInterface
 import com.example.roomer.data.repository.roomer_repository.RoomerRepository
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
+import com.example.roomer.data.room.RoomerDatabase
+import com.example.roomer.data.shared.HousingLike
+import com.example.roomer.data.shared.HousingLikeInterface
 import com.example.roomer.management.PermissionManager
 import com.example.roomer.utils.Constants.BASE_URL
 import dagger.Module
@@ -71,5 +74,13 @@ object AppModule {
         application: Application
     ): PermissionManager {
         return PermissionManager(application)
+    }
+
+    @Provides
+    fun provideHousingLike(
+        roomerRepositoryInterface: RoomerRepositoryInterface,
+        roomerDatabase: RoomerDatabase
+    ): HousingLikeInterface {
+        return HousingLike(roomerRepositoryInterface, roomerDatabase)
     }
 }

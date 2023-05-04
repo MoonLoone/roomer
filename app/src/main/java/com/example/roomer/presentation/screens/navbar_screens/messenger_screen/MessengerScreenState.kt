@@ -1,4 +1,4 @@
-package com.example.roomer.presentation.screens.navbar_screens
+package com.example.roomer.presentation.screens.navbar_screens.messenger_screen
 
 import com.example.roomer.utils.ScreenState
 

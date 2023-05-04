@@ -11,9 +11,11 @@ import com.example.roomer.domain.model.login_sign_up.SignUpDataModel
 import com.example.roomer.domain.model.login_sign_up.SignUpModel
 import com.example.roomer.domain.model.login_sign_up.TokenDto
 import com.example.roomer.domain.model.room_post.RoomPost
+import com.example.roomer.domain.model.pojo.Favourite
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Multipart
@@ -22,6 +24,7 @@ import retrofit2.http.PUT
 import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
+import retrofit2.http.QueryMap
 
 interface RoomerApi {
 
@@ -49,22 +52,27 @@ interface RoomerApi {
 
     @GET("/housing/")
     suspend fun filterRooms(
-        @Query("month_price_from") monthPriceFrom: String,
-        @Query("month_price_to") monthPriceTo: String,
-        @Query(" bedrooms_count") bedroomsCount: String,
-        @Query("bathrooms_count") bathroomsCount: String,
-        @Query("housing_type") housingType: String
+        @Query("month_price_from") monthPriceFrom: String?,
+        @Query("month_price_to") monthPriceTo: String?,
+        @Query("city") location: String?,
+        @Query("bedrooms_count") bedroomsCount: String?,
+        @Query("bathrooms_count") bathroomsCount: String?,
+        @Query("housing_type") housingType: String?
     ): Response<List<Room>>
 
     @GET("/profile/")
     suspend fun filterRoommates(
-        @Query("sex") sex: String,
-        @Query("employment") employment: String,
-        @Query("alcohol_attitude") alcoholAttitude: String,
-        @Query("smoking_attitude") smokingAttitude: String,
-        @Query("sleep_time") sleepTime: String,
-        @Query("personality_type") personalityType: String,
-        @Query("clean_habits") cleanHabits: String
+        @Query("sex") sex: String?,
+        @Query("city") location: String?,
+        @Query("age_from") ageFrom: String?,
+        @Query("age_to") ageTo: String?,
+        @Query("employment") employment: String?,
+        @Query("alcohol_attitude") alcoholAttitude: String?,
+        @Query("smoking_attitude") smokingAttitude: String?,
+        @Query("sleep_time") sleepTime: String?,
+        @Query("personality_type") personalityType: String?,
+        @Query("clean_habits") cleanHabits: String?,
+        @QueryMap interests: Map<String, String>
     ): Response<List<User>>
 
     @GET("/auth/users/me/")
@@ -91,6 +99,25 @@ interface RoomerApi {
     suspend fun getNotifications(
         @Query("user_id") userId: Int
     ): Response<List<MessageNotification>>
+
+    @POST("/favourites/")
+    suspend fun addToFavourite(
+        @Query("user_id") userId: Int,
+        @Query("housing_id") housingId: Int
+    ): Response<String>
+
+    @DELETE("/favourites/")
+    suspend fun deleteFavourite(
+        @Query("user_id") userId: Int,
+        @Query("housing_id") housingId: Int
+    ): Response<String>
+
+    @GET("/favourites/")
+    suspend fun getFavourites(
+        @Query("user_id") userId: Int,
+        @Query("offset") offset: Int,
+        @Query("limit") limit: Int
+    ): Response<List<Favourite>>
 
     @POST("/housing/")
     suspend fun postAdvertisement(

@@ -1,11 +1,10 @@
-package com.example.roomer.utils
+package com.example.roomer.data.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import retrofit2.Response
 
 class RoomerPagingSource<T : Any>(
-    private val request: suspend (Int, Int) -> Response<List<T>>
+    private val request: suspend (Int, Int) -> List<T>
 ) : PagingSource<Int, T>() {
 
     override fun getRefreshKey(state: PagingState<Int, T>): Int? {
@@ -17,13 +16,13 @@ class RoomerPagingSource<T : Any>(
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, T> {
         return try {
-            val page = params.key ?: 1
+            val page = params.key ?: 0
             val pageSize = params.loadSize
             val response = request.invoke(page * pageSize, pageSize)
             LoadResult.Page(
-                data = response.body() ?: emptyList(),
-                prevKey = if (page == 1) null else page - 1,
-                nextKey = if ((response.body()?.size ?: 0) >= pageSize) page + 1 else null
+                data = response,
+                prevKey = if (page == 0) null else page - 1,
+                nextKey = if (response.isNotEmpty()) page + 1 else null
             )
         } catch (e: Exception) {
             LoadResult.Error(e)
