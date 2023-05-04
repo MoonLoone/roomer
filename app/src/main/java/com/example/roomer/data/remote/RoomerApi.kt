@@ -124,6 +124,7 @@ interface RoomerApi {
         @Header("Authorization") token: String,
         @Body room: RoomPost
     ): Response<Room>
+
     @Multipart
     @PUT("/housing/{roomId}/")
     suspend fun postAdvertisement(
