@@ -16,9 +16,7 @@ class MessengerUseCase(
     fun loadChats(userId: Int): Flow<Resource<List<Message>>> = flow {
         try {
             emit(Resource.Loading())
-
             val process = roomerRepository.getChats(userId)
-
             if (process.isSuccessful) {
                 coroutineScope {
                     emit(Resource.Success(process.body()?.results))

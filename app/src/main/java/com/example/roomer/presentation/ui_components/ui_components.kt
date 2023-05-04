@@ -28,6 +28,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
@@ -48,7 +49,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.BottomEnd
 import androidx.compose.ui.Alignment.Companion.Center
+import androidx.compose.ui.Alignment.Companion.CenterEnd
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -236,7 +239,75 @@ fun ChatItem(
 
 @Composable
 fun Message(isUserMessage: Boolean, text: String, data: String) {
-    if (!isUserMessage) {
+    if (isUserMessage) {
+        Column(horizontalAlignment = Alignment.End, modifier = Modifier.fillMaxWidth()) {
+            Column(
+                modifier = Modifier
+                    .padding(start = 40.dp, top = 16.dp)
+                    .border(
+                        dimensionResource(id = R.dimen.ordinary_border),
+                        Color.Black,
+                        RoundedCornerShape(
+                            bottomStart = dimensionResource(id = R.dimen.rounded_corner_ordinary),
+                            topStart = dimensionResource(id = R.dimen.rounded_corner_ordinary),
+                            bottomEnd = dimensionResource(id = R.dimen.rounded_corner_ordinary)
+                        )
+                    )
+                    .widthIn(min = 32.dp, max = 240.dp)
+                    .height(IntrinsicSize.Max)
+                    .background(
+                        colorResource(id = R.color.primary),
+                        RoundedCornerShape(
+                            bottomStart = dimensionResource(id = R.dimen.rounded_corner_ordinary),
+                            topStart = dimensionResource(id = R.dimen.rounded_corner_ordinary),
+                            bottomEnd = dimensionResource(id = R.dimen.rounded_corner_ordinary)
+                        )
+                    ),
+                horizontalAlignment = Alignment.End
+            ) {
+                Row(
+                    modifier = Modifier.padding(16.dp),
+                    verticalAlignment = Alignment.Top,
+                    horizontalArrangement = Arrangement.spacedBy(32.dp)
+                ) {
+                    Text(
+                        text = text,
+                        modifier = Modifier.weight(6f),
+                        style = TextStyle(
+                            color = colorResource(id = R.color.black),
+                            fontSize = integerResource(
+                                id = R.integer.primary_text
+                            ).sp,
+                        )
+                    )
+                    Column(
+                        modifier = Modifier
+                            .weight(2f)
+                            .fillMaxSize(),
+                        horizontalAlignment = Alignment.End,
+                        verticalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            textAlign = TextAlign.End,
+                            text = data,
+                            style = TextStyle(
+                                color = colorResource(id = R.color.black),
+                                fontSize = integerResource(
+                                    id = R.integer.secondary_text
+                                ).sp,
+                            )
+                        )
+                        Image(
+                            painter = painterResource(id = R.drawable.checked_messages_icon),
+                            contentDescription = stringResource(id = R.string.message_checked_description),
+                            alignment = BottomEnd
+                        )
+                    }
+                }
+            }
+        }
+
+    } else {
         Column(horizontalAlignment = Alignment.Start, modifier = Modifier.fillMaxWidth()) {
             Row(
                 modifier = Modifier
@@ -263,40 +334,6 @@ fun Message(isUserMessage: Boolean, text: String, data: String) {
             ) {
                 Text(text = text, textAlign = TextAlign.Start, modifier = Modifier.padding(16.dp))
                 Text(text = data, textAlign = TextAlign.End, modifier = Modifier.padding(16.dp))
-            }
-        }
-    } else {
-        Column(horizontalAlignment = Alignment.End, modifier = Modifier.fillMaxWidth()) {
-            Column(
-                modifier = Modifier
-                    .padding(start = 40.dp, top = 16.dp)
-                    .border(
-                        dimensionResource(id = R.dimen.ordinary_border),
-                        Color.Black,
-                        RoundedCornerShape(
-                            bottomStart = dimensionResource(id = R.dimen.rounded_corner_ordinary),
-                            topStart = dimensionResource(id = R.dimen.rounded_corner_ordinary),
-                            bottomEnd = dimensionResource(id = R.dimen.rounded_corner_ordinary)
-                        )
-                    )
-                    .width(214.dp)
-                    .height(IntrinsicSize.Max)
-                    .background(
-                        colorResource(id = R.color.primary),
-                        RoundedCornerShape(
-                            bottomStart = dimensionResource(id = R.dimen.rounded_corner_ordinary),
-                            topStart = dimensionResource(id = R.dimen.rounded_corner_ordinary),
-                            bottomEnd = dimensionResource(id = R.dimen.rounded_corner_ordinary)
-                        )
-                    ),
-                horizontalAlignment = Alignment.End
-            ) {
-                Text(text = text)
-                Image(
-                    painter = painterResource(id = R.drawable.checked_messages_icon),
-                    contentDescription = stringResource(id = R.string.message_checked_description)
-                )
-                Text(text = data)
             }
         }
     }

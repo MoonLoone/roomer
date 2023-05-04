@@ -1,7 +1,6 @@
 package com.example.roomer.presentation.screens.shared_screens.chat_screen
 
 import android.app.Activity
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -22,12 +21,10 @@ import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -58,7 +55,6 @@ import com.example.roomer.presentation.screens.destinations.MessengerScreenDesti
 import com.example.roomer.presentation.ui_components.BackBtn
 import com.example.roomer.presentation.ui_components.Message
 import com.example.roomer.utils.NavbarManagement
-import com.example.roomer.utils.UtilsFunctions
 import com.example.roomer.utils.converters.convertTimeDateFromBackend
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -92,7 +88,7 @@ fun ChatScreen(
         val messageText = remember {
             mutableStateOf(TextFieldValue(""))
         }
-        val messages = if (viewModel.socketConnectionState.value) {
+        val messages = if (viewModel.state.collectAsState().value.socketConnected) {
             viewModel.pagingData.value.collectAsLazyPagingItems()
         } else {
             flowOf<PagingData<Message>>(PagingData.empty()).collectAsLazyPagingItems()
@@ -168,7 +164,7 @@ private fun MessagesList(
         items(messages) { item ->
             item?.let { message ->
                 Message(
-                    isUserMessage = message.recipient.userId == currentUser.userId,
+                    isUserMessage = message.donor.userId == currentUser.userId,
                     text = message.text,
                     data = convertTimeDateFromBackend(message.dateTime)
                 )
