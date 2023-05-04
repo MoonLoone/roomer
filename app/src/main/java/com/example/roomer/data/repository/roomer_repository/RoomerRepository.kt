@@ -161,7 +161,7 @@ class RoomerRepository @Inject constructor(
         )
     }
 
-    override suspend fun putRoom(token: String, room: RoomPost): Response<Room> {
+    override suspend fun postRoom(token: String, room: RoomPost): Response<Room> {
         val refToken = "Token ".plus(token)
         return roomerApi.postAdvertisement(refToken, room)
     }

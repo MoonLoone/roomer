@@ -28,7 +28,7 @@ class AddHousingUseCase(
         try {
             emit(Resource.Loading())
 
-            val processData = repository.putRoom(
+            val processData = repository.postRoom(
                 token,
                 RoomPost(
                     monthPrice,

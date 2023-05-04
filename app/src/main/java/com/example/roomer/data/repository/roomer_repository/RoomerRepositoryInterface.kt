@@ -87,7 +87,7 @@ interface RoomerRepositoryInterface {
 
     suspend fun getMessageNotifications(userId: Int): Response<List<MessageNotification>>
 
-    suspend fun putRoom(token: String, room: RoomPost): Response<Room>
+    suspend fun postRoom(token: String, room: RoomPost): Response<Room>
 
     suspend fun putRoomPhotos(
         token: String,
