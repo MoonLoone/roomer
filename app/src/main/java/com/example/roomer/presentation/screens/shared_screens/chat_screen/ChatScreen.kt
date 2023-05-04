@@ -253,6 +253,7 @@ private fun EnterMessage(
                                 .height(dimensionResource(id = R.dimen.ordinary_icon))
                                 .clickable {
                                     onSend(editMessageText.value.text)
+                                    editMessageText.value = TextFieldValue("")
                                 }
                         )
                     }

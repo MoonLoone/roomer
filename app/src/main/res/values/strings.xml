@@ -55,7 +55,7 @@
     <string name="roommate">Roommate</string>
     <string name="status">Status:</string>
     <string name="logo_content_description">Roomer application logo</string>
-    <string name="type_your_message">Do you want to start new chat?</string>
+    <string name="type_your_message">Message</string>
     <string name="apply_button_label">Apply</string>
     <string name="none_content_description">None</string>
     <string name="rating_star_content_description">Rating star</string>
