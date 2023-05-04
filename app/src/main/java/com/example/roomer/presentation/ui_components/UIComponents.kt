@@ -481,19 +481,21 @@ fun PostCard(room: Room, onOptionsClick: () -> Unit) {
                     .fillMaxWidth()
                     .height(imageHeight)
             ) {
-                AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(
-                            room.fileContent?.first()?.photo ?: ""
-                        )
-                        .crossfade(true)
-                        .build(),
-                    placeholder = painterResource(id = R.drawable.ordinnary_room),
-                    contentDescription = stringResource(id = R.string.room_image_description),
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    contentScale = ContentScale.FillBounds
-                )
+                if (room.fileContent?.isNotEmpty() == true) {
+                    AsyncImage(
+                        model = ImageRequest.Builder(LocalContext.current)
+                            .data(
+                                room.fileContent?.first()?.photo ?: ""
+                            )
+                            .crossfade(true)
+                            .build(),
+                        placeholder = painterResource(id = R.drawable.ordinnary_room),
+                        contentDescription = stringResource(id = R.string.room_image_description),
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        contentScale = ContentScale.FillBounds
+                    )
+                }
             }
             Text(
                 text = title,

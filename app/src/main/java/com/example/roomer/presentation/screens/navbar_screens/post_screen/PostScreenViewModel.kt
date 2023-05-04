@@ -1,6 +1,7 @@
 package com.example.roomer.presentation.screens.navbar_screens.post_screen
 
 import android.app.Application
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -13,6 +14,7 @@ import com.example.roomer.presentation.screens.UsualScreenState
 import com.example.roomer.utils.Resource
 import com.example.roomer.utils.SpManager
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -29,7 +31,7 @@ import javax.inject.Inject
 @HiltViewModel
 class PostScreenViewModel @Inject constructor(
     application: Application,
-    roomerRepository: RoomerRepositoryInterface
+    val roomerRepository: RoomerRepositoryInterface
 ) : AndroidViewModel(application) {
 
     private val _state = MutableStateFlow(UsualScreenState())
@@ -43,17 +45,12 @@ class PostScreenViewModel @Inject constructor(
         null
     )
 
-    private var host : Int = 0
-
     private val _advertisements: MutableState<List<Room>> =
         mutableStateOf(emptyList())
     val advertisements: State<List<Room>> = _advertisements
 
     init {
-        viewModelScope.launch {
-            host = roomerRepository.getLocalCurrentUser().userId
-            getAdvertisements()
-        }
+        getAdvertisements()
     }
 
     fun clearState() {
@@ -70,6 +67,7 @@ class PostScreenViewModel @Inject constructor(
 
     fun getAdvertisements() {
         viewModelScope.launch {
+            val host = async {roomerRepository.getLocalCurrentUser()}.await().userId
             if (userToken != null) {
                 postUseCase.getCurrentUserRoomData(userToken, host).collect {
                     when (it) {

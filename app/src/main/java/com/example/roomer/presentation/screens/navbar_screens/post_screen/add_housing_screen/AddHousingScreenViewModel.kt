@@ -2,6 +2,7 @@ package com.example.roomer.presentation.screens.navbar_screens.post_screen.add_h
 
 import android.app.Application
 import android.graphics.Bitmap
+import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue
@@ -30,7 +31,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AddHousingScreenViewModel @Inject constructor(
     application: Application,
-    roomerRepository: RoomerRepositoryInterface
+    val roomerRepository: RoomerRepositoryInterface
 ) : AndroidViewModel(application) {
 
     private val _state = MutableStateFlow(AddHousingState())
@@ -43,14 +44,6 @@ class AddHousingScreenViewModel @Inject constructor(
         SpManager.Sp.TOKEN,
         null
     )
-
-    private var host : Int = 0
-
-    init {
-        viewModelScope.launch {
-            host = roomerRepository.getLocalCurrentUser().userId
-        }
-    }
 
     var roomImages = mutableStateListOf<Bitmap>()
 
@@ -91,6 +84,7 @@ class AddHousingScreenViewModel @Inject constructor(
     fun postAdvertisement() {
         hideConfirmDialog()
         viewModelScope.async {
+            val host = async { roomerRepository.getLocalCurrentUser() }.await().userId
             if (userToken != null) {
                 addHousingUseCase.putRoomData(
                     userToken,

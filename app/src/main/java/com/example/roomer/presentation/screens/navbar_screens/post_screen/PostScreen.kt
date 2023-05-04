@@ -112,7 +112,9 @@ fun PostScreen(
                             )
                         ) {
                             items(viewModel.advertisements.value.size) { index ->
-                                PostCard(room = viewModel.advertisements.value[index]) {}
+                                PostCard(room = viewModel.advertisements.value[index]) {
+                                    navigator.navigate(AddHousingScreenDestination)
+                                }
                             }
                             item {
                                 Box(
