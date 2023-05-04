@@ -170,7 +170,7 @@ private fun TopLine(
                 fontWeight = FontWeight.Bold
             )
         )
-    }B
+    }
     Divider(
         color = colorResource(id = R.color.black),
         modifier = Modifier
