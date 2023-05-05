@@ -164,7 +164,7 @@ fun ChatItem(
                 Text(
                     text = UtilsFunctions.trimString(
                         message.recipient.firstName + " " + message.recipient.lastName,
-                        Constants.UIComponents.CHAT_USERNAME_MAX_LENGTH
+                        Constants.Chat.CHAT_USERNAME_MAX_LENGTH
                     ),
                     fontSize = integerResource(id = R.integer.primary_text).sp,
                     fontWeight = FontWeight.Bold,
@@ -247,7 +247,10 @@ fun RecipientMessage(text: String, date: String) {
                         bottomEnd = dimensionResource(id = R.dimen.rounded_corner_ordinary)
                     )
                 )
-                .widthIn(min = 32.dp, max = 240.dp)
+                .widthIn(
+                    min = Constants.Chat.CHAT_ITEM_MIN_LENGTH.dp,
+                    max = Constants.Chat.CHAT_ITEM_MAX_LENGTH.dp
+                )
                 .height(IntrinsicSize.Max)
                 .background(
                     colorResource(id = R.color.secondary_color),
@@ -313,7 +316,10 @@ fun DonorMessage(text: String, date: String) {
                         bottomEnd = dimensionResource(id = R.dimen.rounded_corner_ordinary)
                     )
                 )
-                .widthIn(min = 32.dp, max = 240.dp)
+                .widthIn(
+                    min = Constants.Chat.CHAT_ITEM_MIN_LENGTH.dp,
+                    max = Constants.Chat.CHAT_USERNAME_MAX_LENGTH.dp
+                )
                 .height(IntrinsicSize.Max)
                 .background(
                     colorResource(id = R.color.primary),

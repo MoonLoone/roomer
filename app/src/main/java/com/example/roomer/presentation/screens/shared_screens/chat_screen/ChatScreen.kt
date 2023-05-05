@@ -57,6 +57,7 @@ import com.example.roomer.presentation.screens.destinations.MessengerScreenDesti
 import com.example.roomer.presentation.screens.destinations.UserDetailsScreenDestination
 import com.example.roomer.presentation.ui_components.BackBtn
 import com.example.roomer.presentation.ui_components.Message
+import com.example.roomer.utils.Constants
 import com.example.roomer.utils.NavbarManagement
 import com.example.roomer.utils.UtilsFunctions
 import com.example.roomer.utils.converters.convertTimeDateFromBackend
@@ -86,10 +87,10 @@ fun ChatScreen(
         TopLine(
             recipientName = UtilsFunctions.trimString(
                 recipientUser.firstName + " " + recipientUser.lastName,
-                16
+                Constants.Chat.CHAT_USERNAME_MAX_LENGTH
             ),
             recipientAvatarUrl = recipientUser.avatar,
-            onNavigateTo = {
+            backNavigation = {
                 viewModel.closeChat()
                 navigator.navigate(MessengerScreenDestination)
             },
@@ -124,7 +125,7 @@ fun ChatScreen(
 private fun TopLine(
     recipientName: String,
     recipientAvatarUrl: String,
-    onNavigateTo: () -> Unit,
+    backNavigation: () -> Unit,
     navigateToUser: () -> Unit
 ) {
     Row(
@@ -132,7 +133,7 @@ private fun TopLine(
         modifier = Modifier.fillMaxWidth()
     ) {
         BackBtn(onBackNavigation = {
-            onNavigateTo.invoke()
+            backNavigation.invoke()
         })
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
@@ -143,8 +144,8 @@ private fun TopLine(
             contentDescription = stringResource(R.string.user_avatar_content_description),
             contentScale = ContentScale.Crop,
             modifier = Modifier
-                .width(56.dp)
-                .height(56.dp)
+                .width(dimensionResource(id = R.dimen.ordinary_image))
+                .height(dimensionResource(id = R.dimen.ordinary_image))
                 .padding(start = 16.dp)
                 .clip(CircleShape)
                 .clickable {
@@ -272,6 +273,5 @@ private fun chatScreenViewModel(recipientUser: User): ChatScreenViewModel {
         LocalContext.current as Activity,
         MainActivity.ViewModelFactoryProvider::class.java
     ).chatViewModelFactory()
-
     return viewModel(factory = ChatScreenViewModel.provideFactory(factory, recipientUser))
 }

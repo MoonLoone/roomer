@@ -1,5 +1,6 @@
 package com.example.roomer.utils
 
+import androidx.compose.ui.res.stringResource
 import com.example.roomer.BuildConfig
 import com.example.roomer.R
 
@@ -33,10 +34,9 @@ object Constants {
         const val PAGE_SIZE = 20
         const val CASH_SIZE = 100
         const val INITIAL_SIZE = 40
-    }
-
-    object UIComponents{
         const val CHAT_USERNAME_MAX_LENGTH = 16
+        const val CHAT_ITEM_MAX_LENGTH = 240
+        const val CHAT_ITEM_MIN_LENGTH = 32
     }
 
     object Options {
