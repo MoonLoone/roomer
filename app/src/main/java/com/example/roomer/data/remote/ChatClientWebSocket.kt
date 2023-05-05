@@ -26,7 +26,7 @@ class ChatClientWebSocket(private val onMessageReceived: (String) -> Unit) : Web
 
     fun sendMessage(messageJson: JSONObject) = socket?.send(messageJson.toString())
 
-    fun close(): Boolean = socket?.close(SOCKET_CLOSE_CODE, SOCKET_CLOSE_REASON)?: true
+    fun close(): Boolean = socket?.close(SOCKET_CLOSE_CODE, SOCKET_CLOSE_REASON) ?: true
 
     override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
         Log.d("!!!", "Connection closed by $reason with code $code")

@@ -1,16 +1,13 @@
 package com.example.roomer.domain.usecase.shared_screens
 
-import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.paging.PagingData
 import androidx.paging.map
-import com.example.roomer.data.repository.roomer_repository.RoomerRepository
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
 import com.example.roomer.data.room.entities.toMessage
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.User
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.count
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.map
 
@@ -36,5 +33,4 @@ class ChatUseCase(
         }
         return data.value == emptyFlow<Message>()
     }
-
 }

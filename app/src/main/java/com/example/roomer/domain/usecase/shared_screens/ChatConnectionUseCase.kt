@@ -11,7 +11,5 @@ class ChatConnectionUseCase(roomerRepository: RoomerRepositoryInterface) {
         recipientUserId: Int
     ) = chatClientWebSocket.open(currentUserId, recipientUserId)
 
-
     fun closeConnection(chatClientWebSocket: ChatClientWebSocket) = chatClientWebSocket.close()
-
 }
