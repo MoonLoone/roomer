@@ -4,7 +4,8 @@ import com.example.roomer.utils.ScreenState
 
 data class ChatScreenState(
     val emptyMessagesList: Boolean = false,
-    val socketConnected: Boolean = false,
+    val unauthorized: Boolean = false,
+    val connectionRefused: Boolean = false,
     override var success: Boolean = false,
     override var isLoading: Boolean = false,
     override var error: String = "Undefined error",

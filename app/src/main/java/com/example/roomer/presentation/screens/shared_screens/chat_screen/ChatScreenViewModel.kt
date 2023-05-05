@@ -1,6 +1,7 @@
 package com.example.roomer.presentation.screens.shared_screens.chat_screen
 
 import android.app.Application
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -17,6 +18,8 @@ import com.example.roomer.data.room.entities.toMessage
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.domain.model.entities.toLocalMessage
+import com.example.roomer.domain.usecase.shared_screens.ChatConnectionUseCase
+import com.example.roomer.domain.usecase.shared_screens.ChatUseCase
 import com.example.roomer.utils.SpManager
 import com.example.roomer.utils.converters.createJson
 import com.google.gson.Gson
@@ -39,10 +42,13 @@ class ChatScreenViewModel @AssistedInject constructor(
     private val roomerRepository: RoomerRepository
 ) : AndroidViewModel(application) {
 
+    private val chatUseCase: ChatUseCase = ChatUseCase(roomerRepository)
+    private val chatConnectionUseCase: ChatConnectionUseCase =
+        ChatConnectionUseCase(roomerRepository)
     private val chatClientWebSocket: ChatClientWebSocket =
         ChatClientWebSocket { text -> messageReceived(text) }
     private val _state: MutableStateFlow<ChatScreenState> = MutableStateFlow(
-        ChatScreenState()
+        ChatScreenState(isLoading = true)
     )
     private val _currentUser = mutableStateOf(User())
     private val _pagingData: MutableState<Flow<PagingData<Message>>> = mutableStateOf(emptyFlow())
@@ -56,35 +62,43 @@ class ChatScreenViewModel @AssistedInject constructor(
     val pagingData: State<Flow<PagingData<Message>>> = _pagingData
     val currentUser: State<User> = _currentUser
 
-    @AssistedFactory
-    interface Factory {
-        fun create(recipientUser: User): ChatScreenViewModel
-    }
-
     init {
         viewModelScope.launch {
-            _state.update { current ->
-                current.copy(socketConnected = false, isLoading = true)
+            if (!chatUseCase.getCurrentUserInfo(_currentUser)) {
+                _state.update { current ->
+                    current.copy(unauthorized = true)
+                }
+                return@launch
             }
-            _currentUser.value = roomerRepository.getLocalCurrentUser()
-            val chatId = (_currentUser.value.userId + recipientUser.userId).toString()
-            chatClientWebSocket.open(_currentUser.value.userId, recipientUser.userId)
-            val response = roomerRepository.getMessages(chatId = chatId)
-            _pagingData.value = response
-                .map { pagedMessages ->
-                    pagedMessages.map { localMessage ->
-                        localMessage.toMessage()
-                    }
-                }.cachedIn(viewModelScope)
-            _state.update { current ->
-                current.copy(socketConnected = true, isLoading = false)
+            if (!chatConnectionUseCase.openConnection(
+                    chatClientWebSocket,
+                    currentUser.value.userId,
+                    recipientUser.userId
+                )
+            ) {
+                _state.update { current ->
+                    current.copy(connectionRefused = true)
+                }
+                return@launch
             }
+            if (!chatUseCase.getMessages(
+                    currentUser.value.userId,
+                    recipientUser.userId,
+                    _pagingData
+                )
+            ) {
+                _state.update { current ->
+                    current.copy(emptyMessagesList = true, success = true)
+                }
+                return@launch
+            }
+            _state.value = ChatScreenState(success = true)
         }
     }
 
     fun sendMessage(message: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            if (state.value.socketConnected) {
+            if (!state.value.connectionRefused) {
                 val messageJson = createJson(
                     Pair("message", message),
                     Pair("donor_id", _currentUser.value.userId),
@@ -95,7 +109,7 @@ class ChatScreenViewModel @AssistedInject constructor(
         }
     }
 
-    fun closeChat() = chatClientWebSocket.close()
+    fun closeChat() = chatConnectionUseCase.closeConnection(chatClientWebSocket)
 
     private fun messageReceived(text: String) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -109,6 +123,16 @@ class ChatScreenViewModel @AssistedInject constructor(
             }
             roomerRepository.addLocalMessage(message)
         }
+    }
+
+    override fun onCleared() {
+        chatClientWebSocket.close()
+        super.onCleared()
+    }
+
+    @AssistedFactory
+    interface Factory {
+        fun create(recipientUser: User): ChatScreenViewModel
     }
 
     companion object {

@@ -34,8 +34,6 @@ object Constants {
         const val CASH_SIZE = 100
         const val INITIAL_SIZE = 40
         const val CHAT_USERNAME_MAX_LENGTH = 16
-        const val CHAT_ITEM_MAX_LENGTH = 240
-        const val CHAT_ITEM_MIN_LENGTH = 32
     }
 
     object Options {

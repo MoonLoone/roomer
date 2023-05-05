@@ -1,6 +1,7 @@
 package com.example.roomer.presentation.screens.shared_screens.chat_screen
 
 import android.app.Activity
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -74,6 +75,7 @@ fun ChatScreen(
     viewModel: ChatScreenViewModel = chatScreenViewModel(recipientUser)
 ) {
     NavbarManagement.hideNavbar()
+    val state = viewModel.state.collectAsState().value
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -101,7 +103,7 @@ fun ChatScreen(
         val messageText = remember {
             mutableStateOf(TextFieldValue(""))
         }
-        val messages = if (viewModel.state.collectAsState().value.socketConnected) {
+        val messages = if (state.success) {
             viewModel.pagingData.value.collectAsLazyPagingItems()
         } else {
             flowOf<PagingData<Message>>(PagingData.empty()).collectAsLazyPagingItems()

@@ -248,8 +248,8 @@ fun RecipientMessage(text: String, date: String) {
                     )
                 )
                 .widthIn(
-                    min = Constants.Chat.CHAT_ITEM_MIN_LENGTH.dp,
-                    max = Constants.Chat.CHAT_ITEM_MAX_LENGTH.dp
+                    min = dimensionResource(id = R.dimen.message_min_width),
+                    max = dimensionResource(id = R.dimen.message_max_width)
                 )
                 .height(IntrinsicSize.Max)
                 .background(
@@ -317,8 +317,8 @@ fun DonorMessage(text: String, date: String) {
                     )
                 )
                 .widthIn(
-                    min = Constants.Chat.CHAT_ITEM_MIN_LENGTH.dp,
-                    max = Constants.Chat.CHAT_USERNAME_MAX_LENGTH.dp
+                    min = dimensionResource(id = R.dimen.message_min_width),
+                    max = dimensionResource(id = R.dimen.message_max_width)
                 )
                 .height(IntrinsicSize.Max)
                 .background(

@@ -37,10 +37,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.example.roomer.presentation.screens.destinations.ChatScreenDestination
 import com.example.roomer.R
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.domain.model.login_sign_up.InterestModel
 import com.example.roomer.presentation.screens.entrance.signup.habits_screen.HabitTileModel
+import com.example.roomer.presentation.screens.shared_screens.chat_screen.ChatScreen
 import com.example.roomer.presentation.ui_components.BackBtn
 import com.example.roomer.presentation.ui_components.ExpandableText
 import com.example.roomer.presentation.ui_components.GreenButtonOutline
@@ -147,7 +149,9 @@ fun UserDetailsScreen(
                 .fillMaxWidth()
         ) {
             RateFab {}
-            MessageFab {}
+            MessageFab {
+                navigator.navigate(ChatScreenDestination(user))
+            }
         }
     }
 }
