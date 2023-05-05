@@ -164,7 +164,7 @@ fun ChatItem(
                 Text(
                     text = UtilsFunctions.trimString(
                         message.recipient.firstName + " " + message.recipient.lastName,
-                        16
+                        Constants.UIComponents.CHAT_USERNAME_MAX_LENGTH
                     ),
                     fontSize = integerResource(id = R.integer.primary_text).sp,
                     fontWeight = FontWeight.Bold,
@@ -193,8 +193,8 @@ fun ChatItem(
                     Text(
                         text =
                         when (unreadMessages) {
-                            in 1..999 -> unreadMessages.toString()
-                            else -> "999+"
+                            in 1..99 -> unreadMessages.toString()
+                            else -> "99+"
                         },
                         modifier = Modifier
                             .width(48.dp)

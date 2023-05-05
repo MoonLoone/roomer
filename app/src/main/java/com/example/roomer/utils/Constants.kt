@@ -35,6 +35,10 @@ object Constants {
         const val INITIAL_SIZE = 40
     }
 
+    object UIComponents{
+        const val CHAT_USERNAME_MAX_LENGTH = 16
+    }
+
     object Options {
         val apartmentOptions = mapOf(
             Pair("F", R.string.flat),

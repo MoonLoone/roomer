@@ -47,6 +47,11 @@ class ChatScreenViewModel @AssistedInject constructor(
     )
     private val _currentUser = mutableStateOf(User())
     private val _pagingData: MutableState<Flow<PagingData<Message>>> = mutableStateOf(emptyFlow())
+    private val token = SpManager().getSharedPreference(
+        getApplication<Application>().applicationContext,
+        key = SpManager.Sp.TOKEN,
+        null
+    ) ?: ""
 
     val state: StateFlow<ChatScreenState> = _state
     val pagingData: State<Flow<PagingData<Message>>> = _pagingData
@@ -79,16 +84,14 @@ class ChatScreenViewModel @AssistedInject constructor(
     }
 
     fun sendMessage(message: String) {
-        viewModelScope.launch {
-            CoroutineScope(Dispatchers.IO).launch {
-                if (state.value.socketConnected) {
-                    val messageJson = createJson(
-                        Pair("message", message),
-                        Pair("donor_id", _currentUser.value.userId),
-                        Pair("recipient_id", recipientUser.userId)
-                    )
-                    chatClientWebSocket.sendMessage(messageJson)
-                }
+        viewModelScope.launch(Dispatchers.IO) {
+            if (state.value.socketConnected) {
+                val messageJson = createJson(
+                    Pair("message", message),
+                    Pair("donor_id", _currentUser.value.userId),
+                    Pair("recipient_id", recipientUser.userId)
+                )
+                chatClientWebSocket.sendMessage(messageJson)
             }
         }
     }
@@ -96,23 +99,16 @@ class ChatScreenViewModel @AssistedInject constructor(
     fun closeChat() = chatClientWebSocket.close()
 
     private fun messageReceived(text: String) {
-        viewModelScope.launch {
-            CoroutineScope(Dispatchers.IO).launch {
-                val token = SpManager().getSharedPreference(
-                    getApplication<Application>().applicationContext,
-                    key = SpManager.Sp.TOKEN,
-                    null
-                ) ?: ""
-                val jsonObject = JsonParser.parseString(text).asJsonObject
-                val message = Gson().fromJson(jsonObject, Message::class.java).toLocalMessage()
-                if (message.recipientId == currentUser.value.userId) {
-                    roomerRepository.messageChecked(
-                        message.messageId,
-                        token
-                    )
-                }
-                roomerRepository.addLocalMessage(message)
+        viewModelScope.launch(Dispatchers.IO) {
+            val jsonObject = JsonParser.parseString(text).asJsonObject
+            val message = Gson().fromJson(jsonObject, Message::class.java).toLocalMessage()
+            if (message.recipientId == currentUser.value.userId) {
+                roomerRepository.messageChecked(
+                    message.messageId,
+                    token
+                )
             }
+            roomerRepository.addLocalMessage(message)
         }
     }
 
