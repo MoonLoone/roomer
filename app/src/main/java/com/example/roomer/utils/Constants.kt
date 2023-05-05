@@ -1,6 +1,5 @@
 package com.example.roomer.utils
 
-import androidx.compose.ui.res.stringResource
 import com.example.roomer.BuildConfig
 import com.example.roomer.R
 
