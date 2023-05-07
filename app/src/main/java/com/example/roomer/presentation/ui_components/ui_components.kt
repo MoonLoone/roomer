@@ -28,6 +28,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -49,6 +50,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.BottomEnd
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -84,6 +86,7 @@ import com.example.roomer.domain.model.entities.User
 import com.example.roomer.domain.model.login_sign_up.InterestModel
 import com.example.roomer.presentation.screens.entrance.signup.habits_screen.HabitTileModel
 import com.example.roomer.utils.Constants
+import com.example.roomer.utils.UtilsFunctions
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -136,96 +139,82 @@ fun ChatItem(
         modifier = Modifier
             .clickable { navigateTo.invoke() }
             .fillMaxWidth()
-            .height(dimensionResource(id = R.dimen.chat_row_height))
+            .height(dimensionResource(id = R.dimen.chat_row_height)),
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.ordinary_client),
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(message.recipient.avatar)
+                .crossfade(true)
+                .build(),
+            placeholder = painterResource(id = R.drawable.ordinary_client),
             contentDescription = stringResource(R.string.user_avatar_content_description),
+            contentScale = ContentScale.Crop,
             modifier = Modifier
                 .width(dimensionResource(id = R.dimen.small_avatar_image))
                 .height(dimensionResource(id = R.dimen.small_avatar_image))
-                .padding(start = 8.dp, end = 16.dp, bottom = 8.dp, top = 8.dp),
+                .padding(start = 16.dp)
+                .clip(CircleShape),
             alignment = Center
         )
-        Column(modifier = Modifier.fillMaxWidth()) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp)
+        ) {
             Row(modifier = Modifier.fillMaxWidth()) {
                 Text(
-                    text = message.recipient.firstName + message.recipient.lastName,
+                    text = UtilsFunctions.trimString(
+                        message.recipient.firstName + " " + message.recipient.lastName,
+                        Constants.Chat.CHAT_USERNAME_MAX_LENGTH
+                    ),
                     fontSize = integerResource(id = R.integer.primary_text).sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.Black
                 )
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                    Image(
-                        painter = painterResource(
-                            id = if (message.isChecked) {
-                                R.drawable.checked_messages_icon
-                            } else {
-                                R.drawable.unchecked_messages_icon
-                            }
-                        ),
-                        contentDescription = if (message.isChecked) {
-                            stringResource(
-                                R.string.message_checked_description
-                            )
-                        } else {
-                            stringResource(
-                                R.string.message_unchecked_description
-                            )
-                        },
-                        alignment = Center,
-                        modifier = Modifier
-                            .width(dimensionResource(id = R.dimen.small_icon))
-                            .height(dimensionResource(id = R.dimen.small_icon))
-                    )
-                    Text(
-                        text = message.dateTime,
-                        style = TextStyle(
-                            color = colorResource(id = R.color.text_secondary),
-                            fontSize = integerResource(id = R.integer.primary_text).sp,
-                            textAlign = TextAlign.End
-                        )
-                    )
-                }
-            }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp)
-            ) {
                 Text(
-                    text = message.text,
+                    text = message.dateTime,
+                    modifier = Modifier.padding(start = 8.dp),
                     style = TextStyle(
                         color = colorResource(id = R.color.text_secondary),
-                        fontSize = integerResource(id = R.integer.primary_text).sp
+                        fontSize = integerResource(id = R.integer.primary_text).sp,
+                        textAlign = TextAlign.End
                     )
                 )
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                    if (unreadMessages > 0) {
-                        Text(
-                            text =
-                            when (unreadMessages) {
-                                in 1..999 -> unreadMessages.toString()
-                                else -> "999+"
-                            },
-                            modifier = Modifier
-                                .width(48.dp)
-                                .height(20.dp)
-                                .background(
-                                    color = colorResource(
-                                        id = R.color.primary
-                                    ),
-                                    shape = RoundedCornerShape(
-                                        dimensionResource(id = R.dimen.rounded_corner_ordinary)
-                                    )
+            }
+            Text(
+                text = message.text,
+                style = TextStyle(
+                    color = colorResource(id = R.color.text_secondary),
+                    fontSize = integerResource(id = R.integer.primary_text).sp
+                ),
+                maxLines = 1
+            )
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                if (unreadMessages > 0) {
+                    Text(
+                        text =
+                        when (unreadMessages) {
+                            in 1..99 -> unreadMessages.toString()
+                            else -> "99+"
+                        },
+                        modifier = Modifier
+                            .width(48.dp)
+                            .height(20.dp)
+                            .background(
+                                color = colorResource(
+                                    id = R.color.primary
                                 ),
-                            style = TextStyle(
-                                color = Color.Black,
-                                fontSize = integerResource(id = R.integer.primary_text).sp,
-                                textAlign = TextAlign.Center
-                            )
+                                shape = RoundedCornerShape(
+                                    dimensionResource(id = R.dimen.rounded_corner_ordinary)
+                                )
+                            ),
+                        style = TextStyle(
+                            color = Color.Black,
+                            fontSize = integerResource(id = R.integer.primary_text).sp,
+                            textAlign = TextAlign.Center
                         )
-                    }
+                    )
                 }
             }
         }
@@ -237,68 +226,147 @@ fun ChatItem(
 }
 
 @Composable
-fun Message(isUserMessage: Boolean, text: String, data: String) {
-    if (!isUserMessage) {
-        Column(horizontalAlignment = Alignment.Start, modifier = Modifier.fillMaxWidth()) {
-            Row(
-                modifier = Modifier
-                    .padding(top = 16.dp)
-                    .width(214.dp)
-                    .border(
-                        dimensionResource(id = R.dimen.ordinary_border),
-                        Color.Black,
-                        RoundedCornerShape(
-                            topEnd = dimensionResource(id = R.dimen.rounded_corner_ordinary),
-                            topStart = dimensionResource(id = R.dimen.rounded_corner_ordinary),
-                            bottomEnd = dimensionResource(id = R.dimen.rounded_corner_ordinary)
-                        )
-                    )
-                    .height(IntrinsicSize.Max)
-                    .background(
-                        colorResource(id = R.color.secondary_color),
-                        RoundedCornerShape(
-                            topEnd = dimensionResource(id = R.dimen.rounded_corner_ordinary),
-                            topStart = dimensionResource(id = R.dimen.rounded_corner_ordinary),
-                            bottomEnd = dimensionResource(id = R.dimen.rounded_corner_ordinary)
-                        )
-                    )
-            ) {
-                Text(text = text, textAlign = TextAlign.Start, modifier = Modifier.padding(16.dp))
-                Text(text = data, textAlign = TextAlign.End, modifier = Modifier.padding(16.dp))
-            }
-        }
+fun Message(isUserMessage: Boolean, text: String, date: String) {
+    if (isUserMessage) {
+        DonorMessage(text, date)
     } else {
-        Column(horizontalAlignment = Alignment.End, modifier = Modifier.fillMaxWidth()) {
+        RecipientMessage(text, date)
+    }
+}
+
+@Composable
+fun RecipientMessage(text: String, date: String) {
+    Column(horizontalAlignment = Alignment.Start, modifier = Modifier.fillMaxWidth()) {
+        Row(
+            modifier = Modifier
+                .padding(top = 16.dp)
+                .border(
+                    dimensionResource(id = R.dimen.ordinary_border),
+                    Color.Black,
+                    RoundedCornerShape(
+                        topEnd = dimensionResource(id = R.dimen.rounded_corner_ordinary),
+                        topStart = dimensionResource(id = R.dimen.rounded_corner_ordinary),
+                        bottomEnd = dimensionResource(id = R.dimen.rounded_corner_ordinary)
+                    )
+                )
+                .widthIn(
+                    min = dimensionResource(id = R.dimen.message_min_width),
+                    max = dimensionResource(id = R.dimen.message_max_width)
+                )
+                .height(IntrinsicSize.Max)
+                .background(
+                    colorResource(id = R.color.secondary_color),
+                    RoundedCornerShape(
+                        topEnd = dimensionResource(id = R.dimen.rounded_corner_ordinary),
+                        topStart = dimensionResource(id = R.dimen.rounded_corner_ordinary),
+                        bottomEnd = dimensionResource(id = R.dimen.rounded_corner_ordinary)
+                    )
+                )
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(32.dp),
+            verticalAlignment = Alignment.Top
+        ) {
+            Text(
+                text = text,
+                modifier = Modifier.weight(6f),
+                style = TextStyle(
+                    color = colorResource(id = R.color.black),
+                    fontSize = integerResource(
+                        id = R.integer.primary_text
+                    ).sp
+                )
+            )
             Column(
                 modifier = Modifier
-                    .padding(start = 40.dp, top = 16.dp)
-                    .border(
-                        dimensionResource(id = R.dimen.ordinary_border),
-                        Color.Black,
-                        RoundedCornerShape(
-                            bottomStart = dimensionResource(id = R.dimen.rounded_corner_ordinary),
-                            topStart = dimensionResource(id = R.dimen.rounded_corner_ordinary),
-                            bottomEnd = dimensionResource(id = R.dimen.rounded_corner_ordinary)
-                        )
-                    )
-                    .width(214.dp)
-                    .height(IntrinsicSize.Max)
-                    .background(
-                        colorResource(id = R.color.primary),
-                        RoundedCornerShape(
-                            bottomStart = dimensionResource(id = R.dimen.rounded_corner_ordinary),
-                            topStart = dimensionResource(id = R.dimen.rounded_corner_ordinary),
-                            bottomEnd = dimensionResource(id = R.dimen.rounded_corner_ordinary)
-                        )
-                    ),
-                horizontalAlignment = Alignment.End
+                    .weight(2f)
+                    .fillMaxSize(),
+                horizontalAlignment = Alignment.End,
+                verticalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(text = text)
+                Text(
+                    textAlign = TextAlign.End,
+                    text = date,
+                    style = TextStyle(
+                        color = colorResource(id = R.color.black),
+                        fontSize = integerResource(
+                            id = R.integer.secondary_text
+                        ).sp
+                    )
+                )
                 Image(
                     painter = painterResource(id = R.drawable.checked_messages_icon),
-                    contentDescription = stringResource(id = R.string.message_checked_description)
+                    contentDescription = stringResource(id = R.string.message_checked_description),
+                    alignment = BottomEnd
                 )
-                Text(text = data)
+            }
+        }
+    }
+}
+
+@Composable
+fun DonorMessage(text: String, date: String) {
+    Column(horizontalAlignment = Alignment.End, modifier = Modifier.fillMaxWidth()) {
+        Row(
+            modifier = Modifier
+                .padding(start = 40.dp, top = 16.dp)
+                .border(
+                    dimensionResource(id = R.dimen.ordinary_border),
+                    Color.Black,
+                    RoundedCornerShape(
+                        bottomStart = dimensionResource(id = R.dimen.rounded_corner_ordinary),
+                        topStart = dimensionResource(id = R.dimen.rounded_corner_ordinary),
+                        bottomEnd = dimensionResource(id = R.dimen.rounded_corner_ordinary)
+                    )
+                )
+                .widthIn(
+                    min = dimensionResource(id = R.dimen.message_min_width),
+                    max = dimensionResource(id = R.dimen.message_max_width)
+                )
+                .height(IntrinsicSize.Max)
+                .background(
+                    colorResource(id = R.color.primary),
+                    RoundedCornerShape(
+                        bottomStart = dimensionResource(id = R.dimen.rounded_corner_ordinary),
+                        topStart = dimensionResource(id = R.dimen.rounded_corner_ordinary),
+                        bottomEnd = dimensionResource(id = R.dimen.rounded_corner_ordinary)
+                    )
+                )
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(32.dp),
+            verticalAlignment = Alignment.Top
+        ) {
+            Text(
+                text = text,
+                modifier = Modifier.weight(6f),
+                style = TextStyle(
+                    color = colorResource(id = R.color.black),
+                    fontSize = integerResource(
+                        id = R.integer.primary_text
+                    ).sp
+                )
+            )
+            Column(
+                modifier = Modifier
+                    .weight(2f)
+                    .fillMaxSize(),
+                horizontalAlignment = Alignment.End,
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    textAlign = TextAlign.End,
+                    text = date,
+                    style = TextStyle(
+                        color = colorResource(id = R.color.black),
+                        fontSize = integerResource(
+                            id = R.integer.secondary_text
+                        ).sp
+                    )
+                )
+                Image(
+                    painter = painterResource(id = R.drawable.checked_messages_icon),
+                    contentDescription = stringResource(id = R.string.message_checked_description),
+                    alignment = BottomEnd
+                )
             }
         }
     }

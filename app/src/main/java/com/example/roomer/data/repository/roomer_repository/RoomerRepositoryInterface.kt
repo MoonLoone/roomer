@@ -2,22 +2,24 @@ package com.example.roomer.data.repository.roomer_repository
 
 import android.graphics.Bitmap
 import androidx.paging.PagingData
+import com.example.roomer.data.room.entities.LocalMessage
 import com.example.roomer.data.room.entities.LocalRoom
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.MessageNotification
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
+import com.example.roomer.domain.model.pojo.ChatRawData
 import com.example.roomer.domain.model.room_post.RoomPost
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 
 interface RoomerRepositoryInterface {
 
-    suspend fun getChats(userId: Int): Response<List<Message>>
+    suspend fun addLocalMessage(message: LocalMessage)
 
-    suspend fun getFavouritesForUser(
-        limit: Int = 10
-    ): Flow<PagingData<LocalRoom>>
+    suspend fun getChats(userId: Int): Response<ChatRawData>
+
+    suspend fun getFavouritesForUser(): Flow<PagingData<LocalRoom>>
 
     suspend fun likeHousing(housingId: Int): Response<String>
 
@@ -32,7 +34,12 @@ interface RoomerRepositoryInterface {
         chatId: Int,
         offset: Int = 0,
         limit: Int = 10
-    ): Response<List<Message>>
+    ): Response<ChatRawData>
+
+    suspend fun getMessages(
+        limit: Int = 10,
+        chatId: String
+    ): Flow<PagingData<LocalMessage>>
 
     suspend fun getFilterRooms(
         monthPriceFrom: String?,

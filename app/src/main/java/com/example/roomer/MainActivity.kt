@@ -9,6 +9,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
+import com.example.roomer.domain.model.entities.User
 import com.example.roomer.management.NotificationManager
 import com.example.roomer.management.PermissionManager
 import com.example.roomer.presentation.screens.NavGraphs
@@ -16,11 +17,15 @@ import com.example.roomer.presentation.screens.destinations.ChatScreenDestinatio
 import com.example.roomer.presentation.screens.destinations.SearchRoomResultsDestination
 import com.example.roomer.presentation.screens.destinations.SearchRoommateResultsDestination
 import com.example.roomer.presentation.screens.entrance.signup.SignUpViewModel
+import com.example.roomer.presentation.screens.shared_screens.chat_screen.ChatScreenViewModel
 import com.example.roomer.presentation.ui_components.Navbar
 import com.example.roomer.utils.Constants
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.navigation.dependency
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.components.ActivityComponent
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -28,6 +33,12 @@ class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var permissionManager: PermissionManager
+
+    @EntryPoint
+    @InstallIn(ActivityComponent::class)
+    interface ViewModelFactoryProvider {
+        fun chatViewModelFactory(): ChatScreenViewModel.Factory
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,7 +78,7 @@ class MainActivity : AppCompatActivity() {
                         )
                         if (chatId > 0 && recipientId > 0) {
                             navController.navigate(
-                                ChatScreenDestination(recipientId, chatId).route
+                                ChatScreenDestination(recipientUser = User(recipientId)).route
                             )
                         }
                     }

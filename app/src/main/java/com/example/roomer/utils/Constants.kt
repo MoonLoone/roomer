@@ -31,9 +31,10 @@ object Constants {
     }
 
     object Chat {
-        const val PAGE_SIZE = 10
-        const val CASH_SIZE = 30
-        const val INITIAL_SIZE = 10
+        const val PAGE_SIZE = 20
+        const val CASH_SIZE = 100
+        const val INITIAL_SIZE = 40
+        const val CHAT_USERNAME_MAX_LENGTH = 16
     }
 
     object Options {

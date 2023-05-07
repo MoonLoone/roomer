@@ -3,9 +3,11 @@ package com.example.roomer.data.local
 import androidx.paging.PagingSource
 import com.example.roomer.data.room.RoomerDatabase
 import com.example.roomer.data.room.entities.LocalCurrentUser
+import com.example.roomer.data.room.entities.LocalMessage
 import com.example.roomer.data.room.entities.LocalRoom
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
+import com.example.roomer.domain.model.entities.toLocalRoom
 import kotlinx.coroutines.flow.Flow
 
 class RoomerStore(
@@ -14,16 +16,22 @@ class RoomerStore(
     private val favourites = database.favourites
     private val users = database.users
     private val currentUser = database.currentUser
+    private val messages = database.messages
 
     override suspend fun addFavourite(room: Room) {
         favourites.saveManyFavourites(listOf(room.toLocalRoom()))
     }
 
     override suspend fun addManyFavourites(favouriteRooms: List<Room>) {
-        favourites.saveManyFavourites(favouriteRooms.map { it.toLocalRoom() })
+        favourites.saveManyFavourites(
+            favouriteRooms.map {
+                it.toLocalRoom()
+            }
+        )
     }
 
     override suspend fun isFavouritesEmpty(): Boolean = favourites.count() == 0L
+
     override suspend fun deleteFavourite(room: Room) {
         favourites.delete(room.toLocalRoom())
     }
@@ -62,22 +70,24 @@ class RoomerStore(
         return favourites.getPagingFavourites()
     }
 
-    private fun Room.toLocalRoom() = LocalRoom(
-        id,
-        monthPrice,
-        host?.userId ?: -1,
-        description,
-        fileContent,
-        bathroomsCount,
-        bedroomsCount,
-        housingType,
-        sharingType,
-        location,
-        title,
-        isLiked
-    )
     override suspend fun clearFavourites() {
         favourites.deleteAll()
+    }
+
+    override suspend fun addLocalMessage(message: LocalMessage) {
+        messages.saveMessage(message)
+    }
+
+    override suspend fun clearLocalMessages() {
+        messages.clear()
+    }
+
+    override suspend fun saveManyLocalMessages(manyMessages: List<LocalMessage>) {
+        messages.saveManyMessages(manyMessages)
+    }
+
+    override fun getPagingMessages(): PagingSource<Int, LocalMessage> {
+        return messages.getPagingMessages()
     }
 
     private fun LocalCurrentUser.toUser() = User(

@@ -22,20 +22,24 @@ data class Room(
     )
 }
 
-fun Room.toLocalRoom() = LocalRoom(
-    id,
-    monthPrice,
-    host?.userId ?: 0,
-    description,
-    fileContent,
-    bathroomsCount,
-    bedroomsCount,
-    housingType,
-    sharingType,
-    location,
-    title,
-    isLiked
-)
+fun Room.toLocalRoom(): LocalRoom {
+    val local = LocalRoom(
+        id,
+        monthPrice,
+        host?.userId ?: 0,
+        description,
+        fileContent,
+        bathroomsCount,
+        bedroomsCount,
+        housingType,
+        sharingType,
+        location,
+        title,
+        isLiked
+    )
+    local.page = page
+    return local
+}
 
 fun Room.toRoomWithHost() = RoomWithHost(
     room = this.toLocalRoom(),

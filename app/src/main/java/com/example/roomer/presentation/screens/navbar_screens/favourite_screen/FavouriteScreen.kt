@@ -9,12 +9,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
@@ -51,13 +45,9 @@ fun FavouriteScreen(
         )
     ) {
         val listOfFavourites =
-            favouriteViewModel.pagingData.collectAsState().value.collectAsLazyPagingItems()
-        val scrollPosition = remember {
-            mutableStateOf(0)
-        }
+            favouriteViewModel.pagingData.value.collectAsLazyPagingItems()
         TopLine()
         FavouritesList(
-            scrollPosition,
             listOfFavourites,
             favouriteViewModel.housingLike
         )
@@ -66,31 +56,23 @@ fun FavouriteScreen(
 
 @Composable
 private fun FavouritesList(
-    scrollPosition: MutableState<Int>,
     listOfFavourites: LazyPagingItems<Room>?,
     housingLike: HousingLikeInterface
 ) {
-    val state = rememberLazyListState()
-    val coroutineScope = rememberCoroutineScope()
+    val lazyListState = rememberLazyListState()
     LazyColumn(
         modifier = Modifier
             .fillMaxSize(),
-        state = state,
+        state = lazyListState,
         verticalArrangement = Arrangement.spacedBy(
             dimensionResource(id = R.dimen.list_elements_margin)
         ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         listOfFavourites?.let {
-            if (it.loadState.append is LoadState.NotLoading) {
-                items(listOfFavourites) { room ->
-                    room?.let {
-                        RoomCard(recommendedRoom = room, isMiniVersion = false, housingLike)
-                        scrollPosition.value = state.firstVisibleItemIndex
-                    }
-                    LaunchedEffect(coroutineScope) {
-                        state.animateScrollToItem(scrollPosition.value)
-                    }
+            items(listOfFavourites) { room ->
+                room?.let {
+                    RoomCard(recommendedRoom = room, isMiniVersion = false, housingLike)
                 }
             }
             if (it.loadState.append is LoadState.Loading) {
