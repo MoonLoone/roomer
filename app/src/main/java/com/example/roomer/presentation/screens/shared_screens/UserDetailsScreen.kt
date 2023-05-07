@@ -35,6 +35,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.roomer.R
@@ -59,7 +60,8 @@ import kotlin.random.Random
 @Composable
 fun UserDetailsScreen(
     user: User,
-    navigator: DestinationsNavigator
+    navigator: DestinationsNavigator,
+    viewModel: UserDetailsScreenViewModel = hiltViewModel()
 ) {
     NavbarManagement.hideNavbar()
     val textStyleHeadline = TextStyle(

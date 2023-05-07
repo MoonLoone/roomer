@@ -51,12 +51,10 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = "1.3.2"
     }
-    applicationVariants.all {
-        kotlin.sourceSets {
-            getByName(name) {
-                kotlin.srcDir("build/generated/ksp/$name/kotlin")
-            }
-        }
+    applicationVariants.all { variant ->
+        variant.addJavaSourceFoldersToModel(
+                new File(buildDir, "generated/ksp/${variant.name}/kotlin")
+        )
     }
 }
 

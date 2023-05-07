@@ -7,6 +7,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.roomer.data.local.RoomerStoreInterface
 import com.example.roomer.data.remote.RoomerApi
+import com.example.roomer.data.room.entities.LocalCurrentUser
 import com.example.roomer.data.room.entities.LocalMessage
 import com.example.roomer.data.room.entities.LocalRoom
 import com.example.roomer.domain.model.entities.Message
@@ -31,6 +32,14 @@ class RoomerRepository @Inject constructor(
     private val roomerApi: RoomerApi,
     private val roomerStore: RoomerStoreInterface
 ) : RoomerRepositoryInterface {
+
+    override suspend fun addRoomToLocalHistory(room: LocalRoom) {
+        roomerStore.addRoomToHistory(room)
+    }
+
+    override suspend fun addMateToLocalHistory(user: LocalCurrentUser) {
+        roomerStore.addUserToHistory(user)
+    }
 
     override suspend fun addLocalMessage(message: LocalMessage) {
         roomerStore.addLocalMessage(message)

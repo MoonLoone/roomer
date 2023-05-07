@@ -22,6 +22,9 @@ interface HistoryDao {
     @Query("DELETE FROM history")
     suspend fun clearHistory()
 
+    @Query("SELECT * FROM history")
+    suspend fun getHistory(): List<HistoryItem>
+
     suspend fun addToLocal(historyItem: HistoryItem){
         if (count() == Constants.HISTORY_SIZE) deleteLast()
         add(historyItem)

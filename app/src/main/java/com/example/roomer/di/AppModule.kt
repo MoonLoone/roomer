@@ -8,6 +8,8 @@ import com.example.roomer.data.repository.auth_repository.AuthRepositoryInterfac
 import com.example.roomer.data.repository.roomer_repository.RoomerRepository
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
 import com.example.roomer.data.room.RoomerDatabase
+import com.example.roomer.data.shared.AddToHistory
+import com.example.roomer.data.shared.AddToHistoryInterface
 import com.example.roomer.data.shared.HousingLike
 import com.example.roomer.data.shared.HousingLikeInterface
 import com.example.roomer.management.PermissionManager
@@ -82,5 +84,12 @@ object AppModule {
         roomerDatabase: RoomerDatabase
     ): HousingLikeInterface {
         return HousingLike(roomerRepositoryInterface, roomerDatabase)
+    }
+
+    @Provides
+    fun provideAddToHistory(
+        roomerRepositoryInterface: RoomerRepositoryInterface,
+    ): AddToHistoryInterface{
+        return AddToHistory(roomerRepositoryInterface)
     }
 }

@@ -1,6 +1,7 @@
 package com.example.roomer.data.room
 
 import androidx.room.TypeConverter
+import com.example.roomer.data.room.entities.LocalRoom
 import com.example.roomer.data.room.entities.RoomWithHost
 import com.example.roomer.data.room.entities.toRoom
 import com.example.roomer.domain.model.entities.Room
@@ -27,8 +28,5 @@ class RoomerConverters {
         return photosJson?.let { Gson().fromJson(it, myType) }
     }
 
-    @TypeConverter
-    fun toRoom(roomWithHost: RoomWithHost): Room {
-        return roomWithHost.room.toRoom()
-    }
+
 }
