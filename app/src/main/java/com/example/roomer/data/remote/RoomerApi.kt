@@ -10,8 +10,8 @@ import com.example.roomer.domain.model.login_sign_up.LoginDto
 import com.example.roomer.domain.model.login_sign_up.SignUpDataModel
 import com.example.roomer.domain.model.login_sign_up.SignUpModel
 import com.example.roomer.domain.model.login_sign_up.TokenDto
-import com.example.roomer.domain.model.room_post.RoomPost
 import com.example.roomer.domain.model.pojo.Favourite
+import com.example.roomer.domain.model.room_post.RoomPost
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body

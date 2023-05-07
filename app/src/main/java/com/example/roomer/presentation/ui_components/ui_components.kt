@@ -1026,7 +1026,13 @@ fun HousingPhotosComponent(
                             ),
                             modifier = Modifier
                                 .size(dimensionResource(R.dimen.housing_component_big_image))
-                                .clip(RoundedCornerShape(dimensionResource(R.dimen.housing_component_rounded_corner_shape))),
+                                .clip(
+                                    RoundedCornerShape(
+                                        dimensionResource(
+                                            R.dimen.housing_component_rounded_corner_shape
+                                        )
+                                    )
+                                ),
                             contentScale = ContentScale.Crop
                         )
                     }
@@ -1039,7 +1045,9 @@ fun HousingPhotosComponent(
             )
         ) {
             GreenButtonPrimaryIconed(
-                modifier = Modifier.padding(top = dimensionResource(R.dimen.housing_component_default_padding)),
+                modifier = Modifier.padding(
+                    top = dimensionResource(R.dimen.housing_component_default_padding)
+                ),
                 text = stringResource(R.string.add_photos_button_label),
                 trailingIcon = ImageVector.vectorResource(id = R.drawable.add_photos_icon),
                 enabled = true,
@@ -1050,7 +1058,9 @@ fun HousingPhotosComponent(
                 }
             )
             RedButtonPrimaryIconed(
-                modifier = Modifier.padding(top = dimensionResource(R.dimen.housing_component_default_padding)),
+                modifier = Modifier.padding(
+                    top = dimensionResource(R.dimen.housing_component_default_padding)
+                ),
                 text = stringResource(R.string.remove_all_photos_button_label),
                 trailingIcon = ImageVector.vectorResource(id = R.drawable.remove_icon),
                 enabled = true,

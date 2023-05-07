@@ -20,4 +20,3 @@ data class RoomPost(
     val location: String = "Ordinary location",
     val title: String = "Ordinary location"
 )
-
