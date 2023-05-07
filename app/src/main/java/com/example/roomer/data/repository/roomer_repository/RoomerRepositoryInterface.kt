@@ -2,6 +2,7 @@ package com.example.roomer.data.repository.roomer_repository
 
 import android.graphics.Bitmap
 import androidx.paging.PagingData
+import com.example.roomer.data.room.entities.HistoryItem
 import com.example.roomer.data.room.entities.LocalCurrentUser
 import com.example.roomer.data.room.entities.LocalMessage
 import com.example.roomer.data.room.entities.LocalRoom
@@ -19,6 +20,8 @@ interface RoomerRepositoryInterface {
     suspend fun addRoomToLocalHistory(room: LocalRoom)
 
     suspend fun addMateToLocalHistory(user: LocalCurrentUser)
+
+    suspend fun getHistory(): List<HistoryItem>
 
     suspend fun addLocalMessage(message: LocalMessage)
 

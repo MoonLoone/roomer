@@ -7,6 +7,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.roomer.data.local.RoomerStoreInterface
 import com.example.roomer.data.remote.RoomerApi
+import com.example.roomer.data.room.entities.HistoryItem
 import com.example.roomer.data.room.entities.LocalCurrentUser
 import com.example.roomer.data.room.entities.LocalMessage
 import com.example.roomer.data.room.entities.LocalRoom
@@ -39,6 +40,10 @@ class RoomerRepository @Inject constructor(
 
     override suspend fun addMateToLocalHistory(user: LocalCurrentUser) {
         roomerStore.addUserToHistory(user)
+    }
+
+    override suspend fun getHistory(): List<HistoryItem> {
+        return roomerStore.getHistory()
     }
 
     override suspend fun addLocalMessage(message: LocalMessage) {

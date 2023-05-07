@@ -1,5 +1,6 @@
 package com.example.roomer.data.room.dao
 
+import android.util.Log
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -11,23 +12,33 @@ import com.example.roomer.utils.Constants
 interface HistoryDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addMany(manyHistoryItems: List<HistoryItem>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun add(historyItem: HistoryItem)
 
     @Query("SELECT COUNT(*) FROM history")
     suspend fun count(): Long
 
-    @Query("DELETE FROM history WHERE id = ${Constants.HISTORY_SIZE}")
-    suspend fun deleteLast()
+    @Query("DELETE FROM history WHERE id = 0")
+    suspend fun deleteFirst()
 
     @Query("DELETE FROM history")
     suspend fun clearHistory()
 
-    @Query("SELECT * FROM history")
+    @Query("SELECT * FROM history ORDER BY id DESC")
     suspend fun getHistory(): List<HistoryItem>
 
     suspend fun addToLocal(historyItem: HistoryItem){
-        if (count() == Constants.HISTORY_SIZE) deleteLast()
         add(historyItem)
+        if (count() >= Constants.HISTORY_SIZE) {
+            val history = getHistory().dropLast(1).map {
+                val item = it
+                item.historyId--
+                item
+            }
+            clearHistory()
+            addMany(history)
+        }
     }
-
 }

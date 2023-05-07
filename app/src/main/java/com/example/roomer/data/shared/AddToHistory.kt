@@ -6,8 +6,9 @@ import com.example.roomer.data.room.entities.LocalRoom
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class AddToHistory(val roomerRepositoryInterface: RoomerRepositoryInterface): AddToHistoryInterface {
+class AddToHistory @Inject constructor(val roomerRepositoryInterface: RoomerRepositoryInterface): AddToHistoryInterface {
 
     override fun addRoomToHistory(room: LocalRoom) {
         CoroutineScope(Dispatchers.IO).launch {

@@ -17,6 +17,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,6 +32,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.roomer.R
+import com.example.roomer.data.room.entities.toRoom
+import com.example.roomer.data.room.entities.toUser
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.presentation.screens.destinations.SearchRoomScreenDestination
@@ -49,25 +52,6 @@ fun HomeScreen(
     homeScreenViewModel: HomeScreenViewModel = hiltViewModel()
 ) {
     NavbarManagement.showNavbar()
-    val recommendedRooms = mutableListOf<Room>()
-    val recommendedRoommates = mutableListOf<User>()
-    for (i in 0..5) {
-        recommendedRoommates.add(
-            User(
-                i,
-                "Andrey $i",
-                "",
-                ""
-            )
-        )
-        recommendedRooms.add(
-            Room(
-                0,
-                host = recommendedRoommates[i],
-                fileContent = listOf(Room.Photo(photo = ""))
-            )
-        )
-    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -138,13 +122,22 @@ fun HomeScreen(
                         .height(148.dp),
                     horizontalArrangement = Arrangement.spacedBy(
                         dimensionResource(id = R.dimen.list_elements_margin)
-                    )
+                    ),
+                    reverseLayout = true
                 ) {
-                    items(recommendedRoommates.size - 2) { index ->
-                        UserCard(recommendedRoommate = recommendedRoommates[index]) {
-                            navigator.navigate(
-                                UserDetailsScreenDestination(recommendedRoommates[index])
+                    items(homeScreenViewModel.history.value.size) { index ->
+                        val item = homeScreenViewModel.history.collectAsState().value[index]
+                        item.room?.toRoom()?.let { room ->
+                            RoomCard(
+                                recommendedRoom = room,
+                                isMiniVersion = false,
+                                likeHousing = homeScreenViewModel.housingLike
                             )
+                        }
+                        item.user?.toUser()?.let { user ->
+                            UserCard(recommendedRoommate = user) {
+                                navigator.navigate(UserDetailsScreenDestination(user))
+                            }
                         }
                     }
                 }
@@ -166,13 +159,7 @@ fun HomeScreen(
                         dimensionResource(id = R.dimen.list_elements_margin)
                     )
                 ) {
-                    items(homeScreenViewModel.testRooms.size - 2) { index ->
-                        RoomCard(
-                            recommendedRoom = recommendedRooms[index],
-                            true,
-                            homeScreenViewModel.housingLike
-                        )
-                    }
+
                 }
             }
             Column(modifier = Modifier.fillMaxWidth()) {
@@ -192,13 +179,7 @@ fun HomeScreen(
                         dimensionResource(id = R.dimen.list_elements_margin)
                     )
                 ) {
-                    items(recommendedRoommates.size) { index ->
-                        UserCard(recommendedRoommate = recommendedRoommates[index]) {
-                            navigator.navigate(
-                                UserDetailsScreenDestination(recommendedRoommates[index])
-                            )
-                        }
-                    }
+
                 }
             }
         }
