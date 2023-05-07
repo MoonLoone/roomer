@@ -992,7 +992,7 @@ fun HousingPhotosComponent(
                 text = stringResource(R.string.housing_photos),
                 style = TextStyle(
                     color = Color.Black,
-                    fontSize = 20.sp,
+                    fontSize = integerResource(R.integer.housing_component_font_size).sp,
                     fontWeight = FontWeight.Bold
                 )
             )
@@ -1000,11 +1000,11 @@ fun HousingPhotosComponent(
                 Text(
                     modifier = Modifier
                         .align(Alignment.CenterHorizontally)
-                        .padding(20.dp),
+                        .padding(dimensionResource(R.dimen.housing_component_default_padding_2)),
                     text = stringResource(R.string.no_images_label),
                     style = TextStyle(
                         color = Color.Black,
-                        fontSize = 20.sp,
+                        fontSize = integerResource(R.integer.housing_component_font_size).sp,
                         fontWeight = FontWeight.Bold
                     )
                 )
@@ -1012,10 +1012,10 @@ fun HousingPhotosComponent(
                 LazyRow(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(88.dp)
-                        .padding(top = 8.dp),
+                        .height(dimensionResource(R.dimen.housing_component_lazy_row))
+                        .padding(top = dimensionResource(R.dimen.housing_component_default_padding)),
                     horizontalArrangement = Arrangement.spacedBy(
-                        8.dp
+                        dimensionResource(R.dimen.housing_component_default_padding)
                     )
                 ) {
                     items(bitmapListValue.size) { index ->
@@ -1025,9 +1025,8 @@ fun HousingPhotosComponent(
                                 id = R.string.room_image_description
                             ),
                             modifier = Modifier
-                                .width(80.dp)
-                                .height(80.dp)
-                                .clip(RoundedCornerShape(10.dp)),
+                                .size(dimensionResource(R.dimen.housing_component_big_image))
+                                .clip(RoundedCornerShape(dimensionResource(R.dimen.housing_component_rounded_corner_shape))),
                             contentScale = ContentScale.Crop
                         )
                     }
@@ -1036,11 +1035,11 @@ fun HousingPhotosComponent(
         }
         Row(
             horizontalArrangement = Arrangement.spacedBy(
-                24.dp
+                dimensionResource(R.dimen.housing_component_horizontal_arrangement)
             )
         ) {
             GreenButtonPrimaryIconed(
-                modifier = Modifier.padding(top = 8.dp),
+                modifier = Modifier.padding(top = dimensionResource(R.dimen.housing_component_default_padding)),
                 text = stringResource(R.string.add_photos_button_label),
                 trailingIcon = ImageVector.vectorResource(id = R.drawable.add_photos_icon),
                 enabled = true,
@@ -1051,7 +1050,7 @@ fun HousingPhotosComponent(
                 }
             )
             RedButtonPrimaryIconed(
-                modifier = Modifier.padding(top = 8.dp),
+                modifier = Modifier.padding(top = dimensionResource(R.dimen.housing_component_default_padding)),
                 text = stringResource(R.string.remove_all_photos_button_label),
                 trailingIcon = ImageVector.vectorResource(id = R.drawable.remove_icon),
                 enabled = true,

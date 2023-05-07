@@ -48,4 +48,12 @@
     <dimen name="fab_padding">16.dp</dimen>
     <dimen name="bottom_padding">56.dp</dimen>
     <dimen name="user_traits_column_width">90.dp</dimen>
+
+    <dimen name="housing_component_big_image">80.dp</dimen>
+    <dimen name="housing_component_rounded_corner_shape">10.dp</dimen>
+    <integer name="housing_component_font_size">20</integer>
+    <dimen name="housing_component_default_padding">8.dp</dimen>
+    <dimen name="housing_component_default_padding_2">20.dp</dimen>
+    <dimen name="housing_component_horizontal_arrangement">24.dp</dimen>
+    <dimen name="housing_component_lazy_row">88.dp</dimen>
 </resources>
