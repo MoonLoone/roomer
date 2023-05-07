@@ -1,11 +1,13 @@
 package com.example.roomer.data.repository.roomer_repository
 
+import android.graphics.Bitmap
 import androidx.paging.PagingData
 import com.example.roomer.data.room.entities.LocalRoom
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.MessageNotification
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
+import com.example.roomer.domain.model.room_post.RoomPost
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 
@@ -84,4 +86,14 @@ interface RoomerRepositoryInterface {
     suspend fun messageChecked(messageId: Int, token: String): Response<Message>
 
     suspend fun getMessageNotifications(userId: Int): Response<List<MessageNotification>>
+
+    suspend fun postRoom(token: String, room: RoomPost): Response<Room>
+
+    suspend fun putRoomPhotos(
+        token: String,
+        roomId: Int,
+        filesContent: List<Bitmap>
+    ): Response<Room>
+
+    suspend fun getCurrentUserRooms(token: String, hostId: Int): Response<List<Room>>
 }

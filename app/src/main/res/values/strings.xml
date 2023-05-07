@@ -68,7 +68,7 @@
     <string name="sign_up_screen_title">Registration</string>
     <string name="home_screen_title">Welcome back!</string>
     <string name="favourite_screen_title">Favourite</string>
-    <string name="post_screen_title">My posts</string>
+    <string name="post_screen_title">My Posts</string>
     <string name="recommended_roommates_label">Recommended roommates</string>
     <string name="recommended_rooms_label">Recommended rooms</string>
     <string name="recently_watched_label">Recently watched</string>
@@ -195,4 +195,27 @@
     <string name="personality_icon">personality type icon</string>
     <string name="envelope_icon_description">An envelope icon</string>
     <string name="double_arrow_icon_description">Two arrows pointing to one direction icon</string>
+    <string name="add_post_button_label">Add post</string>
+    <string name="no_posts_label">No Posts</string>
+    <string name="edit_label">Edit</string>
+    <string name="remove_label">Remove</string>
+    <string name="add_photos_button_label">Add photo</string>
+    <string name="remove_all_photos_button_label">Delete all photos</string>
+    <string name="housing_photos">Housing photos</string>
+    <string name="post_advertisement_title">Post your advertisement</string>
+    <string name="description_label">Description</string>
+    <string name="sharing_type_label">Sharing Type</string>
+    <string name="post_button_label">Post</string>
+    <string name="sharing_type_private">Private</string>
+    <string name="sharing_type_shared">Shared</string>
+    <string name="month_price_placeholder">$$$</string>
+    <string name="no_images_label">No images</string>
+    <string name="dismiss_button_label">Cancel</string>
+    <string name="add_housing_confirm_dialog_text">Are you sure you want to add this advertisement?</string>
+    <string name="error_dialog_text">An error occured!</string>
+    <string name="no_internet_connection_text">No internet connection!</string>
+    <string name="post_month_price_is_not_integer_text">Month price must be an integer</string>
+    <string name="post_month_price_is_not_positive_text">Month price must be positive</string>
+    <string name="post_room_images_is_empty_text">Add images to your advertisement</string>
+    <string name="post_description_is_empty_text">Add some description</string>
 </resources>

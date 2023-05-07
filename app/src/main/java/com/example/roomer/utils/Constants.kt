@@ -6,6 +6,7 @@ import com.example.roomer.R
 object Constants {
     const val BASE_URL = BuildConfig.BASE_URL
     const val EXP_TEXT_MINIMUM_TEXT_LINE = 3
+    const val JPEG_QUALITY = 80
 
     object ScreensId {
         const val greetingScreenId = 0
@@ -80,5 +81,9 @@ object Constants {
         )
 
         val roomsCountOptions = listOf(R.string.any, R.string._1, R.string._2, R.string._3)
+    }
+
+    object RoomPost {
+        val ROOMS_COUNT_LIST = listOf("1", "2", "3", "4", "5")
     }
 }

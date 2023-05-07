@@ -11,6 +11,7 @@ import com.example.roomer.domain.model.login_sign_up.SignUpDataModel
 import com.example.roomer.domain.model.login_sign_up.SignUpModel
 import com.example.roomer.domain.model.login_sign_up.TokenDto
 import com.example.roomer.domain.model.pojo.Favourite
+import com.example.roomer.domain.model.room_post.RoomPost
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
@@ -117,4 +118,24 @@ interface RoomerApi {
         @Query("offset") offset: Int,
         @Query("limit") limit: Int
     ): Response<List<Favourite>>
+
+    @POST("/housing/")
+    suspend fun postAdvertisement(
+        @Header("Authorization") token: String,
+        @Body room: RoomPost
+    ): Response<Room>
+
+    @Multipart
+    @PUT("/housing/{roomId}/")
+    suspend fun putAdvertisement(
+        @Header("Authorization") token: String,
+        @Path("roomId") roomId: Int,
+        @Part filesContent: List<MultipartBody.Part>
+    ): Response<Room>
+
+    @GET("/housing/")
+    suspend fun getCurrentUserAdvertisements(
+        @Header("Authorization") token: String,
+        @Query("host_id") hostId: Int
+    ): Response<List<Room>>
 }

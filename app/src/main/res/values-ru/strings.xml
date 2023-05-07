@@ -71,7 +71,7 @@
     <string name="sign_up_screen_title">Регистрация</string>
     <string name="home_screen_title">Добро пожаловать!</string>
     <string name="favourite_screen_title">Избранное</string>
-    <string name="post_screen_title">Мои посты</string>
+    <string name="post_screen_title">Мои объявления</string>
     <string name="recommended_roommates_label">Рекомендованные сожители</string>
     <string name="recommended_rooms_label">Рекомендованное жилье</string>
     <string name="recently_watched_label">Недавно просмотренное</string>
@@ -165,4 +165,27 @@
     <string name="details_header">Детали</string>
     <string name="details_headline_user">%1$s %2$s, %3$d, %4$s</string>
     <string name="not_integer">Не число</string>
+    <string name="add_post_button_label">Добавить</string>
+    <string name="no_posts_label">Нет объявлений</string>
+    <string name="edit_label">Изменить</string>
+    <string name="remove_label">Удалить</string>
+    <string name="add_photos_button_label">Добавить</string>
+    <string name="remove_all_photos_button_label">Удалить все</string>
+    <string name="housing_photos">Фото жилья</string>
+    <string name="post_advertisement_title">Пост объявления</string>
+    <string name="description_label">Описание</string>
+    <string name="sharing_type_label">Форма съёма</string>
+    <string name="post_button_label">Создать</string>
+    <string name="sharing_type_private">Частная</string>
+    <string name="sharing_type_shared">Общая</string>
+    <string name="month_price_placeholder">$$$</string>
+    <string name="no_images_label">Нет изображений</string>
+    <string name="dismiss_button_label">Отменить</string>
+    <string name="add_housing_confirm_dialog_text">Вы действительно хотите добавить это объявление?</string>
+    <string name="error_dialog_text">Произошла ошибка!</string>
+    <string name="no_internet_connection_text">Нет подключения к интернету</string>
+    <string name="post_month_price_is_not_integer_text">Цена в месяц должна быть целым числом</string>
+    <string name="post_month_price_is_not_positive_text">Цена в месяц должна быть положительной</string>
+    <string name="post_room_images_is_empty_text">Добьте изображения к вашему объявлению</string>
+    <string name="post_description_is_empty_text">Добавьте небольшое описание</string>
 </resources>
