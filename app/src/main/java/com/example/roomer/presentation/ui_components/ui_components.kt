@@ -1013,9 +1013,11 @@ fun HousingPhotosComponent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(dimensionResource(R.dimen.housing_component_lazy_row))
-                        .padding(top = dimensionResource(
-                            R.dimen.housing_component_default_padding
-                        )),
+                        .padding(
+                            top = dimensionResource(
+                                R.dimen.housing_component_default_padding
+                            )
+                        ),
                     horizontalArrangement = Arrangement.spacedBy(
                         dimensionResource(R.dimen.housing_component_default_padding)
                     )
