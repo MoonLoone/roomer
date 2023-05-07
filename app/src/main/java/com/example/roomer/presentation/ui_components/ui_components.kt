@@ -29,6 +29,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
@@ -64,6 +65,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -537,6 +539,104 @@ fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean, likeHousing: Housing
 }
 
 @Composable
+fun PostCard(room: Room, onOptionsClick: () -> Unit) {
+    val cardWidth = 332.dp
+    val cardHeight = 222.dp
+    val imageHeight = 140.dp
+    val nameTextSize = 20.sp
+    val locationTextSize = 14.sp
+    val title = room.title.substring(0, room.title.length.coerceAtMost(16))
+    val location = room.location.substring(
+        0,
+        room.location.length.coerceAtMost(32)
+    )
+    Box(
+        modifier = Modifier
+            .width(cardWidth)
+            .height(cardHeight)
+            .background(
+                color = colorResource(id = R.color.primary_dark),
+                shape = RoundedCornerShape(16.dp)
+            )
+    ) {
+        Column() {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(imageHeight)
+            ) {
+                if (room.fileContent?.isNotEmpty() == true) {
+                    AsyncImage(
+                        model = ImageRequest.Builder(LocalContext.current)
+                            .data(
+                                room.fileContent?.first()?.photo ?: ""
+                            )
+                            .crossfade(true)
+                            .build(),
+                        placeholder = painterResource(id = R.drawable.ordinary_room),
+                        contentDescription = stringResource(id = R.string.room_image_description),
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        contentScale = ContentScale.FillBounds
+                    )
+                }
+            }
+            Text(
+                text = title,
+                modifier = Modifier.padding(
+                    start = 10.dp,
+                    top = 10.dp
+                ),
+                style = TextStyle(
+                    color = colorResource(
+                        id = R.color.secondary_color
+                    ),
+                    fontSize = nameTextSize,
+                    fontWeight = FontWeight.Bold
+                )
+            )
+            Row(
+                modifier = Modifier.padding(start = 10.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.location_icon),
+                    contentDescription = stringResource(id = R.string.location_icon),
+                    modifier = Modifier
+                        .width(dimensionResource(id = R.dimen.tine_icon))
+                        .height(dimensionResource(id = R.dimen.tine_icon)),
+                    colorFilter = ColorFilter.tint(
+                        color = colorResource(
+                            id = R.color.secondary_color
+                        )
+                    )
+                )
+                Text(
+                    text = location,
+                    style = TextStyle(
+                        color = colorResource(id = R.color.secondary_color),
+                        fontSize = locationTextSize
+                    )
+                )
+            }
+        }
+        Image(
+            painter = painterResource(id = R.drawable.settings_secondary_icon),
+            contentDescription = stringResource(id = R.string.like_icon),
+            modifier = Modifier
+                .padding(bottom = 24.dp, end = 24.dp)
+                .align(Alignment.BottomEnd)
+                .width(dimensionResource(id = R.dimen.big_icon))
+                .height(dimensionResource(id = R.dimen.big_icon))
+                .clip(RoundedCornerShape(dimensionResource(id = R.dimen.rounded_corner_full)))
+                .clickable {
+                    onOptionsClick()
+                }
+        )
+    }
+}
+
+@Composable
 fun SearchField(onNavigateToFriends: () -> Unit) {
     var searcherText by remember {
         mutableStateOf(TextFieldValue(""))
@@ -660,7 +760,39 @@ fun GreenButtonPrimaryIconed(
             tint = colorResource(id = R.color.secondary_color)
         )
         androidx.compose.material.Text(
-            text = text
+            text = text,
+            Modifier.padding(start = 4.dp)
+        )
+    }
+}
+
+@Composable
+fun RedButtonPrimaryIconed(
+    text: String,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    onClick: () -> Unit,
+    trailingIcon: ImageVector
+) {
+    Button(
+        enabled = enabled,
+        onClick = onClick,
+        modifier = modifier,
+        shape = CircleShape,
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = colorResource(id = R.color.red),
+            contentColor = colorResource(id = R.color.secondary_color)
+        ),
+        interactionSource = NoRippleInteractionSource()
+    ) {
+        Icon(
+            trailingIcon,
+            stringResource(R.string.none_content_description),
+            tint = colorResource(id = R.color.secondary_color)
+        )
+        androidx.compose.material.Text(
+            text = text,
+            Modifier.padding(start = 4.dp)
         )
     }
 }
@@ -887,6 +1019,128 @@ fun ProfilePicture(
                 .offset(50.dp, (-25).dp)
                 .background(Color.White, shape = CircleShape)
         )
+    }
+}
+
+@Composable
+fun HousingPhotosComponent(
+    enabled: Boolean = true,
+    bitmapListValue: MutableList<Bitmap>,
+    onBitmapListValueChange: (MutableList<Bitmap>?) -> Unit
+) {
+    val imageUri = rememberSaveable {
+        mutableStateOf<Uri?>(null)
+    }
+    val context = LocalContext.current
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        imageUri.value = uri
+        imageUri.value?.let {
+            if (Build.VERSION.SDK_INT < 28) {
+                bitmapListValue.add(MediaStore.Images.Media.getBitmap(context.contentResolver, it))
+                onBitmapListValueChange(bitmapListValue)
+            } else {
+                val source = ImageDecoder.createSource(context.contentResolver, it)
+                bitmapListValue.add(ImageDecoder.decodeBitmap(source))
+                onBitmapListValueChange(bitmapListValue)
+            }
+        }
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            Text(
+                text = stringResource(R.string.housing_photos),
+                style = TextStyle(
+                    color = Color.Black,
+                    fontSize = integerResource(R.integer.housing_component_font_size).sp,
+                    fontWeight = FontWeight.Bold
+                )
+            )
+            if (bitmapListValue.isEmpty()) {
+                Text(
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .padding(dimensionResource(R.dimen.housing_component_default_padding_2)),
+                    text = stringResource(R.string.no_images_label),
+                    style = TextStyle(
+                        color = Color.Black,
+                        fontSize = integerResource(R.integer.housing_component_font_size).sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                )
+            } else {
+                LazyRow(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(dimensionResource(R.dimen.housing_component_lazy_row))
+                        .padding(
+                            top = dimensionResource(
+                                R.dimen.housing_component_default_padding
+                            )
+                        ),
+                    horizontalArrangement = Arrangement.spacedBy(
+                        dimensionResource(R.dimen.housing_component_default_padding)
+                    )
+                ) {
+                    items(bitmapListValue.size) { index ->
+                        Image(
+                            bitmap = bitmapListValue[index].asImageBitmap(),
+                            contentDescription = stringResource(
+                                id = R.string.room_image_description
+                            ),
+                            modifier = Modifier
+                                .size(dimensionResource(R.dimen.housing_component_big_image))
+                                .clip(
+                                    RoundedCornerShape(
+                                        dimensionResource(
+                                            R.dimen.housing_component_rounded_corner_shape
+                                        )
+                                    )
+                                ),
+                            contentScale = ContentScale.Crop
+                        )
+                    }
+                }
+            }
+        }
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(
+                dimensionResource(R.dimen.housing_component_horizontal_arrangement)
+            )
+        ) {
+            GreenButtonPrimaryIconed(
+                modifier = Modifier.padding(
+                    top = dimensionResource(R.dimen.housing_component_default_padding)
+                ),
+                text = stringResource(R.string.add_photos_button_label),
+                trailingIcon = ImageVector.vectorResource(id = R.drawable.add_photos_icon),
+                enabled = true,
+                onClick = {
+                    if (enabled) {
+                        launcher.launch("image/*")
+                    }
+                }
+            )
+            RedButtonPrimaryIconed(
+                modifier = Modifier.padding(
+                    top = dimensionResource(R.dimen.housing_component_default_padding)
+                ),
+                text = stringResource(R.string.remove_all_photos_button_label),
+                trailingIcon = ImageVector.vectorResource(id = R.drawable.remove_icon),
+                enabled = true,
+                onClick = {
+                    bitmapListValue.clear()
+                }
+            )
+        }
     }
 }
 
@@ -1227,6 +1481,48 @@ fun SimpleAlertDialog(
                 modifier = Modifier
                     .fillMaxWidth(),
                 onClick = confirmDismissOnClick
+            )
+        }
+    )
+}
+
+/**
+ * The basic confirm dialog.
+ * Asks user to approve requested operation (Confirm / Dismiss).
+ *
+ * @param text the text of the confirm dialog to be displayed.
+ * @param confirmButtonText the text of the confirm button. Default is [R.string.confirm_button_label].
+ * @param dismissButtonText the text of the dismiss button. Default is [R.string.dismiss_button_label].
+ * @param confirmOnClick called when the user tries to confirm the operation.
+ * @param dismissOnClick called when the user tries to dismiss the operation. Default is only to close the dialog.
+ *
+ * @author Andrey Karanik
+ */
+@Composable
+fun BasicConfirmDialog(
+    text: String,
+    confirmButtonText: String = stringResource(R.string.confirm_button_label),
+    dismissButtonText: String = stringResource(R.string.dismiss_button_label),
+    confirmOnClick: () -> Unit,
+    dismissOnClick: () -> Unit = {}
+) {
+    AlertDialog(
+        containerColor = Color.White,
+        titleContentColor = Color.Black,
+        onDismissRequest = dismissOnClick,
+        text = {
+            Text(text = text)
+        },
+        dismissButton = {
+            GreenButtonOutline(
+                text = dismissButtonText,
+                onClick = dismissOnClick
+            )
+        },
+        confirmButton = {
+            GreenButtonPrimary(
+                text = confirmButtonText,
+                onClick = confirmOnClick
             )
         }
     )

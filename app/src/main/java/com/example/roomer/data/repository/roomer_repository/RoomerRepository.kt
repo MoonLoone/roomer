@@ -1,5 +1,6 @@
 package com.example.roomer.data.repository.roomer_repository
 
+import android.graphics.Bitmap
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -12,11 +13,18 @@ import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.MessageNotification
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
+import com.example.roomer.domain.model.room_post.RoomPost
 import com.example.roomer.domain.model.pojo.ChatRawData
 import com.example.roomer.utils.Constants
 import com.example.roomer.utils.PagingFactories
+import java.io.ByteArrayOutputStream
 import javax.inject.Inject
+import kotlin.random.Random
+import kotlin.random.nextUInt
 import kotlinx.coroutines.flow.Flow
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Response
 
 class RoomerRepository @Inject constructor(
@@ -176,5 +184,37 @@ class RoomerRepository @Inject constructor(
             cleanHabits,
             interests
         )
+    }
+
+    override suspend fun postRoom(token: String, room: RoomPost): Response<Room> {
+        val refToken = "Token ".plus(token)
+        return roomerApi.postAdvertisement(refToken, room)
+    }
+    override suspend fun putRoomPhotos(
+        token: String,
+        roomId: Int,
+        filesContent: List<Bitmap>
+    ): Response<Room> {
+        val refToken = "Token ".plus(token)
+        val list = mutableListOf<MultipartBody.Part>()
+        filesContent.forEach {
+            val stream = ByteArrayOutputStream()
+            it.compress(Bitmap.CompressFormat.JPEG, Constants.JPEG_QUALITY, stream)
+            val byteArray = stream.toByteArray()
+            list.add(
+                MultipartBody.Part.createFormData(
+                    "file_content",
+                    Random.nextUInt(8000000u).toString().plus(".jpeg"),
+                    byteArray.toRequestBody("image/*".toMediaTypeOrNull(), 0, byteArray.size)
+                )
+            )
+        }
+
+        return roomerApi.putAdvertisement(refToken, roomId, list)
+    }
+
+    override suspend fun getCurrentUserRooms(token: String, hostId: Int): Response<List<Room>> {
+        val refToken = "Token ".plus(token)
+        return roomerApi.getCurrentUserAdvertisements(refToken, hostId)
     }
 }
