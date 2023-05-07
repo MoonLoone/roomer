@@ -13,8 +13,8 @@ import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.MessageNotification
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
-import com.example.roomer.domain.model.room_post.RoomPost
 import com.example.roomer.domain.model.pojo.ChatRawData
+import com.example.roomer.domain.model.room_post.RoomPost
 import com.example.roomer.utils.Constants
 import com.example.roomer.utils.PagingFactories
 import java.io.ByteArrayOutputStream

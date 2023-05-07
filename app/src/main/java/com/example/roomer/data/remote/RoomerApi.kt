@@ -12,7 +12,6 @@ import com.example.roomer.domain.model.login_sign_up.SignUpModel
 import com.example.roomer.domain.model.login_sign_up.TokenDto
 import com.example.roomer.domain.model.pojo.ChatRawData
 import com.example.roomer.domain.model.pojo.FavouriteRawData
-import com.example.roomer.domain.model.pojo.Favourite
 import com.example.roomer.domain.model.room_post.RoomPost
 import okhttp3.MultipartBody
 import retrofit2.Response
