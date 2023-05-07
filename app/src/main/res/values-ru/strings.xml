@@ -71,7 +71,7 @@
     <string name="sign_up_screen_title">Регистрация</string>
     <string name="home_screen_title">Добро пожаловать!</string>
     <string name="favourite_screen_title">Избранное</string>
-    <string name="post_screen_title">Мои Посты</string>
+    <string name="post_screen_title">Мои объявления</string>
     <string name="recommended_roommates_label">Рекомендованные сожители</string>
     <string name="recommended_rooms_label">Рекомендованное жилье</string>
     <string name="recently_watched_label">Недавно просмотренное</string>
@@ -183,4 +183,9 @@
     <string name="dismiss_button_label">Отменить</string>
     <string name="add_housing_confirm_dialog_text">Вы действительно хотите добавить это объявление?</string>
     <string name="error_dialog_text">Произошла ошибка!</string>
+    <string name="no_internet_connection_text">Нет подключения к интернету</string>
+    <string name="post_month_price_is_not_integer_text">Цена в месяц должна быть целым числом</string>
+    <string name="post_month_price_is_not_positive_text">Цена в месяц должна быть положительной</string>
+    <string name="post_room_images_is_empty_text">Добьте изображения к вашему объявлению</string>
+    <string name="post_description_is_empty_text">Добавьте небольшое описание</string>
 </resources>

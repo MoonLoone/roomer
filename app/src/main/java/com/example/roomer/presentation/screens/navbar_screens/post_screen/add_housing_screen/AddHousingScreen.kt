@@ -51,40 +51,68 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Destination
 @Composable
 fun AddHousingScreen(
-    navigator: DestinationsNavigator,
-    viewModel: AddHousingScreenViewModel = hiltViewModel()
+    navigator: DestinationsNavigator, viewModel: AddHousingScreenViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
 
-    if (state.isSuccess) {
+    if (state.success) {
         navigator.navigate(PostScreenDestination)
     }
-    if (state.isError) {
+    if (state.requestProblem) {
         SimpleAlertDialog(
-            title = stringResource(R.string.login_alert_dialog_text),
-            text = state.errorMessage
+            title = stringResource(R.string.error_dialog_text), text = state.error
         ) {
             viewModel.clearState()
         }
     }
-    if (state.isInternetProblem) {
+    if (state.internetProblem) {
         SimpleAlertDialog(
-            title = stringResource(R.string.login_alert_dialog_text),
-            text = state.errorMessage
+            title = stringResource(R.string.error_dialog_text),
+            text = stringResource(R.string.no_internet_connection_text)
+        ) {
+            viewModel.clearState()
+        }
+    }
+    if (state.monthPriceIsNotInteger) {
+        SimpleAlertDialog(
+            title = stringResource(R.string.error_dialog_text),
+            text = stringResource(R.string.post_month_price_is_not_integer_text)
+        ) {
+            viewModel.clearState()
+        }
+    }
+    if (state.monthPriceIsNotPositive) {
+        SimpleAlertDialog(
+            title = stringResource(R.string.error_dialog_text),
+            text = stringResource(R.string.post_month_price_is_not_positive_text)
+        ) {
+            viewModel.clearState()
+        }
+    }
+    if (state.roomImagesIsEmpty) {
+        SimpleAlertDialog(
+            title = stringResource(R.string.error_dialog_text),
+            text = stringResource(R.string.post_room_images_is_empty_text)
+        ) {
+            viewModel.clearState()
+        }
+    }
+    if (state.descriptionIsEmpty) {
+        SimpleAlertDialog(
+            title = stringResource(R.string.error_dialog_text),
+            text = stringResource(R.string.post_description_is_empty_text)
         ) {
             viewModel.clearState()
         }
     }
     if (viewModel.postConfirmation) {
-        BasicConfirmDialog(
-            text = stringResource(R.string.add_housing_confirm_dialog_text),
+        BasicConfirmDialog(text = stringResource(R.string.add_housing_confirm_dialog_text),
             confirmOnClick = {
                 viewModel.postAdvertisement()
             },
             dismissOnClick = {
                 viewModel.hideConfirmDialog()
-            }
-        )
+            })
     }
 
     Column(
@@ -112,54 +140,40 @@ fun AddHousingScreen(
                     )
                 ) {
                     Row(horizontalArrangement = Arrangement.SpaceBetween) {
-                        BackBtn(
-                            onBackNavigation = {
-                                navigator.navigate(PostScreenDestination)
-                            }
-                        )
+                        BackBtn(onBackNavigation = {
+                            navigator.navigate(PostScreenDestination)
+                        })
                         Text(
                             text = stringResource(R.string.post_advertisement_title),
                             modifier = Modifier.fillMaxWidth(),
                             style = TextStyle(
                                 fontSize = integerResource(
                                     id = R.integer.label_text
-                                ).sp,
-                                color = Color.Black
+                                ).sp, color = Color.Black
                             ),
                             textAlign = TextAlign.Center
                         )
                     }
-                    HousingPhotosComponent(
-                        bitmapListValue = viewModel.roomImages,
-                        onBitmapListValueChange = {}
-                    )
-                    UsualTextField(
-                        title = stringResource(R.string.month_price),
+                    HousingPhotosComponent(bitmapListValue = viewModel.roomImages,
+                        onBitmapListValueChange = {})
+                    UsualTextField(title = stringResource(R.string.month_price),
                         placeholder = stringResource(R.string.month_price_placeholder),
                         value = viewModel.monthPrice,
-                        onValueChange = { newValue -> viewModel.monthPrice = newValue }
-                    )
-                    UsualTextField(
-                        title = stringResource(R.string.description_label),
+                        onValueChange = { newValue -> viewModel.monthPrice = newValue })
+                    UsualTextField(title = stringResource(R.string.description_label),
                         placeholder = stringResource(R.string.description_label),
                         singleLine = false,
                         value = viewModel.description,
-                        onValueChange = { newValue -> viewModel.description = newValue }
-                    )
-                    ButtonsRow(
-                        label = stringResource(R.string.bedrooms_label),
+                        onValueChange = { newValue -> viewModel.description = newValue })
+                    ButtonsRow(label = stringResource(R.string.bedrooms_label),
                         values = Constants.RoomPost.ROOMS_COUNT_LIST,
                         value = viewModel.bedroomsCount,
-                        onValueChange = { viewModel.bedroomsCount = it }
-                    )
-                    ButtonsRow(
-                        label = stringResource(R.string.bathrooms_label),
+                        onValueChange = { viewModel.bedroomsCount = it })
+                    ButtonsRow(label = stringResource(R.string.bathrooms_label),
                         values = Constants.RoomPost.ROOMS_COUNT_LIST,
                         value = viewModel.bathroomsCount,
-                        onValueChange = { viewModel.bathroomsCount = it }
-                    )
-                    ButtonsRowMapped(
-                        label = stringResource(R.string.apartment_type_label),
+                        onValueChange = { viewModel.bathroomsCount = it })
+                    ButtonsRowMapped(label = stringResource(R.string.apartment_type_label),
                         values = mapOf(
                             Pair("F", stringResource(R.string.flat)),
                             Pair("DU", stringResource(R.string.duplex)),
@@ -167,17 +181,14 @@ fun AddHousingScreen(
                             Pair("DO", stringResource(R.string.dorm))
                         ),
                         value = viewModel.apartmentType,
-                        onValueChange = { viewModel.apartmentType = it }
-                    )
-                    ButtonsRowMapped(
-                        label = stringResource(R.string.sharing_type_label),
+                        onValueChange = { viewModel.apartmentType = it })
+                    ButtonsRowMapped(label = stringResource(R.string.sharing_type_label),
                         values = mapOf(
                             Pair("P", stringResource(R.string.sharing_type_private)),
                             Pair("S", stringResource(R.string.sharing_type_shared))
                         ),
                         value = viewModel.sharingType,
-                        onValueChange = { viewModel.sharingType = it }
-                    )
+                        onValueChange = { viewModel.sharingType = it })
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -185,17 +196,15 @@ fun AddHousingScreen(
                     )
                 }
 
-                GreenButtonPrimary(
-                    modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .fillMaxWidth()
-                        .padding(bottom = 8.dp),
+                GreenButtonPrimary(modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp),
                     text = stringResource(R.string.post_button_label),
                     enabled = true,
                     onClick = {
                         viewModel.showConfirmDialog()
-                    }
-                )
+                    })
             }
         }
     }

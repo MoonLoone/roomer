@@ -44,9 +44,7 @@ class AddHousingUseCase(
             val processPhotos = repository.putRoomPhotos(token, processData.body()!!.id, roomImages)
 
             if (processData.isSuccessful && processPhotos.isSuccessful) {
-                coroutineScope {
-                    emit(Resource.Success(processData.body()!!))
-                }
+                emit(Resource.Success(processData.body()!!))
             } else {
                 emit(Resource.Error.GeneralError(message = "An error occurred"))
             }

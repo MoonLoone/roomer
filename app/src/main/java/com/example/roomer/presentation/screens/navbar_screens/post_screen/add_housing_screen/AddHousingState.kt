@@ -1,9 +1,15 @@
 package com.example.roomer.presentation.screens.navbar_screens.post_screen.add_housing_screen
 
+import com.example.roomer.utils.ScreenState
+
 data class AddHousingState(
-    val isSuccess: Boolean = false,
-    val isError: Boolean = false,
-    val errorMessage: String = "",
-    val isLoading: Boolean = false,
-    val isInternetProblem: Boolean = false
-)
+    override var success: Boolean = false,
+    override var isLoading: Boolean = false,
+    override var internetProblem: Boolean = false,
+    override var error: String = "",
+    var requestProblem: Boolean = false,
+    var monthPriceIsNotInteger: Boolean = false,
+    var monthPriceIsNotPositive: Boolean = false,
+    var roomImagesIsEmpty: Boolean = false,
+    var descriptionIsEmpty: Boolean = false
+) : ScreenState

@@ -10,6 +10,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
 import com.example.roomer.domain.usecase.navbar_screens.AddHousingUseCase
+import com.example.roomer.presentation.screens.entrance.signup.SignUpState
 import com.example.roomer.utils.Resource
 import com.example.roomer.utils.SpManager
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -60,14 +61,8 @@ class AddHousingScreenViewModel @Inject constructor(
     var postConfirmation by mutableStateOf(false)
 
     fun clearState() {
-        _state.update { currentState ->
-            currentState.copy(
-                isSuccess = false,
-                isLoading = false,
-                isInternetProblem = false,
-                isError = false,
-                errorMessage = ""
-            )
+        _state.update {
+            AddHousingState()
         }
     }
 
@@ -109,7 +104,7 @@ class AddHousingScreenViewModel @Inject constructor(
                             _state.update { currentState ->
                                 currentState.copy(
                                     isLoading = false,
-                                    isSuccess = true
+                                    success = true
                                 )
                             }
                         }
@@ -117,8 +112,7 @@ class AddHousingScreenViewModel @Inject constructor(
                             _state.update { currentState ->
                                 currentState.copy(
                                     isLoading = false,
-                                    isError = true,
-                                    errorMessage = it.message!!
+                                    internetProblem = true
                                 )
                             }
                         }
@@ -126,8 +120,8 @@ class AddHousingScreenViewModel @Inject constructor(
                             _state.update { currentState ->
                                 currentState.copy(
                                     isLoading = false,
-                                    isError = true,
-                                    errorMessage = it.message!!
+                                    requestProblem = true,
+                                    error = it.message!!
                                 )
                             }
                         }
@@ -137,8 +131,7 @@ class AddHousingScreenViewModel @Inject constructor(
                 _state.update { currentState ->
                     currentState.copy(
                         isLoading = false,
-                        isError = true,
-                        errorMessage = "Token not found"
+                        error = "Token not found"
                     )
                 }
             }
@@ -149,38 +142,31 @@ class AddHousingScreenViewModel @Inject constructor(
         try {
             if (monthPrice.toInt() < 0) {
                 _state.update { currentState ->
-                    currentState.copy(isError = true, errorMessage = MONTH_PRICE_IS_NOT_POSITIVE)
+                    currentState.copy(monthPriceIsNotPositive = true)
                 }
                 return false
             }
         } catch (e: NumberFormatException) {
             _state.update { currentState ->
-                currentState.copy(isError = true, errorMessage = MONTH_PRICE_IS_NOT_INTEGER)
+                currentState.copy(monthPriceIsNotInteger = true)
             }
             return false
         }
 
         if (roomImages.isEmpty()) {
             _state.update { currentState ->
-                currentState.copy(isError = true, errorMessage = ROOM_IMAGES_IS_EMPTY)
+                currentState.copy(roomImagesIsEmpty = true)
             }
             return false
         }
 
         if (description.isEmpty()) {
             _state.update { currentState ->
-                currentState.copy(isError = true, errorMessage = DESCRIPTION_IS_EMPTY)
+                currentState.copy(descriptionIsEmpty = true)
             }
             return false
         }
 
         return true
-    }
-
-    companion object {
-        const val MONTH_PRICE_IS_NOT_INTEGER = "Month price must be an integer"
-        const val MONTH_PRICE_IS_NOT_POSITIVE = "Month price must be positive"
-        const val ROOM_IMAGES_IS_EMPTY = "Add images to your advertisement"
-        const val DESCRIPTION_IS_EMPTY = "Add some description"
     }
 }

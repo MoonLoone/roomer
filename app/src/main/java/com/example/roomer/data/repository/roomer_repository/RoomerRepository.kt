@@ -174,7 +174,7 @@ class RoomerRepository @Inject constructor(
         val list = mutableListOf<MultipartBody.Part>()
         filesContent.forEach {
             val stream = ByteArrayOutputStream()
-            it.compress(Bitmap.CompressFormat.JPEG, 80, stream)
+            it.compress(Bitmap.CompressFormat.JPEG, Constants.JPEG_QUALITY, stream)
             val byteArray = stream.toByteArray()
             list.add(
                 MultipartBody.Part.createFormData(
