@@ -7,14 +7,15 @@ import com.example.roomer.data.room.dao.CurrentUserDao
 import com.example.roomer.data.room.dao.FavouriteDao
 import com.example.roomer.data.room.dao.MessageDao
 import com.example.roomer.data.room.dao.UserDao
+import com.example.roomer.data.room.entities.HistoryItem
 import com.example.roomer.data.room.entities.LocalCurrentUser
 import com.example.roomer.data.room.entities.LocalMessage
 import com.example.roomer.data.room.entities.LocalRoom
 import com.example.roomer.domain.model.entities.User
 
 @Database(
-    entities = [LocalRoom::class, User::class, LocalCurrentUser::class, LocalMessage::class],
-    version = 8
+    entities = [LocalRoom::class, User::class, LocalCurrentUser::class, LocalMessage::class, HistoryItem::class],
+    version = 9
 )
 @TypeConverters(RoomerConverters::class)
 abstract class RoomerDatabase : RoomDatabase() {
