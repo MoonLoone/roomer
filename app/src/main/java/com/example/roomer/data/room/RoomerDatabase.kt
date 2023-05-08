@@ -16,7 +16,7 @@ import com.example.roomer.domain.model.entities.User
 
 @Database(
     entities = [LocalRoom::class, User::class, LocalCurrentUser::class, LocalMessage::class, HistoryItem::class],
-    version = 15
+    version = 16
 )
 @TypeConverters(RoomerConverters::class)
 abstract class RoomerDatabase : RoomDatabase() {

@@ -53,6 +53,8 @@ interface RoomerApi {
 
     @GET("/housing/")
     suspend fun filterRooms(
+        @Query("limit") limit: Int = 10,
+        @Query("offset") offset: Int = 0,
         @Query("month_price_from") monthPriceFrom: String?,
         @Query("month_price_to") monthPriceTo: String?,
         @Query("city") location: String?,
@@ -63,6 +65,8 @@ interface RoomerApi {
 
     @GET("/profile/")
     suspend fun filterRoommates(
+        @Query("limit") limit: Int = 10,
+        @Query("offset") offset: Int = 0,
         @Query("sex") sex: String?,
         @Query("city") location: String?,
         @Query("age_from") ageFrom: String?,

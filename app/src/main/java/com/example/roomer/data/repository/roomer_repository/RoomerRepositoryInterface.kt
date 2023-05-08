@@ -2,6 +2,8 @@ package com.example.roomer.data.repository.roomer_repository
 
 import android.graphics.Bitmap
 import androidx.paging.PagingData
+import com.example.roomer.data.repository.model.RecommendedMateModel
+import com.example.roomer.data.repository.model.RecommendedRoomModel
 import com.example.roomer.data.room.entities.HistoryItem
 import com.example.roomer.data.room.entities.LocalCurrentUser
 import com.example.roomer.data.room.entities.LocalMessage
@@ -70,6 +72,14 @@ interface RoomerRepositoryInterface {
         personalityType: String?,
         cleanHabits: String?,
         interests: Map<String, String>
+    ): Response<List<User>>
+
+    suspend fun getRecommendedRooms(
+        recommendedRoomModel: RecommendedRoomModel
+    ): Response<List<Room>>
+
+    suspend fun getRecommendedMates(
+        recommendedMateModel: RecommendedMateModel
     ): Response<List<User>>
 
     suspend fun addLocalFavourite(room: Room)

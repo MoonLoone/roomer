@@ -7,6 +7,8 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.roomer.data.local.RoomerStoreInterface
 import com.example.roomer.data.remote.RoomerApi
+import com.example.roomer.data.repository.model.RecommendedMateModel
+import com.example.roomer.data.repository.model.RecommendedRoomModel
 import com.example.roomer.data.room.entities.HistoryItem
 import com.example.roomer.data.room.entities.LocalCurrentUser
 import com.example.roomer.data.room.entities.LocalMessage
@@ -163,12 +165,12 @@ class RoomerRepository @Inject constructor(
         housingType: String?
     ): Response<List<Room>> {
         return roomerApi.filterRooms(
-            monthPriceFrom,
-            monthPriceTo,
-            location,
-            bedroomsCount,
-            bathroomsCount,
-            housingType
+            monthPriceFrom = monthPriceFrom,
+            monthPriceTo = monthPriceTo,
+            location = location,
+            bedroomsCount = bedroomsCount,
+            bathroomsCount = bathroomsCount,
+            housingType = housingType
         )
     }
 
@@ -186,24 +188,58 @@ class RoomerRepository @Inject constructor(
         interests: Map<String, String>
     ): Response<List<User>> {
         return roomerApi.filterRoommates(
-            sex,
-            location,
-            ageFrom,
-            ageTo,
-            employment,
-            alcoholAttitude,
-            smokingAttitude,
-            sleepTime,
-            personalityType,
-            cleanHabits,
-            interests
+            sex = sex,
+            location = location,
+            ageFrom = ageFrom,
+            ageTo = ageTo,
+            employment = employment,
+            alcoholAttitude = alcoholAttitude,
+            smokingAttitude = smokingAttitude,
+            sleepTime = sleepTime,
+            personalityType = personalityType,
+            cleanHabits = cleanHabits,
+            interests = interests
         )
+    }
+
+    override suspend fun getRecommendedRooms(recommendedRoomModel: RecommendedRoomModel): Response<List<Room>> {
+        with(recommendedRoomModel) {
+            return roomerApi.filterRooms(
+                limit = Constants.Home.RECOMMENDED_ROOMS_SIZE,
+                monthPriceFrom = monthPriceFrom,
+                monthPriceTo = monthPriceTo,
+                location = location,
+                bedroomsCount = bedroomsCount,
+                bathroomsCount = bathroomsCount,
+                housingType = housingType
+            )
+        }
+    }
+
+    override suspend fun getRecommendedMates(recommendedMateModel: RecommendedMateModel): Response<List<User>> {
+        with(recommendedMateModel) {
+            return roomerApi.filterRoommates(
+                limit = Constants.Home.RECOMMENDED_MATES_SIZE,
+                sex = sex,
+                location = location,
+                ageFrom = ageFrom,
+                ageTo = ageTo,
+                employment = employment,
+                alcoholAttitude = alcoholAttitude,
+                smokingAttitude = smokingAttitude,
+                sleepTime = sleepTime,
+                personalityType = personalityType,
+                cleanHabits = cleanHabits,
+                interests = interests
+            )
+        }
     }
 
     override suspend fun postRoom(token: String, room: RoomPost): Response<Room> {
         val refToken = "Token ".plus(token)
         return roomerApi.postAdvertisement(refToken, room)
     }
+
     override suspend fun putRoomPhotos(
         token: String,
         roomId: Int,

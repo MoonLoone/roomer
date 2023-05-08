@@ -11,6 +11,10 @@ android {
     namespace 'com.example.roomer'
     compileSdk 33
 
+    dexOptions{
+        javaMaxHeapSize "2g"
+    }
+    
     defaultConfig {
         applicationId "com.example.roomer"
         minSdk 26
