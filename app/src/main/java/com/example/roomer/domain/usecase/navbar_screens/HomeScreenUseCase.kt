@@ -85,7 +85,9 @@ class HomeScreenUseCase(
         }
     }
 
-    suspend fun getRecently(history: MutableStateFlow<List<HistoryItem>>): Flow<Resource<String>> = flow {
+    suspend fun getRecently(
+        history: MutableStateFlow<List<HistoryItem>>
+    ): Flow<Resource<String>> = flow {
         history.value = roomerRepository.getHistory()
         emit(
             if (history.value.isNotEmpty()) {

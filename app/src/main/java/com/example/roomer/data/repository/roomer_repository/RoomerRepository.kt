@@ -202,7 +202,9 @@ class RoomerRepository @Inject constructor(
         )
     }
 
-    override suspend fun getRecommendedRooms(recommendedRoomModel: RecommendedRoomModel): Response<List<Room>> {
+    override suspend fun getRecommendedRooms(
+        recommendedRoomModel: RecommendedRoomModel
+    ): Response<List<Room>> {
         with(recommendedRoomModel) {
             return roomerApi.filterRooms(
                 limit = Constants.Home.RECOMMENDED_ROOMS_SIZE,
@@ -216,7 +218,9 @@ class RoomerRepository @Inject constructor(
         }
     }
 
-    override suspend fun getRecommendedMates(recommendedMateModel: RecommendedMateModel): Response<List<User>> {
+    override suspend fun getRecommendedMates(
+        recommendedMateModel: RecommendedMateModel
+    ): Response<List<User>> {
         with(recommendedMateModel) {
             return roomerApi.filterRoommates(
                 limit = Constants.Home.RECOMMENDED_MATES_SIZE,
