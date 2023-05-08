@@ -3,6 +3,7 @@ package com.example.roomer.presentation.screens.navbar_screens.home_screen
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,6 +21,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -69,14 +71,22 @@ fun HomeScreen(
             .verticalScroll(rememberScrollState())
             .padding(
                 top = dimensionResource(id = R.dimen.screen_top_margin),
-                start = dimensionResource(id = R.dimen.screen_start_margin),
-                end = dimensionResource(id = R.dimen.screen_end_margin)
             )
     ) {
         HeaderLine(
             user = currentUser,
-            navigateToUser = { navigator.navigate(UserDetailsScreenDestination(currentUser)) })
-        SearchField(onNavigateToFriends = { navigator.navigate(SearchRoomScreenDestination) })
+            navigateToUser = { navigator.navigate(UserDetailsScreenDestination(currentUser)) },
+        )
+        SearchField(
+            onNavigateToFriends = { navigator.navigate(SearchRoomScreenDestination) },
+            paddingValues = PaddingValues(
+                start = dimensionResource(
+                    id = R.dimen.screen_start_margin
+                ),
+                end = dimensionResource(id = R.dimen.screen_end_margin),
+                top = 16.dp
+            )
+        )
         RecentlyWatched(history = history,
             housingLikeInterface = homeScreenViewModel.housingLike,
             navigateToUser = { user -> navigator.navigate(UserDetailsScreenDestination(user)) },
@@ -96,6 +106,12 @@ fun HeaderLine(user: User, navigateToUser: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .padding(
+                start = dimensionResource(id = R.dimen.screen_start_margin),
+                end = dimensionResource(
+                    id = R.dimen.screen_end_margin
+                )
+            )
             .height(56.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -119,7 +135,6 @@ fun HeaderLine(user: User, navigateToUser: () -> Unit) {
                 )
             )
         }
-
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
                 .data(user.avatar)
@@ -146,6 +161,19 @@ fun RecentlyWatched(
     history: List<HistoryItem>, housingLikeInterface: HousingLikeInterface,
     navigateToUser: (User) -> Unit, navigateToRoom: (Room) -> Unit
 ) {
+    Text(
+        text = stringResource(id = R.string.recently_watched_label),
+        modifier = Modifier.padding(
+            start = dimensionResource(
+                id = R.dimen.screen_start_margin
+            ),
+            end = dimensionResource(id = R.dimen.screen_end_margin),
+        ),
+        style = TextStyle(
+            color = colorResource(id = R.color.black),
+            fontSize = integerResource(id = R.integer.label_text).sp,
+        )
+    )
     LazyRow(
         modifier = Modifier
             .fillMaxWidth()
@@ -153,7 +181,13 @@ fun RecentlyWatched(
         horizontalArrangement = Arrangement.spacedBy(
             dimensionResource(id = R.dimen.list_elements_margin)
         ),
-        reverseLayout = true
+        reverseLayout = true,
+        contentPadding = PaddingValues(
+            start = dimensionResource(
+                id = R.dimen.screen_start_margin
+            ),
+            end = dimensionResource(id = R.dimen.screen_end_margin),
+        ),
     ) {
         items(history.size) { index ->
             val item = history[index]
@@ -175,13 +209,31 @@ fun RecentlyWatched(
 
 @Composable
 fun RecommendedRoommates(recommendedMates: List<User>, navigateToUser: (User) -> Unit) {
+    Text(
+        text = stringResource(id = R.string.recommended_roommates_label),
+        modifier = Modifier.padding(
+            start = dimensionResource(
+                id = R.dimen.screen_start_margin
+            ),
+            end = dimensionResource(id = R.dimen.screen_end_margin),
+        ), style = TextStyle(
+            color = colorResource(id = R.color.black),
+            fontSize = integerResource(id = R.integer.label_text).sp,
+        )
+    )
     LazyRow(
         modifier = Modifier
             .fillMaxWidth()
             .height(148.dp),
         horizontalArrangement = Arrangement.spacedBy(
             dimensionResource(id = R.dimen.list_elements_margin)
-        )
+        ),
+        contentPadding = PaddingValues(
+            start = dimensionResource(
+                id = R.dimen.screen_start_margin
+            ),
+            end = dimensionResource(id = R.dimen.screen_end_margin),
+        ),
     ) {
         items(recommendedMates.size) { index ->
             UserCard(recommendedRoommate = recommendedMates[index]) {
@@ -193,13 +245,32 @@ fun RecommendedRoommates(recommendedMates: List<User>, navigateToUser: (User) ->
 
 @Composable
 fun RecommendedRooms(recommendedRooms: List<Room>, housingLikeInterface: HousingLikeInterface) {
+    Text(
+        text = stringResource(id = R.string.recommended_rooms_label),
+        modifier = Modifier.padding(
+            start = dimensionResource(
+                id = R.dimen.screen_start_margin
+            ),
+            end = dimensionResource(id = R.dimen.screen_end_margin),
+        ),
+        style = TextStyle(
+            color = colorResource(id = R.color.black),
+            fontSize = integerResource(id = R.integer.label_text).sp,
+        )
+    )
     LazyRow(
         modifier = Modifier
             .fillMaxWidth()
             .height(148.dp),
         horizontalArrangement = Arrangement.spacedBy(
             dimensionResource(id = R.dimen.list_elements_margin)
-        )
+        ),
+        contentPadding = PaddingValues(
+            start = dimensionResource(
+                id = R.dimen.screen_start_margin
+            ),
+            end = dimensionResource(id = R.dimen.screen_end_margin),
+        ),
     ) {
         items(recommendedRooms.size) { index ->
             RoomCard(
