@@ -8,65 +8,90 @@ import com.example.roomer.data.room.entities.HistoryItem
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.utils.Resource
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flow
+import java.io.IOException
 
 class HomeScreenUseCase(
     private val roomerRepository: RoomerRepositoryInterface
 ) {
 
-    suspend fun getCurrentUserInfo(user: MutableState<User>): Resource<String> {
-        user.value = roomerRepository.getLocalCurrentUser()
-        return if (user.value != User()) Resource.Success() else Resource.Error.GeneralError(
-            USER_ERROR
-        )
+    suspend fun getCurrentUserInfo(user: MutableState<User>): Flow<Resource<String>> = flow {
+        try {
+            emit(Resource.Loading())
+            user.value = roomerRepository.getLocalCurrentUser()
+            if (user.value != User()) emit(Resource.Success()) else emit(
+                Resource.Error.GeneralError(
+                    USER_ERROR
+                )
+            )
+        } catch (e: IOException) {
+            emit(Resource.Internet(USER_ERROR))
+        }
     }
 
     suspend fun getRecommendedRooms(
         rooms: MutableStateFlow<List<Room>>,
         currentUser: User
-    ): Resource<String> {
-        val response = roomerRepository.getRecommendedRooms(
-            RecommendedRoomModel(
-                location = currentUser.city,
+    ): Flow<Resource<String>> = flow {
+        try {
+            emit(Resource.Loading())
+            val response = roomerRepository.getRecommendedRooms(
+                RecommendedRoomModel(
+                    location = currentUser.city,
+                )
             )
-        )
-        return if (response.isSuccessful) {
-            rooms.value = response.body() ?: emptyList()
-            Resource.Success()
-        } else {
-            Resource.Error.GeneralError(response.errorBody()?.string() ?: "")
+            emit(
+                if (response.isSuccessful) {
+                    rooms.value = response.body() ?: emptyList()
+                    Resource.Success()
+                } else {
+                    Resource.Error.GeneralError(response.errorBody()?.string() ?: "")
+                }
+            )
+        } catch (e: IOException) {
+            emit(Resource.Internet(ROOM_ERROR))
         }
     }
 
     suspend fun getRecommendedMates(
         mates: MutableStateFlow<List<User>>,
         currentUser: User
-    ): Resource<String> {
-        val response = roomerRepository.getRecommendedMates(
-            RecommendedMateModel(
-                location = currentUser.city,
-                sleepTime = currentUser.sleepTime,
-                interests = currentUser.interests?.associate { it.id.toString() to it.interest }
-                    ?: emptyMap(),
+    ): Flow<Resource<String>> = flow {
+        try {
+            val response = roomerRepository.getRecommendedMates(
+                RecommendedMateModel(
+                    location = currentUser.city,
+                    sleepTime = currentUser.sleepTime,
+                    interests = currentUser.interests?.associate { it.id.toString() to it.interest }
+                        ?: emptyMap(),
+                )
             )
-        )
-        return if (response.isSuccessful) {
-            mates.value = response.body() ?: emptyList()
-            Resource.Success()
-        } else {
-            Resource.Error.GeneralError(response.errorBody()?.string() ?: "")
+            emit(
+                if (response.isSuccessful) {
+                    mates.value = response.body() ?: emptyList()
+                    Resource.Success()
+                } else {
+                    Resource.Error.GeneralError(response.errorBody()?.string() ?: "")
+                }
+            )
+        } catch (e: IOException) {
+            emit(Resource.Internet(MATES_ERROR))
         }
     }
 
-    suspend fun getRecently(history: MutableStateFlow<List<HistoryItem>>): Resource<String> {
+    suspend fun getRecently(history: MutableStateFlow<List<HistoryItem>>): Flow<Resource<String>> = flow {
         history.value = roomerRepository.getHistory()
-        return if (history.value.isEmpty()) Resource.Success() else Resource.Error.GeneralError(
+        emit(if (history.value.isNotEmpty()) Resource.Success() else Resource.Error.GeneralError(
             HISTORY_EMPTY
-        )
+        ))
     }
 
     private companion object {
         const val USER_ERROR = "User not found"
+        const val ROOM_ERROR = "No recommended rooms"
+        const val MATES_ERROR = "No recommended mates"
         const val HISTORY_EMPTY = "History is empty"
     }
 

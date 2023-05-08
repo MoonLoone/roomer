@@ -26,7 +26,7 @@ interface HistoryDao {
     @Query("DELETE FROM history")
     suspend fun clearHistory()
 
-    @Query("SELECT * FROM history ORDER BY id DESC")
+    @Query("SELECT * FROM history ORDER BY id ")
     suspend fun getHistory(): List<HistoryItem>
 
     suspend fun addToLocal(historyItem: HistoryItem){
