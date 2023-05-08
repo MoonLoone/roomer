@@ -88,8 +88,8 @@ object AppModule {
 
     @Provides
     fun provideAddToHistory(
-        roomerRepositoryInterface: RoomerRepositoryInterface,
-    ): AddToHistoryInterface{
+        roomerRepositoryInterface: RoomerRepositoryInterface
+    ): AddToHistoryInterface {
         return AddToHistory(roomerRepositoryInterface)
     }
 }

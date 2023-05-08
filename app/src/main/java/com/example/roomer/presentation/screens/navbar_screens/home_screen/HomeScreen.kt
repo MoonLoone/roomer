@@ -70,23 +70,24 @@ fun HomeScreen(
     val recommendedRooms = homeScreenViewModel.recommendedRooms.collectAsState().value
     val recommendedMates = homeScreenViewModel.recommendedMates.collectAsState().value
     if (state.isLoading) LoadingView()
-    if (state.unauthorized) UnauthorizedView(navigateToSplash = {
-        navigator.navigate(
-            SplashScreenDestination()
-        )
-    })
-    else if (state.success) {
+    if (state.unauthorized) {
+        UnauthorizedView(navigateToSplash = {
+            navigator.navigate(
+                SplashScreenDestination()
+            )
+        })
+    } else if (state.success) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
                 .padding(
-                    top = dimensionResource(id = R.dimen.screen_top_margin),
+                    top = dimensionResource(id = R.dimen.screen_top_margin)
                 )
         ) {
             HeaderLine(
                 user = currentUser,
-                navigateToUser = { navigator.navigate(UserDetailsScreenDestination(currentUser)) },
+                navigateToUser = { navigator.navigate(UserDetailsScreenDestination(currentUser)) }
             )
             SearchField(
                 onNavigateToFriends = { navigator.navigate(SearchRoomScreenDestination) },
@@ -103,11 +104,13 @@ fun HomeScreen(
                 history = history,
                 housingLikeInterface = homeScreenViewModel.housingLike,
                 navigateToUser = { user -> navigator.navigate(UserDetailsScreenDestination(user)) },
-                navigateToRoom = { room -> })
+                navigateToRoom = { room -> }
+            )
             RecommendedRoommates(
                 emptyRoommates = state.emptyRecommendedMates,
                 recommendedMates = recommendedMates,
-                navigateToUser = { user -> navigator.navigate(UserDetailsScreenDestination(user)) })
+                navigateToUser = { user -> navigator.navigate(UserDetailsScreenDestination(user)) }
+            )
             RecommendedRooms(
                 emptyRooms = state.emptyRecommendedRooms,
                 recommendedRooms = recommendedRooms,
@@ -188,11 +191,11 @@ private fun RecentlyWatched(
                 start = dimensionResource(
                     id = R.dimen.screen_start_margin
                 ),
-                end = dimensionResource(id = R.dimen.screen_end_margin),
+                end = dimensionResource(id = R.dimen.screen_end_margin)
             ),
             style = TextStyle(
                 color = colorResource(id = R.color.black),
-                fontSize = integerResource(id = R.integer.label_text).sp,
+                fontSize = integerResource(id = R.integer.label_text).sp
             )
         )
         LazyRow(
@@ -206,8 +209,8 @@ private fun RecentlyWatched(
                 start = dimensionResource(
                     id = R.dimen.screen_start_margin
                 ),
-                end = dimensionResource(id = R.dimen.screen_end_margin),
-            ),
+                end = dimensionResource(id = R.dimen.screen_end_margin)
+            )
         ) {
             items(reverseHistory.size) { index ->
                 val item = reverseHistory[index]
@@ -241,10 +244,11 @@ private fun RecommendedRoommates(
                 start = dimensionResource(
                     id = R.dimen.screen_start_margin
                 ),
-                end = dimensionResource(id = R.dimen.screen_end_margin),
-            ), style = TextStyle(
+                end = dimensionResource(id = R.dimen.screen_end_margin)
+            ),
+            style = TextStyle(
                 color = colorResource(id = R.color.black),
-                fontSize = integerResource(id = R.integer.label_text).sp,
+                fontSize = integerResource(id = R.integer.label_text).sp
             )
         )
 
@@ -259,8 +263,8 @@ private fun RecommendedRoommates(
                 start = dimensionResource(
                     id = R.dimen.screen_start_margin
                 ),
-                end = dimensionResource(id = R.dimen.screen_end_margin),
-            ),
+                end = dimensionResource(id = R.dimen.screen_end_margin)
+            )
         ) {
             items(recommendedMates.size) { index ->
                 UserCard(recommendedRoommate = recommendedMates[index]) {
@@ -284,11 +288,11 @@ private fun RecommendedRooms(
                 start = dimensionResource(
                     id = R.dimen.screen_start_margin
                 ),
-                end = dimensionResource(id = R.dimen.screen_end_margin),
+                end = dimensionResource(id = R.dimen.screen_end_margin)
             ),
             style = TextStyle(
                 color = colorResource(id = R.color.black),
-                fontSize = integerResource(id = R.integer.label_text).sp,
+                fontSize = integerResource(id = R.integer.label_text).sp
             )
         )
         LazyRow(
@@ -302,8 +306,8 @@ private fun RecommendedRooms(
                 start = dimensionResource(
                     id = R.dimen.screen_start_margin
                 ),
-                end = dimensionResource(id = R.dimen.screen_end_margin),
-            ),
+                end = dimensionResource(id = R.dimen.screen_end_margin)
+            )
         ) {
             items(recommendedRooms.size) { index ->
                 RoomCard(
@@ -327,7 +331,7 @@ private fun UnauthorizedView(navigateToSplash: () -> Unit) {
             style = TextStyle(
                 color = colorResource(id = R.color.black),
                 fontSize = integerResource(id = R.integer.label_text).sp
-            ),
+            )
         )
         Text(
             text = stringResource(id = R.string.try_again),

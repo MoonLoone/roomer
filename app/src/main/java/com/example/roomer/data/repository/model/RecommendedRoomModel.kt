@@ -6,5 +6,5 @@ data class RecommendedRoomModel(
     val location: String? = null,
     val bedroomsCount: String? = null,
     val bathroomsCount: String? = null,
-    val housingType: String? = null,
+    val housingType: String? = null
 )

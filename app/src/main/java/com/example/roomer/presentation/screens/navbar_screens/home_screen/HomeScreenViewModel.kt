@@ -1,14 +1,10 @@
 package com.example.roomer.presentation.screens.navbar_screens.home_screen
 
-import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.roomer.R
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
 import com.example.roomer.data.room.entities.HistoryItem
 import com.example.roomer.data.shared.HousingLikeInterface
@@ -17,11 +13,11 @@ import com.example.roomer.domain.model.entities.User
 import com.example.roomer.domain.usecase.navbar_screens.HomeScreenUseCase
 import com.example.roomer.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
-import javax.inject.Inject
 import kotlinx.coroutines.launch
 
 @HiltViewModel
@@ -49,25 +45,33 @@ class HomeScreenViewModel @Inject constructor(
                 current.copy(isLoading = true)
             }
             homeScreenUseCase.getCurrentUserInfo(_currentUser).collect { result ->
-                if (result is Resource.Error) _state.update { current ->
-                    current.copy(unauthorized = true)
+                if (result is Resource.Error) {
+                    _state.update { current ->
+                        current.copy(unauthorized = true)
+                    }
                 }
             }
             homeScreenUseCase.getRecommendedMates(_recommendedMates, currentUser.value)
                 .collect { result ->
-                    if (result is Resource.Error) _state.update { current ->
-                        current.copy(emptyRecommendedMates = true)
+                    if (result is Resource.Error) {
+                        _state.update { current ->
+                            current.copy(emptyRecommendedMates = true)
+                        }
                     }
                 }
             homeScreenUseCase.getRecommendedRooms(_recommendedRooms, currentUser.value)
                 .collect { result ->
-                    if (result is Resource.Error) _state.update { current ->
-                        current.copy(emptyRecommendedRooms = true)
+                    if (result is Resource.Error) {
+                        _state.update { current ->
+                            current.copy(emptyRecommendedRooms = true)
+                        }
                     }
                 }
             homeScreenUseCase.getRecently(_history).collect { result ->
-                if (result is Resource.Error) _state.update { current ->
-                    current.copy(emptyHistory = true)
+                if (result is Resource.Error) {
+                    _state.update { current ->
+                        current.copy(emptyHistory = true)
+                    }
                 }
             }
             _state.update { current ->

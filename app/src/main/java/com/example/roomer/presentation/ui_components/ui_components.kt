@@ -638,7 +638,10 @@ fun PostCard(room: Room, onOptionsClick: () -> Unit) {
 }
 
 @Composable
-fun SearchField(onNavigateToFriends: () -> Unit, paddingValues: PaddingValues = PaddingValues(top = 16.dp)) {
+fun SearchField(
+    onNavigateToFriends: () -> Unit,
+    paddingValues: PaddingValues = PaddingValues(top = 16.dp)
+) {
     var searcherText by remember {
         mutableStateOf(TextFieldValue(""))
     }

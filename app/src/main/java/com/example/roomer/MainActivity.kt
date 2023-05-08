@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.roomer.domain.model.entities.User
@@ -17,10 +16,7 @@ import com.example.roomer.presentation.screens.NavGraphs
 import com.example.roomer.presentation.screens.destinations.ChatScreenDestination
 import com.example.roomer.presentation.screens.destinations.SearchRoomResultsDestination
 import com.example.roomer.presentation.screens.destinations.SearchRoommateResultsDestination
-import com.example.roomer.presentation.screens.destinations.UserDetailsScreenDestination
 import com.example.roomer.presentation.screens.entrance.signup.SignUpViewModel
-import com.example.roomer.presentation.screens.shared_screens.UserDetailsScreen
-import com.example.roomer.presentation.screens.shared_screens.UserDetailsScreenViewModel
 import com.example.roomer.presentation.screens.shared_screens.chat_screen.ChatScreenViewModel
 import com.example.roomer.presentation.ui_components.Navbar
 import com.example.roomer.utils.Constants

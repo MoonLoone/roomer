@@ -1,6 +1,5 @@
 package com.example.roomer.data.room.dao
 
-import android.util.Log
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -29,7 +28,7 @@ interface HistoryDao {
     @Query("SELECT * FROM history ORDER BY id ")
     suspend fun getHistory(): List<HistoryItem>
 
-    suspend fun addToLocal(historyItem: HistoryItem){
+    suspend fun addToLocal(historyItem: HistoryItem) {
         add(historyItem)
         if (count() >= Constants.HISTORY_SIZE) {
             val history = getHistory().dropLast(1).map {

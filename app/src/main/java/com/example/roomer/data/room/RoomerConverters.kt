@@ -1,9 +1,6 @@
 package com.example.roomer.data.room
 
 import androidx.room.TypeConverter
-import com.example.roomer.data.room.entities.LocalRoom
-import com.example.roomer.data.room.entities.RoomWithHost
-import com.example.roomer.data.room.entities.toRoom
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.login_sign_up.InterestModel
 import com.google.gson.Gson
@@ -27,6 +24,4 @@ class RoomerConverters {
         val myType = object : TypeToken<List<Room.Photo>>() {}.type
         return photosJson?.let { Gson().fromJson(it, myType) }
     }
-
-
 }

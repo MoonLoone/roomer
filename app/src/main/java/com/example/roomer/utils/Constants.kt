@@ -38,7 +38,7 @@ object Constants {
         const val CHAT_USERNAME_MAX_LENGTH = 16
     }
 
-    object Home{
+    object Home {
         const val HOME_USERNAME_MAX_LENGTH = 16
         const val RECOMMENDED_MATES_SIZE = 15
         const val RECOMMENDED_ROOMS_SIZE = 10

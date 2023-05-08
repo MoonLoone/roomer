@@ -8,10 +8,10 @@ import com.example.roomer.data.room.entities.HistoryItem
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.utils.Resource
+import java.io.IOException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flow
-import java.io.IOException
 
 class HomeScreenUseCase(
     private val roomerRepository: RoomerRepositoryInterface
@@ -21,11 +21,15 @@ class HomeScreenUseCase(
         try {
             emit(Resource.Loading())
             user.value = roomerRepository.getLocalCurrentUser()
-            if (user.value != User()) emit(Resource.Success()) else emit(
-                Resource.Error.GeneralError(
-                    USER_ERROR
+            if (user.value != User()) {
+                emit(Resource.Success())
+            } else {
+                emit(
+                    Resource.Error.GeneralError(
+                        USER_ERROR
+                    )
                 )
-            )
+            }
         } catch (e: IOException) {
             emit(Resource.Internet(USER_ERROR))
         }
@@ -39,7 +43,7 @@ class HomeScreenUseCase(
             emit(Resource.Loading())
             val response = roomerRepository.getRecommendedRooms(
                 RecommendedRoomModel(
-                    location = currentUser.city,
+                    location = currentUser.city
                 )
             )
             emit(
@@ -65,7 +69,7 @@ class HomeScreenUseCase(
                     location = currentUser.city,
                     sleepTime = currentUser.sleepTime,
                     interests = currentUser.interests?.associate { it.id.toString() to it.interest }
-                        ?: emptyMap(),
+                        ?: emptyMap()
                 )
             )
             emit(
@@ -83,9 +87,15 @@ class HomeScreenUseCase(
 
     suspend fun getRecently(history: MutableStateFlow<List<HistoryItem>>): Flow<Resource<String>> = flow {
         history.value = roomerRepository.getHistory()
-        emit(if (history.value.isNotEmpty()) Resource.Success() else Resource.Error.GeneralError(
-            HISTORY_EMPTY
-        ))
+        emit(
+            if (history.value.isNotEmpty()) {
+                Resource.Success()
+            } else {
+                Resource.Error.GeneralError(
+                    HISTORY_EMPTY
+                )
+            }
+        )
     }
 
     private companion object {
@@ -94,5 +104,4 @@ class HomeScreenUseCase(
         const val MATES_ERROR = "No recommended mates"
         const val HISTORY_EMPTY = "History is empty"
     }
-
 }

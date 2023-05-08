@@ -8,5 +8,4 @@ interface AddToHistoryInterface {
     fun addRoomToHistory(room: LocalRoom)
 
     fun addMateToHistory(user: LocalCurrentUser)
-
 }

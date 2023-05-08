@@ -25,7 +25,7 @@ class RoomerStore(
     }
 
     override suspend fun addUserToHistory(user: LocalCurrentUser) {
-        history.addToLocal(HistoryItem(user=user))
+        history.addToLocal(HistoryItem(user = user))
     }
 
     override suspend fun getHistory(): List<HistoryItem> {
