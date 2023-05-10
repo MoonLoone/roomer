@@ -18,7 +18,7 @@ class AddToHistory @Inject constructor(
         }
     }
 
-    override fun addMateToHistory(user: User) {
+    override fun addRoommateToHistory(user: User) {
         CoroutineScope(Dispatchers.IO).launch {
             roomerRepositoryInterface.addRoommateToLocalHistory(user)
         }
