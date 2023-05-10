@@ -2,7 +2,6 @@ package com.example.roomer.data.local
 
 import androidx.paging.PagingSource
 import com.example.roomer.data.room.entities.HistoryItem
-import com.example.roomer.data.room.entities.LocalCurrentUser
 import com.example.roomer.data.room.entities.LocalMessage
 import com.example.roomer.data.room.entities.LocalRoom
 import com.example.roomer.domain.model.entities.Room

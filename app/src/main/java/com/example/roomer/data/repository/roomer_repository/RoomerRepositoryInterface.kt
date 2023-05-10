@@ -5,7 +5,6 @@ import androidx.paging.PagingData
 import com.example.roomer.data.repository.model.RecommendedMateModel
 import com.example.roomer.data.repository.model.RecommendedRoomModel
 import com.example.roomer.data.room.entities.HistoryItem
-import com.example.roomer.data.room.entities.LocalCurrentUser
 import com.example.roomer.data.room.entities.LocalMessage
 import com.example.roomer.data.room.entities.LocalRoom
 import com.example.roomer.domain.model.entities.Message

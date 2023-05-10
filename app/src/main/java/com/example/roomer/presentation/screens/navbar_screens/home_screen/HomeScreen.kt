@@ -41,7 +41,6 @@ import coil.request.ImageRequest
 import com.example.roomer.R
 import com.example.roomer.data.room.entities.HistoryItem
 import com.example.roomer.data.room.entities.toRoom
-import com.example.roomer.data.room.entities.toUser
 import com.example.roomer.data.shared.HousingLikeInterface
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User

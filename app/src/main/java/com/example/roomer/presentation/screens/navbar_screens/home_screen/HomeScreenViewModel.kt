@@ -94,5 +94,4 @@ class HomeScreenViewModel @Inject constructor(
             }
         }
     }
-
 }

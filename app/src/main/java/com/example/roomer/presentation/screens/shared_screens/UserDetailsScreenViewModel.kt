@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.roomer.data.shared.AddToHistory
 import com.example.roomer.domain.model.entities.User
-import com.example.roomer.domain.model.entities.toLocalUser
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
