@@ -16,7 +16,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -44,39 +43,56 @@ class HomeScreenViewModel @Inject constructor(
             _state.update { current ->
                 current.copy(isLoading = true)
             }
-            homeScreenUseCase.getCurrentUserInfo(_currentUser).collect { result ->
-                if (result is Resource.Error) {
-                    _state.update { current ->
-                        current.copy(unauthorized = true)
-                    }
-                }
-            }
-            homeScreenUseCase.getRecommendedMates(_recommendedMates, currentUser.value)
-                .collect { result ->
-                    if (result is Resource.Error) {
-                        _state.update { current ->
-                            current.copy(emptyRecommendedMates = true)
-                        }
-                    }
-                }
-            homeScreenUseCase.getRecommendedRooms(_recommendedRooms, currentUser.value)
-                .collect { result ->
-                    if (result is Resource.Error) {
-                        _state.update { current ->
-                            current.copy(emptyRecommendedRooms = true)
-                        }
-                    }
-                }
-            homeScreenUseCase.getRecently(_history).collect { result ->
-                if (result is Resource.Error) {
-                    _state.update { current ->
-                        current.copy(emptyHistory = true)
-                    }
-                }
-            }
+            getCurrentUser()
+            getRecommendedRoommates()
+            getRecommendedRooms()
+            getRecently()
             _state.update { current ->
                 current.copy(isLoading = false, success = true)
             }
         }
     }
+
+    private suspend fun getCurrentUser() {
+        homeScreenUseCase.getCurrentUserInfo(_currentUser).collect { result ->
+            if (result is Resource.Error) {
+                _state.update { current ->
+                    current.copy(unauthorized = true)
+                }
+            }
+        }
+    }
+
+    private suspend fun getRecommendedRooms() {
+        homeScreenUseCase.getRecommendedRooms(_recommendedRooms, currentUser.value)
+            .collect { result ->
+                if (result is Resource.Error) {
+                    _state.update { current ->
+                        current.copy(emptyRecommendedRooms = true)
+                    }
+                }
+            }
+    }
+
+    private suspend fun getRecommendedRoommates() {
+        homeScreenUseCase.getRecommendedRoommates(_recommendedMates, currentUser.value)
+            .collect { result ->
+                if (result is Resource.Error) {
+                    _state.update { current ->
+                        current.copy(emptyRecommendedMates = true)
+                    }
+                }
+            }
+    }
+
+    private suspend fun getRecently() {
+        homeScreenUseCase.getRecently(_history).collect { result ->
+            if (result is Resource.Error) {
+                _state.update { current ->
+                    current.copy(emptyHistory = true)
+                }
+            }
+        }
+    }
+
 }

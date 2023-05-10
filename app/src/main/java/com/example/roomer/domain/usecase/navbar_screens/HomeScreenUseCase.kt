@@ -59,7 +59,7 @@ class HomeScreenUseCase(
         }
     }
 
-    suspend fun getRecommendedMates(
+    suspend fun getRecommendedRoommates(
         mates: MutableStateFlow<List<User>>,
         currentUser: User
     ): Flow<Resource<String>> = flow {
