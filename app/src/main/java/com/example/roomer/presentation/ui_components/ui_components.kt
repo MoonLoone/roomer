@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -637,14 +638,17 @@ fun PostCard(room: Room, onOptionsClick: () -> Unit) {
 }
 
 @Composable
-fun SearchField(onNavigateToFriends: () -> Unit) {
+fun SearchField(
+    navigateToFilters: () -> Unit,
+    paddingValues: PaddingValues = PaddingValues(top = 16.dp)
+) {
     var searcherText by remember {
         mutableStateOf(TextFieldValue(""))
     }
     TextField(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 16.dp)
+            .padding(paddingValues)
             .height(56.dp)
             .border(
                 width = 2.dp,
@@ -688,7 +692,7 @@ fun SearchField(onNavigateToFriends: () -> Unit) {
                     .height(dimensionResource(id = R.dimen.ordinary_icon))
                     .width(dimensionResource(id = R.dimen.ordinary_icon))
                     .clickable {
-                        onNavigateToFriends.invoke()
+                        navigateToFilters.invoke()
                     }
             )
         },

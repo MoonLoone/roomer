@@ -2,6 +2,7 @@ package com.example.roomer.data.local
 
 import androidx.paging.PagingSource
 import com.example.roomer.data.room.RoomerDatabase
+import com.example.roomer.data.room.entities.HistoryItem
 import com.example.roomer.data.room.entities.LocalCurrentUser
 import com.example.roomer.data.room.entities.LocalMessage
 import com.example.roomer.data.room.entities.LocalRoom
@@ -17,6 +18,19 @@ class RoomerStore(
     private val users = database.users
     private val currentUser = database.currentUser
     private val messages = database.messages
+    private val history = database.history
+
+    override suspend fun addRoomToHistory(room: LocalRoom) {
+        history.addToLocal(HistoryItem(room = room))
+    }
+
+    override suspend fun addUserToHistory(user: User) {
+        history.addToLocal(HistoryItem(user = user))
+    }
+
+    override suspend fun getHistory(): List<HistoryItem> {
+        return history.getHistory()
+    }
 
     override suspend fun addFavourite(room: Room) {
         favourites.saveManyFavourites(listOf(room.toLocalRoom()))

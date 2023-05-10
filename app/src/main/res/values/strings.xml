@@ -218,4 +218,8 @@
     <string name="post_month_price_is_not_positive_text">Month price must be positive</string>
     <string name="post_room_images_is_empty_text">Add images to your advertisement</string>
     <string name="post_description_is_empty_text">Add some description</string>
+    <string name="try_again">Try again</string>
+
+    <!--Home screen-->
+    <string name="unathorized_message">Unauthorized</string>
 </resources>

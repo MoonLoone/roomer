@@ -2,6 +2,9 @@ package com.example.roomer.data.repository.roomer_repository
 
 import android.graphics.Bitmap
 import androidx.paging.PagingData
+import com.example.roomer.data.repository.model.RecommendedMateModel
+import com.example.roomer.data.repository.model.RecommendedRoomModel
+import com.example.roomer.data.room.entities.HistoryItem
 import com.example.roomer.data.room.entities.LocalMessage
 import com.example.roomer.data.room.entities.LocalRoom
 import com.example.roomer.domain.model.entities.Message
@@ -14,6 +17,12 @@ import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 
 interface RoomerRepositoryInterface {
+
+    suspend fun addRoomToLocalHistory(room: LocalRoom)
+
+    suspend fun addRoommateToLocalHistory(user: User)
+
+    suspend fun getHistory(): List<HistoryItem>
 
     suspend fun addLocalMessage(message: LocalMessage)
 
@@ -62,6 +71,14 @@ interface RoomerRepositoryInterface {
         personalityType: String?,
         cleanHabits: String?,
         interests: Map<String, String>
+    ): Response<List<User>>
+
+    suspend fun getRecommendedRooms(
+        recommendedRoomModel: RecommendedRoomModel
+    ): Response<List<Room>>
+
+    suspend fun getRecommendedMates(
+        recommendedMateModel: RecommendedMateModel
     ): Response<List<User>>
 
     suspend fun addLocalFavourite(room: Room)

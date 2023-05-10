@@ -1,6 +1,7 @@
 package com.example.roomer.data.local
 
 import androidx.paging.PagingSource
+import com.example.roomer.data.room.entities.HistoryItem
 import com.example.roomer.data.room.entities.LocalMessage
 import com.example.roomer.data.room.entities.LocalRoom
 import com.example.roomer.domain.model.entities.Room
@@ -8,6 +9,9 @@ import com.example.roomer.domain.model.entities.User
 import kotlinx.coroutines.flow.Flow
 
 interface RoomerStoreInterface {
+    suspend fun addRoomToHistory(room: LocalRoom)
+    suspend fun addUserToHistory(user: User)
+    suspend fun getHistory(): List<HistoryItem>
     suspend fun addFavourite(room: Room)
     suspend fun addManyFavourites(favouriteRooms: List<Room>)
     suspend fun isFavouritesEmpty(): Boolean

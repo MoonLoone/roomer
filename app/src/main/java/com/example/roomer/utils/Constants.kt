@@ -7,6 +7,7 @@ object Constants {
     const val BASE_URL = BuildConfig.BASE_URL
     const val EXP_TEXT_MINIMUM_TEXT_LINE = 3
     const val JPEG_QUALITY = 80
+    const val HISTORY_SIZE: Long = 10
 
     object ScreensId {
         const val greetingScreenId = 0
@@ -35,6 +36,12 @@ object Constants {
         const val CASH_SIZE = 100
         const val INITIAL_SIZE = 40
         const val CHAT_USERNAME_MAX_LENGTH = 16
+    }
+
+    object Home {
+        const val HOME_USERNAME_MAX_LENGTH = 16
+        const val RECOMMENDED_MATES_SIZE = 15
+        const val RECOMMENDED_ROOMS_SIZE = 10
     }
 
     object Options {
