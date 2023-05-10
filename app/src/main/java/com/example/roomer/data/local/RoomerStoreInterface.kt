@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface RoomerStoreInterface {
     suspend fun addRoomToHistory(room: LocalRoom)
-    suspend fun addUserToHistory(user: LocalCurrentUser)
+    suspend fun addUserToHistory(user: User)
     suspend fun getHistory(): List<HistoryItem>
     suspend fun addFavourite(room: Room)
     suspend fun addManyFavourites(favouriteRooms: List<Room>)

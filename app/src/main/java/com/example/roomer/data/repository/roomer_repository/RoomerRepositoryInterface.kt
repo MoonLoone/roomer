@@ -21,7 +21,7 @@ interface RoomerRepositoryInterface {
 
     suspend fun addRoomToLocalHistory(room: LocalRoom)
 
-    suspend fun addMateToLocalHistory(user: LocalCurrentUser)
+    suspend fun addRoommateToLocalHistory(user: User)
 
     suspend fun getHistory(): List<HistoryItem>
 

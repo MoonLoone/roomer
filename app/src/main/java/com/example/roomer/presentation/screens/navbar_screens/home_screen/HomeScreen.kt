@@ -90,7 +90,7 @@ fun HomeScreen(
                 navigateToUser = { navigator.navigate(UserDetailsScreenDestination(currentUser)) }
             )
             SearchField(
-                onNavigateToFriends = { navigator.navigate(SearchRoomScreenDestination) },
+                navigateToFilters = { navigator.navigate(SearchRoomScreenDestination) },
                 paddingValues = PaddingValues(
                     start = dimensionResource(
                         id = R.dimen.screen_start_margin
@@ -221,7 +221,7 @@ private fun RecentlyWatched(
                         likeHousing = housingLikeInterface
                     )
                 }
-                item.user?.toUser()?.let { user ->
+                item.user?.let { user ->
                     UserCard(recommendedRoommate = user) {
                         navigateToUser(user)
                     }

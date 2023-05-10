@@ -23,7 +23,7 @@ class UserDetailsScreenViewModel @Inject constructor(
             val userString: String? = savedStateHandle["user"]
             val user = Gson().fromJson(userString, User::class.java)
             user?.let {
-                addToHistory.roomerRepositoryInterface.addMateToLocalHistory(user.toLocalUser())
+                addToHistory.roomerRepositoryInterface.addRoommateToLocalHistory(user)
             }
         }
     }

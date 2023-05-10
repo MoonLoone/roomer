@@ -639,7 +639,7 @@ fun PostCard(room: Room, onOptionsClick: () -> Unit) {
 
 @Composable
 fun SearchField(
-    onNavigateToFriends: () -> Unit,
+    navigateToFilters: () -> Unit,
     paddingValues: PaddingValues = PaddingValues(top = 16.dp)
 ) {
     var searcherText by remember {
@@ -692,7 +692,7 @@ fun SearchField(
                     .height(dimensionResource(id = R.dimen.ordinary_icon))
                     .width(dimensionResource(id = R.dimen.ordinary_icon))
                     .clickable {
-                        onNavigateToFriends.invoke()
+                        navigateToFilters.invoke()
                     }
             )
         },

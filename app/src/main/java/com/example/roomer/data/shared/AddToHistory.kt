@@ -1,8 +1,8 @@
 package com.example.roomer.data.shared
 
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
-import com.example.roomer.data.room.entities.LocalCurrentUser
 import com.example.roomer.data.room.entities.LocalRoom
+import com.example.roomer.domain.model.entities.User
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -18,9 +18,9 @@ class AddToHistory @Inject constructor(
         }
     }
 
-    override fun addMateToHistory(user: LocalCurrentUser) {
+    override fun addMateToHistory(user: User) {
         CoroutineScope(Dispatchers.IO).launch {
-            roomerRepositoryInterface.addMateToLocalHistory(user)
+            roomerRepositoryInterface.addRoommateToLocalHistory(user)
         }
     }
 }

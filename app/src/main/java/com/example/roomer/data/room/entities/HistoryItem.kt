@@ -4,6 +4,7 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.example.roomer.domain.model.entities.User
 
 @Entity(
     tableName = "history",
@@ -14,5 +15,5 @@ data class HistoryItem(
     var historyId: Int = 0,
     @Embedded
     val room: LocalRoom? = null,
-    @Embedded val user: LocalCurrentUser? = null
+    @Embedded val user: User? = null
 )

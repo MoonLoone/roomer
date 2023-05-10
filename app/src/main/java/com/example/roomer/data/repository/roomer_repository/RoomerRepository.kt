@@ -40,7 +40,7 @@ class RoomerRepository @Inject constructor(
         roomerStore.addRoomToHistory(room)
     }
 
-    override suspend fun addMateToLocalHistory(user: LocalCurrentUser) {
+    override suspend fun addRoommateToLocalHistory(user: User) {
         roomerStore.addUserToHistory(user)
     }
 
