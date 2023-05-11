@@ -12,6 +12,7 @@ import com.example.roomer.data.repository.model.RecommendedRoomModel
 import com.example.roomer.data.room.entities.HistoryItem
 import com.example.roomer.data.room.entities.LocalMessage
 import com.example.roomer.data.room.entities.LocalRoom
+import com.example.roomer.domain.model.city.CityModel
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.MessageNotification
 import com.example.roomer.domain.model.entities.Room
@@ -269,5 +270,10 @@ class RoomerRepository @Inject constructor(
     override suspend fun getCurrentUserRooms(token: String, hostId: Int): Response<List<Room>> {
         val refToken = "Token ".plus(token)
         return roomerApi.getCurrentUserAdvertisements(refToken, hostId)
+    }
+
+    override suspend fun getCities(token: String): Response<List<CityModel>> {
+        val refToken = "Token ".plus(token)
+        return roomerApi.getCities(refToken)
     }
 }

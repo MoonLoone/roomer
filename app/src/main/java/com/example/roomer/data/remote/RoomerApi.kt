@@ -1,5 +1,6 @@
 package com.example.roomer.data.remote
 
+import com.example.roomer.domain.model.city.CityModel
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.MessageNotification
 import com.example.roomer.domain.model.entities.Room
@@ -141,4 +142,9 @@ interface RoomerApi {
         @Header("Authorization") token: String,
         @Query("host_id") hostId: Int
     ): Response<List<Room>>
+
+    @GET("/cities/")
+    suspend fun getCities(
+        @Header("Authorization") token: String,
+    ): Response<List<CityModel>>
 }
