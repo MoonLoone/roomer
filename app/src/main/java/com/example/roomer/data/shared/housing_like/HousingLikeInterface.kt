@@ -1,4 +1,4 @@
-package com.example.roomer.data.shared
+package com.example.roomer.data.shared.housing_like
 
 import com.example.roomer.domain.model.entities.Room
 

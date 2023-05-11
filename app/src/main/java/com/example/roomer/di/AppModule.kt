@@ -8,10 +8,10 @@ import com.example.roomer.data.repository.auth_repository.AuthRepositoryInterfac
 import com.example.roomer.data.repository.roomer_repository.RoomerRepository
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
 import com.example.roomer.data.room.RoomerDatabase
-import com.example.roomer.data.shared.AddToHistory
-import com.example.roomer.data.shared.AddToHistoryInterface
-import com.example.roomer.data.shared.HousingLike
-import com.example.roomer.data.shared.HousingLikeInterface
+import com.example.roomer.data.shared.add_to_history.AddToHistory
+import com.example.roomer.data.shared.add_to_history.AddToHistoryInterface
+import com.example.roomer.data.shared.housing_like.HousingLike
+import com.example.roomer.data.shared.housing_like.HousingLikeInterface
 import com.example.roomer.management.PermissionManager
 import com.example.roomer.utils.Constants.BASE_URL
 import dagger.Module
