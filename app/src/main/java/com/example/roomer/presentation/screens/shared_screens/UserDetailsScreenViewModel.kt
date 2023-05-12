@@ -3,7 +3,7 @@ package com.example.roomer.presentation.screens.shared_screens
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.roomer.data.shared.AddToHistory
+import com.example.roomer.data.shared.add_to_history.AddToHistory
 import com.example.roomer.domain.model.entities.User
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
