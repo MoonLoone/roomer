@@ -1,15 +1,38 @@
 package com.example.roomer.data.repository.roomer_repository
 
+import android.graphics.Bitmap
+import androidx.paging.PagingData
+import com.example.roomer.domain.model.pojo.RecommendedMateModel
+import com.example.roomer.domain.model.pojo.RecommendedRoomModel
+import com.example.roomer.data.room.entities.HistoryItem
+import com.example.roomer.data.room.entities.LocalMessage
+import com.example.roomer.data.room.entities.LocalRoom
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.MessageNotification
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
+import com.example.roomer.domain.model.pojo.ChatRawData
+import com.example.roomer.domain.model.room_post.RoomPost
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 
 interface RoomerRepositoryInterface {
 
-    suspend fun getChats(userId: Int): Response<List<Message>>
+    suspend fun addRoomToLocalHistory(room: LocalRoom)
+
+    suspend fun addRoommateToLocalHistory(user: User)
+
+    suspend fun getHistory(): List<HistoryItem>
+
+    suspend fun addLocalMessage(message: LocalMessage)
+
+    suspend fun getChats(userId: Int): Response<ChatRawData>
+
+    suspend fun getFavouritesForUser(): Flow<PagingData<LocalRoom>>
+
+    suspend fun likeHousing(housingId: Int): Response<String>
+
+    suspend fun dislikeHousing(housingId: Int): Response<String>
 
     suspend fun getCurrentUserInfo(
         token: String
@@ -19,8 +42,13 @@ interface RoomerRepositoryInterface {
         userId: Int,
         chatId: Int,
         offset: Int = 0,
-        limit: Int = 0
-    ): Response<List<Message>>
+        limit: Int = 10
+    ): Response<ChatRawData>
+
+    suspend fun getMessages(
+        limit: Int = 10,
+        chatId: String
+    ): Flow<PagingData<LocalMessage>>
 
     suspend fun getFilterRooms(
         monthPriceFrom: String?,
@@ -45,7 +73,13 @@ interface RoomerRepositoryInterface {
         interests: Map<String, String>
     ): Response<List<User>>
 
-    suspend fun getLocalFavourites(): Flow<List<Room>>
+    suspend fun getRecommendedRooms(
+        recommendedRoomModel: RecommendedRoomModel
+    ): Response<List<Room>>
+
+    suspend fun getRecommendedMates(
+        recommendedMateModel: RecommendedMateModel
+    ): Response<List<User>>
 
     suspend fun addLocalFavourite(room: Room)
 
@@ -76,4 +110,14 @@ interface RoomerRepositoryInterface {
     suspend fun messageChecked(messageId: Int, token: String): Response<Message>
 
     suspend fun getMessageNotifications(userId: Int): Response<List<MessageNotification>>
+
+    suspend fun postRoom(token: String, room: RoomPost): Response<Room>
+
+    suspend fun putRoomPhotos(
+        token: String,
+        roomId: Int,
+        filesContent: List<Bitmap>
+    ): Response<Room>
+
+    suspend fun getCurrentUserRooms(token: String, hostId: Int): Response<List<Room>>
 }

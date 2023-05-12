@@ -98,8 +98,9 @@ fun SearchRoomResults(
                         RoomCard(
                             navigator=navigator,
                             recommendedRoom = rooms[index],
-                            isMiniVersion = false
-                        ) {}
+                            isMiniVersion = false,
+                            viewModel.housingLike
+                        )
                     }
                 }
                 Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.spacer)))

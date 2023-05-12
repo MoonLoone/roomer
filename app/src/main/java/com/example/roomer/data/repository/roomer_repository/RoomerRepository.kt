@@ -1,21 +1,109 @@
 package com.example.roomer.data.repository.roomer_repository
 
+import android.graphics.Bitmap
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.example.roomer.data.local.RoomerStoreInterface
 import com.example.roomer.data.remote.RoomerApi
+import com.example.roomer.domain.model.pojo.RecommendedMateModel
+import com.example.roomer.domain.model.pojo.RecommendedRoomModel
+import com.example.roomer.data.room.entities.HistoryItem
+import com.example.roomer.data.room.entities.LocalMessage
+import com.example.roomer.data.room.entities.LocalRoom
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.MessageNotification
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
+import com.example.roomer.domain.model.pojo.ChatRawData
+import com.example.roomer.domain.model.room_post.RoomPost
+import com.example.roomer.utils.Constants
+import com.example.roomer.utils.PagingFactories
+import java.io.ByteArrayOutputStream
 import javax.inject.Inject
+import kotlin.random.Random
+import kotlin.random.nextUInt
 import kotlinx.coroutines.flow.Flow
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Response
 
 class RoomerRepository @Inject constructor(
     private val roomerApi: RoomerApi,
     private val roomerStore: RoomerStoreInterface
 ) : RoomerRepositoryInterface {
-    override suspend fun getChats(userId: Int): Response<List<Message>> {
+
+    override suspend fun addRoomToLocalHistory(room: LocalRoom) {
+        roomerStore.addRoomToHistory(room)
+    }
+
+    override suspend fun addRoommateToLocalHistory(user: User) {
+        roomerStore.addUserToHistory(user)
+    }
+
+    override suspend fun getHistory(): List<HistoryItem> {
+        return roomerStore.getHistory()
+    }
+
+    override suspend fun addLocalMessage(message: LocalMessage) {
+        roomerStore.addLocalMessage(message)
+    }
+
+    override suspend fun getChats(userId: Int): Response<ChatRawData> {
         return roomerApi.getChatsForUser(userId, "")
+    }
+
+    @OptIn(ExperimentalPagingApi::class)
+    override suspend fun getFavouritesForUser(): Flow<PagingData<LocalRoom>> {
+        val user = getLocalCurrentUser()
+        val pager = Pager(
+            PagingConfig(
+                pageSize = Constants.Chat.PAGE_SIZE,
+                maxSize = Constants.Chat.CASH_SIZE,
+                initialLoadSize = Constants.Chat.INITIAL_SIZE
+            ),
+            remoteMediator = PagingFactories.createFavouritesMediator(
+                roomerApi,
+                roomerStore,
+                user.userId
+            ),
+            pagingSourceFactory = { roomerStore.getPagingFavourites() }
+        )
+        return pager.flow
+    }
+
+    @OptIn(ExperimentalPagingApi::class)
+    override suspend fun getMessages(limit: Int, chatId: String): Flow<PagingData<LocalMessage>> {
+        val user = getLocalCurrentUser()
+        val pager = Pager(
+            PagingConfig(
+                pageSize = Constants.Chat.PAGE_SIZE,
+                maxSize = Constants.Chat.CASH_SIZE,
+                initialLoadSize = Constants.Chat.INITIAL_SIZE
+            ),
+            remoteMediator = PagingFactories.createMessagesMediator(
+                roomerApi,
+                roomerStore,
+                user.userId,
+                chatId
+            ),
+            pagingSourceFactory = {
+                roomerStore.getPagingMessages()
+            }
+        )
+        return pager.flow
+    }
+
+    override suspend fun likeHousing(housingId: Int): Response<String> {
+        val user = getLocalCurrentUser()
+        return roomerApi.addToFavourite(user.userId, housingId)
+    }
+
+    override suspend fun dislikeHousing(housingId: Int): Response<String> {
+        val user = getLocalCurrentUser()
+        return roomerApi.deleteFavourite(user.userId, housingId)
     }
 
     override suspend fun getCurrentUserInfo(token: String): Response<User> {
@@ -28,11 +116,9 @@ class RoomerRepository @Inject constructor(
         chatId: Int,
         offset: Int,
         limit: Int
-    ): Response<List<Message>> {
-        return roomerApi.getChatsForUser(userId, chatId.toString(), offset, limit)
+    ): Response<ChatRawData> {
+        return roomerApi.getChatsForUser(userId, chatId.toString())
     }
-
-    override suspend fun getLocalFavourites(): Flow<List<Room>> = roomerStore.getFavourites()
 
     override suspend fun addLocalFavourite(room: Room) = roomerStore.addFavourite(room)
 
@@ -78,12 +164,12 @@ class RoomerRepository @Inject constructor(
         housingType: String?
     ): Response<List<Room>> {
         return roomerApi.filterRooms(
-            monthPriceFrom,
-            monthPriceTo,
-            location,
-            bedroomsCount,
-            bathroomsCount,
-            housingType
+            monthPriceFrom = monthPriceFrom,
+            monthPriceTo = monthPriceTo,
+            location = location,
+            bedroomsCount = bedroomsCount,
+            bathroomsCount = bathroomsCount,
+            housingType = housingType
         )
     }
 
@@ -101,17 +187,87 @@ class RoomerRepository @Inject constructor(
         interests: Map<String, String>
     ): Response<List<User>> {
         return roomerApi.filterRoommates(
-            sex,
-            location,
-            ageFrom,
-            ageTo,
-            employment,
-            alcoholAttitude,
-            smokingAttitude,
-            sleepTime,
-            personalityType,
-            cleanHabits,
-            interests
+            sex = sex,
+            location = location,
+            ageFrom = ageFrom,
+            ageTo = ageTo,
+            employment = employment,
+            alcoholAttitude = alcoholAttitude,
+            smokingAttitude = smokingAttitude,
+            sleepTime = sleepTime,
+            personalityType = personalityType,
+            cleanHabits = cleanHabits,
+            interests = interests
         )
+    }
+
+    override suspend fun getRecommendedRooms(
+        recommendedRoomModel: RecommendedRoomModel
+    ): Response<List<Room>> {
+        with(recommendedRoomModel) {
+            return roomerApi.filterRooms(
+                limit = Constants.Home.RECOMMENDED_ROOMS_SIZE,
+                monthPriceFrom = monthPriceFrom,
+                monthPriceTo = monthPriceTo,
+                location = location,
+                bedroomsCount = bedroomsCount,
+                bathroomsCount = bathroomsCount,
+                housingType = housingType
+            )
+        }
+    }
+
+    override suspend fun getRecommendedMates(
+        recommendedMateModel: RecommendedMateModel
+    ): Response<List<User>> {
+        with(recommendedMateModel) {
+            return roomerApi.filterRoommates(
+                limit = Constants.Home.RECOMMENDED_MATES_SIZE,
+                sex = sex,
+                location = location,
+                ageFrom = ageFrom,
+                ageTo = ageTo,
+                employment = employment,
+                alcoholAttitude = alcoholAttitude,
+                smokingAttitude = smokingAttitude,
+                sleepTime = sleepTime,
+                personalityType = personalityType,
+                cleanHabits = cleanHabits,
+                interests = interests
+            )
+        }
+    }
+
+    override suspend fun postRoom(token: String, room: RoomPost): Response<Room> {
+        val refToken = "Token ".plus(token)
+        return roomerApi.postAdvertisement(refToken, room)
+    }
+
+    override suspend fun putRoomPhotos(
+        token: String,
+        roomId: Int,
+        filesContent: List<Bitmap>
+    ): Response<Room> {
+        val refToken = "Token ".plus(token)
+        val list = mutableListOf<MultipartBody.Part>()
+        filesContent.forEach {
+            val stream = ByteArrayOutputStream()
+            it.compress(Bitmap.CompressFormat.JPEG, Constants.JPEG_QUALITY, stream)
+            val byteArray = stream.toByteArray()
+            list.add(
+                MultipartBody.Part.createFormData(
+                    "file_content",
+                    Random.nextUInt(8000000u).toString().plus(".jpeg"),
+                    byteArray.toRequestBody("image/*".toMediaTypeOrNull(), 0, byteArray.size)
+                )
+            )
+        }
+
+        return roomerApi.putAdvertisement(refToken, roomId, list)
+    }
+
+    override suspend fun getCurrentUserRooms(token: String, hostId: Int): Response<List<Room>> {
+        val refToken = "Token ".plus(token)
+        return roomerApi.getCurrentUserAdvertisements(refToken, hostId)
     }
 }

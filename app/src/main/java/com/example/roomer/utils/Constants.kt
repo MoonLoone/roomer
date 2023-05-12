@@ -5,6 +5,9 @@ import com.example.roomer.R
 
 object Constants {
     const val BASE_URL = BuildConfig.BASE_URL
+    const val EXP_TEXT_MINIMUM_TEXT_LINE = 3
+    const val JPEG_QUALITY = 80
+    const val HISTORY_SIZE: Long = 10
 
     object ScreensId {
         const val greetingScreenId = 0
@@ -29,9 +32,16 @@ object Constants {
     }
 
     object Chat {
-        const val PAGE_SIZE = 10
-        const val CASH_SIZE = 30
-        const val INITIAL_SIZE = 10
+        const val PAGE_SIZE = 20
+        const val CASH_SIZE = 100
+        const val INITIAL_SIZE = 40
+        const val CHAT_USERNAME_MAX_LENGTH = 16
+    }
+
+    object Home {
+        const val HOME_USERNAME_MAX_LENGTH = 16
+        const val RECOMMENDED_MATES_SIZE = 15
+        const val RECOMMENDED_ROOMS_SIZE = 10
     }
 
     object Options {
@@ -79,5 +89,9 @@ object Constants {
         )
 
         val roomsCountOptions = listOf(R.string.any, R.string._1, R.string._2, R.string._3)
+    }
+
+    object RoomPost {
+        val ROOMS_COUNT_LIST = listOf("1", "2", "3", "4", "5")
     }
 }

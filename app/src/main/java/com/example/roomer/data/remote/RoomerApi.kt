@@ -10,9 +10,13 @@ import com.example.roomer.domain.model.login_sign_up.LoginDto
 import com.example.roomer.domain.model.login_sign_up.SignUpDataModel
 import com.example.roomer.domain.model.login_sign_up.SignUpModel
 import com.example.roomer.domain.model.login_sign_up.TokenDto
+import com.example.roomer.domain.model.pojo.ChatRawData
+import com.example.roomer.domain.model.pojo.FavouriteRawData
+import com.example.roomer.domain.model.room_post.RoomPost
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Multipart
@@ -49,6 +53,8 @@ interface RoomerApi {
 
     @GET("/housing/")
     suspend fun filterRooms(
+        @Query("limit") limit: Int = 10,
+        @Query("offset") offset: Int = 0,
         @Query("month_price_from") monthPriceFrom: String?,
         @Query("month_price_to") monthPriceTo: String?,
         @Query("city") location: String?,
@@ -59,6 +65,8 @@ interface RoomerApi {
 
     @GET("/profile/")
     suspend fun filterRoommates(
+        @Query("limit") limit: Int = 10,
+        @Query("offset") offset: Int = 0,
         @Query("sex") sex: String?,
         @Query("city") location: String?,
         @Query("age_from") ageFrom: String?,
@@ -81,9 +89,8 @@ interface RoomerApi {
     suspend fun getChatsForUser(
         @Query("user_id") userId: Int,
         @Query("chat_id") chatId: String,
-        @Query("offset") offset: Int = 0,
-        @Query("limit") limit: Int = 10
-    ): Response<List<Message>>
+        @Query("page") page: Int = 1
+    ): Response<ChatRawData>
 
     @PUT("/chats/{id}/mark_checked/")
     suspend fun messageChecked(
@@ -96,4 +103,42 @@ interface RoomerApi {
     suspend fun getNotifications(
         @Query("user_id") userId: Int
     ): Response<List<MessageNotification>>
+
+    @POST("/favourites/")
+    suspend fun addToFavourite(
+        @Query("user_id") userId: Int,
+        @Query("housing_id") housingId: Int
+    ): Response<String>
+
+    @DELETE("/favourites/")
+    suspend fun deleteFavourite(
+        @Query("user_id") userId: Int,
+        @Query("housing_id") housingId: Int
+    ): Response<String>
+
+    @GET("/favourites/")
+    suspend fun getFavourites(
+        @Query("user_id") userId: Int,
+        @Query("page") page: Int = 1
+    ): Response<FavouriteRawData>
+
+    @POST("/housing/")
+    suspend fun postAdvertisement(
+        @Header("Authorization") token: String,
+        @Body room: RoomPost
+    ): Response<Room>
+
+    @Multipart
+    @PUT("/housing/{roomId}/")
+    suspend fun putAdvertisement(
+        @Header("Authorization") token: String,
+        @Path("roomId") roomId: Int,
+        @Part filesContent: List<MultipartBody.Part>
+    ): Response<Room>
+
+    @GET("/housing/")
+    suspend fun getCurrentUserAdvertisements(
+        @Header("Authorization") token: String,
+        @Query("host_id") hostId: Int
+    ): Response<List<Room>>
 }
