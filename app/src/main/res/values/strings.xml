@@ -222,4 +222,7 @@
 
     <!--Home screen-->
     <string name="unathorized_message">Unauthorized</string>
+
+    <!--Follows screen-->
+    <string name="follow_setting_icon_description">Follow settings</string>
 </resources>

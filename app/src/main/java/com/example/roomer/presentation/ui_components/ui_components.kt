@@ -1458,7 +1458,7 @@ fun InterestsButtons(
                     }
                 }
             }
-        }
+         }
     }
 }
 
@@ -1646,6 +1646,136 @@ fun ExpandableText(
         )
     }
 }
+
+
+@Composable
+fun FollowCard(user: User, onClick: () -> Unit, deleteFollow: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(176.dp)
+            .background(
+                color = colorResource(id = R.color.primary),
+                shape = RoundedCornerShape(20.dp)
+            )
+            .clickable { onClick() }
+    ) {
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(user.avatar)
+                .crossfade(true)
+                .build(),
+            placeholder = painterResource(id = R.drawable.ordinary_user),
+            contentDescription = user.firstName,
+            modifier = Modifier
+                .fillMaxHeight()
+                .width(104.dp),
+            contentScale = ContentScale.FillBounds
+        )
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(start = 12.dp, top = 8.dp, end = 12.dp, bottom = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(
+                dimensionResource(id = R.dimen.column_elements_small_margin)
+            )
+        ) {
+            Row(horizontalArrangement = Arrangement.SpaceBetween) {
+                Text(
+                    text = user.firstName + " " + user.lastName,
+                    style = TextStyle(
+                        fontSize = integerResource(id = R.integer.label_text).sp,
+                        color = Color.Black,
+                        fontWeight = FontWeight.Bold
+                    )
+                )
+                Image(
+                    painter = painterResource(id = R.drawable.settings_ellipsis),
+                    contentDescription = stringResource(id = R.string.follow_setting_icon_description),
+                    modifier = Modifier
+                        .padding(end = 16.dp)
+                        .clickable {
+                        deleteFollow()
+                    }
+                )
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(20.dp)
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.location_icon),
+                    contentDescription = stringResource(id = R.string.location_icon),
+                    modifier = Modifier
+                        .width(dimensionResource(id = R.dimen.small_icon))
+                        .height(dimensionResource(id = R.dimen.small_icon))
+                        .align(Alignment.CenterVertically)
+                )
+                Text(
+                    text = user.city ?: "",
+                    style = TextStyle(
+                        fontSize = integerResource(id = R.integer.primary_text).sp,
+                        color = Color.Black
+                    )
+                )
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(20.dp)
+            ) {
+                Text(
+                    text = stringResource(id = R.string.status),
+                    style = TextStyle(
+                        fontSize = integerResource(id = R.integer.primary_text).sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Black
+                    )
+                )
+                Text(
+                    stringResource(R.string.occasionally),
+                    style = TextStyle(
+                        fontSize = integerResource(id = R.integer.primary_text).sp,
+                        color = Color.Black
+                    ),
+                    modifier = Modifier.padding(start = 8.dp)
+                )
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(20.dp)
+            ) {
+                Text(
+                    text = stringResource(R.string.rating_and_colon),
+                    style = TextStyle(
+                        fontSize = integerResource(id = R.integer.primary_text).sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Black
+                    )
+                )
+                Text(
+                    text = "7",
+                    style = TextStyle(
+                        fontSize = integerResource(id = R.integer.primary_text).sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Black
+                    ),
+                    modifier = Modifier.padding(start = 8.dp)
+                )
+                Icon(
+                    painter = painterResource(id = R.drawable.rating_icon),
+                    contentDescription = stringResource(R.string.rating_star_content_description),
+                    modifier = Modifier
+                        .height(dimensionResource(id = R.dimen.small_icon))
+                        .width(dimensionResource(id = R.dimen.small_icon))
+                )
+            }
+        }
+    }
+}
+
 
 class NoRippleInteractionSource : MutableInteractionSource {
 
