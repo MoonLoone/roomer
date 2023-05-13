@@ -123,11 +123,19 @@ fun AddHousingScreen(
     }
     if (viewModel.postConfirmation) {
         BasicConfirmDialog(
-            text = if (room != null) stringResource(R.string.edit_housing_confirm_dialog_text) else stringResource(
-                R.string.add_housing_confirm_dialog_text
-            ),
+            text = if (room != null) {
+                stringResource(R.string.edit_housing_confirm_dialog_text)
+            } else {
+                stringResource(
+                    R.string.add_housing_confirm_dialog_text
+                )
+            },
             confirmOnClick = {
-                if (room != null) viewModel.putAdvertisement() else viewModel.postAdvertisement()
+                if (room != null) {
+                    viewModel.putAdvertisement()
+                } else {
+                    viewModel.postAdvertisement()
+                }
             },
             dismissOnClick = {
                 viewModel.hideConfirmDialog()
@@ -166,9 +174,11 @@ fun AddHousingScreen(
                             }
                         )
                         Text(
-                            text = if (room != null) stringResource(
-                                R.string.edit_advertisement_title
-                            ) else stringResource(R.string.post_advertisement_title),
+                            text = if (room != null) {
+                                stringResource(R.string.edit_advertisement_title)
+                            } else {
+                                stringResource(R.string.post_advertisement_title)
+                            },
                             modifier = Modifier.fillMaxWidth(),
                             style = TextStyle(
                                 fontSize = integerResource(
@@ -293,9 +303,13 @@ fun AddHousingScreen(
                         .align(Alignment.BottomCenter)
                         .fillMaxWidth()
                         .padding(bottom = 8.dp),
-                    text = if (room != null) stringResource(R.string.save_button_label) else stringResource(
-                        R.string.post_button_label
-                    ),
+                    text = if (room != null) {
+                        stringResource(R.string.save_button_label)
+                    } else {
+                        stringResource(
+                            R.string.post_button_label
+                        )
+                    },
                     enabled = true,
                     onClick = {
                         viewModel.showConfirmDialog()
