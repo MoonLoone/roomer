@@ -145,6 +145,6 @@ interface RoomerApi {
 
     @GET("/cities/")
     suspend fun getCities(
-        @Header("Authorization") token: String,
+        @Header("Authorization") token: String
     ): Response<List<CityModel>>
 }

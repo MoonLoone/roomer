@@ -48,7 +48,7 @@ import com.example.roomer.presentation.ui_components.DropdownTextFieldMapped
 import com.example.roomer.presentation.ui_components.FilterSelect
 import com.example.roomer.presentation.ui_components.GreenButtonOutline
 import com.example.roomer.presentation.ui_components.InterestField
-import com.example.roomer.presentation.ui_components.UsualTextField
+import com.example.roomer.utils.Constants
 import com.example.roomer.utils.Constants.Options.attitudeOptions
 import com.example.roomer.utils.Constants.Options.cleanOptions
 import com.example.roomer.utils.Constants.Options.employmentOptions
@@ -146,7 +146,7 @@ fun SearchRoommateScreen(
             modifier = Modifier
                 .padding(
                     bottom = it.calculateBottomPadding() +
-                            dimensionResource(R.dimen.column_bottom_margin)
+                        dimensionResource(R.dimen.column_bottom_margin)
                 )
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(
@@ -271,10 +271,10 @@ fun SearchRoommateScreen(
             }
             DropdownTextFieldListed(
                 listOfItems = citiesListViewModel.cities.value.map { it.city },
-                label = "Choose city",
+                label = stringResource(id = R.string.choose_city_label),
                 value = location.value,
                 onValueChange = { location.value = it },
-                itemsAmountAtOnce = 5
+                itemsAmountAtOnce = Constants.citiesShownAtOnce
             )
             DropdownTextFieldMapped(
                 mapOfItems = sleepOptions.mapValues { (_, value) ->

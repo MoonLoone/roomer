@@ -40,11 +40,10 @@ class SignUpViewModel : ViewModel() {
                 currentState.copy(isError = true, errorMessage = EMPTY_FIELDS_ERROR_MESSAGE)
             }
         } else if (city.isEmpty()) {
-                _uiState.update { currentState ->
-                    currentState.copy(isError = true, errorMessage = NO_CHOSEN_CITY_ERROR_MESSAGE)
-                }
+            _uiState.update { currentState ->
+                currentState.copy(isError = true, errorMessage = NO_CHOSEN_CITY_ERROR_MESSAGE)
             }
-        else {
+        } else {
             _uiState.update { currentState ->
                 currentState.copy(isValid = true)
             }

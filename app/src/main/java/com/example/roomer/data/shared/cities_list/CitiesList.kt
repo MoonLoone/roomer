@@ -5,7 +5,7 @@ import com.example.roomer.domain.model.city.CityModel
 import retrofit2.Response
 
 class CitiesList(
-    private val roomerRepositoryInterface: RoomerRepositoryInterface,
+    private val roomerRepositoryInterface: RoomerRepositoryInterface
 ) : CitiesListInterface {
     override suspend fun getCities(token: String): Response<List<CityModel>> {
         return roomerRepositoryInterface.getCities(token)

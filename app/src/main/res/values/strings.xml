@@ -222,4 +222,5 @@
 
     <!--Home screen-->
     <string name="unathorized_message">Unauthorized</string>
+    <string name="choose_city_label">Choose city</string>
 </resources>

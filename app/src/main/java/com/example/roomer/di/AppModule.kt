@@ -97,7 +97,7 @@ object AppModule {
 
     @Provides
     fun provideCitiesList(
-        roomerRepositoryInterface: RoomerRepositoryInterface,
+        roomerRepositoryInterface: RoomerRepositoryInterface
     ): CitiesListInterface {
         return CitiesList(roomerRepositoryInterface)
     }

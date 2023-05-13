@@ -38,6 +38,7 @@ import com.example.roomer.presentation.ui_components.GreenButtonPrimary
 import com.example.roomer.presentation.ui_components.ProfilePicture
 import com.example.roomer.presentation.ui_components.SimpleAlertDialog
 import com.example.roomer.presentation.ui_components.UsualTextField
+import com.example.roomer.utils.Constants
 import com.example.roomer.utils.navigation.SignUpNavGraph
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -111,10 +112,10 @@ fun AboutMeAvatarScreen(
             )
             DropdownTextFieldListed(
                 listOfItems = citiesListViewModel.cities.value.map { it.city },
-                label = "Choose city",
+                label = stringResource(R.string.choose_city_label),
                 value = signUpViewModel.city,
                 onValueChange = { signUpViewModel.city = it },
-                itemsAmountAtOnce = 5
+                itemsAmountAtOnce = Constants.citiesShownAtOnce
             )
             DropdownTextFieldMapped(
                 mapOfItems = mapOf(

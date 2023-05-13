@@ -21,7 +21,6 @@ import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.ScrollableTabRow
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
@@ -862,7 +861,9 @@ fun DropdownTextFieldListed(
             onDismissRequest = { isExpanded = false },
             modifier = Modifier
                 .width(with(LocalDensity.current) { textFieldSize.width.toDp() })
-                .height(with(LocalDensity.current) { (textFieldSize.height * itemsAmountAtOnce).toDp() })
+                .height(with(LocalDensity.current) {
+                    (textFieldSize.height * itemsAmountAtOnce).toDp()
+                })
         ) {
             listOfItems.forEach { entry ->
                 DropdownMenuItem(
