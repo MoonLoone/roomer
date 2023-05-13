@@ -26,15 +26,19 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.roomer.R
 import com.example.roomer.presentation.screens.destinations.HabitsScreenDestination
 import com.example.roomer.presentation.screens.destinations.PrimaryUserInfoScreenDestination
 import com.example.roomer.presentation.screens.entrance.signup.SignUpViewModel
+import com.example.roomer.presentation.ui_components.CitiesListViewModel
+import com.example.roomer.presentation.ui_components.DropdownTextFieldListed
 import com.example.roomer.presentation.ui_components.DropdownTextFieldMapped
 import com.example.roomer.presentation.ui_components.GreenButtonPrimary
 import com.example.roomer.presentation.ui_components.ProfilePicture
 import com.example.roomer.presentation.ui_components.SimpleAlertDialog
 import com.example.roomer.presentation.ui_components.UsualTextField
+import com.example.roomer.utils.Constants
 import com.example.roomer.utils.navigation.SignUpNavGraph
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -44,7 +48,8 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 fun AboutMeAvatarScreen(
     navigator: DestinationsNavigator,
-    signUpViewModel: SignUpViewModel
+    signUpViewModel: SignUpViewModel,
+    citiesListViewModel: CitiesListViewModel = hiltViewModel()
 ) {
     val uiState by signUpViewModel.uiState.collectAsState()
     val focusManager = LocalFocusManager.current
@@ -104,6 +109,13 @@ fun AboutMeAvatarScreen(
                 onValueChange = {
                     signUpViewModel.personDescription = it
                 }
+            )
+            DropdownTextFieldListed(
+                listOfItems = citiesListViewModel.cities.value.map { it.city },
+                label = stringResource(R.string.choose_city_label),
+                value = signUpViewModel.city,
+                onValueChange = { signUpViewModel.city = it },
+                itemsAmountAtOnce = Constants.citiesShownAtOnce
             )
             DropdownTextFieldMapped(
                 mapOfItems = mapOf(

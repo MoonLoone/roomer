@@ -92,7 +92,8 @@ class InterestsScreenViewModel @Inject constructor(
         smokingAttitude: String,
         personalityType: String,
         cleanHabits: String,
-        interests: List<InterestModel>
+        interests: List<InterestModel>,
+        city: String
     ) {
         if (interests.isEmpty()) {
             _state.update { currentState ->
@@ -115,7 +116,8 @@ class InterestsScreenViewModel @Inject constructor(
                 smokingAttitude,
                 personalityType,
                 cleanHabits,
-                interests
+                interests,
+                city
             ).collect { result ->
                 when (result) {
                     is Resource.Loading -> {

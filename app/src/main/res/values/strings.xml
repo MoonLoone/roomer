@@ -230,6 +230,9 @@
     <string name="delete_text">Delete</string>
     <string name="follow_me_text">Follow me!</string>
     <string name="follow_icon_description">Follow icon</string>
+
+    <string name="choose_city_label">Choose city</string>
+
     <string name="edit_housing_confirm_dialog_text">Are you sure you want to save the changes?</string>
     <string name="remove_housing_confirm_dialog_text">Are you sure you want to remove this advertisement?</string>
     <string name="yes">Yes</string>
