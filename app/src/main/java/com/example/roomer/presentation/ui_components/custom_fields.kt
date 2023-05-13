@@ -21,6 +21,7 @@ import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.ScrollableTabRow
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
@@ -788,6 +789,89 @@ fun InterestField(
                         )
                     )
                 }
+            }
+        }
+    }
+}
+
+@Composable
+fun DropdownTextFieldListed(
+    listOfItems: List<String>,
+    label: String,
+    value: String?,
+    onValueChange: (String) -> Unit,
+    enabled: Boolean = true,
+    itemsAmountAtOnce: Int = 3
+) {
+    val interactionSource = remember { MutableInteractionSource() }
+
+    var isExpanded by remember {
+        mutableStateOf(false)
+    }
+    var textFieldSize by remember {
+        mutableStateOf(Size.Zero)
+    }
+    val icon = if (isExpanded) {
+        Icons.Filled.KeyboardArrowUp
+    } else {
+        Icons.Filled.KeyboardArrowDown
+    }
+    Column(
+        verticalArrangement = Arrangement.spacedBy(
+            dimensionResource(id = R.dimen.column_elements_small_margin)
+        )
+    ) {
+        Text(
+            text = label,
+            style = TextStyle(
+                fontSize = integerResource(id = R.integer.primary_text).sp,
+                color = Color.Black,
+                fontWeight = FontWeight.Medium
+            )
+        )
+        TextField(
+            value = value ?: "",
+            onValueChange = onValueChange,
+            modifier = Modifier
+                .fillMaxWidth()
+                .onGloballyPositioned { coordinates ->
+                    textFieldSize = coordinates.size.toSize()
+                }
+                .clickable(
+                    interactionSource = interactionSource,
+                    indication = null
+                ) {
+                    if (enabled) {
+                        isExpanded = !isExpanded
+                    }
+                },
+            enabled = false,
+            trailingIcon = {
+                Icon(icon, stringResource(R.string.dropdown_icon))
+            },
+            colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = colorResource(id = R.color.secondary_color)
+            ),
+            textStyle = TextStyle(
+                fontSize = integerResource(id = R.integer.primary_text).sp,
+                color = Color.Black
+            )
+        )
+
+        DropdownMenu(
+            expanded = isExpanded,
+            onDismissRequest = { isExpanded = false },
+            modifier = Modifier
+                .width(with(LocalDensity.current) { textFieldSize.width.toDp() })
+                .height(with(LocalDensity.current) { (textFieldSize.height * itemsAmountAtOnce + textFieldSize.height).toInt().toDp() })
+        ) {
+            listOfItems.forEach { entry ->
+                DropdownMenuItem(
+                    onClick = {
+                        onValueChange(entry)
+                        isExpanded = false
+                    }
+                ) { Text(text = entry) }
             }
         }
     }

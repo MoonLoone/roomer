@@ -12,6 +12,8 @@ import com.example.roomer.data.shared.AddToHistory
 import com.example.roomer.data.shared.AddToHistoryInterface
 import com.example.roomer.data.shared.HousingLike
 import com.example.roomer.data.shared.HousingLikeInterface
+import com.example.roomer.data.shared.cities_list.CitiesList
+import com.example.roomer.data.shared.cities_list.CitiesListInterface
 import com.example.roomer.management.PermissionManager
 import com.example.roomer.utils.Constants.BASE_URL
 import dagger.Module
@@ -91,5 +93,12 @@ object AppModule {
         roomerRepositoryInterface: RoomerRepositoryInterface
     ): AddToHistoryInterface {
         return AddToHistory(roomerRepositoryInterface)
+    }
+
+    @Provides
+    fun provideCitiesList(
+        roomerRepositoryInterface: RoomerRepositoryInterface,
+    ): CitiesListInterface {
+        return CitiesList(roomerRepositoryInterface)
     }
 }
