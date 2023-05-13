@@ -30,7 +30,8 @@ interface AuthRepositoryInterface {
         smokingAttitude: String,
         personalityType: String,
         cleanHabits: String,
-        interests: List<InterestModel>
+        interests: List<InterestModel>,
+        city: String
     ): Response<IdModel>
 
     suspend fun putSignUpAvatar(

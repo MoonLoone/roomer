@@ -41,7 +41,8 @@ class SignUpUseCase(
         smokingAttitude: String,
         personalityType: String,
         cleanHabits: String,
-        interests: List<InterestModel>
+        interests: List<InterestModel>,
+        city: String
     ): Flow<Resource<String>> = flow {
         try {
             emit(Resource.Loading())
@@ -61,7 +62,8 @@ class SignUpUseCase(
                 smokingAttitude,
                 personalityType,
                 cleanHabits,
-                interests
+                interests,
+                city
             )
 
             if (processAvatar.isSuccessful && processData.isSuccessful) {

@@ -798,7 +798,7 @@ fun InterestField(
 fun DropdownTextFieldListed(
     listOfItems: List<String>,
     label: String,
-    value: String?,
+    value: String,
     onValueChange: (String) -> Unit,
     enabled: Boolean = true,
     itemsAmountAtOnce: Int = 3
@@ -830,7 +830,7 @@ fun DropdownTextFieldListed(
             )
         )
         TextField(
-            value = value ?: "",
+            value = value,
             onValueChange = onValueChange,
             modifier = Modifier
                 .fillMaxWidth()
@@ -857,7 +857,6 @@ fun DropdownTextFieldListed(
                 color = Color.Black
             )
         )
-
         DropdownMenu(
             expanded = isExpanded,
             onDismissRequest = { isExpanded = false },

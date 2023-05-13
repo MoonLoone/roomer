@@ -28,7 +28,7 @@ class SignUpViewModel : ViewModel() {
     var personalityType by mutableStateOf("E")
     var cleanHabits by mutableStateOf("N")
     var interests by mutableStateOf<List<InterestModel>>(emptyList())
-    var city by mutableStateOf<String?>(null)
+    var city by mutableStateOf("")
 
     fun aboutMeAvatarScreenValidate() {
         if (avatar == null) {
@@ -39,7 +39,7 @@ class SignUpViewModel : ViewModel() {
             _uiState.update { currentState ->
                 currentState.copy(isError = true, errorMessage = EMPTY_FIELDS_ERROR_MESSAGE)
             }
-        } else if (city == null) {
+        } else if (city.isEmpty()) {
                 _uiState.update { currentState ->
                     currentState.copy(isError = true, errorMessage = NO_CHOSEN_CITY_ERROR_MESSAGE)
                 }
