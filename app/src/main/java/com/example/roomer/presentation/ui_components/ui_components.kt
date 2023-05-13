@@ -90,7 +90,7 @@ import com.example.roomer.utils.Constants
 import com.example.roomer.utils.UtilsFunctions
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import com.example.roomer.presentation.screens.destinations.RoomDetailsScreenDestination
+//import com.example.roomer.presentation.screens.destinations.RoomDetailsScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
@@ -435,8 +435,12 @@ fun UserCard(recommendedRoommate: User, onClick: () -> Unit) {
 }
 
 @Composable
-fun RoomCard(navigator: DestinationsNavigator,
-             recommendedRoom: Room, isMiniVersion: Boolean, onLikeClick: (Boolean) -> Unit) {
+fun RoomCard(
+    recommendedRoom: Room,
+    isMiniVersion: Boolean,
+    likeHousing: HousingLikeInterface,
+    onClick: () -> Unit
+) {
     val cardWidth = if (isMiniVersion) 240.dp else 332.dp
     val cardHeight = if (isMiniVersion) 148.dp else 222.dp
     val imageHeight = if (isMiniVersion) 92.dp else 140.dp
@@ -455,9 +459,7 @@ fun RoomCard(navigator: DestinationsNavigator,
                 color = colorResource(id = R.color.primary_dark),
                 shape = RoundedCornerShape(16.dp)
             )
-            .clickable {
-                navigator.navigate(RoomDetailsScreenDestination(recommendedRoom))
-            }
+            .clickable { onClick() }
     ) {
         var isLiked by remember {
             mutableStateOf(recommendedRoom.isLiked)
@@ -506,8 +508,6 @@ fun RoomCard(navigator: DestinationsNavigator,
                                 likeHousing.likeHousing(recommendedRoom)
                             }
                         }
-                        isLiked = !isLiked
-                        recommendedRoom.isLiked = isLiked
                     }
             )
         }

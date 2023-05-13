@@ -3,10 +3,8 @@ package com.example.roomer.presentation.screens.search_screens
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.CircularProgressIndicator
@@ -28,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.roomer.R
 import com.example.roomer.presentation.screens.destinations.HomeScreenDestination
+import com.example.roomer.presentation.screens.destinations.RoomDetailsScreenDestination
 import com.example.roomer.presentation.ui_components.BackBtn
 import com.example.roomer.presentation.ui_components.GreenButtonOutline
 import com.example.roomer.presentation.ui_components.RoomCard
@@ -96,14 +95,16 @@ fun SearchRoomResults(
                     }
                     items(rooms.size) { index ->
                         RoomCard(
-                            navigator=navigator,
                             recommendedRoom = rooms[index],
                             isMiniVersion = false,
-                            viewModel.housingLike
+                            viewModel.housingLike,
+                            onClick = { navigator.navigate(
+                                RoomDetailsScreenDestination(rooms[index])
+                            )
+                            }
                         )
                     }
                 }
-                Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.spacer)))
             }
 
         LoadingStates.Loading -> CircularProgressIndicator(modifier = Modifier.fillMaxSize())

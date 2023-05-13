@@ -81,7 +81,6 @@ fun SearchRoomScreen(
             start = dimensionResource(id = R.dimen.screen_start_margin),
             end = dimensionResource(id = R.dimen.screen_end_margin),
             top = dimensionResource(id = R.dimen.screen_top_margin),
-            bottom = dimensionResource(id = R.dimen.screen_nav_bottom_margin)
         ),
         floatingActionButton = {
             GreenButtonOutline(

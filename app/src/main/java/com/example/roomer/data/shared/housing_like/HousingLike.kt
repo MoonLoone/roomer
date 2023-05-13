@@ -12,11 +12,13 @@ class HousingLike @Inject constructor(
 ) : HousingLikeInterface {
 
     override suspend fun likeHousing(housing: Room) {
+        housing.isLiked = true
         roomerRepositoryInterface.likeHousing(housing.id)
         roomerDatabase.favourites.save(housing.toLocalRoom())
     }
 
     override suspend fun dislikeHousing(housing: Room) {
+        housing.isLiked =false
         roomerRepositoryInterface.dislikeHousing(housing.id)
         roomerDatabase.favourites.deleteById(housing.id)
     }

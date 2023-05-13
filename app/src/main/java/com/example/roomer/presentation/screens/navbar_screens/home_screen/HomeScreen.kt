@@ -1,5 +1,6 @@
 package com.example.roomer.presentation.screens.navbar_screens.home_screen
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -44,6 +45,7 @@ import com.example.roomer.data.room.entities.toRoom
 import com.example.roomer.data.shared.housing_like.HousingLikeInterface
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
+import com.example.roomer.presentation.screens.destinations.RoomDetailsScreenDestination
 import com.example.roomer.presentation.screens.destinations.SearchRoomScreenDestination
 import com.example.roomer.presentation.screens.destinations.SplashScreenDestination
 import com.example.roomer.presentation.screens.destinations.UserDetailsScreenDestination
@@ -66,6 +68,7 @@ fun HomeScreen(
     val state = homeScreenViewModel.state.collectAsState().value
     val currentUser = homeScreenViewModel.currentUser.value
     val history = homeScreenViewModel.history.collectAsState().value
+    Log.d("history", history.toString())
     val recommendedRooms = homeScreenViewModel.recommendedRooms.collectAsState().value
     val recommendedMates = homeScreenViewModel.recommendedMates.collectAsState().value
     if (state.isLoading) LoadingView()
@@ -103,7 +106,7 @@ fun HomeScreen(
                 history = history,
                 housingLikeInterface = homeScreenViewModel.housingLike,
                 navigateToUser = { user -> navigator.navigate(UserDetailsScreenDestination(user)) },
-                navigateToRoom = { room -> }
+                navigateToRoom = { room -> navigator.navigate(RoomDetailsScreenDestination(room)) }
             )
             RecommendedRoommates(
                 emptyRoommates = state.emptyRecommendedMates,
@@ -113,7 +116,8 @@ fun HomeScreen(
             RecommendedRooms(
                 emptyRooms = state.emptyRecommendedRooms,
                 recommendedRooms = recommendedRooms,
-                housingLikeInterface = homeScreenViewModel.housingLike
+                housingLikeInterface = homeScreenViewModel.housingLike,
+                navigateToRoom = { room -> navigator.navigate(RoomDetailsScreenDestination(room)) }
             )
         }
     }
@@ -216,8 +220,9 @@ private fun RecentlyWatched(
                 item.room?.toRoom()?.let { room ->
                     RoomCard(
                         recommendedRoom = room,
-                        isMiniVersion = false,
-                        likeHousing = housingLikeInterface
+                        isMiniVersion = true,
+                        likeHousing = housingLikeInterface,
+                        onClick = { navigateToRoom(room) }
                     )
                 }
                 item.user?.let { user ->
@@ -278,7 +283,8 @@ private fun RecommendedRoommates(
 private fun RecommendedRooms(
     recommendedRooms: List<Room>,
     housingLikeInterface: HousingLikeInterface,
-    emptyRooms: Boolean
+    emptyRooms: Boolean,
+    navigateToRoom: (Room) -> Unit
 ) {
     if (!emptyRooms) {
         Text(
@@ -312,7 +318,8 @@ private fun RecommendedRooms(
                 RoomCard(
                     recommendedRoom = recommendedRooms[index],
                     isMiniVersion = true,
-                    likeHousing = housingLikeInterface
+                    likeHousing = housingLikeInterface,
+                    onClick = { navigateToRoom(recommendedRooms[index]) }
                 )
             }
         }

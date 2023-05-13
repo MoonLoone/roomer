@@ -223,4 +223,15 @@
     <!--Home screen-->
     <string name="unathorized_message">Unauthorized</string>
     <string name="details">Details</string>
+
+    <!--Room details screen-->
+    <string name="apartment_type_prefix">Apartment type: </string>
+    <string name="description">Description</string>
+    <string name="host">Host</string>
+    <string name="price_for_month_prefix">"Price for month: "</string>
+    <string name="chat">Chat</string>
+    <string name="avatar">Avatar</string>
+    <string name="slider">Slider</string>
+
+
 </resources>
