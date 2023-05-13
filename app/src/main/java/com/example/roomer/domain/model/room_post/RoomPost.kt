@@ -3,6 +3,8 @@ package com.example.roomer.domain.model.room_post
 import com.google.gson.annotations.SerializedName
 
 data class RoomPost(
+    @SerializedName("title")
+    val title: String,
     @SerializedName("month_price")
     val monthPrice: String,
     @SerializedName("host")
@@ -17,6 +19,5 @@ data class RoomPost(
     val housingType: String,
     @SerializedName("sharing_type")
     val sharingType: String,
-    val location: String = "Ordinary location",
-    val title: String = "Ordinary location"
+    val location: String = "Ordinary location"
 )
