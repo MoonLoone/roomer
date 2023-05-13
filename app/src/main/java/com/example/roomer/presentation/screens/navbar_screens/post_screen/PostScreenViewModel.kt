@@ -3,7 +3,9 @@ package com.example.roomer.presentation.screens.navbar_screens.post_screen
 import android.app.Application
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
@@ -48,6 +50,10 @@ class PostScreenViewModel @Inject constructor(
         mutableStateOf(emptyList())
     val advertisements: State<List<Room>> = _advertisements
 
+    var removeConfirmation by mutableStateOf(false)
+
+    var currentRoomIdToRemove by mutableStateOf(0)
+
     init {
         getAdvertisements()
     }
@@ -61,6 +67,71 @@ class PostScreenViewModel @Inject constructor(
                 isError = false,
                 errorMessage = ""
             )
+        }
+    }
+
+    fun showRemoveConfirmDialog(roomId: Int) {
+        currentRoomIdToRemove = roomId
+        removeConfirmation = true
+    }
+
+    fun hideRemoveConfirmDialog() {
+        removeConfirmation = false
+    }
+
+    fun removeAdvertisement() {
+        hideRemoveConfirmDialog()
+        viewModelScope.launch {
+            if (userToken != null) {
+                postUseCase.removeRoomData(userToken, currentRoomIdToRemove).collect {
+                    when (it) {
+                        is Resource.Loading -> {
+                            _state.update { currentState ->
+                                currentState.copy(
+                                    isLoading = true
+                                )
+                            }
+                        }
+                        is Resource.Success -> {
+                            _state.update { currentState ->
+                                currentState.copy(
+                                    isLoading = false,
+                                    isSuccess = true
+                                )
+                            }
+                            val list = _advertisements.value.toMutableList()
+                            list.removeIf { it.id == currentRoomIdToRemove }
+                            _advertisements.value = list
+                        }
+                        is Resource.Internet -> {
+                            _state.update { currentState ->
+                                currentState.copy(
+                                    isLoading = false,
+                                    isError = true,
+                                    errorMessage = it.message!!
+                                )
+                            }
+                        }
+                        is Resource.Error -> {
+                            _state.update { currentState ->
+                                currentState.copy(
+                                    isLoading = false,
+                                    isError = true,
+                                    errorMessage = it.message!!
+                                )
+                            }
+                        }
+                    }
+                }
+            } else {
+                _state.update { currentState ->
+                    currentState.copy(
+                        isLoading = false,
+                        isError = true,
+                        errorMessage = "Token not found"
+                    )
+                }
+            }
         }
     }
 

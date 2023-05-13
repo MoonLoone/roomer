@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.roomer.R
 import com.example.roomer.presentation.screens.destinations.AddHousingScreenDestination
+import com.example.roomer.presentation.ui_components.BasicConfirmDialog
 import com.example.roomer.presentation.ui_components.GreenButtonOutlineIconed
 import com.example.roomer.presentation.ui_components.GreenButtonPrimaryIconed
 import com.example.roomer.presentation.ui_components.PostCard
@@ -56,7 +57,7 @@ fun PostScreen(
 
     if (state.isError) {
         SimpleAlertDialog(
-            title = stringResource(R.string.login_alert_dialog_text),
+            title = stringResource(R.string.error_dialog_text),
             text = state.errorMessage
         ) {
             viewModel.clearState()
@@ -64,11 +65,24 @@ fun PostScreen(
     }
     if (state.isInternetProblem) {
         SimpleAlertDialog(
-            title = stringResource(R.string.login_alert_dialog_text),
-            text = state.errorMessage
+            title = stringResource(R.string.error_dialog_text),
+            text = stringResource(R.string.no_internet_connection_text)
         ) {
             viewModel.clearState()
         }
+    }
+    if (viewModel.removeConfirmation) {
+        BasicConfirmDialog(
+            text = stringResource(R.string.remove_housing_confirm_dialog_text),
+            confirmButtonText = stringResource(R.string.yes),
+            dismissButtonText = stringResource(R.string.no),
+            confirmOnClick = {
+                viewModel.removeAdvertisement()
+            },
+            dismissOnClick = {
+                viewModel.hideRemoveConfirmDialog()
+            }
+        )
     }
     Column(
         modifier = Modifier
@@ -107,9 +121,21 @@ fun PostScreen(
                             )
                         ) {
                             items(viewModel.advertisements.value.size) { index ->
-                                PostCard(room = viewModel.advertisements.value[index]) {
-                                    navigator.navigate(AddHousingScreenDestination)
-                                }
+                                PostCard(
+                                    room = viewModel.advertisements.value[index],
+                                    onEditClick = {
+                                        navigator.navigate(
+                                            AddHousingScreenDestination(
+                                                viewModel.advertisements.value[index]
+                                            )
+                                        )
+                                    },
+                                    onRemoveClick = {
+                                        viewModel.showRemoveConfirmDialog(
+                                            viewModel.advertisements.value[index].id
+                                        )
+                                    }
+                                )
                             }
                             item {
                                 Box(
@@ -129,7 +155,7 @@ fun PostScreen(
                             trailingIconDescriptionId = R.string.icon_description,
                             enabled = true,
                             onClick = {
-                                navigator.navigate(AddHousingScreenDestination)
+                                navigator.navigate(AddHousingScreenDestination(null))
                             }
                         )
                     }
@@ -154,7 +180,7 @@ fun PostScreen(
                             trailingIcon = ImageVector.vectorResource(id = R.drawable.postin),
                             enabled = true,
                             onClick = {
-                                navigator.navigate(AddHousingScreenDestination)
+                                navigator.navigate(AddHousingScreenDestination(null))
                             }
                         )
                     }

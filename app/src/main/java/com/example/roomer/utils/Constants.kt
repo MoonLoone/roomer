@@ -17,6 +17,7 @@ object Constants {
     object UseCase {
         const val internetErrorMessage = "No internet connection!"
         const val loginErrorName = "non_field_errors"
+        const val tokenNotFoundErrorMessage = "Token not found"
     }
 
     object Notification {
