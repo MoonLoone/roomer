@@ -122,27 +122,15 @@ fun AddHousingScreen(
         }
     }
     if (viewModel.postConfirmation) {
-        if (room != null) {
-            BasicConfirmDialog(
-                text = stringResource(R.string.edit_housing_confirm_dialog_text),
-                confirmOnClick = {
-                    viewModel.putAdvertisement()
-                },
-                dismissOnClick = {
-                    viewModel.hideConfirmDialog()
-                }
-            )
-        } else {
-            BasicConfirmDialog(
-                text = stringResource(R.string.add_housing_confirm_dialog_text),
-                confirmOnClick = {
-                    viewModel.postAdvertisement()
-                },
-                dismissOnClick = {
-                    viewModel.hideConfirmDialog()
-                }
-            )
-        }
+        BasicConfirmDialog(
+            text = if (room != null) stringResource(R.string.edit_housing_confirm_dialog_text) else stringResource(R.string.add_housing_confirm_dialog_text),
+            confirmOnClick = {
+                if (room != null) viewModel.putAdvertisement() else viewModel.postAdvertisement()
+            },
+            dismissOnClick = {
+                viewModel.hideConfirmDialog()
+            }
+        )
     }
 
     Column(
