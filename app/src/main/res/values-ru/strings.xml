@@ -194,4 +194,7 @@
     <string name="no">Нет</string>
     <string name="edit_advertisement_title">Редактирование</string>
     <string name="save_button_label">Сохранить</string>
+    <string name="title">Заголовок</string>
+    <string name="title_placeholder">Заголовок</string>
+    <string name="post_title_is_empty_text">Добавьте заголовок</string>
 </resources>

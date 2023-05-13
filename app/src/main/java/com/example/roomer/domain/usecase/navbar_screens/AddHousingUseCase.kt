@@ -16,6 +16,7 @@ class AddHousingUseCase(
     fun postRoomData(
         token: String,
         roomImages: List<Bitmap>,
+        title: String,
         monthPrice: String,
         host: Int,
         description: String,
@@ -30,6 +31,7 @@ class AddHousingUseCase(
             val processData = repository.postRoom(
                 token,
                 RoomPost(
+                    title,
                     monthPrice,
                     host,
                     description,
@@ -57,6 +59,7 @@ class AddHousingUseCase(
         photosRemoved: Boolean,
         roomId: Int,
         roomImages: List<Bitmap>,
+        title: String,
         monthPrice: String,
         description: String,
         bedroomsCount: String,
@@ -71,6 +74,7 @@ class AddHousingUseCase(
                 token,
                 roomId,
                 RoomPost(
+                    title,
                     monthPrice,
                     0,
                     description,

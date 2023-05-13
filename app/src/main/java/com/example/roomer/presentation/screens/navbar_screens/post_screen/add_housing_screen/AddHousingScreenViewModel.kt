@@ -13,6 +13,7 @@ import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInte
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.domain.usecase.navbar_screens.AddHousingUseCase
+import com.example.roomer.utils.Constants
 import com.example.roomer.utils.Resource
 import com.example.roomer.utils.SpManager
 import com.google.gson.Gson
@@ -54,6 +55,8 @@ class AddHousingScreenViewModel @Inject constructor(
 
     var roomImages = mutableStateListOf<Bitmap>()
 
+    var title by mutableStateOf("")
+
     var monthPrice by mutableStateOf("")
 
     var description by mutableStateOf("")
@@ -76,6 +79,7 @@ class AddHousingScreenViewModel @Inject constructor(
             val roomString: String? = savedStateHandle["room"]
             val room = Gson().fromJson(roomString, Room::class.java)
             room?.let {
+                title = it.title
                 monthPrice = it.monthPrice.toString()
                 description = it.description
                 bedroomsCount = it.bedroomsCount.toString()
@@ -115,6 +119,7 @@ class AddHousingScreenViewModel @Inject constructor(
                     photosRemoved,
                     roomId,
                     roomImages,
+                    title,
                     monthPrice,
                     description,
                     bedroomsCount,
@@ -161,7 +166,7 @@ class AddHousingScreenViewModel @Inject constructor(
                 _state.update { currentState ->
                     currentState.copy(
                         isLoading = false,
-                        error = "Token not found"
+                        error = Constants.UseCase.tokenNotFoundErrorMessage
                     )
                 }
             }
@@ -176,6 +181,7 @@ class AddHousingScreenViewModel @Inject constructor(
                 addHousingUseCase.postRoomData(
                     userToken,
                     roomImages,
+                    title,
                     monthPrice,
                     host,
                     description,
@@ -223,7 +229,7 @@ class AddHousingScreenViewModel @Inject constructor(
                 _state.update { currentState ->
                     currentState.copy(
                         isLoading = false,
-                        error = "Token not found"
+                        error = Constants.UseCase.tokenNotFoundErrorMessage
                     )
                 }
             }
@@ -255,6 +261,13 @@ class AddHousingScreenViewModel @Inject constructor(
         if (description.isEmpty()) {
             _state.update { currentState ->
                 currentState.copy(descriptionIsEmpty = true)
+            }
+            return false
+        }
+
+        if (title.isEmpty()) {
+            _state.update { currentState ->
+                currentState.copy(titleIsEmpty = true)
             }
             return false
         }

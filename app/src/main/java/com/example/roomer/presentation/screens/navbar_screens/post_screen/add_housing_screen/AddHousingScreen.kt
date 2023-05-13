@@ -113,6 +113,14 @@ fun AddHousingScreen(
             viewModel.clearState()
         }
     }
+    if (state.titleIsEmpty) {
+        SimpleAlertDialog(
+            title = stringResource(R.string.error_dialog_text),
+            text = stringResource(R.string.post_title_is_empty_text)
+        ) {
+            viewModel.clearState()
+        }
+    }
     if (viewModel.postConfirmation) {
         if (room != null) {
             BasicConfirmDialog(
@@ -167,31 +175,17 @@ fun AddHousingScreen(
                                 navigator.navigate(PostScreenDestination)
                             }
                         )
-                        if (room != null) {
-                            Text(
-                                text = stringResource(R.string.edit_advertisement_title),
-                                modifier = Modifier.fillMaxWidth(),
-                                style = TextStyle(
-                                    fontSize = integerResource(
-                                        id = R.integer.label_text
-                                    ).sp,
-                                    color = Color.Black
-                                ),
-                                textAlign = TextAlign.Center
-                            )
-                        } else {
-                            Text(
-                                text = stringResource(R.string.post_advertisement_title),
-                                modifier = Modifier.fillMaxWidth(),
-                                style = TextStyle(
-                                    fontSize = integerResource(
-                                        id = R.integer.label_text
-                                    ).sp,
-                                    color = Color.Black
-                                ),
-                                textAlign = TextAlign.Center
-                            )
-                        }
+                        Text(
+                            text = if (room != null) stringResource(R.string.edit_advertisement_title) else stringResource(R.string.post_advertisement_title),
+                            modifier = Modifier.fillMaxWidth(),
+                            style = TextStyle(
+                                fontSize = integerResource(
+                                    id = R.integer.label_text
+                                ).sp,
+                                color = Color.Black
+                            ),
+                            textAlign = TextAlign.Center
+                        )
                     }
                     if (!viewModel.photosRemoved && room != null) {
                         Column(
@@ -235,6 +229,12 @@ fun AddHousingScreen(
                             onBitmapListValueChange = {}
                         )
                     }
+                    UsualTextField(
+                        title = stringResource(R.string.title),
+                        placeholder = stringResource(R.string.title_placeholder),
+                        value = viewModel.title,
+                        onValueChange = { newValue -> viewModel.title = newValue }
+                    )
                     UsualTextField(
                         title = stringResource(R.string.month_price),
                         placeholder = stringResource(R.string.month_price_placeholder),
@@ -286,32 +286,17 @@ fun AddHousingScreen(
                             .height(48.dp)
                     )
                 }
-
-                if (room != null) {
-                    GreenButtonPrimary(
-                        modifier = Modifier
-                            .align(Alignment.BottomCenter)
-                            .fillMaxWidth()
-                            .padding(bottom = 8.dp),
-                        text = stringResource(R.string.save_button_label),
-                        enabled = true,
-                        onClick = {
-                            viewModel.showConfirmDialog()
-                        }
-                    )
-                } else {
-                    GreenButtonPrimary(
-                        modifier = Modifier
-                            .align(Alignment.BottomCenter)
-                            .fillMaxWidth()
-                            .padding(bottom = 8.dp),
-                        text = stringResource(R.string.post_button_label),
-                        enabled = true,
-                        onClick = {
-                            viewModel.showConfirmDialog()
-                        }
-                    )
-                }
+                GreenButtonPrimary(
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .fillMaxWidth()
+                        .padding(bottom = 8.dp),
+                    text = if (room != null) stringResource(R.string.save_button_label) else stringResource(R.string.post_button_label),
+                    enabled = true,
+                    onClick = {
+                        viewModel.showConfirmDialog()
+                    }
+                )
             }
         }
     }

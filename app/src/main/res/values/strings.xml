@@ -228,4 +228,7 @@
     <string name="no">No</string>
     <string name="edit_advertisement_title">Edit advertisement</string>
     <string name="save_button_label">Save</string>
+    <string name="title">Title</string>
+    <string name="title_placeholder">Title</string>
+    <string name="post_title_is_empty_text">Add a title</string>
 </resources>
