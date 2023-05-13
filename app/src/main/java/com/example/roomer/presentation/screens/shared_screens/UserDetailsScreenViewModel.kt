@@ -3,7 +3,9 @@ package com.example.roomer.presentation.screens.shared_screens
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
 import com.example.roomer.data.shared.add_to_history.AddToHistory
+import com.example.roomer.data.shared.follow.FollowManipulate
 import com.example.roomer.domain.model.entities.User
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,9 +15,13 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class UserDetailsScreenViewModel @Inject constructor(
+    private val roomerRepositoryInterface: RoomerRepositoryInterface,
     private val addToHistory: AddToHistory,
-    private val savedStateHandle: SavedStateHandle
+    private val savedStateHandle: SavedStateHandle,
+    val followManipulate: FollowManipulate,
 ) : ViewModel() {
+
+    var currentUser: User = User()
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
@@ -24,6 +30,7 @@ class UserDetailsScreenViewModel @Inject constructor(
             user?.let {
                 addToHistory.roomerRepositoryInterface.addRoommateToLocalHistory(user)
             }
+            currentUser = roomerRepositoryInterface.getLocalCurrentUser()
         }
     }
 }

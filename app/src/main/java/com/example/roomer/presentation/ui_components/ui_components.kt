@@ -77,9 +77,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.roomer.R
+import com.example.roomer.data.shared.follow.FollowManipulate
+import com.example.roomer.data.shared.follow.FollowManipulateViewModel
 import com.example.roomer.data.shared.housing_like.HousingLikeInterface
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.Room
@@ -1458,7 +1461,7 @@ fun InterestsButtons(
                     }
                 }
             }
-         }
+        }
     }
 }
 
@@ -1647,6 +1650,38 @@ fun ExpandableText(
     }
 }
 
+@Composable
+fun FollowButton(
+    isFollow: Boolean,
+    followManipulate: FollowManipulate,
+    currentUserId: Int,
+    followUserId: Int,
+    followManipulateViewModel: FollowManipulateViewModel = hiltViewModel()
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(32.dp)
+            .border(
+                width = 1.dp,
+                color = colorResource(id = R.color.black),
+                shape = RoundedCornerShape(100.dp)
+            )
+            .clickable {
+                followManipulateViewModel.addFollow(
+                    followManipulate,
+                    currentUserId,
+                    followUserId,
+                )
+            }
+    ) {
+        Icon(
+            painter = painterResource(id = R.drawable.follow_fill),
+            contentDescription = "Follow icon"
+        )
+        Text(text = "Follow me!")
+    }
+}
 
 @Composable
 fun FollowCard(user: User, onClick: () -> Unit, deleteFollow: () -> Unit) {
@@ -1695,8 +1730,8 @@ fun FollowCard(user: User, onClick: () -> Unit, deleteFollow: () -> Unit) {
                     modifier = Modifier
                         .padding(end = 16.dp)
                         .clickable {
-                        deleteFollow()
-                    }
+                            deleteFollow()
+                        }
                 )
             }
             Row(

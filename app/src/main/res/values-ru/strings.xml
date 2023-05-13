@@ -189,9 +189,7 @@
     <string name="post_room_images_is_empty_text">Добьте изображения к вашему объявлению</string>
     <string name="post_description_is_empty_text">Добавьте небольшое описание</string>
     <string name="try_again">Побробуйте еще раз</string>
-    <string name="try_again">П</string>
     <string name="unathorized_message">Не авторизован</string>
-    <string name="unathorized_message">Н</string>
     <string name="follow_setting_icon_description">Настройки подписки</string>
-    <string name="follow_setting_icon_description">Н</string>
+    <string name="follows_profile">Подписки</string>
 </resources>

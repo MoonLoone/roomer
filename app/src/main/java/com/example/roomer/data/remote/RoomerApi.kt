@@ -146,19 +146,21 @@ interface RoomerApi {
     @GET("/follow/")
     suspend fun getFollows(
         @Query("user_id") userId: Int,
-        @Query("Authorization") token: String,
+        @Header("Authorization") token: String,
     ): Response<List<Follow>>
 
     @POST("/follow/")
     suspend fun followToUser(
         @Query("user_id") userId: Int,
         @Query("follow_id") followId: Int,
+        @Header("Authorization") token: String,
     ): Response<String>
 
     @DELETE("/follow/")
     suspend fun deleteFollow(
         @Query("user_id") userId: Int,
         @Query("follow_id") followId: Int,
+        @Header("Authorization") token: String,
     ):Response<String>
 
 }

@@ -225,4 +225,5 @@
 
     <!--Follows screen-->
     <string name="follow_setting_icon_description">Follow settings</string>
+    <string name="follows_profile">Follows</string>
 </resources>

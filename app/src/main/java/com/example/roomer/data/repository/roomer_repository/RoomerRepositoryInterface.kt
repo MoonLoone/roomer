@@ -124,8 +124,8 @@ interface RoomerRepositoryInterface {
 
     suspend fun getFollows(currentUserId: Int, token: String): Response<List<Follow>>
 
-    suspend fun followToUser(currentUserId: Int, followUserId: Int): Response<String>
+    suspend fun followToUser(currentUserId: Int, followUserId: Int,token: String): Response<String>
 
-    suspend fun deleteFollow(currentUserId: Int, followUserId: Int): Response<String>
+    suspend fun deleteFollow(currentUserId: Int, followUserId: Int,token: String): Response<String>
 
 }

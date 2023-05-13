@@ -45,6 +45,7 @@ import com.example.roomer.presentation.screens.destinations.ChatScreenDestinatio
 import com.example.roomer.presentation.screens.entrance.signup.habits_screen.HabitTileModel
 import com.example.roomer.presentation.ui_components.BackBtn
 import com.example.roomer.presentation.ui_components.ExpandableText
+import com.example.roomer.presentation.ui_components.FollowButton
 import com.example.roomer.presentation.ui_components.GreenButtonOutline
 import com.example.roomer.presentation.ui_components.GreenButtonOutlineIconed
 import com.example.roomer.presentation.ui_components.HabitsTable
@@ -81,7 +82,6 @@ fun UserDetailsScreen(
     )
     val interestsScroll = rememberScrollState()
     val columnScroll = rememberScrollState()
-
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -101,7 +101,15 @@ fun UserDetailsScreen(
             DetailsHeadline {
                 navigator.popBackStack()
             }
-            UserAvatar(avatarUrl = user.avatar)
+            Row {
+                UserAvatar(avatarUrl = user.avatar)
+                FollowButton(
+                    isFollow = false,
+                    followManipulate = viewModel.followManipulate,
+                    followUserId = user.userId,
+                    currentUserId = viewModel.currentUser.userId
+                )
+            }
             UserHeadline(
                 firstName = user.firstName,
                 lastName = user.lastName,
