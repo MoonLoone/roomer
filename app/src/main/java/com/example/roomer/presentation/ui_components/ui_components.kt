@@ -30,6 +30,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -41,6 +42,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PhotoCamera
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Divider
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
@@ -540,7 +543,7 @@ fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean, likeHousing: Housing
 }
 
 @Composable
-fun PostCard(room: Room, onOptionsClick: () -> Unit) {
+fun PostCard(room: Room, onEditClick: () -> Unit, onRemoveClick: () -> Unit) {
     val cardWidth = 332.dp
     val cardHeight = 222.dp
     val imageHeight = 140.dp
@@ -551,6 +554,7 @@ fun PostCard(room: Room, onOptionsClick: () -> Unit) {
         0,
         room.location.length.coerceAtMost(32)
     )
+    var expanded by remember { mutableStateOf(false) }
     Box(
         modifier = Modifier
             .width(cardWidth)
@@ -560,7 +564,44 @@ fun PostCard(room: Room, onOptionsClick: () -> Unit) {
                 shape = RoundedCornerShape(16.dp)
             )
     ) {
-        Column() {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentSize(Alignment.TopEnd)
+        ) {
+            DropdownMenu(
+                modifier = Modifier.align(Alignment.TopEnd),
+                expanded = expanded,
+                onDismissRequest = { expanded = false }
+            ) {
+                DropdownMenuItem(
+                    text = {
+                        Text(
+                            color = colorResource(R.color.primary_dark),
+                            text = stringResource(R.string.edit_label)
+                        )
+                    },
+                    onClick = {
+                        onEditClick()
+                        expanded = false
+                    }
+                )
+                Divider()
+                DropdownMenuItem(
+                    text = {
+                        Text(
+                            color = colorResource(R.color.red),
+                            text = stringResource(R.string.remove_label)
+                        )
+                    },
+                    onClick = {
+                        onRemoveClick()
+                        expanded = false
+                    }
+                )
+            }
+        }
+        Column {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -631,7 +672,7 @@ fun PostCard(room: Room, onOptionsClick: () -> Unit) {
                 .height(dimensionResource(id = R.dimen.big_icon))
                 .clip(RoundedCornerShape(dimensionResource(id = R.dimen.rounded_corner_full)))
                 .clickable {
-                    onOptionsClick()
+                    expanded = true
                 }
         )
     }

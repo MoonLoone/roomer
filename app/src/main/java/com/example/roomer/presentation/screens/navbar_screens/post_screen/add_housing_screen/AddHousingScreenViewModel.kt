@@ -7,18 +7,24 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
+import com.example.roomer.domain.model.entities.Room
+import com.example.roomer.domain.model.entities.User
 import com.example.roomer.domain.usecase.navbar_screens.AddHousingUseCase
 import com.example.roomer.utils.Resource
 import com.example.roomer.utils.SpManager
+import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 /**
  * The view model of [AddHousingScreen].
@@ -29,7 +35,8 @@ import kotlinx.coroutines.flow.update
 @HiltViewModel
 class AddHousingScreenViewModel @Inject constructor(
     application: Application,
-    val roomerRepository: RoomerRepositoryInterface
+    val roomerRepository: RoomerRepositoryInterface,
+    private val savedStateHandle: SavedStateHandle
 ) : AndroidViewModel(application) {
 
     private val _state = MutableStateFlow(AddHousingState())
@@ -42,6 +49,8 @@ class AddHousingScreenViewModel @Inject constructor(
         SpManager.Sp.TOKEN,
         null
     )
+
+    var postConfirmation by mutableStateOf(false)
 
     var roomImages = mutableStateListOf<Bitmap>()
 
@@ -57,7 +66,29 @@ class AddHousingScreenViewModel @Inject constructor(
 
     var sharingType by mutableStateOf("P")
 
-    var postConfirmation by mutableStateOf(false)
+    var roomId by mutableStateOf(0)
+
+    var photosRemoved by mutableStateOf(false)
+
+
+    init {
+        viewModelScope.launch {
+            val roomString: String? = savedStateHandle["room"]
+            val room = Gson().fromJson(roomString, Room::class.java)
+            room?.let {
+                monthPrice = it.monthPrice.toString()
+                description = it.description
+                bedroomsCount = it.bedroomsCount.toString()
+                bathroomsCount = it.bathroomsCount.toString()
+                apartmentType = it.housingType
+                sharingType = it.sharingType
+                roomId = it.id
+            }
+            if (room == null) {
+                photosRemoved = true
+            }
+        }
+    }
 
     fun clearState() {
         _state.update {
@@ -75,12 +106,74 @@ class AddHousingScreenViewModel @Inject constructor(
         postConfirmation = false
     }
 
+    fun putAdvertisement() {
+        hideConfirmDialog()
+        viewModelScope.async {
+            if (userToken != null) {
+                addHousingUseCase.putRoomData(
+                    userToken,
+                    photosRemoved,
+                    roomId,
+                    roomImages,
+                    monthPrice,
+                    description,
+                    bedroomsCount,
+                    bathroomsCount,
+                    apartmentType,
+                    sharingType
+                ).collect {
+                    when (it) {
+                        is Resource.Loading -> {
+                            _state.update { currentState ->
+                                currentState.copy(
+                                    isLoading = true
+                                )
+                            }
+                        }
+                        is Resource.Success -> {
+                            _state.update { currentState ->
+                                currentState.copy(
+                                    isLoading = false,
+                                    success = true
+                                )
+                            }
+                        }
+                        is Resource.Internet -> {
+                            _state.update { currentState ->
+                                currentState.copy(
+                                    isLoading = false,
+                                    internetProblem = true
+                                )
+                            }
+                        }
+                        is Resource.Error -> {
+                            _state.update { currentState ->
+                                currentState.copy(
+                                    isLoading = false,
+                                    requestProblem = true,
+                                    error = it.message!!
+                                )
+                            }
+                        }
+                    }
+                }
+            } else {
+                _state.update { currentState ->
+                    currentState.copy(
+                        isLoading = false,
+                        error = "Token not found"
+                    )
+                }
+            }
+        }
+    }
+
     fun postAdvertisement() {
         hideConfirmDialog()
         viewModelScope.async {
             val host = async { roomerRepository.getLocalCurrentUser() }.await().userId
             if (userToken != null) {
-                addHousingUseCase.putRoomData(
+                addHousingUseCase.postRoomData(
                     userToken,
                     roomImages,
                     monthPrice,
@@ -152,7 +245,7 @@ class AddHousingScreenViewModel @Inject constructor(
             return false
         }
 
-        if (roomImages.isEmpty()) {
+        if (roomImages.isEmpty() && photosRemoved) {
             _state.update { currentState ->
                 currentState.copy(roomImagesIsEmpty = true)
             }

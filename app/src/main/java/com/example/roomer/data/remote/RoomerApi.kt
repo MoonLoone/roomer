@@ -128,12 +128,25 @@ interface RoomerApi {
         @Body room: RoomPost
     ): Response<Room>
 
+    @DELETE("/housing/{roomId}/")
+    suspend fun removeAdvertisement(
+        @Header("Authorization") token: String,
+        @Path("roomId") roomId: Int
+    ): Response<Unit>
+
     @Multipart
     @PUT("/housing/{roomId}/")
     suspend fun putAdvertisement(
         @Header("Authorization") token: String,
         @Path("roomId") roomId: Int,
         @Part filesContent: List<MultipartBody.Part>
+    ): Response<Room>
+
+    @PUT("/housing/{roomId}/")
+    suspend fun putAdvertisement(
+        @Header("Authorization") token: String,
+        @Path("roomId") roomId: Int,
+        @Body room: RoomPost
     ): Response<Room>
 
     @GET("/housing/")

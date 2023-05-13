@@ -25,9 +25,7 @@ class PostUseCase(
             )
 
             if (processData.isSuccessful) {
-                coroutineScope {
-                    emit(Resource.Success(processData.body()!!))
-                }
+                emit(Resource.Success(processData.body()!!))
             } else {
                 emit(Resource.Error.GeneralError(message = "An error occurred"))
             }
@@ -35,4 +33,23 @@ class PostUseCase(
             emit(Resource.Internet(Constants.UseCase.internetErrorMessage))
         }
     }
+    fun removeRoomData(
+        token: String,
+        roomId: Int
+    ): Flow<Resource<Unit>> = flow {
+        try {
+            emit(Resource.Loading())
+
+            val processData = repository.removeRoom(token, roomId)
+
+            if (processData.isSuccessful) {
+                emit(Resource.Success(processData.body()!!))
+            } else {
+                emit(Resource.Error.GeneralError(message = "An error occurred"))
+            }
+        } catch (e: IOException) {
+            emit(Resource.Internet(Constants.UseCase.internetErrorMessage))
+        }
+    }
+
 }

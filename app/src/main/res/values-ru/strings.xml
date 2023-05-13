@@ -186,6 +186,12 @@
     <string name="no_internet_connection_text">Нет подключения к интернету</string>
     <string name="post_month_price_is_not_integer_text">Цена в месяц должна быть целым числом</string>
     <string name="post_month_price_is_not_positive_text">Цена в месяц должна быть положительной</string>
-    <string name="post_room_images_is_empty_text">Добьте изображения к вашему объявлению</string>
+    <string name="post_room_images_is_empty_text">Добавьте изображения к вашему объявлению</string>
     <string name="post_description_is_empty_text">Добавьте небольшое описание</string>
+    <string name="edit_housing_confirm_dialog_text">Вы действительно хотите сохранить эти изменения?</string>
+    <string name="remove_housing_confirm_dialog_text">Вы действительно хотите удалить это объявление?</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="edit_advertisement_title">Редактирование</string>
+    <string name="save_button_label">Сохранить</string>
 </resources>
