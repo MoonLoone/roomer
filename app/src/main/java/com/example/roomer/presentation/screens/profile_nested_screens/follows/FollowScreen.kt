@@ -66,7 +66,7 @@ fun FollowsScreen(
             follows = follows,
             navigateToUserDetails = { user ->
                 navigator.navigate(UserDetailsScreenDestination(user))
-                                    },
+            },
             deleteFollow = { follow -> followsViewModel.deleteFollow(follow) }
         )
     }
