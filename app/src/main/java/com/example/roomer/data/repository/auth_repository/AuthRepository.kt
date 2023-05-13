@@ -51,7 +51,8 @@ class AuthRepository(
         smokingAttitude: String,
         personalityType: String,
         cleanHabits: String,
-        interests: List<InterestModel>
+        interests: List<InterestModel>,
+        city: String
     ): Response<IdModel> {
         val refToken = "Token ".plus(token)
         return roomerApi.putSignUpData(
@@ -68,7 +69,8 @@ class AuthRepository(
                 smokingAttitude,
                 personalityType,
                 cleanHabits,
-                interests
+                interests,
+                city
             )
         )
     }

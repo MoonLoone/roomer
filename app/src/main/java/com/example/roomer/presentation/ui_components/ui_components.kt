@@ -1009,6 +1009,16 @@ fun ProfilePicture(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
         imageUri.value = uri
+        imageUri.value?.let {
+            if (Build.VERSION.SDK_INT < 28) {
+                onBitmapValueChange(
+                    MediaStore.Images.Media.getBitmap(context.contentResolver, it)
+                )
+            } else {
+                val source = ImageDecoder.createSource(context.contentResolver, it)
+                onBitmapValueChange(ImageDecoder.decodeBitmap(source))
+            }
+        }
     }
     Column(
         modifier = Modifier

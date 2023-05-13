@@ -7,16 +7,17 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.roomer.data.local.RoomerStoreInterface
 import com.example.roomer.data.remote.RoomerApi
-import com.example.roomer.domain.model.pojo.RecommendedMateModel
-import com.example.roomer.domain.model.pojo.RecommendedRoomModel
 import com.example.roomer.data.room.entities.HistoryItem
 import com.example.roomer.data.room.entities.LocalMessage
 import com.example.roomer.data.room.entities.LocalRoom
+import com.example.roomer.domain.model.city.CityModel
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.MessageNotification
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.domain.model.pojo.ChatRawData
+import com.example.roomer.domain.model.pojo.RecommendedMateModel
+import com.example.roomer.domain.model.pojo.RecommendedRoomModel
 import com.example.roomer.domain.model.room_post.RoomPost
 import com.example.roomer.utils.Constants
 import com.example.roomer.utils.PagingFactories
@@ -283,5 +284,10 @@ class RoomerRepository @Inject constructor(
     override suspend fun getCurrentUserRooms(token: String, hostId: Int): Response<List<Room>> {
         val refToken = "Token ".plus(token)
         return roomerApi.getCurrentUserAdvertisements(refToken, hostId)
+    }
+
+    override suspend fun getCities(token: String): Response<List<CityModel>> {
+        val refToken = "Token ".plus(token)
+        return roomerApi.getCities(refToken)
     }
 }

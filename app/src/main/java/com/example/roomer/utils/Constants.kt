@@ -8,6 +8,7 @@ object Constants {
     const val EXP_TEXT_MINIMUM_TEXT_LINE = 3
     const val JPEG_QUALITY = 80
     const val HISTORY_SIZE: Long = 10
+    const val citiesShownAtOnce = 5
 
     object ScreensId {
         const val greetingScreenId = 0
