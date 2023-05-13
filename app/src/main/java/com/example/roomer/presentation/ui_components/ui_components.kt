@@ -44,7 +44,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PhotoCamera
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Divider
-import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
