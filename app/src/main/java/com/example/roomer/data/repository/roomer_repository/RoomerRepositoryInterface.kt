@@ -114,10 +114,18 @@ interface RoomerRepositoryInterface {
 
     suspend fun postRoom(token: String, room: RoomPost): Response<Room>
 
+    suspend fun removeRoom(token: String, roomId: Int): Response<Unit>
+
     suspend fun putRoomPhotos(
         token: String,
         roomId: Int,
         filesContent: List<Bitmap>
+    ): Response<Room>
+
+    suspend fun putRoom(
+        token: String,
+        roomId: Int,
+        room: RoomPost
     ): Response<Room>
 
     suspend fun getCurrentUserRooms(token: String, hostId: Int): Response<List<Room>>
