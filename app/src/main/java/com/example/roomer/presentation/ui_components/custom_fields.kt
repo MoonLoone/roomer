@@ -862,7 +862,7 @@ fun DropdownTextFieldListed(
             onDismissRequest = { isExpanded = false },
             modifier = Modifier
                 .width(with(LocalDensity.current) { textFieldSize.width.toDp() })
-                .height(with(LocalDensity.current) { (textFieldSize.height * itemsAmountAtOnce + textFieldSize.height).toInt().toDp() })
+                .height(with(LocalDensity.current) { (textFieldSize.height * itemsAmountAtOnce).toDp() })
         ) {
             listOfItems.forEach { entry ->
                 DropdownMenuItem(

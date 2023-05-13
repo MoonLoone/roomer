@@ -11,5 +11,5 @@ data class RecommendedMateModel(
     val sleepTime: String? = null,
     val personalityType: String? = null,
     val cleanHabits: String? = null,
-    val interests: Map<String, String> = emptyMap()
+    val interests: Map<String, String> = emptyMap(),
 )
