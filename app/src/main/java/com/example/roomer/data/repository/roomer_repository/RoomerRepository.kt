@@ -10,6 +10,7 @@ import com.example.roomer.data.remote.RoomerApi
 import com.example.roomer.data.room.entities.HistoryItem
 import com.example.roomer.data.room.entities.LocalMessage
 import com.example.roomer.data.room.entities.LocalRoom
+import com.example.roomer.domain.model.entities.Follow
 import com.example.roomer.domain.model.city.CityModel
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.MessageNotification
@@ -284,6 +285,29 @@ class RoomerRepository @Inject constructor(
     override suspend fun getCurrentUserRooms(token: String, hostId: Int): Response<List<Room>> {
         val refToken = "Token ".plus(token)
         return roomerApi.getCurrentUserAdvertisements(refToken, hostId)
+    }
+
+    override suspend fun getFollows(currentUserId: Int, token: String): Response<List<Follow>> {
+        val refToken = "Token ".plus(token)
+        return roomerApi.getFollows(currentUserId, refToken)
+    }
+
+    override suspend fun followToUser(
+        currentUserId: Int,
+        followUserId: Int,
+        token: String
+    ): Response<String> {
+        val refToken = "Token ".plus(token)
+        return roomerApi.followToUser(currentUserId, followUserId, refToken)
+    }
+
+    override suspend fun deleteFollow(
+        currentUserId: Int,
+        followUserId: Int,
+        token: String
+    ): Response<String> {
+        val refToken = "Token ".plus(token)
+        return roomerApi.deleteFollow(currentUserId, followUserId, refToken)
     }
 
     override suspend fun getCities(token: String): Response<List<CityModel>> {

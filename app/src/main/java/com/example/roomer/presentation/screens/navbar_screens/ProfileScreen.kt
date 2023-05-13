@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.roomer.R
 import com.example.roomer.presentation.screens.destinations.AccountScreenDestination
+import com.example.roomer.presentation.screens.destinations.FollowsScreenDestination
 import com.example.roomer.presentation.ui_components.ProfileContentLine
 import com.example.roomer.utils.NavbarManagement
 import com.ramcosta.composedestinations.annotation.Destination
@@ -65,6 +66,11 @@ fun ProfileScreen(
             onNavigateToFriends = {
                 navigator.navigate(AccountScreenDestination)
             }
+        )
+        ProfileContentLine(
+            text = stringResource(id = R.string.follows_profile),
+            iconId = R.drawable.settings_icon,
+            onNavigateToFriends = { navigator.navigate(FollowsScreenDestination) }
         )
         ProfileContentLine(
             stringResource(R.string.rating_label),

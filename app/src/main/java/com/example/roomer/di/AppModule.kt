@@ -10,6 +10,8 @@ import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInte
 import com.example.roomer.data.room.RoomerDatabase
 import com.example.roomer.data.shared.add_to_history.AddToHistory
 import com.example.roomer.data.shared.add_to_history.AddToHistoryInterface
+import com.example.roomer.data.shared.follow.FollowManipulate
+import com.example.roomer.data.shared.follow.FollowManipulateInterface
 import com.example.roomer.data.shared.cities_list.CitiesList
 import com.example.roomer.data.shared.cities_list.CitiesListInterface
 import com.example.roomer.data.shared.housing_like.HousingLike
@@ -93,6 +95,13 @@ object AppModule {
         roomerRepositoryInterface: RoomerRepositoryInterface
     ): AddToHistoryInterface {
         return AddToHistory(roomerRepositoryInterface)
+    }
+
+    @Provides
+    fun provideFollowManipulate(
+        roomerRepositoryInterface: RoomerRepositoryInterface
+    ): FollowManipulateInterface {
+        return FollowManipulate(roomerRepositoryInterface)
     }
 
     @Provides

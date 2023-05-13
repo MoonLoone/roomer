@@ -197,4 +197,8 @@
     <string name="title">Заголовок</string>
     <string name="title_placeholder">Заголовок</string>
     <string name="post_title_is_empty_text">Добавьте заголовок</string>
+    <string name="try_again">Побробуйте еще раз</string>
+    <string name="unathorized_message">Не авторизован</string>
+    <string name="follow_setting_icon_description">Настройки подписки</string>
+    <string name="follows_profile">Подписки</string>
 </resources>

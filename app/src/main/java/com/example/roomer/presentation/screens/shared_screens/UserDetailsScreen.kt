@@ -34,6 +34,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
@@ -45,6 +46,7 @@ import com.example.roomer.presentation.screens.destinations.ChatScreenDestinatio
 import com.example.roomer.presentation.screens.entrance.signup.habits_screen.HabitTileModel
 import com.example.roomer.presentation.ui_components.BackBtn
 import com.example.roomer.presentation.ui_components.ExpandableText
+import com.example.roomer.presentation.ui_components.FollowButton
 import com.example.roomer.presentation.ui_components.GreenButtonOutline
 import com.example.roomer.presentation.ui_components.GreenButtonOutlineIconed
 import com.example.roomer.presentation.ui_components.HabitsTable
@@ -81,7 +83,6 @@ fun UserDetailsScreen(
     )
     val interestsScroll = rememberScrollState()
     val columnScroll = rememberScrollState()
-
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -93,6 +94,7 @@ fun UserDetailsScreen(
     ) {
         Column(
             modifier = Modifier
+                .fillMaxSize()
                 .verticalScroll(columnScroll),
             verticalArrangement = Arrangement.spacedBy(
                 dimensionResource(id = R.dimen.column_elements_small_margin)
@@ -101,7 +103,17 @@ fun UserDetailsScreen(
             DetailsHeadline {
                 navigator.popBackStack()
             }
-            UserAvatar(avatarUrl = user.avatar)
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.Bottom
+            ) {
+                UserAvatar(avatarUrl = user.avatar)
+                FollowButton(
+                    followManipulate = viewModel.followManipulate,
+                    followUserId = user.userId,
+                    currentUserId = viewModel.currentUser.value.userId
+                )
+            }
             UserHeadline(
                 firstName = user.firstName,
                 lastName = user.lastName,

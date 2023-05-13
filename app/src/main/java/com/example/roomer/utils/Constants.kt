@@ -46,6 +46,13 @@ object Constants {
         const val RECOMMENDED_ROOMS_SIZE = 10
     }
 
+    object Follows {
+        const val ERROR_EMPTY_LIST = "empty list"
+        const val ERROR_UNAUTHORIZED = "unauthorized"
+        const val USER_CARD_MAX_NAME = 16
+        const val SMALL_USER_NAME = 10
+    }
+
     object Options {
         val apartmentOptions = mapOf(
             Pair("F", R.string.flat),
