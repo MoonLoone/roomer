@@ -124,10 +124,16 @@ fun PostScreen(
                                 PostCard(
                                     room = viewModel.advertisements.value[index],
                                     onEditClick = {
-                                        navigator.navigate(AddHousingScreenDestination(viewModel.advertisements.value[index]))
+                                        navigator.navigate(
+                                            AddHousingScreenDestination(
+                                                viewModel.advertisements.value[index]
+                                            )
+                                        )
                                     },
                                     onRemoveClick = {
-                                        viewModel.showRemoveConfirmDialog(viewModel.advertisements.value[index].id)
+                                        viewModel.showRemoveConfirmDialog(
+                                            viewModel.advertisements.value[index].id
+                                        )
                                     }
                                 )
                             }

@@ -123,7 +123,9 @@ fun AddHousingScreen(
     }
     if (viewModel.postConfirmation) {
         BasicConfirmDialog(
-            text = if (room != null) stringResource(R.string.edit_housing_confirm_dialog_text) else stringResource(R.string.add_housing_confirm_dialog_text),
+            text = if (room != null) stringResource(R.string.edit_housing_confirm_dialog_text) else stringResource(
+                R.string.add_housing_confirm_dialog_text
+            ),
             confirmOnClick = {
                 if (room != null) viewModel.putAdvertisement() else viewModel.postAdvertisement()
             },
@@ -164,7 +166,9 @@ fun AddHousingScreen(
                             }
                         )
                         Text(
-                            text = if (room != null) stringResource(R.string.edit_advertisement_title) else stringResource(R.string.post_advertisement_title),
+                            text = if (room != null) stringResource(
+                                R.string.edit_advertisement_title
+                            ) else stringResource(R.string.post_advertisement_title),
                             modifier = Modifier.fillMaxWidth(),
                             style = TextStyle(
                                 fontSize = integerResource(
@@ -188,21 +192,31 @@ fun AddHousingScreen(
                                     text = stringResource(R.string.housing_photos),
                                     style = TextStyle(
                                         color = Color.Black,
-                                        fontSize = integerResource(R.integer.housing_component_font_size).sp,
+                                        fontSize = integerResource(
+                                            R.integer.housing_component_font_size
+                                        ).sp,
                                         fontWeight = FontWeight.Bold
                                     )
                                 )
                                 Row(
                                     horizontalArrangement = Arrangement.spacedBy(
-                                        dimensionResource(R.dimen.housing_component_horizontal_arrangement)
+                                        dimensionResource(
+                                            R.dimen.housing_component_horizontal_arrangement
+                                        )
                                     )
                                 ) {
                                     RedButtonPrimaryIconed(
                                         modifier = Modifier.padding(
-                                            top = dimensionResource(R.dimen.housing_component_default_padding)
+                                            top = dimensionResource(
+                                                R.dimen.housing_component_default_padding
+                                            )
                                         ),
-                                        text = stringResource(R.string.remove_all_photos_button_label),
-                                        trailingIcon = ImageVector.vectorResource(id = R.drawable.remove_icon),
+                                        text = stringResource(
+                                            R.string.remove_all_photos_button_label
+                                        ),
+                                        trailingIcon = ImageVector.vectorResource(
+                                            id = R.drawable.remove_icon
+                                        ),
                                         enabled = true,
                                         onClick = {
                                             viewModel.photosRemoved = true
@@ -279,7 +293,9 @@ fun AddHousingScreen(
                         .align(Alignment.BottomCenter)
                         .fillMaxWidth()
                         .padding(bottom = 8.dp),
-                    text = if (room != null) stringResource(R.string.save_button_label) else stringResource(R.string.post_button_label),
+                    text = if (room != null) stringResource(R.string.save_button_label) else stringResource(
+                        R.string.post_button_label
+                    ),
                     enabled = true,
                     onClick = {
                         viewModel.showConfirmDialog()

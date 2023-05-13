@@ -102,7 +102,6 @@ class PostScreenViewModel @Inject constructor(
                             val list = _advertisements.value.toMutableList()
                             list.removeIf { it.id == currentRoomIdToRemove }
                             _advertisements.value = list
-
                         }
                         is Resource.Internet -> {
                             _state.update { currentState ->

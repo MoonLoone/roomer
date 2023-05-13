@@ -5,7 +5,6 @@ import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.utils.Constants
 import com.example.roomer.utils.Resource
 import java.io.IOException
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -51,5 +50,4 @@ class PostUseCase(
             emit(Resource.Internet(Constants.UseCase.internetErrorMessage))
         }
     }
-
 }

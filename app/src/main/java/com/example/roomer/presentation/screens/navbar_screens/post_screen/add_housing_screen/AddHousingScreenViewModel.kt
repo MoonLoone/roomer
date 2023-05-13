@@ -11,14 +11,12 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
 import com.example.roomer.domain.model.entities.Room
-import com.example.roomer.domain.model.entities.User
 import com.example.roomer.domain.usecase.navbar_screens.AddHousingUseCase
 import com.example.roomer.utils.Constants
 import com.example.roomer.utils.Resource
 import com.example.roomer.utils.SpManager
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -72,7 +70,6 @@ class AddHousingScreenViewModel @Inject constructor(
     var roomId by mutableStateOf(0)
 
     var photosRemoved by mutableStateOf(false)
-
 
     init {
         viewModelScope.launch {
