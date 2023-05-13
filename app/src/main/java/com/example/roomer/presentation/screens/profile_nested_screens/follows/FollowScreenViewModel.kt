@@ -8,6 +8,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
+import com.example.roomer.data.shared.follow.FollowManipulate
 import com.example.roomer.domain.model.entities.Follow
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.domain.usecase.profile_nested_screens.FollowScreenUseCase
@@ -22,7 +23,8 @@ import javax.inject.Inject
 @HiltViewModel
 class FollowScreenViewModel @Inject constructor(
     roomerRepositoryInterface: RoomerRepositoryInterface,
-    application: Application
+    application: Application,
+    private val followManipulate: FollowManipulate
 ) :
     AndroidViewModel(application) {
 
@@ -30,26 +32,28 @@ class FollowScreenViewModel @Inject constructor(
     private val _state: MutableStateFlow<FollowsScreenState> =
         MutableStateFlow(FollowsScreenState())
     private val followScreenUseCase = FollowScreenUseCase(roomerRepositoryInterface)
-
     private val userToken = SpManager().getSharedPreference(
         getApplication<Application>().applicationContext,
         SpManager.Sp.TOKEN,
         null
-    )
+    )?:""
 
+    private val currentUser: MutableState<User> = mutableStateOf(User())
     val follows: State<List<Follow>> = _follows
     val state: StateFlow<FollowsScreenState> = _state
 
 
     init {
-        viewModelScope.launch(Dispatchers.IO) {
-            val user = followScreenUseCase.getCurrentUser()
-            _follows.value = followScreenUseCase.getFollows(user.userId, userToken!!)
+        viewModelScope.launch{
+            currentUser.value = followScreenUseCase.getCurrentUser()
+            _follows.value = followScreenUseCase.getFollows(currentUser.value.userId, userToken!!)
         }
     }
 
     fun deleteFollow(followId: Int) {
-
+        viewModelScope.launch(Dispatchers.IO) {
+            followManipulate.deleteFollow(currentUser.value.userId, followId, userToken)
+        }
     }
 
 }

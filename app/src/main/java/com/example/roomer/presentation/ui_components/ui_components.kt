@@ -5,6 +5,7 @@ import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.animateContentSize
@@ -35,6 +36,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.DropdownMenu
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
@@ -1685,6 +1687,9 @@ fun FollowButton(
 
 @Composable
 fun FollowCard(user: User, onClick: () -> Unit, deleteFollow: () -> Unit) {
+    var expandedSettings by remember {
+        mutableStateOf(false)
+    }
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -1724,15 +1729,24 @@ fun FollowCard(user: User, onClick: () -> Unit, deleteFollow: () -> Unit) {
                         fontWeight = FontWeight.Bold
                     )
                 )
-                Image(
-                    painter = painterResource(id = R.drawable.settings_ellipsis),
-                    contentDescription = stringResource(id = R.string.follow_setting_icon_description),
-                    modifier = Modifier
-                        .padding(end = 16.dp)
-                        .clickable {
-                            deleteFollow()
-                        }
-                )
+                Box() {
+                    Image(
+                        painter = painterResource(id = R.drawable.settings_ellipsis),
+                        contentDescription = stringResource(id = R.string.follow_setting_icon_description),
+                        modifier = Modifier
+                            .padding(end = 16.dp)
+                            .clickable {
+                                expandedSettings = !expandedSettings
+                            }
+                    )
+                }
+                DropdownMenu(
+                    expanded = expandedSettings,
+                    onDismissRequest = { expandedSettings = false }) {
+                    Text(text = "Delete", modifier = Modifier.clickable {
+                        deleteFollow()
+                    })
+                }
             }
             Row(
                 modifier = Modifier
