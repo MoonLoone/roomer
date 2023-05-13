@@ -2,8 +2,6 @@ package com.example.roomer.data.repository.roomer_repository
 
 import android.graphics.Bitmap
 import androidx.paging.PagingData
-import com.example.roomer.domain.model.pojo.RecommendedMateModel
-import com.example.roomer.domain.model.pojo.RecommendedRoomModel
 import com.example.roomer.data.room.entities.HistoryItem
 import com.example.roomer.data.room.entities.LocalMessage
 import com.example.roomer.data.room.entities.LocalRoom
@@ -13,6 +11,8 @@ import com.example.roomer.domain.model.entities.MessageNotification
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.domain.model.pojo.ChatRawData
+import com.example.roomer.domain.model.pojo.RecommendedMateModel
+import com.example.roomer.domain.model.pojo.RecommendedRoomModel
 import com.example.roomer.domain.model.room_post.RoomPost
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
@@ -124,8 +124,7 @@ interface RoomerRepositoryInterface {
 
     suspend fun getFollows(currentUserId: Int, token: String): Response<List<Follow>>
 
-    suspend fun followToUser(currentUserId: Int, followUserId: Int,token: String): Response<String>
+    suspend fun followToUser(currentUserId: Int, followUserId: Int, token: String): Response<String>
 
-    suspend fun deleteFollow(currentUserId: Int, followUserId: Int,token: String): Response<String>
-
+    suspend fun deleteFollow(currentUserId: Int, followUserId: Int, token: String): Response<String>
 }

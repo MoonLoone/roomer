@@ -22,7 +22,7 @@ class FollowManipulateViewModel @Inject constructor(
     fun addFollow(
         followManipulate: FollowManipulate,
         currentUserId: Int,
-        followUserId: Int,
+        followUserId: Int
     ) {
         followManipulate.addFollow(currentUserId, followUserId, token)
     }
@@ -30,7 +30,7 @@ class FollowManipulateViewModel @Inject constructor(
     fun deleteFollow(
         followManipulate: FollowManipulate,
         currentUserId: Int,
-        followUserId: Int,
+        followUserId: Int
     ) {
         followManipulate.deleteFollow(currentUserId, followUserId, token)
     }

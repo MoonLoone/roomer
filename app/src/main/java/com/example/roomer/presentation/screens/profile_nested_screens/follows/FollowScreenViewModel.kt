@@ -1,7 +1,6 @@
 package com.example.roomer.presentation.screens.profile_nested_screens.follows
 
 import android.app.Application
-import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -16,12 +15,12 @@ import com.example.roomer.utils.Constants
 import com.example.roomer.utils.Resource
 import com.example.roomer.utils.SpManager
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class FollowScreenViewModel @Inject constructor(
@@ -102,5 +101,4 @@ class FollowScreenViewModel @Inject constructor(
                 }
             }
     }
-
 }

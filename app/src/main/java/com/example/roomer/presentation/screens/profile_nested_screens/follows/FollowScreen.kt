@@ -29,7 +29,6 @@ import com.example.roomer.utils.NavbarManagement
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
-
 @Destination
 @Composable
 fun FollowsScreen(
@@ -41,16 +40,18 @@ fun FollowsScreen(
     val follows = followsViewModel.follows.value
     Column(
         modifier = Modifier.padding(
-            start = dimensionResource(id = R.dimen.screen_start_margin), end = dimensionResource(
+            start = dimensionResource(id = R.dimen.screen_start_margin),
+            end = dimensionResource(
                 id = R.dimen.screen_end_margin
             ),
             top = dimensionResource(id = R.dimen.screen_top_margin),
             bottom = dimensionResource(id = R.dimen.bottom_padding)
         ),
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = stringResource(R.string.follows_title), style = TextStyle(
+            text = stringResource(R.string.follows_title),
+            style = TextStyle(
                 color = colorResource(
                     id = R.color.black
                 ),
@@ -77,14 +78,20 @@ private fun FollowsList(
     deleteFollow: (Follow) -> Unit
 ) {
     if (state.isLoading) CircularProgressIndicator()
-    if (state.success) LazyColumn(verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.column_elements_small_margin))) {
-        items(follows.size) { index ->
-            val followUser = follows[index].user
-            FollowCard(
-                user = followUser,
-                onClick = { navigateToUserDetails.invoke(followUser) },
-                deleteFollow = { deleteFollow.invoke(follows[index]) }
+    if (state.success) {
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(
+                dimensionResource(id = R.dimen.column_elements_small_margin)
             )
+        ) {
+            items(follows.size) { index ->
+                val followUser = follows[index].user
+                FollowCard(
+                    user = followUser,
+                    onClick = { navigateToUserDetails.invoke(followUser) },
+                    deleteFollow = { deleteFollow.invoke(follows[index]) }
+                )
+            }
         }
     }
     if (state.emptyFollowsList) {

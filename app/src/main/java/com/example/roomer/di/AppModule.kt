@@ -101,5 +101,4 @@ object AppModule {
     ): FollowManipulateInterface {
         return FollowManipulate(roomerRepositoryInterface)
     }
-
 }

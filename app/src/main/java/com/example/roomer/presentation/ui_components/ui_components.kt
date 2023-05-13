@@ -1676,7 +1676,7 @@ fun FollowButton(
                 followManipulateViewModel.addFollow(
                     followManipulate,
                     currentUserId,
-                    followUserId,
+                    followUserId
                 )
             }
     ) {
@@ -1743,7 +1743,9 @@ fun FollowCard(user: User, onClick: () -> Unit, deleteFollow: () -> Unit) {
                 Box(modifier = Modifier.fillMaxWidth()) {
                     Image(
                         painter = painterResource(id = R.drawable.settings_ellipsis),
-                        contentDescription = stringResource(id = R.string.follow_setting_icon_description),
+                        contentDescription = stringResource(
+                            id = R.string.follow_setting_icon_description
+                        ),
                         modifier = Modifier
                             .padding(end = 16.dp)
                             .clickable {
@@ -1766,7 +1768,8 @@ fun FollowCard(user: User, onClick: () -> Unit, deleteFollow: () -> Unit) {
                             .clickable {
                                 deleteFollow()
                                 expandedSettings = false
-                            })
+                            }
+                    )
                     Divider()
                 }
             }
@@ -1841,13 +1844,12 @@ fun FollowCard(user: User, onClick: () -> Unit, deleteFollow: () -> Unit) {
                     modifier = Modifier
                         .height(dimensionResource(id = R.dimen.small_icon))
                         .width(dimensionResource(id = R.dimen.small_icon))
-                        .align(Alignment.CenterVertically),
+                        .align(Alignment.CenterVertically)
                 )
             }
         }
     }
 }
-
 
 class NoRippleInteractionSource : MutableInteractionSource {
 

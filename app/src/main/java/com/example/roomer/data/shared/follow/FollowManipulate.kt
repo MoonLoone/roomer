@@ -1,14 +1,13 @@
 package com.example.roomer.data.shared.follow
 
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
+import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 class FollowManipulate @Inject constructor(
-    private val roomerRepositoryInterface: RoomerRepositoryInterface,
+    private val roomerRepositoryInterface: RoomerRepositoryInterface
 ) : FollowManipulateInterface {
 
     override fun addFollow(currentUserId: Int, followUserId: Int, token: String) {
@@ -22,5 +21,4 @@ class FollowManipulate @Inject constructor(
             roomerRepositoryInterface.deleteFollow(currentUserId, followUserId, token)
         }
     }
-
 }

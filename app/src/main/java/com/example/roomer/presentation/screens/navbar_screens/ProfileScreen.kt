@@ -68,8 +68,9 @@ fun ProfileScreen(
             }
         )
         ProfileContentLine(
-            text = stringResource(id = R.string.follows_profile), iconId = R.drawable.settings_icon,
-            onNavigateToFriends = {navigator.navigate(FollowsScreenDestination)}
+            text = stringResource(id = R.string.follows_profile),
+            iconId = R.drawable.settings_icon,
+            onNavigateToFriends = { navigator.navigate(FollowsScreenDestination) }
         )
         ProfileContentLine(
             stringResource(R.string.rating_label),

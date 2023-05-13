@@ -7,8 +7,6 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.roomer.data.local.RoomerStoreInterface
 import com.example.roomer.data.remote.RoomerApi
-import com.example.roomer.domain.model.pojo.RecommendedMateModel
-import com.example.roomer.domain.model.pojo.RecommendedRoomModel
 import com.example.roomer.data.room.entities.HistoryItem
 import com.example.roomer.data.room.entities.LocalMessage
 import com.example.roomer.data.room.entities.LocalRoom
@@ -18,6 +16,8 @@ import com.example.roomer.domain.model.entities.MessageNotification
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.domain.model.pojo.ChatRawData
+import com.example.roomer.domain.model.pojo.RecommendedMateModel
+import com.example.roomer.domain.model.pojo.RecommendedRoomModel
 import com.example.roomer.domain.model.room_post.RoomPost
 import com.example.roomer.utils.Constants
 import com.example.roomer.utils.PagingFactories
@@ -277,14 +277,13 @@ class RoomerRepository @Inject constructor(
         return roomerApi.getFollows(currentUserId, refToken)
     }
 
-    override suspend fun followToUser(currentUserId: Int, followUserId: Int,token: String): Response<String> {
+    override suspend fun followToUser(currentUserId: Int, followUserId: Int, token: String): Response<String> {
         val refToken = "Token ".plus(token)
         return roomerApi.followToUser(currentUserId, followUserId, refToken)
     }
 
-    override suspend fun deleteFollow(currentUserId: Int, followUserId: Int,token: String): Response<String> {
+    override suspend fun deleteFollow(currentUserId: Int, followUserId: Int, token: String): Response<String> {
         val refToken = "Token ".plus(token)
-        return roomerApi.deleteFollow(currentUserId, followUserId,refToken)
+        return roomerApi.deleteFollow(currentUserId, followUserId, refToken)
     }
-
 }

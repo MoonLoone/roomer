@@ -4,5 +4,5 @@ import com.google.gson.annotations.SerializedName
 
 data class Follow(
     @SerializedName("id") val id: Int,
-    @SerializedName("following") val user: User,
+    @SerializedName("following") val user: User
 )

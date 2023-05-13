@@ -19,15 +19,20 @@ class FollowScreenUseCase(private val roomerRepositoryInterface: RoomerRepositor
         emit(Resource.Loading())
         follows.value =
             roomerRepositoryInterface.getFollows(currentUserId, token).body() ?: emptyList()
-        if (follows.value.isNotEmpty()) emit(Resource.Success())
-        else emit(Resource.Error.GeneralError(Constants.Follows.ERROR_EMPTY_LIST))
+        if (follows.value.isNotEmpty()) {
+            emit(Resource.Success())
+        } else {
+            emit(Resource.Error.GeneralError(Constants.Follows.ERROR_EMPTY_LIST))
+        }
     }
 
     suspend fun getCurrentUser(currentUser: MutableState<User>): Flow<Resource<String>> = flow {
         emit(Resource.Loading())
         currentUser.value = roomerRepositoryInterface.getLocalCurrentUser()
-        if (currentUser.value != User()) emit(Resource.Success())
-        else emit(Resource.Error.GeneralError(Constants.Follows.ERROR_UNAUTHORIZED))
+        if (currentUser.value != User()) {
+            emit(Resource.Success())
+        } else {
+            emit(Resource.Error.GeneralError(Constants.Follows.ERROR_UNAUTHORIZED))
+        }
     }
-
 }
