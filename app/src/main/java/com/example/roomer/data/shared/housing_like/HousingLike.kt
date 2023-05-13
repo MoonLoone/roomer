@@ -18,7 +18,7 @@ class HousingLike @Inject constructor(
     }
 
     override suspend fun dislikeHousing(housing: Room) {
-        housing.isLiked =false
+        housing.isLiked = false
         roomerRepositoryInterface.dislikeHousing(housing.id)
         roomerDatabase.favourites.deleteById(housing.id)
     }

@@ -58,7 +58,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-
 @OptIn(ExperimentalFoundationApi::class)
 @Destination
 @Composable
@@ -112,7 +111,7 @@ fun RoomDetailsScreen(
                     backgroundColor = colorResource(id = R.color.primary_dark),
                     contentColor = colorResource(id = R.color.white)
                 ),
-                interactionSource = NoRippleInteractionSource(),
+                interactionSource = NoRippleInteractionSource()
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.big_envelope_icon),
@@ -136,7 +135,11 @@ fun RoomDetailsScreen(
                 dimensionResource(id = R.dimen.list_elements_margin)
             )
         ) {
-            Row(horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.top_spaced))) {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(
+                    dimensionResource(id = R.dimen.top_spaced)
+                )
+            ) {
                 BackBtn(
                     onBackNavigation = {
                         navigator.popBackStack()
@@ -147,7 +150,8 @@ fun RoomDetailsScreen(
                     style = TextStyle(
                         fontSize = integerResource(
                             id = R.integer.label_text
-                        ).sp, color = Color.Black
+                        ).sp,
+                        color = Color.Black
                     ),
                     textAlign = TextAlign.Center
                 )
@@ -166,7 +170,9 @@ fun RoomDetailsScreen(
                         )
                         .width(dimensionResource(id = R.dimen.big_icon))
                         .height(dimensionResource(id = R.dimen.big_icon))
-                        .clip(RoundedCornerShape(dimensionResource(id = R.dimen.rounded_corner_full)))
+                        .clip(
+                            RoundedCornerShape(dimensionResource(id = R.dimen.rounded_corner_full))
+                        )
                         .clickable {
                             CoroutineScope(Dispatchers.IO).launch {
                                 if (isLiked) {
@@ -189,12 +195,13 @@ fun RoomDetailsScreen(
                                 .build(),
                             contentDescription = stringResource(id = R.string.slider),
                             contentScale = ContentScale.Crop,
-                            modifier = Modifier.height(dimensionResource(id = R.dimen.slider_height))
+                            modifier = Modifier.height(
+                                dimensionResource(id = R.dimen.slider_height)
+                            )
                         )
                     }
                 )
             }
-
 
             Text(
                 text = room.title,
@@ -226,7 +233,7 @@ fun RoomDetailsScreen(
                 Text(
                     text = room.location,
                     style = TextStyle(
-                        color = colorResource(id = R.color.black),
+                        color = colorResource(id = R.color.black)
                     )
                 )
             }
@@ -237,7 +244,6 @@ fun RoomDetailsScreen(
                 ),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-
                 Text(
                     text = stringResource(id = R.string.apartment_type_prefix),
                     style = TextStyle(
@@ -249,7 +255,7 @@ fun RoomDetailsScreen(
                 Text(
                     text = stringResource(id = apartmentOptions[room.housingType]!!),
                     style = TextStyle(
-                        color = colorResource(id = R.color.black),
+                        color = colorResource(id = R.color.black)
                     )
                 )
             }
@@ -258,7 +264,6 @@ fun RoomDetailsScreen(
                 modifier = Modifier.padding(start = dimensionResource(id = R.dimen.row_vert_margin)),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-
                 Text(
                     text = stringResource(R.string.price_for_month_prefix),
                     style = TextStyle(
@@ -270,12 +275,12 @@ fun RoomDetailsScreen(
                 Text(
                     text = room.monthPrice.toString(),
                     style = TextStyle(
-                        color = colorResource(id = R.color.black),
+                        color = colorResource(id = R.color.black)
                     )
                 )
             }
             Divider(
-                color = colorResource(id = R.color.black), 
+                color = colorResource(id = R.color.black),
                 thickness = dimensionResource(id = R.dimen.divider)
             )
             if (room.host != null) {
@@ -293,12 +298,12 @@ fun RoomDetailsScreen(
                         .clickable {
                             navigator.navigate(UserDetailsScreenDestination(room.host))
                         },
-                    verticalAlignment = Alignment.CenterVertically,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     AsyncImage(
                         model = ImageRequest.Builder(LocalContext.current)
                             .data(avatar)
-                    
+
                             .crossfade(true)
                             .build(),
                         placeholder = painterResource(id = R.drawable.ordinary_client),
@@ -311,13 +316,15 @@ fun RoomDetailsScreen(
                             )
                             .width(dimensionResource(id = R.dimen.avatar_size))
                             .height(dimensionResource(id = R.dimen.avatar_size))
-                            .clip(RoundedCornerShape(dimensionResource(id = R.dimen.avatar_size) / 2)),
+                            .clip(
+                                RoundedCornerShape(dimensionResource(id = R.dimen.avatar_size) / 2)
+                            ),
                         contentScale = ContentScale.FillBounds
                     )
                     Text(
                         text = (room.host.firstName + " " + room.host.lastName),
                         style = TextStyle(
-                            color = colorResource(id = R.color.primary_dark),
+                            color = colorResource(id = R.color.primary_dark)
                         )
                     )
                     Image(
@@ -337,7 +344,7 @@ fun RoomDetailsScreen(
                     Text(
                         text = (room.host.rating.toString()),
                         style = TextStyle(
-                            color = colorResource(id = R.color.black),
+                            color = colorResource(id = R.color.black)
                         )
                     )
                 }
@@ -358,7 +365,7 @@ fun RoomDetailsScreen(
             Text(
                 text = room.description,
                 style = TextStyle(
-                    color = colorResource(id = R.color.text_secondary),
+                    color = colorResource(id = R.color.text_secondary)
                 )
             )
 

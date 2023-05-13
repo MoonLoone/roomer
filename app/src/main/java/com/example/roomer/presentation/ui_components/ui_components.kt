@@ -90,8 +90,7 @@ import com.example.roomer.utils.Constants
 import com.example.roomer.utils.UtilsFunctions
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-//import com.example.roomer.presentation.screens.destinations.RoomDetailsScreenDestination
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+// import com.example.roomer.presentation.screens.destinations.RoomDetailsScreenDestination
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.launch

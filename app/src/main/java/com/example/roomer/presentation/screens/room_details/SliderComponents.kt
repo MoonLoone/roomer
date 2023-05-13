@@ -69,19 +69,18 @@ fun DotsIndicator(
     }
 }
 
-
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun AutoSlidingCarousel(
     modifier: Modifier = Modifier,
     pagerState: PagerState = remember { PagerState() },
     itemsCount: Int,
-    itemContent: @Composable (index: Int) -> Unit,
+    itemContent: @Composable (index: Int) -> Unit
 ) {
     val isDragged by pagerState.interactionSource.collectIsDraggedAsState()
 
     Box(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth()
     ) {
         HorizontalPager(pageCount = itemsCount, state = pagerState) { page ->
             itemContent(page)
