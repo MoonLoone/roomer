@@ -1,4 +1,4 @@
-package com.example.roomer.data.repository.model
+package com.example.roomer.domain.model.pojo
 
 data class RecommendedMateModel(
     val sex: String? = null,

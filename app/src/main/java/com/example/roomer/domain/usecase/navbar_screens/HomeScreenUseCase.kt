@@ -1,8 +1,8 @@
 package com.example.roomer.domain.usecase.navbar_screens
 
 import androidx.compose.runtime.MutableState
-import com.example.roomer.data.repository.model.RecommendedMateModel
-import com.example.roomer.data.repository.model.RecommendedRoomModel
+import com.example.roomer.domain.model.pojo.RecommendedMateModel
+import com.example.roomer.domain.model.pojo.RecommendedRoomModel
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
 import com.example.roomer.data.room.entities.HistoryItem
 import com.example.roomer.domain.model.entities.Room

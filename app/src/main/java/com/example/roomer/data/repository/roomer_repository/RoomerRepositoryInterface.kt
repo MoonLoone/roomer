@@ -2,8 +2,8 @@ package com.example.roomer.data.repository.roomer_repository
 
 import android.graphics.Bitmap
 import androidx.paging.PagingData
-import com.example.roomer.data.repository.model.RecommendedMateModel
-import com.example.roomer.data.repository.model.RecommendedRoomModel
+import com.example.roomer.domain.model.pojo.RecommendedMateModel
+import com.example.roomer.domain.model.pojo.RecommendedRoomModel
 import com.example.roomer.data.room.entities.HistoryItem
 import com.example.roomer.data.room.entities.LocalMessage
 import com.example.roomer.data.room.entities.LocalRoom

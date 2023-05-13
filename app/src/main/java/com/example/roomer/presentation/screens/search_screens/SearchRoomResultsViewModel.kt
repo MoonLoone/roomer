@@ -3,7 +3,7 @@ package com.example.roomer.presentation.screens.search_screens
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
-import com.example.roomer.data.shared.HousingLikeInterface
+import com.example.roomer.data.shared.housing_like.HousingLikeInterface
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.usecase.search.SearchUseCase
 import com.example.roomer.utils.LoadingStates

@@ -7,8 +7,8 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.roomer.data.local.RoomerStoreInterface
 import com.example.roomer.data.remote.RoomerApi
-import com.example.roomer.data.repository.model.RecommendedMateModel
-import com.example.roomer.data.repository.model.RecommendedRoomModel
+import com.example.roomer.domain.model.pojo.RecommendedMateModel
+import com.example.roomer.domain.model.pojo.RecommendedRoomModel
 import com.example.roomer.data.room.entities.HistoryItem
 import com.example.roomer.data.room.entities.LocalMessage
 import com.example.roomer.data.room.entities.LocalRoom
