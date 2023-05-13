@@ -1,6 +1,5 @@
 package com.example.roomer.presentation.screens.navbar_screens.home_screen
 
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -68,7 +67,6 @@ fun HomeScreen(
     val state = homeScreenViewModel.state.collectAsState().value
     val currentUser = homeScreenViewModel.currentUser.value
     val history = homeScreenViewModel.history.collectAsState().value
-    Log.d("history", history.toString())
     val recommendedRooms = homeScreenViewModel.recommendedRooms.collectAsState().value
     val recommendedMates = homeScreenViewModel.recommendedMates.collectAsState().value
     if (state.isLoading) LoadingView()
