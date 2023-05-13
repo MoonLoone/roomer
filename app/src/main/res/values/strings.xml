@@ -226,4 +226,8 @@
     <!--Follows screen-->
     <string name="follow_setting_icon_description">Follow settings</string>
     <string name="follows_profile">Follows</string>
+    <string name="follows_title">Follows</string>
+    <string name="delete_text">Delete</string>
+    <string name="follow_me_text">Follow me!</string>
+    <string name="follow_icon_description">Follow icon</string>
 </resources>

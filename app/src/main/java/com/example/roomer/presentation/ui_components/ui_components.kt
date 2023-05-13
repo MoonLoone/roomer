@@ -5,7 +5,6 @@ import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.animateContentSize
@@ -26,6 +25,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -77,6 +77,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -1334,7 +1335,10 @@ fun UserCardResult(searchUser: User, onClick: () -> Unit) {
             )
         ) {
             Text(
-                text = searchUser.firstName + " " + searchUser.lastName,
+                text = UtilsFunctions.trimString(
+                    searchUser.firstName + " " + searchUser.lastName,
+                    Constants.Follows.SMALL_USER_NAME
+                ),
                 style = TextStyle(
                     fontSize = integerResource(id = R.integer.label_text).sp,
                     color = Color.Black,
@@ -1398,7 +1402,7 @@ fun UserCardResult(searchUser: User, onClick: () -> Unit) {
                     )
                 )
                 Text(
-                    text = "7",
+                    text = searchUser.rating.toString(),
                     style = TextStyle(
                         fontSize = integerResource(id = R.integer.primary_text).sp,
                         fontWeight = FontWeight.Bold,
@@ -1654,7 +1658,6 @@ fun ExpandableText(
 
 @Composable
 fun FollowButton(
-    isFollow: Boolean,
     followManipulate: FollowManipulate,
     currentUserId: Int,
     followUserId: Int,
@@ -1679,9 +1682,14 @@ fun FollowButton(
     ) {
         Icon(
             painter = painterResource(id = R.drawable.follow_fill),
-            contentDescription = "Follow icon"
+            modifier = Modifier.padding(2.dp),
+            contentDescription = stringResource(R.string.follow_icon_description)
         )
-        Text(text = "Follow me!")
+        Text(
+            text = stringResource(R.string.follow_me_text),
+            modifier = Modifier.padding(2.dp),
+            textAlign = TextAlign.Center
+        )
     }
 }
 
@@ -1722,14 +1730,17 @@ fun FollowCard(user: User, onClick: () -> Unit, deleteFollow: () -> Unit) {
         ) {
             Row(horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(
-                    text = user.firstName + " " + user.lastName,
+                    text = UtilsFunctions.trimString(
+                        user.firstName + " " + user.lastName,
+                        Constants.Follows.USER_CARD_MAX_NAME
+                    ),
                     style = TextStyle(
                         fontSize = integerResource(id = R.integer.label_text).sp,
                         color = Color.Black,
                         fontWeight = FontWeight.Bold
                     )
                 )
-                Box() {
+                Box(modifier = Modifier.fillMaxWidth()) {
                     Image(
                         painter = painterResource(id = R.drawable.settings_ellipsis),
                         contentDescription = stringResource(id = R.string.follow_setting_icon_description),
@@ -1741,11 +1752,22 @@ fun FollowCard(user: User, onClick: () -> Unit, deleteFollow: () -> Unit) {
                     )
                 }
                 DropdownMenu(
+                    modifier = Modifier
+                        .widthIn(min = 80.dp, max = 160.dp)
+                        .heightIn(min = 64.dp, max = 124.dp),
                     expanded = expandedSettings,
-                    onDismissRequest = { expandedSettings = false }) {
-                    Text(text = "Delete", modifier = Modifier.clickable {
-                        deleteFollow()
-                    })
+                    onDismissRequest = { expandedSettings = false },
+                    offset = DpOffset(x = 156.dp, y = 0.dp)
+                ) {
+                    Text(
+                        text = stringResource(R.string.delete_text),
+                        modifier = Modifier
+                            .padding(start = 8.dp)
+                            .clickable {
+                                deleteFollow()
+                                expandedSettings = false
+                            })
+                    Divider()
                 }
             }
             Row(
@@ -1805,7 +1827,7 @@ fun FollowCard(user: User, onClick: () -> Unit, deleteFollow: () -> Unit) {
                     )
                 )
                 Text(
-                    text = "7",
+                    text = user.rating.toString(),
                     style = TextStyle(
                         fontSize = integerResource(id = R.integer.primary_text).sp,
                         fontWeight = FontWeight.Bold,
@@ -1819,6 +1841,7 @@ fun FollowCard(user: User, onClick: () -> Unit, deleteFollow: () -> Unit) {
                     modifier = Modifier
                         .height(dimensionResource(id = R.dimen.small_icon))
                         .width(dimensionResource(id = R.dimen.small_icon))
+                        .align(Alignment.CenterVertically),
                 )
             }
         }

@@ -1,5 +1,7 @@
 package com.example.roomer.presentation.screens.shared_screens
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -21,16 +23,16 @@ class UserDetailsScreenViewModel @Inject constructor(
     val followManipulate: FollowManipulate,
 ) : ViewModel() {
 
-    var currentUser: User = User()
+    val currentUser: MutableState<User> = mutableStateOf(User())
 
     init {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             val userString: String? = savedStateHandle["user"]
             val user = Gson().fromJson(userString, User::class.java)
             user?.let {
                 addToHistory.roomerRepositoryInterface.addRoommateToLocalHistory(user)
             }
-            currentUser = roomerRepositoryInterface.getLocalCurrentUser()
+            currentUser.value = roomerRepositoryInterface.getLocalCurrentUser()
         }
     }
 }

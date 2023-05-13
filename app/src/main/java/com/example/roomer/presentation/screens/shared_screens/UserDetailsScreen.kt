@@ -34,6 +34,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
@@ -93,6 +94,7 @@ fun UserDetailsScreen(
     ) {
         Column(
             modifier = Modifier
+                .fillMaxSize()
                 .verticalScroll(columnScroll),
             verticalArrangement = Arrangement.spacedBy(
                 dimensionResource(id = R.dimen.column_elements_small_margin)
@@ -101,13 +103,15 @@ fun UserDetailsScreen(
             DetailsHeadline {
                 navigator.popBackStack()
             }
-            Row {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.Bottom
+            ) {
                 UserAvatar(avatarUrl = user.avatar)
                 FollowButton(
-                    isFollow = false,
                     followManipulate = viewModel.followManipulate,
                     followUserId = user.userId,
-                    currentUserId = viewModel.currentUser.userId
+                    currentUserId = viewModel.currentUser.value.userId
                 )
             }
             UserHeadline(
