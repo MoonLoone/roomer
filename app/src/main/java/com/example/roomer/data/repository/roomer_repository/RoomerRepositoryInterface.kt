@@ -7,6 +7,7 @@ import com.example.roomer.domain.model.pojo.RecommendedRoomModel
 import com.example.roomer.data.room.entities.HistoryItem
 import com.example.roomer.data.room.entities.LocalMessage
 import com.example.roomer.data.room.entities.LocalRoom
+import com.example.roomer.domain.model.entities.Follow
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.MessageNotification
 import com.example.roomer.domain.model.entities.Room
@@ -120,4 +121,11 @@ interface RoomerRepositoryInterface {
     ): Response<Room>
 
     suspend fun getCurrentUserRooms(token: String, hostId: Int): Response<List<Room>>
+
+    suspend fun getFollows(currentUserId: Int, token: String): Response<List<Follow>>
+
+    suspend fun followToUser(currentUserId: Int, followUserId: Int): Response<String>
+
+    suspend fun deleteFollow(currentUserId: Int, followUserId: Int): Response<String>
+
 }

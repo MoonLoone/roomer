@@ -12,6 +12,7 @@ import com.example.roomer.domain.model.pojo.RecommendedRoomModel
 import com.example.roomer.data.room.entities.HistoryItem
 import com.example.roomer.data.room.entities.LocalMessage
 import com.example.roomer.data.room.entities.LocalRoom
+import com.example.roomer.domain.model.entities.Follow
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.MessageNotification
 import com.example.roomer.domain.model.entities.Room
@@ -270,4 +271,18 @@ class RoomerRepository @Inject constructor(
         val refToken = "Token ".plus(token)
         return roomerApi.getCurrentUserAdvertisements(refToken, hostId)
     }
+
+    override suspend fun getFollows(currentUserId: Int, token: String): Response<List<Follow>> {
+        val refToken = "Token ".plus(token)
+        return roomerApi.getFollows(currentUserId, refToken)
+    }
+
+    override suspend fun followToUser(currentUserId: Int, followUserId: Int): Response<String> {
+        return roomerApi.followToUser(currentUserId, followUserId)
+    }
+
+    override suspend fun deleteFollow(currentUserId: Int, followUserId: Int): Response<String> {
+        return roomerApi.deleteFollow(currentUserId, followUserId)
+    }
+
 }
