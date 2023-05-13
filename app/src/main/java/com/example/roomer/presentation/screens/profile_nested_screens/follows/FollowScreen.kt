@@ -64,7 +64,9 @@ fun FollowsScreen(
         FollowsList(
             state = state,
             follows = follows,
-            navigateToUserDetails = { user -> navigator.navigate(UserDetailsScreenDestination(user)) },
+            navigateToUserDetails = { user ->
+                navigator.navigate(UserDetailsScreenDestination(user))
+                                    },
             deleteFollow = { follow -> followsViewModel.deleteFollow(follow) }
         )
     }
@@ -95,7 +97,7 @@ private fun FollowsList(
         }
     }
     if (state.emptyFollowsList) {
-        Text(text = "Empty follow list")
-        Text(text = "Do you want to find new follow?")
+        Text(text = stringResource(R.string.empty_follow_list))
+        Text(text = stringResource(R.string.find_new_follow))
     }
 }

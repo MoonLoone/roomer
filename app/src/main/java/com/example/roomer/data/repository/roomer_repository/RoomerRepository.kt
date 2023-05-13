@@ -291,12 +291,20 @@ class RoomerRepository @Inject constructor(
         return roomerApi.getFollows(currentUserId, refToken)
     }
 
-    override suspend fun followToUser(currentUserId: Int, followUserId: Int, token: String): Response<String> {
+    override suspend fun followToUser(
+        currentUserId: Int,
+        followUserId: Int,
+        token: String
+    ): Response<String> {
         val refToken = "Token ".plus(token)
         return roomerApi.followToUser(currentUserId, followUserId, refToken)
     }
 
-    override suspend fun deleteFollow(currentUserId: Int, followUserId: Int, token: String): Response<String> {
+    override suspend fun deleteFollow(
+        currentUserId: Int,
+        followUserId: Int,
+        token: String
+    ): Response<String> {
         val refToken = "Token ".plus(token)
         return roomerApi.deleteFollow(currentUserId, followUserId, refToken)
     }

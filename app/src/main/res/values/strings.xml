@@ -239,4 +239,6 @@
     <string name="title">Title</string>
     <string name="title_placeholder">Title</string>
     <string name="post_title_is_empty_text">Add a title</string>
+    <string name="empty_follow_list">Empty follow list</string>
+    <string name="find_new_follow">Do you want to find new follow?</string>
 </resources>
