@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
-import com.example.roomer.domain.model.entities.User
 import com.example.roomer.domain.usecase.login_sign_up.SplashScreenUseCase
 import com.example.roomer.presentation.screens.UsualScreenState
 import com.example.roomer.utils.Resource
@@ -39,12 +38,6 @@ class SplashScreenViewModel @Inject constructor(
             }
         } else {
             verifyToken()
-        }
-    }
-
-    private fun storeCurrentUser(user: User) {
-        viewModelScope.launch {
-            roomerRepository.addLocalCurrentUser(user)
         }
     }
 
