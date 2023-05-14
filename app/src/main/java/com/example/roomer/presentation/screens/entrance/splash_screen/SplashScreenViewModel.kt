@@ -65,7 +65,7 @@ class SplashScreenViewModel @Inject constructor(
                     }
                     is Resource.Success -> {
                         result.data?.let {
-                            storeCurrentUser(it)
+                            roomerRepository.addLocalCurrentUser(it)
                         }
                         _state.update { currentState ->
                             currentState.copy(isLoading = false, isSuccess = true)

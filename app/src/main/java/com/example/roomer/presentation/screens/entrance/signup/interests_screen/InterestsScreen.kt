@@ -76,60 +76,60 @@ fun InterestsScreen(
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Start
             )
-        }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            GreenButtonPrimary(
-                text = stringResource(R.string.back_button_label)
-            ) {
-                navigator.navigate(HabitsScreenDestination())
-            }
-            GreenButtonPrimary(
-                text = stringResource(R.string.finish_button_label)
-            ) {
-                interestsScreenViewModel.putSignUpData(
-                    signUpViewModel.firstName,
-                    signUpViewModel.lastName,
-                    signUpViewModel.sex,
-                    signUpViewModel.birthDate,
-                    signUpViewModel.avatar!!,
-                    signUpViewModel.personDescription,
-                    signUpViewModel.employment,
-                    signUpViewModel.sleepTime,
-                    signUpViewModel.alcoholAttitude,
-                    signUpViewModel.smokingAttitude,
-                    signUpViewModel.personalityType,
-                    signUpViewModel.cleanHabits,
-                    signUpViewModel.interests,
-                    signUpViewModel.city
+            if (state.isInterestsLoaded) {
+                InterestsButtons(
+                    label = stringResource(R.string.choose_10_maximum),
+                    values = interests,
+                    selectedItems = signUpViewModel.interests,
+                    onSelectedChange = { signUpViewModel.interests = it }
                 )
             }
-        }
-    }
-    if (state.isInterestsLoaded) {
-        InterestsButtons(
-            label = stringResource(R.string.choose_10_maximum),
-            values = interests,
-            selectedItems = signUpViewModel.interests,
-            onSelectedChange = { signUpViewModel.interests = it }
-        )
-    }
-    if (state.isInterestsSent) {
-        navigator.navigate(SplashScreenDestination)
-    }
-    if (state.isLoading) {
-        CircularProgressIndicator(
-            color = colorResource(id = R.color.primary_dark)
-        )
-    }
-    if (state.internetProblem) {
-        if (!state.isInterestsLoaded) {
-            GreenButtonOutline(text = stringResource(R.string.retry)) {
-                interestsScreenViewModel.getInterests()
+            if (state.isInterestsSent) {
+                navigator.navigate(SplashScreenDestination)
+            }
+            if (state.isLoading) {
+                CircularProgressIndicator(
+                    color = colorResource(id = R.color.primary_dark)
+                )
+            }
+            if (state.internetProblem) {
+                if (!state.isInterestsLoaded) {
+                    GreenButtonOutline(text = stringResource(R.string.retry)) {
+                        interestsScreenViewModel.getInterests()
+                    }
+                }
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                GreenButtonPrimary(
+                    text = stringResource(R.string.back_button_label)
+                ) {
+                    navigator.navigate(HabitsScreenDestination())
+                }
+                GreenButtonPrimary(
+                    text = stringResource(R.string.finish_button_label)
+                ) {
+                    interestsScreenViewModel.putSignUpData(
+                        signUpViewModel.firstName,
+                        signUpViewModel.lastName,
+                        signUpViewModel.sex,
+                        signUpViewModel.birthDate,
+                        signUpViewModel.avatar!!,
+                        signUpViewModel.personDescription,
+                        signUpViewModel.employment,
+                        signUpViewModel.sleepTime,
+                        signUpViewModel.alcoholAttitude,
+                        signUpViewModel.smokingAttitude,
+                        signUpViewModel.personalityType,
+                        signUpViewModel.cleanHabits,
+                        signUpViewModel.interests,
+                        signUpViewModel.city
+                    )
+                }
             }
         }
     }
