@@ -57,6 +57,7 @@
 
     <!--Home screen-->
     <integer name="lists_title">20</integer>
+    <dimen name="card_small_rounded_corner">8.dp</dimen>
 
     <dimen name="housing_component_big_image">80.dp</dimen>
     <dimen name="housing_component_rounded_corner_shape">10.dp</dimen>

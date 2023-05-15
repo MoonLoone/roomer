@@ -405,8 +405,14 @@ fun UserCard(recommendedRoommate: User, onClick: () -> Unit) {
             contentDescription = recommendedRoommate.firstName + recommendedRoommate.lastName,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(92.dp),
-            contentScale = ContentScale.Fit
+                .height(92.dp)
+                .clip(
+                    RoundedCornerShape(
+                        topStart = dimensionResource(id = R.dimen.card_small_rounded_corner),
+                        topEnd = dimensionResource(id = R.dimen.card_small_rounded_corner),
+                    )
+                ),
+            contentScale = ContentScale.Crop,
         )
         Column(
             modifier = Modifier
@@ -415,7 +421,10 @@ fun UserCard(recommendedRoommate: User, onClick: () -> Unit) {
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             Text(
-                text = recommendedRoommate.firstName + recommendedRoommate.lastName,
+                text = UtilsFunctions.trimString(
+                    recommendedRoommate.firstName + " " + recommendedRoommate.lastName,
+                    Constants.USER_CARD_MAX_NAME
+                ),
                 style = TextStyle(
                     color = Color.Black,
                     fontSize = integerResource(id = R.integer.secondary_text).sp,
@@ -485,8 +494,14 @@ fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean, likeHousing: Housing
                 placeholder = painterResource(id = R.drawable.ordinary_room),
                 contentDescription = stringResource(id = R.string.room_image_description),
                 modifier = Modifier
-                    .fillMaxSize(),
-                contentScale = ContentScale.FillBounds
+                    .fillMaxSize()
+                    .clip(
+                        RoundedCornerShape(
+                            topStart = dimensionResource(id = R.dimen.card_small_rounded_corner),
+                            topEnd = dimensionResource(id = R.dimen.card_small_rounded_corner),
+                        )
+                    ),
+                contentScale = ContentScale.Crop
             )
             Image(
                 painter = if (isLiked) {

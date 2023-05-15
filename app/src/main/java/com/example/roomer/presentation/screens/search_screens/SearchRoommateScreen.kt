@@ -274,7 +274,7 @@ fun SearchRoommateScreen(
                 label = stringResource(id = R.string.choose_city_label),
                 value = location.value,
                 onValueChange = { location.value = it },
-                itemsAmountAtOnce = Constants.citiesShownAtOnce
+                itemsAmountAtOnce = Constants.CITIES_SHOWN_AT_ONCE
             )
             DropdownTextFieldMapped(
                 mapOfItems = sleepOptions.mapValues { (_, value) ->
