@@ -25,7 +25,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -79,7 +78,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -162,7 +160,6 @@ fun ChatItem(
             modifier = Modifier
                 .width(dimensionResource(id = R.dimen.small_avatar_image))
                 .height(dimensionResource(id = R.dimen.small_avatar_image))
-                .padding(start = 16.dp)
                 .clip(CircleShape),
             alignment = Center
         )
@@ -171,7 +168,10 @@ fun ChatItem(
                 .fillMaxWidth()
                 .padding(start = 16.dp)
         ) {
-            Row(modifier = Modifier.fillMaxWidth()) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
                 Text(
                     text = UtilsFunctions.trimString(
                         message.recipient.firstName + " " + message.recipient.lastName,
@@ -192,7 +192,10 @@ fun ChatItem(
                 )
             }
             Text(
-                text = message.text,
+                text = UtilsFunctions.trimString(
+                    message.text,
+                    Constants.Chat.MESSENGER_TEXT_MAX_SIZE
+                ),
                 style = TextStyle(
                     color = colorResource(id = R.color.text_secondary),
                     fontSize = integerResource(id = R.integer.primary_text).sp
@@ -402,8 +405,14 @@ fun UserCard(recommendedRoommate: User, onClick: () -> Unit) {
             contentDescription = recommendedRoommate.firstName + recommendedRoommate.lastName,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(92.dp),
-            contentScale = ContentScale.Fit
+                .height(92.dp)
+                .clip(
+                    RoundedCornerShape(
+                        topStart = dimensionResource(id = R.dimen.card_small_rounded_corner),
+                        topEnd = dimensionResource(id = R.dimen.card_small_rounded_corner)
+                    )
+                ),
+            contentScale = ContentScale.Crop
         )
         Column(
             modifier = Modifier
@@ -412,7 +421,10 @@ fun UserCard(recommendedRoommate: User, onClick: () -> Unit) {
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             Text(
-                text = recommendedRoommate.firstName + recommendedRoommate.lastName,
+                text = UtilsFunctions.trimString(
+                    recommendedRoommate.firstName + " " + recommendedRoommate.lastName,
+                    Constants.USER_CARD_MAX_NAME
+                ),
                 style = TextStyle(
                     color = Color.Black,
                     fontSize = integerResource(id = R.integer.secondary_text).sp,
@@ -443,8 +455,8 @@ fun UserCard(recommendedRoommate: User, onClick: () -> Unit) {
 @Composable
 fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean, likeHousing: HousingLikeInterface) {
     val cardWidth = if (isMiniVersion) 240.dp else 332.dp
-    val cardHeight = if (isMiniVersion) 148.dp else 222.dp
-    val imageHeight = if (isMiniVersion) 92.dp else 140.dp
+    val cardHeight = if (isMiniVersion) 172.dp else 256.dp
+    val imageHeight = if (isMiniVersion) 112.dp else 172.dp
     val nameTextSize = if (isMiniVersion) 16.sp else 20.sp
     val locationTextSize = if (isMiniVersion) 12.sp else 14.sp
     val title = recommendedRoom.title.substring(0, recommendedRoom.title.length.coerceAtMost(16))
@@ -482,8 +494,13 @@ fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean, likeHousing: Housing
                 placeholder = painterResource(id = R.drawable.ordinary_room),
                 contentDescription = stringResource(id = R.string.room_image_description),
                 modifier = Modifier
-                    .fillMaxSize(),
-                contentScale = ContentScale.FillBounds
+                    .clip(
+                        RoundedCornerShape(
+                            topStart = dimensionResource(id = R.dimen.card_small_rounded_corner),
+                            topEnd = dimensionResource(id = R.dimen.card_small_rounded_corner)
+                        )
+                    ),
+                contentScale = ContentScale.Crop
             )
             Image(
                 painter = if (isLiked) {
@@ -514,8 +531,8 @@ fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean, likeHousing: Housing
             )
         }
         Text(
-            text = title,
-            modifier = Modifier.padding(start = 10.dp, top = if (isMiniVersion) 4.dp else 10.dp),
+            text = UtilsFunctions.trimString(title, Constants.ROOM_CARD_MAX_NAME),
+            modifier = Modifier.padding(start = 16.dp, top = if (isMiniVersion) 12.dp else 16.dp),
             style = TextStyle(
                 color = colorResource(
                     id = R.color.secondary_color
@@ -525,7 +542,7 @@ fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean, likeHousing: Housing
             )
         )
         Row(
-            modifier = Modifier.padding(start = 10.dp),
+            modifier = Modifier.padding(start = 16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
@@ -537,7 +554,7 @@ fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean, likeHousing: Housing
                 colorFilter = ColorFilter.tint(color = colorResource(id = R.color.secondary_color))
             )
             Text(
-                text = location,
+                text = UtilsFunctions.trimString(location, Constants.ROOM_CARD_MAX_LOCATION),
                 style = TextStyle(
                     color = colorResource(id = R.color.secondary_color),
                     fontSize = locationTextSize
@@ -700,11 +717,15 @@ fun SearchField(
                 width = 2.dp,
                 shape = RoundedCornerShape(4.dp),
                 color = colorResource(id = R.color.primary_dark)
-            ),
+            )
+            .clickable {
+                navigateToFilters()
+            },
         textStyle = TextStyle(
             color = Color.Black,
             fontSize = integerResource(id = R.integer.primary_text).sp
         ),
+        enabled = false,
         value = searcherText,
         onValueChange = {
             if (it.text.length > 100) {
@@ -1740,164 +1761,6 @@ fun FollowButton(
             modifier = Modifier.padding(2.dp),
             textAlign = TextAlign.Center
         )
-    }
-}
-
-@Composable
-fun FollowCard(user: User, onClick: () -> Unit, deleteFollow: () -> Unit) {
-    var expandedSettings by remember {
-        mutableStateOf(false)
-    }
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(176.dp)
-            .background(
-                color = colorResource(id = R.color.primary),
-                shape = RoundedCornerShape(20.dp)
-            )
-            .clickable { onClick() }
-    ) {
-        AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(user.avatar)
-                .crossfade(true)
-                .build(),
-            placeholder = painterResource(id = R.drawable.ordinary_user),
-            contentDescription = user.firstName,
-            modifier = Modifier
-                .fillMaxHeight()
-                .width(104.dp),
-            contentScale = ContentScale.FillBounds
-        )
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(start = 12.dp, top = 8.dp, end = 12.dp, bottom = 8.dp),
-            verticalArrangement = Arrangement.spacedBy(
-                dimensionResource(id = R.dimen.column_elements_small_margin)
-            )
-        ) {
-            Row(horizontalArrangement = Arrangement.SpaceBetween) {
-                Text(
-                    text = UtilsFunctions.trimString(
-                        user.firstName + " " + user.lastName,
-                        Constants.Follows.USER_CARD_MAX_NAME
-                    ),
-                    style = TextStyle(
-                        fontSize = integerResource(id = R.integer.label_text).sp,
-                        color = Color.Black,
-                        fontWeight = FontWeight.Bold
-                    )
-                )
-                Box(modifier = Modifier.fillMaxWidth()) {
-                    Image(
-                        painter = painterResource(id = R.drawable.settings_ellipsis),
-                        contentDescription = stringResource(
-                            id = R.string.follow_setting_icon_description
-                        ),
-                        modifier = Modifier
-                            .padding(end = 16.dp)
-                            .clickable {
-                                expandedSettings = !expandedSettings
-                            }
-                    )
-                }
-                DropdownMenu(
-                    modifier = Modifier
-                        .widthIn(min = 80.dp, max = 160.dp)
-                        .heightIn(min = 64.dp, max = 124.dp),
-                    expanded = expandedSettings,
-                    onDismissRequest = { expandedSettings = false },
-                    offset = DpOffset(x = 156.dp, y = 0.dp)
-                ) {
-                    Text(
-                        text = stringResource(R.string.delete_text),
-                        modifier = Modifier
-                            .padding(start = 8.dp)
-                            .clickable {
-                                deleteFollow()
-                                expandedSettings = false
-                            }
-                    )
-                    Divider()
-                }
-            }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(20.dp)
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.location_icon),
-                    contentDescription = stringResource(id = R.string.location_icon),
-                    modifier = Modifier
-                        .width(dimensionResource(id = R.dimen.small_icon))
-                        .height(dimensionResource(id = R.dimen.small_icon))
-                        .align(Alignment.CenterVertically)
-                )
-                Text(
-                    text = user.city ?: "",
-                    style = TextStyle(
-                        fontSize = integerResource(id = R.integer.primary_text).sp,
-                        color = Color.Black
-                    )
-                )
-            }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(20.dp)
-            ) {
-                Text(
-                    text = stringResource(id = R.string.status),
-                    style = TextStyle(
-                        fontSize = integerResource(id = R.integer.primary_text).sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.Black
-                    )
-                )
-                Text(
-                    stringResource(R.string.occasionally),
-                    style = TextStyle(
-                        fontSize = integerResource(id = R.integer.primary_text).sp,
-                        color = Color.Black
-                    ),
-                    modifier = Modifier.padding(start = 8.dp)
-                )
-            }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(20.dp)
-            ) {
-                Text(
-                    text = stringResource(R.string.rating_and_colon),
-                    style = TextStyle(
-                        fontSize = integerResource(id = R.integer.primary_text).sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.Black
-                    )
-                )
-                Text(
-                    text = user.rating.toString(),
-                    style = TextStyle(
-                        fontSize = integerResource(id = R.integer.primary_text).sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.Black
-                    ),
-                    modifier = Modifier.padding(start = 8.dp)
-                )
-                Icon(
-                    painter = painterResource(id = R.drawable.rating_icon),
-                    contentDescription = stringResource(R.string.rating_star_content_description),
-                    modifier = Modifier
-                        .height(dimensionResource(id = R.dimen.small_icon))
-                        .width(dimensionResource(id = R.dimen.small_icon))
-                        .align(Alignment.CenterVertically)
-                )
-            }
-        }
     }
 }
 

@@ -145,9 +145,9 @@ private fun TopLine(
             contentDescription = stringResource(R.string.user_avatar_content_description),
             contentScale = ContentScale.Crop,
             modifier = Modifier
+                .padding(start = 16.dp)
                 .width(dimensionResource(id = R.dimen.ordinary_image))
                 .height(dimensionResource(id = R.dimen.ordinary_image))
-                .padding(start = 16.dp)
                 .clip(CircleShape)
                 .clickable {
                     navigateToUser()

@@ -69,7 +69,7 @@ fun ProfileScreen(
         )
         ProfileContentLine(
             text = stringResource(id = R.string.follows_profile),
-            iconId = R.drawable.settings_icon,
+            iconId = R.drawable.follow_fill,
             onNavigateToFriends = { navigator.navigate(FollowsScreenDestination) }
         )
         ProfileContentLine(
