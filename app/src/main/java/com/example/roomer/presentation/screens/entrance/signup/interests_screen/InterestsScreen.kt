@@ -31,6 +31,7 @@ import com.example.roomer.presentation.screens.entrance.signup.SignUpViewModel
 import com.example.roomer.presentation.ui_components.GreenButtonOutline
 import com.example.roomer.presentation.ui_components.GreenButtonPrimary
 import com.example.roomer.presentation.ui_components.InterestsButtons
+import com.example.roomer.presentation.ui_components.SimpleAlertDialog
 import com.example.roomer.utils.navigation.SignUpNavGraph
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -96,6 +97,13 @@ fun InterestsScreen(
                 if (!state.isInterestsLoaded) {
                     GreenButtonOutline(text = stringResource(R.string.retry)) {
                         interestsScreenViewModel.getInterests()
+                    }
+                } else {
+                    SimpleAlertDialog(
+                        title = stringResource(R.string.login_alert_dialog_text),
+                        text = state.error
+                    ) {
+                        interestsScreenViewModel.clearState()
                     }
                 }
             }
