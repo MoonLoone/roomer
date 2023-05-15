@@ -10,6 +10,8 @@ object Constants {
     const val HISTORY_SIZE: Long = 10
     const val CITIES_SHOWN_AT_ONCE = 5
     const val USER_CARD_MAX_NAME = 12
+    const val ROOM_CARD_MAX_NAME = 16
+    const val ROOM_CARD_MAX_LOCATION = 24
 
     object ScreensId {
         const val greetingScreenId = 0

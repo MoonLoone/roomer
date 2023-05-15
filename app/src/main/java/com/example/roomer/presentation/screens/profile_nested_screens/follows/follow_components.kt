@@ -27,6 +27,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -71,8 +72,16 @@ fun FollowCard(user: User, onClick: () -> Unit, deleteFollow: () -> Unit) {
             contentDescription = user.firstName,
             modifier = Modifier
                 .fillMaxHeight()
-                .width(104.dp),
-            contentScale = ContentScale.FillBounds
+                .width(104.dp)
+                .clip(
+                    RoundedCornerShape(
+                        topStart = dimensionResource(id = R.dimen.rounded_corner_ordinary),
+                        bottomStart = dimensionResource(
+                            id = R.dimen.rounded_corner_ordinary
+                        )
+                    )
+                ),
+            contentScale = ContentScale.Crop,
         )
         Column(
             modifier = Modifier

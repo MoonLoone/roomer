@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -81,8 +82,8 @@ fun HomeScreen(
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
                 .padding(
-                    top = dimensionResource(id = R.dimen.screen_top_margin)
-                )
+                    top = dimensionResource(id = R.dimen.screen_top_margin),
+                ),
         ) {
             HeaderLine(
                 user = currentUser,
@@ -114,6 +115,11 @@ fun HomeScreen(
                 emptyRooms = state.emptyRecommendedRooms,
                 recommendedRooms = recommendedRooms,
                 housingLikeInterface = homeScreenViewModel.housingLike
+            )
+            Spacer(
+                modifier = Modifier
+                    .height(dimensionResource(id = R.dimen.screen_bottom_margin) + 24.dp)
+                    .fillMaxWidth()
             )
         }
     }
@@ -304,7 +310,6 @@ private fun RecommendedRooms(
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(148.dp)
                 .padding(top = 8.dp),
             horizontalArrangement = Arrangement.spacedBy(
                 dimensionResource(id = R.dimen.list_elements_margin)
@@ -357,7 +362,8 @@ private fun UnauthorizedView(navigateToSplash: () -> Unit) {
 private fun LoadingView() {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         CircularProgressIndicator(
-            modifier = Modifier.size(dimensionResource(id = R.dimen.ordinary_image))
+            modifier = Modifier.size(dimensionResource(id = R.dimen.ordinary_image)),
+            color = colorResource(id = R.color.primary),
         )
     }
 }

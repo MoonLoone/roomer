@@ -455,8 +455,8 @@ fun UserCard(recommendedRoommate: User, onClick: () -> Unit) {
 @Composable
 fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean, likeHousing: HousingLikeInterface) {
     val cardWidth = if (isMiniVersion) 240.dp else 332.dp
-    val cardHeight = if (isMiniVersion) 148.dp else 222.dp
-    val imageHeight = if (isMiniVersion) 92.dp else 140.dp
+    val cardHeight = if (isMiniVersion) 172.dp else 256.dp
+    val imageHeight = if (isMiniVersion) 112.dp else 172.dp
     val nameTextSize = if (isMiniVersion) 16.sp else 20.sp
     val locationTextSize = if (isMiniVersion) 12.sp else 14.sp
     val title = recommendedRoom.title.substring(0, recommendedRoom.title.length.coerceAtMost(16))
@@ -494,7 +494,6 @@ fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean, likeHousing: Housing
                 placeholder = painterResource(id = R.drawable.ordinary_room),
                 contentDescription = stringResource(id = R.string.room_image_description),
                 modifier = Modifier
-                    .fillMaxSize()
                     .clip(
                         RoundedCornerShape(
                             topStart = dimensionResource(id = R.dimen.card_small_rounded_corner),
@@ -532,8 +531,8 @@ fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean, likeHousing: Housing
             )
         }
         Text(
-            text = title,
-            modifier = Modifier.padding(start = 10.dp, top = if (isMiniVersion) 4.dp else 10.dp),
+            text = UtilsFunctions.trimString(title, Constants.ROOM_CARD_MAX_NAME),
+            modifier = Modifier.padding(start = 16.dp, top = if (isMiniVersion) 12.dp else 16.dp),
             style = TextStyle(
                 color = colorResource(
                     id = R.color.secondary_color
@@ -543,7 +542,7 @@ fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean, likeHousing: Housing
             )
         )
         Row(
-            modifier = Modifier.padding(start = 10.dp),
+            modifier = Modifier.padding(start = 16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
@@ -555,7 +554,7 @@ fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean, likeHousing: Housing
                 colorFilter = ColorFilter.tint(color = colorResource(id = R.color.secondary_color))
             )
             Text(
-                text = location,
+                text = UtilsFunctions.trimString(location,Constants.ROOM_CARD_MAX_LOCATION),
                 style = TextStyle(
                     color = colorResource(id = R.color.secondary_color),
                     fontSize = locationTextSize

@@ -81,7 +81,7 @@ private fun FollowsList(
 ) {
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(
-            dimensionResource(id = R.dimen.column_elements_small_margin)
+            dimensionResource(id = R.dimen.list_elements_margin)
         )
     ) {
         items(follows.size) { index ->
