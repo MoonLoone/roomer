@@ -55,6 +55,9 @@
     <dimen name="message_max_width">240.dp</dimen>
     <dimen name="message_min_width">32.dp</dimen>
 
+    <!--Home screen-->
+    <integer name="lists_title">20</integer>
+
     <dimen name="housing_component_big_image">80.dp</dimen>
     <dimen name="housing_component_rounded_corner_shape">10.dp</dimen>
     <integer name="housing_component_font_size">20</integer>

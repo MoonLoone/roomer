@@ -700,11 +700,15 @@ fun SearchField(
                 width = 2.dp,
                 shape = RoundedCornerShape(4.dp),
                 color = colorResource(id = R.color.primary_dark)
-            ),
+            )
+            .clickable {
+                navigateToFilters()
+            },
         textStyle = TextStyle(
             color = Color.Black,
             fontSize = integerResource(id = R.integer.primary_text).sp
         ),
+        enabled = false,
         value = searcherText,
         onValueChange = {
             if (it.text.length > 100) {

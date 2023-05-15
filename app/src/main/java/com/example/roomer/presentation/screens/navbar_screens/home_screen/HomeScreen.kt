@@ -128,7 +128,8 @@ private fun HeaderLine(user: User, navigateToUser: () -> Unit) {
                 start = dimensionResource(id = R.dimen.screen_start_margin),
                 end = dimensionResource(
                     id = R.dimen.screen_end_margin
-                )
+                ),
+                top = 16.dp
             )
             .height(56.dp),
         horizontalArrangement = Arrangement.SpaceBetween
@@ -164,7 +165,6 @@ private fun HeaderLine(user: User, navigateToUser: () -> Unit) {
             modifier = Modifier
                 .width(dimensionResource(id = R.dimen.ordinary_image))
                 .height(dimensionResource(id = R.dimen.ordinary_image))
-                .padding(start = 16.dp)
                 .clip(CircleShape)
                 .clickable {
                     navigateToUser()
@@ -190,17 +190,20 @@ private fun RecentlyWatched(
                 start = dimensionResource(
                     id = R.dimen.screen_start_margin
                 ),
-                end = dimensionResource(id = R.dimen.screen_end_margin)
+                end = dimensionResource(id = R.dimen.screen_end_margin),
+                top = 16.dp,
             ),
             style = TextStyle(
                 color = colorResource(id = R.color.black),
-                fontSize = integerResource(id = R.integer.label_text).sp
+                fontSize = integerResource(id = R.integer.lists_title).sp,
+                fontWeight = FontWeight.Bold,
             )
         )
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(148.dp),
+                .height(148.dp)
+                .padding(top = 8.dp),
             horizontalArrangement = Arrangement.spacedBy(
                 dimensionResource(id = R.dimen.list_elements_margin)
             ),
@@ -243,18 +246,20 @@ private fun RecommendedRoommates(
                 start = dimensionResource(
                     id = R.dimen.screen_start_margin
                 ),
-                end = dimensionResource(id = R.dimen.screen_end_margin)
+                end = dimensionResource(id = R.dimen.screen_end_margin),
+                top = 16.dp,
             ),
             style = TextStyle(
                 color = colorResource(id = R.color.black),
-                fontSize = integerResource(id = R.integer.label_text).sp
+                fontSize = integerResource(id = R.integer.lists_title).sp,
+                fontWeight = FontWeight.Bold,
             )
         )
-
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(148.dp),
+                .height(148.dp)
+                .padding(top = 8.dp),
             horizontalArrangement = Arrangement.spacedBy(
                 dimensionResource(id = R.dimen.list_elements_margin)
             ),
@@ -287,17 +292,20 @@ private fun RecommendedRooms(
                 start = dimensionResource(
                     id = R.dimen.screen_start_margin
                 ),
-                end = dimensionResource(id = R.dimen.screen_end_margin)
+                end = dimensionResource(id = R.dimen.screen_end_margin),
+                top = 16.dp,
             ),
             style = TextStyle(
                 color = colorResource(id = R.color.black),
-                fontSize = integerResource(id = R.integer.label_text).sp
+                fontSize = integerResource(id = R.integer.lists_title).sp,
+                fontWeight = FontWeight.Bold,
             )
         )
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(148.dp),
+                .height(148.dp)
+                .padding(top = 8.dp),
             horizontalArrangement = Arrangement.spacedBy(
                 dimensionResource(id = R.dimen.list_elements_margin)
             ),
