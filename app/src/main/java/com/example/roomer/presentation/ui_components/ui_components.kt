@@ -554,7 +554,7 @@ fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean, likeHousing: Housing
                 colorFilter = ColorFilter.tint(color = colorResource(id = R.color.secondary_color))
             )
             Text(
-                text = UtilsFunctions.trimString(location,Constants.ROOM_CARD_MAX_LOCATION),
+                text = UtilsFunctions.trimString(location, Constants.ROOM_CARD_MAX_LOCATION),
                 style = TextStyle(
                     color = colorResource(id = R.color.secondary_color),
                     fontSize = locationTextSize
