@@ -29,7 +29,6 @@ import com.example.roomer.domain.model.entities.Follow
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.presentation.screens.destinations.SearchRoommateScreenDestination
 import com.example.roomer.presentation.screens.destinations.UserDetailsScreenDestination
-import com.example.roomer.presentation.ui_components.FollowCard
 import com.example.roomer.utils.NavbarManagement
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
