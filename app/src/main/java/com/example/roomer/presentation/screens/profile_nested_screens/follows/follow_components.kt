@@ -81,7 +81,7 @@ fun FollowCard(user: User, onClick: () -> Unit, deleteFollow: () -> Unit) {
                         )
                     )
                 ),
-            contentScale = ContentScale.Crop,
+            contentScale = ContentScale.Crop
         )
         Column(
             modifier = Modifier

@@ -82,8 +82,8 @@ fun HomeScreen(
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
                 .padding(
-                    top = dimensionResource(id = R.dimen.screen_top_margin),
-                ),
+                    top = dimensionResource(id = R.dimen.screen_top_margin)
+                )
         ) {
             HeaderLine(
                 user = currentUser,
@@ -363,7 +363,7 @@ private fun LoadingView() {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         CircularProgressIndicator(
             modifier = Modifier.size(dimensionResource(id = R.dimen.ordinary_image)),
-            color = colorResource(id = R.color.primary),
+            color = colorResource(id = R.color.primary)
         )
     }
 }
