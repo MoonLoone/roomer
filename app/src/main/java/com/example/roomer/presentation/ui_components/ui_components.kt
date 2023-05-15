@@ -409,10 +409,10 @@ fun UserCard(recommendedRoommate: User, onClick: () -> Unit) {
                 .clip(
                     RoundedCornerShape(
                         topStart = dimensionResource(id = R.dimen.card_small_rounded_corner),
-                        topEnd = dimensionResource(id = R.dimen.card_small_rounded_corner),
+                        topEnd = dimensionResource(id = R.dimen.card_small_rounded_corner)
                     )
                 ),
-            contentScale = ContentScale.Crop,
+            contentScale = ContentScale.Crop
         )
         Column(
             modifier = Modifier
@@ -498,7 +498,7 @@ fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean, likeHousing: Housing
                     .clip(
                         RoundedCornerShape(
                             topStart = dimensionResource(id = R.dimen.card_small_rounded_corner),
-                            topEnd = dimensionResource(id = R.dimen.card_small_rounded_corner),
+                            topEnd = dimensionResource(id = R.dimen.card_small_rounded_corner)
                         )
                     ),
                 contentScale = ContentScale.Crop
