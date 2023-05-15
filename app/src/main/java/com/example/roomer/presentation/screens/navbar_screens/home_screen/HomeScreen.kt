@@ -191,12 +191,12 @@ private fun RecentlyWatched(
                     id = R.dimen.screen_start_margin
                 ),
                 end = dimensionResource(id = R.dimen.screen_end_margin),
-                top = 16.dp,
+                top = 16.dp
             ),
             style = TextStyle(
                 color = colorResource(id = R.color.black),
                 fontSize = integerResource(id = R.integer.lists_title).sp,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.Bold
             )
         )
         LazyRow(
@@ -247,12 +247,12 @@ private fun RecommendedRoommates(
                     id = R.dimen.screen_start_margin
                 ),
                 end = dimensionResource(id = R.dimen.screen_end_margin),
-                top = 16.dp,
+                top = 16.dp
             ),
             style = TextStyle(
                 color = colorResource(id = R.color.black),
                 fontSize = integerResource(id = R.integer.lists_title).sp,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.Bold
             )
         )
         LazyRow(
@@ -293,12 +293,12 @@ private fun RecommendedRooms(
                     id = R.dimen.screen_start_margin
                 ),
                 end = dimensionResource(id = R.dimen.screen_end_margin),
-                top = 16.dp,
+                top = 16.dp
             ),
             style = TextStyle(
                 color = colorResource(id = R.color.black),
                 fontSize = integerResource(id = R.integer.lists_title).sp,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.Bold
             )
         )
         LazyRow(

@@ -49,18 +49,20 @@ fun FollowsScreen(
             end = dimensionResource(
                 id = R.dimen.screen_end_margin
             ),
-            top = dimensionResource(id = R.dimen.screen_top_margin),
+            top = dimensionResource(id = R.dimen.screen_top_margin)
         ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         HeaderLine()
-        if (state.success) FollowsList(
-            follows = follows,
-            navigateToUserDetails = { user ->
-                navigator.navigate(UserDetailsScreenDestination(user))
-            },
-            deleteFollow = { follow -> followsViewModel.deleteFollow(follow) },
-        )
+        if (state.success) {
+            FollowsList(
+                follows = follows,
+                navigateToUserDetails = { user ->
+                    navigator.navigate(UserDetailsScreenDestination(user))
+                },
+                deleteFollow = { follow -> followsViewModel.deleteFollow(follow) }
+            )
+        }
         if (state.emptyFollowsList) {
             EmptyFollowsText(navigateToUsersFilters = {
                 navigator.navigate(
@@ -75,7 +77,7 @@ fun FollowsScreen(
 private fun FollowsList(
     follows: List<Follow>,
     navigateToUserDetails: (User) -> Unit,
-    deleteFollow: (Follow) -> Unit,
+    deleteFollow: (Follow) -> Unit
 ) {
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(
@@ -109,7 +111,8 @@ private fun EmptyFollowsText(navigateToUsersFilters: () -> Unit) {
             )
         )
         Text(
-            text = stringResource(R.string.find_new_follow), style = TextStyle(
+            text = stringResource(R.string.find_new_follow),
+            style = TextStyle(
                 color = colorResource(id = R.color.primary),
                 fontSize = integerResource(id = R.integer.primary_text).sp,
                 fontWeight = FontWeight.Bold

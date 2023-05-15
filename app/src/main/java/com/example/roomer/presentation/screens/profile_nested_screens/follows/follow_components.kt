@@ -47,7 +47,6 @@ import com.example.roomer.domain.model.entities.User
 import com.example.roomer.utils.Constants
 import com.example.roomer.utils.UtilsFunctions
 
-
 @Composable
 fun FollowCard(user: User, onClick: () -> Unit, deleteFollow: () -> Unit) {
     var expandedSettings by remember {
