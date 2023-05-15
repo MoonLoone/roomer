@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
-import com.example.roomer.domain.model.entities.User
 import com.example.roomer.domain.usecase.login_sign_up.SplashScreenUseCase
 import com.example.roomer.presentation.screens.UsualScreenState
 import com.example.roomer.utils.Resource
@@ -42,12 +41,6 @@ class SplashScreenViewModel @Inject constructor(
         }
     }
 
-    private fun storeCurrentUser(user: User) {
-        viewModelScope.launch {
-            roomerRepository.addLocalCurrentUser(user)
-        }
-    }
-
     private fun clearCurrentUser() {
         viewModelScope.launch {
             roomerRepository.deleteLocalCurrentUser()
@@ -65,7 +58,7 @@ class SplashScreenViewModel @Inject constructor(
                     }
                     is Resource.Success -> {
                         result.data?.let {
-                            storeCurrentUser(it)
+                            roomerRepository.addLocalCurrentUser(it)
                         }
                         _state.update { currentState ->
                             currentState.copy(isLoading = false, isSuccess = true)
