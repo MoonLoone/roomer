@@ -162,7 +162,6 @@ fun ChatItem(
             modifier = Modifier
                 .width(dimensionResource(id = R.dimen.small_avatar_image))
                 .height(dimensionResource(id = R.dimen.small_avatar_image))
-                .padding(start = 16.dp)
                 .clip(CircleShape),
             alignment = Center
         )
@@ -171,7 +170,10 @@ fun ChatItem(
                 .fillMaxWidth()
                 .padding(start = 16.dp)
         ) {
-            Row(modifier = Modifier.fillMaxWidth()) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
                 Text(
                     text = UtilsFunctions.trimString(
                         message.recipient.firstName + " " + message.recipient.lastName,
@@ -192,7 +194,10 @@ fun ChatItem(
                 )
             }
             Text(
-                text = message.text,
+                text = UtilsFunctions.trimString(
+                    message.text,
+                    Constants.Chat.MESSENGER_TEXT_MAX_SIZE
+                ),
                 style = TextStyle(
                     color = colorResource(id = R.color.text_secondary),
                     fontSize = integerResource(id = R.integer.primary_text).sp

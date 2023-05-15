@@ -78,7 +78,7 @@ private fun ChatsListScreen(listOfChats: List<Message>, navigator: DestinationsN
         Modifier
             .fillMaxSize()
             .padding(
-                top = dimensionResource(id = R.dimen.screen_top_margin),
+                top = 16.dp,
                 start = dimensionResource(id = R.dimen.screen_start_margin),
                 end = dimensionResource(id = R.dimen.screen_end_margin)
             ),
