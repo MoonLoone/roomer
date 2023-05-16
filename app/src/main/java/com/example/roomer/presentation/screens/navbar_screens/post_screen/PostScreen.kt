@@ -177,7 +177,8 @@ fun PostScreen(
                         )
                         GreenButtonPrimaryIconed(
                             text = stringResource(R.string.add_post_button_label),
-                            trailingIcon = ImageVector.vectorResource(id = R.drawable.postin),
+                            trailingIconPainterId = R.drawable.postin,
+                            trailingIconDescriptionId = R.string.add_post_icon,
                             enabled = true,
                             onClick = {
                                 navigator.navigate(AddHousingScreenDestination(null))

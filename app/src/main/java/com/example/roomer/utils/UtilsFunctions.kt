@@ -1,5 +1,7 @@
 package com.example.roomer.utils
 
+import android.util.Log
+
 object UtilsFunctions {
     fun trimString(text: String, maxLength: Int, truncateText: String = "..."): String {
         if (maxLength >= text.length || maxLength < truncateText.length) return text
@@ -9,19 +11,19 @@ object UtilsFunctions {
             .plus(truncateText)
     }
 
-    fun bundleMapItemsByScreenWidth(values: Map<String, String>): List<List<Map.Entry<String, String>>> {
+    fun bundleMapItemsByScreenWidth(values: Map<String, String>, spaceBetweenItemsDp: Int): List<List<Map.Entry<String, String>>> {
         val bundleList = mutableListOf<MutableList<Map.Entry<String, String>>>()
-        val symbolsRowMax = 120
+        val symbolsRowMax = 40
         var symbolsNow = 0
         var oneRowList = mutableListOf<Map.Entry<String, String>>()
         for (item in values) {
-            if (symbolsNow + item.value.length <= symbolsRowMax) {
+            if (symbolsNow + item.value.length - spaceBetweenItemsDp <= symbolsRowMax) {
                 oneRowList.add(item)
-                symbolsNow += item.value.length
+                symbolsNow += item.value.length + spaceBetweenItemsDp
             } else {
                 bundleList.add(oneRowList)
-                oneRowList = mutableListOf()
-                symbolsNow = 0
+                oneRowList = mutableListOf(item)
+                symbolsNow = item.value.length + spaceBetweenItemsDp
             }
         }
         if (oneRowList.isNotEmpty()) bundleList.add(oneRowList)

@@ -5,6 +5,7 @@ import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.animateContentSize
@@ -101,6 +102,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.launch
+import com.example.roomer.presentation.ui_components.GreenButtonPrimaryIconed as GreenButtonPrimaryIconed1
 
 @Composable
 fun ProfileContentLine(text: String, iconId: Int, onNavigateToFriends: () -> Unit = {}) {
@@ -777,10 +779,10 @@ fun GreenButtonPrimary(
             backgroundColor = colorResource(id = R.color.primary_dark),
             contentColor = colorResource(id = R.color.secondary_color)
         )
-//        interactionSource = NoRippleInteractionSource()
     ) {
         androidx.compose.material.Text(
-            text = text
+            text = text,
+            fontSize = integerResource(id = R.integer.button_outline_font_size).sp
         )
     }
 }
@@ -789,9 +791,10 @@ fun GreenButtonPrimary(
 fun GreenButtonPrimaryIconed(
     text: String,
     modifier: Modifier = Modifier,
+    trailingIconPainterId: Int,
+    trailingIconDescriptionId: Int,
     enabled: Boolean = true,
     onClick: () -> Unit,
-    trailingIcon: ImageVector
 ) {
     Button(
         enabled = enabled,
@@ -804,15 +807,21 @@ fun GreenButtonPrimaryIconed(
         ),
         interactionSource = NoRippleInteractionSource()
     ) {
-        Icon(
-            trailingIcon,
-            stringResource(R.string.none_content_description),
-            tint = colorResource(id = R.color.secondary_color)
-        )
-        androidx.compose.material.Text(
-            text = text,
-            Modifier.padding(start = 4.dp)
-        )
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                modifier = Modifier.size(dimensionResource(id = R.dimen.small_icon)),
+                painter = painterResource(id = trailingIconPainterId),
+                contentDescription = stringResource(trailingIconDescriptionId),
+                tint = colorResource(id = R.color.secondary_color)
+            )
+            androidx.compose.material.Text(
+                text = text,
+                fontSize = integerResource(id = R.integer.button_outline_font_size).sp
+            )
+        }
     }
 }
 
@@ -967,9 +976,7 @@ fun ButtonsRowMapped(
     onValueChange: (String) -> Unit,
     enabled: Boolean = true
 ) {
-    for (item in values) {
-
-    }
+    val bundledMap = UtilsFunctions.bundleMapItemsByScreenWidth(values, 8)
     Column(
         modifier = Modifier
             .fillMaxWidth(),
@@ -984,18 +991,20 @@ fun ButtonsRowMapped(
             textAlign = TextAlign.End,
             fontWeight = FontWeight.Medium
         )
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            for (item in values) {
-                if (item.key == value) {
-                    GreenButtonPrimary(text = item.value, enabled = enabled) {}
-                } else {
-                    GreenButtonOutline(text = item.value, enabled = enabled) {
-                        onValueChange(item.key)
+        bundledMap.forEach {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.list_elements_margin))
+            ) {
+                for (item in it) {
+                    if (item.key == value) {
+                        GreenButtonPrimary(text = item.value, enabled = enabled) {}
+                    } else {
+                        GreenButtonOutline(text = item.value, enabled = enabled) {
+                            onValueChange(item.key)
+                        }
                     }
                 }
             }
@@ -1179,19 +1188,19 @@ fun HousingPhotosComponent(
                 dimensionResource(R.dimen.housing_component_horizontal_arrangement)
             )
         ) {
-            GreenButtonPrimaryIconed(
+            GreenButtonPrimaryIconed1(
                 modifier = Modifier.padding(
                     top = dimensionResource(R.dimen.housing_component_default_padding)
                 ),
                 text = stringResource(R.string.add_photos_button_label),
-                trailingIcon = ImageVector.vectorResource(id = R.drawable.add_photos_icon),
                 enabled = true,
-                onClick = {
-                    if (enabled) {
-                        launcher.launch("image/*")
-                    }
+                trailingIconPainterId = R.drawable.add_photos_icon,
+                trailingIconDescriptionId = R.string.add_photos_icon_description
+            ) {
+                if (enabled) {
+                    launcher.launch("image/*")
                 }
-            )
+            }
             RedButtonPrimaryIconed(
                 modifier = Modifier.padding(
                     top = dimensionResource(R.dimen.housing_component_default_padding)
