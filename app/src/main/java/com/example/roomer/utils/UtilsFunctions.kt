@@ -11,7 +11,7 @@ object UtilsFunctions {
 
     fun bundleMapItemsByScreenWidth(values: Map<String, String>, spaceBetweenItemsDp: Int): List<List<Map.Entry<String, String>>> {
         val bundleList = mutableListOf<MutableList<Map.Entry<String, String>>>()
-        val symbolsRowMax = 40
+        val symbolsRowMax = 35
         var symbolsNow = 0
         var oneRowList = mutableListOf<Map.Entry<String, String>>()
         for (item in values) {

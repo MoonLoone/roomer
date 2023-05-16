@@ -144,8 +144,7 @@ fun AboutMeAvatarScreen(
                         signUpViewModel.employment = it
                     }
                 )
-                Spacer(modifier = Modifier
-                    .size(dimensionResource(id = R.dimen.sign_up_bottom_padding)))
+                Spacer(modifier = Modifier.size(dimensionResource(id = R.dimen.sign_up_bottom_padding)))
                 if (uiState.isValid) {
                     signUpViewModel.clearState()
                     navigator.navigate(HabitsScreenDestination)
