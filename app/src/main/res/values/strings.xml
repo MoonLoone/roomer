@@ -50,7 +50,7 @@
     <string name="location_icon">Location</string>
     <string name="search_placeholder">Search for roommate or housing</string>
     <string name="search_icon_description">Search lope</string>
-    <string name="back_button_label">Back button</string>
+    <string name="back_button_label">Go Back</string>
     <string name="room">Room</string>
     <string name="roommate">Roommate</string>
     <string name="status">Status:</string>

@@ -1,7 +1,5 @@
 package com.example.roomer.utils
 
-import android.util.Log
-
 object UtilsFunctions {
     fun trimString(text: String, maxLength: Int, truncateText: String = "..."): String {
         if (maxLength >= text.length || maxLength < truncateText.length) return text

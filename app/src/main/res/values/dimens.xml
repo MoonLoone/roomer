@@ -61,4 +61,11 @@
     <dimen name="housing_component_default_padding_2">20.dp</dimen>
     <dimen name="housing_component_horizontal_arrangement">24.dp</dimen>
     <dimen name="housing_component_lazy_row">88.dp</dimen>
+
+    <!--Signup screens-->
+    <dimen name="sign_up_top_padding">32.dp</dimen>
+    <dimen name="sign_up_bottom_padding">80.dp</dimen>
+    <dimen name="back_further_buttons_padding">32.dp</dimen>
+
+
 </resources>
