@@ -130,7 +130,7 @@ fun AboutMeAvatarScreen(
                     label = stringResource(R.string.choose_city_label),
                     value = signUpViewModel.city,
                     onValueChange = { signUpViewModel.city = it },
-                    itemsAmountAtOnce = Constants.citiesShownAtOnce
+                    itemsAmountAtOnce = Constants.CITIES_SHOWN_AT_ONCE
                 )
                 DropdownTextFieldMapped(
                     mapOfItems = mapOf(
