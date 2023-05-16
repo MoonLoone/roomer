@@ -1,5 +1,7 @@
 package com.example.roomer.data.remote
 
+import com.example.roomer.domain.model.city.CityModel
+import com.example.roomer.domain.model.entities.Follow
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.MessageNotification
 import com.example.roomer.domain.model.entities.Room
@@ -128,6 +130,12 @@ interface RoomerApi {
         @Body room: RoomPost
     ): Response<Room>
 
+    @DELETE("/housing/{roomId}/")
+    suspend fun removeAdvertisement(
+        @Header("Authorization") token: String,
+        @Path("roomId") roomId: Int
+    ): Response<Unit>
+
     @Multipart
     @PUT("/housing/{roomId}/")
     suspend fun putAdvertisement(
@@ -136,9 +144,41 @@ interface RoomerApi {
         @Part filesContent: List<MultipartBody.Part>
     ): Response<Room>
 
+    @PUT("/housing/{roomId}/")
+    suspend fun putAdvertisement(
+        @Header("Authorization") token: String,
+        @Path("roomId") roomId: Int,
+        @Body room: RoomPost
+    ): Response<Room>
+
     @GET("/housing/")
     suspend fun getCurrentUserAdvertisements(
         @Header("Authorization") token: String,
         @Query("host_id") hostId: Int
     ): Response<List<Room>>
+
+    @GET("/follow/")
+    suspend fun getFollows(
+        @Query("user_id") userId: Int,
+        @Header("Authorization") token: String
+    ): Response<List<Follow>>
+
+    @POST("/follow/")
+    suspend fun followToUser(
+        @Query("user_id") userId: Int,
+        @Query("follow_id") followId: Int,
+        @Header("Authorization") token: String
+    ): Response<String>
+
+    @DELETE("/follow/")
+    suspend fun deleteFollow(
+        @Query("user_id") userId: Int,
+        @Query("follow_id") followId: Int,
+        @Header("Authorization") token: String
+    ): Response<String>
+
+    @GET("/cities/")
+    suspend fun getCities(
+        @Header("Authorization") token: String
+    ): Response<List<CityModel>>
 }

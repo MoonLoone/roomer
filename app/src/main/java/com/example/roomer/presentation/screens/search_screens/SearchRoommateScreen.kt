@@ -42,11 +42,13 @@ import com.example.roomer.presentation.screens.destinations.SearchRoommateResult
 import com.example.roomer.presentation.screens.entrance.signup.interests_screen.InterestsScreenViewModel
 import com.example.roomer.presentation.ui_components.BackBtn
 import com.example.roomer.presentation.ui_components.ButtonsRowMapped
+import com.example.roomer.presentation.ui_components.CitiesListViewModel
+import com.example.roomer.presentation.ui_components.DropdownTextFieldListed
 import com.example.roomer.presentation.ui_components.DropdownTextFieldMapped
 import com.example.roomer.presentation.ui_components.FilterSelect
 import com.example.roomer.presentation.ui_components.GreenButtonOutline
 import com.example.roomer.presentation.ui_components.InterestField
-import com.example.roomer.presentation.ui_components.UsualTextField
+import com.example.roomer.utils.Constants
 import com.example.roomer.utils.Constants.Options.attitudeOptions
 import com.example.roomer.utils.Constants.Options.cleanOptions
 import com.example.roomer.utils.Constants.Options.employmentOptions
@@ -60,7 +62,8 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 fun SearchRoommateScreen(
     navigator: DestinationsNavigator,
-    interestsScreenViewModel: InterestsScreenViewModel = hiltViewModel()
+    interestsScreenViewModel: InterestsScreenViewModel = hiltViewModel(),
+    citiesListViewModel: CitiesListViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
     val sex = remember {
@@ -264,11 +267,12 @@ fun SearchRoommateScreen(
                     )
                 }
             }
-            UsualTextField(
-                title = stringResource(R.string.location_label),
-                placeholder = stringResource(R.string.put_some_city_placeholder),
+            DropdownTextFieldListed(
+                listOfItems = citiesListViewModel.cities.value.map { it.city },
+                label = stringResource(id = R.string.choose_city_label),
                 value = location.value,
-                onValueChange = { location.value = it }
+                onValueChange = { location.value = it },
+                itemsAmountAtOnce = Constants.CITIES_SHOWN_AT_ONCE
             )
             DropdownTextFieldMapped(
                 mapOfItems = sleepOptions.mapValues { (_, value) ->

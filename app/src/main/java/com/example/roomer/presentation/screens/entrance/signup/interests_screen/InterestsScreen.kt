@@ -31,6 +31,7 @@ import com.example.roomer.presentation.screens.entrance.signup.SignUpViewModel
 import com.example.roomer.presentation.ui_components.GreenButtonOutline
 import com.example.roomer.presentation.ui_components.GreenButtonPrimary
 import com.example.roomer.presentation.ui_components.InterestsButtons
+import com.example.roomer.presentation.ui_components.SimpleAlertDialog
 import com.example.roomer.utils.navigation.SignUpNavGraph
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -97,38 +98,46 @@ fun InterestsScreen(
                     GreenButtonOutline(text = stringResource(R.string.retry)) {
                         interestsScreenViewModel.getInterests()
                     }
+                } else {
+                    SimpleAlertDialog(
+                        title = stringResource(R.string.login_alert_dialog_text),
+                        text = state.error
+                    ) {
+                        interestsScreenViewModel.clearState()
+                    }
                 }
             }
-        }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            GreenButtonPrimary(
-                text = stringResource(R.string.back_button_label)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                navigator.navigate(HabitsScreenDestination())
-            }
-            GreenButtonPrimary(
-                text = stringResource(R.string.finish_button_label)
-            ) {
-                interestsScreenViewModel.putSignUpData(
-                    signUpViewModel.firstName,
-                    signUpViewModel.lastName,
-                    signUpViewModel.sex,
-                    signUpViewModel.birthDate,
-                    signUpViewModel.avatar!!,
-                    signUpViewModel.personDescription,
-                    signUpViewModel.employment,
-                    signUpViewModel.sleepTime,
-                    signUpViewModel.alcoholAttitude,
-                    signUpViewModel.smokingAttitude,
-                    signUpViewModel.personalityType,
-                    signUpViewModel.cleanHabits,
-                    signUpViewModel.interests
-                )
+                GreenButtonPrimary(
+                    text = stringResource(R.string.back_button_label)
+                ) {
+                    navigator.navigate(HabitsScreenDestination())
+                }
+                GreenButtonPrimary(
+                    text = stringResource(R.string.finish_button_label)
+                ) {
+                    interestsScreenViewModel.putSignUpData(
+                        signUpViewModel.firstName,
+                        signUpViewModel.lastName,
+                        signUpViewModel.sex,
+                        signUpViewModel.birthDate,
+                        signUpViewModel.avatar!!,
+                        signUpViewModel.personDescription,
+                        signUpViewModel.employment,
+                        signUpViewModel.sleepTime,
+                        signUpViewModel.alcoholAttitude,
+                        signUpViewModel.smokingAttitude,
+                        signUpViewModel.personalityType,
+                        signUpViewModel.cleanHabits,
+                        signUpViewModel.interests,
+                        signUpViewModel.city
+                    )
+                }
             }
         }
     }

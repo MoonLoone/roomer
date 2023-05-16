@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -117,6 +118,11 @@ fun HomeScreen(
                 housingLikeInterface = homeScreenViewModel.housingLike,
                 navigateToRoom = { room -> navigator.navigate(RoomDetailsScreenDestination(room)) }
             )
+            Spacer(
+                modifier = Modifier
+                    .height(dimensionResource(id = R.dimen.screen_bottom_margin) + 24.dp)
+                    .fillMaxWidth()
+            )
         }
     }
 }
@@ -130,7 +136,8 @@ private fun HeaderLine(user: User, navigateToUser: () -> Unit) {
                 start = dimensionResource(id = R.dimen.screen_start_margin),
                 end = dimensionResource(
                     id = R.dimen.screen_end_margin
-                )
+                ),
+                top = 16.dp
             )
             .height(56.dp),
         horizontalArrangement = Arrangement.SpaceBetween
@@ -166,7 +173,6 @@ private fun HeaderLine(user: User, navigateToUser: () -> Unit) {
             modifier = Modifier
                 .width(dimensionResource(id = R.dimen.ordinary_image))
                 .height(dimensionResource(id = R.dimen.ordinary_image))
-                .padding(start = 16.dp)
                 .clip(CircleShape)
                 .clickable {
                     navigateToUser()
@@ -192,17 +198,20 @@ private fun RecentlyWatched(
                 start = dimensionResource(
                     id = R.dimen.screen_start_margin
                 ),
-                end = dimensionResource(id = R.dimen.screen_end_margin)
+                end = dimensionResource(id = R.dimen.screen_end_margin),
+                top = 16.dp
             ),
             style = TextStyle(
                 color = colorResource(id = R.color.black),
-                fontSize = integerResource(id = R.integer.label_text).sp
+                fontSize = integerResource(id = R.integer.lists_title).sp,
+                fontWeight = FontWeight.Bold
             )
         )
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(148.dp),
+                .height(148.dp)
+                .padding(top = 8.dp),
             horizontalArrangement = Arrangement.spacedBy(
                 dimensionResource(id = R.dimen.list_elements_margin)
             ),
@@ -246,18 +255,20 @@ private fun RecommendedRoommates(
                 start = dimensionResource(
                     id = R.dimen.screen_start_margin
                 ),
-                end = dimensionResource(id = R.dimen.screen_end_margin)
+                end = dimensionResource(id = R.dimen.screen_end_margin),
+                top = 16.dp
             ),
             style = TextStyle(
                 color = colorResource(id = R.color.black),
-                fontSize = integerResource(id = R.integer.label_text).sp
+                fontSize = integerResource(id = R.integer.lists_title).sp,
+                fontWeight = FontWeight.Bold
             )
         )
-
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(148.dp),
+                .height(148.dp)
+                .padding(top = 8.dp),
             horizontalArrangement = Arrangement.spacedBy(
                 dimensionResource(id = R.dimen.list_elements_margin)
             ),
@@ -291,17 +302,19 @@ private fun RecommendedRooms(
                 start = dimensionResource(
                     id = R.dimen.screen_start_margin
                 ),
-                end = dimensionResource(id = R.dimen.screen_end_margin)
+                end = dimensionResource(id = R.dimen.screen_end_margin),
+                top = 16.dp
             ),
             style = TextStyle(
                 color = colorResource(id = R.color.black),
-                fontSize = integerResource(id = R.integer.label_text).sp
+                fontSize = integerResource(id = R.integer.lists_title).sp,
+                fontWeight = FontWeight.Bold
             )
         )
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(148.dp),
+                .padding(top = 8.dp),
             horizontalArrangement = Arrangement.spacedBy(
                 dimensionResource(id = R.dimen.list_elements_margin)
             ),
@@ -354,7 +367,8 @@ private fun UnauthorizedView(navigateToSplash: () -> Unit) {
 private fun LoadingView() {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         CircularProgressIndicator(
-            modifier = Modifier.size(dimensionResource(id = R.dimen.ordinary_image))
+            modifier = Modifier.size(dimensionResource(id = R.dimen.ordinary_image)),
+            color = colorResource(id = R.color.primary)
         )
     }
 }

@@ -11,5 +11,6 @@ data class AddHousingState(
     var monthPriceIsNotInteger: Boolean = false,
     var monthPriceIsNotPositive: Boolean = false,
     var roomImagesIsEmpty: Boolean = false,
-    var descriptionIsEmpty: Boolean = false
+    var descriptionIsEmpty: Boolean = false,
+    var titleIsEmpty: Boolean = false
 ) : ScreenState

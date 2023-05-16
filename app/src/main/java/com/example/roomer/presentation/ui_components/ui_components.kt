@@ -30,17 +30,20 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.DropdownMenu
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PhotoCamera
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Divider
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
@@ -77,9 +80,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.roomer.R
+import com.example.roomer.data.shared.follow.FollowManipulate
+import com.example.roomer.data.shared.follow.FollowManipulateViewModel
 import com.example.roomer.data.shared.housing_like.HousingLikeInterface
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.Room
@@ -156,7 +162,6 @@ fun ChatItem(
             modifier = Modifier
                 .width(dimensionResource(id = R.dimen.small_avatar_image))
                 .height(dimensionResource(id = R.dimen.small_avatar_image))
-                .padding(start = 16.dp)
                 .clip(CircleShape),
             alignment = Center
         )
@@ -165,7 +170,10 @@ fun ChatItem(
                 .fillMaxWidth()
                 .padding(start = 16.dp)
         ) {
-            Row(modifier = Modifier.fillMaxWidth()) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
                 Text(
                     text = UtilsFunctions.trimString(
                         message.recipient.firstName + " " + message.recipient.lastName,
@@ -186,7 +194,10 @@ fun ChatItem(
                 )
             }
             Text(
-                text = message.text,
+                text = UtilsFunctions.trimString(
+                    message.text,
+                    Constants.Chat.MESSENGER_TEXT_MAX_SIZE
+                ),
                 style = TextStyle(
                     color = colorResource(id = R.color.text_secondary),
                     fontSize = integerResource(id = R.integer.primary_text).sp
@@ -396,8 +407,14 @@ fun UserCard(recommendedRoommate: User, onClick: () -> Unit) {
             contentDescription = recommendedRoommate.firstName + recommendedRoommate.lastName,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(92.dp),
-            contentScale = ContentScale.Fit
+                .height(92.dp)
+                .clip(
+                    RoundedCornerShape(
+                        topStart = dimensionResource(id = R.dimen.card_small_rounded_corner),
+                        topEnd = dimensionResource(id = R.dimen.card_small_rounded_corner)
+                    )
+                ),
+            contentScale = ContentScale.Crop
         )
         Column(
             modifier = Modifier
@@ -406,7 +423,10 @@ fun UserCard(recommendedRoommate: User, onClick: () -> Unit) {
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             Text(
-                text = recommendedRoommate.firstName + recommendedRoommate.lastName,
+                text = UtilsFunctions.trimString(
+                    recommendedRoommate.firstName + " " + recommendedRoommate.lastName,
+                    Constants.USER_CARD_MAX_NAME
+                ),
                 style = TextStyle(
                     color = Color.Black,
                     fontSize = integerResource(id = R.integer.secondary_text).sp,
@@ -442,8 +462,8 @@ fun RoomCard(
     onClick: () -> Unit
 ) {
     val cardWidth = if (isMiniVersion) 240.dp else 332.dp
-    val cardHeight = if (isMiniVersion) 148.dp else 222.dp
-    val imageHeight = if (isMiniVersion) 92.dp else 140.dp
+    val cardHeight = if (isMiniVersion) 172.dp else 256.dp
+    val imageHeight = if (isMiniVersion) 112.dp else 172.dp
     val nameTextSize = if (isMiniVersion) 16.sp else 20.sp
     val locationTextSize = if (isMiniVersion) 12.sp else 14.sp
     val title = recommendedRoom.title.substring(0, recommendedRoom.title.length.coerceAtMost(16))
@@ -482,8 +502,13 @@ fun RoomCard(
                 placeholder = painterResource(id = R.drawable.ordinary_room),
                 contentDescription = stringResource(id = R.string.room_image_description),
                 modifier = Modifier
-                    .fillMaxSize(),
-                contentScale = ContentScale.FillBounds
+                    .clip(
+                        RoundedCornerShape(
+                            topStart = dimensionResource(id = R.dimen.card_small_rounded_corner),
+                            topEnd = dimensionResource(id = R.dimen.card_small_rounded_corner)
+                        )
+                    ),
+                contentScale = ContentScale.Crop
             )
             Image(
                 painter = if (isLiked) {
@@ -512,8 +537,8 @@ fun RoomCard(
             )
         }
         Text(
-            text = title,
-            modifier = Modifier.padding(start = 10.dp, top = if (isMiniVersion) 4.dp else 10.dp),
+            text = UtilsFunctions.trimString(title, Constants.ROOM_CARD_MAX_NAME),
+            modifier = Modifier.padding(start = 16.dp, top = if (isMiniVersion) 12.dp else 16.dp),
             style = TextStyle(
                 color = colorResource(
                     id = R.color.secondary_color
@@ -523,7 +548,7 @@ fun RoomCard(
             )
         )
         Row(
-            modifier = Modifier.padding(start = 10.dp),
+            modifier = Modifier.padding(start = 16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
@@ -535,7 +560,7 @@ fun RoomCard(
                 colorFilter = ColorFilter.tint(color = colorResource(id = R.color.secondary_color))
             )
             Text(
-                text = location,
+                text = UtilsFunctions.trimString(location, Constants.ROOM_CARD_MAX_LOCATION),
                 style = TextStyle(
                     color = colorResource(id = R.color.secondary_color),
                     fontSize = locationTextSize
@@ -546,7 +571,7 @@ fun RoomCard(
 }
 
 @Composable
-fun PostCard(room: Room, onOptionsClick: () -> Unit) {
+fun PostCard(room: Room, onEditClick: () -> Unit, onRemoveClick: () -> Unit) {
     val cardWidth = 332.dp
     val cardHeight = 222.dp
     val imageHeight = 140.dp
@@ -557,6 +582,7 @@ fun PostCard(room: Room, onOptionsClick: () -> Unit) {
         0,
         room.location.length.coerceAtMost(32)
     )
+    var expanded by remember { mutableStateOf(false) }
     Box(
         modifier = Modifier
             .width(cardWidth)
@@ -566,7 +592,44 @@ fun PostCard(room: Room, onOptionsClick: () -> Unit) {
                 shape = RoundedCornerShape(16.dp)
             )
     ) {
-        Column() {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentSize(Alignment.TopEnd)
+        ) {
+            DropdownMenu(
+                modifier = Modifier.align(Alignment.TopEnd),
+                expanded = expanded,
+                onDismissRequest = { expanded = false }
+            ) {
+                DropdownMenuItem(
+                    text = {
+                        Text(
+                            color = colorResource(R.color.primary_dark),
+                            text = stringResource(R.string.edit_label)
+                        )
+                    },
+                    onClick = {
+                        onEditClick()
+                        expanded = false
+                    }
+                )
+                Divider()
+                DropdownMenuItem(
+                    text = {
+                        Text(
+                            color = colorResource(R.color.red),
+                            text = stringResource(R.string.remove_label)
+                        )
+                    },
+                    onClick = {
+                        onRemoveClick()
+                        expanded = false
+                    }
+                )
+            }
+        }
+        Column {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -637,7 +700,7 @@ fun PostCard(room: Room, onOptionsClick: () -> Unit) {
                 .height(dimensionResource(id = R.dimen.big_icon))
                 .clip(RoundedCornerShape(dimensionResource(id = R.dimen.rounded_corner_full)))
                 .clickable {
-                    onOptionsClick()
+                    expanded = true
                 }
         )
     }
@@ -660,11 +723,15 @@ fun SearchField(
                 width = 2.dp,
                 shape = RoundedCornerShape(4.dp),
                 color = colorResource(id = R.color.primary_dark)
-            ),
+            )
+            .clickable {
+                navigateToFilters()
+            },
         textStyle = TextStyle(
             color = Color.Black,
             fontSize = integerResource(id = R.integer.primary_text).sp
         ),
+        enabled = false,
         value = searcherText,
         onValueChange = {
             if (it.text.length > 100) {
@@ -974,6 +1041,16 @@ fun ProfilePicture(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
         imageUri.value = uri
+        imageUri.value?.let {
+            if (Build.VERSION.SDK_INT < 28) {
+                onBitmapValueChange(
+                    MediaStore.Images.Media.getBitmap(context.contentResolver, it)
+                )
+            } else {
+                val source = ImageDecoder.createSource(context.contentResolver, it)
+                onBitmapValueChange(ImageDecoder.decodeBitmap(source))
+            }
+        }
     }
     Column(
         modifier = Modifier
@@ -1335,7 +1412,10 @@ fun UserCardResult(searchUser: User, onClick: () -> Unit) {
             )
         ) {
             Text(
-                text = searchUser.firstName + " " + searchUser.lastName,
+                text = UtilsFunctions.trimString(
+                    searchUser.firstName + " " + searchUser.lastName,
+                    Constants.Follows.SMALL_USER_NAME
+                ),
                 style = TextStyle(
                     fontSize = integerResource(id = R.integer.label_text).sp,
                     color = Color.Black,
@@ -1399,7 +1479,7 @@ fun UserCardResult(searchUser: User, onClick: () -> Unit) {
                     )
                 )
                 Text(
-                    text = "7",
+                    text = searchUser.rating.toString(),
                     style = TextStyle(
                         fontSize = integerResource(id = R.integer.primary_text).sp,
                         fontWeight = FontWeight.Bold,
@@ -1649,6 +1729,43 @@ fun ExpandableText(
             },
             style = style,
             textAlign = textAlign
+        )
+    }
+}
+
+@Composable
+fun FollowButton(
+    followManipulate: FollowManipulate,
+    currentUserId: Int,
+    followUserId: Int,
+    followManipulateViewModel: FollowManipulateViewModel = hiltViewModel()
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(32.dp)
+            .border(
+                width = 1.dp,
+                color = colorResource(id = R.color.black),
+                shape = RoundedCornerShape(100.dp)
+            )
+            .clickable {
+                followManipulateViewModel.addFollow(
+                    followManipulate,
+                    currentUserId,
+                    followUserId
+                )
+            }
+    ) {
+        Icon(
+            painter = painterResource(id = R.drawable.follow_fill),
+            modifier = Modifier.padding(2.dp),
+            contentDescription = stringResource(R.string.follow_icon_description)
+        )
+        Text(
+            text = stringResource(R.string.follow_me_text),
+            modifier = Modifier.padding(2.dp),
+            textAlign = TextAlign.Center
         )
     }
 }

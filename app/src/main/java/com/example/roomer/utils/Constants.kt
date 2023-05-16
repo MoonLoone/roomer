@@ -8,6 +8,10 @@ object Constants {
     const val EXP_TEXT_MINIMUM_TEXT_LINE = 3
     const val JPEG_QUALITY = 80
     const val HISTORY_SIZE: Long = 10
+    const val CITIES_SHOWN_AT_ONCE = 5
+    const val USER_CARD_MAX_NAME = 12
+    const val ROOM_CARD_MAX_NAME = 16
+    const val ROOM_CARD_MAX_LOCATION = 24
 
     object ScreensId {
         const val greetingScreenId = 0
@@ -17,6 +21,7 @@ object Constants {
     object UseCase {
         const val internetErrorMessage = "No internet connection!"
         const val loginErrorName = "non_field_errors"
+        const val tokenNotFoundErrorMessage = "Token not found"
     }
 
     object Notification {
@@ -36,12 +41,20 @@ object Constants {
         const val CASH_SIZE = 100
         const val INITIAL_SIZE = 40
         const val CHAT_USERNAME_MAX_LENGTH = 16
+        const val MESSENGER_TEXT_MAX_SIZE = 32
     }
 
     object Home {
         const val HOME_USERNAME_MAX_LENGTH = 16
         const val RECOMMENDED_MATES_SIZE = 15
         const val RECOMMENDED_ROOMS_SIZE = 10
+    }
+
+    object Follows {
+        const val ERROR_EMPTY_LIST = "empty list"
+        const val ERROR_UNAUTHORIZED = "unauthorized"
+        const val USER_CARD_MAX_NAME = 12
+        const val SMALL_USER_NAME = 10
     }
 
     object Options {
