@@ -5,7 +5,6 @@ import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.animateContentSize
@@ -95,6 +94,7 @@ import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.domain.model.login_sign_up.InterestModel
 import com.example.roomer.presentation.screens.entrance.signup.habits_screen.HabitTileModel
+import com.example.roomer.presentation.ui_components.GreenButtonPrimaryIconed as GreenButtonPrimaryIconed1
 import com.example.roomer.utils.Constants
 import com.example.roomer.utils.UtilsFunctions
 import kotlinx.coroutines.CoroutineScope
@@ -102,7 +102,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.launch
-import com.example.roomer.presentation.ui_components.GreenButtonPrimaryIconed as GreenButtonPrimaryIconed1
 
 @Composable
 fun ProfileContentLine(text: String, iconId: Int, onNavigateToFriends: () -> Unit = {}) {
@@ -794,7 +793,7 @@ fun GreenButtonPrimaryIconed(
     trailingIconPainterId: Int,
     trailingIconDescriptionId: Int,
     enabled: Boolean = true,
-    onClick: () -> Unit,
+    onClick: () -> Unit
 ) {
     Button(
         enabled = enabled,
@@ -996,7 +995,9 @@ fun ButtonsRowMapped(
                 modifier = Modifier
                     .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.list_elements_margin))
+                horizontalArrangement = Arrangement.spacedBy(
+                    dimensionResource(id = R.dimen.list_elements_margin)
+                )
             ) {
                 for (item in it) {
                     if (item.key == value) {
@@ -1725,32 +1726,15 @@ fun FollowButton(
     followUserId: Int,
     followManipulateViewModel: FollowManipulateViewModel = hiltViewModel()
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(32.dp)
-            .border(
-                width = 1.dp,
-                color = colorResource(id = R.color.black),
-                shape = RoundedCornerShape(100.dp)
-            )
-            .clickable {
-                followManipulateViewModel.addFollow(
-                    followManipulate,
-                    currentUserId,
-                    followUserId
-                )
-            }
+    GreenButtonOutlineIconed(
+        text = stringResource(R.string.follow_me_text),
+        trailingIconPainterId = R.drawable.follow_fill,
+        trailingIconDescriptionId = R.string.follow_icon_description
     ) {
-        Icon(
-            painter = painterResource(id = R.drawable.follow_fill),
-            modifier = Modifier.padding(2.dp),
-            contentDescription = stringResource(R.string.follow_icon_description)
-        )
-        Text(
-            text = stringResource(R.string.follow_me_text),
-            modifier = Modifier.padding(2.dp),
-            textAlign = TextAlign.Center
+        followManipulateViewModel.addFollow(
+            followManipulate,
+            currentUserId,
+            followUserId
         )
     }
 }

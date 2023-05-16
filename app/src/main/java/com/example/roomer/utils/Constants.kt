@@ -9,6 +9,7 @@ object Constants {
     const val JPEG_QUALITY = 80
     const val HISTORY_SIZE: Long = 10
     const val citiesShownAtOnce = 5
+    const val maxSymbolsAmountForButtonsRow = 35
 
     object ScreensId {
         const val greetingScreenId = 0

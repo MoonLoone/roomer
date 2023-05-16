@@ -213,7 +213,7 @@
     <string name="double_arrow_icon_description">иконка с двумя однонаправленными стрелками</string>
     <string name="follows_title">Подписки</string>
     <string name="delete_text">Удалить</string>
-    <string name="follow_me_text">Подпишись на меня!</string>
+    <string name="follow_me_text">Подписаться</string>
     <string name="follow_icon_description">иконка подписчика</string>
     <string name="choose_city_label">Выберите город</string>
     <string name="empty_follow_list">Нет подписок</string>

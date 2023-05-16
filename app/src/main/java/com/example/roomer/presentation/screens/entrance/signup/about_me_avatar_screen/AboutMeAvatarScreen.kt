@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -31,7 +30,6 @@ import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.roomer.R
@@ -92,7 +90,9 @@ fun AboutMeAvatarScreen(
                     dimensionResource(id = R.dimen.list_elements_margin)
                 )
             ) {
-                Spacer(modifier = Modifier.size(dimensionResource(id = R.dimen.sign_up_top_padding)))
+                Spacer(
+                    modifier = Modifier.size(dimensionResource(id = R.dimen.sign_up_top_padding))
+                )
                 LinearProgressIndicator(
                     modifier = Modifier
                         .fillMaxWidth(),
@@ -144,7 +144,9 @@ fun AboutMeAvatarScreen(
                         signUpViewModel.employment = it
                     }
                 )
-                Spacer(modifier = Modifier.size(dimensionResource(id = R.dimen.sign_up_bottom_padding)))
+                Spacer(
+                    modifier = Modifier.size(dimensionResource(id = R.dimen.sign_up_bottom_padding))
+                )
                 if (uiState.isValid) {
                     signUpViewModel.clearState()
                     navigator.navigate(HabitsScreenDestination)
@@ -160,8 +162,7 @@ fun AboutMeAvatarScreen(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = dimensionResource(id = R.dimen.back_further_buttons_padding))
-            ,
+                .padding(bottom = dimensionResource(id = R.dimen.back_further_buttons_padding)),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -177,5 +178,4 @@ fun AboutMeAvatarScreen(
             }
         }
     }
-
 }

@@ -11,11 +11,10 @@ object UtilsFunctions {
 
     fun bundleMapItemsByScreenWidth(values: Map<String, String>, spaceBetweenItemsDp: Int): List<List<Map.Entry<String, String>>> {
         val bundleList = mutableListOf<MutableList<Map.Entry<String, String>>>()
-        val symbolsRowMax = 35
         var symbolsNow = 0
         var oneRowList = mutableListOf<Map.Entry<String, String>>()
         for (item in values) {
-            if (symbolsNow + item.value.length - spaceBetweenItemsDp <= symbolsRowMax) {
+            if (symbolsNow + item.value.length - spaceBetweenItemsDp <= Constants.maxSymbolsAmountForButtonsRow) {
                 oneRowList.add(item)
                 symbolsNow += item.value.length + spaceBetweenItemsDp
             } else {

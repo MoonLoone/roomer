@@ -1,7 +1,6 @@
 package com.example.roomer.presentation.screens.entrance.signup.habits_screen
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -71,7 +70,9 @@ fun HabitsScreen(
                     dimensionResource(id = R.dimen.list_elements_margin)
                 )
             ) {
-                Spacer(modifier = Modifier.size(dimensionResource(id = R.dimen.sign_up_top_padding)))
+                Spacer(
+                    modifier = Modifier.size(dimensionResource(id = R.dimen.sign_up_top_padding))
+                )
                 LinearProgressIndicator(
                     modifier = Modifier
                         .fillMaxWidth(),
@@ -144,14 +145,15 @@ fun HabitsScreen(
                         signUpViewModel.cleanHabits = it
                     }
                 )
-                Spacer(modifier = Modifier.size(dimensionResource(id = R.dimen.sign_up_bottom_padding)))
+                Spacer(
+                    modifier = Modifier.size(dimensionResource(id = R.dimen.sign_up_bottom_padding))
+                )
             }
         }
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = dimensionResource(id = R.dimen.back_further_buttons_padding))
-            ,
+                .padding(bottom = dimensionResource(id = R.dimen.back_further_buttons_padding)),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {

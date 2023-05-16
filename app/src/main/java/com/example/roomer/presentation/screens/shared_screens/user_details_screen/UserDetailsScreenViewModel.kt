@@ -1,4 +1,4 @@
-package com.example.roomer.presentation.screens.shared_screens
+package com.example.roomer.presentation.screens.shared_screens.user_details_screen
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
