@@ -37,6 +37,10 @@ class RoomerRepository @Inject constructor(
     private val roomerStore: RoomerStoreInterface
 ) : RoomerRepositoryInterface {
 
+    override suspend fun checkIsFollowed(currentUserId: Int, userId: Int): Response<String> {
+        return roomerApi.checkIsFollowed(currentUserId, userId)
+    }
+
     override suspend fun addRoomToLocalHistory(room: LocalRoom) {
         roomerStore.addRoomToHistory(room)
     }

@@ -181,4 +181,10 @@ interface RoomerApi {
     suspend fun getCities(
         @Header("Authorization") token: String
     ): Response<List<CityModel>>
+
+    @GET("/follow/check_follower/")
+    suspend fun checkIsFollowed(
+        @Query("user_id") currentUserId: Int,
+        @Query("follow_id") userId: Int,
+    ): Response<String>
 }
