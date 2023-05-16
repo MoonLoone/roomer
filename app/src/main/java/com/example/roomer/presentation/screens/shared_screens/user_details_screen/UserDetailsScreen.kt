@@ -149,7 +149,11 @@ fun UserDetailsScreen(
             ExpandableText(text = user.aboutMe ?: "", style = textStyleSecondary)
             InterestsScroll(user.interests, interestsScroll)
             HabitsSection(headlineStyle = textStyleHeadline, user = user)
-            Spacer(modifier = Modifier.size(dimensionResource(id = R.dimen.bottom_padding)))
+            Spacer(
+                modifier = Modifier.size(
+                    dimensionResource(id = R.dimen.user_details_content_bottom_padding)
+                )
+            )
         }
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,

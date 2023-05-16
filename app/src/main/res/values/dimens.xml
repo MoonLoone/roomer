@@ -48,7 +48,7 @@
     <dimen name="user_avatar_corner_radius">8.dp</dimen>
     <dimen name="fab_corner_radius">8.dp</dimen>
     <dimen name="fab_padding">16.dp</dimen>
-    <dimen name="bottom_padding">88.dp</dimen>
+    <dimen name="user_details_content_bottom_padding">88.dp</dimen>
     <dimen name="user_traits_column_width">90.dp</dimen>
     <dimen name="message_rate_buttons_bottom_padding">32.dp</dimen>
 

@@ -92,7 +92,6 @@ import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.domain.model.login_sign_up.InterestModel
 import com.example.roomer.presentation.screens.entrance.signup.habits_screen.HabitTileModel
-import com.example.roomer.presentation.ui_components.GreenButtonPrimaryIconed as GreenButtonPrimaryIconed1
 import com.example.roomer.utils.Constants
 import com.example.roomer.utils.UtilsFunctions
 import kotlinx.coroutines.CoroutineScope
@@ -996,7 +995,8 @@ fun ButtonsRowMapped(
     onValueChange: (String) -> Unit,
     enabled: Boolean = true
 ) {
-    val bundledMap = UtilsFunctions.bundleMapItemsByScreenWidth(values, 8)
+    val bundledMap =
+        UtilsFunctions.bundleMapItemsToFitInOneLine(values, Constants.SPACE_IN_BUTTONS_ROW)
     Column(
         modifier = Modifier
             .fillMaxWidth(),
@@ -1210,7 +1210,7 @@ fun HousingPhotosComponent(
                 dimensionResource(R.dimen.housing_component_horizontal_arrangement)
             )
         ) {
-            GreenButtonPrimaryIconed1(
+            GreenButtonPrimaryIconed(
                 modifier = Modifier.padding(
                     top = dimensionResource(R.dimen.housing_component_default_padding)
                 ),

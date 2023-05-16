@@ -9,7 +9,7 @@ object UtilsFunctions {
             .plus(truncateText)
     }
 
-    fun bundleMapItemsByScreenWidth(
+    fun bundleMapItemsToFitInOneLine(
         values: Map<String, String>,
         spaceBetweenItemsDp: Int
     ): List<List<Map.Entry<String, String>>> {
@@ -18,7 +18,7 @@ object UtilsFunctions {
         var oneRowList = mutableListOf<Map.Entry<String, String>>()
         for (item in values) {
             if (symbolsNow + item.value.length - spaceBetweenItemsDp
-                <= Constants.maxSymbolsAmountForButtonsRow
+                <= Constants.MAX_CHARS_AMOUNT_IN_BUTTONS_ROW
             ) {
                 oneRowList.add(item)
                 symbolsNow += item.value.length + spaceBetweenItemsDp
