@@ -127,6 +127,7 @@ class InterestsScreenViewModel @Inject constructor(
                         )
                     }
                     is Resource.Success -> {
+                        markSignUpFinish()
                         _state.value = InterestsScreenState(
                             isInterestsLoaded = true,
                             isInterestsSent = true
@@ -152,6 +153,13 @@ class InterestsScreenViewModel @Inject constructor(
 
     fun clearState() {
         _state.value = InterestsScreenState(isInterestsLoaded = _state.value.isInterestsLoaded)
+    }
+
+    private fun markSignUpFinish() {
+        SpManager().removeSharedPreference(
+            getApplication<Application>().applicationContext,
+            key = SpManager.Sp.SIGN_UP_NOT_FINISHED,
+        )
     }
 
     companion object {
