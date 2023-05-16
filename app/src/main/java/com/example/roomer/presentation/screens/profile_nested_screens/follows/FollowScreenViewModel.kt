@@ -96,7 +96,11 @@ class FollowScreenViewModel @Inject constructor(
                     }
 
                     else -> _state.update { current ->
-                        current.copy(isLoading = false, error = Constants.Follows.ERROR_EMPTY_LIST)
+                        current.copy(
+                            isLoading = false,
+                            error = Constants.Follows.ERROR_EMPTY_LIST,
+                            emptyFollowsList = true
+                        )
                     }
                 }
             }

@@ -8,7 +8,10 @@ object Constants {
     const val EXP_TEXT_MINIMUM_TEXT_LINE = 3
     const val JPEG_QUALITY = 80
     const val HISTORY_SIZE: Long = 10
-    const val citiesShownAtOnce = 5
+    const val CITIES_SHOWN_AT_ONCE = 5
+    const val USER_CARD_MAX_NAME = 12
+    const val ROOM_CARD_MAX_NAME = 16
+    const val ROOM_CARD_MAX_LOCATION = 24
     const val maxSymbolsAmountForButtonsRow = 35
 
     object ScreensId {
@@ -39,6 +42,7 @@ object Constants {
         const val CASH_SIZE = 100
         const val INITIAL_SIZE = 40
         const val CHAT_USERNAME_MAX_LENGTH = 16
+        const val MESSENGER_TEXT_MAX_SIZE = 32
     }
 
     object Home {
@@ -50,7 +54,7 @@ object Constants {
     object Follows {
         const val ERROR_EMPTY_LIST = "empty list"
         const val ERROR_UNAUTHORIZED = "unauthorized"
-        const val USER_CARD_MAX_NAME = 16
+        const val USER_CARD_MAX_NAME = 12
         const val SMALL_USER_NAME = 10
     }
 

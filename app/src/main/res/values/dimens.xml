@@ -31,6 +31,7 @@
     <dimen name="icon_text_medium_margin">12.dp</dimen>
     <dimen name="info_about_me_field">112.dp</dimen>
     <integer name="button_outline_font_size">12</integer>
+    <dimen name="circular_loading_size">64.dp</dimen>
 
     <!--Filters screens-->
     <dimen name="screen_nav_bottom_margin">40.dp</dimen>
@@ -53,6 +54,10 @@
     <!--Chat screen-->
     <dimen name="message_max_width">240.dp</dimen>
     <dimen name="message_min_width">32.dp</dimen>
+
+    <!--Home screen-->
+    <integer name="lists_title">20</integer>
+    <dimen name="card_small_rounded_corner">8.dp</dimen>
 
     <dimen name="housing_component_big_image">80.dp</dimen>
     <dimen name="housing_component_rounded_corner_shape">10.dp</dimen>
