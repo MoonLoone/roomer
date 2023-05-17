@@ -798,10 +798,10 @@ fun GreenButtonPrimary(
             backgroundColor = colorResource(id = R.color.primary_dark),
             contentColor = colorResource(id = R.color.secondary_color)
         )
-//        interactionSource = NoRippleInteractionSource()
     ) {
         androidx.compose.material.Text(
-            text = text
+            text = text,
+            fontSize = integerResource(id = R.integer.button_outline_font_size).sp
         )
     }
 }
@@ -810,9 +810,10 @@ fun GreenButtonPrimary(
 fun GreenButtonPrimaryIconed(
     text: String,
     modifier: Modifier = Modifier,
+    trailingIconPainterId: Int,
+    trailingIconDescriptionId: Int,
     enabled: Boolean = true,
-    onClick: () -> Unit,
-    trailingIcon: ImageVector
+    onClick: () -> Unit
 ) {
     Button(
         enabled = enabled,
@@ -825,15 +826,21 @@ fun GreenButtonPrimaryIconed(
         ),
         interactionSource = NoRippleInteractionSource()
     ) {
-        Icon(
-            trailingIcon,
-            stringResource(R.string.none_content_description),
-            tint = colorResource(id = R.color.secondary_color)
-        )
-        androidx.compose.material.Text(
-            text = text,
-            Modifier.padding(start = 4.dp)
-        )
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                modifier = Modifier.size(dimensionResource(id = R.dimen.small_icon)),
+                painter = painterResource(id = trailingIconPainterId),
+                contentDescription = stringResource(trailingIconDescriptionId),
+                tint = colorResource(id = R.color.secondary_color)
+            )
+            androidx.compose.material.Text(
+                text = text,
+                fontSize = integerResource(id = R.integer.button_outline_font_size).sp
+            )
+        }
     }
 }
 
@@ -988,6 +995,8 @@ fun ButtonsRowMapped(
     onValueChange: (String) -> Unit,
     enabled: Boolean = true
 ) {
+    val bundledMap =
+        UtilsFunctions.bundleMapItemsToFitInOneLine(values, Constants.SPACE_IN_BUTTONS_ROW)
     Column(
         modifier = Modifier
             .fillMaxWidth(),
@@ -1002,18 +1011,22 @@ fun ButtonsRowMapped(
             textAlign = TextAlign.End,
             fontWeight = FontWeight.Medium
         )
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            for (item in values) {
-                if (item.key == value) {
-                    GreenButtonPrimary(text = item.value, enabled = enabled) {}
-                } else {
-                    GreenButtonOutline(text = item.value, enabled = enabled) {
-                        onValueChange(item.key)
+        bundledMap.forEach {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(
+                    dimensionResource(id = R.dimen.list_elements_margin)
+                )
+            ) {
+                for (item in it) {
+                    if (item.key == value) {
+                        GreenButtonPrimary(text = item.value, enabled = enabled) {}
+                    } else {
+                        GreenButtonOutline(text = item.value, enabled = enabled) {
+                            onValueChange(item.key)
+                        }
                     }
                 }
             }
@@ -1202,14 +1215,14 @@ fun HousingPhotosComponent(
                     top = dimensionResource(R.dimen.housing_component_default_padding)
                 ),
                 text = stringResource(R.string.add_photos_button_label),
-                trailingIcon = ImageVector.vectorResource(id = R.drawable.add_photos_icon),
                 enabled = true,
-                onClick = {
-                    if (enabled) {
-                        launcher.launch("image/*")
-                    }
+                trailingIconPainterId = R.drawable.add_photos_icon,
+                trailingIconDescriptionId = R.string.add_photos_icon_description
+            ) {
+                if (enabled) {
+                    launcher.launch("image/*")
                 }
-            )
+            }
             RedButtonPrimaryIconed(
                 modifier = Modifier.padding(
                     top = dimensionResource(R.dimen.housing_component_default_padding)
@@ -1734,32 +1747,15 @@ fun FollowButton(
     followUserId: Int,
     followManipulateViewModel: FollowManipulateViewModel = hiltViewModel()
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(32.dp)
-            .border(
-                width = 1.dp,
-                color = colorResource(id = R.color.black),
-                shape = RoundedCornerShape(100.dp)
-            )
-            .clickable {
-                followManipulateViewModel.addFollow(
-                    followManipulate,
-                    currentUserId,
-                    followUserId
-                )
-            }
+    GreenButtonOutlineIconed(
+        text = stringResource(R.string.follow_me_text),
+        trailingIconPainterId = R.drawable.follow_fill,
+        trailingIconDescriptionId = R.string.follow_icon_description
     ) {
-        Icon(
-            painter = painterResource(id = R.drawable.follow_fill),
-            modifier = Modifier.padding(2.dp),
-            contentDescription = stringResource(R.string.follow_icon_description)
-        )
-        Text(
-            text = stringResource(R.string.follow_me_text),
-            modifier = Modifier.padding(2.dp),
-            textAlign = TextAlign.Center
+        followManipulateViewModel.addFollow(
+            followManipulate,
+            currentUserId,
+            followUserId
         )
     }
 }

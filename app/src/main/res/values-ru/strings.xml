@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Roomer</string>
     <string name="greetings_screen_header_1">Добро пожаловать в Roomer</string>
-    <string name="greetings_screen_header_2">Начните с нами</string>
+    <string name="greetings_screen_header_2">Организуем совместный быт вместе!</string>
     <string name="login_button_label">Войти</string>
     <string name="login_screen_supported_text">Нет аккаунта?</string>
     <string name="login_screen_sign_up_text">Зарегистрироваться</string>
@@ -24,7 +24,7 @@
     <string name="account_label">Аккаунт</string>
     <string name="first_name">Имя</string>
     <string name="last_name">Фамилия</string>
-    <string name="date_of_birth">Дата дня рождения</string>
+    <string name="date_of_birth">Дата рождения</string>
     <string name="employment">Работа</string>
     <string name="hint_about_you">Немного о вас</string>
     <string name="about_me">Обо мне</string>
@@ -99,7 +99,7 @@
     <string name="put_some_city_placeholder">Введите какой-нибудь город, улицу</string>
     <string name="change_interests">Изменить интересы</string>
     <string name="dismiss">Отклонить</string>
-    <string name="select_sex_label">Выбрать пол</string>
+    <string name="select_sex_label">Ваш пол</string>
     <string name="choose_roommate_parameters">Выберите параметры сожителя</string>
     <string name="age_label">Возраст</string>
     <string name="from_age_label">От</string>
@@ -123,10 +123,10 @@
     <string name="first_name_placeholder">Ваше имя</string>
     <string name="last_name_placeholder">Ваша фамилия</string>
     <string name="write_something_about_you">Напишите что-нибудь о себе</string>
-    <string name="your_usual_sleep_time">Ваше обычное время сна</string>
+    <string name="your_usual_sleep_time">Когда вы обычно ложитесь спать?</string>
     <string name="tell_us_about_your_living_habits">Расскажите о своих жизненных привычках</string>
     <string name="just_basic_profile_info">Основная информация о профиле</string>
-    <string name="add_profile_picture">Добавить изображение профиля</string>
+    <string name="add_profile_picture">Добавьте аватар</string>
     <string name="navbar_home_name">Главный</string>
     <string name="navbar_favourite_name">Избранное</string>
     <string name="navbar_post_name">Пост</string>
@@ -152,8 +152,8 @@
     <string name="negative">Отрицательное</string>
     <string name="indifferent">Безразличное</string>
     <string name="not_employed">Безработный</string>
-    <string name="employed">Есть работа</string>
-    <string name="searching_for_work">В поиске работы</string>
+    <string name="employed">Работаю</string>
+    <string name="searching_for_work">Ищу работу</string>
     <string name="neat">Порядок</string>
     <string name="it_depends">По-разному</string>
     <string name="chaos">Хаос</string>
@@ -201,4 +201,23 @@
     <string name="unathorized_message">Не авторизован</string>
     <string name="follow_setting_icon_description">Настройки подписки</string>
     <string name="follows_profile">Подписки</string>
+    <string name="personality_type_label_colon">Тип личности:</string>
+    <string name="comments_amount">%1$d отзывов</string>
+    <string name="habits_title">Привычки</string>
+    <string name="rate_button_text">Оценить</string>
+    <string name="smoking_icon_description">иконка сигареты с дымом</string>
+    <string name="sleep_time_icon_description">иконка режима сна</string>
+    <string name="clean_habits_icon_description">иконка метлы</string>
+    <string name="personality_icon">иконка типа личности</string>
+    <string name="envelope_icon_description">иконка конверта</string>
+    <string name="double_arrow_icon_description">иконка с двумя однонаправленными стрелками</string>
+    <string name="follows_title">Подписки</string>
+    <string name="delete_text">Удалить</string>
+    <string name="follow_me_text">Подписаться</string>
+    <string name="follow_icon_description">иконка подписчика</string>
+    <string name="choose_city_label">Выберите город</string>
+    <string name="empty_follow_list">Нет подписок</string>
+    <string name="find_new_follow">Хотите найти нового подписчика?</string>
+    <string name="add_photos_icon_description">иконка добавления фото</string>
+    <string name="add_post_icon">иконка добавления объявления</string>
 </resources>
