@@ -158,7 +158,7 @@ class InterestsScreenViewModel @Inject constructor(
     private fun markSignUpFinish() {
         SpManager().removeSharedPreference(
             getApplication<Application>().applicationContext,
-            key = SpManager.Sp.SIGN_UP_NOT_FINISHED,
+            key = SpManager.Sp.SIGN_UP_NOT_FINISHED
         )
     }
 

@@ -9,4 +9,4 @@ data class SplashScreenState(
     override var internetProblem: Boolean = false,
     var isSignUpNotFinished: Boolean = false,
     var isError: Boolean = false
-): ScreenState
+) : ScreenState
