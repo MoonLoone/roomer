@@ -25,7 +25,7 @@ class SignUpViewModel : ViewModel() {
     var sleepTime by mutableStateOf("N")
     var alcoholAttitude by mutableStateOf("I")
     var smokingAttitude by mutableStateOf("I")
-    var personalityType by mutableStateOf("E")
+    var personalityType by mutableStateOf("M")
     var cleanHabits by mutableStateOf("N")
     var interests by mutableStateOf<List<InterestModel>>(emptyList())
     var city by mutableStateOf("")

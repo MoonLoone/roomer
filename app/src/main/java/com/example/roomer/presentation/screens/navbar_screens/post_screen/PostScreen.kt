@@ -16,12 +16,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -177,7 +175,8 @@ fun PostScreen(
                         )
                         GreenButtonPrimaryIconed(
                             text = stringResource(R.string.add_post_button_label),
-                            trailingIcon = ImageVector.vectorResource(id = R.drawable.postin),
+                            trailingIconPainterId = R.drawable.postin,
+                            trailingIconDescriptionId = R.string.add_post_icon,
                             enabled = true,
                             onClick = {
                                 navigator.navigate(AddHousingScreenDestination(null))

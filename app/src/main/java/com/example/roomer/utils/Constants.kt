@@ -12,6 +12,8 @@ object Constants {
     const val USER_CARD_MAX_NAME = 12
     const val ROOM_CARD_MAX_NAME = 16
     const val ROOM_CARD_MAX_LOCATION = 24
+    const val MAX_CHARS_AMOUNT_IN_BUTTONS_ROW = 35
+    const val SPACE_IN_BUTTONS_ROW = 8
 
     object ScreensId {
         const val greetingScreenId = 0
