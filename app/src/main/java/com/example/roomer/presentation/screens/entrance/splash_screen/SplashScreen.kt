@@ -15,6 +15,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.roomer.R
 import com.example.roomer.presentation.screens.destinations.GreetingsScreenDestination
 import com.example.roomer.presentation.screens.destinations.HomeScreenDestination
+import com.example.roomer.presentation.screens.destinations.PrimaryUserInfoScreenDestination
 import com.example.roomer.presentation.ui_components.SimpleAlertDialog
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
@@ -42,10 +43,10 @@ fun SplashScreen(
             )
         )
     }
-    if (state.isInternetProblem) {
+    if (state.internetProblem) {
         SimpleAlertDialog(
             title = stringResource(R.string.login_alert_dialog_text),
-            text = state.errorMessage
+            text = state.error
         ) {
             splashScreenViewModel.clearState()
             splashScreenViewModel.verifyToken()
@@ -54,7 +55,8 @@ fun SplashScreen(
     if (state.isError) {
         navigator.navigate(GreetingsScreenDestination)
     }
-    if (state.isSuccess) {
+    if (state.success) {
         navigator.navigate(HomeScreenDestination)
     }
+    if (state.isSignUpNotFinished) navigator.navigate(PrimaryUserInfoScreenDestination)
 }
