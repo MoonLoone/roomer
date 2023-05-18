@@ -5,7 +5,6 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
 import com.example.roomer.domain.usecase.login_sign_up.SplashScreenUseCase
-import com.example.roomer.presentation.screens.UsualScreenState
 import com.example.roomer.utils.Resource
 import com.example.roomer.utils.SpManager
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,8 +25,13 @@ class SplashScreenViewModel @Inject constructor(
         SpManager.Sp.TOKEN,
         null
     )
-    private val _state = MutableStateFlow(UsualScreenState())
-    val state: StateFlow<UsualScreenState> = _state.asStateFlow()
+    private val isSignUpNotFinished = SpManager().getSharedPreference(
+        getApplication<Application>().applicationContext,
+        SpManager.Sp.SIGN_UP_NOT_FINISHED,
+        null
+    )
+    private val _state = MutableStateFlow(SplashScreenState())
+    val state: StateFlow<SplashScreenState> = _state.asStateFlow()
 
     private val splashScreenUseCase = SplashScreenUseCase(roomerRepository)
 
@@ -57,19 +61,25 @@ class SplashScreenViewModel @Inject constructor(
                         }
                     }
                     is Resource.Success -> {
-                        result.data?.let {
-                            roomerRepository.addLocalCurrentUser(it)
-                        }
-                        _state.update { currentState ->
-                            currentState.copy(isLoading = false, isSuccess = true)
+                        if (isSignUpNotFinished.isNullOrEmpty()) {
+                            result.data?.let {
+                                roomerRepository.addLocalCurrentUser(it)
+                            }
+                            _state.update { currentState ->
+                                currentState.copy(isLoading = false, success = true)
+                            }
+                        } else {
+                            _state.update { currentState ->
+                                currentState.copy(isSignUpNotFinished = true)
+                            }
                         }
                     }
                     is Resource.Internet -> {
                         _state.update { currentState ->
                             currentState.copy(
                                 isLoading = false,
-                                isInternetProblem = true,
-                                errorMessage = result.message!!
+                                internetProblem = true,
+                                error = result.message!!
                             )
                         }
                     }
@@ -103,6 +113,6 @@ class SplashScreenViewModel @Inject constructor(
     }
 
     fun clearState() {
-        _state.value = UsualScreenState()
+        _state.value = SplashScreenState()
     }
 }

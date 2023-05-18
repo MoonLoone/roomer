@@ -52,6 +52,7 @@ class SignUpScreenViewModel @Inject constructor(
                         )
                     }
                     is Resource.Success -> {
+                        markSignUpStart()
                         SpManager().setSharedPreference(
                             getApplication<Application>().applicationContext,
                             key = SpManager.Sp.EMAIL,
@@ -107,6 +108,14 @@ class SignUpScreenViewModel @Inject constructor(
 
     fun clearState() {
         _state.value = SignUpScreenState()
+    }
+
+    private fun markSignUpStart() {
+        SpManager().setSharedPreference(
+            getApplication<Application>().applicationContext,
+            key = SpManager.Sp.SIGN_UP_NOT_FINISHED,
+            value = true.toString()
+        )
     }
 
     companion object {
