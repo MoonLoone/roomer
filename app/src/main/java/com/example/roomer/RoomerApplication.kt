@@ -3,6 +3,7 @@ package com.example.roomer
 import android.app.Application
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
+import com.yandex.mapkit.MapKitFactory
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
@@ -15,5 +16,10 @@ class RoomerApplication : Application(), Configuration.Provider {
         return Configuration.Builder()
             .setWorkerFactory(workerFactory)
             .build()
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        MapKitFactory.setApiKey(BuildConfig.MAP_API_KEY)
     }
 }

@@ -5,8 +5,10 @@ import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -92,6 +94,7 @@ import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.domain.model.login_sign_up.InterestModel
 import com.example.roomer.presentation.screens.entrance.signup.habits_screen.HabitTileModel
+import com.example.roomer.presentation.screens.shared_screens.pick_address_map_screen.MapActivity
 import com.example.roomer.utils.Constants
 import com.example.roomer.utils.UtilsFunctions
 import kotlinx.coroutines.CoroutineScope
@@ -1756,6 +1759,79 @@ fun FollowButton(
             followManipulate,
             currentUserId,
             followUserId
+        )
+    }
+}
+
+@Composable
+fun PickLocationComponent(
+    latitudeValue: Double,
+    longitudeValue: Double,
+    onLocationChange: (latitude: Double, longitude: Double) -> Unit
+) {
+    val mapLauncher =
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == AppCompatActivity.RESULT_OK) {
+                result.data?.let {
+                    val latitude = it.getDoubleExtra(MapActivity.LATITUDE_EXTRA, 0.0)
+                    val longitude = it.getDoubleExtra(MapActivity.LONGITUDE_EXTRA, 0.0)
+                    onLocationChange(latitude, longitude)
+                }
+            }
+        }
+    val mapIntent = MapActivity.newIntent(LocalContext.current, latitudeValue, longitudeValue)
+
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(
+            dimensionResource(id = R.dimen.column_elements_small_margin)
+        )
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = stringResource(R.string.pick_location_label),
+                style = TextStyle(
+                    fontSize = integerResource(id = R.integer.primary_text).sp,
+                    color = Color.Black,
+                    fontWeight = FontWeight.Medium
+                )
+            )
+            Box(
+                modifier = Modifier
+                    .width(dimensionResource(id = R.dimen.select_address_box))
+                    .height(dimensionResource(id = R.dimen.select_address_box))
+                    .background(
+                        color = colorResource(id = R.color.primary_dark),
+                        RoundedCornerShape(dimensionResource(id = R.dimen.rounded_corner_full))
+                    )
+                    .clickable {
+                        mapLauncher.launch(mapIntent)
+                    },
+                contentAlignment = Alignment.Center
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.select_adr_icon),
+                    contentDescription = stringResource(id = R.string.select_addr_label),
+                    modifier = Modifier
+                        .width(dimensionResource(id = R.dimen.big_icon))
+                        .height(dimensionResource(id = R.dimen.big_icon))
+                )
+            }
+        }
+        TextField(
+            value = "Latitude: $latitudeValue ; Longitude: $longitudeValue",
+            onValueChange = {},
+            modifier = Modifier
+                .fillMaxWidth(),
+            textStyle = TextStyle(
+                fontSize = integerResource(id = R.integer.primary_text).sp,
+            ),
+            enabled = false,
+            colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.LightGray)
         )
     }
 }

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/linearCoordinates"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mapView"
+        android:background="@color/secondary_color">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="Lat: " />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:textColor="@color/black"
+            android:id="@+id/tvLatitude"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:textSize="15sp"
+            tools:text="-100.9667"
+            android:textAlignment="center" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:text="Long: " />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:textColor="@color/black"
+            android:id="@+id/tvLongitude"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:textSize="15sp"
+            tools:text="-165.9667"
+            android:textAlignment="center" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:background="@color/primary_dark"
+            android:text="Confirm"
+            android:id="@+id/btnConfirm"
+            android:textColor="@color/white"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <com.yandex.mapkit.mapview.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/linearCoordinates"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

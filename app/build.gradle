@@ -28,11 +28,13 @@ android {
     buildTypes {
         release {
             buildConfigField "String", "BASE_URL", "\"http://176.113.83.93:8000/\""
+            buildConfigField "String", "MAP_API_KEY", "\"2a8a0a3d-5299-4a98-aa84-066164559a06\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
             buildConfigField "String", "BASE_URL", "\"http://176.113.83.93:8000/\""
+            buildConfigField "String", "MAP_API_KEY", "\"2a8a0a3d-5299-4a98-aa84-066164559a06\""
             debuggable true
         }
     }
@@ -134,6 +136,9 @@ dependencies {
     implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
     implementation "androidx.hilt:hilt-work:$hilt_worker"
     kapt "androidx.hilt:hilt-compiler:1.0.0"
+
+    // Yandex Map Kit
+    implementation 'com.yandex.android:maps.mobile:4.3.1-full'
 
 }
 
