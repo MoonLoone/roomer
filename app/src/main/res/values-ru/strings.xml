@@ -220,4 +220,7 @@
     <string name="find_new_follow">Хотите найти нового подписчика?</string>
     <string name="add_photos_icon_description">иконка добавления фото</string>
     <string name="add_post_icon">иконка добавления объявления</string>
+    <string name="pick_location_label">Адрес</string>
+    <string name="add_location_error">Укажите адрес!</string>
+    <string name="location_pattern">Широта: %1$s ; Долгота: %2$s</string>
 </resources>

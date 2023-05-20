@@ -246,5 +246,8 @@
     <string name="find_new_follow">Do you want to find new follow?</string>
     <string name="add_photos_icon_description">Add photos icon</string>
     <string name="add_post_icon">Add post icon</string>
-    <string name="pick_location_label">Pick Location</string>
+    <string name="pick_location_label">Location</string>
+    <string name="add_location_error">Add Location!</string>
+    <string name="location_pattern">Latitude: %1$s ; Longitude: %2$s</string>
+
 </resources>

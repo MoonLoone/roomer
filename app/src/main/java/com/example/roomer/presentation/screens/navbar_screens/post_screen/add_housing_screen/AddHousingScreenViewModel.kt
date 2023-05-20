@@ -75,6 +75,9 @@ class AddHousingScreenViewModel @Inject constructor(
 
     var longitude by mutableStateOf(0.0)
 
+    var textLocation by mutableStateOf("")
+
+
     init {
         viewModelScope.launch {
             val roomString: String? = savedStateHandle["room"]
@@ -189,7 +192,8 @@ class AddHousingScreenViewModel @Inject constructor(
                     bedroomsCount,
                     bathroomsCount,
                     apartmentType,
-                    sharingType
+                    sharingType,
+                    "$latitude $longitude"
                 ).collect {
                     when (it) {
                         is Resource.Loading -> {
@@ -269,6 +273,13 @@ class AddHousingScreenViewModel @Inject constructor(
         if (title.isEmpty()) {
             _state.update { currentState ->
                 currentState.copy(titleIsEmpty = true)
+            }
+            return false
+        }
+
+        if (latitude + longitude == 0.0) {
+            _state.update { currentState ->
+                currentState.copy(noLocationSet = true)
             }
             return false
         }

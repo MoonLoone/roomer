@@ -13,5 +13,5 @@ data class AddHousingState(
     var roomImagesIsEmpty: Boolean = false,
     var descriptionIsEmpty: Boolean = false,
     var titleIsEmpty: Boolean = false,
-    var noLocationSet: Boolean = true
+    val noLocationSet: Boolean = false
 ) : ScreenState

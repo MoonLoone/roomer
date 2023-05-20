@@ -70,4 +70,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:background="@drawable/rounded_shape"
+        app:layout_constraintBottom_toTopOf="@id/linearCoordinates"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="40dp"
+        android:src="@drawable/select_adr_icon"
+        android:id="@+id/btnUpdateLocation"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

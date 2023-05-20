@@ -39,6 +39,7 @@ import com.example.roomer.presentation.ui_components.ButtonsRow
 import com.example.roomer.presentation.ui_components.ButtonsRowMapped
 import com.example.roomer.presentation.ui_components.GreenButtonPrimary
 import com.example.roomer.presentation.ui_components.HousingPhotosComponent
+import com.example.roomer.presentation.ui_components.PickLocationComponent
 import com.example.roomer.presentation.ui_components.RedButtonPrimaryIconed
 import com.example.roomer.presentation.ui_components.SimpleAlertDialog
 import com.example.roomer.presentation.ui_components.UsualTextField
@@ -117,6 +118,14 @@ fun AddHousingScreen(
         SimpleAlertDialog(
             title = stringResource(R.string.error_dialog_text),
             text = stringResource(R.string.post_title_is_empty_text)
+        ) {
+            viewModel.clearState()
+        }
+    }
+    if (state.noLocationSet) {
+        SimpleAlertDialog(
+            title = stringResource(R.string.error_dialog_text),
+            text = stringResource(R.string.add_location_error)
         ) {
             viewModel.clearState()
         }
@@ -259,6 +268,14 @@ fun AddHousingScreen(
                         singleLine = false,
                         value = viewModel.description,
                         onValueChange = { newValue -> viewModel.description = newValue }
+                    )
+                    PickLocationComponent(
+                        latitudeValue = viewModel.latitude,
+                        longitudeValue = viewModel.longitude,
+                        onLocationChange = {latitude, longitude ->
+                            viewModel.latitude = latitude
+                            viewModel.longitude = longitude
+                        }
                     )
                     ButtonsRow(
                         label = stringResource(R.string.bedrooms_label),
