@@ -5,7 +5,6 @@ import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -1770,7 +1769,9 @@ fun PickLocationComponent(
     onLocationChange: (latitude: Double, longitude: Double) -> Unit
 ) {
     val mapLauncher =
-        rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult()) { result ->
+        rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.StartActivityForResult()
+        ) { result ->
             if (result.resultCode == AppCompatActivity.RESULT_OK) {
                 result.data?.let {
                     val latitude = it.getDoubleExtra(MapActivity.LATITUDE_EXTRA, 0.0)
@@ -1828,7 +1829,7 @@ fun PickLocationComponent(
             modifier = Modifier
                 .fillMaxWidth(),
             textStyle = TextStyle(
-                fontSize = integerResource(id = R.integer.primary_text).sp,
+                fontSize = integerResource(id = R.integer.primary_text).sp
             ),
             enabled = false,
             colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.LightGray)

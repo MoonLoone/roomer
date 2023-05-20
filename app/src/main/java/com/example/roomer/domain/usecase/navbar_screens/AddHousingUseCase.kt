@@ -67,7 +67,7 @@ class AddHousingUseCase(
         bedroomsCount: String,
         bathroomsCount: String,
         apartmentType: String,
-        sharingType: String,
+        sharingType: String
     ): Flow<Resource<Room>> = flow {
         try {
             emit(Resource.Loading())
@@ -83,7 +83,7 @@ class AddHousingUseCase(
                     bedroomsCount,
                     bathroomsCount,
                     apartmentType,
-                    sharingType,
+                    sharingType
                 )
             )
 

@@ -272,7 +272,7 @@ fun AddHousingScreen(
                     PickLocationComponent(
                         latitudeValue = viewModel.latitude,
                         longitudeValue = viewModel.longitude,
-                        onLocationChange = {latitude, longitude ->
+                        onLocationChange = { latitude, longitude ->
                             viewModel.latitude = latitude
                             viewModel.longitude = longitude
                         }
