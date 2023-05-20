@@ -222,5 +222,5 @@
     <string name="add_post_icon">иконка добавления объявления</string>
     <string name="pick_location_label">Адрес</string>
     <string name="add_location_error">Укажите адрес!</string>
-    <string name="location_pattern">Широта: %1$s ; Долгота: %2$s</string>
+    <string name="location_pattern">Широта: %1$.4f ; Долгота: %2$.4f</string>
 </resources>

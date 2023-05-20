@@ -1824,7 +1824,7 @@ fun PickLocationComponent(
             }
         }
         TextField(
-            value = "Latitude: $latitudeValue ; Longitude: $longitudeValue",
+            value = stringResource(id = R.string.location_pattern, latitudeValue, longitudeValue),
             onValueChange = {},
             modifier = Modifier
                 .fillMaxWidth(),

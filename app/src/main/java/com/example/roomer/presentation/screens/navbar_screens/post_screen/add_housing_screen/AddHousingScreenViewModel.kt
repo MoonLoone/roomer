@@ -75,8 +75,6 @@ class AddHousingScreenViewModel @Inject constructor(
 
     var longitude by mutableStateOf(0.0)
 
-    var textLocation by mutableStateOf("")
-
     init {
         viewModelScope.launch {
             val roomString: String? = savedStateHandle["room"]

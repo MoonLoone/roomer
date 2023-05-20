@@ -248,6 +248,6 @@
     <string name="add_post_icon">Add post icon</string>
     <string name="pick_location_label">Location</string>
     <string name="add_location_error">Add Location!</string>
-    <string name="location_pattern">Latitude: %1$s ; Longitude: %2$s</string>
+    <string name="location_pattern">Latitude: %1$f ; Longitude: %2$f</string>
 
 </resources>
