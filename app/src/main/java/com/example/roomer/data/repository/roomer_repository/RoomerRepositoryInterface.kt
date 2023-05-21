@@ -6,6 +6,8 @@ import com.example.roomer.data.room.entities.HistoryItem
 import com.example.roomer.data.room.entities.LocalMessage
 import com.example.roomer.data.room.entities.LocalRoom
 import com.example.roomer.domain.model.city.CityModel
+import com.example.roomer.domain.model.comment.Comment
+import com.example.roomer.domain.model.comment.UserReview
 import com.example.roomer.domain.model.entities.Follow
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.MessageNotification
@@ -138,4 +140,8 @@ interface RoomerRepositoryInterface {
     suspend fun deleteFollow(currentUserId: Int, followUserId: Int, token: String): Response<String>
 
     suspend fun getCities(token: String): Response<List<CityModel>>
+
+    suspend fun addComment(token: String, comment: Comment): Response<Unit>
+
+    suspend fun getReviews(token: String, receiverId: Int): Response<List<UserReview>>
 }

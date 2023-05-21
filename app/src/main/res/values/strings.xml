@@ -246,4 +246,16 @@
     <string name="find_new_follow">Do you want to find new follow?</string>
     <string name="add_photos_icon_description">Add photos icon</string>
     <string name="add_post_icon">Add post icon</string>
+    <string name="rate_user_title">Rate user</string>
+    <string name="send_review_button_label">Send review</string>
+    <string name="leave_comment_label">Leave your comment</string>
+    <string name="comment_maximum_text">Maximum 1000 characters</string>
+    <string name="leave_comment_placeholder">Your comment</string>
+    <string name="rate_anonymously_text">Rate anonymously</string>
+    <string name="send_review_confirm_dialog_text">Are you sure you want to leave this review for this user?</string>
+    <string name="rating_not_specified_alert_dialog_text">Specify user rating</string>
+    <string name="comment_is_empty_alert_dialog_text">Add a comment</string>
+    <string name="comment_screen_title">Comments</string>
+    <string name="no_comments_text">No comments</string>
+    <string name="anonymous">Anonymous</string>
 </resources>

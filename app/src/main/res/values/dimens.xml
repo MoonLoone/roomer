@@ -60,6 +60,7 @@
     <integer name="lists_title">20</integer>
     <dimen name="card_small_rounded_corner">8.dp</dimen>
 
+    <!--Add housing screen-->
     <dimen name="housing_component_big_image">80.dp</dimen>
     <dimen name="housing_component_rounded_corner_shape">10.dp</dimen>
     <integer name="housing_component_font_size">20</integer>
@@ -72,6 +73,9 @@
     <dimen name="sign_up_top_padding">32.dp</dimen>
     <dimen name="sign_up_bottom_padding">80.dp</dimen>
     <dimen name="back_further_buttons_padding">32.dp</dimen>
+
+    <!--Rate user screen-->
+    <dimen name="rate_user_column_vertical_arrangement">24.dp</dimen>
 
 
 </resources>
