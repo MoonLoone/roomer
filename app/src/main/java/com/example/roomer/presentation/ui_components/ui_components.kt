@@ -1829,8 +1829,8 @@ fun CommentCard(userReview: UserReview) {
                         placeholder = painterResource(R.drawable.ordinary_user),
                         contentDescription =
                         UtilsFunctions.trimString(
-                        userReview.author.firstName +" "+ userReview.author.lastName,
-                            Constants.MAX_CHARS_IN_COMMENT_NAME,
+                            userReview.author.firstName + " " + userReview.author.lastName,
+                            Constants.MAX_CHARS_IN_COMMENT_NAME
                         ),
                         modifier = Modifier
                             .size(dimensionResource(R.dimen.big_icon))
@@ -1842,12 +1842,14 @@ fun CommentCard(userReview: UserReview) {
                 }
                 Text(
                     modifier = Modifier.align(CenterVertically),
-                    text = if (userReview.isAnonymous)
+                    text = if (userReview.isAnonymous) {
                         stringResource(R.string.anonymous)
-                    else UtilsFunctions.trimString(
-                        userReview.author.firstName + " " + userReview.author.lastName,
-                        Constants.MAX_CHARS_IN_COMMENT_NAME
-                    ),
+                    } else {
+                        UtilsFunctions.trimString(
+                            userReview.author.firstName + " " + userReview.author.lastName,
+                            Constants.MAX_CHARS_IN_COMMENT_NAME
+                        )
+                    },
                     style = TextStyle(
                         color = colorResource(
                             id = R.color.black
