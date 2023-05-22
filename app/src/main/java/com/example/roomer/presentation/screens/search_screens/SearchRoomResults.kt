@@ -98,9 +98,10 @@ fun SearchRoomResults(
                             recommendedRoom = rooms[index],
                             isMiniVersion = false,
                             viewModel.housingLike,
-                            onClick = { navigator.navigate(
-                                RoomDetailsScreenDestination(rooms[index])
-                            )
+                            onClick = {
+                                navigator.navigate(
+                                    RoomDetailsScreenDestination(rooms[index])
+                                )
                             }
                         )
                     }

@@ -9,9 +9,9 @@ import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.toLocalRoom
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class RoomDetailsScreenViewModel @Inject constructor(

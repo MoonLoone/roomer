@@ -102,7 +102,7 @@ fun SearchRoommateScreen(
         modifier = Modifier.padding(
             start = dimensionResource(id = R.dimen.screen_start_margin),
             end = dimensionResource(id = R.dimen.screen_end_margin),
-            top = dimensionResource(id = R.dimen.screen_top_margin),
+            top = dimensionResource(id = R.dimen.screen_top_margin)
         ),
         floatingActionButton = {
             GreenButtonOutline(
