@@ -7,5 +7,5 @@ data class CommentScreenState(
     override var isLoading: Boolean = false,
     override var internetProblem: Boolean = false,
     override var error: String = "",
-    var requestProblem: Boolean = false,
+    var requestProblem: Boolean = false
 ) : ScreenState

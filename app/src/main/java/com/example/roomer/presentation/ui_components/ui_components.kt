@@ -25,7 +25,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -1801,7 +1800,11 @@ fun CommentCard(userReview: UserReview) {
                 color = colorResource(id = R.color.secondary_color),
                 shape = RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_ordinary))
             )
-            .border(dimensionResource(R.dimen.ordinary_border), Color.Black, RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_ordinary)))
+            .border(
+                dimensionResource(R.dimen.ordinary_border),
+                Color.Black,
+                RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_ordinary))
+            )
     ) {
         Column(
             modifier = Modifier
@@ -1835,7 +1838,10 @@ fun CommentCard(userReview: UserReview) {
                 }
                 Text(
                     modifier = Modifier.align(CenterVertically),
-                    text = if (userReview.isAnonymous) stringResource(R.string.anonymous) else UtilsFunctions.trimString(userReview.author.firstName + " " + userReview.author.lastName, Constants.MAX_CHARS_IN_COMMENT_NAME),
+                    text = if (userReview.isAnonymous) stringResource(R.string.anonymous) else UtilsFunctions.trimString(
+                        userReview.author.firstName + " " + userReview.author.lastName,
+                        Constants.MAX_CHARS_IN_COMMENT_NAME
+                    ),
                     style = TextStyle(
                         color = colorResource(
                             id = R.color.black
@@ -1874,8 +1880,6 @@ fun CommentCard(userReview: UserReview) {
         }
     }
 }
-
-
 
 class NoRippleInteractionSource : MutableInteractionSource {
 

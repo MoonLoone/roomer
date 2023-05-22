@@ -41,8 +41,6 @@ import coil.request.ImageRequest
 import com.example.roomer.R
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.presentation.screens.destinations.UserDetailsScreenDestination
-import com.example.roomer.presentation.screens.shared_screens.user_details_screen.comment_screen.CommentScreenState
-import com.example.roomer.presentation.screens.shared_screens.user_details_screen.comment_screen.CommentScreenViewModel
 import com.example.roomer.presentation.ui_components.BasicConfirmDialog
 import com.example.roomer.presentation.ui_components.BasicHeaderBar
 import com.example.roomer.presentation.ui_components.GreenButtonPrimary
@@ -278,11 +276,12 @@ private fun AnonymousButton(
     isChecked: Boolean,
     onClick: (Boolean) -> Unit
 ) {
-    IconToggleButton(modifier = Modifier
-        .fillMaxWidth()
-        .background(
-            colorResource(R.color.secondary_color),
-        ),
+    IconToggleButton(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(
+                colorResource(R.color.secondary_color)
+            ),
         checked = isChecked,
         onCheckedChange = onClick,
         interactionSource = NoRippleInteractionSource()

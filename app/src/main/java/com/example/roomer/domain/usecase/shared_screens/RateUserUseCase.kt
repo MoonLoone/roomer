@@ -4,9 +4,9 @@ import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInte
 import com.example.roomer.domain.model.comment.Comment
 import com.example.roomer.utils.Constants
 import com.example.roomer.utils.Resource
+import java.io.IOException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import java.io.IOException
 
 class RateUserUseCase(
     private val repository: RoomerRepositoryInterface

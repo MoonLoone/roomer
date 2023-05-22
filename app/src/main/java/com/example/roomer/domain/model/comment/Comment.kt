@@ -14,4 +14,3 @@ data class Comment(
     @SerializedName("comment")
     val comment: String
 )
-
