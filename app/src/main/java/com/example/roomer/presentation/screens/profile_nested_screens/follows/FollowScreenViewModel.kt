@@ -14,11 +14,11 @@ import com.example.roomer.utils.Constants
 import com.example.roomer.utils.Resource
 import com.example.roomer.utils.SpManager
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class FollowScreenViewModel @Inject constructor(

@@ -10,8 +10,8 @@ import com.example.roomer.data.shared.cities_list.CitiesListInterface
 import com.example.roomer.domain.model.city.CityModel
 import com.example.roomer.utils.SpManager
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class CitiesListViewModel @Inject constructor(

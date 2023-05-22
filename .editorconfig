@@ -1,5 +1,5 @@
 [*.{kt,kts}]
-disabled_rules = parameter-list-wrapping
-disabled_rules = experimental:argument-list-wrapping
-disabled_rules = package-name
-disabled_rules = filename
+ktlint_disabled_rules = parameter-list-wrapping
+ktlint_disabled_rules = experimental:argument-list-wrapping
+ktlint_disabled_rules = package-name
+ktlint_disabled_rules = filename

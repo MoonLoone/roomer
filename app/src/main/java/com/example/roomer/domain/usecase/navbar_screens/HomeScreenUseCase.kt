@@ -8,10 +8,10 @@ import com.example.roomer.domain.model.entities.User
 import com.example.roomer.domain.model.pojo.RecommendedMateModel
 import com.example.roomer.domain.model.pojo.RecommendedRoomModel
 import com.example.roomer.utils.Resource
-import java.io.IOException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flow
+import java.io.IOException
 
 class HomeScreenUseCase(
     private val roomerRepository: RoomerRepositoryInterface

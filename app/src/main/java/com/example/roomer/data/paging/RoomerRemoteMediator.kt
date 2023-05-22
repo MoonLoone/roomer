@@ -6,12 +6,12 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import com.example.roomer.domain.model.entities.BaseEntity
 import com.example.roomer.domain.model.pojo.RawData
-import java.io.IOException
-import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
+import java.io.IOException
+import java.util.concurrent.TimeUnit
 
 @OptIn(ExperimentalPagingApi::class)
 class RoomerRemoteMediator<in T : BaseEntity, in K : RawData>(
