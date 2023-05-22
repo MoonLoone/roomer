@@ -43,6 +43,7 @@ import com.example.roomer.presentation.ui_components.RedButtonPrimaryIconed
 import com.example.roomer.presentation.ui_components.SimpleAlertDialog
 import com.example.roomer.presentation.ui_components.UsualTextField
 import com.example.roomer.utils.Constants
+import com.example.roomer.utils.NavbarManagement
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
@@ -60,6 +61,7 @@ fun AddHousingScreen(
     navigator: DestinationsNavigator,
     viewModel: AddHousingScreenViewModel = hiltViewModel()
 ) {
+    NavbarManagement.hideNavbar()
     val state by viewModel.state.collectAsState()
 
     if (state.success) {
