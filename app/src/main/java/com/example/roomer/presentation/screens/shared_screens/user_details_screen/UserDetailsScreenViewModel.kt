@@ -24,7 +24,6 @@ class UserDetailsScreenViewModel @Inject constructor(
     private val roomerRepositoryInterface: RoomerRepositoryInterface,
     private val addToHistory: AddToHistory,
     private val savedStateHandle: SavedStateHandle,
-    val followManipulate: FollowManipulate
 ) : ViewModel() {
 
     private val userDetailsUseCase = UserDetailsUseCase(roomerRepositoryInterface)
@@ -54,11 +53,9 @@ class UserDetailsScreenViewModel @Inject constructor(
                     is Resource.Success -> _state.update { current ->
                         current.copy(isFollow = true, success = true, isLoading = false)
                     }
-
                     is Resource.Loading -> _state.update { current ->
                         current.copy(isLoading = true)
                     }
-
                     else -> _state.update { current ->
                         current.copy(success = true, isLoading = false, error = "General error")
                     }

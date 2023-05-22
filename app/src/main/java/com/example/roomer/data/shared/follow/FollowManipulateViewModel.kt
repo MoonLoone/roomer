@@ -10,6 +10,7 @@ import javax.inject.Inject
 @HiltViewModel
 class FollowManipulateViewModel @Inject constructor(
     private val roomerRepositoryInterface: RoomerRepositoryInterface,
+    private val followManipulate: FollowManipulate,
     application: Application
 ) : AndroidViewModel(application) {
 
@@ -20,7 +21,6 @@ class FollowManipulateViewModel @Inject constructor(
     ) ?: ""
 
     fun addFollow(
-        followManipulate: FollowManipulate,
         currentUserId: Int,
         followUserId: Int
     ) {
@@ -28,7 +28,6 @@ class FollowManipulateViewModel @Inject constructor(
     }
 
     fun deleteFollow(
-        followManipulate: FollowManipulate,
         currentUserId: Int,
         followUserId: Int
     ) {

@@ -453,7 +453,7 @@ fun UserCard(recommendedRoommate: User, onClick: () -> Unit) {
 }
 
 @Composable
-fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean, likeHousing: HousingLikeInterface) {
+fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean) {
     val cardWidth = if (isMiniVersion) 240.dp else 332.dp
     val cardHeight = if (isMiniVersion) 172.dp else 256.dp
     val imageHeight = if (isMiniVersion) 112.dp else 172.dp
@@ -473,63 +473,29 @@ fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean, likeHousing: Housing
                 shape = RoundedCornerShape(16.dp)
             )
     ) {
-        var isLiked by remember {
-            mutableStateOf(recommendedRoom.isLiked)
-        }
         val photo = if (recommendedRoom.fileContent?.isNotEmpty() == true) {
             recommendedRoom.fileContent.first().photo
         } else {
             null
         }
-        Box(
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(photo)
+                .crossfade(true)
+                .build(),
+            placeholder = painterResource(id = R.drawable.ordinary_room),
+            contentDescription = stringResource(id = R.string.room_image_description),
             modifier = Modifier
-                .fillMaxWidth()
+                .width(cardWidth)
                 .height(imageHeight)
-        ) {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(photo)
-                    .crossfade(true)
-                    .build(),
-                placeholder = painterResource(id = R.drawable.ordinary_room),
-                contentDescription = stringResource(id = R.string.room_image_description),
-                modifier = Modifier
-                    .clip(
-                        RoundedCornerShape(
-                            topStart = dimensionResource(id = R.dimen.card_small_rounded_corner),
-                            topEnd = dimensionResource(id = R.dimen.card_small_rounded_corner)
-                        )
-                    ),
-                contentScale = ContentScale.Crop
-            )
-            Image(
-                painter = if (isLiked) {
-                    painterResource(id = R.drawable.room_like_in_icon)
-                } else {
-                    painterResource(
-                        id = R.drawable.room_like_icon
+                .clip(
+                    RoundedCornerShape(
+                        topStart = dimensionResource(id = R.dimen.card_small_rounded_corner),
+                        topEnd = dimensionResource(id = R.dimen.card_small_rounded_corner)
                     )
-                },
-                contentDescription = stringResource(id = R.string.like_icon),
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(top = 10.dp, end = 10.dp)
-                    .width(dimensionResource(id = R.dimen.big_icon))
-                    .height(dimensionResource(id = R.dimen.big_icon))
-                    .clip(RoundedCornerShape(dimensionResource(id = R.dimen.rounded_corner_full)))
-                    .clickable {
-                        CoroutineScope(Dispatchers.IO).launch {
-                            if (isLiked) {
-                                likeHousing.dislikeHousing(recommendedRoom)
-                            } else {
-                                likeHousing.likeHousing(recommendedRoom)
-                            }
-                        }
-                        isLiked = !isLiked
-                        recommendedRoom.isLiked = isLiked
-                    }
-            )
-        }
+                ),
+            contentScale = ContentScale.Crop
+        )
         Text(
             text = UtilsFunctions.trimString(title, Constants.ROOM_CARD_MAX_NAME),
             modifier = Modifier.padding(start = 16.dp, top = if (isMiniVersion) 12.dp else 16.dp),
@@ -1723,43 +1689,6 @@ fun ExpandableText(
             },
             style = style,
             textAlign = textAlign
-        )
-    }
-}
-
-@Composable
-fun FollowButton(
-    followManipulate: FollowManipulate,
-    currentUserId: Int,
-    followUserId: Int,
-    followManipulateViewModel: FollowManipulateViewModel = hiltViewModel()
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(32.dp)
-            .border(
-                width = 1.dp,
-                color = colorResource(id = R.color.black),
-                shape = RoundedCornerShape(100.dp)
-            )
-            .clickable {
-                followManipulateViewModel.addFollow(
-                    followManipulate,
-                    currentUserId,
-                    followUserId
-                )
-            }
-    ) {
-        Icon(
-            painter = painterResource(id = R.drawable.follow_fill),
-            modifier = Modifier.padding(2.dp),
-            contentDescription = stringResource(R.string.follow_icon_description)
-        )
-        Text(
-            text = stringResource(R.string.follow_me_text),
-            modifier = Modifier.padding(2.dp),
-            textAlign = TextAlign.Center
         )
     }
 }

@@ -229,6 +229,7 @@
     <string name="follows_title">Follows</string>
     <string name="delete_text">Delete</string>
     <string name="follow_me_text">Follow me!</string>
+    <string name="unfollow_me_text">Followed</string>
     <string name="follow_icon_description">Follow icon</string>
 
     <string name="choose_city_label">Choose city</string>
