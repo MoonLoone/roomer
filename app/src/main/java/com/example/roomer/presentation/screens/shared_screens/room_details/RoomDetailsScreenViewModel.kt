@@ -1,4 +1,4 @@
-package com.example.roomer.presentation.screens.room_details
+package com.example.roomer.presentation.screens.shared_screens.room_details
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel

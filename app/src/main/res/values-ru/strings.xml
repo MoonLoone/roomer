@@ -204,7 +204,7 @@
     <string name="details">Детали</string>
 
     <!---->
-    <string name="apartment_type_prefix">Тип жилья: </string>
+    <string name="apartment_type_prefix">"Тип жилья: "</string>
     <string name="description">Описание</string>
     <string name="host">Хозяин</string>
     <string name="price_for_month_prefix">"Цена за месяц: "</string>

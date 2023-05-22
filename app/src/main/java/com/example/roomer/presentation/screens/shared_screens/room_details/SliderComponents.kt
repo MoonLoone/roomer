@@ -1,11 +1,14 @@
-package com.example.roomer.presentation.screens.room_details
+package com.example.roomer.presentation.screens.shared_screens.room_details
 
+import android.media.Image
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.collectIsDraggedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -14,6 +17,8 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -24,8 +29,12 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImagePainter.State.Empty.painter
 import com.example.roomer.R
 
 @Composable
@@ -81,7 +90,9 @@ fun AutoSlidingCarousel(
     val isDragged by pagerState.interactionSource.collectIsDraggedAsState()
 
     Box(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(16.dp)),
     ) {
         HorizontalPager(pageCount = itemsCount, state = pagerState) { page ->
             itemContent(page)
@@ -101,5 +112,14 @@ fun AutoSlidingCarousel(
                 dotSize = 8.dp
             )
         }
+        Icon(
+            painter = painterResource(R.drawable.arrow_right),
+            contentDescription = "Arrow to the right",
+            modifier = Modifier
+                .align(Alignment.CenterEnd)
+                .height(25.dp)
+                .padding(),
+            tint = colorResource(id = R.color.secondary_color)
+        )
     }
 }
