@@ -47,14 +47,14 @@ fun FavouriteScreen(
             favouriteViewModel.pagingData.value.collectAsLazyPagingItems()
         TopLine()
         FavouritesList(
-            listOfFavourites,
+            listOfFavourites
         )
     }
 }
 
 @Composable
 private fun FavouritesList(
-    listOfFavourites: LazyPagingItems<Room>?,
+    listOfFavourites: LazyPagingItems<Room>?
 ) {
     val lazyListState = rememberLazyListState()
     LazyColumn(

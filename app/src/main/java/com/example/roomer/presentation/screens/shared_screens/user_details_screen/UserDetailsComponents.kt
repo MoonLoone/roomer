@@ -11,17 +11,18 @@ fun FollowButton(
     onClickFollow: () -> Unit,
     onClickUnfollow: () -> Unit
 ) {
-    if (isFollowed)
+    if (isFollowed) {
         FollowedButton(
             onClickUnfollow = onClickUnfollow
         )
-    else
+    } else {
         NotFollowedButton(onClickFollow = onClickFollow)
+    }
 }
 
 @Composable
 fun NotFollowedButton(
-    onClickFollow: () -> Unit,
+    onClickFollow: () -> Unit
 ) {
     GreenButtonOutlineIconed(
         text = stringResource(R.string.follow_me_text),
@@ -34,12 +35,12 @@ fun NotFollowedButton(
 
 @Composable
 fun FollowedButton(
-    onClickUnfollow: () -> Unit,
+    onClickUnfollow: () -> Unit
 ) {
     GreenButtonOutlineIconed(
         text = stringResource(R.string.unfollow_me_text),
         trailingIconPainterId = R.drawable.follow_fill,
-        trailingIconDescriptionId = R.string.unfollow_icon_description,
+        trailingIconDescriptionId = R.string.unfollow_icon_description
     ) {
         onClickUnfollow()
     }

@@ -7,5 +7,5 @@ data class UserDetailsScreenState(
     override var isLoading: Boolean = false,
     override var error: String = "",
     override var internetProblem: Boolean = false,
-    var isFollow: Boolean = false,
-): ScreenState
+    var isFollow: Boolean = false
+) : ScreenState

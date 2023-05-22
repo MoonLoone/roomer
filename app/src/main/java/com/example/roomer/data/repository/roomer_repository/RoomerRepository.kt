@@ -312,7 +312,7 @@ class RoomerRepository @Inject constructor(
 
     override suspend fun checkIsFollowed(currentUserId: Int, userId: Int, token: String): Response<Unit> {
         val refToken = "Token ".plus(token)
-        return roomerApi.checkIsFollowed(refToken,currentUserId, userId)
+        return roomerApi.checkIsFollowed(refToken, currentUserId, userId)
     }
 
     override suspend fun getCities(token: String): Response<List<CityModel>> {

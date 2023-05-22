@@ -37,6 +37,4 @@ class FollowScreenUseCase(private val roomerRepositoryInterface: RoomerRepositor
             emit(Resource.Error.GeneralError(Constants.Follows.ERROR_UNAUTHORIZED))
         }
     }
-
-
 }

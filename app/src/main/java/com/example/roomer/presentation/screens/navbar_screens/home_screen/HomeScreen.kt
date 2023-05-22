@@ -111,7 +111,7 @@ fun HomeScreen(
             )
             RecommendedRooms(
                 emptyRooms = state.emptyRecommendedRooms,
-                recommendedRooms = recommendedRooms,
+                recommendedRooms = recommendedRooms
             )
             Spacer(
                 modifier = Modifier
@@ -221,7 +221,7 @@ private fun RecentlyWatched(
                 item.room?.toRoom()?.let { room ->
                     RoomCard(
                         recommendedRoom = room,
-                        isMiniVersion = false,
+                        isMiniVersion = false
                     )
                 }
                 item.user?.let { user ->
@@ -318,7 +318,7 @@ private fun RecommendedRooms(
             items(recommendedRooms.size) { index ->
                 RoomCard(
                     recommendedRoom = recommendedRooms[index],
-                    isMiniVersion = true,
+                    isMiniVersion = true
                 )
             }
         }

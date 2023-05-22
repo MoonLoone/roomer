@@ -112,7 +112,7 @@ fun UserDetailsScreen(
                 FollowButton(
                     isFollowed = screenState.isFollow,
                     onClickFollow = { viewModel.follow() },
-                    onClickUnfollow = { viewModel.unfollow() },
+                    onClickUnfollow = { viewModel.unfollow() }
                 )
             }
             UserHeadline(

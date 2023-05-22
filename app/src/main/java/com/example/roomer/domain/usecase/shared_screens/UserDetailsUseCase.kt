@@ -16,8 +16,10 @@ class UserDetailsUseCase(private val roomerRepositoryInterface: RoomerRepository
     ): Flow<Resource<String>> = flow {
         emit(Resource.Loading())
         val process = roomerRepositoryInterface.checkIsFollowed(currentUserId, userId, token)
-        if (process.isSuccessful) emit(Resource.Success())
-        else emit(Resource.Error.GeneralError(process.errorBody().toString()))
+        if (process.isSuccessful) {
+            emit(Resource.Success())
+        } else {
+            emit(Resource.Error.GeneralError(process.errorBody().toString()))
+        }
     }
-
 }

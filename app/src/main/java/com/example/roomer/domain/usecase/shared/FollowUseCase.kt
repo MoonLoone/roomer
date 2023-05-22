@@ -9,17 +9,21 @@ open class FollowUseCase(private val roomerRepositoryInterface: RoomerRepository
     suspend fun follow(currentUserId: Int, followUserId: Int, token: String) = flow<Resource<String>> {
         emit(Resource.Loading())
         val process = roomerRepositoryInterface.followToUser(currentUserId, followUserId, token)
-        if (process.isSuccessful) emit(Resource.Success())
-        else emit(Resource.Error.GeneralError(process.errorBody().toString()))
+        if (process.isSuccessful) {
+            emit(Resource.Success())
+        } else {
+            emit(Resource.Error.GeneralError(process.errorBody().toString()))
+        }
     }
 
     suspend fun unfollow(currentUserId: Int, followUserId: Int, token: String) =
         flow<Resource<String>> {
             emit(Resource.Loading())
             val process = roomerRepositoryInterface.unFollowUser(currentUserId, followUserId, token)
-            if (process.isSuccessful) emit(Resource.Success())
-            else emit(Resource.Error.GeneralError(process.errorBody().toString()))
+            if (process.isSuccessful) {
+                emit(Resource.Success())
+            } else {
+                emit(Resource.Error.GeneralError(process.errorBody().toString()))
+            }
         }
-
-
 }

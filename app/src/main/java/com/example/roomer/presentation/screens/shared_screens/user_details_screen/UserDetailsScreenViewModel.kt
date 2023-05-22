@@ -5,7 +5,6 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
 import com.example.roomer.data.shared.add_to_history.AddToHistory
@@ -16,19 +15,19 @@ import com.example.roomer.utils.Resource
 import com.example.roomer.utils.SpManager
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class UserDetailsScreenViewModel @Inject constructor(
     private val roomerRepositoryInterface: RoomerRepositoryInterface,
     private val addToHistory: AddToHistory,
     savedStateHandle: SavedStateHandle,
-    application: Application,
+    application: Application
 ) : AndroidViewModel(application) {
 
     private val userDetailsUseCase = UserDetailsUseCase(roomerRepositoryInterface)
@@ -120,5 +119,4 @@ class UserDetailsScreenViewModel @Inject constructor(
                 }
         }
     }
-
 }

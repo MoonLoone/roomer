@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class SearchRoomResultsViewModel @Inject constructor(
-    private val roomerRepository: RoomerRepositoryInterface,
+    private val roomerRepository: RoomerRepositoryInterface
 ) : ViewModel() {
     private val _rooms = MutableStateFlow(emptyList<Room>())
     val rooms: StateFlow<List<Room>> = _rooms
