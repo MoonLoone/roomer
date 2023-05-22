@@ -10,7 +10,6 @@ import androidx.paging.cachedIn
 import androidx.paging.map
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
 import com.example.roomer.data.room.entities.toRoom
-import com.example.roomer.data.shared.housing_like.HousingLikeInterface
 import com.example.roomer.domain.model.entities.Room
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -22,7 +21,6 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class FavouriteViewModel @Inject constructor(
     private val roomerRepository: RoomerRepositoryInterface,
-    val housingLike: HousingLikeInterface
 ) : ViewModel() {
 
     private val _pagingData: MutableState<Flow<PagingData<Room>>> = mutableStateOf(emptyFlow())

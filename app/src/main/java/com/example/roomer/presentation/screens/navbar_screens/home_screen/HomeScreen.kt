@@ -42,7 +42,6 @@ import coil.request.ImageRequest
 import com.example.roomer.R
 import com.example.roomer.data.room.entities.HistoryItem
 import com.example.roomer.data.room.entities.toRoom
-import com.example.roomer.data.shared.housing_like.HousingLikeInterface
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.presentation.screens.destinations.SearchRoomScreenDestination
@@ -102,7 +101,6 @@ fun HomeScreen(
             RecentlyWatched(
                 emptyRecently = state.emptyHistory,
                 history = history,
-                housingLikeInterface = homeScreenViewModel.housingLike,
                 navigateToUser = { user -> navigator.navigate(UserDetailsScreenDestination(user)) },
                 navigateToRoom = { room -> }
             )
@@ -114,7 +112,6 @@ fun HomeScreen(
             RecommendedRooms(
                 emptyRooms = state.emptyRecommendedRooms,
                 recommendedRooms = recommendedRooms,
-                housingLikeInterface = homeScreenViewModel.housingLike
             )
             Spacer(
                 modifier = Modifier
@@ -184,7 +181,6 @@ private fun HeaderLine(user: User, navigateToUser: () -> Unit) {
 private fun RecentlyWatched(
     emptyRecently: Boolean,
     history: List<HistoryItem>,
-    housingLikeInterface: HousingLikeInterface,
     navigateToUser: (User) -> Unit,
     navigateToRoom: (Room) -> Unit
 ) {
@@ -287,7 +283,6 @@ private fun RecommendedRoommates(
 @Composable
 private fun RecommendedRooms(
     recommendedRooms: List<Room>,
-    housingLikeInterface: HousingLikeInterface,
     emptyRooms: Boolean
 ) {
     if (!emptyRooms) {

@@ -25,7 +25,6 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.example.roomer.R
-import com.example.roomer.data.shared.housing_like.HousingLikeInterface
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.presentation.ui_components.RoomCard
 import com.example.roomer.utils.NavbarManagement
@@ -49,7 +48,6 @@ fun FavouriteScreen(
         TopLine()
         FavouritesList(
             listOfFavourites,
-            favouriteViewModel.housingLike
         )
     }
 }
@@ -57,7 +55,6 @@ fun FavouriteScreen(
 @Composable
 private fun FavouritesList(
     listOfFavourites: LazyPagingItems<Room>?,
-    housingLike: HousingLikeInterface
 ) {
     val lazyListState = rememberLazyListState()
     LazyColumn(
