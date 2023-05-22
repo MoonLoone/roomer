@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
@@ -55,7 +56,6 @@ fun CommentScreen(
 ) {
     NavbarManagement.hideNavbar()
     val state by viewModel.state.collectAsState()
-    val columnScroll = rememberScrollState()
     val textStyleSecondary = TextStyle(
         color = colorResource(id = R.color.text_secondary),
         fontWeight = FontWeight.Medium,
@@ -67,7 +67,7 @@ fun CommentScreen(
         fontSize = 48.sp
     )
 
-    CheckState(viewModel, state)
+    StateDialog(viewModel, state)
 
     Box(
         modifier = Modifier
@@ -86,8 +86,7 @@ fun CommentScreen(
         }
         Column(
             modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(columnScroll),
+                .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(
                 16.dp
             )
@@ -130,8 +129,16 @@ fun CommentScreen(
                             )
                         }
                     }
-                    for (i in 0 until viewModel.reviews.value.size) {
-                        CommentCard(viewModel.reviews.value[i])
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        verticalArrangement = Arrangement.spacedBy(
+                            dimensionResource(id = R.dimen.list_elements_margin)
+                        )
+                    ) {
+                        items(viewModel.reviews.value.size) { index ->
+                            CommentCard(viewModel.reviews.value[index])
+                        }
                     }
                 } else {
                     Text(
@@ -146,7 +153,7 @@ fun CommentScreen(
 }
 
 @Composable
-fun CheckState(viewModel: CommentScreenViewModel, state: CommentScreenState) {
+fun StateDialog(viewModel: CommentScreenViewModel, state: CommentScreenState) {
     if (state.requestProblem) {
         SimpleAlertDialog(
             title = stringResource(R.string.error_dialog_text),

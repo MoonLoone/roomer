@@ -87,7 +87,7 @@ fun RateUserScreen(
     if (state.success) {
         navigator.navigate(UserDetailsScreenDestination(user))
     }
-    CheckState(viewModel, state)
+    StateDialog(viewModel, state)
 
     Column(
         modifier = Modifier
@@ -326,7 +326,7 @@ private fun AnonymousButton(
 }
 
 @Composable
-fun CheckState(viewModel: RateUserScreenViewModel, state: RateUserScreenState) {
+fun StateDialog(viewModel: RateUserScreenViewModel, state: RateUserScreenState) {
     if (state.requestProblem) {
         SimpleAlertDialog(
             title = stringResource(R.string.error_dialog_text),
