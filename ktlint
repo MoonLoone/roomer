@@ -19,7 +19,7 @@ if [ $CI ]; then
       -name="ktlint" \
       -reporter="github-pr-review" \
       -fail-on-error="true"
-      -disabled_rules=".editorconfig"
+      -disabled_rules=package-name, filename
 else
   $KTLINT_BIN --android "$@"
 fi
