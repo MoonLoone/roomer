@@ -1827,7 +1827,11 @@ fun CommentCard(userReview: UserReview) {
                             .crossfade(true)
                             .build(),
                         placeholder = painterResource(R.drawable.ordinary_user),
-                        contentDescription = userReview.author.firstName + userReview.author.lastName,
+                        contentDescription =
+                        UtilsFunctions.trimString(
+                        userReview.author.firstName +" "+ userReview.author.lastName,
+                            Constants.MAX_CHARS_IN_COMMENT_NAME,
+                        ),
                         modifier = Modifier
                             .size(dimensionResource(R.dimen.big_icon))
                             .clip(
@@ -1838,7 +1842,9 @@ fun CommentCard(userReview: UserReview) {
                 }
                 Text(
                     modifier = Modifier.align(CenterVertically),
-                    text = if (userReview.isAnonymous) stringResource(R.string.anonymous) else UtilsFunctions.trimString(
+                    text = if (userReview.isAnonymous)
+                        stringResource(R.string.anonymous)
+                    else UtilsFunctions.trimString(
                         userReview.author.firstName + " " + userReview.author.lastName,
                         Constants.MAX_CHARS_IN_COMMENT_NAME
                     ),
