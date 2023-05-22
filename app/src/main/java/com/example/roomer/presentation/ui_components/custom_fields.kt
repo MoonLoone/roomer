@@ -26,10 +26,8 @@ import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Error
-import androidx.compose.material.icons.filled.Female
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material.icons.filled.Male
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material.icons.outlined.Password
@@ -182,8 +180,9 @@ fun SexField(
                 GreenButtonPrimaryIconed(
                     text = stringResource(R.string.male),
                     onClick = {},
-                    trailingIcon = Icons.Filled.Male,
-                    enabled = enabled
+                    enabled = enabled,
+                    trailingIconPainterId = R.drawable.sex_male_in_icon,
+                    trailingIconDescriptionId = R.string.male_icon
                 )
                 GreenButtonOutlineIconed(
                     text = stringResource(R.string.female),
@@ -203,8 +202,9 @@ fun SexField(
                 GreenButtonPrimaryIconed(
                     text = stringResource(R.string.female),
                     onClick = {},
-                    trailingIcon = Icons.Filled.Female,
-                    enabled = enabled
+                    enabled = enabled,
+                    trailingIconPainterId = R.drawable.sex_female_in_icon,
+                    trailingIconDescriptionId = R.string.female_icon
                 )
             }
         }

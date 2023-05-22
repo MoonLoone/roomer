@@ -1,4 +1,4 @@
-package com.example.roomer.presentation.screens.shared_screens
+package com.example.roomer.presentation.screens.shared_screens.user_details_screen
 
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.horizontalScroll
@@ -6,9 +6,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -152,10 +152,10 @@ fun UserDetailsScreen(
             ExpandableText(text = user.aboutMe ?: "", style = textStyleSecondary)
             InterestsScroll(user.interests, interestsScroll)
             HabitsSection(headlineStyle = textStyleHeadline, user = user)
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(dimensionResource(id = R.dimen.bottom_padding))
+            Spacer(
+                modifier = Modifier.size(
+                    dimensionResource(id = R.dimen.user_details_content_bottom_padding)
+                )
             )
         }
         Row(
@@ -163,6 +163,9 @@ fun UserDetailsScreen(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
+                .padding(
+                    bottom = dimensionResource(id = R.dimen.message_rate_buttons_bottom_padding)
+                )
         ) {
             RateFab {}
             MessageFab {

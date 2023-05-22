@@ -4,11 +4,16 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -54,107 +59,122 @@ fun AboutMeAvatarScreen(
     val uiState by signUpViewModel.uiState.collectAsState()
     val focusManager = LocalFocusManager.current
     val interactionSource = remember { MutableInteractionSource() }
+    val columnScroll = rememberScrollState()
 
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
             .clickable(
                 indication = null,
                 interactionSource = interactionSource
-            ) { focusManager.clearFocus() },
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+            ) { focusManager.clearFocus() }
+            .padding(
+                start = dimensionResource(id = R.dimen.screen_start_margin),
+                end = dimensionResource(id = R.dimen.screen_end_margin)
+            ),
+        contentAlignment = Alignment.BottomCenter
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    start = dimensionResource(id = R.dimen.screen_start_margin),
-                    end = dimensionResource(id = R.dimen.screen_end_margin)
-                ),
-            horizontalAlignment = Alignment.Start,
-            verticalArrangement = Arrangement.spacedBy(
-                dimensionResource(id = R.dimen.list_elements_margin)
-            )
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
-            LinearProgressIndicator(
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth(),
-                color = colorResource(id = R.color.primary_dark),
-                progress = 0.4f
-            )
-            Text(
-                text = stringResource(R.string.just_basic_profile_info),
-                fontSize = integerResource(id = R.integer.label_text).sp,
-                fontWeight = FontWeight.Medium,
-                textAlign = TextAlign.Start
-            )
-            Text(
-                text = stringResource(R.string.add_profile_picture),
-                fontSize = integerResource(id = R.integer.primary_text).sp,
-                fontWeight = FontWeight.Medium,
-                textAlign = TextAlign.Start
-            )
-            ProfilePicture(
-                bitmapValue = signUpViewModel.avatar,
-                onBitmapValueChange = {
-                    signUpViewModel.avatar = it
-                }
-            )
-            UsualTextField(
-                title = stringResource(R.string.write_something_about_you),
-                placeholder = stringResource(R.string.about_me),
-                value = signUpViewModel.personDescription,
-                onValueChange = {
-                    signUpViewModel.personDescription = it
-                }
-            )
-            DropdownTextFieldListed(
-                listOfItems = citiesListViewModel.cities.value.map { it.city },
-                label = stringResource(R.string.choose_city_label),
-                value = signUpViewModel.city,
-                onValueChange = { signUpViewModel.city = it },
-                itemsAmountAtOnce = Constants.CITIES_SHOWN_AT_ONCE
-            )
-            DropdownTextFieldMapped(
-                mapOfItems = mapOf(
-                    Pair("NE", stringResource(R.string.not_employed)),
-                    Pair("E", stringResource(R.string.employed)),
-                    Pair("S", stringResource(R.string.searching_for_work))
-                ),
-                label = stringResource(R.string.what_you_currently_do_lable),
-                value = signUpViewModel.employment,
-                onValueChange = {
-                    signUpViewModel.employment = it
-                }
-            )
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                    .fillMaxWidth()
+                    .verticalScroll(columnScroll),
+                horizontalAlignment = Alignment.Start,
+                verticalArrangement = Arrangement.spacedBy(
+                    dimensionResource(id = R.dimen.list_elements_margin)
+                )
             ) {
-                GreenButtonPrimary(
-                    text = stringResource(R.string.back_button_label)
-                ) {
-                    navigator.navigate(PrimaryUserInfoScreenDestination)
+                Spacer(
+                    modifier = Modifier.size(dimensionResource(id = R.dimen.sign_up_top_padding))
+                )
+                LinearProgressIndicator(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    color = colorResource(id = R.color.primary_dark),
+                    progress = 0.4f
+                )
+                Text(
+                    text = stringResource(R.string.just_basic_profile_info),
+                    fontSize = integerResource(id = R.integer.label_text).sp,
+                    fontWeight = FontWeight.Medium,
+                    textAlign = TextAlign.Start
+                )
+                Text(
+                    text = stringResource(R.string.add_profile_picture),
+                    fontSize = integerResource(id = R.integer.primary_text).sp,
+                    fontWeight = FontWeight.Medium,
+                    textAlign = TextAlign.Start
+                )
+                ProfilePicture(
+                    bitmapValue = signUpViewModel.avatar,
+                    onBitmapValueChange = {
+                        signUpViewModel.avatar = it
+                    }
+                )
+                UsualTextField(
+                    title = stringResource(R.string.write_something_about_you),
+                    placeholder = stringResource(R.string.about_me),
+                    value = signUpViewModel.personDescription,
+                    onValueChange = {
+                        signUpViewModel.personDescription = it
+                    }
+                )
+                DropdownTextFieldListed(
+                    listOfItems = citiesListViewModel.cities.value.map { it.city },
+                    label = stringResource(R.string.choose_city_label),
+                    value = signUpViewModel.city,
+                    onValueChange = { signUpViewModel.city = it },
+                    itemsAmountAtOnce = Constants.CITIES_SHOWN_AT_ONCE
+                )
+                DropdownTextFieldMapped(
+                    mapOfItems = mapOf(
+                        Pair("NE", stringResource(R.string.not_employed)),
+                        Pair("E", stringResource(R.string.employed)),
+                        Pair("S", stringResource(R.string.searching_for_work))
+                    ),
+                    label = stringResource(R.string.what_you_currently_do_lable),
+                    value = signUpViewModel.employment,
+                    onValueChange = {
+                        signUpViewModel.employment = it
+                    }
+                )
+                Spacer(
+                    modifier = Modifier.size(dimensionResource(id = R.dimen.sign_up_bottom_padding))
+                )
+                if (uiState.isValid) {
+                    signUpViewModel.clearState()
+                    navigator.navigate(HabitsScreenDestination)
                 }
-                GreenButtonPrimary(
-                    text = stringResource(R.string.continue_button_label)
-                ) {
-                    signUpViewModel.aboutMeAvatarScreenValidate()
+                if (uiState.isError) {
+                    SimpleAlertDialog(
+                        title = stringResource(R.string.login_alert_dialog_text),
+                        text = uiState.errorMessage
+                    ) { signUpViewModel.clearError() }
                 }
             }
-            if (uiState.isValid) {
-                signUpViewModel.clearState()
-                navigator.navigate(HabitsScreenDestination)
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = dimensionResource(id = R.dimen.back_further_buttons_padding)),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            GreenButtonPrimary(
+                text = stringResource(R.string.back_button_label)
+            ) {
+                navigator.navigate(PrimaryUserInfoScreenDestination)
             }
-            if (uiState.isError) {
-                SimpleAlertDialog(
-                    title = stringResource(R.string.login_alert_dialog_text),
-                    text = uiState.errorMessage
-                ) { signUpViewModel.clearError() }
+            GreenButtonPrimary(
+                text = stringResource(R.string.continue_button_label)
+            ) {
+                signUpViewModel.aboutMeAvatarScreenValidate()
             }
         }
     }
