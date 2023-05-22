@@ -13,6 +13,7 @@ import androidx.compose.material.Text
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -66,23 +67,7 @@ fun CommentScreen(
         fontSize = 48.sp
     )
 
-    if (state.requestProblem) {
-        SimpleAlertDialog(
-            title = stringResource(R.string.error_dialog_text),
-            text = state.error
-        ) {
-            viewModel.clearState()
-        }
-    }
-
-    if (state.internetProblem) {
-        SimpleAlertDialog(
-            title = stringResource(R.string.error_dialog_text),
-            text = stringResource(R.string.no_internet_connection_text)
-        ) {
-            viewModel.clearState()
-        }
-    }
+    CheckState(viewModel, state)
 
     Box(
         modifier = Modifier
@@ -156,6 +141,27 @@ fun CommentScreen(
                     )
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun CheckState(viewModel: CommentScreenViewModel, state: CommentScreenState) {
+    if (state.requestProblem) {
+        SimpleAlertDialog(
+            title = stringResource(R.string.error_dialog_text),
+            text = state.error
+        ) {
+            viewModel.clearState()
+        }
+    }
+
+    if (state.internetProblem) {
+        SimpleAlertDialog(
+            title = stringResource(R.string.error_dialog_text),
+            text = stringResource(R.string.no_internet_connection_text)
+        ) {
+            viewModel.clearState()
         }
     }
 }

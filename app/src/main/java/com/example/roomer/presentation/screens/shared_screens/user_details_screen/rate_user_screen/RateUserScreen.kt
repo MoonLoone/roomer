@@ -41,6 +41,8 @@ import coil.request.ImageRequest
 import com.example.roomer.R
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.presentation.screens.destinations.UserDetailsScreenDestination
+import com.example.roomer.presentation.screens.shared_screens.user_details_screen.comment_screen.CommentScreenState
+import com.example.roomer.presentation.screens.shared_screens.user_details_screen.comment_screen.CommentScreenViewModel
 import com.example.roomer.presentation.ui_components.BasicConfirmDialog
 import com.example.roomer.presentation.ui_components.BasicHeaderBar
 import com.example.roomer.presentation.ui_components.GreenButtonPrimary
@@ -85,54 +87,7 @@ fun RateUserScreen(
     if (state.success) {
         navigator.navigate(UserDetailsScreenDestination(user))
     }
-
-    if (state.requestProblem) {
-        SimpleAlertDialog(
-            title = stringResource(R.string.error_dialog_text),
-            text = state.error
-        ) {
-            viewModel.clearState()
-        }
-    }
-
-    if (state.internetProblem) {
-        SimpleAlertDialog(
-            title = stringResource(R.string.error_dialog_text),
-            text = stringResource(R.string.no_internet_connection_text)
-        ) {
-            viewModel.clearState()
-        }
-    }
-
-    if (state.ratingNotSpecified) {
-        SimpleAlertDialog(
-            title = stringResource(R.string.error_dialog_text),
-            text = stringResource(R.string.rating_not_specified_alert_dialog_text)
-        ) {
-            viewModel.clearState()
-        }
-    }
-
-    if (state.commentIsEmpty) {
-        SimpleAlertDialog(
-            title = stringResource(R.string.error_dialog_text),
-            text = stringResource(R.string.comment_is_empty_alert_dialog_text)
-        ) {
-            viewModel.clearState()
-        }
-    }
-
-    if (viewModel.confirmation) {
-        BasicConfirmDialog(
-            text = stringResource(R.string.send_review_confirm_dialog_text),
-            confirmOnClick = {
-                viewModel.sendReview()
-            },
-            dismissOnClick = {
-                viewModel.hideConfirmDialog()
-            }
-        )
-    }
+    CheckState(viewModel, state)
 
     Column(
         modifier = Modifier
@@ -275,7 +230,6 @@ private fun StarRating(
     onValueChange: (Int) -> Unit,
     enabled: Boolean = true
 ) {
-    val values = listOf(1, 2, 3, 4, 5)
     Column(
         modifier = Modifier
             .fillMaxWidth(),
@@ -291,7 +245,7 @@ private fun StarRating(
         ) {
             for (i in 0 until value) {
                 IconButton(
-                    onClick = { onValueChange(values[i]) },
+                    onClick = { onValueChange(i + 1) },
                     enabled = enabled,
                     interactionSource = NoRippleInteractionSource()
                 ) {
@@ -304,7 +258,7 @@ private fun StarRating(
             }
             for (i in value until 5) {
                 IconButton(
-                    onClick = { onValueChange(values[i]) },
+                    onClick = { onValueChange(i + 1) },
                     enabled = enabled,
                     interactionSource = NoRippleInteractionSource()
                 ) {
@@ -368,5 +322,56 @@ private fun AnonymousButton(
                 )
             }
         }
+    }
+}
+
+@Composable
+fun CheckState(viewModel: RateUserScreenViewModel, state: RateUserScreenState) {
+    if (state.requestProblem) {
+        SimpleAlertDialog(
+            title = stringResource(R.string.error_dialog_text),
+            text = state.error
+        ) {
+            viewModel.clearState()
+        }
+    }
+
+    if (state.internetProblem) {
+        SimpleAlertDialog(
+            title = stringResource(R.string.error_dialog_text),
+            text = stringResource(R.string.no_internet_connection_text)
+        ) {
+            viewModel.clearState()
+        }
+    }
+
+    if (state.ratingNotSpecified) {
+        SimpleAlertDialog(
+            title = stringResource(R.string.error_dialog_text),
+            text = stringResource(R.string.rating_not_specified_alert_dialog_text)
+        ) {
+            viewModel.clearState()
+        }
+    }
+
+    if (state.commentIsEmpty) {
+        SimpleAlertDialog(
+            title = stringResource(R.string.error_dialog_text),
+            text = stringResource(R.string.comment_is_empty_alert_dialog_text)
+        ) {
+            viewModel.clearState()
+        }
+    }
+
+    if (viewModel.confirmation) {
+        BasicConfirmDialog(
+            text = stringResource(R.string.send_review_confirm_dialog_text),
+            confirmOnClick = {
+                viewModel.sendReview()
+            },
+            dismissOnClick = {
+                viewModel.hideConfirmDialog()
+            }
+        )
     }
 }

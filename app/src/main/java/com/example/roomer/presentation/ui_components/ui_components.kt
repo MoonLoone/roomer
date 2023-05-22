@@ -1799,9 +1799,9 @@ fun CommentCard(userReview: UserReview) {
             .width(cardWidth)
             .background(
                 color = colorResource(id = R.color.secondary_color),
-                shape = RoundedCornerShape(16.dp)
+                shape = RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_ordinary))
             )
-            .border(1.dp, Color.Black, RoundedCornerShape(16.dp))
+            .border(dimensionResource(R.dimen.ordinary_border), Color.Black, RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_ordinary)))
     ) {
         Column(
             modifier = Modifier
@@ -1826,7 +1826,7 @@ fun CommentCard(userReview: UserReview) {
                         placeholder = painterResource(R.drawable.ordinary_user),
                         contentDescription = userReview.author.firstName + userReview.author.lastName,
                         modifier = Modifier
-                            .size(32.dp)
+                            .size(dimensionResource(R.dimen.big_icon))
                             .clip(
                                 CircleShape
                             ),
@@ -1835,7 +1835,7 @@ fun CommentCard(userReview: UserReview) {
                 }
                 Text(
                     modifier = Modifier.align(CenterVertically),
-                    text = if (userReview.isAnonymous) stringResource(R.string.anonymous) else userReview.author.firstName + " " + userReview.author.lastName,
+                    text = if (userReview.isAnonymous) stringResource(R.string.anonymous) else UtilsFunctions.trimString(userReview.author.firstName + " " + userReview.author.lastName, Constants.MAX_CHARS_IN_COMMENT_NAME),
                     style = TextStyle(
                         color = colorResource(
                             id = R.color.black
