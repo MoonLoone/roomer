@@ -45,8 +45,6 @@ import com.example.roomer.domain.model.entities.User
 import com.example.roomer.domain.model.login_sign_up.InterestModel
 import com.example.roomer.presentation.screens.destinations.ChatScreenDestination
 import com.example.roomer.presentation.screens.entrance.signup.habits_screen.HabitTileModel
-import com.example.roomer.presentation.screens.shared_screens.user_details_screen.FollowButton
-import com.example.roomer.presentation.screens.shared_screens.user_details_screen.UserDetailsScreenViewModel
 import com.example.roomer.presentation.ui_components.BackBtn
 import com.example.roomer.presentation.ui_components.ExpandableText
 import com.example.roomer.presentation.ui_components.GreenButtonOutline
@@ -113,8 +111,8 @@ fun UserDetailsScreen(
                 UserAvatar(avatarUrl = user.avatar)
                 FollowButton(
                     isFollowed = screenState.isFollow,
-                    followUserId = user.userId,
-                    currentUserId = viewModel.currentUser.value.userId
+                    onClickFollow = { viewModel.follow() },
+                    onClickUnfollow = { viewModel.unfollow() },
                 )
             }
             UserHeadline(

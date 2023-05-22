@@ -72,7 +72,7 @@ private fun FavouritesList(
         listOfFavourites?.let {
             items(listOfFavourites) { room ->
                 room?.let {
-                    RoomCard(recommendedRoom = room, isMiniVersion = false, housingLike)
+                    RoomCard(recommendedRoom = room, isMiniVersion = false)
                 }
             }
             if (it.loadState.append is LoadState.Loading) {

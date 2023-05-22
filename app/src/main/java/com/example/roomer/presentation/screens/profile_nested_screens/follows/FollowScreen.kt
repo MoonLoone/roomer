@@ -1,5 +1,6 @@
 package com.example.roomer.presentation.screens.profile_nested_screens.follows
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -60,7 +61,7 @@ fun FollowsScreen(
                 navigateToUserDetails = { user ->
                     navigator.navigate(UserDetailsScreenDestination(user))
                 },
-                deleteFollow = { follow -> followsViewModel.deleteFollow(follow) }
+                deleteFollow = { follow -> followsViewModel.unfollow(follow) }
             )
         }
         if (state.emptyFollowsList) {
@@ -89,7 +90,9 @@ private fun FollowsList(
             FollowCard(
                 user = followUser,
                 onClick = { navigateToUserDetails.invoke(followUser) },
-                deleteFollow = { deleteFollow.invoke(follows[index]) }
+                deleteFollow = {
+                    deleteFollow.invoke(follows[index])
+                }
             )
         }
     }

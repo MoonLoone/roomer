@@ -226,7 +226,6 @@ private fun RecentlyWatched(
                     RoomCard(
                         recommendedRoom = room,
                         isMiniVersion = false,
-                        likeHousing = housingLikeInterface
                     )
                 }
                 item.user?.let { user ->
@@ -325,7 +324,6 @@ private fun RecommendedRooms(
                 RoomCard(
                     recommendedRoom = recommendedRooms[index],
                     isMiniVersion = true,
-                    likeHousing = housingLikeInterface
                 )
             }
         }

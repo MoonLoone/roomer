@@ -220,4 +220,6 @@
     <string name="find_new_follow">Хотите найти нового подписчика?</string>
     <string name="add_photos_icon_description">иконка добавления фото</string>
     <string name="add_post_icon">иконка добавления объявления</string>
+    <string name="unfollow_me_text">Подписан</string>
+    <string name="unfollow_icon_description">Кнопка отписаться</string>
 </resources>

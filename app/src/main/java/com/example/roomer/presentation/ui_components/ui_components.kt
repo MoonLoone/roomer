@@ -84,9 +84,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.roomer.R
-import com.example.roomer.data.shared.follow.FollowManipulate
-import com.example.roomer.data.shared.follow.FollowManipulateViewModel
-import com.example.roomer.data.shared.housing_like.HousingLikeInterface
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
@@ -94,11 +91,8 @@ import com.example.roomer.domain.model.login_sign_up.InterestModel
 import com.example.roomer.presentation.screens.entrance.signup.habits_screen.HabitTileModel
 import com.example.roomer.utils.Constants
 import com.example.roomer.utils.UtilsFunctions
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
-import kotlinx.coroutines.launch
 
 @Composable
 fun ProfileContentLine(text: String, iconId: Int, onNavigateToFriends: () -> Unit = {}) {
@@ -1702,26 +1696,6 @@ fun ExpandableText(
             },
             style = style,
             textAlign = textAlign
-        )
-    }
-}
-
-@Composable
-fun FollowButton(
-    followManipulate: FollowManipulate,
-    currentUserId: Int,
-    followUserId: Int,
-    followManipulateViewModel: FollowManipulateViewModel = hiltViewModel()
-) {
-    GreenButtonOutlineIconed(
-        text = stringResource(R.string.follow_me_text),
-        trailingIconPainterId = R.drawable.follow_fill,
-        trailingIconDescriptionId = R.string.follow_icon_description
-    ) {
-        followManipulateViewModel.addFollow(
-            followManipulate,
-            currentUserId,
-            followUserId
         )
     }
 }

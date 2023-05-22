@@ -20,8 +20,6 @@ import retrofit2.Response
 
 interface RoomerRepositoryInterface {
 
-    suspend fun checkIsFollowed(currentUserId: Int, userId: Int): Response<String>
-
     suspend fun addRoomToLocalHistory(room: LocalRoom)
 
     suspend fun addRoommateToLocalHistory(user: User)
@@ -137,7 +135,9 @@ interface RoomerRepositoryInterface {
 
     suspend fun followToUser(currentUserId: Int, followUserId: Int, token: String): Response<String>
 
-    suspend fun deleteFollow(currentUserId: Int, followUserId: Int, token: String): Response<String>
+    suspend fun unFollowUser(currentUserId: Int, followUserId: Int, token: String): Response<String>
+
+    suspend fun checkIsFollowed(currentUserId: Int, userId: Int, token: String): Response<Unit>
 
     suspend fun getCities(token: String): Response<List<CityModel>>
 }

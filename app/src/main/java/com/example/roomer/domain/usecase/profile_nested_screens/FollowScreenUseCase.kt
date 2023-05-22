@@ -4,12 +4,14 @@ import androidx.compose.runtime.MutableState
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
 import com.example.roomer.domain.model.entities.Follow
 import com.example.roomer.domain.model.entities.User
+import com.example.roomer.domain.usecase.shared.FollowUseCase
 import com.example.roomer.utils.Constants
 import com.example.roomer.utils.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class FollowScreenUseCase(private val roomerRepositoryInterface: RoomerRepositoryInterface) {
+class FollowScreenUseCase(private val roomerRepositoryInterface: RoomerRepositoryInterface) :
+    FollowUseCase(roomerRepositoryInterface) {
 
     suspend fun getFollows(
         currentUserId: Int,
@@ -35,4 +37,6 @@ class FollowScreenUseCase(private val roomerRepositoryInterface: RoomerRepositor
             emit(Resource.Error.GeneralError(Constants.Follows.ERROR_UNAUTHORIZED))
         }
     }
+
+
 }

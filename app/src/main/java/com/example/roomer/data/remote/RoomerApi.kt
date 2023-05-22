@@ -184,7 +184,9 @@ interface RoomerApi {
 
     @GET("/follow/check_follower/")
     suspend fun checkIsFollowed(
+        @Header("Authorization") token: String,
         @Query("user_id") currentUserId: Int,
         @Query("follow_id") userId: Int,
-    ): Response<String>
+    ): Response<Unit>
+    
 }
