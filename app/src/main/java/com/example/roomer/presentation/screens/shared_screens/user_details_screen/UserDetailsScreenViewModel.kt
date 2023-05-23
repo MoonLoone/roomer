@@ -67,6 +67,10 @@ class UserDetailsScreenViewModel @Inject constructor(
                         current.copy(isLoading = true)
                     }
 
+                    is Resource.Internet -> _state.update { current ->
+                        current.copy(isLoading = false, internetProblem = true, success = false)
+                    }
+
                     else -> _state.update { current ->
                         current.copy(
                             success = true,
@@ -91,6 +95,10 @@ class UserDetailsScreenViewModel @Inject constructor(
                         current.copy(isLoading = true)
                     }
 
+                    is Resource.Internet -> _state.update { current ->
+                        current.copy(isLoading = false, internetProblem = true, success = false)
+                    }
+
                     else -> _state.update { current ->
                         current.copy(success = true, isLoading = false, error = "General error")
                     }
@@ -110,6 +118,10 @@ class UserDetailsScreenViewModel @Inject constructor(
 
                         is Resource.Loading -> _state.update { current ->
                             current.copy(isLoading = true)
+                        }
+
+                        is Resource.Internet -> _state.update { current ->
+                            current.copy(isLoading = false, internetProblem = true, success = false)
                         }
 
                         else -> _state.update { current ->
