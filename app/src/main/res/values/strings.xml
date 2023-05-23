@@ -229,6 +229,7 @@
     <string name="follows_title">Follows</string>
     <string name="delete_text">Delete</string>
     <string name="follow_me_text">Follow me!</string>
+    <string name="unfollow_me_text">Followed</string>
     <string name="follow_icon_description">Follow icon</string>
 
     <string name="choose_city_label">Choose city</string>
@@ -246,6 +247,7 @@
     <string name="find_new_follow">Do you want to find new follow?</string>
     <string name="add_photos_icon_description">Add photos icon</string>
     <string name="add_post_icon">Add post icon</string>
+    <string name="unfollow_icon_description">Unfollow button</string>
     <string name="rate_user_title">Rate user</string>
     <string name="send_review_button_label">Send review</string>
     <string name="leave_comment_label">Leave your comment</string>

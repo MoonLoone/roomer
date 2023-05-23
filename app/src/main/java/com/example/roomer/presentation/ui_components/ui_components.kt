@@ -81,13 +81,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.roomer.R
-import com.example.roomer.data.shared.follow.FollowManipulate
-import com.example.roomer.data.shared.follow.FollowManipulateViewModel
-import com.example.roomer.data.shared.housing_like.HousingLikeInterface
 import com.example.roomer.domain.model.comment.UserReview
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.Room
@@ -96,11 +92,8 @@ import com.example.roomer.domain.model.login_sign_up.InterestModel
 import com.example.roomer.presentation.screens.entrance.signup.habits_screen.HabitTileModel
 import com.example.roomer.utils.Constants
 import com.example.roomer.utils.UtilsFunctions
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
-import kotlinx.coroutines.launch
 
 @Composable
 fun ProfileContentLine(text: String, iconId: Int, onNavigateToFriends: () -> Unit = {}) {
@@ -455,7 +448,7 @@ fun UserCard(recommendedRoommate: User, onClick: () -> Unit) {
 }
 
 @Composable
-fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean, likeHousing: HousingLikeInterface) {
+fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean) {
     val cardWidth = if (isMiniVersion) 240.dp else 332.dp
     val cardHeight = if (isMiniVersion) 172.dp else 256.dp
     val imageHeight = if (isMiniVersion) 112.dp else 172.dp
@@ -475,63 +468,29 @@ fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean, likeHousing: Housing
                 shape = RoundedCornerShape(16.dp)
             )
     ) {
-        var isLiked by remember {
-            mutableStateOf(recommendedRoom.isLiked)
-        }
         val photo = if (recommendedRoom.fileContent?.isNotEmpty() == true) {
             recommendedRoom.fileContent.first().photo
         } else {
             null
         }
-        Box(
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(photo)
+                .crossfade(true)
+                .build(),
+            placeholder = painterResource(id = R.drawable.ordinary_room),
+            contentDescription = stringResource(id = R.string.room_image_description),
             modifier = Modifier
-                .fillMaxWidth()
+                .width(cardWidth)
                 .height(imageHeight)
-        ) {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(photo)
-                    .crossfade(true)
-                    .build(),
-                placeholder = painterResource(id = R.drawable.ordinary_room),
-                contentDescription = stringResource(id = R.string.room_image_description),
-                modifier = Modifier
-                    .clip(
-                        RoundedCornerShape(
-                            topStart = dimensionResource(id = R.dimen.card_small_rounded_corner),
-                            topEnd = dimensionResource(id = R.dimen.card_small_rounded_corner)
-                        )
-                    ),
-                contentScale = ContentScale.Crop
-            )
-            Image(
-                painter = if (isLiked) {
-                    painterResource(id = R.drawable.room_like_in_icon)
-                } else {
-                    painterResource(
-                        id = R.drawable.room_like_icon
+                .clip(
+                    RoundedCornerShape(
+                        topStart = dimensionResource(id = R.dimen.card_small_rounded_corner),
+                        topEnd = dimensionResource(id = R.dimen.card_small_rounded_corner)
                     )
-                },
-                contentDescription = stringResource(id = R.string.like_icon),
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(top = 10.dp, end = 10.dp)
-                    .width(dimensionResource(id = R.dimen.big_icon))
-                    .height(dimensionResource(id = R.dimen.big_icon))
-                    .clip(RoundedCornerShape(dimensionResource(id = R.dimen.rounded_corner_full)))
-                    .clickable {
-                        CoroutineScope(Dispatchers.IO).launch {
-                            if (isLiked) {
-                                likeHousing.dislikeHousing(recommendedRoom)
-                            } else {
-                                likeHousing.likeHousing(recommendedRoom)
-                            }
-                        }
-                        isLiked = !isLiked
-                        recommendedRoom.isLiked = isLiked
-                    }
-            )
-        }
+                ),
+            contentScale = ContentScale.Crop
+        )
         Text(
             text = UtilsFunctions.trimString(title, Constants.ROOM_CARD_MAX_NAME),
             modifier = Modifier.padding(start = 16.dp, top = if (isMiniVersion) 12.dp else 16.dp),
@@ -1744,26 +1703,6 @@ fun ExpandableText(
             },
             style = style,
             textAlign = textAlign
-        )
-    }
-}
-
-@Composable
-fun FollowButton(
-    followManipulate: FollowManipulate,
-    currentUserId: Int,
-    followUserId: Int,
-    followManipulateViewModel: FollowManipulateViewModel = hiltViewModel()
-) {
-    GreenButtonOutlineIconed(
-        text = stringResource(R.string.follow_me_text),
-        trailingIconPainterId = R.drawable.follow_fill,
-        trailingIconDescriptionId = R.string.follow_icon_description
-    ) {
-        followManipulateViewModel.addFollow(
-            followManipulate,
-            currentUserId,
-            followUserId
         )
     }
 }

@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
 import com.example.roomer.data.room.entities.HistoryItem
-import com.example.roomer.data.shared.housing_like.HousingLikeInterface
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.domain.usecase.navbar_screens.HomeScreenUseCase
@@ -21,8 +20,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor(
-    private val roomerRepository: RoomerRepositoryInterface,
-    val housingLike: HousingLikeInterface
+    private val roomerRepository: RoomerRepositoryInterface
 ) : ViewModel() {
 
     private val homeScreenUseCase = HomeScreenUseCase(roomerRepository)

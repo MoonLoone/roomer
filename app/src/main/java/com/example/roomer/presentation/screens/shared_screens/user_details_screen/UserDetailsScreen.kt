@@ -20,6 +20,7 @@ import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -48,7 +49,6 @@ import com.example.roomer.presentation.screens.destinations.RateUserScreenDestin
 import com.example.roomer.presentation.screens.entrance.signup.habits_screen.HabitTileModel
 import com.example.roomer.presentation.ui_components.BackBtn
 import com.example.roomer.presentation.ui_components.ExpandableText
-import com.example.roomer.presentation.ui_components.FollowButton
 import com.example.roomer.presentation.ui_components.GreenButtonOutline
 import com.example.roomer.presentation.ui_components.GreenButtonOutlineIconed
 import com.example.roomer.presentation.ui_components.HabitsTable
@@ -68,6 +68,7 @@ fun UserDetailsScreen(
     viewModel: UserDetailsScreenViewModel = hiltViewModel()
 ) {
     NavbarManagement.hideNavbar()
+    val screenState = viewModel.state.collectAsState().value
     val textStyleHeadline = TextStyle(
         color = colorResource(id = R.color.black),
         fontWeight = FontWeight.Medium,
@@ -111,9 +112,9 @@ fun UserDetailsScreen(
             ) {
                 UserAvatar(avatarUrl = user.avatar)
                 FollowButton(
-                    followManipulate = viewModel.followManipulate,
-                    followUserId = user.userId,
-                    currentUserId = viewModel.currentUser.value.userId
+                    isFollowed = screenState.isFollow,
+                    onClickFollow = { viewModel.follow() },
+                    onClickUnfollow = { viewModel.unfollow() }
                 )
             }
             UserHeadline(

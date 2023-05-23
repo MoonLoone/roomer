@@ -1,8 +1,8 @@
 package com.example.roomer.utils
 
 interface ScreenState {
-    var success: Boolean
-    var isLoading: Boolean
-    var error: String
-    var internetProblem: Boolean
+    val success: Boolean
+    val isLoading: Boolean
+    val error: String
+    val internetProblem: Boolean
 }

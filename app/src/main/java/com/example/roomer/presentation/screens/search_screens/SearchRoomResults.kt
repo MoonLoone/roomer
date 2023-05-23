@@ -97,8 +97,7 @@ fun SearchRoomResults(
                     items(rooms.size) { index ->
                         RoomCard(
                             recommendedRoom = rooms[index],
-                            isMiniVersion = false,
-                            viewModel.housingLike
+                            isMiniVersion = false
                         )
                     }
                 }
