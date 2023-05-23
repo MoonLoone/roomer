@@ -18,7 +18,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -43,11 +42,11 @@ class UserDetailsScreenViewModel @Inject constructor(
     val currentUser: MutableState<User> = mutableStateOf(User())
     val state: StateFlow<UserDetailsScreenState> = _state
     private val userString: String? = savedStateHandle["user"]
-    private val user: User = Gson().fromJson(userString, User::class.java)
+    private val user: User? = Gson().fromJson(userString, User::class.java)
 
     init {
         viewModelScope.launch {
-            user.let {
+            user?.let {
                 addToHistory.roomerRepositoryInterface.addRoommateToLocalHistory(user)
             }
             currentUser.value = roomerRepositoryInterface.getLocalCurrentUser()
@@ -56,6 +55,7 @@ class UserDetailsScreenViewModel @Inject constructor(
     }
 
     private suspend fun checkIsFollow() {
+        if (user?.userId == null) return
         userDetailsUseCase.checkIsFollowed(currentUser.value.userId, user.userId, token)
             .collect { result ->
                 when (result) {
@@ -85,6 +85,7 @@ class UserDetailsScreenViewModel @Inject constructor(
 
     fun follow() {
         viewModelScope.launch {
+            if (user?.userId == null) return@launch
             userDetailsUseCase.follow(currentUser.value.userId, user.userId, token).collect { result ->
                 when (result) {
                     is Resource.Success -> _state.update { current ->
@@ -109,6 +110,7 @@ class UserDetailsScreenViewModel @Inject constructor(
 
     fun unfollow() {
         viewModelScope.launch {
+            if (user?.userId == null) return@launch
             userDetailsUseCase.unfollow(currentUser.value.userId, user.userId, token)
                 .collect { result ->
                     when (result) {
