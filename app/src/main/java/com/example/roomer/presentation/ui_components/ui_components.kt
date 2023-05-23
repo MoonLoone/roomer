@@ -84,6 +84,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.roomer.R
+import com.example.roomer.domain.model.comment.UserReview
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
@@ -1702,26 +1703,6 @@ fun ExpandableText(
             },
             style = style,
             textAlign = textAlign
-        )
-    }
-}
-
-@Composable
-fun FollowButton(
-    followManipulate: FollowManipulate,
-    currentUserId: Int,
-    followUserId: Int,
-    followManipulateViewModel: FollowManipulateViewModel = hiltViewModel()
-) {
-    GreenButtonOutlineIconed(
-        text = stringResource(R.string.follow_me_text),
-        trailingIconPainterId = R.drawable.follow_fill,
-        trailingIconDescriptionId = R.string.follow_icon_description
-    ) {
-        followManipulateViewModel.addFollow(
-            followManipulate,
-            currentUserId,
-            followUserId
         )
     }
 }
