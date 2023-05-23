@@ -220,6 +220,18 @@
     <string name="find_new_follow">Хотите найти нового подписчика?</string>
     <string name="add_photos_icon_description">иконка добавления фото</string>
     <string name="add_post_icon">иконка добавления объявления</string>
+    <string name="rate_user_title">Оценить пользователя</string>
+    <string name="send_review_button_label">Отправить отзыв</string>
+    <string name="leave_comment_label">Оставьте комментарий</string>
+    <string name="comment_maximum_text">Максимум 1000 символов</string>
+    <string name="leave_comment_placeholder">Ваш комментарий</string>
+    <string name="rate_anonymously_text">Оценить анонимно</string>
+    <string name="send_review_confirm_dialog_text">Вы уверены, что хотите оставить этот отзыв об этом пользователе?</string>
+    <string name="rating_not_specified_alert_dialog_text">Укажите рейтинг пользователя</string>
+    <string name="comment_is_empty_alert_dialog_text">Добавьте комментарий</string>
+    <string name="comment_screen_title">Комментарии</string>
+    <string name="no_comments_text">Нет комментариев</string>
+    <string name="anonymous">Аноним</string>
     <string name="unfollow_me_text">Подписан</string>
     <string name="unfollow_icon_description">Кнопка отписаться</string>
 </resources>

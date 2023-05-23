@@ -44,6 +44,8 @@ import com.example.roomer.R
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.domain.model.login_sign_up.InterestModel
 import com.example.roomer.presentation.screens.destinations.ChatScreenDestination
+import com.example.roomer.presentation.screens.destinations.CommentScreenDestination
+import com.example.roomer.presentation.screens.destinations.RateUserScreenDestination
 import com.example.roomer.presentation.screens.entrance.signup.habits_screen.HabitTileModel
 import com.example.roomer.presentation.ui_components.BackBtn
 import com.example.roomer.presentation.ui_components.ExpandableText
@@ -124,6 +126,8 @@ fun UserDetailsScreen(
             )
             UserLocation(user.city ?: "")
             UserTraitsWithCommentsButton(
+                user,
+                navigator,
                 listOf(
                     Pair(R.string.rating_and_colon, user.rating.toString()),
                     Pair(
@@ -165,7 +169,9 @@ fun UserDetailsScreen(
                     bottom = dimensionResource(id = R.dimen.message_rate_buttons_bottom_padding)
                 )
         ) {
-            RateFab {}
+            RateFab {
+                navigator.navigate(RateUserScreenDestination(user))
+            }
             MessageFab {
                 navigator.navigate(ChatScreenDestination(user))
             }
@@ -229,6 +235,8 @@ private fun DetailsHeadline(onBackClick: () -> Unit) {
 
 @Composable
 private fun UserTraitsWithCommentsButton(
+    user: User,
+    navigator: DestinationsNavigator,
     traitIdToValue: List<Pair<Int, String>>,
     totalComments: Int,
     traitKeyStyle: TextStyle,
@@ -292,7 +300,9 @@ private fun UserTraitsWithCommentsButton(
             ),
             trailingIconPainterId = R.drawable.double_arrow_icon,
             trailingIconDescriptionId = R.string.double_arrow_icon_description
-        ) { }
+        ) {
+            navigator.navigate(CommentScreenDestination(user))
+        }
     }
 }
 

@@ -56,6 +56,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.BottomEnd
 import androidx.compose.ui.Alignment.Companion.Center
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -599,8 +600,14 @@ fun PostCard(room: Room, onEditClick: () -> Unit, onRemoveClick: () -> Unit) {
                         placeholder = painterResource(id = R.drawable.ordinary_room),
                         contentDescription = stringResource(id = R.string.room_image_description),
                         modifier = Modifier
-                            .fillMaxSize(),
-                        contentScale = ContentScale.FillBounds
+                            .fillMaxSize()
+                            .clip(
+                                RoundedCornerShape(
+                                    topStart = 16.dp,
+                                    topEnd = 16.dp
+                                )
+                            ),
+                        contentScale = ContentScale.Crop
                     )
                 }
             }
@@ -648,7 +655,7 @@ fun PostCard(room: Room, onEditClick: () -> Unit, onRemoveClick: () -> Unit) {
             contentDescription = stringResource(id = R.string.like_icon),
             modifier = Modifier
                 .padding(bottom = 24.dp, end = 24.dp)
-                .align(Alignment.BottomEnd)
+                .align(BottomEnd)
                 .width(dimensionResource(id = R.dimen.big_icon))
                 .height(dimensionResource(id = R.dimen.big_icon))
                 .clip(RoundedCornerShape(dimensionResource(id = R.dimen.rounded_corner_full)))
@@ -1696,6 +1703,147 @@ fun ExpandableText(
             style = style,
             textAlign = textAlign
         )
+    }
+}
+
+@Composable
+fun FollowButton(
+    followManipulate: FollowManipulate,
+    currentUserId: Int,
+    followUserId: Int,
+    followManipulateViewModel: FollowManipulateViewModel = hiltViewModel()
+) {
+    GreenButtonOutlineIconed(
+        text = stringResource(R.string.follow_me_text),
+        trailingIconPainterId = R.drawable.follow_fill,
+        trailingIconDescriptionId = R.string.follow_icon_description
+    ) {
+        followManipulateViewModel.addFollow(
+            followManipulate,
+            currentUserId,
+            followUserId
+        )
+    }
+}
+
+@Composable
+fun BasicHeaderBar(title: String, onBackClick: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        BackBtn {
+            onBackClick()
+        }
+        Text(
+            text = title,
+            modifier = Modifier.fillMaxWidth(),
+            fontSize = integerResource(id = R.integer.label_text).sp,
+            textAlign = TextAlign.Center,
+            fontWeight = FontWeight.Medium
+        )
+    }
+}
+
+@Composable
+fun CommentCard(userReview: UserReview) {
+    val cardWidth = 332.dp
+    val nameTextSize = 16.sp
+    val commentTextSize = 14.sp
+    Box(
+        modifier = Modifier
+            .width(cardWidth)
+            .background(
+                color = colorResource(id = R.color.secondary_color),
+                shape = RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_ordinary))
+            )
+            .border(
+                dimensionResource(R.dimen.ordinary_border),
+                Color.Black,
+                RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_ordinary))
+            )
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                if (userReview.isAnonymous) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.tabler_spy_icon),
+                        contentDescription = null,
+                        tint = Color.Unspecified
+                    )
+                } else {
+                    AsyncImage(
+                        model = ImageRequest.Builder(LocalContext.current)
+                            .data(userReview.author.avatar)
+                            .crossfade(true)
+                            .build(),
+                        placeholder = painterResource(R.drawable.ordinary_user),
+                        contentDescription =
+                        UtilsFunctions.trimString(
+                            userReview.author.firstName + " " + userReview.author.lastName,
+                            Constants.MAX_CHARS_IN_COMMENT_NAME
+                        ),
+                        modifier = Modifier
+                            .size(dimensionResource(R.dimen.big_icon))
+                            .clip(
+                                CircleShape
+                            ),
+                        contentScale = ContentScale.Crop
+                    )
+                }
+                Text(
+                    modifier = Modifier.align(CenterVertically),
+                    text = if (userReview.isAnonymous) {
+                        stringResource(R.string.anonymous)
+                    } else {
+                        UtilsFunctions.trimString(
+                            userReview.author.firstName + " " + userReview.author.lastName,
+                            Constants.MAX_CHARS_IN_COMMENT_NAME
+                        )
+                    },
+                    style = TextStyle(
+                        color = colorResource(
+                            id = R.color.black
+                        ),
+                        fontSize = nameTextSize,
+                        fontWeight = FontWeight.Medium
+                    )
+                )
+            }
+            Row {
+                for (i in 0 until userReview.score) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.small_filled_star_icon),
+                        contentDescription = null,
+                        tint = Color.Unspecified
+                    )
+                }
+                for (i in 0 until 5 - userReview.score) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.small_outlined_star_icon),
+                        contentDescription = null,
+                        tint = Color.Unspecified
+                    )
+                }
+            }
+            Text(
+                text = userReview.comment,
+                style = TextStyle(
+                    color = colorResource(
+                        id = R.color.black
+                    ),
+                    fontSize = commentTextSize,
+                    fontWeight = FontWeight.Medium
+                )
+            )
+        }
     }
 }
 
