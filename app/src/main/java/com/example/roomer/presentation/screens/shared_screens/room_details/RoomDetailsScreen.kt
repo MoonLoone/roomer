@@ -53,6 +53,7 @@ import com.example.roomer.presentation.ui_components.BackBtn
 import com.example.roomer.presentation.ui_components.NoRippleInteractionSource
 import com.example.roomer.utils.Constants.Options.apartmentOptions
 import com.example.roomer.utils.NavbarManagement
+import com.example.roomer.utils.UtilsFunctions
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.CoroutineScope
@@ -87,7 +88,7 @@ fun RoomDetailsScreen(
             .fillMaxSize()
             .padding(
                 start = dimensionResource(id = R.dimen.screen_start_margin),
-                end = dimensionResource(id = R.dimen.screen_end_margin)
+                end = dimensionResource(id = R.dimen.screen_end_margin),
             ),
         contentAlignment = Alignment.BottomCenter
     ) {
@@ -121,7 +122,7 @@ fun RoomDetailsScreen(
 
 
             Text(
-                text = room.title,
+                text = UtilsFunctions.trimString(room.title, 100),
                 modifier = Modifier.padding(
                     start = dimensionResource(id = R.dimen.row_vert_margin),
                     top = dimensionResource(id = R.dimen.row_vert_margin)
@@ -131,7 +132,7 @@ fun RoomDetailsScreen(
                         id = R.color.black
                     ),
                     fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp
+                    fontSize = integerResource(id = R.integer.big_text).sp
                 )
             )
 
@@ -154,10 +155,9 @@ fun RoomDetailsScreen(
             Spacer(Modifier.padding(bottom = dimensionResource(R.dimen.column_bottom_margin)))
         }
         Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
+            horizontalArrangement = Arrangement.End,
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .fillMaxWidth()
+            modifier = Modifier.fillMaxWidth()
         ) {
             if (room.host != null) {
                 MessageFab {
@@ -203,19 +203,20 @@ private fun MessageFab(onClick: () -> Unit) {
 
 @Composable
 private fun Header(onBackClick: () -> Unit) {
-    Row(horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = Modifier.fillMaxWidth()) {
-        BackBtn(
-            onBackNavigation = { onBackClick() }
-        )
+    Row(
+        modifier = Modifier
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        BackBtn {
+            onBackClick()
+        }
         Text(
-            text = stringResource(R.string.details),
-            style = TextStyle(
-                fontSize = integerResource(
-                    id = R.integer.label_text
-                ).sp, color = Color.Black
-            ),
-            textAlign = TextAlign.Center
+            text = stringResource(R.string.details_header),
+            fontSize = integerResource(id = R.integer.label_text).sp,
+            textAlign = TextAlign.Center,
+            fontWeight = FontWeight.Medium,
+            modifier = Modifier.fillMaxWidth()
         )
     }
 }
@@ -381,7 +382,7 @@ private fun Description(
         style = TextStyle(
             color = colorResource(id = R.color.black),
             fontWeight = FontWeight.Bold,
-            fontSize = 20.sp
+            fontSize = integerResource(id = R.integer.big_text).sp
         )
     )
 

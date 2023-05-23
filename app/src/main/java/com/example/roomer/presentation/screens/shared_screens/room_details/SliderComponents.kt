@@ -1,9 +1,9 @@
 package com.example.roomer.presentation.screens.shared_screens.room_details
 
-import android.media.Image
+
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.collectIsDraggedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
@@ -23,19 +23,22 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImagePainter.State.Empty.painter
 import com.example.roomer.R
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.coroutineScope
+
 
 @Composable
 fun IndicatorDot(
@@ -88,6 +91,7 @@ fun AutoSlidingCarousel(
     itemContent: @Composable (index: Int) -> Unit,
 ) {
     val isDragged by pagerState.interactionSource.collectIsDraggedAsState()
+    val coroutineScope = rememberCoroutineScope()
 
     Box(
         modifier = modifier
@@ -112,14 +116,37 @@ fun AutoSlidingCarousel(
                 dotSize = 8.dp
             )
         }
-        Icon(
-            painter = painterResource(R.drawable.arrow_right),
-            contentDescription = "Arrow to the right",
-            modifier = Modifier
-                .align(Alignment.CenterEnd)
-                .height(25.dp)
-                .padding(),
-            tint = colorResource(id = R.color.secondary_color)
-        )
+        if (pagerState.currentPage != 0) {
+            Icon(
+                painter = painterResource(R.drawable.arrow_left),
+                contentDescription = "To the previous image",
+                modifier = Modifier
+                    .align(Alignment.CenterStart)
+                    .height(40.dp)
+                    .padding(start = 5.dp)
+                    .clickable {
+                        coroutineScope.launch {
+                            pagerState.animateScrollToPage(pagerState.currentPage - 1)
+                        }
+                    },
+                tint = colorResource(id = R.color.secondary_color)
+            )
+        }
+        if (pagerState.currentPage != itemsCount - 1) {
+            Icon(
+                painter = painterResource(R.drawable.arrow_right),
+                contentDescription = "To the next image",
+                modifier = Modifier
+                    .align(Alignment.CenterEnd)
+                    .height(40.dp)
+                    .padding(end = 5.dp)
+                    .clickable {
+                        coroutineScope.launch {
+                            pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                        }
+                    },
+                tint = colorResource(id = R.color.secondary_color)
+            )
+        }
     }
 }
