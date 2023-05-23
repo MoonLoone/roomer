@@ -12,11 +12,11 @@ import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInte
 import com.example.roomer.data.room.entities.toRoom
 import com.example.roomer.domain.model.entities.Room
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class FavouriteViewModel @Inject constructor(

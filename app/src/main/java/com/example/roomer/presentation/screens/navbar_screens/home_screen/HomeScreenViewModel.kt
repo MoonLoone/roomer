@@ -12,11 +12,11 @@ import com.example.roomer.domain.model.entities.User
 import com.example.roomer.domain.usecase.navbar_screens.HomeScreenUseCase
 import com.example.roomer.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor(

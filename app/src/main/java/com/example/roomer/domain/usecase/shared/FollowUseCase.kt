@@ -3,8 +3,8 @@ package com.example.roomer.domain.usecase.shared
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
 import com.example.roomer.utils.Constants
 import com.example.roomer.utils.Resource
-import kotlinx.coroutines.flow.flow
 import java.io.IOException
+import kotlinx.coroutines.flow.flow
 
 open class FollowUseCase(private val roomerRepositoryInterface: RoomerRepositoryInterface) {
 
@@ -17,7 +17,7 @@ open class FollowUseCase(private val roomerRepositoryInterface: RoomerRepository
             } else {
                 emit(Resource.Error.GeneralError(process.errorBody().toString()))
             }
-        }catch (e: IOException){
+        } catch (e: IOException) {
             emit(Resource.Internet(Constants.UseCase.internetErrorMessage))
         }
     }

@@ -14,11 +14,11 @@ import com.example.roomer.utils.Resource
 import com.example.roomer.utils.SpManager
 import com.example.roomer.utils.converters.convertTimeDateFromBackend
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class MessengerViewModel @Inject constructor(

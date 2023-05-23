@@ -3,10 +3,10 @@ package com.example.roomer.data.shared.add_to_history
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
 import com.example.roomer.data.room.entities.LocalRoom
 import com.example.roomer.domain.model.entities.User
+import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 class AddToHistory @Inject constructor(
     val roomerRepositoryInterface: RoomerRepositoryInterface

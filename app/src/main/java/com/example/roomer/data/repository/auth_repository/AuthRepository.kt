@@ -8,13 +8,13 @@ import com.example.roomer.domain.model.login_sign_up.LoginDto
 import com.example.roomer.domain.model.login_sign_up.SignUpDataModel
 import com.example.roomer.domain.model.login_sign_up.SignUpModel
 import com.example.roomer.domain.model.login_sign_up.TokenDto
+import java.io.ByteArrayOutputStream
+import kotlin.random.Random
+import kotlin.random.nextUInt
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Response
-import java.io.ByteArrayOutputStream
-import kotlin.random.Random
-import kotlin.random.nextUInt
 
 class AuthRepository(
     private val roomerApi: RoomerApi

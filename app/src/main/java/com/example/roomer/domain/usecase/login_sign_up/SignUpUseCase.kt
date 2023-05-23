@@ -5,10 +5,10 @@ import com.example.roomer.data.repository.auth_repository.AuthRepositoryInterfac
 import com.example.roomer.domain.model.login_sign_up.InterestModel
 import com.example.roomer.utils.Constants
 import com.example.roomer.utils.Resource
+import java.io.IOException
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import java.io.IOException
 
 class SignUpUseCase(
     private val repository: AuthRepositoryInterface
