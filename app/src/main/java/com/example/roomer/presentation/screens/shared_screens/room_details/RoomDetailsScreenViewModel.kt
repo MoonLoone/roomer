@@ -4,7 +4,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.roomer.data.shared.add_to_history.AddToHistory
-import com.example.roomer.data.shared.housing_like.HousingLikeInterface
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.toLocalRoom
 import com.google.gson.Gson
@@ -17,7 +16,6 @@ import kotlinx.coroutines.launch
 class RoomDetailsScreenViewModel @Inject constructor(
     private val addToHistory: AddToHistory,
     private val savedStateHandle: SavedStateHandle,
-    val housingLike: HousingLikeInterface
 ) : ViewModel() {
 
     init {

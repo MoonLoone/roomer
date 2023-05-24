@@ -286,7 +286,7 @@ private fun RecommendedRoommates(
 @Composable
 private fun RecommendedRooms(
     recommendedRooms: List<Room>,
-    emptyRooms: Boolean
+    emptyRooms: Boolean,
     navigateToRoom: (Room) -> Unit
 ) {
     if (!emptyRooms) {

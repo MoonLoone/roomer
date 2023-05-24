@@ -55,7 +55,7 @@ fun FavouriteScreen(
 
 @Composable
 private fun FavouritesList(
-    listOfFavourites: LazyPagingItems<Room>?
+    listOfFavourites: LazyPagingItems<Room>?,
     navigateToRoom: (Room) -> Unit
 ) {
     val lazyListState = rememberLazyListState()
