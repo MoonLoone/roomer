@@ -42,7 +42,6 @@ import coil.request.ImageRequest
 import com.example.roomer.R
 import com.example.roomer.data.room.entities.HistoryItem
 import com.example.roomer.data.room.entities.toRoom
-import com.example.roomer.data.shared.housing_like.HousingLikeInterface
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.presentation.screens.destinations.RoomDetailsScreenDestination
@@ -103,7 +102,6 @@ fun HomeScreen(
             RecentlyWatched(
                 emptyRecently = state.emptyHistory,
                 history = history,
-                housingLikeInterface = homeScreenViewModel.housingLike,
                 navigateToUser = { user -> navigator.navigate(UserDetailsScreenDestination(user)) },
                 navigateToRoom = { room -> navigator.navigate(RoomDetailsScreenDestination(room)) }
             )
@@ -115,7 +113,6 @@ fun HomeScreen(
             RecommendedRooms(
                 emptyRooms = state.emptyRecommendedRooms,
                 recommendedRooms = recommendedRooms,
-                housingLikeInterface = homeScreenViewModel.housingLike,
                 navigateToRoom = { room -> navigator.navigate(RoomDetailsScreenDestination(room)) }
             )
             Spacer(
@@ -186,7 +183,6 @@ private fun HeaderLine(user: User, navigateToUser: () -> Unit) {
 private fun RecentlyWatched(
     emptyRecently: Boolean,
     history: List<HistoryItem>,
-    housingLikeInterface: HousingLikeInterface,
     navigateToUser: (User) -> Unit,
     navigateToRoom: (Room) -> Unit
 ) {
@@ -228,7 +224,6 @@ private fun RecentlyWatched(
                     RoomCard(
                         recommendedRoom = room,
                         isMiniVersion = true,
-                        likeHousing = housingLikeInterface,
                         onClick = { navigateToRoom(room) }
                     )
                 }
@@ -291,8 +286,7 @@ private fun RecommendedRoommates(
 @Composable
 private fun RecommendedRooms(
     recommendedRooms: List<Room>,
-    housingLikeInterface: HousingLikeInterface,
-    emptyRooms: Boolean,
+    emptyRooms: Boolean
     navigateToRoom: (Room) -> Unit
 ) {
     if (!emptyRooms) {
@@ -329,7 +323,6 @@ private fun RecommendedRooms(
                 RoomCard(
                     recommendedRoom = recommendedRooms[index],
                     isMiniVersion = true,
-                    likeHousing = housingLikeInterface,
                     onClick = { navigateToRoom(recommendedRooms[index]) }
                 )
             }

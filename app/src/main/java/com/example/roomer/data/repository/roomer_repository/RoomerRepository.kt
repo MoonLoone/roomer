@@ -11,6 +11,8 @@ import com.example.roomer.data.room.entities.HistoryItem
 import com.example.roomer.data.room.entities.LocalMessage
 import com.example.roomer.data.room.entities.LocalRoom
 import com.example.roomer.domain.model.city.CityModel
+import com.example.roomer.domain.model.comment.Comment
+import com.example.roomer.domain.model.comment.UserReview
 import com.example.roomer.domain.model.entities.Follow
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.MessageNotification
@@ -301,7 +303,7 @@ class RoomerRepository @Inject constructor(
         return roomerApi.followToUser(currentUserId, followUserId, refToken)
     }
 
-    override suspend fun deleteFollow(
+    override suspend fun unFollowUser(
         currentUserId: Int,
         followUserId: Int,
         token: String
@@ -310,8 +312,23 @@ class RoomerRepository @Inject constructor(
         return roomerApi.deleteFollow(currentUserId, followUserId, refToken)
     }
 
+    override suspend fun checkIsFollowed(currentUserId: Int, userId: Int, token: String): Response<Unit> {
+        val refToken = "Token ".plus(token)
+        return roomerApi.checkIsFollowed(refToken, currentUserId, userId)
+    }
+
     override suspend fun getCities(token: String): Response<List<CityModel>> {
         val refToken = "Token ".plus(token)
         return roomerApi.getCities(refToken)
+    }
+
+    override suspend fun addComment(token: String, comment: Comment): Response<Unit> {
+        val refToken = "Token ".plus(token)
+        return roomerApi.addReview(refToken, comment)
+    }
+
+    override suspend fun getReviews(token: String, receiverId: Int): Response<List<UserReview>> {
+        val refToken = "Token ".plus(token)
+        return roomerApi.getReviews(refToken, receiverId)
     }
 }

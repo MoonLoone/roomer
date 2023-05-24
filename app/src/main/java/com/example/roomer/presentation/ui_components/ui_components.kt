@@ -56,6 +56,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.BottomEnd
 import androidx.compose.ui.Alignment.Companion.Center
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -80,13 +81,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.roomer.R
-import com.example.roomer.data.shared.follow.FollowManipulate
-import com.example.roomer.data.shared.follow.FollowManipulateViewModel
-import com.example.roomer.data.shared.housing_like.HousingLikeInterface
+import com.example.roomer.domain.model.comment.UserReview
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
@@ -94,11 +92,8 @@ import com.example.roomer.domain.model.login_sign_up.InterestModel
 import com.example.roomer.presentation.screens.entrance.signup.habits_screen.HabitTileModel
 import com.example.roomer.utils.Constants
 import com.example.roomer.utils.UtilsFunctions
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
-import kotlinx.coroutines.launch
 
 @Composable
 fun ProfileContentLine(text: String, iconId: Int, onNavigateToFriends: () -> Unit = {}) {
@@ -456,7 +451,6 @@ fun UserCard(recommendedRoommate: User, onClick: () -> Unit) {
 fun RoomCard(
     recommendedRoom: Room,
     isMiniVersion: Boolean,
-    likeHousing: HousingLikeInterface,
     onClick: () -> Unit
 ) {
     val cardWidth = if (isMiniVersion) 240.dp else 332.dp
@@ -479,61 +473,29 @@ fun RoomCard(
             )
             .clickable { onClick() }
     ) {
-        var isLiked by remember {
-            mutableStateOf(recommendedRoom.isLiked)
-        }
         val photo = if (recommendedRoom.fileContent?.isNotEmpty() == true) {
             recommendedRoom.fileContent.first().photo
         } else {
             null
         }
-        Box(
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(photo)
+                .crossfade(true)
+                .build(),
+            placeholder = painterResource(id = R.drawable.ordinary_room),
+            contentDescription = stringResource(id = R.string.room_image_description),
             modifier = Modifier
-                .fillMaxWidth()
+                .width(cardWidth)
                 .height(imageHeight)
-        ) {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(photo)
-                    .crossfade(true)
-                    .build(),
-                placeholder = painterResource(id = R.drawable.ordinary_room),
-                contentDescription = stringResource(id = R.string.room_image_description),
-                modifier = Modifier
-                    .clip(
-                        RoundedCornerShape(
-                            topStart = dimensionResource(id = R.dimen.card_small_rounded_corner),
-                            topEnd = dimensionResource(id = R.dimen.card_small_rounded_corner)
-                        )
-                    ),
-                contentScale = ContentScale.Crop
-            )
-            Image(
-                painter = if (isLiked) {
-                    painterResource(id = R.drawable.room_like_in_icon)
-                } else {
-                    painterResource(
-                        id = R.drawable.room_like_icon
+                .clip(
+                    RoundedCornerShape(
+                        topStart = dimensionResource(id = R.dimen.card_small_rounded_corner),
+                        topEnd = dimensionResource(id = R.dimen.card_small_rounded_corner)
                     )
-                },
-                contentDescription = stringResource(id = R.string.like_icon),
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(top = 10.dp, end = 10.dp)
-                    .width(dimensionResource(id = R.dimen.big_icon))
-                    .height(dimensionResource(id = R.dimen.big_icon))
-                    .clip(RoundedCornerShape(dimensionResource(id = R.dimen.rounded_corner_full)))
-                    .clickable {
-                        CoroutineScope(Dispatchers.IO).launch {
-                            if (isLiked) {
-                                likeHousing.dislikeHousing(recommendedRoom)
-                            } else {
-                                likeHousing.likeHousing(recommendedRoom)
-                            }
-                        }
-                    }
-            )
-        }
+                ),
+            contentScale = ContentScale.Crop
+        )
         Text(
             text = UtilsFunctions.trimString(title, Constants.ROOM_CARD_MAX_NAME),
             modifier = Modifier.padding(start = 16.dp, top = if (isMiniVersion) 12.dp else 16.dp),
@@ -644,8 +606,14 @@ fun PostCard(room: Room, onEditClick: () -> Unit, onRemoveClick: () -> Unit) {
                         placeholder = painterResource(id = R.drawable.ordinary_room),
                         contentDescription = stringResource(id = R.string.room_image_description),
                         modifier = Modifier
-                            .fillMaxSize(),
-                        contentScale = ContentScale.FillBounds
+                            .fillMaxSize()
+                            .clip(
+                                RoundedCornerShape(
+                                    topStart = 16.dp,
+                                    topEnd = 16.dp
+                                )
+                            ),
+                        contentScale = ContentScale.Crop
                     )
                 }
             }
@@ -693,7 +661,7 @@ fun PostCard(room: Room, onEditClick: () -> Unit, onRemoveClick: () -> Unit) {
             contentDescription = stringResource(id = R.string.like_icon),
             modifier = Modifier
                 .padding(bottom = 24.dp, end = 24.dp)
-                .align(Alignment.BottomEnd)
+                .align(BottomEnd)
                 .width(dimensionResource(id = R.dimen.big_icon))
                 .height(dimensionResource(id = R.dimen.big_icon))
                 .clip(RoundedCornerShape(dimensionResource(id = R.dimen.rounded_corner_full)))
@@ -802,10 +770,10 @@ fun GreenButtonPrimary(
             backgroundColor = colorResource(id = R.color.primary_dark),
             contentColor = colorResource(id = R.color.secondary_color)
         )
-//        interactionSource = NoRippleInteractionSource()
     ) {
         androidx.compose.material.Text(
-            text = text
+            text = text,
+            fontSize = integerResource(id = R.integer.button_outline_font_size).sp
         )
     }
 }
@@ -814,9 +782,10 @@ fun GreenButtonPrimary(
 fun GreenButtonPrimaryIconed(
     text: String,
     modifier: Modifier = Modifier,
+    trailingIconPainterId: Int,
+    trailingIconDescriptionId: Int,
     enabled: Boolean = true,
-    onClick: () -> Unit,
-    trailingIcon: ImageVector
+    onClick: () -> Unit
 ) {
     Button(
         enabled = enabled,
@@ -829,15 +798,21 @@ fun GreenButtonPrimaryIconed(
         ),
         interactionSource = NoRippleInteractionSource()
     ) {
-        Icon(
-            trailingIcon,
-            stringResource(R.string.none_content_description),
-            tint = colorResource(id = R.color.secondary_color)
-        )
-        androidx.compose.material.Text(
-            text = text,
-            Modifier.padding(start = 4.dp)
-        )
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                modifier = Modifier.size(dimensionResource(id = R.dimen.small_icon)),
+                painter = painterResource(id = trailingIconPainterId),
+                contentDescription = stringResource(trailingIconDescriptionId),
+                tint = colorResource(id = R.color.secondary_color)
+            )
+            androidx.compose.material.Text(
+                text = text,
+                fontSize = integerResource(id = R.integer.button_outline_font_size).sp
+            )
+        }
     }
 }
 
@@ -992,6 +967,8 @@ fun ButtonsRowMapped(
     onValueChange: (String) -> Unit,
     enabled: Boolean = true
 ) {
+    val bundledMap =
+        UtilsFunctions.bundleMapItemsToFitInOneLine(values, Constants.SPACE_IN_BUTTONS_ROW)
     Column(
         modifier = Modifier
             .fillMaxWidth(),
@@ -1006,18 +983,22 @@ fun ButtonsRowMapped(
             textAlign = TextAlign.End,
             fontWeight = FontWeight.Medium
         )
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            for (item in values) {
-                if (item.key == value) {
-                    GreenButtonPrimary(text = item.value, enabled = enabled) {}
-                } else {
-                    GreenButtonOutline(text = item.value, enabled = enabled) {
-                        onValueChange(item.key)
+        bundledMap.forEach {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(
+                    dimensionResource(id = R.dimen.list_elements_margin)
+                )
+            ) {
+                for (item in it) {
+                    if (item.key == value) {
+                        GreenButtonPrimary(text = item.value, enabled = enabled) {}
+                    } else {
+                        GreenButtonOutline(text = item.value, enabled = enabled) {
+                            onValueChange(item.key)
+                        }
                     }
                 }
             }
@@ -1206,14 +1187,14 @@ fun HousingPhotosComponent(
                     top = dimensionResource(R.dimen.housing_component_default_padding)
                 ),
                 text = stringResource(R.string.add_photos_button_label),
-                trailingIcon = ImageVector.vectorResource(id = R.drawable.add_photos_icon),
                 enabled = true,
-                onClick = {
-                    if (enabled) {
-                        launcher.launch("image/*")
-                    }
+                trailingIconPainterId = R.drawable.add_photos_icon,
+                trailingIconDescriptionId = R.string.add_photos_icon_description
+            ) {
+                if (enabled) {
+                    launcher.launch("image/*")
                 }
-            )
+            }
             RedButtonPrimaryIconed(
                 modifier = Modifier.padding(
                     top = dimensionResource(R.dimen.housing_component_default_padding)
@@ -1732,39 +1713,123 @@ fun ExpandableText(
 }
 
 @Composable
-fun FollowButton(
-    followManipulate: FollowManipulate,
-    currentUserId: Int,
-    followUserId: Int,
-    followManipulateViewModel: FollowManipulateViewModel = hiltViewModel()
-) {
+fun BasicHeaderBar(title: String, onBackClick: () -> Unit) {
     Row(
         modifier = Modifier
-            .fillMaxWidth()
-            .height(32.dp)
-            .border(
-                width = 1.dp,
-                color = colorResource(id = R.color.black),
-                shape = RoundedCornerShape(100.dp)
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        BackBtn {
+            onBackClick()
+        }
+        Text(
+            text = title,
+            modifier = Modifier.fillMaxWidth(),
+            fontSize = integerResource(id = R.integer.label_text).sp,
+            textAlign = TextAlign.Center,
+            fontWeight = FontWeight.Medium
+        )
+    }
+}
+
+@Composable
+fun CommentCard(userReview: UserReview) {
+    val cardWidth = 332.dp
+    val nameTextSize = 16.sp
+    val commentTextSize = 14.sp
+    Box(
+        modifier = Modifier
+            .width(cardWidth)
+            .background(
+                color = colorResource(id = R.color.secondary_color),
+                shape = RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_ordinary))
             )
-            .clickable {
-                followManipulateViewModel.addFollow(
-                    followManipulate,
-                    currentUserId,
-                    followUserId
+            .border(
+                dimensionResource(R.dimen.ordinary_border),
+                Color.Black,
+                RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_ordinary))
+            )
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                if (userReview.isAnonymous) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.tabler_spy_icon),
+                        contentDescription = null,
+                        tint = Color.Unspecified
+                    )
+                } else {
+                    AsyncImage(
+                        model = ImageRequest.Builder(LocalContext.current)
+                            .data(userReview.author.avatar)
+                            .crossfade(true)
+                            .build(),
+                        placeholder = painterResource(R.drawable.ordinary_user),
+                        contentDescription =
+                        UtilsFunctions.trimString(
+                            userReview.author.firstName + " " + userReview.author.lastName,
+                            Constants.MAX_CHARS_IN_COMMENT_NAME
+                        ),
+                        modifier = Modifier
+                            .size(dimensionResource(R.dimen.big_icon))
+                            .clip(
+                                CircleShape
+                            ),
+                        contentScale = ContentScale.Crop
+                    )
+                }
+                Text(
+                    modifier = Modifier.align(CenterVertically),
+                    text = if (userReview.isAnonymous) {
+                        stringResource(R.string.anonymous)
+                    } else {
+                        UtilsFunctions.trimString(
+                            userReview.author.firstName + " " + userReview.author.lastName,
+                            Constants.MAX_CHARS_IN_COMMENT_NAME
+                        )
+                    },
+                    style = TextStyle(
+                        color = colorResource(
+                            id = R.color.black
+                        ),
+                        fontSize = nameTextSize,
+                        fontWeight = FontWeight.Medium
+                    )
                 )
             }
-    ) {
-        Icon(
-            painter = painterResource(id = R.drawable.follow_fill),
-            modifier = Modifier.padding(2.dp),
-            contentDescription = stringResource(R.string.follow_icon_description)
-        )
-        Text(
-            text = stringResource(R.string.follow_me_text),
-            modifier = Modifier.padding(2.dp),
-            textAlign = TextAlign.Center
-        )
+            Row {
+                for (i in 0 until userReview.score) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.small_filled_star_icon),
+                        contentDescription = null,
+                        tint = Color.Unspecified
+                    )
+                }
+                for (i in 0 until 5 - userReview.score) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.small_outlined_star_icon),
+                        contentDescription = null,
+                        tint = Color.Unspecified
+                    )
+                }
+            }
+            Text(
+                text = userReview.comment,
+                style = TextStyle(
+                    color = colorResource(
+                        id = R.color.black
+                    ),
+                    fontSize = commentTextSize,
+                    fontWeight = FontWeight.Medium
+                )
+            )
+        }
     }
 }
 

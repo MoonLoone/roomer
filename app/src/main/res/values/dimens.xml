@@ -48,8 +48,9 @@
     <dimen name="user_avatar_corner_radius">8.dp</dimen>
     <dimen name="fab_corner_radius">8.dp</dimen>
     <dimen name="fab_padding">16.dp</dimen>
-    <dimen name="bottom_padding">56.dp</dimen>
+    <dimen name="user_details_content_bottom_padding">88.dp</dimen>
     <dimen name="user_traits_column_width">90.dp</dimen>
+    <dimen name="message_rate_buttons_bottom_padding">32.dp</dimen>
 
     <!--Chat screen-->
     <dimen name="message_max_width">240.dp</dimen>
@@ -59,6 +60,7 @@
     <integer name="lists_title">20</integer>
     <dimen name="card_small_rounded_corner">8.dp</dimen>
 
+    <!--Add housing screen-->
     <dimen name="housing_component_big_image">80.dp</dimen>
     <dimen name="housing_component_rounded_corner_shape">10.dp</dimen>
     <integer name="housing_component_font_size">20</integer>
@@ -66,6 +68,16 @@
     <dimen name="housing_component_default_padding_2">20.dp</dimen>
     <dimen name="housing_component_horizontal_arrangement">24.dp</dimen>
     <dimen name="housing_component_lazy_row">88.dp</dimen>
+
+    <!--Signup screens-->
+    <dimen name="sign_up_top_padding">32.dp</dimen>
+    <dimen name="sign_up_bottom_padding">80.dp</dimen>
+    <dimen name="back_further_buttons_padding">32.dp</dimen>
+
+    <!--Rate user screen-->
+    <dimen name="rate_user_column_vertical_arrangement">24.dp</dimen>
+
+
 
     <!--Room details screen-->
     <dimen name="slider_height">200.dp</dimen>

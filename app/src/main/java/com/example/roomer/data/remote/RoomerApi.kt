@@ -1,6 +1,8 @@
 package com.example.roomer.data.remote
 
 import com.example.roomer.domain.model.city.CityModel
+import com.example.roomer.domain.model.comment.Comment
+import com.example.roomer.domain.model.comment.UserReview
 import com.example.roomer.domain.model.entities.Follow
 import com.example.roomer.domain.model.entities.Message
 import com.example.roomer.domain.model.entities.MessageNotification
@@ -181,4 +183,23 @@ interface RoomerApi {
     suspend fun getCities(
         @Header("Authorization") token: String
     ): Response<List<CityModel>>
+
+    @GET("/follow/check_follower/")
+    suspend fun checkIsFollowed(
+        @Header("Authorization") token: String,
+        @Query("user_id") currentUserId: Int,
+        @Query("follow_id") userId: Int
+    ): Response<Unit>
+
+    @POST("/review/")
+    suspend fun addReview(
+        @Header("Authorization") token: String,
+        @Body comment: Comment
+    ): Response<Unit>
+
+    @GET("/review/")
+    suspend fun getReviews(
+        @Header("Authorization") token: String,
+        @Query("receiver_id") receiverId: Int
+    ): Response<List<UserReview>>
 }

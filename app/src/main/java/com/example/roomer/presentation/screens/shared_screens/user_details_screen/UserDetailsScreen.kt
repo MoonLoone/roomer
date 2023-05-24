@@ -1,4 +1,4 @@
-package com.example.roomer.presentation.screens.shared_screens
+package com.example.roomer.presentation.screens.shared_screens.user_details_screen
 
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.horizontalScroll
@@ -6,9 +6,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -20,6 +20,7 @@ import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -43,10 +44,11 @@ import com.example.roomer.R
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.domain.model.login_sign_up.InterestModel
 import com.example.roomer.presentation.screens.destinations.ChatScreenDestination
+import com.example.roomer.presentation.screens.destinations.CommentScreenDestination
+import com.example.roomer.presentation.screens.destinations.RateUserScreenDestination
 import com.example.roomer.presentation.screens.entrance.signup.habits_screen.HabitTileModel
 import com.example.roomer.presentation.ui_components.BackBtn
 import com.example.roomer.presentation.ui_components.ExpandableText
-import com.example.roomer.presentation.ui_components.FollowButton
 import com.example.roomer.presentation.ui_components.GreenButtonOutline
 import com.example.roomer.presentation.ui_components.GreenButtonOutlineIconed
 import com.example.roomer.presentation.ui_components.HabitsTable
@@ -66,6 +68,7 @@ fun UserDetailsScreen(
     viewModel: UserDetailsScreenViewModel = hiltViewModel()
 ) {
     NavbarManagement.hideNavbar()
+    val screenState = viewModel.state.collectAsState().value
     val textStyleHeadline = TextStyle(
         color = colorResource(id = R.color.black),
         fontWeight = FontWeight.Medium,
@@ -109,9 +112,9 @@ fun UserDetailsScreen(
             ) {
                 UserAvatar(avatarUrl = user.avatar)
                 FollowButton(
-                    followManipulate = viewModel.followManipulate,
-                    followUserId = user.userId,
-                    currentUserId = viewModel.currentUser.value.userId
+                    isFollowed = screenState.isFollow,
+                    onClickFollow = { viewModel.follow() },
+                    onClickUnfollow = { viewModel.unfollow() }
                 )
             }
             UserHeadline(
@@ -123,6 +126,8 @@ fun UserDetailsScreen(
             )
             UserLocation(user.city ?: "")
             UserTraitsWithCommentsButton(
+                user,
+                navigator,
                 listOf(
                     Pair(R.string.rating_and_colon, user.rating.toString()),
                     Pair(
@@ -149,10 +154,10 @@ fun UserDetailsScreen(
             ExpandableText(text = user.aboutMe ?: "", style = textStyleSecondary)
             InterestsScroll(user.interests, interestsScroll)
             HabitsSection(headlineStyle = textStyleHeadline, user = user)
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(dimensionResource(id = R.dimen.bottom_padding))
+            Spacer(
+                modifier = Modifier.size(
+                    dimensionResource(id = R.dimen.user_details_content_bottom_padding)
+                )
             )
         }
         Row(
@@ -160,8 +165,13 @@ fun UserDetailsScreen(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
+                .padding(
+                    bottom = dimensionResource(id = R.dimen.message_rate_buttons_bottom_padding)
+                )
         ) {
-            RateFab {}
+            RateFab {
+                navigator.navigate(RateUserScreenDestination(user))
+            }
             MessageFab {
                 navigator.navigate(ChatScreenDestination(user))
             }
@@ -225,6 +235,8 @@ private fun DetailsHeadline(onBackClick: () -> Unit) {
 
 @Composable
 private fun UserTraitsWithCommentsButton(
+    user: User,
+    navigator: DestinationsNavigator,
     traitIdToValue: List<Pair<Int, String>>,
     totalComments: Int,
     traitKeyStyle: TextStyle,
@@ -288,7 +300,9 @@ private fun UserTraitsWithCommentsButton(
             ),
             trailingIconPainterId = R.drawable.double_arrow_icon,
             trailingIconDescriptionId = R.string.double_arrow_icon_description
-        ) { }
+        ) {
+            navigator.navigate(CommentScreenDestination(user))
+        }
     }
 }
 

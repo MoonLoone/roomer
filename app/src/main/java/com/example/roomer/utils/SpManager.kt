@@ -33,6 +33,6 @@ class SpManager {
         EMAIL,
         PASSWORD,
         TOKEN,
-        ISSIGNUP
+        SIGN_UP_NOT_FINISHED
     }
 }

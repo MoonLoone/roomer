@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="comments">
+        <item quantity="one">on %1$d comment</item>
+        <item quantity="few">on %1$d comments</item>
+        <item quantity="many">on %1$d comments</item>
+    </plurals>
+</resources>

@@ -60,7 +60,7 @@ fun FollowsScreen(
                 navigateToUserDetails = { user ->
                     navigator.navigate(UserDetailsScreenDestination(user))
                 },
-                deleteFollow = { follow -> followsViewModel.deleteFollow(follow) }
+                deleteFollow = { follow -> followsViewModel.unfollow(follow) }
             )
         }
         if (state.emptyFollowsList) {
@@ -89,7 +89,9 @@ private fun FollowsList(
             FollowCard(
                 user = followUser,
                 onClick = { navigateToUserDetails.invoke(followUser) },
-                deleteFollow = { deleteFollow.invoke(follows[index]) }
+                deleteFollow = {
+                    deleteFollow.invoke(follows[index])
+                }
             )
         }
     }
