@@ -260,4 +260,16 @@
     <string name="comment_screen_title">Comments</string>
     <string name="no_comments_text">No comments</string>
     <string name="anonymous">Anonymous</string>
+    <string name="details">Details</string>
+
+    <!--Room details screen-->
+    <string name="apartment_type_prefix">Apartment type: </string>
+    <string name="description">Description</string>
+    <string name="host">Host</string>
+    <string name="price_for_month_prefix">"Price for month: "</string>
+    <string name="chat">Chat</string>
+    <string name="avatar">Avatar</string>
+    <string name="slider">Slider</string>
+
+
 </resources>

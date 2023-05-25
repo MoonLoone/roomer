@@ -448,7 +448,11 @@ fun UserCard(recommendedRoommate: User, onClick: () -> Unit) {
 }
 
 @Composable
-fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean) {
+fun RoomCard(
+    recommendedRoom: Room,
+    isMiniVersion: Boolean,
+    onClick: () -> Unit
+) {
     val cardWidth = if (isMiniVersion) 240.dp else 332.dp
     val cardHeight = if (isMiniVersion) 172.dp else 256.dp
     val imageHeight = if (isMiniVersion) 112.dp else 172.dp
@@ -467,6 +471,7 @@ fun RoomCard(recommendedRoom: Room, isMiniVersion: Boolean) {
                 color = colorResource(id = R.color.primary_dark),
                 shape = RoundedCornerShape(16.dp)
             )
+            .clickable { onClick() }
     ) {
         val photo = if (recommendedRoom.fileContent?.isNotEmpty() == true) {
             recommendedRoom.fileContent.first().photo

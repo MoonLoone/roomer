@@ -234,4 +234,16 @@
     <string name="anonymous">Аноним</string>
     <string name="unfollow_me_text">Подписан</string>
     <string name="unfollow_icon_description">Кнопка отписаться</string>
+
+    <string name="details">Детали</string>
+
+    <!--Детали комнаты-->
+    <string name="apartment_type_prefix">"Тип жилья: "</string>
+    <string name="description">Описание</string>
+    <string name="host">Хозяин</string>
+    <string name="price_for_month_prefix">"Цена за месяц: "</string>
+    <string name="chat">Чат</string>
+    <string name="avatar">Аватар</string>
+    <string name="slider">Слайдер</string>
+
 </resources>

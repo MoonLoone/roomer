@@ -44,6 +44,7 @@ import com.example.roomer.data.room.entities.HistoryItem
 import com.example.roomer.data.room.entities.toRoom
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
+import com.example.roomer.presentation.screens.destinations.RoomDetailsScreenDestination
 import com.example.roomer.presentation.screens.destinations.SearchRoomScreenDestination
 import com.example.roomer.presentation.screens.destinations.SplashScreenDestination
 import com.example.roomer.presentation.screens.destinations.UserDetailsScreenDestination
@@ -102,7 +103,7 @@ fun HomeScreen(
                 emptyRecently = state.emptyHistory,
                 history = history,
                 navigateToUser = { user -> navigator.navigate(UserDetailsScreenDestination(user)) },
-                navigateToRoom = { room -> }
+                navigateToRoom = { room -> navigator.navigate(RoomDetailsScreenDestination(room)) }
             )
             RecommendedRoommates(
                 emptyRoommates = state.emptyRecommendedMates,
@@ -111,7 +112,8 @@ fun HomeScreen(
             )
             RecommendedRooms(
                 emptyRooms = state.emptyRecommendedRooms,
-                recommendedRooms = recommendedRooms
+                recommendedRooms = recommendedRooms,
+                navigateToRoom = { room -> navigator.navigate(RoomDetailsScreenDestination(room)) }
             )
             Spacer(
                 modifier = Modifier
@@ -221,7 +223,8 @@ private fun RecentlyWatched(
                 item.room?.toRoom()?.let { room ->
                     RoomCard(
                         recommendedRoom = room,
-                        isMiniVersion = false
+                        isMiniVersion = true,
+                        onClick = { navigateToRoom(room) }
                     )
                 }
                 item.user?.let { user ->
@@ -283,7 +286,8 @@ private fun RecommendedRoommates(
 @Composable
 private fun RecommendedRooms(
     recommendedRooms: List<Room>,
-    emptyRooms: Boolean
+    emptyRooms: Boolean,
+    navigateToRoom: (Room) -> Unit
 ) {
     if (!emptyRooms) {
         Text(
@@ -318,7 +322,8 @@ private fun RecommendedRooms(
             items(recommendedRooms.size) { index ->
                 RoomCard(
                     recommendedRoom = recommendedRooms[index],
-                    isMiniVersion = true
+                    isMiniVersion = true,
+                    onClick = { navigateToRoom(recommendedRooms[index]) }
                 )
             }
         }
