@@ -59,6 +59,7 @@ object Constants {
         const val ERROR_UNAUTHORIZED = "unauthorized"
         const val USER_CARD_MAX_NAME = 12
         const val SMALL_USER_NAME = 10
+        const val FOLLOW_PROBLEM = "follow can't be performed"
     }
 
     object Options {

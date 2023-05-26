@@ -42,9 +42,9 @@ import coil.request.ImageRequest
 import com.example.roomer.R
 import com.example.roomer.data.room.entities.HistoryItem
 import com.example.roomer.data.room.entities.toRoom
-import com.example.roomer.data.shared.housing_like.HousingLikeInterface
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.User
+import com.example.roomer.presentation.screens.destinations.RoomDetailsScreenDestination
 import com.example.roomer.presentation.screens.destinations.SearchRoomScreenDestination
 import com.example.roomer.presentation.screens.destinations.SplashScreenDestination
 import com.example.roomer.presentation.screens.destinations.UserDetailsScreenDestination
@@ -102,9 +102,8 @@ fun HomeScreen(
             RecentlyWatched(
                 emptyRecently = state.emptyHistory,
                 history = history,
-                housingLikeInterface = homeScreenViewModel.housingLike,
                 navigateToUser = { user -> navigator.navigate(UserDetailsScreenDestination(user)) },
-                navigateToRoom = { room -> }
+                navigateToRoom = { room -> navigator.navigate(RoomDetailsScreenDestination(room)) }
             )
             RecommendedRoommates(
                 emptyRoommates = state.emptyRecommendedMates,
@@ -114,7 +113,7 @@ fun HomeScreen(
             RecommendedRooms(
                 emptyRooms = state.emptyRecommendedRooms,
                 recommendedRooms = recommendedRooms,
-                housingLikeInterface = homeScreenViewModel.housingLike
+                navigateToRoom = { room -> navigator.navigate(RoomDetailsScreenDestination(room)) }
             )
             Spacer(
                 modifier = Modifier
@@ -184,7 +183,6 @@ private fun HeaderLine(user: User, navigateToUser: () -> Unit) {
 private fun RecentlyWatched(
     emptyRecently: Boolean,
     history: List<HistoryItem>,
-    housingLikeInterface: HousingLikeInterface,
     navigateToUser: (User) -> Unit,
     navigateToRoom: (Room) -> Unit
 ) {
@@ -225,8 +223,8 @@ private fun RecentlyWatched(
                 item.room?.toRoom()?.let { room ->
                     RoomCard(
                         recommendedRoom = room,
-                        isMiniVersion = false,
-                        likeHousing = housingLikeInterface
+                        isMiniVersion = true,
+                        onClick = { navigateToRoom(room) }
                     )
                 }
                 item.user?.let { user ->
@@ -288,8 +286,8 @@ private fun RecommendedRoommates(
 @Composable
 private fun RecommendedRooms(
     recommendedRooms: List<Room>,
-    housingLikeInterface: HousingLikeInterface,
-    emptyRooms: Boolean
+    emptyRooms: Boolean,
+    navigateToRoom: (Room) -> Unit
 ) {
     if (!emptyRooms) {
         Text(
@@ -325,7 +323,7 @@ private fun RecommendedRooms(
                 RoomCard(
                     recommendedRoom = recommendedRooms[index],
                     isMiniVersion = true,
-                    likeHousing = housingLikeInterface
+                    onClick = { navigateToRoom(recommendedRooms[index]) }
                 )
             }
         }

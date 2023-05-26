@@ -102,8 +102,7 @@ fun SearchRoommateScreen(
         modifier = Modifier.padding(
             start = dimensionResource(id = R.dimen.screen_start_margin),
             end = dimensionResource(id = R.dimen.screen_end_margin),
-            top = dimensionResource(id = R.dimen.screen_top_margin),
-            bottom = dimensionResource(id = R.dimen.screen_nav_bottom_margin)
+            top = dimensionResource(id = R.dimen.screen_top_margin)
         ),
         floatingActionButton = {
             GreenButtonOutline(
@@ -145,8 +144,7 @@ fun SearchRoommateScreen(
         Column(
             modifier = Modifier
                 .padding(
-                    bottom = it.calculateBottomPadding() +
-                        dimensionResource(R.dimen.column_bottom_margin)
+                    bottom = it.calculateBottomPadding()
                 )
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(

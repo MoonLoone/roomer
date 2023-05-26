@@ -36,9 +36,9 @@
     <!--Filters screens-->
     <dimen name="screen_nav_bottom_margin">40.dp</dimen>
     <dimen name="result_button_start_margin">20.dp</dimen>
-    <dimen name="result_button_bottom_margin">40.dp</dimen>
+    <dimen name="result_button_bottom_margin">10.dp</dimen>
     <dimen name="result_button_height">40.dp</dimen>
-    <dimen name="column_bottom_margin">64.dp</dimen>
+    <dimen name="column_bottom_margin">75.dp</dimen>
     <dimen name="spacer">100.dp</dimen>
     <dimen name="num_field_width">120.dp</dimen>
     <dimen name="num_field_height">56.dp</dimen>
@@ -78,4 +78,16 @@
     <dimen name="rate_user_column_vertical_arrangement">24.dp</dimen>
 
 
+
+    <!--Room details screen-->
+    <dimen name="slider_height">200.dp</dimen>
+    <dimen name="row_vert_margin">10.dp</dimen>
+    <dimen name="divider">1.dp</dimen>
+    <dimen name="icon_size">20.dp</dimen>
+    <dimen name="avatar_size">40.dp</dimen>
+    <dimen name="fab_start_margin">100.dp</dimen>
+    <dimen name="fab_size">64.dp</dimen>
+    <dimen name="rate_start_margin">40.dp</dimen>
+    <dimen name="avatar_end_margin">16.dp</dimen>
+    <dimen name="top_spaced">55.dp</dimen>
 </resources>
