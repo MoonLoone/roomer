@@ -1717,7 +1717,7 @@ fun BasicHeaderBar(title: String, onBackClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = CenterVertically
     ) {
         BackBtn {
             onBackClick()

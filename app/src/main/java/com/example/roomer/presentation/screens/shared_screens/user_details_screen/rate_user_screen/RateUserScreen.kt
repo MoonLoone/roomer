@@ -83,7 +83,7 @@ fun RateUserScreen(
     )
 
     if (state.success) {
-        navigator.navigate(UserDetailsScreenDestination(user))
+        navigator.popBackStack()
     }
     StateDialog(viewModel, state)
 
@@ -312,14 +312,12 @@ private fun AnonymousButton(
                     )
                 )
             }
-            if (isChecked) {
-                Icon(
-                    modifier = Modifier.align(Alignment.CenterEnd),
-                    painter = painterResource(R.drawable.checkbox_on_icon),
-                    contentDescription = null,
-                    tint = Color.Unspecified
-                )
-            }
+            Icon(
+                modifier = Modifier.align(Alignment.CenterEnd),
+                painter = if (isChecked) painterResource(R.drawable.checkbox_on_icon) else painterResource(R.drawable.checkbox_off_icon),
+                contentDescription = null,
+                tint = Color.Unspecified
+            )
         }
     }
 }
