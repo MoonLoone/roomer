@@ -169,7 +169,7 @@ fun SearchRoommateScreen(
             }
             FilterSelect(
                 selectItemName = stringResource(R.string.roommate),
-                onNavigateToFriends = { navigator.navigate(SearchRoomScreenDestination) }
+                onClick = { navigator.navigate(SearchRoomScreenDestination) }
             )
             Text(
                 stringResource(R.string.choose_roommate_parameters),

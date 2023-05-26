@@ -25,6 +25,7 @@ object Constants {
         const val internetErrorMessage = "No internet connection!"
         const val loginErrorName = "non_field_errors"
         const val tokenNotFoundErrorMessage = "Token not found"
+        const val generalError = "An error occurred!"
     }
 
     object Notification {
