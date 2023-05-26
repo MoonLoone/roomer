@@ -96,12 +96,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
 @Composable
-fun ProfileContentLine(text: String, iconId: Int, onNavigateToFriends: () -> Unit = {}) {
+fun ProfileContentLine(text: String, iconId: Int, onClick: () -> Unit = {}) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .height(dimensionResource(id = R.dimen.profile_line_height))
-            .clickable(onClick = { onNavigateToFriends.invoke() }),
+            .clickable(onClick = { onClick.invoke() }),
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Image(
@@ -1211,7 +1211,7 @@ fun HousingPhotosComponent(
 }
 
 @Composable
-fun FilterSelect(selectItemName: String, onNavigateToFriends: () -> Unit) {
+fun FilterSelect(selectItemName: String, onClick: () -> Unit) {
     val context = LocalContext.current
     Row(
         modifier = Modifier
@@ -1252,7 +1252,7 @@ fun FilterSelect(selectItemName: String, onNavigateToFriends: () -> Unit) {
                 )
                 .clickable {
                     if (selectItemName == context.getString(R.string.roommate)) {
-                        onNavigateToFriends.invoke()
+                        onClick.invoke()
                     }
                 },
             horizontalArrangement = Arrangement.Center,
@@ -1319,7 +1319,7 @@ fun FilterSelect(selectItemName: String, onNavigateToFriends: () -> Unit) {
                 )
                 .clickable {
                     if (selectItemName == context.getString(R.string.room)) {
-                        onNavigateToFriends.invoke()
+                        onClick.invoke()
                     }
                 },
             horizontalArrangement = Arrangement.Center,

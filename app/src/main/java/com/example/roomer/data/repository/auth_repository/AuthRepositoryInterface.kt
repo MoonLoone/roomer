@@ -38,4 +38,8 @@ interface AuthRepositoryInterface {
         token: String,
         avatar: Bitmap
     ): Response<IdModel>
+
+    suspend fun logout(
+        token: String
+    ): Response<Unit>
 }

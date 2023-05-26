@@ -260,6 +260,7 @@
     <string name="comment_screen_title">Comments</string>
     <string name="no_comments_text">No comments</string>
     <string name="anonymous">Anonymous</string>
+    <string name="logout_confirm">Are you sure you want to logout?</string>
     <string name="details">Details</string>
 
     <!--Room details screen-->

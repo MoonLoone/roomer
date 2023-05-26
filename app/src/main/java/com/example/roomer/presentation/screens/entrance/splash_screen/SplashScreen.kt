@@ -17,6 +17,7 @@ import com.example.roomer.presentation.screens.destinations.GreetingsScreenDesti
 import com.example.roomer.presentation.screens.destinations.HomeScreenDestination
 import com.example.roomer.presentation.screens.destinations.PrimaryUserInfoScreenDestination
 import com.example.roomer.presentation.ui_components.SimpleAlertDialog
+import com.example.roomer.utils.NavbarManagement
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -29,6 +30,8 @@ fun SplashScreen(
     splashScreenViewModel: SplashScreenViewModel = hiltViewModel()
 ) {
     val state by splashScreenViewModel.state.collectAsState()
+
+    NavbarManagement.hideNavbar()
 
     Column(
         modifier = Modifier

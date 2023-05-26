@@ -202,4 +202,9 @@ interface RoomerApi {
         @Header("Authorization") token: String,
         @Query("receiver_id") receiverId: Int
     ): Response<List<UserReview>>
+
+    @POST("/auth/token/logout/")
+    suspend fun logout(
+        @Header("Authorization") token: String
+    ): Response<Unit>
 }

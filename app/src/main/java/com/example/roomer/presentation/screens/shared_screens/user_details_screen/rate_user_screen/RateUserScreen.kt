@@ -40,7 +40,6 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.roomer.R
 import com.example.roomer.domain.model.entities.User
-import com.example.roomer.presentation.screens.destinations.UserDetailsScreenDestination
 import com.example.roomer.presentation.ui_components.BasicConfirmDialog
 import com.example.roomer.presentation.ui_components.BasicHeaderBar
 import com.example.roomer.presentation.ui_components.GreenButtonPrimary
@@ -314,7 +313,9 @@ private fun AnonymousButton(
             }
             Icon(
                 modifier = Modifier.align(Alignment.CenterEnd),
-                painter = if (isChecked) painterResource(R.drawable.checkbox_on_icon) else painterResource(R.drawable.checkbox_off_icon),
+                painter = if (isChecked) painterResource(R.drawable.checkbox_on_icon) else painterResource(
+                    R.drawable.checkbox_off_icon
+                ),
                 contentDescription = null,
                 tint = Color.Unspecified
             )

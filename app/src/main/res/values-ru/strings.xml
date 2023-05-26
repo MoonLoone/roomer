@@ -232,6 +232,7 @@
     <string name="comment_screen_title">Комментарии</string>
     <string name="no_comments_text">Нет комментариев</string>
     <string name="anonymous">Аноним</string>
+    <string name="logout_confirm">Вы точно хотите выйти из учетной записи?</string>
     <string name="unfollow_me_text">Подписан</string>
     <string name="unfollow_icon_description">Кнопка отписаться</string>
 
