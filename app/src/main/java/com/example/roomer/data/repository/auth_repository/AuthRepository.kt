@@ -91,6 +91,5 @@ class AuthRepository(
     override suspend fun logout(token: String): Response<Unit> {
         val refToken = "Token ".plus(token)
         return roomerApi.logout(refToken)
-
     }
 }

@@ -48,7 +48,7 @@ fun FavouriteScreen(
             favouriteViewModel.pagingData.value.collectAsLazyPagingItems()
         TopLine()
         FavouritesList(
-            listOfFavourites,
+            listOfFavourites
         ) { room -> navigator.navigate(RoomDetailsScreenDestination(room)) }
     }
 }

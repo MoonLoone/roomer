@@ -7,5 +7,5 @@ data class ProfileScreenState(
     override var isLoading: Boolean = false,
     override var error: String = "",
     override var internetProblem: Boolean = false,
-    val isLogout: Boolean = false,
-): ScreenState
+    val isLogout: Boolean = false
+) : ScreenState

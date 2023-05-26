@@ -40,6 +40,6 @@ interface AuthRepositoryInterface {
     ): Response<IdModel>
 
     suspend fun logout(
-        token: String,
+        token: String
     ): Response<Unit>
 }

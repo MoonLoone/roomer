@@ -205,6 +205,6 @@ interface RoomerApi {
 
     @POST("/auth/token/logout/")
     suspend fun logout(
-        @Header("Authorization") token: String,
+        @Header("Authorization") token: String
     ): Response<Unit>
 }

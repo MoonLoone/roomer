@@ -4,8 +4,6 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.roomer.data.repository.auth_repository.AuthRepositoryInterface
-import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
-import com.example.roomer.domain.usecase.login_sign_up.SplashScreenUseCase
 import com.example.roomer.domain.usecase.profile_screen.ProfileScreenUseCase
 import com.example.roomer.utils.Resource
 import com.example.roomer.utils.SpManager
