@@ -28,6 +28,7 @@ import androidx.paging.compose.items
 import com.example.roomer.R
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.presentation.screens.destinations.RoomDetailsScreenDestination
+import com.example.roomer.presentation.ui_components.FavouriteLikeButton
 import com.example.roomer.presentation.ui_components.RoomCard
 import com.example.roomer.utils.NavbarManagement
 import com.ramcosta.composedestinations.annotation.Destination
@@ -51,8 +52,8 @@ fun FavouriteScreen(
         FavouritesList(
             listOfFavourites,
             navigateToRoom = { room -> navigator.navigate(RoomDetailsScreenDestination(room)) },
-            unlikeHousing = { room -> favouriteViewModel.unlikeHousing(room) },
-            likeHousing = { room -> favouriteViewModel.likeHousing(room) }
+            unlikeHousing = { room -> favouriteViewModel.deleteFromFavourite(room) },
+            likeHousing = { room -> favouriteViewModel.addToFavourite(room) }
         )
     }
 }
@@ -83,9 +84,14 @@ private fun FavouritesList(
                             isMiniVersion = false,
                             onClick = { navigateToRoom(room) }
                         )
-                        FavouriteLikeButton(isLiked = room.isLiked,
-                            dislikeHousing = { },
-                            likeHousing = {},
+                        FavouriteLikeButton(
+                            isLiked = room.isLiked,
+                            dislikeHousing = {
+                                unlikeHousing(room)
+                            },
+                            likeHousing = {
+                                likeHousing(room)
+                            },
                             modifier = Modifier.align(
                                 Alignment.TopEnd
                             )

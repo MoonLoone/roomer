@@ -61,6 +61,10 @@ object Constants {
         const val FOLLOW_PROBLEM = "follow can't be performed"
     }
 
+    object Favourites{
+        const val ADD_FAVOURITE_ERROR = "Can't add to favourite"
+    }
+
     object Options {
         val apartmentOptions = mapOf(
             Pair("F", R.string.flat),

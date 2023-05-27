@@ -19,7 +19,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Icon
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,7 +28,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -50,15 +48,13 @@ import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.presentation.screens.destinations.ChatScreenDestination
 import com.example.roomer.presentation.screens.destinations.UserDetailsScreenDestination
 import com.example.roomer.presentation.ui_components.BackBtn
+import com.example.roomer.presentation.ui_components.FavouriteLikeButton
 import com.example.roomer.presentation.ui_components.NoRippleInteractionSource
 import com.example.roomer.utils.Constants.Options.apartmentOptions
 import com.example.roomer.utils.NavbarManagement
 import com.example.roomer.utils.UtilsFunctions
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -104,6 +100,10 @@ fun RoomDetailsScreen(
             Header(onBackClick = { navigator.popBackStack() })
 
             if (photos?.isNotEmpty() == true) {
+                FavouriteLikeButton(
+                    isLiked = isLiked,
+                    dislikeHousing = { viewModel },
+                    likeHousing = { /*TODO*/ })
                 AutoSlidingCarousel(
                     itemsCount = photos.size,
                     itemContent = { index ->
