@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.roomer.data.repository.auth_repository.AuthRepositoryInterface
-import com.example.roomer.domain.usecase.profile_screen.ProfileScreenUseCase
+import com.example.roomer.domain.usecase.navbar_screens.ProfileScreenUseCase
 import com.example.roomer.utils.Resource
 import com.example.roomer.utils.SpManager
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,7 +12,6 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 

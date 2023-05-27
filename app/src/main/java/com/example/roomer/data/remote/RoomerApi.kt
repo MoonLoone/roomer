@@ -46,7 +46,7 @@ interface RoomerApi {
     suspend fun putSignUpData(
         @Header("Authorization") token: String,
         @Body signUpDataModel: SignUpDataModel
-    ): Response<IdModel>
+    ): Response<User>
 
     @Multipart
     @PUT("/auth/users/me/")

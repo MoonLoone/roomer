@@ -77,8 +77,6 @@
     <!--Rate user screen-->
     <dimen name="rate_user_column_vertical_arrangement">24.dp</dimen>
 
-
-
     <!--Room details screen-->
     <dimen name="slider_height">200.dp</dimen>
     <dimen name="row_vert_margin">10.dp</dimen>
@@ -90,4 +88,10 @@
     <dimen name="rate_start_margin">40.dp</dimen>
     <dimen name="avatar_end_margin">16.dp</dimen>
     <dimen name="top_spaced">55.dp</dimen>
+
+    <!--Account screen-->
+    <dimen name="account_content_bottom_padding">80.dp</dimen>
+    <dimen name="account_content_top_padding">16.dp</dimen>
+    <dimen name="account_confirm_btn_bottom_padding">40.dp</dimen>
+    <dimen name="account_interests_padding_values">10.dp</dimen>
 </resources>
