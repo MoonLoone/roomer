@@ -751,18 +751,14 @@ fun InterestField(
                 )
             ) {
                 for (item in values) {
-                    var checkedState by remember {
-                        mutableStateOf(false)
-                    }
                     Row {
                         Checkbox(
-                            checked = checkedState,
-                            onCheckedChange = {
-                                checkedState = it
+                            checked = item in selectedItems,
+                            onCheckedChange = { checkedState ->
                                 if (checkedState) {
-                                    selectedItems.plus(item).let(onSelectedChange)
+                                    onSelectedChange(selectedItems.plus(item))
                                 } else {
-                                    selectedItems.minus(item).let(onSelectedChange)
+                                    onSelectedChange(selectedItems.minus(item))
                                 }
                             },
                             colors = CheckboxDefaults.colors(

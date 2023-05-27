@@ -1,7 +1,6 @@
 package com.example.roomer.domain.usecase.shared_screens
 
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
-import com.example.roomer.domain.usecase.shared.FollowUseCase
 import com.example.roomer.utils.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

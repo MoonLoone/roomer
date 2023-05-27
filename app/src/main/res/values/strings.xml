@@ -166,7 +166,7 @@
     <string name="details_header">Details</string>
     <string name="details_headline_user">%1$s %2$s, %3$d, %4$s</string>
     <string name="location_icon_description">A map locator icon shaped as upside down drop</string>
-    <string name="comments_amount">%1$d comments</string>
+    <string name="comments_btn_text">Watch comments</string>
     <string name="habits_title">Habits</string>
     <string name="alcohol_icon_description">small icon shaped like glass of wine with wine inside</string>
     <string name="rate_button_text">Rate</string>
@@ -272,5 +272,7 @@
     <string name="avatar">Avatar</string>
     <string name="slider">Slider</string>
 
-
+    <!--Account screen-->
+    <string name="account_confirm_btn_text">Confirm</string>
+    <string name="account_data_saved_message">Your data were successfully saved!</string>
 </resources>

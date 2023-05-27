@@ -1,45 +1,46 @@
-package com.example.roomer.presentation.screens.shared_screens.user_details_screen.rate_user_screen
+package com.example.roomer.presentation.screens.shared_screens.user_details_screen.nested_screens.rate_user_screen.comment_screen
 
 import android.app.Application
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
+import com.example.roomer.domain.model.comment.UserReview
 import com.example.roomer.domain.model.entities.User
-import com.example.roomer.domain.usecase.shared_screens.RateUserUseCase
+import com.example.roomer.domain.usecase.shared_screens.CommentScreenUseCase
 import com.example.roomer.utils.Constants
 import com.example.roomer.utils.Resource
 import com.example.roomer.utils.SpManager
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlin.math.roundToInt
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 
 /**
- * The view model of [RateUserScreen].
+ * The view model of [CommentScreen].
  *
  * @author Andrey Karanik
  */
 
 @HiltViewModel
-class RateUserScreenViewModel @Inject constructor(
+class CommentScreenViewModel @Inject constructor(
     application: Application,
     val roomerRepository: RoomerRepositoryInterface,
     private val savedStateHandle: SavedStateHandle
 ) : AndroidViewModel(application) {
 
-    private val _state = MutableStateFlow(RateUserScreenState())
-    val state: StateFlow<RateUserScreenState> = _state.asStateFlow()
+    private val _state = MutableStateFlow(CommentScreenState())
+    val state: StateFlow<CommentScreenState> = _state.asStateFlow()
 
-    private val rateUserUseCase = RateUserUseCase(roomerRepository)
+    private val commentScreenUseCase = CommentScreenUseCase(roomerRepository)
 
     private val userToken = SpManager().getSharedPreference(
         getApplication<Application>().applicationContext,
@@ -47,52 +48,45 @@ class RateUserScreenViewModel @Inject constructor(
         null
     )
 
-    var confirmation by mutableStateOf(false)
-
-    var rating by mutableStateOf(0)
-
-    var comment by mutableStateOf("")
-
-    var isAnonymous by mutableStateOf(false)
-
-    var receiverId by mutableStateOf(0)
+    private val _reviews: MutableState<List<UserReview>> =
+        mutableStateOf(emptyList())
+    val reviews: State<List<UserReview>> = _reviews
 
     init {
-        viewModelScope.launch {
-            val userString: String? = savedStateHandle["user"]
-            val user = Gson().fromJson(userString, User::class.java)
-            receiverId = user.userId
-        }
+        getReviews()
     }
-
     fun clearState() {
         _state.update {
-            RateUserScreenState()
+            CommentScreenState()
         }
     }
 
-    fun showConfirmDialog() {
-        if (screenValidate()) {
-            confirmation = true
+    fun getStarRating(): Float {
+        var sum = 0.0f
+        reviews.value.forEach {
+            sum += it.score
         }
+
+        return sum / reviews.value.size
     }
 
-    fun hideConfirmDialog() {
-        confirmation = false
+    fun getStarRatingAsString(): String {
+        return String.format("%.1f", getStarRating())
     }
 
-    fun sendReview() {
-        hideConfirmDialog()
+    fun getStarRatingAsCount(): Int {
+        return getStarRating().roundToInt()
+    }
+
+    fun getReviews() {
         viewModelScope.async {
             if (userToken != null) {
-                val authorId = async { roomerRepository.getLocalCurrentUser() }.await().userId
-                rateUserUseCase.sendReview(
+                val userString: String? = savedStateHandle["user"]
+                val user = Gson().fromJson(userString, User::class.java)
+                val receiverId = user.userId
+                commentScreenUseCase.getReviews(
                     userToken,
-                    authorId,
-                    receiverId,
-                    rating,
-                    isAnonymous,
-                    comment
+                    receiverId
                 ).collect {
                     when (it) {
                         is Resource.Loading -> {
@@ -109,6 +103,7 @@ class RateUserScreenViewModel @Inject constructor(
                                     success = true
                                 )
                             }
+                            _reviews.value = it.data!!
                         }
                         is Resource.Internet -> {
                             _state.update { currentState ->
@@ -138,23 +133,5 @@ class RateUserScreenViewModel @Inject constructor(
                 }
             }
         }
-    }
-
-    private fun screenValidate(): Boolean {
-        if (rating == 0) {
-            _state.update { currentState ->
-                currentState.copy(ratingNotSpecified = true)
-            }
-            return false
-        }
-
-        if (comment.isEmpty()) {
-            _state.update { currentState ->
-                currentState.copy(commentIsEmpty = true)
-            }
-            return false
-        }
-
-        return true
     }
 }

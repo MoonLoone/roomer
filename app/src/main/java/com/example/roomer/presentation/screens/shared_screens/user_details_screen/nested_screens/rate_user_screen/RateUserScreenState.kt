@@ -1,4 +1,4 @@
-package com.example.roomer.presentation.screens.shared_screens.user_details_screen.rate_user_screen
+package com.example.roomer.presentation.screens.shared_screens.user_details_screen.nested_screens.rate_user_screen
 
 import com.example.roomer.utils.ScreenState
 
