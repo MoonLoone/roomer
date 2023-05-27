@@ -247,5 +247,6 @@
     <string name="avatar">Аватар</string>
     <string name="slider">Слайдер</string>
     <string name="account_confirm_btn_text">Подтвердить</string>
+    <string name="account_data_saved_message">Новые данные сохранены!</string>
 
 </resources>
