@@ -22,6 +22,7 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -66,9 +67,7 @@ fun RoomDetailsScreen(
     viewModel: RoomDetailsScreenViewModel = hiltViewModel()
 ) {
     NavbarManagement.hideNavbar()
-    val isLiked by remember {
-        mutableStateOf(room.isLiked)
-    }
+    val state = viewModel.state.collectAsState().value
     val photos = if (room.fileContent?.isNotEmpty() == true) {
         room.fileContent
     } else {
@@ -99,27 +98,29 @@ fun RoomDetailsScreen(
             Header(onBackClick = { navigator.popBackStack() })
 
             if (photos?.isNotEmpty() == true) {
-                FavouriteLikeButton(
-                    isLiked = isLiked,
-                    dislikeHousing = { viewModel },
-                    likeHousing = { /*TODO*/ })
-                AutoSlidingCarousel(
-                    itemsCount = photos.size,
-                    itemContent = { index ->
-                        AsyncImage(
-                            model = ImageRequest.Builder(LocalContext.current)
-                                .data(photos[index].photo)
-                                .build(),
-                            contentDescription = stringResource(id = R.string.slider),
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier.height(
-                                dimensionResource(id = R.dimen.slider_height)
+                Box {
+                    AutoSlidingCarousel(
+                        itemsCount = photos.size,
+                        itemContent = { index ->
+                            AsyncImage(
+                                model = ImageRequest.Builder(LocalContext.current)
+                                    .data(photos[index].photo)
+                                    .build(),
+                                contentDescription = stringResource(id = R.string.slider),
+                                contentScale = ContentScale.Crop,
+                                modifier = Modifier.height(
+                                    dimensionResource(id = R.dimen.slider_height)
+                                )
                             )
-                        )
-                    }
-                )
+                        }
+                    )
+                    FavouriteLikeButton(
+                        isLiked = state.isFavourite,
+                        dislikeHousing = { viewModel.deleteFromFavourite(room) },
+                        likeHousing = { viewModel.addToFavourite(room) },
+                        modifier = Modifier.align(Alignment.TopEnd))
+                }
             }
-
             Text(
                 text = UtilsFunctions.trimString(room.title, 100),
                 modifier = Modifier.padding(

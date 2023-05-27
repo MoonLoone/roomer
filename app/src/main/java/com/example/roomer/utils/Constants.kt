@@ -66,6 +66,10 @@ object Constants {
         const val ADD_FAVOURITE_ERROR = "Can't add to favourite"
     }
 
+    object RoomDetails{
+        const val ERROR_MSG = "Generall error"
+    }
+
     object Options {
         val apartmentOptions = mapOf(
             Pair("F", R.string.flat),

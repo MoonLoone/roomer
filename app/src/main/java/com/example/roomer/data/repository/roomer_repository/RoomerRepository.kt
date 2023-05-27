@@ -100,12 +100,12 @@ class RoomerRepository @Inject constructor(
         return pager.flow
     }
 
-    override suspend fun likeHousing(housingId: Int): Response<String> {
+    override suspend fun addToFavourites(housingId: Int): Response<String> {
         val user = getLocalCurrentUser()
         return roomerApi.addToFavourite(user.userId, housingId)
     }
 
-    override suspend fun dislikeHousing(housingId: Int): Response<String> {
+    override suspend fun deleteFromFavourites(housingId: Int): Response<String> {
         val user = getLocalCurrentUser()
         return roomerApi.deleteFavourite(user.userId, housingId)
     }
