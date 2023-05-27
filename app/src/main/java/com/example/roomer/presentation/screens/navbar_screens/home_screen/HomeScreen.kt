@@ -206,7 +206,6 @@ private fun RecentlyWatched(
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(148.dp)
                 .padding(top = 8.dp),
             horizontalArrangement = Arrangement.spacedBy(
                 dimensionResource(id = R.dimen.list_elements_margin)

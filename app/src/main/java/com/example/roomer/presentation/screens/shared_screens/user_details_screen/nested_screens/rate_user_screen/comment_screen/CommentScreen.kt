@@ -1,4 +1,4 @@
-package com.example.roomer.presentation.screens.shared_screens.user_details_screen.comment_screen
+package com.example.roomer.presentation.screens.shared_screens.user_details_screen.nested_screens.rate_user_screen.comment_screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
