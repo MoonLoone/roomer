@@ -1,4 +1,4 @@
-package com.example.roomer.presentation.screens.shared_screens.user_details_screen.rate_user_screen
+package com.example.roomer.presentation.screens.shared_screens.user_details_screen.nested_screens.rate_user_screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -313,9 +313,13 @@ private fun AnonymousButton(
             }
             Icon(
                 modifier = Modifier.align(Alignment.CenterEnd),
-                painter = if (isChecked) painterResource(R.drawable.checkbox_on_icon) else painterResource(
-                    R.drawable.checkbox_off_icon
-                ),
+                painter = if (isChecked) {
+                    painterResource(R.drawable.checkbox_on_icon)
+                } else {
+                    painterResource(
+                        R.drawable.checkbox_off_icon
+                    )
+                },
                 contentDescription = null,
                 tint = Color.Unspecified
             )
