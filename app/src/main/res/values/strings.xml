@@ -271,6 +271,7 @@
     <string name="chat">Chat</string>
     <string name="avatar">Avatar</string>
     <string name="slider">Slider</string>
+    <string name="account_confirm_btn_text">Confirm</string>
 
 
 </resources>
