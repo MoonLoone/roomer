@@ -1,13 +1,11 @@
 package com.example.roomer.domain.usecase.account
 
-import android.graphics.Bitmap
 import com.example.roomer.data.repository.auth_repository.AuthRepositoryInterface
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.domain.model.login_sign_up.InterestModel
 import com.example.roomer.utils.Constants
 import com.example.roomer.utils.Resource
 import java.io.IOException
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -50,9 +48,11 @@ class AccountUseCase(
                 city
             )
 
-            if (processData.isSuccessful) emit(Resource.Success(processData.body()))
-            else emit(Resource.Error.GeneralError(message = Constants.UseCase.generalError))
-
+            if (processData.isSuccessful) {
+                emit(Resource.Success(processData.body()))
+            } else {
+                emit(Resource.Error.GeneralError(message = Constants.UseCase.generalError))
+            }
         } catch (e: IOException) {
             emit(Resource.Internet(Constants.UseCase.internetErrorMessage))
         }

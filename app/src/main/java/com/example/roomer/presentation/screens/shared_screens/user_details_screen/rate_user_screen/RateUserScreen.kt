@@ -313,9 +313,13 @@ private fun AnonymousButton(
             }
             Icon(
                 modifier = Modifier.align(Alignment.CenterEnd),
-                painter = if (isChecked) painterResource(R.drawable.checkbox_on_icon) else painterResource(
-                    R.drawable.checkbox_off_icon
-                ),
+                painter = if (isChecked) {
+                    painterResource(R.drawable.checkbox_on_icon)
+                } else {
+                    painterResource(
+                        R.drawable.checkbox_off_icon
+                    )
+                },
                 contentDescription = null,
                 tint = Color.Unspecified
             )

@@ -1,35 +1,27 @@
 package com.example.roomer.presentation.screens.profile_nested_screens.account_screen
 
 import android.app.Application
-import android.graphics.Bitmap
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.roomer.data.repository.auth_repository.AuthRepositoryInterface
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.domain.model.login_sign_up.InterestModel
 import com.example.roomer.domain.usecase.account.AccountUseCase
-import com.example.roomer.domain.usecase.login_sign_up.SignUpUseCase
-import com.example.roomer.presentation.screens.entrance.signup.SignUpState
 import com.example.roomer.presentation.screens.entrance.signup.SignUpViewModel
-import com.example.roomer.presentation.screens.entrance.signup.interests_screen.InterestsScreenState
-import com.example.roomer.presentation.screens.entrance.signup.interests_screen.InterestsScreenViewModel
 import com.example.roomer.utils.Resource
 import com.example.roomer.utils.SpManager
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class AccountScreenViewModel @Inject constructor(

@@ -7,4 +7,4 @@ data class AccountScreenState(
     override val isLoading: Boolean = false,
     override val error: String = "",
     override val internetProblem: Boolean = false
-): ScreenState
+) : ScreenState
