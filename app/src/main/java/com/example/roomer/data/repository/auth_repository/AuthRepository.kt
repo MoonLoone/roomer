@@ -76,7 +76,7 @@ class AuthRepository(
         )
     }
 
-    override suspend fun putSignUpAvatar(token: String, avatar: Bitmap): Response<IdModel> {
+    override suspend fun putSignUpAvatar(token: String, avatar: Bitmap): Response<User> {
         val refToken = "Token ".plus(token)
         val stream = ByteArrayOutputStream()
         avatar.compress(Bitmap.CompressFormat.JPEG, 80, stream)

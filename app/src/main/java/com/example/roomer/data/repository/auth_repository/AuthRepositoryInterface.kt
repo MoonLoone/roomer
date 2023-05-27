@@ -38,7 +38,7 @@ interface AuthRepositoryInterface {
     suspend fun putSignUpAvatar(
         token: String,
         avatar: Bitmap
-    ): Response<IdModel>
+    ): Response<User>
 
     suspend fun logout(
         token: String

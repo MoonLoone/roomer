@@ -53,7 +53,7 @@ interface RoomerApi {
     suspend fun putSignUpAvatar(
         @Header("Authorization") token: String,
         @Part avatar: MultipartBody.Part
-    ): Response<IdModel>
+    ): Response<User>
 
     @GET("/housing/")
     suspend fun filterRooms(
