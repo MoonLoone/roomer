@@ -18,9 +18,6 @@ interface FavouriteDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveManyFavourites(newFavourites: List<LocalRoom>)
 
-    @Delete
-    suspend fun delete(room: LocalRoom)
-
     @Query("DELETE FROM favourite WHERE roomId=:id")
     suspend fun deleteById(id: Int)
 

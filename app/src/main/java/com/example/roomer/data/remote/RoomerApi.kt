@@ -126,6 +126,13 @@ interface RoomerApi {
         @Query("page") page: Int = 1
     ): Response<FavouriteRawData>
 
+    @GET("/favourites/check_favourite/")
+    suspend fun checkIsFavourite(
+        @Query("user_id") userId: Int,
+        @Query("housing_id") housingId: Int,
+        @Header("Authorization") token: String,
+    ): Response<Unit>
+
     @POST("/housing/")
     suspend fun postAdvertisement(
         @Header("Authorization") token: String,

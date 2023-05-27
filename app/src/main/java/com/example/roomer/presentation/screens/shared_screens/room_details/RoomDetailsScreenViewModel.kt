@@ -1,5 +1,7 @@
 package com.example.roomer.presentation.screens.shared_screens.room_details
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,12 +12,14 @@ import com.example.roomer.domain.model.entities.toLocalRoom
 import com.example.roomer.domain.usecase.shared_screens.RoomDetailsUseCase
 import com.example.roomer.presentation.screens.navbar_screens.favourite_screen.FavouriteScreenState
 import com.example.roomer.utils.Resource
+import com.example.roomer.utils.SpManager
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -24,11 +28,17 @@ class RoomDetailsScreenViewModel @Inject constructor(
     private val addToHistory: AddToHistory,
     private val savedStateHandle: SavedStateHandle,
     val roomerRepositoryInterface: RoomerRepositoryInterface,
-) : ViewModel() {
+    application: Application
+) : AndroidViewModel(application) {
 
     private val _state: MutableStateFlow<RoomDetailsScreenState> =
         MutableStateFlow(RoomDetailsScreenState())
     private val roomDetailsUseCase = RoomDetailsUseCase(roomerRepositoryInterface)
+    private val userToken = SpManager().getSharedPreference(
+        getApplication<Application>().applicationContext,
+        SpManager.Sp.TOKEN,
+        null
+    )?:""
 
     val state: StateFlow<RoomDetailsScreenState> = _state
 
@@ -36,6 +46,7 @@ class RoomDetailsScreenViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             val roomString: String? = savedStateHandle["room"]
             val room = Gson().fromJson(roomString, Room::class.java)
+            checkIsFavourite(room.id)
             room?.let {
                 addToHistory.roomerRepositoryInterface.addRoomToLocalHistory(room.toLocalRoom())
                 if (room.isLiked) _state.update { current ->
@@ -83,6 +94,7 @@ class RoomDetailsScreenViewModel @Inject constructor(
                             current.copy(
                                 success = true,
                                 isLoading = false,
+                                isFavourite = false,
                             )
                         }
                     }
@@ -94,6 +106,31 @@ class RoomDetailsScreenViewModel @Inject constructor(
                     else -> _state.update { current ->
                         current.copy(success = true, isLoading = false)
                     }
+                }
+            }
+        }
+    }
+
+    private suspend fun checkIsFavourite(housingId: Int){
+        val user = roomerRepositoryInterface.getLocalCurrentUser()
+        roomDetailsUseCase.checkIsFavourite(user.userId, housingId, userToken).collect{result ->
+            when (result) {
+                is Resource.Success -> {
+                    _state.update { current ->
+                        current.copy(
+                            success = true,
+                            isLoading = false,
+                            isFavourite = true,
+                        )
+                    }
+                }
+
+                is Resource.Loading -> _state.update { current ->
+                    current.copy(isLoading = true)
+                }
+
+                else -> _state.update { current ->
+                    current.copy(success = true, isLoading = false)
                 }
             }
         }

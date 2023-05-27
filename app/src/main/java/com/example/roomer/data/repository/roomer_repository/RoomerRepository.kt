@@ -130,6 +130,11 @@ class RoomerRepository @Inject constructor(
 
     override suspend fun isLocalFavouritesEmpty(): Boolean = roomerStore.isFavouritesEmpty()
 
+    override suspend fun isRoomInFavourites(userId: Int, housingId: Int, token: String): Response<Unit> {
+        val refToken = "Token ".plus(token)
+        return roomerApi.checkIsFavourite(userId, housingId, refToken)
+    }
+
     override suspend fun getLocalCurrentUser() = roomerStore.getCurrentUser()
 
     override suspend fun addLocalCurrentUser(user: User) = roomerStore.addCurrentUser(user)

@@ -91,6 +91,8 @@ interface RoomerRepositoryInterface {
 
     suspend fun isLocalFavouritesEmpty(): Boolean
 
+    suspend fun isRoomInFavourites(userId: Int, housingId: Int, token: String): Response<Unit>
+
     suspend fun getLocalCurrentUser(): User
 
     suspend fun addLocalCurrentUser(user: User)

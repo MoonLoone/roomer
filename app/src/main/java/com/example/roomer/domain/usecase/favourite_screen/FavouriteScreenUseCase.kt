@@ -9,8 +9,8 @@ import kotlinx.coroutines.flow.flow
 class FavouriteScreenUseCase(private val roomerRepositoryInterface: RoomerRepositoryInterface) :
     FavouriteUseCase(roomerRepositoryInterface) {
 
-        fun deleteLocalFavourite(room: Room) = flow<Resource<String>>{
-            val process = roomerRepositoryInterface.deleteLocalFavourite(room)
+        suspend fun deleteLocalFavourite(room: Room) {
+            roomerRepositoryInterface.deleteLocalFavourite(room)
         }
 
 }

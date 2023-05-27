@@ -52,8 +52,8 @@ fun FavouriteScreen(
         FavouritesList(
             listOfFavourites,
             navigateToRoom = { room -> navigator.navigate(RoomDetailsScreenDestination(room)) },
-            unlikeHousing = { room -> favouriteViewModel.deleteFromFavourite(room) },
-            likeHousing = { room -> favouriteViewModel.addToFavourite(room) }
+            deleteFromFavourite = { room -> favouriteViewModel.deleteFromFavourite(room) },
+            addToFavourite = { room -> favouriteViewModel.addToFavourite(room) }
         )
     }
 }
@@ -62,8 +62,8 @@ fun FavouriteScreen(
 private fun FavouritesList(
     listOfFavourites: LazyPagingItems<Room>?,
     navigateToRoom: (Room) -> Unit,
-    unlikeHousing: (Room) -> Unit,
-    likeHousing: (Room) -> Unit,
+    deleteFromFavourite: (Room) -> Unit,
+    addToFavourite: (Room) -> Unit,
 ) {
     val lazyListState = rememberLazyListState()
     LazyColumn(
@@ -87,10 +87,10 @@ private fun FavouritesList(
                         FavouriteLikeButton(
                             isLiked = room.isLiked,
                             dislikeHousing = {
-                                unlikeHousing(room)
+                                deleteFromFavourite(room)
                             },
                             likeHousing = {
-                                likeHousing(room)
+                                addToFavourite(room)
                             },
                             modifier = Modifier.align(
                                 Alignment.TopEnd

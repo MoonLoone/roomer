@@ -41,7 +41,9 @@ class FavouriteViewModel @Inject constructor(
             val response = roomerRepository.getFavouritesForUser()
             _pagingData.value = response.map { pagingData ->
                 pagingData.map { localRoom ->
-                    localRoom.toRoom()
+                    val room = localRoom.toRoom()
+                    room.isLiked = true
+                    room
                 }
             }.cachedIn(viewModelScope)
         }
