@@ -1,6 +1,7 @@
 package com.example.roomer.presentation.screens.navbar_screens.favourite_screen
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -49,14 +50,19 @@ fun FavouriteScreen(
         TopLine()
         FavouritesList(
             listOfFavourites,
-        ) { room -> navigator.navigate(RoomDetailsScreenDestination(room)) }
+            navigateToRoom = { room -> navigator.navigate(RoomDetailsScreenDestination(room)) },
+            unlikeHousing = { room -> favouriteViewModel.unlikeHousing(room) },
+            likeHousing = { room -> favouriteViewModel.likeHousing(room) }
+        )
     }
 }
 
 @Composable
 private fun FavouritesList(
     listOfFavourites: LazyPagingItems<Room>?,
-    navigateToRoom: (Room) -> Unit
+    navigateToRoom: (Room) -> Unit,
+    unlikeHousing: (Room) -> Unit,
+    likeHousing: (Room) -> Unit,
 ) {
     val lazyListState = rememberLazyListState()
     LazyColumn(
@@ -71,11 +77,20 @@ private fun FavouritesList(
         listOfFavourites?.let {
             items(listOfFavourites) { room ->
                 room?.let {
-                    RoomCard(
-                        recommendedRoom = room,
-                        isMiniVersion = false,
-                        onClick = { navigateToRoom(room) }
-                    )
+                    Box {
+                        RoomCard(
+                            recommendedRoom = room,
+                            isMiniVersion = false,
+                            onClick = { navigateToRoom(room) }
+                        )
+                        FavouriteLikeButton(isLiked = room.isLiked,
+                            dislikeHousing = { },
+                            likeHousing = {},
+                            modifier = Modifier.align(
+                                Alignment.TopEnd
+                            )
+                        )
+                    }
                 }
             }
             if (it.loadState.append is LoadState.Loading) {

@@ -26,6 +26,8 @@ class FavouriteViewModel @Inject constructor(
     private val _pagingData: MutableState<Flow<PagingData<Room>>> = mutableStateOf(emptyFlow())
     val pagingData: State<Flow<PagingData<Room>>> = _pagingData
 
+
+
     init {
         viewModelScope.launch {
             val response = roomerRepository.getFavouritesForUser()
@@ -36,4 +38,13 @@ class FavouriteViewModel @Inject constructor(
             }.cachedIn(viewModelScope)
         }
     }
+
+    fun likeHousing(room: Room){
+
+    }
+
+    fun unlikeHousing(room: Room){
+
+    }
+
 }
