@@ -1,4 +1,4 @@
-package com.example.roomer.domain.usecase.profile_nested_screens
+package com.example.roomer.domain.usecase.navbar_screens.profile_nested_screens
 
 import androidx.compose.runtime.MutableState
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface

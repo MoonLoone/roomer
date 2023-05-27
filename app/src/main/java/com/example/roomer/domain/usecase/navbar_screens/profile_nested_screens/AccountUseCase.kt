@@ -1,4 +1,4 @@
-package com.example.roomer.domain.usecase.account
+package com.example.roomer.domain.usecase.navbar_screens.profile_nested_screens
 
 import com.example.roomer.data.repository.auth_repository.AuthRepositoryInterface
 import com.example.roomer.domain.model.entities.User

@@ -69,12 +69,12 @@ fun AccountScreen(
     val focusManager = LocalFocusManager.current
     val interactionSource = remember { MutableInteractionSource() }
     val columnScroll = rememberScrollState()
-    val snackScaffState = rememberScaffoldState()
+    val scaffoldState = rememberScaffoldState()
     val uiState by viewModel.uiState.collectAsState()
 
     NavbarManagement.hideNavbar()
 
-    Scaffold(scaffoldState = snackScaffState) {
+    Scaffold(scaffoldState = scaffoldState) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -267,7 +267,7 @@ fun AccountScreen(
             if (uiState.success) {
                 val message = stringResource(id = R.string.account_data_saved_message)
                 LaunchedEffect(key1 = null) {
-                    snackScaffState.snackbarHostState.showSnackbar(message = message)
+                    scaffoldState.snackbarHostState.showSnackbar(message = message)
                     viewModel.clearState()
                 }
             }

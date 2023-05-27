@@ -1,4 +1,4 @@
-package com.example.roomer.domain.usecase.profile_screen
+package com.example.roomer.domain.usecase.navbar_screens
 
 import com.example.roomer.data.repository.auth_repository.AuthRepositoryInterface
 import com.example.roomer.utils.Constants

@@ -67,8 +67,8 @@ class SignUpUseCase(
             )
 
             if (processAvatar.isSuccessful && processData.isSuccessful) {
-                coroutineScope {
-                    emit(Resource.Success(processData.body()!!.userId.toString()))
+                processData.body()?.let {
+                    emit(Resource.Success(it.userId.toString()))
                 }
             } else {
                 emit(Resource.Error.GeneralError(message = "An error occurred"))

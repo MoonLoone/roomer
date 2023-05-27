@@ -1,7 +1,6 @@
 package com.example.roomer.presentation.screens.profile_nested_screens.account_screen
 
 import android.app.Application
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -11,7 +10,7 @@ import com.example.roomer.data.repository.auth_repository.AuthRepositoryInterfac
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
 import com.example.roomer.domain.model.entities.User
 import com.example.roomer.domain.model.login_sign_up.InterestModel
-import com.example.roomer.domain.usecase.account.AccountUseCase
+import com.example.roomer.domain.usecase.navbar_screens.profile_nested_screens.AccountUseCase
 import com.example.roomer.presentation.screens.entrance.signup.SignUpViewModel
 import com.example.roomer.utils.Resource
 import com.example.roomer.utils.SpManager
@@ -74,11 +73,10 @@ class AccountScreenViewModel @Inject constructor(
         personalityType = user.personalityType
         cleanHabits = user.cleanHabits
         interests = user.interests ?: emptyList()
-        Log.d("INTER", interests.toString())
         city = user.city ?: ""
     }
 
-    private fun areFieldsValid(): Boolean {
+    private fun checkFieldsValid(): Boolean {
         if (firstName.isEmpty() || lastName.isEmpty() || personDescription.isEmpty()) {
             _uiState.update { currentState ->
                 currentState.copy(error = SignUpViewModel.EMPTY_FIELDS_ERROR_MESSAGE)
@@ -93,7 +91,7 @@ class AccountScreenViewModel @Inject constructor(
     }
 
     fun updateData() {
-        if (!areFieldsValid()) return
+        if (!checkFieldsValid()) return
         viewModelScope.launch {
             useCase.putProfileData(
                 token,
