@@ -2,6 +2,7 @@ package com.example.roomer.data.repository.auth_repository
 
 import android.graphics.Bitmap
 import com.example.roomer.data.remote.RoomerApi
+import com.example.roomer.domain.model.entities.User
 import com.example.roomer.domain.model.login_sign_up.IdModel
 import com.example.roomer.domain.model.login_sign_up.InterestModel
 import com.example.roomer.domain.model.login_sign_up.LoginDto
@@ -53,7 +54,7 @@ class AuthRepository(
         cleanHabits: String,
         interests: List<InterestModel>,
         city: String
-    ): Response<IdModel> {
+    ): Response<User> {
         val refToken = "Token ".plus(token)
         return roomerApi.putSignUpData(
             refToken,
@@ -75,7 +76,7 @@ class AuthRepository(
         )
     }
 
-    override suspend fun putSignUpAvatar(token: String, avatar: Bitmap): Response<IdModel> {
+    override suspend fun putSignUpAvatar(token: String, avatar: Bitmap): Response<User> {
         val refToken = "Token ".plus(token)
         val stream = ByteArrayOutputStream()
         avatar.compress(Bitmap.CompressFormat.JPEG, 80, stream)
