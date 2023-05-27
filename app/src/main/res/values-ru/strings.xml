@@ -246,7 +246,9 @@
     <string name="chat">Чат</string>
     <string name="avatar">Аватар</string>
     <string name="slider">Слайдер</string>
+
+    <!--Экран аккаунта-->
     <string name="account_confirm_btn_text">Подтвердить</string>
-    <string name="account_data_saved_message">Новые данные сохранены!</string>
+    <string name="account_data_saved_message">Данные успешно сохранены!</string>
 
 </resources>

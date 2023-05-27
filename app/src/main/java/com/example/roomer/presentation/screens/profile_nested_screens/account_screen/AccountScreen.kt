@@ -35,7 +35,6 @@ import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.roomer.R
@@ -243,7 +242,9 @@ fun AccountScreen(
                         }
                     )
                     InterestField(
-                        paddingValues = PaddingValues(10.dp),
+                        paddingValues = PaddingValues(
+                            dimensionResource(id = R.dimen.account_interests_padding_values)
+                        ),
                         label = stringResource(R.string.interests),
                         values = interestsViewModel.interests.value,
                         selectedItems = viewModel.interests,

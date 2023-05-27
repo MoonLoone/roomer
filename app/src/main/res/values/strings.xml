@@ -272,9 +272,7 @@
     <string name="avatar">Avatar</string>
     <string name="slider">Slider</string>
 
-
+    <!--Account screen-->
     <string name="account_confirm_btn_text">Confirm</string>
     <string name="account_data_saved_message">Your data were successfully saved!</string>
-
-
 </resources>

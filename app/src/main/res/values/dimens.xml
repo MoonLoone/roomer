@@ -93,4 +93,5 @@
     <dimen name="account_content_bottom_padding">80.dp</dimen>
     <dimen name="account_content_top_padding">16.dp</dimen>
     <dimen name="account_confirm_btn_bottom_padding">40.dp</dimen>
+    <dimen name="account_interests_padding_values">10.dp</dimen>
 </resources>
