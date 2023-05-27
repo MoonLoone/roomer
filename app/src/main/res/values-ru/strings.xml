@@ -202,7 +202,6 @@
     <string name="follow_setting_icon_description">Настройки подписки</string>
     <string name="follows_profile">Подписки</string>
     <string name="personality_type_label_colon">Тип личности:</string>
-    <string name="comments_amount">%1$d отзывов</string>
     <string name="habits_title">Привычки</string>
     <string name="rate_button_text">Оценить</string>
     <string name="smoking_icon_description">иконка сигареты с дымом</string>
@@ -230,7 +229,7 @@
     <string name="rating_not_specified_alert_dialog_text">Укажите рейтинг пользователя</string>
     <string name="comment_is_empty_alert_dialog_text">Добавьте комментарий</string>
     <string name="comment_screen_title">Комментарии</string>
-    <string name="no_comments_text">Нет комментариев</string>
+    <string name="no_comments_text">Нет отзывов</string>
     <string name="anonymous">Аноним</string>
     <string name="logout_confirm">Вы точно хотите выйти из учетной записи?</string>
     <string name="unfollow_me_text">Подписан</string>
@@ -246,5 +245,6 @@
     <string name="chat">Чат</string>
     <string name="avatar">Аватар</string>
     <string name="slider">Слайдер</string>
+    <string name="comments_btn_text">Смотреть отзывы</string>
 
 </resources>

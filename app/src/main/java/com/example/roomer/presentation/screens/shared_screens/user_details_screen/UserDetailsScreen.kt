@@ -295,7 +295,7 @@ private fun UserTraitsWithCommentsButton(
             modifier = Modifier
                 .fillMaxWidth(),
             text = stringResource(
-                id = R.string.comments_amount,
+                id = R.string.comments_btn_text,
                 totalComments
             ),
             trailingIconPainterId = R.drawable.double_arrow_icon,
