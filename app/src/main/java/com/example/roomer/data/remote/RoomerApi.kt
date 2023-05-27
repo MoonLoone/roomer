@@ -130,7 +130,7 @@ interface RoomerApi {
     suspend fun checkIsFavourite(
         @Query("user_id") userId: Int,
         @Query("housing_id") housingId: Int,
-        @Header("Authorization") token: String,
+        @Header("Authorization") token: String
     ): Response<Unit>
 
     @POST("/housing/")

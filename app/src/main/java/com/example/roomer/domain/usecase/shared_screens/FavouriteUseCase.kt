@@ -4,8 +4,8 @@ import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInte
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.utils.Constants
 import com.example.roomer.utils.Resource
-import kotlinx.coroutines.flow.flow
 import java.io.IOException
+import kotlinx.coroutines.flow.flow
 
 abstract class FavouriteUseCase(private val roomerRepositoryInterface: RoomerRepositoryInterface) {
 
@@ -13,8 +13,11 @@ abstract class FavouriteUseCase(private val roomerRepositoryInterface: RoomerRep
         emit(Resource.Loading())
         val process = roomerRepositoryInterface.addToFavourites(room.id)
         try {
-            if (process.isSuccessful) emit(Resource.Success())
-            else emit(Resource.Error.GeneralError(Constants.Favourites.ADD_FAVOURITE_ERROR))
+            if (process.isSuccessful) {
+                emit(Resource.Success())
+            } else {
+                emit(Resource.Error.GeneralError(Constants.Favourites.ADD_FAVOURITE_ERROR))
+            }
         } catch (e: IOException) {
             emit(Resource.Internet(process.message()))
         }
@@ -24,11 +27,13 @@ abstract class FavouriteUseCase(private val roomerRepositoryInterface: RoomerRep
         emit(Resource.Loading())
         val process = roomerRepositoryInterface.deleteFromFavourites(room.id)
         try {
-            if (process.isSuccessful) emit(Resource.Success())
-            else emit(Resource.Error.GeneralError(Constants.Favourites.ADD_FAVOURITE_ERROR))
+            if (process.isSuccessful) {
+                emit(Resource.Success())
+            } else {
+                emit(Resource.Error.GeneralError(Constants.Favourites.ADD_FAVOURITE_ERROR))
+            }
         } catch (e: IOException) {
             emit(Resource.Internet(process.message()))
         }
     }
-
 }

@@ -63,7 +63,7 @@ private fun FavouritesList(
     listOfFavourites: LazyPagingItems<Room>?,
     navigateToRoom: (Room) -> Unit,
     deleteFromFavourite: (Room) -> Unit,
-    addToFavourite: (Room) -> Unit,
+    addToFavourite: (Room) -> Unit
 ) {
     val lazyListState = rememberLazyListState()
     LazyColumn(

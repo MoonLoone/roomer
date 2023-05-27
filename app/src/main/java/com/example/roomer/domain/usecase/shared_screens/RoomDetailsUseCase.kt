@@ -1,11 +1,10 @@
 package com.example.roomer.domain.usecase.shared_screens
 
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
-import com.example.roomer.domain.model.comment.Comment
 import com.example.roomer.utils.Constants
 import com.example.roomer.utils.Resource
-import kotlinx.coroutines.flow.flow
 import java.io.IOException
+import kotlinx.coroutines.flow.flow
 
 class RoomDetailsUseCase(private val roomerRepositoryInterface: RoomerRepositoryInterface) :
     FavouriteUseCase(roomerRepositoryInterface) {
@@ -23,5 +22,4 @@ class RoomDetailsUseCase(private val roomerRepositoryInterface: RoomerRepository
             emit(Resource.Internet(Constants.UseCase.internetErrorMessage))
         }
     }
-
 }

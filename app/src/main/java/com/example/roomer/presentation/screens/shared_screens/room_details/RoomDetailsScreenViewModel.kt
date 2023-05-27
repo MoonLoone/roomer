@@ -3,14 +3,12 @@ package com.example.roomer.presentation.screens.shared_screens.room_details
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
 import com.example.roomer.data.shared.add_to_history.AddToHistory
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.toLocalRoom
 import com.example.roomer.domain.usecase.shared_screens.RoomDetailsUseCase
-import com.example.roomer.presentation.screens.navbar_screens.favourite_screen.FavouriteScreenState
 import com.example.roomer.utils.Resource
 import com.example.roomer.utils.SpManager
 import com.google.gson.Gson
@@ -38,7 +36,7 @@ class RoomDetailsScreenViewModel @Inject constructor(
         getApplication<Application>().applicationContext,
         SpManager.Sp.TOKEN,
         null
-    )?:""
+    ) ?: ""
 
     val state: StateFlow<RoomDetailsScreenState> = _state
 
@@ -49,10 +47,12 @@ class RoomDetailsScreenViewModel @Inject constructor(
             checkIsFavourite(room.id)
             room?.let {
                 addToHistory.roomerRepositoryInterface.addRoomToLocalHistory(room.toLocalRoom())
-                if (room.isLiked) _state.update { current ->
-                    current.copy(
-                        isFavourite = true,
-                    )
+                if (room.isLiked) {
+                    _state.update { current ->
+                        current.copy(
+                            isFavourite = true
+                        )
+                    }
                 }
             }
         }
@@ -63,12 +63,11 @@ class RoomDetailsScreenViewModel @Inject constructor(
             roomDetailsUseCase.addToFavourites(room).collect { result ->
                 when (result) {
                     is Resource.Success -> {
-
                         _state.update { current ->
                             current.copy(
                                 success = true,
                                 isLoading = false,
-                                isFavourite = true,
+                                isFavourite = true
                             )
                         }
                     }
@@ -94,7 +93,7 @@ class RoomDetailsScreenViewModel @Inject constructor(
                             current.copy(
                                 success = true,
                                 isLoading = false,
-                                isFavourite = false,
+                                isFavourite = false
                             )
                         }
                     }
@@ -111,16 +110,16 @@ class RoomDetailsScreenViewModel @Inject constructor(
         }
     }
 
-    private suspend fun checkIsFavourite(housingId: Int){
+    private suspend fun checkIsFavourite(housingId: Int) {
         val user = roomerRepositoryInterface.getLocalCurrentUser()
-        roomDetailsUseCase.checkIsFavourite(user.userId, housingId, userToken).collect{result ->
+        roomDetailsUseCase.checkIsFavourite(user.userId, housingId, userToken).collect { result ->
             when (result) {
                 is Resource.Success -> {
                     _state.update { current ->
                         current.copy(
                             success = true,
                             isLoading = false,
-                            isFavourite = true,
+                            isFavourite = true
                         )
                     }
                 }
@@ -135,5 +134,4 @@ class RoomDetailsScreenViewModel @Inject constructor(
             }
         }
     }
-
 }

@@ -62,11 +62,11 @@ object Constants {
         const val FOLLOW_PROBLEM = "follow can't be performed"
     }
 
-    object Favourites{
+    object Favourites {
         const val ADD_FAVOURITE_ERROR = "Can't add to favourite"
     }
 
-    object RoomDetails{
+    object RoomDetails {
         const val ERROR_MSG = "Generall error"
     }
 

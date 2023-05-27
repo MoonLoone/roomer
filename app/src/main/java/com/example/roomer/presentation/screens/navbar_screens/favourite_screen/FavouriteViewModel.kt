@@ -54,11 +54,10 @@ class FavouriteViewModel @Inject constructor(
             favouriteScreenUseCase.addToFavourites(room).collect { result ->
                 when (result) {
                     is Resource.Success -> {
-
                         _state.update { current ->
                             current.copy(
                                 success = true,
-                                isLoading = false,
+                                isLoading = false
                             )
                         }
                     }
@@ -84,7 +83,7 @@ class FavouriteViewModel @Inject constructor(
                         _state.update { current ->
                             current.copy(
                                 success = true,
-                                isLoading = false,
+                                isLoading = false
                             )
                         }
                     }
@@ -100,5 +99,4 @@ class FavouriteViewModel @Inject constructor(
             }
         }
     }
-
 }

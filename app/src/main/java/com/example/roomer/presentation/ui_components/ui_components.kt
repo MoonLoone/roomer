@@ -1840,8 +1840,11 @@ fun FavouriteLikeButton(
     likeHousing: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val imagePainter = if (isLiked) painterResource(id = R.drawable.room_like_in_icon)
-    else painterResource(id = R.drawable.room_like_icon)
+    val imagePainter = if (isLiked) {
+        painterResource(id = R.drawable.room_like_in_icon)
+    } else {
+        painterResource(id = R.drawable.room_like_icon)
+    }
     val onClickReaction = if (isLiked) dislikeHousing else likeHousing
     Image(
         painter = imagePainter,
@@ -1854,7 +1857,7 @@ fun FavouriteLikeButton(
             .clickable {
                 onClickReaction()
             },
-        alignment = Alignment.TopEnd,
+        alignment = Alignment.TopEnd
     )
 }
 
