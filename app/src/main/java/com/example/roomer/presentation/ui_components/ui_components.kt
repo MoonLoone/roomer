@@ -1847,9 +1847,9 @@ fun FavouriteLikeButton(
         painter = imagePainter,
         contentDescription = stringResource(id = R.string.like_icon),
         modifier = modifier
-            .padding(top = 10.dp, end = 10.dp)
-            .width(dimensionResource(id = R.dimen.big_icon))
-            .height(dimensionResource(id = R.dimen.big_icon))
+            .padding(top = 16.dp, end = 16.dp)
+            .width(dimensionResource(id = R.dimen.hearth_size))
+            .height(dimensionResource(id = R.dimen.hearth_size))
             .clip(RoundedCornerShape(dimensionResource(id = R.dimen.rounded_corner_full)))
             .clickable {
                 onClickReaction()
