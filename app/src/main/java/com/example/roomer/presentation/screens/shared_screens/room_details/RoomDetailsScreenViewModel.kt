@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class RoomDetailsScreenViewModel @Inject constructor(
     private val addToHistory: AddToHistory,
-    private val savedStateHandle: SavedStateHandle,
+    private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     init {

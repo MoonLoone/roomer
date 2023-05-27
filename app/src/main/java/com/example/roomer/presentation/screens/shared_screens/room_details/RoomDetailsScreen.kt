@@ -79,12 +79,12 @@ fun RoomDetailsScreen(
     } else {
         null
     }
-    Box (
+    Box(
         modifier = Modifier
             .fillMaxSize()
             .padding(
                 start = dimensionResource(id = R.dimen.screen_start_margin),
-                end = dimensionResource(id = R.dimen.screen_end_margin),
+                end = dimensionResource(id = R.dimen.screen_end_margin)
             ),
         contentAlignment = Alignment.BottomCenter
     ) {
@@ -96,7 +96,6 @@ fun RoomDetailsScreen(
                 dimensionResource(id = R.dimen.list_elements_margin)
             )
         ) {
-
             Header(onBackClick = { navigator.popBackStack() })
 
             if (photos?.isNotEmpty() == true) {
@@ -113,13 +112,13 @@ fun RoomDetailsScreen(
                                 .build(),
                             contentDescription = stringResource(id = R.string.slider),
                             contentScale = ContentScale.Crop,
-                            modifier = Modifier.height(dimensionResource(id = R.dimen.slider_height))
+                            modifier = Modifier.height(
+                                dimensionResource(id = R.dimen.slider_height)
+                            )
                         )
                     }
                 )
             }
-
-
 
             Text(
                 text = UtilsFunctions.trimString(room.title, 100),
@@ -147,7 +146,7 @@ fun RoomDetailsScreen(
                     avatar = avatar,
                     name = room.host.firstName + " " + room.host.lastName,
                     rating = room.host.rating.toString()
-)
+                )
             }
 
             Description(description = room.description)
@@ -170,35 +169,35 @@ fun RoomDetailsScreen(
 
 @Composable
 private fun MessageFab(onClick: () -> Unit) {
-        Button(
-            onClick = onClick,
-            modifier = Modifier
-                .padding(
-                    start = dimensionResource(id = R.dimen.fab_start_margin),
-                    bottom = dimensionResource(id = R.dimen.result_button_bottom_margin)
-                )
-                .background(
-                    color = colorResource(id = R.color.primary_dark),
-                    shape = RoundedCornerShape(dimensionResource(id = R.dimen.fab_size) / 2)
-                )
-                .height(dimensionResource(id = R.dimen.fab_size))
-                .width(dimensionResource(id = R.dimen.fab_size))
-                .clip(RoundedCornerShape(dimensionResource(id = R.dimen.fab_size) / 4)),
-            colors = ButtonDefaults.outlinedButtonColors(
-                backgroundColor = colorResource(id = R.color.primary_dark),
-                contentColor = colorResource(id = R.color.white)
-            ),
-            interactionSource = NoRippleInteractionSource(),
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.big_envelope_icon),
-                contentDescription = stringResource(R.string.chat),
-                colorFilter = ColorFilter.tint(color = colorResource(id = R.color.white)),
-                modifier = Modifier
-                    .height(dimensionResource(id = R.dimen.fab_size) / 2)
-                    .width(dimensionResource(id = R.dimen.fab_size) / 2)
+    Button(
+        onClick = onClick,
+        modifier = Modifier
+            .padding(
+                start = dimensionResource(id = R.dimen.fab_start_margin),
+                bottom = dimensionResource(id = R.dimen.result_button_bottom_margin)
             )
-        }
+            .background(
+                color = colorResource(id = R.color.primary_dark),
+                shape = RoundedCornerShape(dimensionResource(id = R.dimen.fab_size) / 2)
+            )
+            .height(dimensionResource(id = R.dimen.fab_size))
+            .width(dimensionResource(id = R.dimen.fab_size))
+            .clip(RoundedCornerShape(dimensionResource(id = R.dimen.fab_size) / 4)),
+        colors = ButtonDefaults.outlinedButtonColors(
+            backgroundColor = colorResource(id = R.color.primary_dark),
+            contentColor = colorResource(id = R.color.white)
+        ),
+        interactionSource = NoRippleInteractionSource()
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.big_envelope_icon),
+            contentDescription = stringResource(R.string.chat),
+            colorFilter = ColorFilter.tint(color = colorResource(id = R.color.white)),
+            modifier = Modifier
+                .height(dimensionResource(id = R.dimen.fab_size) / 2)
+                .width(dimensionResource(id = R.dimen.fab_size) / 2)
+        )
+    }
 }
 
 @Composable
@@ -240,7 +239,7 @@ private fun Location(location: String) {
         Text(
             text = location,
             style = TextStyle(
-                color = colorResource(id = R.color.black),
+                color = colorResource(id = R.color.black)
             )
         )
     }
@@ -254,7 +253,6 @@ private fun ApartmentType(type: String) {
         ),
         verticalAlignment = Alignment.CenterVertically
     ) {
-
         Text(
             text = stringResource(id = R.string.apartment_type_prefix),
             style = TextStyle(
@@ -266,7 +264,7 @@ private fun ApartmentType(type: String) {
         Text(
             text = stringResource(id = apartmentOptions[type]!!),
             style = TextStyle(
-                color = colorResource(id = R.color.black),
+                color = colorResource(id = R.color.black)
             )
         )
     }
@@ -278,7 +276,6 @@ private fun Price(price: String) {
         modifier = Modifier.padding(start = dimensionResource(id = R.dimen.row_vert_margin)),
         verticalAlignment = Alignment.CenterVertically
     ) {
-
         Text(
             text = stringResource(R.string.price_for_month_prefix),
             style = TextStyle(
@@ -290,7 +287,7 @@ private fun Price(price: String) {
         Text(
             text = price,
             style = TextStyle(
-                color = colorResource(id = R.color.black),
+                color = colorResource(id = R.color.black)
             )
         )
     }
@@ -319,7 +316,7 @@ private fun Host(
         modifier = Modifier
             .padding(start = dimensionResource(id = R.dimen.row_vert_margin))
             .clickable { onClick() },
-        verticalAlignment = Alignment.CenterVertically,
+        verticalAlignment = Alignment.CenterVertically
     ) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
@@ -342,7 +339,7 @@ private fun Host(
         Text(
             text = (name),
             style = TextStyle(
-                color = colorResource(id = R.color.primary_dark),
+                color = colorResource(id = R.color.primary_dark)
             )
         )
         Image(
@@ -362,7 +359,7 @@ private fun Host(
         Text(
             text = (rating),
             style = TextStyle(
-                color = colorResource(id = R.color.black),
+                color = colorResource(id = R.color.black)
             )
         )
     }
@@ -389,7 +386,7 @@ private fun Description(
     Text(
         text = description,
         style = TextStyle(
-            color = colorResource(id = R.color.text_secondary),
+            color = colorResource(id = R.color.text_secondary)
         )
     )
 

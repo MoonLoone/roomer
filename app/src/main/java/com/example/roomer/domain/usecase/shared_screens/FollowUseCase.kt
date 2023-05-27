@@ -1,4 +1,4 @@
-package com.example.roomer.domain.usecase.shared
+package com.example.roomer.domain.usecase.shared_screens
 
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
 import com.example.roomer.utils.Constants

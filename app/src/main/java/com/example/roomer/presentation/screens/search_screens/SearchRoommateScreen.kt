@@ -96,8 +96,9 @@ fun SearchRoommateScreen(
     val cleanHabits = remember {
         mutableStateOf("N")
     }
-    var interests: List<InterestModel> = listOf()
-
+    val interests = remember {
+        mutableStateOf<List<InterestModel>>(emptyList())
+    }
     Scaffold(
         modifier = Modifier.padding(
             start = dimensionResource(id = R.dimen.screen_start_margin),
@@ -134,7 +135,7 @@ fun SearchRoommateScreen(
                             sleepTime.value,
                             personality.value,
                             cleanHabits.value,
-                            interests.joinToString("\n") { it.id.toString() }
+                            interests.value.joinToString("\n") { it.id.toString() }
                         )
                     )
                 }
@@ -167,7 +168,7 @@ fun SearchRoommateScreen(
             }
             FilterSelect(
                 selectItemName = stringResource(R.string.roommate),
-                onNavigateToFriends = { navigator.navigate(SearchRoomScreenDestination) }
+                onClick = { navigator.navigate(SearchRoomScreenDestination) }
             )
             Text(
                 stringResource(R.string.choose_roommate_parameters),
@@ -328,8 +329,8 @@ fun SearchRoommateScreen(
                 paddingValues = it,
                 label = stringResource(R.string.interests),
                 values = interestsList,
-                selectedItems = interests,
-                onSelectedChange = { interests = it }
+                selectedItems = interests.value,
+                onSelectedChange = { interests.value = it }
             )
             Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.spacer)))
         }

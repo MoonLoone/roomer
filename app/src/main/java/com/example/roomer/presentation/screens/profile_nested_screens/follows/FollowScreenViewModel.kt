@@ -9,7 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInterface
 import com.example.roomer.domain.model.entities.Follow
 import com.example.roomer.domain.model.entities.User
-import com.example.roomer.domain.usecase.profile_nested_screens.FollowScreenUseCase
+import com.example.roomer.domain.usecase.navbar_screens.profile_nested_screens.FollowScreenUseCase
 import com.example.roomer.utils.Constants
 import com.example.roomer.utils.Resource
 import com.example.roomer.utils.SpManager

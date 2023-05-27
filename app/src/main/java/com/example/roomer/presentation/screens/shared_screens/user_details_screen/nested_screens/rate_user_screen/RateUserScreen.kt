@@ -1,4 +1,4 @@
-package com.example.roomer.presentation.screens.shared_screens.user_details_screen.rate_user_screen
+package com.example.roomer.presentation.screens.shared_screens.user_details_screen.nested_screens.rate_user_screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -40,7 +40,6 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.roomer.R
 import com.example.roomer.domain.model.entities.User
-import com.example.roomer.presentation.screens.destinations.UserDetailsScreenDestination
 import com.example.roomer.presentation.ui_components.BasicConfirmDialog
 import com.example.roomer.presentation.ui_components.BasicHeaderBar
 import com.example.roomer.presentation.ui_components.GreenButtonPrimary
@@ -83,7 +82,7 @@ fun RateUserScreen(
     )
 
     if (state.success) {
-        navigator.navigate(UserDetailsScreenDestination(user))
+        navigator.popBackStack()
     }
     StateDialog(viewModel, state)
 
@@ -312,14 +311,18 @@ private fun AnonymousButton(
                     )
                 )
             }
-            if (isChecked) {
-                Icon(
-                    modifier = Modifier.align(Alignment.CenterEnd),
-                    painter = painterResource(R.drawable.checkbox_on_icon),
-                    contentDescription = null,
-                    tint = Color.Unspecified
-                )
-            }
+            Icon(
+                modifier = Modifier.align(Alignment.CenterEnd),
+                painter = if (isChecked) {
+                    painterResource(R.drawable.checkbox_on_icon)
+                } else {
+                    painterResource(
+                        R.drawable.checkbox_off_icon
+                    )
+                },
+                contentDescription = null,
+                tint = Color.Unspecified
+            )
         }
     }
 }

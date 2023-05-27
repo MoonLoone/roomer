@@ -46,14 +46,14 @@ interface RoomerApi {
     suspend fun putSignUpData(
         @Header("Authorization") token: String,
         @Body signUpDataModel: SignUpDataModel
-    ): Response<IdModel>
+    ): Response<User>
 
     @Multipart
     @PUT("/auth/users/me/")
     suspend fun putSignUpAvatar(
         @Header("Authorization") token: String,
         @Part avatar: MultipartBody.Part
-    ): Response<IdModel>
+    ): Response<User>
 
     @GET("/housing/")
     suspend fun filterRooms(
@@ -202,4 +202,9 @@ interface RoomerApi {
         @Header("Authorization") token: String,
         @Query("receiver_id") receiverId: Int
     ): Response<List<UserReview>>
+
+    @POST("/auth/token/logout/")
+    suspend fun logout(
+        @Header("Authorization") token: String
+    ): Response<Unit>
 }

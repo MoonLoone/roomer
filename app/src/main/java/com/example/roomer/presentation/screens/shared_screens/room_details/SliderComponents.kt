@@ -1,6 +1,5 @@
 package com.example.roomer.presentation.screens.shared_screens.room_details
 
-
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -34,11 +33,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.roomer.R
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.coroutineScope
-
+import kotlinx.coroutines.launch
 
 @Composable
 fun IndicatorDot(
@@ -81,14 +77,13 @@ fun DotsIndicator(
     }
 }
 
-
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun AutoSlidingCarousel(
     modifier: Modifier = Modifier,
     pagerState: PagerState = remember { PagerState() },
     itemsCount: Int,
-    itemContent: @Composable (index: Int) -> Unit,
+    itemContent: @Composable (index: Int) -> Unit
 ) {
     val isDragged by pagerState.interactionSource.collectIsDraggedAsState()
     val coroutineScope = rememberCoroutineScope()
@@ -96,7 +91,7 @@ fun AutoSlidingCarousel(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(16.dp)),
+            .clip(RoundedCornerShape(16.dp))
     ) {
         HorizontalPager(pageCount = itemsCount, state = pagerState) { page ->
             itemContent(page)
