@@ -58,7 +58,6 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import java.time.LocalDate
 import java.time.Period
-import kotlin.random.Random
 
 @Destination
 @Composable
@@ -143,7 +142,6 @@ fun UserDetailsScreen(
                         } ?: ""
                     )
                 ),
-                Random.nextInt(1, 10),
                 textStyleHeadlineMedium,
                 textStyleSecondary
             )
@@ -238,7 +236,6 @@ private fun UserTraitsWithCommentsButton(
     user: User,
     navigator: DestinationsNavigator,
     traitIdToValue: List<Pair<Int, String>>,
-    totalComments: Int,
     traitKeyStyle: TextStyle,
     traitValueStyle: TextStyle
 ) {
@@ -294,10 +291,7 @@ private fun UserTraitsWithCommentsButton(
         GreenButtonOutlineIconed(
             modifier = Modifier
                 .fillMaxWidth(),
-            text = stringResource(
-                id = R.string.comments_btn_text,
-                totalComments
-            ),
+            text = stringResource(id = R.string.comments_btn_text),
             trailingIconPainterId = R.drawable.double_arrow_icon,
             trailingIconDescriptionId = R.string.double_arrow_icon_description
         ) {
