@@ -1,4 +1,4 @@
-package com.example.roomer.presentation.screens.profile_nested_screens
+package com.example.roomer.presentation.screens.profile_nested_screens.account_screen
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -40,7 +40,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.roomer.R
 import com.example.roomer.presentation.screens.destinations.ProfileScreenDestination
 import com.example.roomer.presentation.screens.entrance.signup.interests_screen.InterestsScreenViewModel
-import com.example.roomer.presentation.screens.profile_nested_screens.account_screen.AccountScreenViewModel
 import com.example.roomer.presentation.ui_components.BackBtn
 import com.example.roomer.presentation.ui_components.ButtonsRowMapped
 import com.example.roomer.presentation.ui_components.CitiesListViewModel
@@ -63,7 +62,6 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 fun AccountScreen(
     navigator: DestinationsNavigator,
     viewModel: AccountScreenViewModel = hiltViewModel(),
-    citiesListViewModel: CitiesListViewModel = hiltViewModel(),
     interestsViewModel: InterestsScreenViewModel = hiltViewModel()
 ) {
     val focusManager = LocalFocusManager.current
@@ -109,138 +107,10 @@ fun AccountScreen(
                             dimensionResource(id = R.dimen.account_content_top_padding)
                         )
                     )
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        BackBtn(onBackNavigation = { navigator.navigate(ProfileScreenDestination) })
-                        Text(
-                            text = stringResource(R.string.account_label),
-                            fontSize = integerResource(
-                                id = R.integer.label_text
-                            ).sp,
-                            textAlign = TextAlign.Center,
-                            fontWeight = FontWeight.Bold,
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                    }
-                    UsualTextField(
-                        title = stringResource(R.string.first_name),
-                        placeholder = stringResource(R.string.first_name_placeholder),
-                        value = viewModel.firstName,
-                        onValueChange = {
-                            viewModel.firstName = it
-                        }
-                    )
-                    UsualTextField(
-                        title = stringResource(R.string.last_name),
-                        placeholder = stringResource(R.string.last_name_placeholder),
-                        value = viewModel.lastName,
-                        onValueChange = {
-                            viewModel.lastName = it
-                        }
-                    )
-                    DateField(
-                        label = stringResource(R.string.date_of_birth),
-                        value = viewModel.birthDate,
-                        onValueChange = {
-                            viewModel.birthDate = it
-                        }
-                    )
-                    SexField(
-                        value = viewModel.sex,
-                        onValueChange = {
-                            viewModel.sex = it
-                        }
-                    )
-                    UsualTextField(
-                        title = stringResource(R.string.write_something_about_you),
-                        placeholder = stringResource(R.string.about_me),
-                        value = viewModel.personDescription,
-                        onValueChange = {
-                            viewModel.personDescription = it
-                        }
-                    )
-                    DropdownTextFieldListed(
-                        listOfItems = citiesListViewModel.cities.value.map { it.city },
-                        label = stringResource(R.string.choose_city_label),
-                        value = viewModel.city,
-                        onValueChange = { viewModel.city = it },
-                        itemsAmountAtOnce = Constants.CITIES_SHOWN_AT_ONCE
-                    )
-                    DropdownTextFieldMapped(
-                        mapOfItems = mapOf(
-                            Pair("NE", stringResource(R.string.not_employed)),
-                            Pair("E", stringResource(R.string.employed)),
-                            Pair("S", stringResource(R.string.searching_for_work))
-                        ),
-                        label = stringResource(R.string.what_you_currently_do_lable),
-                        value = viewModel.employment,
-                        onValueChange = {
-                            viewModel.employment = it
-                        }
-                    )
-                    ButtonsRowMapped(
-                        label = stringResource(R.string.your_usual_sleep_time),
-                        values = mapOf(
-                            Pair("N", stringResource(R.string.night)),
-                            Pair("D", stringResource(R.string.day)),
-                            Pair("O", stringResource(R.string.occasionally))
-                        ),
-                        value = viewModel.sleepTime,
-                        onValueChange = {
-                            viewModel.sleepTime = it
-                        }
-                    )
-                    ButtonsRowMapped(
-                        label = stringResource(R.string.attitude_to_alcohol_label),
-                        values = mapOf(
-                            Pair("P", stringResource(R.string.positive)),
-                            Pair("N", stringResource(R.string.negative)),
-                            Pair("I", stringResource(R.string.indifferent))
-                        ),
-                        value = viewModel.alcoholAttitude,
-                        onValueChange = {
-                            viewModel.alcoholAttitude = it
-                        }
-                    )
-                    ButtonsRowMapped(
-                        label = stringResource(R.string.attitude_to_smoking_label),
-                        values = mapOf(
-                            Pair("P", stringResource(R.string.positive)),
-                            Pair("N", stringResource(R.string.negative)),
-                            Pair("I", stringResource(R.string.indifferent))
-                        ),
-                        value = viewModel.smokingAttitude,
-                        onValueChange = {
-                            viewModel.smokingAttitude = it
-                        }
-                    )
-                    ButtonsRowMapped(
-                        label = stringResource(R.string.personality_type_label),
-                        values = mapOf(
-                            Pair("E", stringResource(R.string.extraverted)),
-                            Pair("I", stringResource(R.string.introverted)),
-                            Pair("M", stringResource(R.string.mixed))
-                        ),
-                        value = viewModel.personalityType,
-                        onValueChange = {
-                            viewModel.personalityType = it
-                        }
-                    )
-                    DropdownTextFieldMapped(
-                        mapOfItems = mapOf(
-                            Pair("N", stringResource(R.string.neat)),
-                            Pair("D", stringResource(R.string.it_depends)),
-                            Pair("C", stringResource(R.string.chaos))
-                        ),
-                        label = stringResource(R.string.clean_habits_label),
-                        value = viewModel.cleanHabits,
-                        onValueChange = {
-                            viewModel.cleanHabits = it
-                        }
-                    )
+                    AccountTitle(navigator = navigator)
+                    PrimaryUserInfoFields(viewModel = viewModel)
+                    AboutMeCityFields(viewModel = viewModel)
+                    HabitsFields(viewModel = viewModel)
                     InterestField(
                         paddingValues = PaddingValues(
                             dimensionResource(id = R.dimen.account_interests_padding_values)
@@ -296,4 +166,159 @@ private fun LoadingView() {
             color = colorResource(id = R.color.primary)
         )
     }
+}
+
+@Composable
+private fun AccountTitle(
+    navigator: DestinationsNavigator
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        BackBtn(onBackNavigation = { navigator.navigate(ProfileScreenDestination) })
+        Text(
+            text = stringResource(R.string.account_label),
+            fontSize = integerResource(
+                id = R.integer.label_text
+            ).sp,
+            textAlign = TextAlign.Center,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.fillMaxWidth()
+        )
+    }
+}
+
+@Composable
+private fun PrimaryUserInfoFields(viewModel: AccountScreenViewModel) {
+    UsualTextField(
+        title = stringResource(R.string.first_name),
+        placeholder = stringResource(R.string.first_name_placeholder),
+        value = viewModel.firstName,
+        onValueChange = {
+            viewModel.firstName = it
+        }
+    )
+    UsualTextField(
+        title = stringResource(R.string.last_name),
+        placeholder = stringResource(R.string.last_name_placeholder),
+        value = viewModel.lastName,
+        onValueChange = {
+            viewModel.lastName = it
+        }
+    )
+    DateField(
+        label = stringResource(R.string.date_of_birth),
+        value = viewModel.birthDate,
+        onValueChange = {
+            viewModel.birthDate = it
+        }
+    )
+    SexField(
+        value = viewModel.sex,
+        onValueChange = {
+            viewModel.sex = it
+        }
+    )
+}
+
+@Composable
+private fun AboutMeCityFields(
+    viewModel: AccountScreenViewModel,
+    citiesListViewModel: CitiesListViewModel = hiltViewModel()
+) {
+    UsualTextField(
+        title = stringResource(R.string.write_something_about_you),
+        placeholder = stringResource(R.string.about_me),
+        value = viewModel.personDescription,
+        onValueChange = {
+            viewModel.personDescription = it
+        }
+    )
+    DropdownTextFieldListed(
+        listOfItems = citiesListViewModel.cities.value.map { it.city },
+        label = stringResource(R.string.choose_city_label),
+        value = viewModel.city,
+        onValueChange = { viewModel.city = it },
+        itemsAmountAtOnce = Constants.CITIES_SHOWN_AT_ONCE
+    )
+    DropdownTextFieldMapped(
+        mapOfItems = mapOf(
+            Pair("NE", stringResource(R.string.not_employed)),
+            Pair("E", stringResource(R.string.employed)),
+            Pair("S", stringResource(R.string.searching_for_work))
+        ),
+        label = stringResource(R.string.what_you_currently_do_lable),
+        value = viewModel.employment,
+        onValueChange = {
+            viewModel.employment = it
+        }
+    )
+}
+
+@Composable
+private fun HabitsFields(
+    viewModel: AccountScreenViewModel
+) {
+    ButtonsRowMapped(
+        label = stringResource(R.string.your_usual_sleep_time),
+        values = mapOf(
+            Pair("N", stringResource(R.string.night)),
+            Pair("D", stringResource(R.string.day)),
+            Pair("O", stringResource(R.string.occasionally))
+        ),
+        value = viewModel.sleepTime,
+        onValueChange = {
+            viewModel.sleepTime = it
+        }
+    )
+    ButtonsRowMapped(
+        label = stringResource(R.string.attitude_to_alcohol_label),
+        values = mapOf(
+            Pair("P", stringResource(R.string.positive)),
+            Pair("N", stringResource(R.string.negative)),
+            Pair("I", stringResource(R.string.indifferent))
+        ),
+        value = viewModel.alcoholAttitude,
+        onValueChange = {
+            viewModel.alcoholAttitude = it
+        }
+    )
+    ButtonsRowMapped(
+        label = stringResource(R.string.attitude_to_smoking_label),
+        values = mapOf(
+            Pair("P", stringResource(R.string.positive)),
+            Pair("N", stringResource(R.string.negative)),
+            Pair("I", stringResource(R.string.indifferent))
+        ),
+        value = viewModel.smokingAttitude,
+        onValueChange = {
+            viewModel.smokingAttitude = it
+        }
+    )
+    ButtonsRowMapped(
+        label = stringResource(R.string.personality_type_label),
+        values = mapOf(
+            Pair("E", stringResource(R.string.extraverted)),
+            Pair("I", stringResource(R.string.introverted)),
+            Pair("M", stringResource(R.string.mixed))
+        ),
+        value = viewModel.personalityType,
+        onValueChange = {
+            viewModel.personalityType = it
+        }
+    )
+    DropdownTextFieldMapped(
+        mapOfItems = mapOf(
+            Pair("N", stringResource(R.string.neat)),
+            Pair("D", stringResource(R.string.it_depends)),
+            Pair("C", stringResource(R.string.chaos))
+        ),
+        label = stringResource(R.string.clean_habits_label),
+        value = viewModel.cleanHabits,
+        onValueChange = {
+            viewModel.cleanHabits = it
+        }
+    )
 }
