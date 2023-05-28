@@ -34,9 +34,9 @@ interface RoomerRepositoryInterface {
 
     suspend fun getFavouritesForUser(): Flow<PagingData<LocalRoom>>
 
-    suspend fun likeHousing(housingId: Int): Response<String>
+    suspend fun addToFavourites(housingId: Int): Response<String>
 
-    suspend fun dislikeHousing(housingId: Int): Response<String>
+    suspend fun deleteFromFavourites(housingId: Int): Response<String>
 
     suspend fun getCurrentUserInfo(
         token: String
@@ -90,6 +90,8 @@ interface RoomerRepositoryInterface {
     suspend fun deleteLocalFavourite(room: Room)
 
     suspend fun isLocalFavouritesEmpty(): Boolean
+
+    suspend fun isRoomInFavourites(userId: Int, housingId: Int, token: String): Response<Unit>
 
     suspend fun getLocalCurrentUser(): User
 

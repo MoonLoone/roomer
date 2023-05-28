@@ -2,7 +2,6 @@ package com.example.roomer.data.room.dao
 
 import androidx.paging.PagingSource
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -17,9 +16,6 @@ interface FavouriteDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveManyFavourites(newFavourites: List<LocalRoom>)
-
-    @Delete
-    suspend fun delete(room: LocalRoom)
 
     @Query("DELETE FROM favourite WHERE roomId=:id")
     suspend fun deleteById(id: Int)

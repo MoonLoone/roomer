@@ -1833,6 +1833,34 @@ fun CommentCard(userReview: UserReview) {
     }
 }
 
+@Composable
+fun FavouriteLikeButton(
+    isLiked: Boolean,
+    dislikeHousing: () -> Unit,
+    likeHousing: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val imagePainter = if (isLiked) {
+        painterResource(id = R.drawable.room_like_in_icon)
+    } else {
+        painterResource(id = R.drawable.room_like_icon)
+    }
+    val onClickReaction = if (isLiked) dislikeHousing else likeHousing
+    Image(
+        painter = imagePainter,
+        contentDescription = stringResource(id = R.string.like_icon),
+        modifier = modifier
+            .padding(top = 16.dp, end = 16.dp)
+            .width(dimensionResource(id = R.dimen.hearth_size))
+            .height(dimensionResource(id = R.dimen.hearth_size))
+            .clip(RoundedCornerShape(dimensionResource(id = R.dimen.rounded_corner_full)))
+            .clickable {
+                onClickReaction()
+            },
+        alignment = Alignment.TopEnd
+    )
+}
+
 class NoRippleInteractionSource : MutableInteractionSource {
 
     override val interactions: Flow<Interaction> = emptyFlow()

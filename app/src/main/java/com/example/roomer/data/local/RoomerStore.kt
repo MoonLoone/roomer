@@ -47,7 +47,7 @@ class RoomerStore(
     override suspend fun isFavouritesEmpty(): Boolean = favourites.count() == 0L
 
     override suspend fun deleteFavourite(room: Room) {
-        favourites.delete(room.toLocalRoom())
+        favourites.deleteById(room.id)
     }
 
     override suspend fun getCurrentUser() = currentUser.read().toUser()

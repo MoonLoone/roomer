@@ -88,6 +88,7 @@
     <dimen name="rate_start_margin">40.dp</dimen>
     <dimen name="avatar_end_margin">16.dp</dimen>
     <dimen name="top_spaced">55.dp</dimen>
+    <dimen name="hearth_size">40.dp</dimen>
 
     <!--Account screen-->
     <dimen name="account_content_bottom_padding">80.dp</dimen>
