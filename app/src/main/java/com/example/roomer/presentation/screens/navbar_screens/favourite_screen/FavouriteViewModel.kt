@@ -12,6 +12,7 @@ import com.example.roomer.data.repository.roomer_repository.RoomerRepositoryInte
 import com.example.roomer.data.room.entities.toRoom
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.usecase.favourite_screen.FavouriteScreenUseCase
+import com.example.roomer.utils.Constants
 import com.example.roomer.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -66,8 +67,16 @@ class FavouriteViewModel @Inject constructor(
                         current.copy(isLoading = true)
                     }
 
+                    is Resource.Internet -> _state.update { current ->
+                        current.copy(isLoading = false, success = false, internetProblem = true)
+                    }
+
                     else -> _state.update { current ->
-                        current.copy(success = true, isLoading = false)
+                        current.copy(
+                            success = false,
+                            isLoading = false,
+                            error = Constants.Favourites.ADD_FAVOURITE_ERROR
+                        )
                     }
                 }
             }
@@ -92,8 +101,16 @@ class FavouriteViewModel @Inject constructor(
                         current.copy(isLoading = true)
                     }
 
+                    is Resource.Internet -> _state.update { current ->
+                        current.copy(isLoading = false, success = false, internetProblem = true)
+                    }
+
                     else -> _state.update { current ->
-                        current.copy(success = true, isLoading = false)
+                        current.copy(
+                            success = false,
+                            isLoading = false,
+                            error = Constants.Favourites.DELETE_FAVOURITE_ERROR
+                        )
                     }
                 }
             }

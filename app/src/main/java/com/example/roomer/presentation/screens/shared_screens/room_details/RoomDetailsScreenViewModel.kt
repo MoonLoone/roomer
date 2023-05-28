@@ -9,6 +9,7 @@ import com.example.roomer.data.shared.add_to_history.AddToHistory
 import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.domain.model.entities.toLocalRoom
 import com.example.roomer.domain.usecase.shared_screens.RoomDetailsUseCase
+import com.example.roomer.utils.Constants
 import com.example.roomer.utils.Resource
 import com.example.roomer.utils.SpManager
 import com.google.gson.Gson
@@ -76,8 +77,16 @@ class RoomDetailsScreenViewModel @Inject constructor(
                         current.copy(isLoading = true)
                     }
 
+                    is Resource.Internet -> _state.update { current ->
+                        current.copy(isLoading = false, success = false, internetProblem = true)
+                    }
+
                     else -> _state.update { current ->
-                        current.copy(success = true, isLoading = false)
+                        current.copy(
+                            success = false,
+                            isLoading = false,
+                            error = Constants.Favourites.ADD_FAVOURITE_ERROR
+                        )
                     }
                 }
             }
@@ -98,12 +107,16 @@ class RoomDetailsScreenViewModel @Inject constructor(
                         }
                     }
 
-                    is Resource.Loading -> _state.update { current ->
-                        current.copy(isLoading = true)
+                    is Resource.Internet -> _state.update { current ->
+                        current.copy(isLoading = false, success = false, internetProblem = true)
                     }
 
                     else -> _state.update { current ->
-                        current.copy(success = true, isLoading = false)
+                        current.copy(
+                            success = false,
+                            isLoading = false,
+                            error = Constants.Favourites.DELETE_FAVOURITE_ERROR
+                        )
                     }
                 }
             }

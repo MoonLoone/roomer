@@ -64,10 +64,11 @@ object Constants {
 
     object Favourites {
         const val ADD_FAVOURITE_ERROR = "Can't add to favourite"
+        const val DELETE_FAVOURITE_ERROR = "Error while delete favourite"
     }
 
     object RoomDetails {
-        const val ERROR_MSG = "Generall error"
+        const val ERROR_MSG = "General error"
     }
 
     object Options {
