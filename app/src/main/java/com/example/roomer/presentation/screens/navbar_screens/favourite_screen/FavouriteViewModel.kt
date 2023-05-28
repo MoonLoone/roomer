@@ -116,4 +116,8 @@ class FavouriteViewModel @Inject constructor(
             }
         }
     }
+
+    fun clearState() {
+        _state.value = FavouriteScreenState()
+    }
 }

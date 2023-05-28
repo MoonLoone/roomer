@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
@@ -30,6 +31,7 @@ import com.example.roomer.domain.model.entities.Room
 import com.example.roomer.presentation.screens.destinations.RoomDetailsScreenDestination
 import com.example.roomer.presentation.ui_components.FavouriteLikeButton
 import com.example.roomer.presentation.ui_components.RoomCard
+import com.example.roomer.presentation.ui_components.SimpleAlertDialog
 import com.example.roomer.utils.NavbarManagement
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -40,6 +42,12 @@ fun FavouriteScreen(
     navigator: DestinationsNavigator,
     favouriteViewModel: FavouriteViewModel = hiltViewModel()
 ) {
+    val state = favouriteViewModel.state.collectAsState().value
+    if (state.internetProblem) {
+        NoInternetConnection {
+            favouriteViewModel.clearState()
+        }
+    }
     NavbarManagement.showNavbar()
     Column(
         verticalArrangement = Arrangement.spacedBy(
@@ -137,4 +145,14 @@ private fun TopLine() {
         modifier = Modifier.fillMaxWidth(),
         textAlign = TextAlign.Center
     )
+}
+
+@Composable
+private fun NoInternetConnection(clearState: () -> Unit) {
+    SimpleAlertDialog(
+        title = stringResource(R.string.error_dialog_text),
+        text = stringResource(R.string.no_internet_connection_text)
+    ) {
+        clearState()
+    }
 }
