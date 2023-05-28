@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "901420072555",
-    "project_id": "roomer-34a08",
-    "storage_bucket": "roomer-34a08.appspot.com"
+    "project_number": "464089116392",
+    "project_id": "roomer-25400",
+    "storage_bucket": "roomer-25400.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:901420072555:android:ecc9d05feff303e1093b2e",
+        "mobilesdk_app_id": "1:464089116392:android:b3b529c6bbdcc180c4e35d",
         "android_client_info": {
           "package_name": "com.example.roomer"
         }
       },
       "oauth_client": [
         {
-          "client_id": "901420072555-tlsp1seu938k3dd8hkrc7u2fubue2ij0.apps.googleusercontent.com",
+          "client_id": "464089116392-6a8jp8q2hevmsrtj7m1t2adaqan8h4if.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAyCqgeIjtu-SwBWvZlXWNbtovC0XR3JXw"
+          "current_key": "AIzaSyDv4yQ0J15wNFNWdmm6H93Li2qtuKDOCTw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "901420072555-tlsp1seu938k3dd8hkrc7u2fubue2ij0.apps.googleusercontent.com",
+              "client_id": "464089116392-6a8jp8q2hevmsrtj7m1t2adaqan8h4if.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

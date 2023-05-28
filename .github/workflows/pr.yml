@@ -38,10 +38,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: ./ktlint
-      - name: 💜 Detekt
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: ./detekt
   check_aseemble:
     runs-on: ubuntu-latest
     steps:

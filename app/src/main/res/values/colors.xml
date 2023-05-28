@@ -11,4 +11,5 @@
     <color name="primary">#A4D6C9</color>
     <color name="primary_dark">#00754B</color>
     <color name="text_secondary">#49454F</color>
+    <color name="red">#B3261E</color>
 </resources>

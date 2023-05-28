@@ -1,7 +1,7 @@
 package com.example.roomer.utils
 
-enum class LoadingStates{
+enum class LoadingStates {
     Loading,
     Success,
-    Error,
+    Error
 }
