@@ -10,16 +10,16 @@ import kotlinx.coroutines.flow.flow
 abstract class FavouriteUseCase(private val roomerRepositoryInterface: RoomerRepositoryInterface) {
 
     fun addToFavourites(room: Room) = flow<Resource<String>> {
-        emit(Resource.Loading())
-        val process = roomerRepositoryInterface.addToFavourites(room.id)
         try {
+            emit(Resource.Loading())
+            val process = roomerRepositoryInterface.addToFavourites(room.id)
             if (process.isSuccessful) {
                 emit(Resource.Success())
             } else {
                 emit(Resource.Error.GeneralError(Constants.Favourites.ADD_FAVOURITE_ERROR))
             }
         } catch (e: IOException) {
-            emit(Resource.Internet(process.message()))
+            emit(Resource.Internet(Constants.UseCase.internetErrorMessage))
         }
     }
 
