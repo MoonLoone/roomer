@@ -147,4 +147,8 @@ class RoomDetailsScreenViewModel @Inject constructor(
             }
         }
     }
+
+    fun clearState() {
+        _state.value = RoomDetailsScreenState()
+    }
 }

@@ -49,6 +49,7 @@ import com.example.roomer.presentation.screens.destinations.UserDetailsScreenDes
 import com.example.roomer.presentation.ui_components.BackBtn
 import com.example.roomer.presentation.ui_components.FavouriteLikeButton
 import com.example.roomer.presentation.ui_components.NoRippleInteractionSource
+import com.example.roomer.presentation.ui_components.SimpleAlertDialog
 import com.example.roomer.utils.Constants.Options.apartmentOptions
 import com.example.roomer.utils.NavbarManagement
 import com.example.roomer.utils.UtilsFunctions
@@ -74,6 +75,14 @@ fun RoomDetailsScreen(
         room.host.avatar
     } else {
         null
+    }
+    if (state.internetProblem) {
+        SimpleAlertDialog(
+            title = stringResource(R.string.error_dialog_text),
+            text = stringResource(R.string.no_internet_connection_text)
+        ) {
+            viewModel.clearState()
+        }
     }
     Box(
         modifier = Modifier
